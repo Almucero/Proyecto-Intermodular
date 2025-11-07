@@ -1,0 +1,26 @@
+# Dependencias
+node-server/node_modules/
+
+# Builds y compilados
+node-server/dist/
+node-server/coverage/
+node-server/*.tsbuildinfo
+
+# Entornos y variables
+node-server/.env
+node-server/.env.*
+!node-server/.env.example
+
+# Logs
+node-server/logs/
+node-server/*.log
+
+# Configs locales
+node-server/.vscode/
+node-server/.idea/
+node-server/.DS_Store
+node-server/*.swp
+node-server/*.swo
+
+# Archivos generados automáticamente
+node-server/src/generated/prisma/
