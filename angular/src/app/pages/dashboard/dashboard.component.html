@@ -1,0 +1,56 @@
+<div class="min-h-screen bg-gray-100">
+  <nav class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
+        </div>
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <button
+              (click)="onLogout()"
+              class="relative inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 shadow-sm hover:bg-red-700"
+            >
+              Cerrar sesión
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="py-10">
+    <main>
+      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="px-4 py-8 sm:px-0">
+          <div
+            class="border-4 border-dashed border-gray-200 rounded-lg p-6 bg-white"
+          >
+            @if(user()){
+            <div class="space-y-4">
+              <h2 class="text-lg font-medium text-gray-900">
+                Información del usuario
+              </h2>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <p class="text-sm font-medium text-gray-500">Nombre</p>
+                  <p class="mt-1 text-sm text-gray-900">{{ user()?.name }}</p>
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-gray-500">Apellido</p>
+                  <p class="mt-1 text-sm text-gray-900">
+                    {{ user()?.surname }}
+                  </p>
+                </div>
+                <div class="col-span-2">
+                  <p class="text-sm font-medium text-gray-500">Email</p>
+                  <p class="mt-1 text-sm text-gray-900">{{ user()?.email }}</p>
+                </div>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
