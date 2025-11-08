@@ -16,8 +16,11 @@
     "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
-    "module": "ES2022"
+    "module": "ES2022",
+    "typeRoots": ["./node_modules/@types"],
+    "types": ["node"]
   },
+  "include": ["src/**/*.ts", "src/typings.d.ts"],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
