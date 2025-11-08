@@ -136,6 +136,45 @@ const options: swaggerJsdoc.Options = {
             },
           },
         },
+        Game: {
+          type: 'object',
+          properties: {
+            id: { type: 'integer' },
+            title: { type: 'string' },
+            description: { type: 'string' },
+            price: { type: 'number' },
+            publisherId: { type: 'integer' },
+            developerId: { type: 'integer' },
+            releaseDate: { type: 'string', format: 'date' },
+            genres: { type: 'array', items: { type: 'string' } },
+          },
+          required: ['id', 'title'],
+        },
+        CreateGameInput: {
+          type: 'object',
+          properties: {
+            title: { type: 'string' },
+            description: { type: 'string' },
+            price: { type: 'number' },
+            publisherId: { type: 'integer' },
+            developerId: { type: 'integer' },
+            releaseDate: { type: 'string', format: 'date' },
+            genres: { type: 'array', items: { type: 'string' } },
+          },
+          required: ['title'],
+        },
+        UpdateGameInput: {
+          type: 'object',
+          properties: {
+            title: { type: 'string' },
+            description: { type: 'string' },
+            price: { type: 'number' },
+            publisherId: { type: 'integer' },
+            developerId: { type: 'integer' },
+            releaseDate: { type: 'string', format: 'date' },
+            genres: { type: 'array', items: { type: 'string' } },
+          },
+        },
       },
     },
     tags: [
@@ -146,6 +185,10 @@ const options: swaggerJsdoc.Options = {
       {
         name: 'Users',
         description: 'Gestión de usuarios',
+      },
+      {
+        name: 'Games',
+        description: 'Gestión de juegos',
       },
     ],
   },
