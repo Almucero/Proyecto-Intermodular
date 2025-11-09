@@ -23,13 +23,28 @@ model User {
 
 model Game {
   id           Int     @id @default(autoincrement())
-
+  title        String
+  description  String?
+  price        Float?
+  publisherId  Int?
+  publisher    Publisher? @relation(fields: [publisherId], references: [id])
+  developerId  Int?
+  developer    Developer? @relation(fields: [developerId], references: [id])
+  releaseDate  DateTime?
+  genres       String[]
+  createdAt    DateTime  @default(now())
 }
 
 model Publisher {
   id           Int     @id @default(autoincrement())
+  name         String  @unique
+  createdAt    DateTime @default(now())
+  games        Game[]
 }
 
 model Developer {
   id           Int     @id @default(autoincrement())
+  name         String  @unique
+  createdAt    DateTime @default(now())
+  games        Game[]
 }
