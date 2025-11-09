@@ -3,16 +3,16 @@ import { auth } from "../../middleware/auth.js";
 import { adminOnly } from "../../middleware/authorize.js";
 import { validate } from "../../middleware/validate.js";
 import {
-  createDeveloperSchema,
-  updateDeveloperSchema,
-} from "./developers.schema.js";
+  createPublisherSchema,
+  updatePublisherSchema,
+} from "./publishers.schema.js";
 import {
-  listDevelopersCtrl,
-  getDeveloperCtrl,
-  createDeveloperCtrl,
-  updateDeveloperCtrl,
-  deleteDeveloperCtrl,
-} from "./developers.controller.js";
+  listPublishersCtrl,
+  getPublisherCtrl,
+  createPublisherCtrl,
+  updatePublisherCtrl,
+  deletePublisherCtrl,
+} from "./publishers.controller.js";
 
 const router = Router();
 
@@ -20,15 +20,15 @@ router.use(auth);
 
 /**
  * @swagger
- * /api/developers:
+ * /api/publishers:
  *   get:
- *     summary: Lista todos los desarrolladores
- *     tags: [Developers]
+ *     summary: Lista todos los publishers
+ *     tags: [Publishers]
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Lista de desarrolladores
+ *         description: Lista de publishers
  *         content:
  *           application/json:
  *             schema:
@@ -44,14 +44,14 @@ router.use(auth);
  *                     type: string
  *                     format: date-time
  */
-router.get("/", listDevelopersCtrl);
+router.get("/", listPublishersCtrl);
 
 /**
  * @swagger
- * /api/developers/{id}:
+ * /api/publishers/{id}:
  *   get:
- *     summary: Obtiene un desarrollador por ID
- *     tags: [Developers]
+ *     summary: Obtiene un publisher por ID
+ *     tags: [Publishers]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -60,25 +60,25 @@ router.get("/", listDevelopersCtrl);
  *         schema:
  *           type: integer
  *         required: true
- *         description: ID del desarrollador
+ *         description: ID del publisher
  *     responses:
  *       200:
- *         description: Información del desarrollador
+ *         description: Información del publisher
  *       400:
  *         description: ID inválido
  *       401:
  *         description: No autorizado
  *       404:
- *         description: Desarrollador no encontrado
+ *         description: Publisher no encontrado
  */
-router.get("/:id", getDeveloperCtrl);
+router.get("/:id", getPublisherCtrl);
 
 /**
  * @swagger
- * /api/developers:
+ * /api/publishers:
  *   post:
- *     summary: Crea un nuevo desarrollador (solo administradores)
- *     tags: [Developers]
+ *     summary: Crea un nuevo publisher (solo administradores)
+ *     tags: [Publishers]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -93,7 +93,7 @@ router.get("/:id", getDeveloperCtrl);
  *                 type: string
  *     responses:
  *       201:
- *         description: Desarrollador creado
+ *         description: Publisher creado
  *       400:
  *         description: Datos inválidos
  *       401:
@@ -103,17 +103,16 @@ router.get("/:id", getDeveloperCtrl);
  */
 router.post(
   "/",
-  validate(createDeveloperSchema),
+  validate(createPublisherSchema),
   adminOnly,
-  createDeveloperCtrl
+  createPublisherCtrl
 );
-
 router.patch(
   "/:id",
-  validate(updateDeveloperSchema),
+  validate(updatePublisherSchema),
   adminOnly,
-  updateDeveloperCtrl
+  updatePublisherCtrl
 );
-router.delete("/:id", adminOnly, deleteDeveloperCtrl);
+router.delete("/:id", adminOnly, deletePublisherCtrl);
 
 export default router;

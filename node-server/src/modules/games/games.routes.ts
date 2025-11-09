@@ -1,9 +1,15 @@
-import { Router } from 'express';
-import { auth } from '../../middleware/auth.js';
-import { adminOnly } from '../../middleware/authorize.js';
-import { validate } from '../../middleware/validate.js';
-import { createGameSchema, updateGameSchema } from './games.schema.js';
-import { listGamesCtrl, getGameCtrl, createGameCtrl, updateGameCtrl, deleteGameCtrl } from './games.controller.js';
+import { Router } from "express";
+import { auth } from "../../middleware/auth.js";
+import { adminOnly } from "../../middleware/authorize.js";
+import { validate } from "../../middleware/validate.js";
+import { createGameSchema, updateGameSchema } from "./games.schema.js";
+import {
+  listGamesCtrl,
+  getGameCtrl,
+  createGameCtrl,
+  updateGameCtrl,
+  deleteGameCtrl,
+} from "./games.controller.js";
 
 const router = Router();
 router.use(auth);
@@ -32,7 +38,7 @@ router.use(auth);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/', listGamesCtrl);
+router.get("/", listGamesCtrl);
 
 /**
  * @swagger
@@ -75,7 +81,7 @@ router.get('/', listGamesCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/:id', getGameCtrl);
+router.get("/:id", getGameCtrl);
 
 /**
  * @swagger
@@ -109,7 +115,7 @@ router.get('/:id', getGameCtrl);
  *       403:
  *         description: Acceso denegado (solo administradores)
  */
-router.post('/', validate(createGameSchema), adminOnly, createGameCtrl);
+router.post("/", validate(createGameSchema), adminOnly, createGameCtrl);
 
 /**
  * @swagger
@@ -148,7 +154,7 @@ router.post('/', validate(createGameSchema), adminOnly, createGameCtrl);
  *       403:
  *         description: Acceso denegado (solo administradores)
  */
-router.patch('/:id', validate(updateGameSchema), adminOnly, updateGameCtrl);
+router.patch("/:id", validate(updateGameSchema), adminOnly, updateGameCtrl);
 
 /**
  * @swagger
@@ -177,4 +183,6 @@ router.patch('/:id', validate(updateGameSchema), adminOnly, updateGameCtrl);
  *       404:
  *         description: Juego no encontrado
  */
-router.delete('/:id', adminOnly, deleteGameCtrl);
+router.delete("/:id", adminOnly, deleteGameCtrl);
+
+export default router;

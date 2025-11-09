@@ -1,199 +1,270 @@
-import swaggerJsdoc from 'swagger-jsdoc';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
-import { env } from './env.js';
+import swaggerJsdoc from "swagger-jsdoc";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
+import { env } from "./env.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const options: swaggerJsdoc.Options = {
   definition: {
-    openapi: '3.0.0',
+    openapi: "3.0.0",
     info: {
-      title: 'API Express + PostgreSQL',
-      version: '1.0.0',
-      description: 'API REST con autenticación JWT, validación Zod, rate limiting y testing completo',
+      title: "API Express + PostgreSQL",
+      version: "1.0.0",
+      description:
+        "API REST con autenticación JWT, validación Zod, rate limiting y testing completo",
       contact: {
-        name: 'API Support',
+        name: "API Support",
       },
     },
     servers: [
       {
         url: `http://localhost:${env.PORT}`,
-        description: 'Servidor de desarrollo',
+        description: "Servidor de desarrollo",
       },
     ],
     components: {
       securitySchemes: {
         bearerAuth: {
-          type: 'http',
-          scheme: 'bearer',
-          bearerFormat: 'JWT',
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
         },
       },
       schemas: {
         User: {
-          type: 'object',
+          type: "object",
           properties: {
             id: {
-              type: 'integer',
-              description: 'ID del usuario',
+              type: "integer",
+              description: "ID del usuario",
             },
             email: {
-              type: 'string',
-              format: 'email',
-              description: 'Email del usuario',
+              type: "string",
+              format: "email",
+              description: "Email del usuario",
             },
             name: {
-              type: 'string',
-              description: 'Nombre del usuario',
+              type: "string",
+              description: "Nombre del usuario",
             },
             createdAt: {
-              type: 'string',
-              format: 'date-time',
-              description: 'Fecha de creación',
+              type: "string",
+              format: "date-time",
+              description: "Fecha de creación",
             },
           },
         },
         RegisterInput: {
-          type: 'object',
-          required: ['email', 'name', 'password'],
+          type: "object",
+          required: ["email", "name", "password"],
           properties: {
             email: {
-              type: 'string',
-              format: 'email',
-              description: 'Email del usuario',
+              type: "string",
+              format: "email",
+              description: "Email del usuario",
             },
             name: {
-              type: 'string',
+              type: "string",
               minLength: 2,
-              description: 'Nombre del usuario',
+              description: "Nombre del usuario",
             },
             password: {
-              type: 'string',
+              type: "string",
               minLength: 8,
-              description: 'Contraseña del usuario',
+              description: "Contraseña del usuario",
             },
           },
         },
         LoginInput: {
-          type: 'object',
-          required: ['email', 'password'],
+          type: "object",
+          required: ["email", "password"],
           properties: {
             email: {
-              type: 'string',
-              format: 'email',
+              type: "string",
+              format: "email",
             },
             password: {
-              type: 'string',
+              type: "string",
               minLength: 8,
             },
           },
         },
         AuthResponse: {
-          type: 'object',
+          type: "object",
           properties: {
             user: {
-              $ref: '#/components/schemas/User',
+              $ref: "#/components/schemas/User",
             },
             token: {
-              type: 'string',
-              description: 'JWT token',
+              type: "string",
+              description: "JWT token",
             },
           },
         },
         UpdateProfileInput: {
-          type: 'object',
+          type: "object",
           properties: {
             email: {
-              type: 'string',
-              format: 'email',
+              type: "string",
+              format: "email",
             },
             name: {
-              type: 'string',
+              type: "string",
               minLength: 2,
             },
           },
         },
         ChangePasswordInput: {
-          type: 'object',
-          required: ['currentPassword', 'newPassword'],
+          type: "object",
+          required: ["currentPassword", "newPassword"],
           properties: {
             currentPassword: {
-              type: 'string',
+              type: "string",
             },
             newPassword: {
-              type: 'string',
+              type: "string",
               minLength: 8,
             },
           },
         },
         Error: {
-          type: 'object',
+          type: "object",
           properties: {
             message: {
-              type: 'string',
+              type: "string",
             },
           },
         },
         Game: {
-          type: 'object',
+          type: "object",
           properties: {
-            id: { type: 'integer' },
-            title: { type: 'string' },
-            description: { type: 'string' },
-            price: { type: 'number' },
-            publisherId: { type: 'integer' },
-            developerId: { type: 'integer' },
-            releaseDate: { type: 'string', format: 'date' },
-            genres: { type: 'array', items: { type: 'string' } },
+            id: { type: "integer" },
+            title: { type: "string" },
+            description: { type: "string" },
+            price: { type: "number" },
+            publisherId: { type: "integer" },
+            developerId: { type: "integer" },
+            releaseDate: { type: "string", format: "date" },
+            genres: { type: "array", items: { type: "string" } },
           },
-          required: ['id', 'title'],
+          required: ["id", "title"],
+        },
+        Developer: {
+          type: "object",
+          properties: {
+            id: { type: "integer" },
+            name: { type: "string" },
+            createdAt: { type: "string", format: "date-time" },
+          },
+          required: ["id", "name"],
+        },
+        Publisher: {
+          type: "object",
+          properties: {
+            id: { type: "integer" },
+            name: { type: "string" },
+            createdAt: { type: "string", format: "date-time" },
+          },
+          required: ["id", "name"],
         },
         CreateGameInput: {
-          type: 'object',
+          type: "object",
           properties: {
-            title: { type: 'string' },
-            description: { type: 'string' },
-            price: { type: 'number' },
-            publisherId: { type: 'integer' },
-            developerId: { type: 'integer' },
-            releaseDate: { type: 'string', format: 'date' },
-            genres: { type: 'array', items: { type: 'string' } },
+            title: { type: "string" },
+            description: { type: "string" },
+            price: { type: "number" },
+            publisherId: { type: "integer" },
+            developerId: { type: "integer" },
+            releaseDate: { type: "string", format: "date" },
+            genres: { type: "array", items: { type: "string" } },
           },
-          required: ['title'],
+          required: ["title"],
         },
         UpdateGameInput: {
-          type: 'object',
+          type: "object",
           properties: {
-            title: { type: 'string' },
-            description: { type: 'string' },
-            price: { type: 'number' },
-            publisherId: { type: 'integer' },
-            developerId: { type: 'integer' },
-            releaseDate: { type: 'string', format: 'date' },
-            genres: { type: 'array', items: { type: 'string' } },
+            title: { type: "string" },
+            description: { type: "string" },
+            price: { type: "number" },
+            publisherId: { type: "integer" },
+            developerId: { type: "integer" },
+            releaseDate: { type: "string", format: "date" },
+            genres: { type: "array", items: { type: "string" } },
           },
+        },
+        // Developer / Publisher extended schemas
+        CreateDeveloperInput: {
+          type: "object",
+          required: ["name"],
+          properties: {
+            name: { type: "string", description: "Nombre del desarrollador" },
+          },
+        },
+        DeveloperResponse: {
+          type: "object",
+          properties: {
+            id: { type: "integer" },
+            name: { type: "string" },
+            createdAt: { type: "string", format: "date-time" },
+          },
+        },
+        DevelopersList: {
+          type: "array",
+          items: { $ref: "#/components/schemas/DeveloperResponse" },
+        },
+        CreatePublisherInput: {
+          type: "object",
+          required: ["name"],
+          properties: {
+            name: { type: "string", description: "Nombre del publisher" },
+          },
+        },
+        PublisherResponse: {
+          type: "object",
+          properties: {
+            id: { type: "integer" },
+            name: { type: "string" },
+            createdAt: { type: "string", format: "date-time" },
+          },
+        },
+        PublishersList: {
+          type: "array",
+          items: { $ref: "#/components/schemas/PublisherResponse" },
         },
       },
     },
+    // Apply bearer auth globally to paths (can be overridden per-path)
+    security: [{ bearerAuth: [] }],
     tags: [
       {
-        name: 'Auth',
-        description: 'Endpoints de autenticación',
+        name: "Auth",
+        description: "Endpoints de autenticación",
       },
       {
-        name: 'Users',
-        description: 'Gestión de usuarios',
+        name: "Users",
+        description: "Gestión de usuarios",
       },
       {
-        name: 'Games',
-        description: 'Gestión de juegos',
+        name: "Games",
+        description: "Gestión de juegos",
+      },
+      {
+        name: "Developers",
+        description: "Gestión de desarrolladores (CRUD)",
+      },
+      {
+        name: "Publishers",
+        description: "Gestión de publishers (CRUD)",
       },
     ],
   },
-  apis: [join(__dirname, '../modules/**/*.routes.js')],
+  // Include both .js and .ts route files so development (ts) and built (js) paths are discovered
+  apis: [
+    join(__dirname, "../modules/**/*.routes.js"),
+    join(__dirname, "../modules/**/*.routes.ts"),
+  ],
 };
 
 export const swaggerSpec = swaggerJsdoc(options);
-

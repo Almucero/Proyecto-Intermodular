@@ -1,8 +1,20 @@
-import { Router } from 'express';
-import { auth } from '../../middleware/auth.js';
-import { validate } from '../../middleware/validate.js';
-import { updateUserSchema, updateProfileSchema, changePasswordSchema } from './users.schema.js';
-import { listUsersCtrl, getUserCtrl, meCtrl, updateUserCtrl, deleteUserCtrl, updateProfileCtrl, changePasswordCtrl } from './users.controller.js';
+import { Router } from "express";
+import { auth } from "../../middleware/auth.js";
+import { validate } from "../../middleware/validate.js";
+import {
+  updateUserSchema,
+  updateProfileSchema,
+  changePasswordSchema,
+} from "./users.schema.js";
+import {
+  listUsersCtrl,
+  getUserCtrl,
+  meCtrl,
+  updateUserCtrl,
+  deleteUserCtrl,
+  updateProfileCtrl,
+  changePasswordCtrl,
+} from "./users.controller.js";
 
 const router = Router();
 
@@ -30,7 +42,7 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/', auth, listUsersCtrl);
+router.get("/", auth, listUsersCtrl);
 
 /**
  * @swagger
@@ -90,8 +102,8 @@ router.get('/', auth, listUsersCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/me', auth, meCtrl);
-router.patch('/me', auth, validate(updateProfileSchema), updateProfileCtrl);
+router.get("/me", auth, meCtrl);
+router.patch("/me", auth, validate(updateProfileSchema), updateProfileCtrl);
 
 /**
  * @swagger
@@ -130,7 +142,12 @@ router.patch('/me', auth, validate(updateProfileSchema), updateProfileCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.patch('/me/password', auth, validate(changePasswordSchema), changePasswordCtrl);
+router.patch(
+  "/me/password",
+  auth,
+  validate(changePasswordSchema),
+  changePasswordCtrl
+);
 
 /**
  * @swagger
@@ -255,9 +272,8 @@ router.patch('/me/password', auth, validate(changePasswordSchema), changePasswor
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/:id', auth, getUserCtrl);
-router.patch('/:id', auth, validate(updateUserSchema), updateUserCtrl);
-router.delete('/:id', auth, deleteUserCtrl);
+router.get("/:id", auth, getUserCtrl);
+router.patch("/:id", auth, validate(updateUserSchema), updateUserCtrl);
+router.delete("/:id", auth, deleteUserCtrl);
 
 export default router;
-
