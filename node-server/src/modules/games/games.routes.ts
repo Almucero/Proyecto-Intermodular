@@ -115,7 +115,7 @@ router.get("/:id", getGameCtrl);
  *       403:
  *         description: Acceso denegado (solo administradores)
  */
-router.post("/", validate(createGameSchema), adminOnly, createGameCtrl);
+router.post("/", validate(createGameSchema), /* adminOnly */ createGameCtrl);
 
 /**
  * @swagger
