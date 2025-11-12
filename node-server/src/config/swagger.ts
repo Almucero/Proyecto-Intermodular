@@ -23,6 +23,10 @@ const options: swaggerJsdoc.Options = {
         url: `http://localhost:${env.PORT}`,
         description: "Servidor de desarrollo",
       },
+      {
+        url: `https://gamesage-service.onrender.com`,
+        description: "Servidor de producción",
+      },
     ],
     components: {
       securitySchemes: {
