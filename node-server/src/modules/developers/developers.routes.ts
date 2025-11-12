@@ -16,33 +16,26 @@ import {
 
 const router = Router();
 
-router.use(auth);
-
 /**
  * @swagger
  * /api/developers:
  *   get:
  *     summary: Lista todos los desarrolladores
  *     tags: [Developers]
- *     security:
- *       - bearerAuth: []
+ *     security: []
  *     responses:
  *       200:
  *         description: Lista de desarrolladores
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: integer
- *                   name:
- *                     type: string
- *                   createdAt:
- *                     type: string
- *                     format: date-time
+ *               $ref: '#/components/schemas/DevelopersList'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.get("/", listDevelopersCtrl);
 
@@ -52,8 +45,7 @@ router.get("/", listDevelopersCtrl);
  *   get:
  *     summary: Obtiene un desarrollador por ID
  *     tags: [Developers]
- *     security:
- *       - bearerAuth: []
+ *     security: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -64,12 +56,28 @@ router.get("/", listDevelopersCtrl);
  *     responses:
  *       200:
  *         description: Información del desarrollador
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/DeveloperResponse'
  *       400:
  *         description: ID inválido
- *       401:
- *         description: No autorizado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       404:
  *         description: Desarrollador no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.get("/:id", getDeveloperCtrl);
 
@@ -86,34 +94,169 @@ router.get("/:id", getDeveloperCtrl);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required: [name]
- *             properties:
- *               name:
- *                 type: string
+ *             $ref: '#/components/schemas/CreateDeveloperInput'
  *     responses:
  *       201:
  *         description: Desarrollador creado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/DeveloperResponse'
  *       400:
  *         description: Datos inválidos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       401:
  *         description: No autorizado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       403:
- *         description: Acceso denegado
+ *         description: Acceso denegado (solo administradores)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       409:
+ *         description: Nombre ya en uso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.post(
   "/",
+  auth,
   validate(createDeveloperSchema),
-  /*adminOnly,*/
+  adminOnly,
   createDeveloperCtrl
 );
 
+/**
+ * @swagger
+ * /api/developers/{id}:
+ *   patch:
+ *     summary: Actualiza un desarrollador (solo administradores)
+ *     tags: [Developers]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID del desarrollador
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UpdateDeveloperInput'
+ *     responses:
+ *       200:
+ *         description: Desarrollador actualizado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/DeveloperResponse'
+ *       400:
+ *         description: ID inválido o datos inválidos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       401:
+ *         description: No autorizado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       403:
+ *         description: Acceso denegado (solo administradores)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: Desarrollador no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
 router.patch(
   "/:id",
+  auth,
   validate(updateDeveloperSchema),
   adminOnly,
   updateDeveloperCtrl
 );
-router.delete("/:id", adminOnly, deleteDeveloperCtrl);
+
+/**
+ * @swagger
+ * /api/developers/{id}:
+ *   delete:
+ *     summary: Elimina un desarrollador (solo administradores)
+ *     tags: [Developers]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID del desarrollador
+ *     responses:
+ *       204:
+ *         description: Desarrollador eliminado
+ *       400:
+ *         description: ID inválido
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       401:
+ *         description: No autorizado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       403:
+ *         description: Acceso denegado (solo administradores)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: Desarrollador no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+router.delete("/:id", auth, adminOnly, deleteDeveloperCtrl);
 
 export default router;

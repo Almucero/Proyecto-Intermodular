@@ -16,33 +16,26 @@ import {
 
 const router = Router();
 
-router.use(auth);
-
 /**
  * @swagger
  * /api/publishers:
  *   get:
  *     summary: Lista todos los publishers
  *     tags: [Publishers]
- *     security:
- *       - bearerAuth: []
+ *     security: []
  *     responses:
  *       200:
  *         description: Lista de publishers
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: integer
- *                   name:
- *                     type: string
- *                   createdAt:
- *                     type: string
- *                     format: date-time
+ *               $ref: '#/components/schemas/PublishersList'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.get("/", listPublishersCtrl);
 
@@ -52,8 +45,7 @@ router.get("/", listPublishersCtrl);
  *   get:
  *     summary: Obtiene un publisher por ID
  *     tags: [Publishers]
- *     security:
- *       - bearerAuth: []
+ *     security: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -64,12 +56,28 @@ router.get("/", listPublishersCtrl);
  *     responses:
  *       200:
  *         description: Información del publisher
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/PublisherResponse'
  *       400:
  *         description: ID inválido
- *       401:
- *         description: No autorizado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       404:
  *         description: Publisher no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.get("/:id", getPublisherCtrl);
 
@@ -86,33 +94,169 @@ router.get("/:id", getPublisherCtrl);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required: [name]
- *             properties:
- *               name:
- *                 type: string
+ *             $ref: '#/components/schemas/CreatePublisherInput'
  *     responses:
  *       201:
  *         description: Publisher creado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/PublisherResponse'
  *       400:
  *         description: Datos inválidos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       401:
  *         description: No autorizado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       403:
- *         description: Acceso denegado
+ *         description: Acceso denegado (solo administradores)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       409:
+ *         description: Nombre ya en uso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.post(
   "/",
+  auth,
   validate(createPublisherSchema),
-  /*adminOnly,*/
+  adminOnly,
   createPublisherCtrl
 );
+
+/**
+ * @swagger
+ * /api/publishers/{id}:
+ *   patch:
+ *     summary: Actualiza un publisher (solo administradores)
+ *     tags: [Publishers]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID del publisher
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UpdatePublisherInput'
+ *     responses:
+ *       200:
+ *         description: Publisher actualizado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/PublisherResponse'
+ *       400:
+ *         description: ID inválido o datos inválidos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       401:
+ *         description: No autorizado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       403:
+ *         description: Acceso denegado (solo administradores)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: Publisher no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
 router.patch(
   "/:id",
+  auth,
   validate(updatePublisherSchema),
   adminOnly,
   updatePublisherCtrl
 );
-router.delete("/:id", adminOnly, deletePublisherCtrl);
+
+/**
+ * @swagger
+ * /api/publishers/{id}:
+ *   delete:
+ *     summary: Elimina un publisher (solo administradores)
+ *     tags: [Publishers]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID del publisher
+ *     responses:
+ *       204:
+ *         description: Publisher eliminado
+ *       400:
+ *         description: ID inválido
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       401:
+ *         description: No autorizado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       403:
+ *         description: Acceso denegado (solo administradores)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: Publisher no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+router.delete("/:id", auth, adminOnly, deletePublisherCtrl);
 
 export default router;

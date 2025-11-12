@@ -12,5 +12,5 @@ export const env = {
   DATABASE_URL: required(process.env.DATABASE_URL, "DATABASE_URL"),
   BCRYPT_SALT_ROUNDS: Number(process.env.BCRYPT_SALT_ROUNDS ?? 10),
   // Comma-separated list of admin emails (optional). Example: "admin@example.com,owner@company.com"
-  ADMIN_EMAILS: process.env.ADMIN_EMAILS ?? "alvarokilor@gmail.com",
+  ADMIN_EMAILS: process.env.ADMIN_EMAILS ?? "",
 };
