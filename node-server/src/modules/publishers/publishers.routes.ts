@@ -104,7 +104,7 @@ router.get("/:id", getPublisherCtrl);
 router.post(
   "/",
   validate(createPublisherSchema),
-  adminOnly,
+  /*adminOnly,*/
   createPublisherCtrl
 );
 router.patch(
