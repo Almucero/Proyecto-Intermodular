@@ -10,10 +10,10 @@ const options: swaggerJsdoc.Options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "API Express + PostgreSQL",
+      title: "GameSage API",
       version: "1.0.0",
       description:
-        "API REST con autenticación JWT, validación Zod, rate limiting y testing completo",
+        "API REST para gestión de videojuegos, desarrolladores y publishers con autenticación JWT, validación Zod, rate limiting y testing completo",
       contact: {
         name: "API Support",
       },
@@ -28,6 +28,27 @@ const options: swaggerJsdoc.Options = {
         description: "Servidor de producción",
       },
     ],
+    paths: {
+      "/health": {
+        get: {
+          summary: "Verifica el estado del servicio - Desplega el web service",
+          tags: ["Health"],
+          security: [],
+          responses: {
+            "200": {
+              description: "Servicio funcionando correctamente",
+              content: {
+                "application/json": {
+                  schema: {
+                    $ref: "#/components/schemas/HealthResponse",
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
     components: {
       securitySchemes: {
         bearerAuth: {
@@ -37,6 +58,19 @@ const options: swaggerJsdoc.Options = {
         },
       },
       schemas: {
+        HealthResponse: {
+          type: "object",
+          properties: {
+            ok: {
+              type: "boolean",
+              description: "Estado del servicio",
+            },
+            message: {
+              type: "string",
+              description: "Mensaje de estado (en caso de error)",
+            },
+          },
+        },
         User: {
           type: "object",
           properties: {
@@ -198,10 +232,15 @@ const options: swaggerJsdoc.Options = {
             genres: { type: "array", items: { type: "string" } },
           },
         },
-        // Developer / Publisher extended schemas
         CreateDeveloperInput: {
           type: "object",
           required: ["name"],
+          properties: {
+            name: { type: "string", description: "Nombre del desarrollador" },
+          },
+        },
+        UpdateDeveloperInput: {
+          type: "object",
           properties: {
             name: { type: "string", description: "Nombre del desarrollador" },
           },
@@ -225,6 +264,12 @@ const options: swaggerJsdoc.Options = {
             name: { type: "string", description: "Nombre del publisher" },
           },
         },
+        UpdatePublisherInput: {
+          type: "object",
+          properties: {
+            name: { type: "string", description: "Nombre del publisher" },
+          },
+        },
         PublisherResponse: {
           type: "object",
           properties: {
@@ -242,6 +287,10 @@ const options: swaggerJsdoc.Options = {
     // Apply bearer auth globally to paths (can be overridden per-path)
     security: [{ bearerAuth: [] }],
     tags: [
+      {
+        name: "Health",
+        description: "Estado del servicio",
+      },
       {
         name: "Auth",
         description: "Endpoints de autenticación",

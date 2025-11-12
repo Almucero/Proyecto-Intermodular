@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,39 +7,39 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Developer {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  Game      Game[]
+}
+
+model Game {
+  id          Int        @id @default(autoincrement())
+  title       String
+  description String?
+  price       Float?
+  publisherId Int?
+  developerId Int?
+  releaseDate DateTime?
+  genres      String[]
+  createdAt   DateTime   @default(now())
+  Developer   Developer? @relation(fields: [developerId], references: [id])
+  Publisher   Publisher? @relation(fields: [publisherId], references: [id])
+}
+
+model Publisher {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  Game      Game[]
+}
+
 model User {
   id           Int      @id @default(autoincrement())
   email        String   @unique
   name         String
   passwordHash String
+  createdAt    DateTime @default(now())
   isAdmin      Boolean  @default(false)
-  createdAt    DateTime @default(now())
-}
-
-model Game {
-  id           Int     @id @default(autoincrement())
-  title        String
-  description  String?
-  price        Float?
-  publisherId  Int?
-  publisher    Publisher? @relation(fields: [publisherId], references: [id])
-  developerId  Int?
-  developer    Developer? @relation(fields: [developerId], references: [id])
-  releaseDate  DateTime?
-  genres       String[]
-  createdAt    DateTime  @default(now())
-}
-
-model Publisher {
-  id           Int     @id @default(autoincrement())
-  name         String  @unique
-  createdAt    DateTime @default(now())
-  games        Game[]
-}
-
-model Developer {
-  id           Int     @id @default(autoincrement())
-  name         String  @unique
-  createdAt    DateTime @default(now())
-  games        Game[]
 }

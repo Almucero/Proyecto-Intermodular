@@ -9,7 +9,6 @@ export async function createUser(
 ) {
   return prisma.user.create({
     data: { email, name, passwordHash },
-    select: { id: true, email: true, name: true, createdAt: true },
   });
 }
 
@@ -20,13 +19,13 @@ export async function findUserByEmail(email: string) {
 export async function findUserById(id: number) {
   return prisma.user.findUnique({
     where: { id },
-    select: { id: true, email: true, name: true, createdAt: true },
+    // return full user record (including isAdmin and passwordHash)
+    // controllers that return data to clients should sanitize output
   });
 }
 
 export async function listUsers() {
   return prisma.user.findMany({
-    select: { id: true, email: true, name: true, createdAt: true },
     orderBy: { id: "asc" },
   });
 }
@@ -38,7 +37,7 @@ export async function updateUser(
   return prisma.user.update({
     where: { id },
     data,
-    select: { id: true, email: true, name: true, createdAt: true },
+    // return full user record
   });
 }
 
@@ -53,7 +52,7 @@ export async function updateProfile(
   return prisma.user.update({
     where: { id: userId },
     data,
-    select: { id: true, email: true, name: true, createdAt: true },
+    // return full user record
   });
 }
 
