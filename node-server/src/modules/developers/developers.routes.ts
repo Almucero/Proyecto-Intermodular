@@ -104,7 +104,7 @@ router.get("/:id", getDeveloperCtrl);
 router.post(
   "/",
   validate(createDeveloperSchema),
-  adminOnly,
+  /*adminOnly,*/
   createDeveloperCtrl
 );
 
