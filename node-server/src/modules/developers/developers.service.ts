@@ -7,7 +7,6 @@ export async function listDevelopers() {
       orderBy: { id: "asc" } as any,
     });
   } catch (e: any) {
-    // If the underlying table doesn't exist (tests may run without migrations), return an empty list
     if (e?.message && e.message.includes("does not exist")) {
       return [];
     }
