@@ -12,7 +12,12 @@ import {
 export async function listUsersCtrl(_req: Request, res: Response) {
   try {
     const users = await listUsers();
-    res.json(users);
+    // sanitize: remove passwordHash before sending to client
+    const safe = (users as any[]).map((u) => {
+      const { passwordHash, ...rest } = u as any;
+      return rest;
+    });
+    res.json(safe);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
@@ -30,7 +35,8 @@ export async function getUserCtrl(req: Request, res: Response) {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
-    res.json(user);
+    const { passwordHash, ...safe } = (user as any) || {};
+    res.json(safe);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
@@ -47,12 +53,9 @@ export async function meCtrl(req: Request, res: Response) {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
-    res.json({
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      createdAt: user.createdAt,
-    });
+    // return all user fields except passwordHash
+    const { passwordHash, ...safe } = (user as any) || {};
+    res.json(safe);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
@@ -66,7 +69,8 @@ export async function updateUserCtrl(req: Request, res: Response) {
     }
 
     const user = await updateUser(id, req.body);
-    res.json(user);
+    const { passwordHash, ...safe } = (user as any) || {};
+    res.json(safe);
   } catch (error: any) {
     if (error.code === "P2025") {
       return res.status(404).json({ message: "Usuario no encontrado" });
@@ -102,7 +106,8 @@ export async function updateProfileCtrl(req: Request, res: Response) {
     }
 
     const user = await updateProfile(req.user.sub, req.body);
-    res.json(user);
+    const { passwordHash, ...safe } = (user as any) || {};
+    res.json(safe);
   } catch (error: any) {
     if (error.code === "P2002") {
       return res.status(409).json({ message: "El email ya está en uso" });

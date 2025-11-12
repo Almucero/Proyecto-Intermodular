@@ -1,7 +1,7 @@
-import { Router } from 'express';
-import { validate } from '../../middleware/validate.js';
-import { registerSchema, loginSchema } from '../users/users.schema.js';
-import { registerCtrl, loginCtrl } from './auth.controller.js';
+import { Router } from "express";
+import { validate } from "../../middleware/validate.js";
+import { registerSchema, loginSchema } from "../users/users.schema.js";
+import { registerCtrl, loginCtrl } from "./auth.controller.js";
 
 const router = Router();
 
@@ -36,8 +36,14 @@ const router = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
-router.post('/register', validate(registerSchema), registerCtrl);
+router.post("/register", validate(registerSchema), registerCtrl);
 
 /**
  * @swagger
@@ -59,18 +65,18 @@ router.post('/register', validate(registerSchema), registerCtrl);
  *             schema:
  *               $ref: '#/components/schemas/AuthResponse'
  *       400:
- *         description: Datos de entrada inválidos
+ *         description: Datos de entrada inválidos o credenciales inválidas
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
- *       401:
- *         description: Credenciales inválidas
+ *       500:
+ *         description: Error interno del servidor
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.post('/login', validate(loginSchema), loginCtrl);
+router.post("/login", validate(loginSchema), loginCtrl);
 
 export default router;

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { auth } from "../../middleware/auth.js";
+import { adminOnly } from "../../middleware/authorize.js";
 import { validate } from "../../middleware/validate.js";
 import {
   updateUserSchema,
@@ -22,7 +23,7 @@ const router = Router();
  * @swagger
  * /api/users:
  *   get:
- *     summary: Lista todos los usuarios
+ *     summary: Lista todos los usuarios (solo administradores)
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []
@@ -41,8 +42,20 @@ const router = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
+ *       403:
+ *         description: Acceso denegado (solo administradores)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
-router.get("/", auth, listUsersCtrl);
+router.get("/", auth, adminOnly, listUsersCtrl);
 
 /**
  * @swagger
@@ -61,6 +74,12 @@ router.get("/", auth, listUsersCtrl);
  *               $ref: '#/components/schemas/User'
  *       401:
  *         description: No autorizado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
  *         content:
  *           application/json:
  *             schema:
@@ -97,6 +116,12 @@ router.get("/", auth, listUsersCtrl);
  *               $ref: '#/components/schemas/Error'
  *       409:
  *         description: Email ya en uso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
  *         content:
  *           application/json:
  *             schema:
@@ -153,7 +178,7 @@ router.patch(
  * @swagger
  * /api/users/{id}:
  *   get:
- *     summary: Obtiene un usuario por ID
+ *     summary: Obtiene un usuario por ID (solo administradores)
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []
@@ -183,14 +208,26 @@ router.patch(
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
+ *       403:
+ *         description: Acceso denegado (solo administradores)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       404:
  *         description: Usuario no encontrado
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *   patch:
- *     summary: Actualiza un usuario por ID
+ *     summary: Actualiza un usuario por ID (solo administradores)
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []
@@ -215,13 +252,19 @@ router.patch(
  *             schema:
  *               $ref: '#/components/schemas/User'
  *       400:
- *         description: ID inválido o datos de entrada inválidos
+ *         description: ID inválido o datos inválidos
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
  *       401:
  *         description: No autorizado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       403:
+ *         description: Acceso denegado (solo administradores)
  *         content:
  *           application/json:
  *             schema:
@@ -238,8 +281,14 @@ router.patch(
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *   delete:
- *     summary: Elimina un usuario por ID
+ *     summary: Elimina un usuario por ID (solo administradores)
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []
@@ -265,15 +314,33 @@ router.patch(
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
+ *       403:
+ *         description: Acceso denegado (solo administradores)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       404:
  *         description: Usuario no encontrado
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
-router.get("/:id", auth, getUserCtrl);
-router.patch("/:id", auth, validate(updateUserSchema), updateUserCtrl);
-router.delete("/:id", auth, deleteUserCtrl);
+router.get("/:id", auth, adminOnly, getUserCtrl);
+router.patch(
+  "/:id",
+  auth,
+  adminOnly,
+  validate(updateUserSchema),
+  updateUserCtrl
+);
+router.delete("/:id", auth, adminOnly, deleteUserCtrl);
 
 export default router;

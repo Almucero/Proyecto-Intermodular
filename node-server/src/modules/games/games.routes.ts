@@ -12,7 +12,6 @@ import {
 } from "./games.controller.js";
 
 const router = Router();
-router.use(auth);
 
 /**
  * @swagger
@@ -20,8 +19,7 @@ router.use(auth);
  *   get:
  *     summary: Lista todos los juegos
  *     tags: [Games]
- *     security:
- *       - bearerAuth: []
+ *     security: []
  *     responses:
  *       200:
  *         description: Lista de juegos
@@ -31,8 +29,8 @@ router.use(auth);
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Game'
- *       401:
- *         description: No autorizado
+ *       500:
+ *         description: Error interno del servidor
  *         content:
  *           application/json:
  *             schema:
@@ -46,8 +44,7 @@ router.get("/", listGamesCtrl);
  *   get:
  *     summary: Obtiene un juego por ID
  *     tags: [Games]
- *     security:
- *       - bearerAuth: []
+ *     security: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -64,12 +61,6 @@ router.get("/", listGamesCtrl);
  *               $ref: '#/components/schemas/Game'
  *       400:
  *         description: ID inválido
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *       401:
- *         description: No autorizado
  *         content:
  *           application/json:
  *             schema:
@@ -112,16 +103,36 @@ router.get("/:id", getGameCtrl);
  *               $ref: '#/components/schemas/Error'
  *       401:
  *         description: No autorizado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       403:
  *         description: Acceso denegado (solo administradores)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       409:
+ *         description: Conflicto (por ejemplo, título duplicado)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
-router.post("/", validate(createGameSchema), /* adminOnly */ createGameCtrl);
+router.post("/", auth, validate(createGameSchema), adminOnly, createGameCtrl);
 
 /**
  * @swagger
  * /api/games/{id}:
  *   patch:
- *     summary: Actualiza un juego por ID (solo administradores)
+ *     summary: Actualiza un juego (solo administradores)
  *     tags: [Games]
  *     security:
  *       - bearerAuth: []
@@ -131,7 +142,7 @@ router.post("/", validate(createGameSchema), /* adminOnly */ createGameCtrl);
  *         schema:
  *           type: integer
  *         required: true
- *         description: ID del juego a actualizar
+ *         description: ID del juego
  *     requestBody:
  *       required: true
  *       content:
@@ -147,20 +158,48 @@ router.post("/", validate(createGameSchema), /* adminOnly */ createGameCtrl);
  *               $ref: '#/components/schemas/Game'
  *       400:
  *         description: ID inválido o datos inválidos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       401:
  *         description: No autorizado
- *       404:
- *         description: Juego no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       403:
  *         description: Acceso denegado (solo administradores)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: Juego no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
-router.patch("/:id", validate(updateGameSchema), adminOnly, updateGameCtrl);
+router.patch(
+  "/:id",
+  auth,
+  validate(updateGameSchema),
+  adminOnly,
+  updateGameCtrl
+);
 
 /**
  * @swagger
  * /api/games/{id}:
  *   delete:
- *     summary: Elimina un juego por ID (solo administradores)
+ *     summary: Elimina un juego (solo administradores)
  *     tags: [Games]
  *     security:
  *       - bearerAuth: []
@@ -170,19 +209,41 @@ router.patch("/:id", validate(updateGameSchema), adminOnly, updateGameCtrl);
  *         schema:
  *           type: integer
  *         required: true
- *         description: ID del juego a eliminar
+ *         description: ID del juego
  *     responses:
  *       204:
- *         description: Juego eliminado exitosamente
+ *         description: Juego eliminado
  *       400:
  *         description: ID inválido
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       401:
  *         description: No autorizado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       403:
  *         description: Acceso denegado (solo administradores)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       404:
  *         description: Juego no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
-router.delete("/:id", adminOnly, deleteGameCtrl);
+router.delete("/:id", auth, adminOnly, deleteGameCtrl);
 
 export default router;
