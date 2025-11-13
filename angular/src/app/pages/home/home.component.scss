@@ -4,7 +4,6 @@ header {
   z-index: 10;
 }
 
-/* Ajustes suaves */
 img {
   transition: transform 0.3s ease;
 }
@@ -27,4 +26,8 @@ img:hover {
   animation: slide-down 0.3s ease-out;
 }
 
-
+button, img {
+  background: transparent !important;
+  border: none;
+  box-shadow: none;
+}
