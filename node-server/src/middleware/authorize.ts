@@ -12,7 +12,6 @@ export function adminOnly(req: Request, res: Response, next: NextFunction) {
     .map((s) => s.trim().toLowerCase())
     .filter(Boolean);
 
-  // If JWT contains isAdmin flag, trust it first
   if ((req.user as any).isAdmin) {
     return next();
   }

@@ -12,7 +12,6 @@ import {
 export async function listUsersCtrl(_req: Request, res: Response) {
   try {
     const users = await listUsers();
-    // sanitize: remove passwordHash before sending to client
     const safe = (users as any[]).map((u) => {
       const { passwordHash, ...rest } = u as any;
       return rest;
@@ -53,7 +52,6 @@ export async function meCtrl(req: Request, res: Response) {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
-    // return all user fields except passwordHash
     const { passwordHash, ...safe } = (user as any) || {};
     res.json(safe);
   } catch (error: any) {

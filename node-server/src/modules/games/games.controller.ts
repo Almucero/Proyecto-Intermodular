@@ -38,7 +38,6 @@ export async function createGameCtrl(req: Request, res: Response) {
   try {
     const payload: any = { ...req.body };
 
-    // Normalize releaseDate if provided as a date string
     if (payload.releaseDate !== undefined && payload.releaseDate !== null) {
       const d = new Date(payload.releaseDate);
       if (isNaN(d.getTime())) {
@@ -49,7 +48,6 @@ export async function createGameCtrl(req: Request, res: Response) {
       payload.releaseDate = d;
     }
 
-    // Ensure numeric ids
     if (payload.publisherId !== undefined)
       payload.publisherId = Number(payload.publisherId);
     if (payload.developerId !== undefined)
@@ -64,11 +62,9 @@ export async function createGameCtrl(req: Request, res: Response) {
         .json({ message: "Conflicto al crear el juego (posible duplicado)" });
     }
     if (error.code === "P2003") {
-      return res
-        .status(400)
-        .json({
-          message: "Referencia inválida: publisher o developer no encontrado",
-        });
+      return res.status(400).json({
+        message: "Referencia inválida: publisher o developer no encontrado",
+      });
     }
     res.status(500).json({ message: error.message });
   }

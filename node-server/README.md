@@ -38,11 +38,10 @@ ADMIN_PASSWORDS=Pass1!,Pass2!      # opcional: si no se proporcionan contraseña
 ADMIN_NAMES=Admin1,Admin2          # opcional
 ```
 
-**Paso 2:** Instala dependencias y ejecuta el seed (crea los administradores definidos):
+**Paso 2:** Instala dependencias:
 
 ```powershell
 npm install
-npm run seed:admin
 ```
 
 **Paso 3:** Compila, prueba y arranca:
@@ -53,7 +52,7 @@ npm run test
 npm run dev
 ```
 
-**Paso 4:** Abre la documentación Swagger en <http://localhost:3000/api-docs>
+**Paso 4:** Abre la documentación Swagger en <http://localhost:3000/api-docs> para comprobar que el funcionamiento sea correcto
 
 ## Notas sobre admin y despliegue
 
@@ -75,4 +74,4 @@ Abre:
 
 Allí verás los endpoints y las respuestas documentadas (incluidos códigos 200/201/400/401/403/404/409/500 según corresponda).
 
-por hacer: que se borren todos los usuarios admin que no tengan los mismos valores de env al arrancar (mirar si hacer que run dev haga build también), hacer scripts para borrar datos de todas las tablas y para añadir datos en todas (mirar si hacer que ambas cosas se hagan en el build siempre, de forma que se podria usar docker para bd de desarrollo y tener mismos datos entre equipos), anñadir mas posibles codigos de error, añadir parameters en swagger, actualizar tablas y mirar si es posible separa produccion de desarrollo.
+por hacer: que se borren todos los usuarios admin que no tengan los mismos valores de env al arrancar (mirar si hacer que run dev haga build también), hacer scripts para borrar datos de todas las tablas y para añadir datos en todas (mirar si hacer que ambas cosas se hagan en el build siempre, de forma que se podria usar docker para bd de desarrollo y tener mismos datos entre equipos), añadir mas posibles codigos de error, añadir parameters en swagger, actualizar tablas y mirar si es posible separa produccion de desarrollo.
