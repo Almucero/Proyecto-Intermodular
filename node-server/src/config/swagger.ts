@@ -279,8 +279,7 @@ const options: swaggerJsdoc.Options = {
         },
       },
     },
-    // Apply bearer auth globally to paths (can be overridden per-path)
-    security: [{ bearerAuth: [] }],
+    // No global security: endpoints opt-in with `security: [{ bearerAuth: [] }]`
     tags: [
       {
         name: "Health",
