@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild,HostListener,ElementRef  } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit {
   ];
 
   isMenuOpen = false;
+   @ViewChild('menu') menu!: ElementRef;
 
   constructor(private http: HttpClient) {}
 
@@ -29,6 +30,20 @@ export class HomeComponent implements OnInit {
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
   }
+   @HostListener('document:click', ['$event'])
+  onClick(event: Event) {
+    if (this.isMenuOpen && this.menu && !this.menu.nativeElement.contains(event.target)) {
+      this.isMenuOpen = false;
+    }
+  }
+
+  scrollLeft(carousel: HTMLElement) {
+  carousel.scrollBy({ left: -300, behavior: 'smooth' });
+}
+
+scrollRight(carousel: HTMLElement) {
+  carousel.scrollBy({ left: 300, behavior: 'smooth' });
+}
 }
 
 
