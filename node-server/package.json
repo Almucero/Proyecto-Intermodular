@@ -12,9 +12,9 @@
     "build": "tsc -p .",
     "build:full": "prisma generate && npm run seed:admin && npm run build",
     "start": "node dist/index.js",
-    "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest",
-    "test:watch": "npm run test -- --watch",
-    "test:coverage": "npm run test -- --coverage"
+    "test": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest",
+    "test:watch": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --watch",
+    "test:coverage": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --coverage"
   },
   "keywords": [],
   "author": "",
