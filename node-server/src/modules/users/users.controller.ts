@@ -9,9 +9,14 @@ import {
   changePassword,
 } from "./users.service.js";
 
-export async function listUsersCtrl(_req: Request, res: Response) {
+export async function listUsersCtrl(req: Request, res: Response) {
   try {
-    const users = await listUsers();
+    const filters: any = {};
+    if (req.query.email) filters.email = req.query.email as string;
+    if (req.query.name) filters.name = req.query.name as string;
+    if (req.query.isAdmin !== undefined)
+      filters.isAdmin = req.query.isAdmin === "true";
+    const users = await listUsers(filters);
     const safe = (users as any[]).map((u) => {
       const { passwordHash, ...rest } = u as any;
       return rest;

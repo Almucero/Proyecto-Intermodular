@@ -23,6 +23,13 @@ const router = Router();
  *     summary: Lista todos los desarrolladores
  *     tags: [Developers]
  *     security: []
+ *     parameters:
+ *       - in: query
+ *         name: name
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Filtrar por nombre del desarrollador
  *     responses:
  *       200:
  *         description: Lista de desarrolladores

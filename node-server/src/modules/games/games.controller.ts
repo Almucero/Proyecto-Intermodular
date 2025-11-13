@@ -7,9 +7,12 @@ import {
   deleteGame,
 } from "./games.service.js";
 
-export async function listGamesCtrl(_req: Request, res: Response) {
+export async function listGamesCtrl(req: Request, res: Response) {
   try {
-    const games = await listGames();
+    const filters: any = {};
+    if (req.query.title) filters.title = req.query.title as string;
+    if (req.query.price) filters.price = Number(req.query.price);
+    const games = await listGames(filters);
     res.json(games);
   } catch (error: any) {
     res.status(500).json({ message: error.message });

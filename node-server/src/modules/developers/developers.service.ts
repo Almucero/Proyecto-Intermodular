@@ -1,9 +1,14 @@
 import { prisma } from "../../config/db.js";
 
-export async function listDevelopers() {
+export async function listDevelopers(filters?: { name?: string | undefined }) {
   try {
+    const where: any = {};
+    if (filters?.name) {
+      where.name = { contains: filters.name, mode: "insensitive" };
+    }
     return await prisma.developer.findMany({
-      select: { id: true, name: true, createdAt: true },
+      where,
+      select: { id: true, name: true },
       orderBy: { id: "asc" } as any,
     });
   } catch (e: any) {
@@ -18,7 +23,22 @@ export async function findDeveloperById(id: number) {
   try {
     return await prisma.developer.findUnique({
       where: { id } as any,
-      select: { id: true, name: true, createdAt: true },
+      select: {
+        id: true,
+        name: true,
+        Game: {
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            price: true,
+            publisherId: true,
+            developerId: true,
+            releaseDate: true,
+            genres: true,
+          },
+        },
+      },
     });
   } catch (e: any) {
     if (e?.message && e.message.includes("does not exist")) {
@@ -31,7 +51,7 @@ export async function findDeveloperById(id: number) {
 export async function createDeveloper(data: { name: string }) {
   return await prisma.developer.create({
     data,
-    select: { id: true, name: true, createdAt: true },
+    select: { id: true, name: true },
   });
 }
 
@@ -39,7 +59,7 @@ export async function updateDeveloper(id: number, data: { name?: string }) {
   return await prisma.developer.update({
     where: { id } as any,
     data,
-    select: { id: true, name: true, createdAt: true },
+    select: { id: true, name: true },
   });
 }
 

@@ -23,6 +23,13 @@ const router = Router();
  *     summary: Lista todos los publishers
  *     tags: [Publishers]
  *     security: []
+ *     parameters:
+ *       - in: query
+ *         name: name
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Filtrar por nombre del publisher
  *     responses:
  *       200:
  *         description: Lista de publishers
