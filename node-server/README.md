@@ -13,7 +13,9 @@ Comandos de utilidad:
 
 ```powershell
 npm run seed:admin  # Ejecuta el seed para crear/actualizar administradores (lee vars de entorno)
-npm test            # Ejecutar tests
+npm run clean:data  # Elimina datos (games, developers, publishers y usuarios no-admin)
+npm run seed:data   # Limpia (clean:data) y siembra datos de ejemplo (10 entradas por tabla)
+npm test            # Ejecutar tests (Jest)
 npm run test:watch  # Tests en modo watch
 npm run test:coverage # Tests con cobertura
 ```
@@ -47,9 +49,9 @@ npm install
 **Paso 3:** Compila, prueba y arranca:
 
 ```powershell
-npm run build:full
+npm run build:full   # ejecuta prisma generate + seedAdmin + tsc
 npm run test
-npm run dev
+npm run dev          # en dev ahora se sincronizan los admins desde ADMIN_EMAILS antes de arrancar
 ```
 
 **Paso 4:** Abre la documentación Swagger en <http://localhost:3000/api-docs> para comprobar que el funcionamiento sea correcto, allí verás los endpoints y las respuestas documentadas (incluidos códigos 200/201/400/401/403/404/409/500 según corresponda).

@@ -1,11 +1,11 @@
 meta {
-  name: delete user by id
+  name: delete game by id
   type: http
-  seq: 7
+  seq: 5
 }
 
-delete {
-  url: http://localhost:3000/api/users/:id
+get {
+  url: http://localhost:3000/api/games/:id
   body: none
   auth: inherit
 }
@@ -16,5 +16,4 @@ params:path {
 
 settings {
   encodeUrl: true
-  timeout: 0
 }

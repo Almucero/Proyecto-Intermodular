@@ -1,0 +1,30 @@
+meta {
+  name: create game
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3000/api/games
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "string",
+    "description": "string",
+    "price": 0,
+    "publisherId": 0,
+    "developerId": 0,
+    "releaseDate": "2025-11-13",
+    "genres": [
+      "string"
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

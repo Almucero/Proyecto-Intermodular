@@ -1,18 +1,17 @@
 meta {
-  name: update authenticated user
+  name: create publishers
   type: http
-  seq: 3
+  seq: 2
 }
 
-patch {
-  url: http://localhost:3000/api/me
+post {
+  url: http://localhost:3000/api/publishers
   body: json
   auth: inherit
 }
 
 body:json {
   {
-    "email": "user@example.com",
     "name": "string"
   }
 }

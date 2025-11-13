@@ -1,0 +1,20 @@
+meta {
+  name: get authenticated user
+  type: http
+  seq: 2
+}
+
+get {
+  url: https://gamesage-service.onrender.com/api/users/me
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsImlhdCI6MTc2Mjk0NzQxNywiZXhwIjoxNzYzNTUyMjE3fQ.IElmpvN55gDkgoilc8T2vWx43cWWUnG9jJvYl--lT8s
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

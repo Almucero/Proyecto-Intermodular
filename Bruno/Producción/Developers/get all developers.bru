@@ -1,19 +1,17 @@
 meta {
-  name: get all users
+  name: get all developers
   type: http
   seq: 1
 }
 
 get {
-  url: http://localhost:3000/api/users
+  url: https://gamesage-service.onrender.com/api/developers
   body: none
-  auth: inherit
+  auth: none
 }
 
 params:query {
-  ~email: 
   ~name: 
-  ~isAdmin: 
 }
 
 settings {
