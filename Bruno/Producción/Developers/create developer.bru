@@ -1,18 +1,17 @@
 meta {
-  name: update authenticated user
+  name: create developer
   type: http
-  seq: 3
+  seq: 2
 }
 
-patch {
-  url: http://localhost:3000/api/me
+post {
+  url: https://gamesage-service.onrender.com/api/developers
   body: json
   auth: inherit
 }
 
 body:json {
   {
-    "email": "user@example.com",
     "name": "string"
   }
 }

@@ -1,0 +1,34 @@
+meta {
+  name: update game by id
+  type: http
+  seq: 4
+}
+
+patch {
+  url: https://gamesage-service.onrender.com/api/games/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: 
+}
+
+body:json {
+  {
+    "title": "string",
+    "description": "string",
+    "price": 0,
+    "publisherId": 0,
+    "developerId": 0,
+    "releaseDate": "2025-11-13",
+    "genres": [
+      "string"
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

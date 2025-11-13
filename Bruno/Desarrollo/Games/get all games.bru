@@ -5,11 +5,17 @@ meta {
 }
 
 get {
-  url: 
+  url: http://localhost:3000/api/games
   body: none
-  auth: inherit
+  auth: none
+}
+
+params:query {
+  ~title: 
+  ~price: 
 }
 
 settings {
   encodeUrl: true
+  timeout: 0
 }
