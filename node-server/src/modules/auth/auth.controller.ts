@@ -1,14 +1,16 @@
-import type { Request, Response } from 'express';
-import { register, login } from './auth.service.js';
-import { registerSchema, loginSchema } from '../users/users.schema.js';
+import type { Request, Response } from "express";
+import { register, login } from "./auth.service.js";
+import { registerSchema, loginSchema } from "../users/users.schema.js";
 
 export async function registerCtrl(req: Request, res: Response) {
   try {
     const { email, name, password } = registerSchema.parse(req.body);
     const data = await register(email, name, password);
-    res.status(201).json(data);
+    // Sanitize: remove passwordHash from user response
+    const { passwordHash, ...safeUser } = data.user;
+    res.status(201).json({ ...data, user: safeUser });
   } catch (e: any) {
-    if (e.message === 'Email ya registrado') {
+    if (e.message === "Email ya registrado") {
       return res.status(409).json({ message: e.message });
     }
     res.status(400).json({ message: e.message });
@@ -21,10 +23,9 @@ export async function loginCtrl(req: Request, res: Response) {
     const data = await login(email, password);
     res.json(data);
   } catch (e: any) {
-    if (e.message === 'Credenciales inválidas') {
+    if (e.message === "Credenciales inválidas") {
       return res.status(401).json({ message: e.message });
     }
     res.status(400).json({ message: e.message });
   }
 }
-

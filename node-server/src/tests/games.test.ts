@@ -26,15 +26,14 @@ describe("Games Endpoints", () => {
     }
   });
 
-  it("debe fallar sin autenticación", async () => {
+  it("debe listar games sin autenticación", async () => {
     const res = await request(app).get("/api/games");
-    expect(res.status).toBe(401);
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
   });
 
   it("debe responder 400 o 404 para id inválido o inexistente", async () => {
-    const res = await request(app)
-      .get("/api/games/invalid")
-      .set("Authorization", `Bearer ${authToken}`);
+    const res = await request(app).get("/api/games/invalid");
 
     expect([400, 404]).toContain(res.status);
   });
