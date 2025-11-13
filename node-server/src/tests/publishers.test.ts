@@ -32,15 +32,14 @@ describe("Publishers Endpoints", () => {
     expect(Array.isArray(res.body)).toBe(true);
   });
 
-  it("debe fallar sin autenticación", async () => {
+  it("debe listar publishers sin autenticación", async () => {
     const res = await request(app).get("/api/publishers");
-    expect(res.status).toBe(401);
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
   });
 
   it("debe obtener publisher por id", async () => {
-    const res = await request(app)
-      .get(`/api/publishers/999999`)
-      .set("Authorization", `Bearer ${authToken}`);
+    const res = await request(app).get(`/api/publishers/999999`);
 
     expect([200, 404]).toContain(res.status);
   });

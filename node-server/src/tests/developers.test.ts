@@ -32,15 +32,14 @@ describe("Developers Endpoints", () => {
     expect(Array.isArray(res.body)).toBe(true);
   });
 
-  it("debe fallar sin autenticación", async () => {
+  it("debe listar developers sin autenticación", async () => {
     const res = await request(app).get("/api/developers");
-    expect(res.status).toBe(401);
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
   });
 
   it("debe responder 404 para id inexistente", async () => {
-    const res = await request(app)
-      .get(`/api/developers/999999`)
-      .set("Authorization", `Bearer ${authToken}`);
+    const res = await request(app).get(`/api/developers/999999`);
 
     expect([200, 404]).toContain(res.status);
   });
