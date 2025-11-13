@@ -1,8 +1,19 @@
 import { prisma } from "../../config/db.js";
 
-export async function listGames() {
+export async function listGames(filters?: {
+  title?: string | undefined;
+  price?: number | undefined;
+}) {
   try {
+    const where: any = {};
+    if (filters?.title) {
+      where.title = { contains: filters.title, mode: "insensitive" };
+    }
+    if (filters?.price !== undefined) {
+      where.price = filters.price;
+    }
     return await prisma.game.findMany({
+      where,
       select: {
         id: true,
         title: true,
@@ -12,7 +23,6 @@ export async function listGames() {
         developerId: true,
         releaseDate: true,
         genres: true,
-        createdAt: true,
       },
       orderBy: { id: "asc" } as any,
     });
@@ -37,7 +47,18 @@ export async function findGameById(id: number) {
         developerId: true,
         releaseDate: true,
         genres: true,
-        createdAt: true,
+        Developer: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        Publisher: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
       },
     });
   } catch (e: any) {
@@ -60,7 +81,6 @@ export async function createGame(data: any) {
       developerId: true,
       releaseDate: true,
       genres: true,
-      createdAt: true,
     },
   });
 }
@@ -78,7 +98,6 @@ export async function updateGame(id: number, data: any) {
       developerId: true,
       releaseDate: true,
       genres: true,
-      createdAt: true,
     },
   });
 }

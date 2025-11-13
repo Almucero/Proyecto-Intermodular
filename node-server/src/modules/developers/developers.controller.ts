@@ -7,9 +7,11 @@ import {
   deleteDeveloper,
 } from "./developers.service.js";
 
-export async function listDevelopersCtrl(_req: Request, res: Response) {
+export async function listDevelopersCtrl(req: Request, res: Response) {
   try {
-    const items = await listDevelopers();
+    const filters: any = {};
+    if (req.query.name) filters.name = req.query.name as string;
+    const items = await listDevelopers(filters);
     res.json(items);
   } catch (error: any) {
     res.status(500).json({ message: error.message });

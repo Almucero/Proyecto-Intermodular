@@ -19,11 +19,28 @@ export async function findUserByEmail(email: string) {
 export async function findUserById(id: number) {
   return prisma.user.findUnique({
     where: { id },
+    select: { id: true, email: true, name: true, isAdmin: true },
   });
 }
 
-export async function listUsers() {
+export async function listUsers(filters?: {
+  email?: string | undefined;
+  name?: string | undefined;
+  isAdmin?: boolean | undefined;
+}) {
+  const where: any = {};
+  if (filters?.email) {
+    where.email = { contains: filters.email, mode: "insensitive" };
+  }
+  if (filters?.name) {
+    where.name = { contains: filters.name, mode: "insensitive" };
+  }
+  if (filters?.isAdmin !== undefined) {
+    where.isAdmin = filters.isAdmin;
+  }
   return prisma.user.findMany({
+    where,
+    select: { id: true, email: true, name: true, isAdmin: true },
     orderBy: { id: "asc" },
   });
 }

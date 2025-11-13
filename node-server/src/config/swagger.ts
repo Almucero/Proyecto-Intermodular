@@ -87,10 +87,9 @@ const options: swaggerJsdoc.Options = {
               type: "string",
               description: "Nombre del usuario",
             },
-            createdAt: {
-              type: "string",
-              format: "date-time",
-              description: "Fecha de creación",
+            isAdmin: {
+              type: "boolean",
+              description: "Indica si el usuario es administrador",
             },
           },
         },
@@ -194,7 +193,6 @@ const options: swaggerJsdoc.Options = {
           properties: {
             id: { type: "integer" },
             name: { type: "string" },
-            createdAt: { type: "string", format: "date-time" },
           },
           required: ["id", "name"],
         },
@@ -203,7 +201,6 @@ const options: swaggerJsdoc.Options = {
           properties: {
             id: { type: "integer" },
             name: { type: "string" },
-            createdAt: { type: "string", format: "date-time" },
           },
           required: ["id", "name"],
         },
@@ -250,7 +247,6 @@ const options: swaggerJsdoc.Options = {
           properties: {
             id: { type: "integer" },
             name: { type: "string" },
-            createdAt: { type: "string", format: "date-time" },
           },
         },
         DevelopersList: {
@@ -275,7 +271,6 @@ const options: swaggerJsdoc.Options = {
           properties: {
             id: { type: "integer" },
             name: { type: "string" },
-            createdAt: { type: "string", format: "date-time" },
           },
         },
         PublishersList: {

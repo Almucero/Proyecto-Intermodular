@@ -7,9 +7,11 @@ import {
   deletePublisher,
 } from "./publishers.service.js";
 
-export async function listPublishersCtrl(_req: Request, res: Response) {
+export async function listPublishersCtrl(req: Request, res: Response) {
   try {
-    const items = await listPublishers();
+    const filters: any = {};
+    if (req.query.name) filters.name = req.query.name as string;
+    const items = await listPublishers(filters);
     res.json(items);
   } catch (error: any) {
     res.status(500).json({ message: error.message });

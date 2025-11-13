@@ -27,6 +27,25 @@ const router = Router();
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: email
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Filtrar por email del usuario
+ *       - in: query
+ *         name: name
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Filtrar por nombre del usuario
+ *       - in: query
+ *         name: isAdmin
+ *         schema:
+ *           type: boolean
+ *         required: false
+ *         description: Filtrar por estado de administrador (true/false)
  *     responses:
  *       200:
  *         description: Lista de usuarios

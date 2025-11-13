@@ -20,6 +20,19 @@ const router = Router();
  *     summary: Lista todos los juegos
  *     tags: [Games]
  *     security: []
+ *     parameters:
+ *       - in: query
+ *         name: title
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Filtrar por título del juego
+ *       - in: query
+ *         name: price
+ *         schema:
+ *           type: number
+ *         required: false
+ *         description: Filtrar por precio exacto del juego
  *     responses:
  *       200:
  *         description: Lista de juegos
