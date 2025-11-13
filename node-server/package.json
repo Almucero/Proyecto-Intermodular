@@ -5,8 +5,10 @@
   "description": "Este proyecto implementa una API REST con Node.js, Express y PostgreSQL siguiendo un desarrollo incremental versionado con Git tags.",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.ts",
+    "dev": "npx tsx src/scripts/seedAdmin.ts && nodemon src/index.ts",
     "seed:admin": "npx tsx src/scripts/seedAdmin.ts",
+    "seed:data": "npm run clean:data && npx tsx src/scripts/seedData.ts",
+    "clean:data": "npx tsx src/scripts/cleanData.ts",
     "build": "tsc -p .",
     "build:full": "prisma generate && npx tsx src/scripts/seedAdmin.ts && tsc -p .",
     "start": "node dist/index.js",

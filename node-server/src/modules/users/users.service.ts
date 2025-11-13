@@ -19,8 +19,6 @@ export async function findUserByEmail(email: string) {
 export async function findUserById(id: number) {
   return prisma.user.findUnique({
     where: { id },
-    // return full user record (including isAdmin and passwordHash)
-    // controllers that return data to clients should sanitize output
   });
 }
 
@@ -37,7 +35,6 @@ export async function updateUser(
   return prisma.user.update({
     where: { id },
     data,
-    // return full user record
   });
 }
 
@@ -52,7 +49,6 @@ export async function updateProfile(
   return prisma.user.update({
     where: { id: userId },
     data,
-    // return full user record
   });
 }
 

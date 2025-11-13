@@ -6,7 +6,6 @@ export async function registerCtrl(req: Request, res: Response) {
   try {
     const { email, name, password } = registerSchema.parse(req.body);
     const data = await register(email, name, password);
-    // Sanitize: remove passwordHash from user response
     const { passwordHash, ...safeUser } = data.user;
     res.status(201).json({ ...data, user: safeUser });
   } catch (e: any) {

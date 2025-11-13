@@ -3,12 +3,14 @@ import bcrypt from "bcrypt";
 import { prisma } from "../config/db.js";
 
 /**
- * Seed admins using ONLY the plural environment variables:
- * - ADMIN_EMAILS (required) comma/semicolon-separated
- * - ADMIN_PASSWORDS (optional) comma/semicolon-separated, aligns by index with emails
- * - ADMIN_NAMES (optional) comma/semicolon-separated, aligns by index with emails
+ * Genera administradores usando las variables de entorno:
+ * - ADMIN_EMAILS (obligatoria): separada por comas o punto y coma
+ * - ADMIN_PASSWORDS (opcional): separada por comas o punto y coma, se alinea por índice con los correos
+ * - ADMIN_NAMES (opcional): separada por comas o punto y coma, se alinea por índice con los correos
  *
- * This file intentionally does NOT read ADMIN_EMAIL, ADMIN_PASSWORD or ADMIN_NAME.
+ * Sincroniza la lista de administradores: crea o actualiza los administradores incluidos en ADMIN_EMAILS,
+ * y elimina cualquier administrador que NO esté en ADMIN_EMAILS.
+ * Esto asegura que los administradores estén siempre sincronizados con las variables de entorno.
  */
 async function crearAdmin() {
   const adminEmailsCsv = process.env.ADMIN_EMAILS ?? "";
@@ -37,15 +39,33 @@ async function crearAdmin() {
     .map((s) => s.trim())
     .filter(Boolean);
 
+  const expectedAdminEmails = emails.map((e) => e.toLowerCase());
+
+  const existingAdmins = await prisma.user.findMany({
+    where: { isAdmin: true },
+  } as any);
+
+  const adminsToDelete = existingAdmins.filter(
+    (admin) => !expectedAdminEmails.includes(admin.email.toLowerCase())
+  );
+
+  if (adminsToDelete.length > 0) {
+    console.log(
+      `Eliminando ${adminsToDelete.length} admin(s) que no están en ADMIN_EMAILS:`
+    );
+    for (const admin of adminsToDelete) {
+      await prisma.user.delete({
+        where: { id: admin.id },
+      });
+      console.log(`  Eliminado: ${admin.email}`);
+    }
+  }
+
   for (let i = 0; i < emails.length; i++) {
     const email = emails[i];
-    // If no password was provided for this index, use a safe default and log a warning
     const password = passwords[i] || "ChangeMe123!";
     const name = names[i] || "Admin";
-
     const passwordHash = await bcrypt.hash(password, saltRounds);
-
-    // Upsert per admin. Keep `any` casts to avoid TS Prisma client type drift; regenerate client with `npx prisma generate` to remove any.
     const createPayload: any = {
       email,
       name,
@@ -72,7 +92,7 @@ async function crearAdmin() {
   }
 
   console.log(
-    "Seed completado. Recomendado: eliminar ADMIN_PASSWORDS de las variables de entorno en producción después de usar el script."
+    "Seed completado. Admins sincronizados con ADMIN_EMAILS en el environment."
   );
 }
 
