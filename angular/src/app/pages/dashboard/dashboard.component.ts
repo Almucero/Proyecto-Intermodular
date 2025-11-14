@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { AUTH_SERVICE } from '../../core/services/auth.token';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-user',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './dashboard.component.html',
