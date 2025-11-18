@@ -22,13 +22,27 @@ async function seedData() {
     await prisma.user.deleteMany({ where: { isAdmin: false } });
 
     // Resetear secuencias de autoincremento (PostgreSQL)
-    await prisma.$executeRawUnsafe('ALTER SEQUENCE "Game_id_seq" RESTART WITH 1');
-    await prisma.$executeRawUnsafe('ALTER SEQUENCE "GameImage_id_seq" RESTART WITH 1');
-    await prisma.$executeRawUnsafe('ALTER SEQUENCE "Developer_id_seq" RESTART WITH 1');
-    await prisma.$executeRawUnsafe('ALTER SEQUENCE "Publisher_id_seq" RESTART WITH 1');
-    await prisma.$executeRawUnsafe('ALTER SEQUENCE "Genre_id_seq" RESTART WITH 1');
-    await prisma.$executeRawUnsafe('ALTER SEQUENCE "Platform_id_seq" RESTART WITH 1');
-    await prisma.$executeRawUnsafe('ALTER SEQUENCE "User_id_seq" RESTART WITH 1');
+    await prisma.$executeRawUnsafe(
+      'ALTER SEQUENCE "Game_id_seq" RESTART WITH 1'
+    );
+    await prisma.$executeRawUnsafe(
+      'ALTER SEQUENCE "GameImage_id_seq" RESTART WITH 1'
+    );
+    await prisma.$executeRawUnsafe(
+      'ALTER SEQUENCE "Developer_id_seq" RESTART WITH 1'
+    );
+    await prisma.$executeRawUnsafe(
+      'ALTER SEQUENCE "Publisher_id_seq" RESTART WITH 1'
+    );
+    await prisma.$executeRawUnsafe(
+      'ALTER SEQUENCE "Genre_id_seq" RESTART WITH 1'
+    );
+    await prisma.$executeRawUnsafe(
+      'ALTER SEQUENCE "Platform_id_seq" RESTART WITH 1'
+    );
+    await prisma.$executeRawUnsafe(
+      'ALTER SEQUENCE "User_id_seq" RESTART WITH 1'
+    );
 
     const saltRounds = Number(process.env.BCRYPT_SALT_ROUNDS ?? 10);
 
@@ -312,80 +326,180 @@ async function seedData() {
         data: {
           email: "player1@gamesage.com",
           name: "Player One",
+          surname: "Ramos",
+          nickname: "PlayerOne",
+          accountAt: new Date().toISOString(),
           passwordHash: await bcrypt.hash("Password123!", saltRounds),
           isAdmin: false,
+          balance: 12.5,
+          addressLine1: "Av. Central 123",
+          addressLine2: "Piso 4",
+          city: "Madrid",
+          region: "Comunidad de Madrid",
+          postalCode: "28013",
+          country: "España",
         },
       }),
       prisma.user.create({
         data: {
           email: "player2@gamesage.com",
           name: "Player Two",
+          surname: "Gómez",
+          nickname: "PlayerTwo",
+          accountAt: new Date().toISOString(),
           passwordHash: await bcrypt.hash("Password123!", saltRounds),
           isAdmin: false,
+          balance: 5.0,
+          addressLine1: "Calle Luna 7",
+          addressLine2: "",
+          city: "Sevilla",
+          region: "Andalucía",
+          postalCode: "41001",
+          country: "España",
         },
       }),
       prisma.user.create({
         data: {
           email: "gamer@gamesage.com",
           name: "Gamer Pro",
+          surname: "Vega",
+          nickname: "GamerPro",
+          accountAt: new Date().toISOString(),
           passwordHash: await bcrypt.hash("Password123!", saltRounds),
           isAdmin: false,
+          balance: 42.0,
+          addressLine1: "Plaza Mayor 1",
+          addressLine2: "",
+          city: "Barcelona",
+          region: "Cataluña",
+          postalCode: "08002",
+          country: "España",
         },
       }),
       prisma.user.create({
         data: {
           email: "collector@gamesage.com",
           name: "Game Collector",
+          surname: "López",
+          nickname: "GameCollector",
+          accountAt: new Date().toISOString(),
           passwordHash: await bcrypt.hash("Password123!", saltRounds),
           isAdmin: false,
+          balance: 150.0,
+          addressLine1: "Rambla 45",
+          addressLine2: "Local 3",
+          city: "Valencia",
+          region: "Comunidad Valenciana",
+          postalCode: "46001",
+          country: "España",
         },
       }),
       prisma.user.create({
         data: {
           email: "speedrunner@gamesage.com",
           name: "Speedrunner",
+          surname: "Martín",
+          nickname: "Speedrunner",
+          accountAt: new Date().toISOString(),
           passwordHash: await bcrypt.hash("Password123!", saltRounds),
           isAdmin: false,
+          balance: 8.75,
+          addressLine1: "C/ Carrera 12",
+          addressLine2: "Apto 2B",
+          city: "Bilbao",
+          region: "País Vasco",
+          postalCode: "48001",
+          country: "España",
         },
       }),
       prisma.user.create({
         data: {
           email: "casual@gamesage.com",
           name: "Casual Gamer",
+          surname: "Núñez",
+          nickname: "CasualGamer",
+          accountAt: new Date().toISOString(),
           passwordHash: await bcrypt.hash("Password123!", saltRounds),
           isAdmin: false,
+          balance: 3.5,
+          addressLine1: "Av. de la Constitución 9",
+          addressLine2: "",
+          city: "Málaga",
+          region: "Andalucía",
+          postalCode: "29001",
+          country: "España",
         },
       }),
       prisma.user.create({
         data: {
           email: "hardcore@gamesage.com",
           name: "Hardcore Fan",
+          surname: "Torres",
+          nickname: "HardcoreFan",
+          accountAt: new Date().toISOString(),
           passwordHash: await bcrypt.hash("Password123!", saltRounds),
           isAdmin: false,
+          balance: 75.0,
+          addressLine1: "Calle Fuego 3",
+          addressLine2: "",
+          city: "Zaragoza",
+          region: "Aragón",
+          postalCode: "50001",
+          country: "España",
         },
       }),
       prisma.user.create({
         data: {
           email: "reviewer@gamesage.com",
           name: "Game Reviewer",
+          surname: "Silva",
+          nickname: "GameReviewer",
+          accountAt: new Date().toISOString(),
           passwordHash: await bcrypt.hash("Password123!", saltRounds),
           isAdmin: false,
+          balance: 20.0,
+          addressLine1: "C/ del Libro 5",
+          addressLine2: "",
+          city: "A Coruña",
+          region: "Galicia",
+          postalCode: "15001",
+          country: "España",
         },
       }),
       prisma.user.create({
         data: {
           email: "streamer@gamesage.com",
           name: "Content Streamer",
+          surname: "Pérez",
+          nickname: "ContentStreamer",
+          accountAt: new Date().toISOString(),
           passwordHash: await bcrypt.hash("Password123!", saltRounds),
           isAdmin: false,
+          balance: 60.0,
+          addressLine1: "Ronda Norte 22",
+          addressLine2: "",
+          city: "Murcia",
+          region: "Región de Murcia",
+          postalCode: "30001",
+          country: "España",
         },
       }),
       prisma.user.create({
         data: {
           email: "developer@gamesage.com",
           name: "Game Developer",
+          surname: "Morales",
+          nickname: "GameDeveloper",
+          accountAt: new Date().toISOString(),
           passwordHash: await bcrypt.hash("Password123!", saltRounds),
           isAdmin: false,
+          balance: 200.0,
+          addressLine1: "Polígono Industrial, Nave 8",
+          addressLine2: "",
+          city: "Valladolid",
+          region: "Castilla y León",
+          postalCode: "47001",
+          country: "España",
         },
       }),
     ]);
