@@ -8,16 +8,31 @@ export async function createUser(
   passwordHash: string
 ) {
   return prisma.user.create({
-    data: { email, name, passwordHash },
+    data: {
+      email,
+      name,
+      passwordHash,
+      accountAt: new Date().toISOString(),
+      balance: 0,
+      nickname: name.split(" ")[0] ?? email.split("@")[0],
+    },
     select: {
       id: true,
       accountId: true,
+      accountAt: true,
+      nickname: true,
       email: true,
       name: true,
-      nickname: true,
-      isAdmin: true,
-      points: true,
+      surname: true,
       balance: true,
+      points: true,
+      isAdmin: true,
+      addressLine1: true,
+      addressLine2: true,
+      city: true,
+      region: true,
+      postalCode: true,
+      country: true,
     },
   });
 }
@@ -99,6 +114,12 @@ export async function listUsers(filters?: {
       isAdmin: true,
       points: true,
       balance: true,
+      addressLine1: true,
+      addressLine2: true,
+      city: true,
+      region: true,
+      postalCode: true,
+      country: true,
     },
     orderBy: { id: "asc" },
   });
