@@ -37,6 +37,11 @@ const router = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/PublishersList'
+ *             examples:
+ *               ejemplo:
+ *                 value:
+ *                   - id: 1
+ *                     name: "string"
  *       500:
  *         description: Error interno del servidor
  *         content:
@@ -67,6 +72,22 @@ router.get("/", listPublishersCtrl);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/PublisherResponse'
+ *             examples:
+ *               ejemplo:
+ *                 value:
+ *                   id: 1
+ *                   name: "string"
+ *                   games:
+ *                     - id: 1
+ *                       title: "string"
+ *                       description: "string"
+ *                       price: 0
+ *                       salePrice: null
+ *                       isOnSale: false
+ *                       isRefundable: false
+ *                       numberOfSales: 0
+ *                       rating: null
+ *                       releaseDate: "2025-11-17"
  *       400:
  *         description: ID inválido
  *         content:

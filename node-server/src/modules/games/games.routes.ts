@@ -33,6 +33,36 @@ const router = Router();
  *           type: number
  *         required: false
  *         description: Filtrar por precio exacto del juego
+ *       - in: query
+ *         name: minPrice
+ *         schema:
+ *           type: number
+ *         required: false
+ *         description: Precio mínimo (para filtro de rango)
+ *       - in: query
+ *         name: maxPrice
+ *         schema:
+ *           type: number
+ *         required: false
+ *         description: Precio máximo (para filtro de rango)
+ *       - in: query
+ *         name: genre
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Filtrar por nombre de género
+ *       - in: query
+ *         name: platform
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Filtrar por nombre de plataforma
+ *       - in: query
+ *         name: isOnSale
+ *         schema:
+ *           type: boolean
+ *         required: false
+ *         description: Filtrar por si el juego está en oferta
  *     responses:
  *       200:
  *         description: Lista de juegos
@@ -42,6 +72,19 @@ const router = Router();
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Game'
+ *             examples:
+ *               ejemplo:
+ *                 value:
+ *                   - id: 1
+ *                     title: "string"
+ *                     description: "string"
+ *                     price: 0
+ *                     salePrice: null
+ *                     isOnSale: false
+ *                     isRefundable: false
+ *                     numberOfSales: 0
+ *                     rating: null
+ *                     releaseDate: "2025-11-17"
  *       500:
  *         description: Error interno del servidor
  *         content:
@@ -72,6 +115,36 @@ router.get("/", listGamesCtrl);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Game'
+ *             examples:
+ *               ejemplo:
+ *                 value:
+ *                   id: 1
+ *                   title: "string"
+ *                   description: "string"
+ *                   price: 0
+ *                   salePrice: null
+ *                   isOnSale: false
+ *                   isRefundable: false
+ *                   numberOfSales: 0
+ *                   rating: null
+ *                   releaseDate: "2025-11-17"
+ *                   developer:
+ *                     id: 1
+ *                     name: "string"
+ *                   publisher:
+ *                     id: 2
+ *                     name: "string"
+ *                   genres:
+ *                     - id: 5
+ *                       name: "string"
+ *                   platforms:
+ *                     - id: 3
+ *                       name: "string"
+ *                   images:
+ *                     - id: 201
+ *                       url: "string"
+ *                       altText: "string"
+ *                       order: 1
  *       400:
  *         description: ID inválido
  *         content:

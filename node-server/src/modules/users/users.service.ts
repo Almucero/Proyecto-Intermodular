@@ -9,6 +9,16 @@ export async function createUser(
 ) {
   return prisma.user.create({
     data: { email, name, passwordHash },
+    select: {
+      id: true,
+      accountId: true,
+      email: true,
+      name: true,
+      nickname: true,
+      isAdmin: true,
+      points: true,
+      balance: true,
+    },
   });
 }
 
@@ -19,14 +29,36 @@ export async function findUserByEmail(email: string) {
 export async function findUserById(id: number) {
   return prisma.user.findUnique({
     where: { id },
-    select: { id: true, email: true, name: true, isAdmin: true },
+    select: {
+      id: true,
+      accountId: true,
+      accountAt: true,
+      nickname: true,
+      email: true,
+      name: true,
+      surname: true,
+      balance: true,
+      points: true,
+      isAdmin: true,
+      addressLine1: true,
+      addressLine2: true,
+      city: true,
+      region: true,
+      postalCode: true,
+      country: true,
+    },
   });
 }
 
 export async function listUsers(filters?: {
   email?: string | undefined;
   name?: string | undefined;
+  nickname?: string | undefined;
   isAdmin?: boolean | undefined;
+  minPoints?: number | undefined;
+  maxPoints?: number | undefined;
+  minBalance?: number | undefined;
+  maxBalance?: number | undefined;
 }) {
   const where: any = {};
   if (filters?.email) {
@@ -35,12 +67,39 @@ export async function listUsers(filters?: {
   if (filters?.name) {
     where.name = { contains: filters.name, mode: "insensitive" };
   }
+  if (filters?.nickname) {
+    where.nickname = { contains: filters.nickname, mode: "insensitive" };
+  }
   if (filters?.isAdmin !== undefined) {
     where.isAdmin = filters.isAdmin;
   }
+  if (filters?.minPoints !== undefined || filters?.maxPoints !== undefined) {
+    where.points = {};
+    if (filters?.minPoints !== undefined) where.points.gte = filters.minPoints;
+    if (filters?.maxPoints !== undefined) where.points.lte = filters.maxPoints;
+  }
+  if (filters?.minBalance !== undefined || filters?.maxBalance !== undefined) {
+    where.balance = {};
+    if (filters?.minBalance !== undefined)
+      where.balance.gte = filters.minBalance;
+    if (filters?.maxBalance !== undefined)
+      where.balance.lte = filters.maxBalance;
+  }
+
   return prisma.user.findMany({
     where,
-    select: { id: true, email: true, name: true, isAdmin: true },
+    select: {
+      id: true,
+      accountId: true,
+      accountAt: true,
+      email: true,
+      name: true,
+      surname: true,
+      nickname: true,
+      isAdmin: true,
+      points: true,
+      balance: true,
+    },
     orderBy: { id: "asc" },
   });
 }
@@ -49,10 +108,7 @@ export async function updateUser(
   id: number,
   data: { name?: string; email?: string }
 ) {
-  return prisma.user.update({
-    where: { id },
-    data,
-  });
+  return prisma.user.update({ where: { id }, data });
 }
 
 export async function deleteUser(id: number) {

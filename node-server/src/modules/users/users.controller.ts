@@ -14,8 +14,17 @@ export async function listUsersCtrl(req: Request, res: Response) {
     const filters: any = {};
     if (req.query.email) filters.email = req.query.email as string;
     if (req.query.name) filters.name = req.query.name as string;
+    if (req.query.nickname) filters.nickname = req.query.nickname as string;
     if (req.query.isAdmin !== undefined)
       filters.isAdmin = req.query.isAdmin === "true";
+    if (req.query.minPoints !== undefined)
+      filters.minPoints = Number(req.query.minPoints);
+    if (req.query.maxPoints !== undefined)
+      filters.maxPoints = Number(req.query.maxPoints);
+    if (req.query.minBalance !== undefined)
+      filters.minBalance = Number(req.query.minBalance);
+    if (req.query.maxBalance !== undefined)
+      filters.maxBalance = Number(req.query.maxBalance);
     const users = await listUsers(filters);
     const safe = (users as any[]).map((u) => {
       const { passwordHash, ...rest } = u as any;

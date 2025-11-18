@@ -12,6 +12,13 @@ export async function listGamesCtrl(req: Request, res: Response) {
     const filters: any = {};
     if (req.query.title) filters.title = req.query.title as string;
     if (req.query.price) filters.price = Number(req.query.price);
+    if (req.query.minPrice) filters.minPrice = Number(req.query.minPrice);
+    if (req.query.maxPrice) filters.maxPrice = Number(req.query.maxPrice);
+    if (req.query.genre) filters.genre = String(req.query.genre);
+    if (req.query.platform) filters.platform = String(req.query.platform);
+    if (req.query.isOnSale !== undefined)
+      filters.isOnSale =
+        req.query.isOnSale === "true" || req.query.isOnSale === "1";
     const games = await listGames(filters);
     res.json(games);
   } catch (error: any) {
@@ -31,7 +38,28 @@ export async function getGameCtrl(req: Request, res: Response) {
       return res.status(404).json({ message: "Juego no encontrado" });
     }
 
-    res.json(game);
+    // Map relation names to lowercase and remove foreign keys
+    const response: any = { ...game };
+    if (game.Publisher) {
+      response.publisher = game.Publisher;
+      delete response.Publisher;
+    }
+    if (game.Developer) {
+      response.developer = game.Developer;
+      delete response.Developer;
+    }
+    if (game.genres) {
+      response.genres = game.genres;
+    }
+    if (game.platforms) {
+      response.platforms = game.platforms;
+    }
+    if (game.images) {
+      response.images = game.images;
+    }
+    delete response.publisherId;
+    delete response.developerId;
+    res.json(response);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
@@ -55,6 +83,24 @@ export async function createGameCtrl(req: Request, res: Response) {
       payload.publisherId = Number(payload.publisherId);
     if (payload.developerId !== undefined)
       payload.developerId = Number(payload.developerId);
+
+    // normalize genres/platforms: accept comma-separated string or array
+    if (payload.genres && typeof payload.genres === "string") {
+      payload.genres = payload.genres
+        .split(/[,;]+/)
+        .map((s: string) => s.trim())
+        .filter(Boolean);
+    }
+    if (payload.platforms && typeof payload.platforms === "string") {
+      payload.platforms = payload.platforms
+        .split(/[,;]+/)
+        .map((s: string) => s.trim())
+        .filter(Boolean);
+    }
+
+    if (payload.price !== undefined) payload.price = Number(payload.price);
+    if (payload.salePrice !== undefined)
+      payload.salePrice = Number(payload.salePrice);
 
     const created = await createGame(payload);
     res.status(201).json(created);
@@ -96,6 +142,23 @@ export async function updateGameCtrl(req: Request, res: Response) {
       payload.publisherId = Number(payload.publisherId);
     if (payload.developerId !== undefined)
       payload.developerId = Number(payload.developerId);
+
+    if (payload.genres && typeof payload.genres === "string") {
+      payload.genres = payload.genres
+        .split(/[,;]+/)
+        .map((s: string) => s.trim())
+        .filter(Boolean);
+    }
+    if (payload.platforms && typeof payload.platforms === "string") {
+      payload.platforms = payload.platforms
+        .split(/[,;]+/)
+        .map((s: string) => s.trim())
+        .filter(Boolean);
+    }
+
+    if (payload.price !== undefined) payload.price = Number(payload.price);
+    if (payload.salePrice !== undefined)
+      payload.salePrice = Number(payload.salePrice);
 
     const updated = await updateGame(id, payload);
     res.json(updated);

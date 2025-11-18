@@ -41,11 +41,41 @@ const router = Router();
  *         required: false
  *         description: Filtrar por nombre del usuario
  *       - in: query
+ *         name: nickname
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Filtrar por apodo del usuario
+ *       - in: query
  *         name: isAdmin
  *         schema:
  *           type: boolean
  *         required: false
  *         description: Filtrar por estado de administrador (true/false)
+ *       - in: query
+ *         name: minPoints
+ *         schema:
+ *           type: number
+ *         required: false
+ *         description: Puntos mínimos (para filtro de rango)
+ *       - in: query
+ *         name: maxPoints
+ *         schema:
+ *           type: number
+ *         required: false
+ *         description: Puntos máximos (para filtro de rango)
+ *       - in: query
+ *         name: minBalance
+ *         schema:
+ *           type: number
+ *         required: false
+ *         description: Saldo mínimo (para filtro de rango)
+ *       - in: query
+ *         name: maxBalance
+ *         schema:
+ *           type: number
+ *         required: false
+ *         description: Saldo máximo (para filtro de rango)
  *     responses:
  *       200:
  *         description: Lista de usuarios

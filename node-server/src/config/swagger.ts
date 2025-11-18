@@ -74,23 +74,43 @@ const options: swaggerJsdoc.Options = {
         User: {
           type: "object",
           properties: {
-            id: {
-              type: "integer",
-              description: "ID del usuario",
+            id: { type: "integer", description: "ID del usuario" },
+            accountId: { type: "string", description: "CUID de la cuenta" },
+            accountAt: {
+              type: "string",
+              format: "date-time",
+              description: "Fecha de asociación de cuenta",
             },
             email: {
               type: "string",
               format: "email",
               description: "Email del usuario",
             },
-            name: {
-              type: "string",
-              description: "Nombre del usuario",
+            name: { type: "string", description: "Nombre del usuario" },
+            surname: { type: "string", description: "Apellido del usuario" },
+            nickname: { type: "string", description: "Apodo del usuario" },
+            points: { type: "integer", description: "Puntos de recompensa" },
+            balance: {
+              type: "number",
+              format: "float",
+              description: "Saldo del usuario",
             },
             isAdmin: {
               type: "boolean",
               description: "Indica si el usuario es administrador",
             },
+            addressLine1: {
+              type: "string",
+              description: "Primera línea de dirección",
+            },
+            addressLine2: {
+              type: "string",
+              description: "Segunda línea de dirección",
+            },
+            city: { type: "string", description: "Ciudad" },
+            region: { type: "string", description: "Región/Provincia" },
+            postalCode: { type: "string", description: "Código postal" },
+            country: { type: "string", description: "País" },
           },
         },
         RegisterInput: {
@@ -107,10 +127,42 @@ const options: swaggerJsdoc.Options = {
               minLength: 2,
               description: "Nombre del usuario",
             },
+            surname: {
+              type: "string",
+              description: "Apellido del usuario",
+            },
             password: {
               type: "string",
               minLength: 8,
               description: "Contraseña del usuario",
+            },
+            nickname: {
+              type: "string",
+              description: "Apodo del usuario",
+            },
+            addressLine1: {
+              type: "string",
+              description: "Primera línea de dirección",
+            },
+            addressLine2: {
+              type: "string",
+              description: "Segunda línea de dirección",
+            },
+            city: {
+              type: "string",
+              description: "Ciudad",
+            },
+            region: {
+              type: "string",
+              description: "Región/Provincia",
+            },
+            postalCode: {
+              type: "string",
+              description: "Código postal",
+            },
+            country: {
+              type: "string",
+              description: "País",
             },
           },
         },
@@ -146,10 +198,44 @@ const options: swaggerJsdoc.Options = {
             email: {
               type: "string",
               format: "email",
+              description: "Email del usuario",
             },
             name: {
               type: "string",
               minLength: 2,
+              description: "Nombre del usuario",
+            },
+            surname: {
+              type: "string",
+              description: "Apellido del usuario",
+            },
+            nickname: {
+              type: "string",
+              description: "Apodo del usuario",
+            },
+            addressLine1: {
+              type: "string",
+              description: "Primera línea de dirección",
+            },
+            addressLine2: {
+              type: "string",
+              description: "Segunda línea de dirección",
+            },
+            city: {
+              type: "string",
+              description: "Ciudad",
+            },
+            region: {
+              type: "string",
+              description: "Región/Provincia",
+            },
+            postalCode: {
+              type: "string",
+              description: "Código postal",
+            },
+            country: {
+              type: "string",
+              description: "País",
             },
           },
         },
@@ -177,30 +263,160 @@ const options: swaggerJsdoc.Options = {
         Game: {
           type: "object",
           properties: {
-            id: { type: "integer" },
-            title: { type: "string" },
-            description: { type: "string" },
-            price: { type: "number" },
-            publisherId: { type: "integer" },
-            developerId: { type: "integer" },
-            releaseDate: { type: "string", format: "date" },
-            genres: { type: "array", items: { type: "string" } },
+            id: { type: "integer", description: "ID del juego" },
+            title: { type: "string", description: "Título del juego" },
+            description: {
+              type: "string",
+              description: "Descripción del juego",
+            },
+            price: {
+              type: "number",
+              format: "float",
+              description: "Precio del juego",
+            },
+            salePrice: {
+              type: "number",
+              format: "float",
+              description: "Precio de oferta",
+            },
+            isOnSale: {
+              type: "boolean",
+              description: "Indica si el juego está en oferta",
+            },
+            isRefundable: {
+              type: "boolean",
+              description: "Indica si el juego es reembolsable",
+            },
+            numberOfSales: { type: "integer", description: "Número de ventas" },
+            rating: {
+              type: "number",
+              format: "float",
+              description: "Calificación del juego",
+            },
+            releaseDate: {
+              type: "string",
+              format: "date",
+              description: "Fecha de lanzamiento",
+            },
+            developer: {
+              type: "object",
+              properties: {
+                id: { type: "integer", description: "ID del desarrollador" },
+                name: {
+                  type: "string",
+                  description: "Nombre del desarrollador",
+                },
+              },
+              required: ["id", "name"],
+            },
+            publisher: {
+              type: "object",
+              properties: {
+                id: { type: "integer", description: "ID del publisher" },
+                name: { type: "string", description: "Nombre del publisher" },
+              },
+              required: ["id", "name"],
+            },
+            genres: {
+              type: "array",
+              items: { $ref: "#/components/schemas/Genre" },
+            },
+            platforms: {
+              type: "array",
+              items: { $ref: "#/components/schemas/Platform" },
+            },
+            images: {
+              type: "array",
+              items: { $ref: "#/components/schemas/GameImage" },
+            },
           },
           required: ["id", "title"],
+        },
+        Genre: {
+          type: "object",
+          properties: {
+            id: { type: "integer", description: "ID del género" },
+            name: { type: "string", description: "Nombre del género" },
+          },
+          required: ["id", "name"],
+        },
+        GenreDetail: {
+          type: "object",
+          properties: {
+            id: { type: "integer", description: "ID del género" },
+            name: { type: "string", description: "Nombre del género" },
+            games: {
+              type: "array",
+              items: { $ref: "#/components/schemas/Game" },
+              description: "Juegos asociados al género",
+            },
+          },
+          required: ["id", "name"],
+        },
+        Platform: {
+          type: "object",
+          properties: {
+            id: { type: "integer", description: "ID de la plataforma" },
+            name: { type: "string", description: "Nombre de la plataforma" },
+          },
+          required: ["id", "name"],
+        },
+        PlatformDetail: {
+          type: "object",
+          properties: {
+            id: { type: "integer", description: "ID de la plataforma" },
+            name: { type: "string", description: "Nombre de la plataforma" },
+            games: {
+              type: "array",
+              items: { $ref: "#/components/schemas/Game" },
+              description: "Juegos disponibles en esta plataforma",
+            },
+          },
+          required: ["id", "name"],
+        },
+        GameImage: {
+          type: "object",
+          properties: {
+            id: { type: "integer", description: "ID de la imagen" },
+            url: {
+              type: "string",
+              format: "uri",
+              description: "URL de la imagen",
+            },
+            altText: { type: "string", description: "Texto alternativo" },
+            gameId: {
+              type: "integer",
+              description: "ID del juego relacionado",
+            },
+            game: {
+              type: "object",
+              properties: {
+                id: { type: "integer", description: "ID del juego" },
+                title: { type: "string", description: "Título del juego" },
+                description: { type: "string", description: "Descripción" },
+                price: { type: "number", description: "Precio" },
+                salePrice: { type: "number", description: "Precio en oferta" },
+                isOnSale: { type: "boolean", description: "¿Está en oferta?" },
+                isRefundable: {
+                  type: "boolean",
+                  description: "¿Es reembolsable?",
+                },
+                numberOfSales: { type: "integer", description: "Ventas" },
+                rating: { type: "number", description: "Valoración" },
+                releaseDate: {
+                  type: "string",
+                  format: "date",
+                  description: "Fecha de lanzamiento",
+                },
+              },
+            },
+          },
         },
         Developer: {
           type: "object",
           properties: {
-            id: { type: "integer" },
-            name: { type: "string" },
-          },
-          required: ["id", "name"],
-        },
-        Publisher: {
-          type: "object",
-          properties: {
-            id: { type: "integer" },
-            name: { type: "string" },
+            id: { type: "integer", description: "ID del desarrollador" },
+            name: { type: "string", description: "Nombre del desarrollador" },
           },
           required: ["id", "name"],
         },
@@ -210,10 +426,16 @@ const options: swaggerJsdoc.Options = {
             title: { type: "string" },
             description: { type: "string" },
             price: { type: "number" },
+            salePrice: { type: "number" },
+            isOnSale: { type: "boolean" },
+            isRefundable: { type: "boolean" },
+            rating: { type: "number" },
+            numberOfSales: { type: "integer" },
             publisherId: { type: "integer" },
             developerId: { type: "integer" },
             releaseDate: { type: "string", format: "date" },
             genres: { type: "array", items: { type: "string" } },
+            platforms: { type: "array", items: { type: "string" } },
           },
           required: ["title"],
         },
@@ -223,10 +445,16 @@ const options: swaggerJsdoc.Options = {
             title: { type: "string" },
             description: { type: "string" },
             price: { type: "number" },
+            salePrice: { type: "number" },
+            isOnSale: { type: "boolean" },
+            isRefundable: { type: "boolean" },
+            rating: { type: "number" },
+            numberOfSales: { type: "integer" },
             publisherId: { type: "integer" },
             developerId: { type: "integer" },
             releaseDate: { type: "string", format: "date" },
             genres: { type: "array", items: { type: "string" } },
+            platforms: { type: "array", items: { type: "string" } },
           },
         },
         CreateDeveloperInput: {
@@ -245,13 +473,69 @@ const options: swaggerJsdoc.Options = {
         DeveloperResponse: {
           type: "object",
           properties: {
-            id: { type: "integer" },
-            name: { type: "string" },
+            id: { type: "integer", description: "ID del desarrollador" },
+            name: { type: "string", description: "Nombre del desarrollador" },
+            games: {
+              type: "array",
+              items: { $ref: "#/components/schemas/Game" },
+              description: "Juegos desarrollados",
+            },
           },
         },
         DevelopersList: {
           type: "array",
           items: { $ref: "#/components/schemas/DeveloperResponse" },
+        },
+        PublisherResponse: {
+          type: "object",
+          properties: {
+            id: { type: "integer", description: "ID del publisher" },
+            name: { type: "string", description: "Nombre del publisher" },
+            games: {
+              type: "array",
+              items: { $ref: "#/components/schemas/Game" },
+              description: "Juegos publicados",
+            },
+          },
+        },
+        PublishersList: {
+          type: "array",
+          items: { $ref: "#/components/schemas/PublisherResponse" },
+        },
+        GenreResponse: {
+          type: "object",
+          properties: {
+            id: { type: "integer", description: "ID del género" },
+            name: { type: "string", description: "Nombre del género" },
+          },
+        },
+        GenresList: {
+          type: "array",
+          items: { $ref: "#/components/schemas/GenreResponse" },
+        },
+        PlatformResponse: {
+          type: "object",
+          properties: {
+            id: { type: "integer", description: "ID de la plataforma" },
+            name: { type: "string", description: "Nombre de la plataforma" },
+          },
+        },
+        PlatformsList: {
+          type: "array",
+          items: { $ref: "#/components/schemas/PlatformResponse" },
+        },
+        CreateGenreInput: {
+          type: "object",
+          required: ["name"],
+          properties: {
+            name: { type: "string", description: "Nombre del género" },
+          },
+        },
+        UpdateGenreInput: {
+          type: "object",
+          properties: {
+            name: { type: "string", description: "Nombre del género" },
+          },
         },
         CreatePublisherInput: {
           type: "object",
@@ -266,16 +550,31 @@ const options: swaggerJsdoc.Options = {
             name: { type: "string", description: "Nombre del publisher" },
           },
         },
-        PublisherResponse: {
+        CreateGameImageInput: {
           type: "object",
+          required: ["gameId", "url"],
           properties: {
-            id: { type: "integer" },
-            name: { type: "string" },
+            gameId: { type: "integer", description: "ID del juego" },
+            url: {
+              type: "string",
+              format: "uri",
+              description: "URL de la imagen",
+            },
+            altText: { type: "string", description: "Texto alternativo" },
+            order: { type: "integer", description: "Orden de la imagen" },
           },
         },
-        PublishersList: {
-          type: "array",
-          items: { $ref: "#/components/schemas/PublisherResponse" },
+        UpdateGameImageInput: {
+          type: "object",
+          properties: {
+            url: {
+              type: "string",
+              format: "uri",
+              description: "URL de la imagen",
+            },
+            altText: { type: "string", description: "Texto alternativo" },
+            order: { type: "integer", description: "Orden de la imagen" },
+          },
         },
       },
     },
@@ -304,6 +603,18 @@ const options: swaggerJsdoc.Options = {
       {
         name: "Publishers",
         description: "Gestión de publishers (CRUD)",
+      },
+      {
+        name: "Genres",
+        description: "Gestión de géneros (CRUD)",
+      },
+      {
+        name: "Platforms",
+        description: "Gestión de plataformas (CRUD)",
+      },
+      {
+        name: "GameImages",
+        description: "Gestión de imágenes de juego (CRUD)",
       },
     ],
   },

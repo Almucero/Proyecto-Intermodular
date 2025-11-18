@@ -10,10 +10,19 @@ async function cleanAllData() {
   try {
     console.log("🧹 Iniciando limpieza de datos...");
 
+    console.log("  - Eliminando GameImages...");
+    await prisma.gameImage.deleteMany({});
+
     console.log("  - Eliminando Games...");
     await prisma.game.deleteMany({});
 
-    console.log("  - Eliminando Users...");
+    console.log("  - Eliminando Genres...");
+    await prisma.genre.deleteMany({});
+
+    console.log("  - Eliminando Platforms...");
+    await prisma.platform.deleteMany({});
+
+    console.log("  - Eliminando Users (no admins)...");
     await prisma.user.deleteMany({
       where: { isAdmin: false },
     });

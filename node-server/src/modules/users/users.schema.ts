@@ -4,6 +4,13 @@ export const registerSchema = z.object({
   email: z.string().email("Email inválido"),
   name: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
   password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres"),
+  nickname: z.string().optional(),
+  addressLine1: z.string().optional(),
+  addressLine2: z.string().optional(),
+  city: z.string().optional(),
+  region: z.string().optional(),
+  postalCode: z.string().optional(),
+  country: z.string().optional(),
 });
 
 export const loginSchema = z.object({
@@ -17,6 +24,13 @@ export const updateUserSchema = z.object({
     .min(2, "El nombre debe tener al menos 2 caracteres")
     .optional(),
   email: z.string().email("Email inválido").optional(),
+  nickname: z.string().optional(),
+  addressLine1: z.string().optional(),
+  addressLine2: z.string().optional(),
+  city: z.string().optional(),
+  region: z.string().optional(),
+  postalCode: z.string().optional(),
+  country: z.string().optional(),
 });
 
 export const updateProfileSchema = z.object({
@@ -25,6 +39,13 @@ export const updateProfileSchema = z.object({
     .min(2, "El nombre debe tener al menos 2 caracteres")
     .optional(),
   email: z.string().email("Email inválido").optional(),
+  nickname: z.string().optional(),
+  addressLine1: z.string().optional(),
+  addressLine2: z.string().optional(),
+  city: z.string().optional(),
+  region: z.string().optional(),
+  postalCode: z.string().optional(),
+  country: z.string().optional(),
 });
 
 export const changePasswordSchema = z.object({
