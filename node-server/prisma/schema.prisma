@@ -11,35 +11,93 @@ model Developer {
   id        Int      @id @default(autoincrement())
   name      String   @unique
   createdAt DateTime @default(now())
-  Game      Game[]
-}
-
-model Game {
-  id          Int        @id @default(autoincrement())
-  title       String
-  description String?
-  price       Float?
-  publisherId Int?
-  developerId Int?
-  releaseDate DateTime?
-  genres      String[]
-  createdAt   DateTime   @default(now())
-  Developer   Developer? @relation(fields: [developerId], references: [id])
-  Publisher   Publisher? @relation(fields: [publisherId], references: [id])
+  updatedAt DateTime @default(now()) @updatedAt
+  games     Game[]
 }
 
 model Publisher {
   id        Int      @id @default(autoincrement())
   name      String   @unique
   createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
   Game      Game[]
+}
+
+model Platform {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  games     Game[]   @relation("GamePlatforms")
+}
+
+model Genre {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  games     Game[]   @relation("GameGenres")
+}
+
+model Game {
+  id            Int        @id @default(autoincrement())
+  title         String
+  description   String?
+  price         Decimal?   @db.Decimal(12,2)
+  isOnSale      Boolean    @default(false)
+  salePrice     Decimal?   @db.Decimal(12,2)
+  isRefundable  Boolean    @default(false)
+  numberOfSales Int        @default(0)
+  rating        Float?
+  releaseDate   DateTime?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @default(now()) @updatedAt
+
+  genres        Genre[]      @relation("GameGenres")
+  platforms     Platform[]   @relation("GamePlatforms")
+  images        GameImage[]
+
+  publisherId   Int?
+  developerId   Int?
+  Publisher     Publisher?  @relation(fields: [publisherId], references: [id], onDelete: SetNull)
+  Developer     Developer?  @relation(fields: [developerId], references: [id], onDelete: SetNull)
+
+  @@index([developerId])
+  @@index([publisherId])
+}
+
+model GameImage {
+  id        Int      @id @default(autoincrement())
+  url       String
+  altText   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  gameId    Int
+  Game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@index([gameId])
 }
 
 model User {
   id           Int      @id @default(autoincrement())
+  accountId    String?  @unique @default(cuid())
   email        String   @unique
+  accountAt    String?
+  nickname     String?
   name         String
+  surname      String?
   passwordHash String
+  balance      Decimal? @db.Decimal(12,2)
+  points       Int      @default(0)
   createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
   isAdmin      Boolean  @default(false)
+
+  addressLine1 String?
+  addressLine2 String?
+  city         String?
+  region       String?
+  postalCode   String?
+  country      String?
 }

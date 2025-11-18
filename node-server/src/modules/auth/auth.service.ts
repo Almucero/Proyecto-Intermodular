@@ -52,10 +52,12 @@ export async function login(email: string, password: string) {
   return {
     user: {
       id: user.id,
+      accountId: (user as any).accountId,
       email: user.email,
       name: user.name,
-      createdAt: user.createdAt,
       isAdmin: (user as any).isAdmin ?? false,
+      points: (user as any).points,
+      balance: (user as any).balance,
     },
     token,
   };
