@@ -56,4 +56,4 @@ npm run dev          # en dev ahora se sincronizan los admins desde ADMIN_EMAILS
 
 **Paso 4:** Abre la documentación Swagger en <http://localhost:3000/api-docs> para comprobar que el funcionamiento sea correcto, allí verás los endpoints y las respuestas documentadas (incluidos códigos 200/201/400/401/403/404/409/500 según corresponda).
 
-Por hacer: Añadir mas posibles codigos de error, respuestas de error y schemas, actualizar tablas y mirar si es posible separa produccion de desarrollo.
+Por hacer: Ver si devolver relaciones en findMany en vez de solo en findOne, mirrar lo de indices

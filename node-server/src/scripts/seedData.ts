@@ -12,6 +12,24 @@ async function seedData() {
   try {
     console.log("🌱 Iniciando seed de datos...");
 
+    // Borrar datos existentes (excepto admins) y resetear secuencias
+    await prisma.gameImage.deleteMany();
+    await prisma.game.deleteMany();
+    await prisma.developer.deleteMany();
+    await prisma.publisher.deleteMany();
+    await prisma.genre.deleteMany();
+    await prisma.platform.deleteMany();
+    await prisma.user.deleteMany({ where: { isAdmin: false } });
+
+    // Resetear secuencias de autoincremento (PostgreSQL)
+    await prisma.$executeRawUnsafe('ALTER SEQUENCE "Game_id_seq" RESTART WITH 1');
+    await prisma.$executeRawUnsafe('ALTER SEQUENCE "GameImage_id_seq" RESTART WITH 1');
+    await prisma.$executeRawUnsafe('ALTER SEQUENCE "Developer_id_seq" RESTART WITH 1');
+    await prisma.$executeRawUnsafe('ALTER SEQUENCE "Publisher_id_seq" RESTART WITH 1');
+    await prisma.$executeRawUnsafe('ALTER SEQUENCE "Genre_id_seq" RESTART WITH 1');
+    await prisma.$executeRawUnsafe('ALTER SEQUENCE "Platform_id_seq" RESTART WITH 1');
+    await prisma.$executeRawUnsafe('ALTER SEQUENCE "User_id_seq" RESTART WITH 1');
+
     const saltRounds = Number(process.env.BCRYPT_SALT_ROUNDS ?? 10);
 
     // Crear 10 Developers
@@ -84,121 +102,208 @@ async function seedData() {
       }),
     ]);
 
-    // Crear 10 Games
-    console.log("  - Creando 10 Games...");
-    const games = await Promise.all([
-      prisma.game.create({
+    // Crear géneros y plataformas
+    console.log("  - Creando Genres y Platforms...");
+    const genreNames = [
+      "Acción",
+      "Aventura",
+      "RPG",
+      "Sigilo",
+      "Fantasía",
+      "Horror",
+      "Ciencia Ficción",
+      "Crimen",
+    ];
+
+    const platformNames = ["PC", "PS5", "Xbox Series X", "Switch"];
+
+    const genres = await Promise.all(
+      genreNames.map((name) => prisma.genre.create({ data: { name } }))
+    );
+
+    const platforms = await Promise.all(
+      platformNames.map((name) => prisma.platform.create({ data: { name } }))
+    );
+
+    const genreByName = Object.fromEntries(genres.map((g) => [g.name, g]));
+    const platformByName = Object.fromEntries(
+      platforms.map((p) => [p.name, p])
+    );
+
+    // Crear 10 Games conectando géneros y platforms
+    console.log("  - Creando 10 Games (con genres y platforms)...");
+    const games = [] as any[];
+    let imagesCreated = 0;
+
+    const createGame = async (data: any) => {
+      const created = await prisma.game.create({
         data: {
-          title: "Metal Gear Solid V",
-          description: "Un juego de sigilo épico con mecánicas innovadoras",
-          price: 49.99,
-          releaseDate: new Date("2015-09-01"),
-          genres: ["Sigilo", "Acción"],
-          developerId: developers[0].id,
-          publisherId: publishers[0].id,
+          title: data.title,
+          description: data.description,
+          price: data.price,
+          salePrice: data.salePrice,
+          isOnSale: data.isOnSale,
+          isRefundable: data.isRefundable,
+          releaseDate: data.releaseDate,
+          developerId: data.developerId,
+          publisherId: data.publisherId,
+          genres: {
+            connect: data.genres.map((n: string) => ({
+              id: (genreByName[n] as any)?.id,
+            })),
+          },
+          platforms: {
+            connect: data.platforms.map((n: string) => ({
+              id: (platformByName[n] as any)?.id,
+            })),
+          },
         },
-      }),
-      prisma.game.create({
-        data: {
-          title: "Elden Ring",
-          description: "RPG de acción desafiante en mundo abierto",
-          price: 59.99,
-          releaseDate: new Date("2022-02-25"),
-          genres: ["RPG", "Acción"],
-          developerId: developers[1].id,
-          publisherId: publishers[4].id,
-        },
-      }),
-      prisma.game.create({
-        data: {
-          title: "The Elder Scrolls V: Skyrim",
-          description: "Épico RPG de fantasía medieval en mundo abierto",
-          price: 59.99,
-          releaseDate: new Date("2011-11-11"),
-          genres: ["RPG", "Fantasía"],
-          developerId: developers[2].id,
-          publisherId: publishers[1].id,
-        },
-      }),
-      prisma.game.create({
-        data: {
-          title: "Grand Theft Auto V",
-          description: "Juego de acción y crimen en ciudad abierta",
-          price: 69.99,
-          releaseDate: new Date("2013-09-17"),
-          genres: ["Acción", "Crimen"],
-          developerId: developers[3].id,
-          publisherId: publishers[4].id,
-        },
-      }),
-      prisma.game.create({
-        data: {
-          title: "The Last of Us",
-          description:
-            "Juego de acción y supervivencia en mundo post-apocalíptico",
-          price: 59.99,
-          releaseDate: new Date("2013-06-14"),
-          genres: ["Acción", "Aventura"],
-          developerId: developers[4].id,
-          publisherId: publishers[0].id,
-        },
-      }),
-      prisma.game.create({
-        data: {
-          title: "Cyberpunk 2077",
-          description: "RPG de acción en un futuro distópico",
-          price: 59.99,
-          releaseDate: new Date("2020-12-10"),
-          genres: ["RPG", "Ciencia Ficción"],
-          developerId: developers[5].id,
-          publisherId: publishers[8].id,
-        },
-      }),
-      prisma.game.create({
-        data: {
-          title: "Spider-Man: Miles Morales",
-          description: "Juego de superhéroes de acción en Nueva York",
-          price: 49.99,
-          releaseDate: new Date("2020-11-12"),
-          genres: ["Acción", "Aventura"],
-          developerId: developers[6].id,
-          publisherId: publishers[0].id,
-        },
-      }),
-      prisma.game.create({
-        data: {
-          title: "Resident Evil 4",
-          description: "Juego de horror de acción con tensión constante",
-          price: 39.99,
-          releaseDate: new Date("2023-03-24"),
-          genres: ["Horror", "Acción"],
-          developerId: developers[7].id,
-          publisherId: publishers[8].id,
-        },
-      }),
-      prisma.game.create({
-        data: {
-          title: "Final Fantasy XVI",
-          description: "RPG épico de fantasía con combate dinámico",
-          price: 69.99,
-          releaseDate: new Date("2023-06-22"),
-          genres: ["RPG", "Fantasía"],
-          developerId: developers[8].id,
-          publisherId: publishers[0].id,
-        },
-      }),
-      prisma.game.create({
-        data: {
-          title: "Assassin's Creed Mirage",
-          description: "Juego de acción y sigilo en Bagdad medieval",
-          price: 49.99,
-          releaseDate: new Date("2023-10-05"),
-          genres: ["Acción", "Sigilo"],
-          developerId: developers[9].id,
-          publisherId: publishers[7].id,
-        },
-      }),
-    ]);
+      });
+      // Add 5 images, first is cover
+      const imageUrls = [
+        data.coverUrl ?? "https://placehold.co/600x400?text=Portada",
+        "https://placehold.co/600x400?text=Imagen+2",
+        "https://placehold.co/600x400?text=Imagen+3",
+        "https://placehold.co/600x400?text=Imagen+4",
+        "https://placehold.co/600x400?text=Imagen+5",
+      ];
+      for (let i = 0; i < imageUrls.length; i++) {
+        await prisma.gameImage.create({
+          data: {
+            gameId: created.id,
+            url: imageUrls[i],
+            altText:
+              i === 0
+                ? `${data.title} (Portada)`
+                : `${data.title} Imagen ${i + 1}`,
+          },
+        });
+        imagesCreated++;
+      }
+      return created;
+    };
+
+    games.push(
+      await createGame({
+        title: "Metal Gear Solid V",
+        description: "Un juego de sigilo épico con mecánicas innovadoras",
+        price: 49.99,
+        platforms: ["PS5", "PC"],
+        genres: ["Sigilo", "Acción"],
+        developerId: developers[0].id,
+        publisherId: publishers[0].id,
+        releaseDate: new Date("2015-09-01"),
+      })
+    );
+    games.push(
+      await createGame({
+        title: "Elden Ring",
+        description: "RPG de acción desafiante en mundo abierto",
+        price: 59.99,
+        platforms: ["PC", "PS5"],
+        genres: ["RPG", "Acción"],
+        developerId: developers[1].id,
+        publisherId: publishers[4].id,
+        releaseDate: new Date("2022-02-25"),
+      })
+    );
+    games.push(
+      await createGame({
+        title: "The Elder Scrolls V: Skyrim",
+        description: "Épico RPG de fantasía medieval en mundo abierto",
+        price: 59.99,
+        platforms: ["PC"],
+        genres: ["RPG", "Fantasía"],
+        developerId: developers[2].id,
+        publisherId: publishers[1].id,
+        releaseDate: new Date("2011-11-11"),
+      })
+    );
+    games.push(
+      await createGame({
+        title: "Grand Theft Auto V",
+        description: "Juego de acción y crimen en ciudad abierta",
+        price: 69.99,
+        platforms: ["PC", "Xbox Series X"],
+        genres: ["Acción", "Crimen"],
+        developerId: developers[3].id,
+        publisherId: publishers[4].id,
+        releaseDate: new Date("2013-09-17"),
+      })
+    );
+    games.push(
+      await createGame({
+        title: "The Last of Us",
+        description:
+          "Juego de acción y supervivencia en mundo post-apocalíptico",
+        price: 59.99,
+        platforms: ["PS5"],
+        genres: ["Acción", "Aventura"],
+        developerId: developers[4].id,
+        publisherId: publishers[0].id,
+        releaseDate: new Date("2013-06-14"),
+      })
+    );
+    games.push(
+      await createGame({
+        title: "Cyberpunk 2077",
+        description: "RPG de acción en un futuro distópico",
+        price: 59.99,
+        platforms: ["PC", "PS5"],
+        genres: ["RPG", "Ciencia Ficción"],
+        developerId: developers[5].id,
+        publisherId: publishers[8].id,
+        releaseDate: new Date("2020-12-10"),
+      })
+    );
+    games.push(
+      await createGame({
+        title: "Spider-Man: Miles Morales",
+        description: "Juego de superhéroes de acción en Nueva York",
+        price: 49.99,
+        platforms: ["PS5"],
+        genres: ["Acción", "Aventura"],
+        developerId: developers[6].id,
+        publisherId: publishers[0].id,
+        releaseDate: new Date("2020-11-12"),
+      })
+    );
+    games.push(
+      await createGame({
+        title: "Resident Evil 4",
+        description: "Juego de horror de acción con tensión constante",
+        price: 39.99,
+        platforms: ["PC", "PS5"],
+        genres: ["Horror", "Acción"],
+        developerId: developers[7].id,
+        publisherId: publishers[8].id,
+        releaseDate: new Date("2023-03-24"),
+      })
+    );
+    games.push(
+      await createGame({
+        title: "Final Fantasy XVI",
+        description: "RPG épico de fantasía con combate dinámico",
+        price: 69.99,
+        platforms: ["PS5"],
+        genres: ["RPG", "Fantasía"],
+        developerId: developers[8].id,
+        publisherId: publishers[0].id,
+        releaseDate: new Date("2023-06-22"),
+      })
+    );
+    games.push(
+      await createGame({
+        title: "Assassin's Creed Mirage",
+        description: "Juego de acción y sigilo en Bagdad medieval",
+        price: 49.99,
+        platforms: ["PC"],
+        genres: ["Acción", "Sigilo"],
+        developerId: developers[9].id,
+        publisherId: publishers[7].id,
+        releaseDate: new Date("2023-10-05"),
+      })
+    );
 
     // Crear 10 Users (solo usuarios regulares, los admins los crea seedAdmin.ts)
     console.log("  - Creando 10 Users regulares...");
@@ -288,7 +393,10 @@ async function seedData() {
     console.log("✅ Seed completado:");
     console.log(`   - ${developers.length} Developers creados`);
     console.log(`   - ${publishers.length} Publishers creados`);
+    console.log(`   - ${genres.length} Géneros creados`);
+    console.log(`   - ${platforms.length} Plataformas creadas`);
     console.log(`   - ${games.length} Games creados`);
+    console.log(`   - ${imagesCreated} GameImages creadas`);
     console.log(`   - ${users.length} Users regulares creados`);
   } catch (err) {
     console.error("❌ Error durante el seed:", err);

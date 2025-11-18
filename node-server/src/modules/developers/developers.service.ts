@@ -26,16 +26,18 @@ export async function findDeveloperById(id: number) {
       select: {
         id: true,
         name: true,
-        Game: {
+        games: {
           select: {
             id: true,
             title: true,
             description: true,
             price: true,
-            publisherId: true,
-            developerId: true,
+            salePrice: true,
+            isOnSale: true,
+            isRefundable: true,
+            numberOfSales: true,
+            rating: true,
             releaseDate: true,
-            genres: true,
           },
         },
       },
