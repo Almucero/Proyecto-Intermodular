@@ -5,6 +5,7 @@ import swaggerUi from "swagger-ui-express";
 import { errorHandler } from "./middleware/error.js";
 import { generalLimiter, authLimiter } from "./middleware/rateLimiter.js";
 import { requestLogger } from "./middleware/requestLogger.js";
+import { responseSerializer } from "./middleware/serialize.js";
 import { env } from "./config/env.js";
 import { swaggerSpec } from "./config/swagger.js";
 import authRoutes from "./modules/auth/auth.routes.js";
@@ -12,6 +13,9 @@ import usersRoutes from "./modules/users/users.routes.js";
 import gamesRoutes from "./modules/games/games.routes.js";
 import developersRoutes from "./modules/developers/developers.routes.js";
 import publishersRoutes from "./modules/publishers/publishers.routes.js";
+import genresRoutes from "./modules/genres/genres.routes.js";
+import platformsRoutes from "./modules/platforms/platforms.routes.js";
+import gameImagesRoutes from "./modules/gameImages/gameImages.routes.js";
 
 const app = express();
 
@@ -23,6 +27,9 @@ app.use(
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 app.use(requestLogger);
+
+// Serialize Prisma decimals and Dates to JSON-safe values
+app.use(responseSerializer);
 
 if (env.NODE_ENV !== "test") {
   app.use(generalLimiter);
@@ -42,6 +49,9 @@ app.use("/api/users", usersRoutes);
 app.use("/api/games", gamesRoutes);
 app.use("/api/developers", developersRoutes);
 app.use("/api/publishers", publishersRoutes);
+app.use("/api/genres", genresRoutes);
+app.use("/api/platforms", platformsRoutes);
+app.use("/api/game-images", gameImagesRoutes);
 
 app.use(errorHandler);
 
