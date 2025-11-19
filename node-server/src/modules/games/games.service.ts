@@ -3,6 +3,11 @@ import { prisma } from "../../config/db.js";
 export async function listGames(filters?: {
   title?: string | undefined;
   price?: number | undefined;
+  minPrice?: number | undefined;
+  maxPrice?: number | undefined;
+  genre?: string | undefined;
+  platform?: string | undefined;
+  isOnSale?: boolean | undefined;
 }) {
   try {
     const where: any = {};
@@ -12,6 +17,24 @@ export async function listGames(filters?: {
     if (filters?.price !== undefined) {
       where.price = filters.price;
     }
+    if (filters?.minPrice !== undefined || filters?.maxPrice !== undefined) {
+      where.price = {};
+      if (filters?.minPrice !== undefined) where.price.gte = filters.minPrice;
+      if (filters?.maxPrice !== undefined) where.price.lte = filters.maxPrice;
+    }
+    if (filters?.isOnSale !== undefined) {
+      where.isOnSale = filters.isOnSale;
+    }
+    if (filters?.genre) {
+      where.genres = {
+        some: { name: { contains: filters.genre, mode: "insensitive" } },
+      };
+    }
+    if (filters?.platform) {
+      where.platforms = {
+        some: { name: { contains: filters.platform, mode: "insensitive" } },
+      };
+    }
     return await prisma.game.findMany({
       where,
       select: {
@@ -19,10 +42,12 @@ export async function listGames(filters?: {
         title: true,
         description: true,
         price: true,
-        publisherId: true,
-        developerId: true,
+        salePrice: true,
+        isOnSale: true,
+        isRefundable: true,
+        numberOfSales: true,
+        rating: true,
         releaseDate: true,
-        genres: true,
       },
       orderBy: { id: "asc" } as any,
     });
@@ -43,10 +68,17 @@ export async function findGameById(id: number) {
         title: true,
         description: true,
         price: true,
+        salePrice: true,
+        isOnSale: true,
+        isRefundable: true,
+        numberOfSales: true,
+        rating: true,
         publisherId: true,
         developerId: true,
         releaseDate: true,
-        genres: true,
+        genres: { select: { id: true, name: true } },
+        platforms: { select: { id: true, name: true } },
+        images: { select: { id: true, url: true, altText: true } },
         Developer: {
           select: {
             id: true,
@@ -70,34 +102,83 @@ export async function findGameById(id: number) {
 }
 
 export async function createGame(data: any) {
+  const payload: any = { ...data };
+  // handle relations: genres and platforms can be passed as array of names or ids
+  if (data.genres) {
+    payload.genres = {
+      connect: data.genres.map((g: any) =>
+        typeof g === "number" ? { id: g } : { name: g }
+      ),
+    };
+  }
+  if (data.platforms) {
+    payload.platforms = {
+      connect: data.platforms.map((p: any) =>
+        typeof p === "number" ? { id: p } : { name: p }
+      ),
+    };
+  }
+
   return await prisma.game.create({
-    data,
+    data: payload,
     select: {
       id: true,
       title: true,
       description: true,
       price: true,
-      publisherId: true,
-      developerId: true,
+      salePrice: true,
+      isOnSale: true,
+      isRefundable: true,
+      numberOfSales: true,
+      rating: true,
       releaseDate: true,
-      genres: true,
+      Publisher: { select: { id: true, name: true } },
+      Developer: { select: { id: true, name: true } },
+      genres: { select: { id: true, name: true } },
+      platforms: { select: { id: true, name: true } },
+      images: { select: { id: true, url: true, altText: true } },
     },
   });
 }
 
 export async function updateGame(id: number, data: any) {
+  const payload: any = { ...data };
+  if (data.genres) {
+    payload.genres = {
+      set: [],
+      connect: data.genres.map((g: any) =>
+        typeof g === "number" ? { id: g } : { name: g }
+      ),
+    };
+  }
+  if (data.platforms) {
+    payload.platforms = {
+      set: [],
+      connect: data.platforms.map((p: any) =>
+        typeof p === "number" ? { id: p } : { name: p }
+      ),
+    };
+  }
+
   return await prisma.game.update({
-    where: { id } as any,
-    data,
+    where: { id: payload.id },
+    data: payload,
     select: {
       id: true,
       title: true,
       description: true,
       price: true,
-      publisherId: true,
-      developerId: true,
+      salePrice: true,
+      isOnSale: true,
+      isRefundable: true,
+      numberOfSales: true,
+      rating: true,
       releaseDate: true,
-      genres: true,
+      Publisher: { select: { id: true, name: true } },
+      Developer: { select: { id: true, name: true } },
+      genres: { select: { id: true, name: true } },
+      platforms: { select: { id: true, name: true } },
+      images: { select: { id: true, url: true, altText: true } },
     },
   });
 }

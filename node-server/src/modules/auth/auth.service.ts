@@ -52,10 +52,21 @@ export async function login(email: string, password: string) {
   return {
     user: {
       id: user.id,
+      accountId: (user as any).accountId,
+      accountAt: (user as any).accountAt,
+      nickname: (user as any).nickname,
       email: user.email,
       name: user.name,
-      createdAt: user.createdAt,
+      surname: (user as any).surname,
+      balance: (user as any).balance,
+      points: (user as any).points,
       isAdmin: (user as any).isAdmin ?? false,
+      addressLine1: (user as any).addressLine1,
+      addressLine2: (user as any).addressLine2,
+      city: (user as any).city,
+      region: (user as any).region,
+      postalCode: (user as any).postalCode,
+      country: (user as any).country,
     },
     token,
   };
