@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Inject } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, Inject, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   ReactiveFormsModule,
@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AUTH_SERVICE } from '../../core/services/auth.token';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,7 @@ export class LoginComponent {
   private router = inject(Router);
   private auth = inject(AUTH_SERVICE);
 
-  constructor(private formSvc: FormBuilder) {
+  constructor(private formSvc: FormBuilder,private http: HttpClient) {
     this.formLogin = this.formSvc.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
@@ -84,6 +85,19 @@ export class LoginComponent {
         return '';
     }
     return '';
+  }
+  isMenuOpen = false;
+   @ViewChild('menu') menu!: ElementRef;
+
+  ngOnInit(): void {}
+  toggleMenu(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+   @HostListener('document:click', ['$event'])
+  onClick(event: Event) {
+    if (this.isMenuOpen && this.menu && !this.menu.nativeElement.contains(event.target)) {
+      this.isMenuOpen = false;
+    }
   }
 }
 
