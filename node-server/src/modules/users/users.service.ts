@@ -1,6 +1,7 @@
 import { prisma } from "../../config/db.js";
 import bcrypt from "bcrypt";
 import { env } from "../../config/env.js";
+import { Prisma } from "@prisma/client";
 
 export async function createUser(
   email: string,
@@ -13,8 +14,8 @@ export async function createUser(
       name,
       passwordHash,
       accountAt: new Date().toISOString(),
-      balance: 0,
-      nickname: name.split(" ")[0] ?? email.split("@")[0],
+      balance: new Prisma.Decimal(0),
+      nickname: name.split(" ")[0] ?? email.split("@")[0] ?? null,
     },
     select: {
       id: true,
