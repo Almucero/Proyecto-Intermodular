@@ -166,6 +166,8 @@ async function seedData() {
         publisher: "Sony Interactive Entertainment",
         genres: ["Accion"],
         platforms: ["PS5"],
+        rating: 4.8,
+        numberOfSales: 850000,
       },
       {
         title: "Marvel's Spider-Man 2",
@@ -179,6 +181,8 @@ async function seedData() {
         publisher: "Sony Interactive Entertainment",
         genres: ["Accion"],
         platforms: ["PS5"],
+        rating: 4.6,
+        numberOfSales: 500000,
       },
       {
         title: "Devil May Cry 5",
@@ -191,6 +195,8 @@ async function seedData() {
         publisher: "Capcom",
         genres: ["Accion"],
         platforms: ["PC", "PS4", "Xbox One"],
+        rating: 4.4,
+        numberOfSales: 420000,
       },
       {
         title: "Doom Eternal",
@@ -204,6 +210,8 @@ async function seedData() {
         publisher: "Bethesda Softworks",
         genres: ["Accion"],
         platforms: ["PC", "PS5", "Xbox Series X"],
+        rating: 4.5,
+        numberOfSales: 610000,
       },
       {
         title: "Uncharted 4: A Thief's End",
@@ -217,6 +225,8 @@ async function seedData() {
         publisher: "Sony Interactive Entertainment",
         genres: ["Accion"],
         platforms: ["PS4", "PS5"],
+        rating: 4.7,
+        numberOfSales: 720000,
       },
       {
         title: "Ghost of Tsushima",
@@ -229,6 +239,8 @@ async function seedData() {
         publisher: "Sony Interactive Entertainment",
         genres: ["Accion"],
         platforms: ["PS4", "PS5"],
+        rating: 4.6,
+        numberOfSales: 540000,
       },
       {
         title: "Metal Gear Solid V: The Phantom Pain",
@@ -242,6 +254,8 @@ async function seedData() {
         publisher: "Konami",
         genres: ["Accion"],
         platforms: ["PC", "PS4", "Xbox One"],
+        rating: 4.3,
+        numberOfSales: 380000,
       },
       {
         title: "Batman: Arkham Knight",
@@ -255,6 +269,8 @@ async function seedData() {
         publisher: "Warner Bros. Interactive Entertainment",
         genres: ["Accion"],
         platforms: ["PC", "PS4", "Xbox One"],
+        rating: 4.2,
+        numberOfSales: 310000,
       },
       {
         title: "Control",
@@ -269,6 +285,8 @@ async function seedData() {
         publisher: "505 Games",
         genres: ["Accion"],
         platforms: ["PC", "PS4", "PS5", "Xbox One", "Xbox Series X"],
+        rating: 4.0,
+        numberOfSales: 220000,
       },
       {
         title: "Assassin's Creed Valhalla",
@@ -281,6 +299,8 @@ async function seedData() {
         publisher: "Ubisoft",
         genres: ["Accion"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+        rating: 3.9,
+        numberOfSales: 680000,
       },
 
       // ----- AVENTURA (10) -----
@@ -296,6 +316,8 @@ async function seedData() {
         publisher: "Sony Interactive Entertainment",
         genres: ["aventura"],
         platforms: ["PS4", "PS5"],
+        rating: 4.9,
+        numberOfSales: 980000,
       },
       {
         title: "Red Dead Redemption 2",
@@ -308,6 +330,8 @@ async function seedData() {
         publisher: "Rockstar Games",
         genres: ["aventura"],
         platforms: ["PC", "PS4", "Xbox One"],
+        rating: 4.9,
+        numberOfSales: 1200000,
       },
       {
         title: "Life Is Strange",
@@ -321,6 +345,8 @@ async function seedData() {
         publisher: "Square Enix",
         genres: ["aventura"],
         platforms: ["PC", "PS4", "Xbox One", "Switch"],
+        rating: 4.1,
+        numberOfSales: 240000,
       },
       {
         title: "The Legend of Zelda: Breath of the Wild",
@@ -333,6 +359,8 @@ async function seedData() {
         publisher: "Nintendo",
         genres: ["aventura"],
         platforms: ["Switch"],
+        rating: 5.0,
+        numberOfSales: 1500000,
       },
       {
         title: "Tomb Raider (2013)",
@@ -345,6 +373,8 @@ async function seedData() {
         publisher: "Square Enix",
         genres: ["aventura"],
         platforms: ["PC", "PS4", "Xbox One"],
+        rating: 4.0,
+        numberOfSales: 320000,
       },
       {
         title: "Uncharted: The Lost Legacy",
@@ -357,6 +387,8 @@ async function seedData() {
         publisher: "Sony Interactive Entertainment",
         genres: ["aventura"],
         platforms: ["PS4", "PS5"],
+        rating: 4.3,
+        numberOfSales: 260000,
       },
       {
         title: "Firewatch",
@@ -371,6 +403,8 @@ async function seedData() {
         publisher: "Annapurna Interactive",
         genres: ["aventura"],
         platforms: ["PC", "PS4", "Xbox One", "Switch"],
+        rating: 4.2,
+        numberOfSales: 145000,
       },
       {
         title: "Outer Wilds",
@@ -383,6 +417,8 @@ async function seedData() {
         publisher: "Annapurna Interactive",
         genres: ["aventura"],
         platforms: ["PC", "PS4", "Xbox One", "Switch"],
+        rating: 4.7,
+        numberOfSales: 180000,
       },
       {
         title: "The Walking Dead: Season One",
@@ -396,6 +432,8 @@ async function seedData() {
         publisher: "Skybound Games",
         genres: ["aventura"],
         platforms: ["PC", "PS4", "Xbox One", "Switch"],
+        rating: 4.1,
+        numberOfSales: 290000,
       },
       {
         title: "Control (Deluxe Edition)",
@@ -408,6 +446,8 @@ async function seedData() {
         publisher: "505 Games",
         genres: ["aventura"],
         platforms: ["PC", "PS4", "PS5", "Xbox One", "Xbox Series X"],
+        rating: 4.0,
+        numberOfSales: 200000,
       },
 
       // ----- RPG (10) -----
@@ -423,6 +463,8 @@ async function seedData() {
         publisher: "Bandai Namco",
         genres: ["rpg"],
         platforms: ["PC", "PS5", "Xbox Series X"],
+        rating: 4.9,
+        numberOfSales: 1400000,
       },
       {
         title: "The Witcher 3: Wild Hunt",
@@ -435,6 +477,8 @@ async function seedData() {
         publisher: "CD Projekt",
         genres: ["rpg"],
         platforms: ["PC", "PS4", "Xbox One", "Switch"],
+        rating: 4.9,
+        numberOfSales: 1300000,
       },
       {
         title: "Final Fantasy XVI",
@@ -447,6 +491,8 @@ async function seedData() {
         publisher: "Square Enix",
         genres: ["rpg"],
         platforms: ["PS5"],
+        rating: 4.2,
+        numberOfSales: 240000,
       },
       {
         title: "The Elder Scrolls V: Skyrim",
@@ -460,6 +506,8 @@ async function seedData() {
         publisher: "Bethesda Softworks",
         genres: ["rpg"],
         platforms: ["PC", "PS4", "Xbox One", "Switch"],
+        rating: 4.8,
+        numberOfSales: 1600000,
       },
       {
         title: "Persona 5 Royal",
@@ -472,6 +520,8 @@ async function seedData() {
         publisher: "SEGA",
         genres: ["rpg"],
         platforms: ["PS4", "PS5", "Switch", "PC"],
+        rating: 4.7,
+        numberOfSales: 420000,
       },
       {
         title: "Divinity: Original Sin 2",
@@ -485,6 +535,8 @@ async function seedData() {
         publisher: "Larian Studios",
         genres: ["rpg"],
         platforms: ["PC", "PS4", "Xbox One", "Switch"],
+        rating: 4.8,
+        numberOfSales: 380000,
       },
       {
         title: "Mass Effect Legendary Edition",
@@ -497,6 +549,8 @@ async function seedData() {
         publisher: "Electronic Arts",
         genres: ["rpg"],
         platforms: ["PC", "PS4", "Xbox One"],
+        rating: 4.5,
+        numberOfSales: 300000,
       },
       {
         title: "Dragon Age: Inquisition",
@@ -510,6 +564,8 @@ async function seedData() {
         publisher: "Electronic Arts",
         genres: ["rpg"],
         platforms: ["PC", "PS4", "Xbox One"],
+        rating: 4.1,
+        numberOfSales: 350000,
       },
       {
         title: "Cyberpunk 2077",
@@ -522,6 +578,8 @@ async function seedData() {
         publisher: "CD Projekt",
         genres: ["rpg"],
         platforms: ["PC", "PS5", "Xbox Series X"],
+        rating: 3.8,
+        numberOfSales: 1100000,
       },
       {
         title: "Pillars of Eternity II: Deadfire",
@@ -536,6 +594,8 @@ async function seedData() {
         publisher: "Paradox Interactive",
         genres: ["rpg"],
         platforms: ["PC", "PS4", "Xbox One"],
+        rating: 4.4,
+        numberOfSales: 95000,
       },
 
       // ----- DEPORTES (10) -----
@@ -552,6 +612,8 @@ async function seedData() {
         publisher: "Electronic Arts",
         genres: ["deportes"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+        rating: 3.7,
+        numberOfSales: 2000000,
       },
       {
         title: "NBA 2K23",
@@ -565,6 +627,8 @@ async function seedData() {
         publisher: "2K Games",
         genres: ["deportes"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+        rating: 3.9,
+        numberOfSales: 850000,
       },
       {
         title: "Madden NFL 23",
@@ -578,6 +642,8 @@ async function seedData() {
         publisher: "Electronic Arts",
         genres: ["deportes"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+        rating: 3.5,
+        numberOfSales: 420000,
       },
       {
         title: "F1 23",
@@ -591,6 +657,8 @@ async function seedData() {
         publisher: "Electronic Arts",
         genres: ["deportes"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+        rating: 4.2,
+        numberOfSales: 260000,
       },
       {
         title: "Rocket League",
@@ -603,6 +671,8 @@ async function seedData() {
         publisher: "Psyonix",
         genres: ["deportes"],
         platforms: ["PC", "PS5", "Xbox Series X", "Switch", "PS4", "Xbox One"],
+        rating: 4.3,
+        numberOfSales: 900000,
       },
       {
         title: "Tony Hawk's Pro Skater 1 + 2",
@@ -616,6 +686,8 @@ async function seedData() {
         publisher: "Activision",
         genres: ["deportes"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One", "Switch"],
+        rating: 4.1,
+        numberOfSales: 310000,
       },
       {
         title: "Football Manager 2023",
@@ -628,6 +700,8 @@ async function seedData() {
         publisher: "SEGA",
         genres: ["deportes"],
         platforms: ["PC"],
+        rating: 4.6,
+        numberOfSales: 450000,
       },
       {
         title: "eFootball 2023",
@@ -640,6 +714,8 @@ async function seedData() {
         publisher: "Konami",
         genres: ["deportes"],
         platforms: ["PC", "PS4", "PS5", "Xbox One", "Xbox Series X"],
+        rating: 2.8,
+        numberOfSales: 150000,
       },
       {
         title: "PGA Tour 2K23",
@@ -653,6 +729,8 @@ async function seedData() {
         publisher: "2K Games",
         genres: ["deportes"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+        rating: 3.9,
+        numberOfSales: 95000,
       },
       {
         title: "MotoGP 23",
@@ -665,6 +743,8 @@ async function seedData() {
         publisher: "Milestone",
         genres: ["deportes"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+        rating: 3.8,
+        numberOfSales: 60000,
       },
 
       // ----- ESTRATEGIA (10) -----
@@ -681,6 +761,8 @@ async function seedData() {
         publisher: "2K Games",
         genres: ["estrategia"],
         platforms: ["PC", "Switch", "PS4", "Xbox One"],
+        rating: 4.4,
+        numberOfSales: 780000,
       },
       {
         title: "XCOM 2",
@@ -693,6 +775,8 @@ async function seedData() {
         publisher: "2K Games",
         genres: ["estrategia"],
         platforms: ["PC", "PS4", "Xbox One"],
+        rating: 4.2,
+        numberOfSales: 420000,
       },
       {
         title: "Age of Empires IV",
@@ -705,6 +789,8 @@ async function seedData() {
         publisher: "Microsoft Studios",
         genres: ["estrategia"],
         platforms: ["PC"],
+        rating: 3.9,
+        numberOfSales: 200000,
       },
       {
         title: "Total War: WARHAMMER II",
@@ -718,6 +804,8 @@ async function seedData() {
         publisher: "SEGA",
         genres: ["estrategia"],
         platforms: ["PC"],
+        rating: 4.3,
+        numberOfSales: 350000,
       },
       {
         title: "Stellaris",
@@ -731,6 +819,8 @@ async function seedData() {
         publisher: "Paradox Interactive",
         genres: ["estrategia"],
         platforms: ["PC"],
+        rating: 4.1,
+        numberOfSales: 260000,
       },
       {
         title: "Crusader Kings III",
@@ -744,6 +834,8 @@ async function seedData() {
         publisher: "Paradox Interactive",
         genres: ["estrategia"],
         platforms: ["PC"],
+        rating: 4.5,
+        numberOfSales: 220000,
       },
       {
         title: "Company of Heroes 2",
@@ -756,6 +848,8 @@ async function seedData() {
         publisher: "SEGA",
         genres: ["estrategia"],
         platforms: ["PC"],
+        rating: 4.0,
+        numberOfSales: 180000,
       },
       {
         title: "Anno 1800",
@@ -770,6 +864,8 @@ async function seedData() {
         publisher: "Ubisoft",
         genres: ["estrategia"],
         platforms: ["PC"],
+        rating: 4.1,
+        numberOfSales: 210000,
       },
       {
         title: "StarCraft II",
@@ -782,6 +878,8 @@ async function seedData() {
         publisher: "Blizzard Entertainment",
         genres: ["estrategia"],
         platforms: ["PC"],
+        rating: 4.2,
+        numberOfSales: 950000,
       },
       {
         title: "Warcraft III: Reforged",
@@ -794,6 +892,8 @@ async function seedData() {
         publisher: "Blizzard Entertainment",
         genres: ["estrategia"],
         platforms: ["PC"],
+        rating: 2.9,
+        numberOfSales: 120000,
       },
 
       // ----- SIMULACION (10) -----
@@ -809,6 +909,8 @@ async function seedData() {
         publisher: "Xbox Game Studios",
         genres: ["simulacion"],
         platforms: ["PC", "Xbox Series X"],
+        rating: 4.7,
+        numberOfSales: 480000,
       },
       {
         title: "The Sims 4",
@@ -821,6 +923,8 @@ async function seedData() {
         publisher: "Electronic Arts",
         genres: ["simulacion"],
         platforms: ["PC", "PS4", "Xbox One"],
+        rating: 4.0,
+        numberOfSales: 1100000,
       },
       {
         title: "Euro Truck Simulator 2",
@@ -834,6 +938,8 @@ async function seedData() {
         publisher: "SCS Software",
         genres: ["simulacion"],
         platforms: ["PC"],
+        rating: 4.3,
+        numberOfSales: 650000,
       },
       {
         title: "Cities: Skylines",
@@ -847,6 +953,8 @@ async function seedData() {
         publisher: "Paradox Interactive",
         genres: ["simulacion"],
         platforms: ["PC", "PS4", "Xbox One", "Switch"],
+        rating: 4.5,
+        numberOfSales: 420000,
       },
       {
         title: "Kerbal Space Program",
@@ -860,6 +968,8 @@ async function seedData() {
         publisher: "Private Division",
         genres: ["simulacion"],
         platforms: ["PC", "PS4", "Xbox One"],
+        rating: 4.4,
+        numberOfSales: 200000,
       },
       {
         title: "Assetto Corsa",
@@ -874,6 +984,8 @@ async function seedData() {
         publisher: "505 Games",
         genres: ["simulacion"],
         platforms: ["PC", "PS4", "Xbox One"],
+        rating: 4.2,
+        numberOfSales: 175000,
       },
       {
         title: "Farming Simulator 22",
@@ -886,6 +998,8 @@ async function seedData() {
         publisher: "Focus Home Interactive",
         genres: ["simulacion"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+        rating: 3.8,
+        numberOfSales: 90000,
       },
       {
         title: "Planet Coaster",
@@ -899,6 +1013,8 @@ async function seedData() {
         publisher: "Frontier Developments",
         genres: ["simulacion"],
         platforms: ["PC"],
+        rating: 4.1,
+        numberOfSales: 160000,
       },
       {
         title: "No Man's Sky",
@@ -912,6 +1028,8 @@ async function seedData() {
         publisher: "Hello Games",
         genres: ["simulacion"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+        rating: 4.0,
+        numberOfSales: 750000,
       },
       {
         title: "Ship Simulator Extremes",
@@ -925,6 +1043,8 @@ async function seedData() {
         publisher: "Paradox Interactive",
         genres: ["simulacion"],
         platforms: ["PC"],
+        rating: 3.6,
+        numberOfSales: 12000,
       },
 
       // ----- TERROR (10) -----
@@ -940,6 +1060,8 @@ async function seedData() {
         publisher: "Capcom",
         genres: ["terror"],
         platforms: ["PC", "PS5", "Xbox Series X"],
+        rating: 4.5,
+        numberOfSales: 540000,
       },
       {
         title: "Amnesia: The Dark Descent",
@@ -953,6 +1075,8 @@ async function seedData() {
         publisher: "Frictional Games",
         genres: ["terror"],
         platforms: ["PC"],
+        rating: 4.2,
+        numberOfSales: 220000,
       },
       {
         title: "Outlast",
@@ -967,6 +1091,8 @@ async function seedData() {
         publisher: "Red Barrels",
         genres: ["terror"],
         platforms: ["PC", "PS4", "Xbox One", "Switch"],
+        rating: 4.0,
+        numberOfSales: 310000,
       },
       {
         title: "Alien: Isolation",
@@ -979,6 +1105,8 @@ async function seedData() {
         publisher: "SEGA",
         genres: ["terror"],
         platforms: ["PC", "PS4", "Xbox One", "PS3", "Xbox 360"],
+        rating: 4.4,
+        numberOfSales: 290000,
       },
       {
         title: "The Evil Within",
@@ -991,6 +1119,8 @@ async function seedData() {
         publisher: "Bethesda Softworks",
         genres: ["terror"],
         platforms: ["PC", "PS4", "Xbox One"],
+        rating: 3.9,
+        numberOfSales: 140000,
       },
       {
         title: "Until Dawn",
@@ -1005,6 +1135,8 @@ async function seedData() {
         publisher: "Sony Interactive Entertainment",
         genres: ["terror"],
         platforms: ["PS4", "PS5"],
+        rating: 4.1,
+        numberOfSales: 170000,
       },
       {
         title: "Silent Hill 2 (Remaster Placeholder)",
@@ -1017,6 +1149,8 @@ async function seedData() {
         publisher: "Konami",
         genres: ["terror"],
         platforms: ["PS2", "PS3", "PS4"],
+        rating: 4.8,
+        numberOfSales: 520000,
       },
       {
         title: "Layers of Fear",
@@ -1030,6 +1164,8 @@ async function seedData() {
         publisher: "Bloober Team",
         genres: ["terror"],
         platforms: ["PC", "PS4", "Xbox One", "Switch"],
+        rating: 3.7,
+        numberOfSales: 75000,
       },
       {
         title: "Dead Space (Remake)",
@@ -1042,6 +1178,8 @@ async function seedData() {
         publisher: "Electronic Arts",
         genres: ["terror"],
         platforms: ["PC", "PS5", "Xbox Series X"],
+        rating: 4.0,
+        numberOfSales: 160000,
       },
       {
         title: "Phasmophobia",
@@ -1055,6 +1193,8 @@ async function seedData() {
         publisher: "Kinetic Games",
         genres: ["terror"],
         platforms: ["PC"],
+        rating: 4.2,
+        numberOfSales: 230000,
       },
 
       // ----- CARRERAS (10) -----
@@ -1070,6 +1210,8 @@ async function seedData() {
         publisher: "Microsoft Studios",
         genres: ["carreras"],
         platforms: ["PC", "Xbox Series X", "Xbox One"],
+        rating: 4.6,
+        numberOfSales: 820000,
       },
       {
         title: "Gran Turismo 7",
@@ -1083,6 +1225,8 @@ async function seedData() {
         publisher: "Sony Interactive Entertainment",
         genres: ["carreras"],
         platforms: ["PS5", "PS4"],
+        rating: 4.0,
+        numberOfSales: 300000,
       },
       {
         title: "F1 23",
@@ -1096,6 +1240,8 @@ async function seedData() {
         publisher: "Electronic Arts",
         genres: ["carreras"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+        rating: 4.1,
+        numberOfSales: 180000,
       },
       {
         title: "Need for Speed Heat",
@@ -1108,6 +1254,8 @@ async function seedData() {
         publisher: "Electronic Arts",
         genres: ["carreras"],
         platforms: ["PC", "PS4", "Xbox One"],
+        rating: 3.6,
+        numberOfSales: 220000,
       },
       {
         title: "Dirt 5",
@@ -1122,6 +1270,8 @@ async function seedData() {
         publisher: "Codemasters",
         genres: ["carreras"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+        rating: 3.9,
+        numberOfSales: 90000,
       },
       {
         title: "Burnout Paradise Remastered",
@@ -1134,6 +1284,8 @@ async function seedData() {
         publisher: "Electronic Arts",
         genres: ["carreras"],
         platforms: ["PC", "PS4", "Xbox One", "Switch"],
+        rating: 4.2,
+        numberOfSales: 210000,
       },
       {
         title: "Project CARS 3",
@@ -1147,6 +1299,8 @@ async function seedData() {
         publisher: "Bandai Namco",
         genres: ["carreras"],
         platforms: ["PC", "PS4", "Xbox One"],
+        rating: 3.4,
+        numberOfSales: 45000,
       },
       {
         title: "Assetto Corsa Competizione",
@@ -1159,6 +1313,8 @@ async function seedData() {
         publisher: "505 Games",
         genres: ["carreras"],
         platforms: ["PC", "PS4", "Xbox One"],
+        rating: 4.1,
+        numberOfSales: 125000,
       },
       {
         title: "Trackmania",
@@ -1172,6 +1328,8 @@ async function seedData() {
         publisher: "Ubisoft",
         genres: ["carreras"],
         platforms: ["PC"],
+        rating: 3.8,
+        numberOfSales: 90000,
       },
       {
         title: "MotoGP 23 (Racing)",
@@ -1185,6 +1343,8 @@ async function seedData() {
         publisher: "Milestone",
         genres: ["carreras"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+        rating: 3.7,
+        numberOfSales: 47000,
       },
     ];
 
@@ -1202,8 +1362,9 @@ async function seedData() {
       publisher: string;
       genres: string[];
       platforms: string[];
+      rating?: number;
+      numberOfSales?: number;
     }) => {
-      // Resolver developer / publisher (si no existen, crear on-the-fly)
       let dev = devByName[g.developer];
       if (!dev) {
         dev = await prisma.developer.create({ data: { name: g.developer } });
@@ -1215,14 +1376,12 @@ async function seedData() {
         pubByName[g.publisher] = pub;
       }
 
-      // comprobar y mapear géneros (throw si falta)
       const genreConnect = (g.genres || []).map((name) => {
         const genre = genreByName[name];
         if (!genre) throw new Error(`Genre not found: ${name}`);
         return { id: genre.id };
       });
 
-      // comprobar y mapear plataformas (fallback a PC si falta)
       const platformConnect = (g.platforms || []).map((name) => {
         const platform = platformByName[name];
         if (!platform) {
@@ -1235,6 +1394,18 @@ async function seedData() {
         }
         return { id: platform.id };
       });
+
+      // Normalizar rating (null o número entre 0.0 y 5.0 con 1 decimal)
+      const rating =
+        typeof g.rating === "number"
+          ? Math.max(0, Math.min(5, Math.round(g.rating * 10) / 10))
+          : Math.round(Math.random() * 5 * 10) / 10; // si no viene, genera uno aleatorio 0.0-5.0
+
+      // Normalizar numberOfSales (si no viene, valor aleatorio razonable)
+      const numberOfSales =
+        typeof g.numberOfSales === "number"
+          ? Math.max(0, Math.floor(g.numberOfSales))
+          : Math.floor(Math.random() * 50000); // 0..49999 por defecto
 
       const created = await prisma.game.create({
         data: {
@@ -1253,10 +1424,12 @@ async function seedData() {
           publisherId: pub.id,
           genres: { connect: genreConnect },
           platforms: { connect: platformConnect },
+          // <- nuevos campos
+          rating: rating,
+          numberOfSales: numberOfSales,
         },
       });
 
-      // 5 imágenes únicas por juego (placeholders) — evitar undefined en title
       const base = encodeURIComponent(String(g.title ?? "Juego"));
       const imageUrls = [
         `https://placehold.co/600x400?text=${base}+Portada`,
@@ -1265,8 +1438,8 @@ async function seedData() {
         `https://placehold.co/600x400?text=${base}+Img4`,
         `https://placehold.co/600x400?text=${base}+Img5`,
       ];
+
       for (let i = 0; i < imageUrls.length; i++) {
-        // Normalizar/forzar string para evitar 'string | undefined'
         const url = String(
           imageUrls[i] ?? "https://placehold.co/600x400?text=Juego"
         );
@@ -1275,7 +1448,7 @@ async function seedData() {
         await prisma.gameImage.create({
           data: {
             gameId: created.id,
-            url, // ahora TS sabe que es string
+            url,
             altText:
               i === 0
                 ? `${titleSafe} (Portada)`
