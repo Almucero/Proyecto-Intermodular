@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   AbstractControl,
@@ -151,4 +151,22 @@ export class RegisterComponent {
     }
     return '';
   }
+  isMenuOpen = false;
+   @ViewChild('menu') menu!: ElementRef;
+  ngOnInit(): void {}
+
+  toggleMenu(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+   @HostListener('document:click', ['$event'])
+  onClick(event: Event) {
+    if (this.isMenuOpen && this.menu && !this.menu.nativeElement.contains(event.target)) {
+      this.isMenuOpen = false;
+    }
+  }
+
+  goToLogin() {
+    this.router.navigate(['/login']);
+  }
+
 }
