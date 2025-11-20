@@ -38,26 +38,32 @@ class="bg-transparent outline-none text-white border-none px-2 py-1 "
 
     <div class="flex items-center gap-4 text-2xl">
       <button class="p-0 bg-transparent border-none hover:opacity-80 focus:outline-none">
+        <a href="/aichat">
         <img
           src="Captura_de_pantalla_2025-11-14_132810_-_Editada__1_-removebg-preview.png"
           alt="AI Chat"
-          class="w-16 h-16"
+          class="w-16 h-16 cursor-pointer"
         />
+        </a>
       </button>
   <button class="p-0 bg-transparent border-none hover:opacity-80 focus:outline-none">
+    <a href="/favourites">
     <img
       src="shape_14755023-removebg-preview.png"
       alt="Favourites"
-      class="w-10 h-10"
+      class="w-10 h-10 cursor-pointer"
     />
+    </a>
   </button>
 
   <button class="p-0 bg-transparent border-none hover:opacity-80 focus:outline-none">
+    <a href="/cart">
     <img
       src="internet_14812086-removebg-preview.png"
       alt="Shopping cart"
-      class="w-11 h-11"
+      class="w-11 h-11 cursor-pointer"
     />
+    </a>
   </button>
 
   <button class="p-0 bg-transparent border-none hover:opacity-80 focus:outline-none">
@@ -81,12 +87,12 @@ class="bg-transparent outline-none text-white border-none px-2 py-1 "
     <div class="p-6">
       <h2 class="text-2xl font-bold mb-4">Menú</h2>
         <a href=" " class="text-white no-underline">Inicio</a><br><br>
-        <a href="#" class="text-white no-underline">Ajustes</a><br><br>
-        <a href="#" class="text-white no-underline">Ayuda</a><br><br>
-        <a href="#" class="text-white no-underline">Contacto</a><br><br>
-        <a href="#" class="text-white no-underline">Políticas de privacidad</a><br><br>
-        <a href="#" class="text-white no-underline">Términos y condiciones</a><br><br>
-        <a href="#" class="text-white no-underline">Configuración de cookies</a>
+        <a routerLink="/settings" class="text-white no-underline">Ajustes</a><br><br>
+        <a routerLink="/help" class="text-white no-underline">Ayuda</a><br><br>
+        <a routerLink="/contact" class="text-white no-underline">Contacto</a><br><br>
+        <a routerLink="/privacy" class="text-white no-underline">Políticas de privacidad</a><br><br>
+        <a routerLink="/conditions" class="text-white no-underline">Términos y condiciones</a><br><br>
+        <a routerLink="/cookies" class="text-white no-underline">Configuración de cookies</a>
     </div>
   </div>
 
@@ -94,11 +100,12 @@ class="bg-transparent outline-none text-white border-none px-2 py-1 "
   <h2 class="text-lg font-semibold text-cyan-300 mb-3">Géneros</h2>
   <div class="flex justify-center gap-3 overflow-x-auto py-2">
     <span
-      *ngFor="let cat of genres"
-      class="flex-shrink-0 px-4 py-2 bg-gray-800 hover:bg-cyan-500 hover:text-white transition rounded-full cursor-pointer text-sm whitespace-nowrap"
-    >
-      {{ cat }}
-    </span>
+  *ngFor="let gen of genres"
+  class="flex-shrink-0 px-4 py-2 bg-gray-800 hover:bg-cyan-500 hover:text-white transition rounded-full cursor-pointer text-sm whitespace-nowrap"
+  (click)="goToGenres(gen)"
+>
+  {{ gen }}
+</span>
   </div>
 </section>
 
@@ -111,10 +118,13 @@ class="bg-transparent outline-none text-white border-none px-2 py-1 "
     </span>
 
     <div #carouselInMasVendidos class="flex gap-4 overflow-x-hidden px-4 py-2">
-      <div *ngFor="let img of featuredImages"
-           class="flex-shrink-0 w-64 h-40 bg-gray-700 rounded-xl overflow-hidden shadow-md hover:scale-105 transition-transform duration-300">
-        <img [src]="img" alt="Imagen destacada" class="w-full h-full object-cover">
-      </div>
+       <div
+          *ngFor="let img of featuredImages"
+          class="flex-shrink-0 w-64 h-40 bg-gray-700 rounded-xl overflow-hidden shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
+          (click)="goToProduct(img.id)"
+        >
+          <img [src]="img.url" alt="Imagen destacada" class="w-full h-full object-cover" />
+        </div>
     </div>
 
     <span (click)="scrollRight(carouselInMasVendidos)" 
@@ -134,10 +144,13 @@ class="bg-transparent outline-none text-white border-none px-2 py-1 "
     </span>
 
     <div #carouselInOfertas class="flex gap-4 overflow-x-hidden px-4 py-2">
-      <div *ngFor="let img of featuredImages"
-           class="flex-shrink-0 w-64 h-40 bg-gray-700 rounded-xl overflow-hidden shadow-md hover:scale-105 transition-transform duration-300">
-        <img [src]="img" alt="Imagen destacada" class="w-full h-full object-cover">
-      </div>
+      <div
+          *ngFor="let img of featuredImages"
+          class="flex-shrink-0 w-64 h-40 bg-gray-700 rounded-xl overflow-hidden shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
+          (click)="goToProduct(img.id)"
+        >
+          <img [src]="img.url" alt="Imagen destacada" class="w-full h-full object-cover" />
+        </div>
     </div>
 
     <span (click)="scrollRight(carouselInOfertas)" 
@@ -157,10 +170,13 @@ class="bg-transparent outline-none text-white border-none px-2 py-1 "
     </span>
 
     <div #carouselInMejorValorados class="flex gap-4 overflow-x-hidden px-4 py-2">
-      <div *ngFor="let img of featuredImages"
-           class="flex-shrink-0 w-64 h-40 bg-gray-700 rounded-xl overflow-hidden shadow-md hover:scale-105 transition-transform duration-300">
-        <img [src]="img" alt="Imagen destacada" class="w-full h-full object-cover">
-      </div>
+      <div
+          *ngFor="let img of featuredImages"
+          class="flex-shrink-0 w-64 h-40 bg-gray-700 rounded-xl overflow-hidden shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer"
+          (click)="goToProduct(img.id)"
+        >
+          <img [src]="img.url" alt="Imagen destacada" class="w-full h-full object-cover" />
+        </div>
     </div>
 
     <span (click)="scrollRight(carouselInMejorValorados)" 
