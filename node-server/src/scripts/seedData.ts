@@ -3,25 +3,27 @@ import bcrypt from "bcrypt";
 import { prisma } from "../config/db.js";
 
 /**
- * Script para insertar datos iniciales de prueba.
- * Crea 10 entradas en cada tabla con datos realistas.
- * Limpia datos existentes (excepto admins) antes de insertar.
- * Usa: npm run seed:data
+ * Seed ampliado:
+ * - Géneros fijos: Accion, aventura, rpg, deportes, estrategia, simulacion, terror, carreras
+ * - >=10 juegos por género (80 juegos)
+ * - NO toca usuarios (no delete/create users)
+ * - Cada juego recibe 5 imágenes placeholder únicas
+ * Uso: npm run seed:data
  */
 async function seedData() {
   try {
-    console.log("🌱 Iniciando seed de datos...");
+    console.log("🌱 Iniciando seed ampliado...");
 
-    // Borrar datos existentes (excepto admins) y resetear secuencias
+    // --- BORRAR datos existentes salvo usuarios ---
     await prisma.gameImage.deleteMany();
     await prisma.game.deleteMany();
     await prisma.developer.deleteMany();
     await prisma.publisher.deleteMany();
     await prisma.genre.deleteMany();
     await prisma.platform.deleteMany();
-    await prisma.user.deleteMany({ where: { isAdmin: false } });
+    // Nota: NO tocamos prisma.user (según petición)
 
-    // Resetear secuencias de autoincremento (PostgreSQL)
+    // Resetear secuencias de autoincremento (Postgres) — excepto User
     await prisma.$executeRawUnsafe(
       'ALTER SEQUENCE "Game_id_seq" RESTART WITH 1'
     );
@@ -40,156 +42,1244 @@ async function seedData() {
     await prisma.$executeRawUnsafe(
       'ALTER SEQUENCE "Platform_id_seq" RESTART WITH 1'
     );
-    await prisma.$executeRawUnsafe(
-      'ALTER SEQUENCE "User_id_seq" RESTART WITH 1'
-    );
+    // No reseteamos User sequence ni tocamos users
 
-    const saltRounds = Number(process.env.BCRYPT_SALT_ROUNDS ?? 10);
-
-    // Crear 10 Developers
-    console.log("  - Creando 10 Developers...");
-    const developers = await Promise.all([
-      prisma.developer.create({
-        data: { name: "Kojima Productions" },
-      }),
-      prisma.developer.create({
-        data: { name: "FromSoftware" },
-      }),
-      prisma.developer.create({
-        data: { name: "Bethesda Game Studios" },
-      }),
-      prisma.developer.create({
-        data: { name: "Rockstar Games" },
-      }),
-      prisma.developer.create({
-        data: { name: "Naughty Dog" },
-      }),
-      prisma.developer.create({
-        data: { name: "CD Projekt Red" },
-      }),
-      prisma.developer.create({
-        data: { name: "Insomniac Games" },
-      }),
-      prisma.developer.create({
-        data: { name: "Capcom" },
-      }),
-      prisma.developer.create({
-        data: { name: "Square Enix" },
-      }),
-      prisma.developer.create({
-        data: { name: "Ubisoft Toronto" },
-      }),
-    ]);
-
-    // Crear 10 Publishers
-    console.log("  - Creando 10 Publishers...");
-    const publishers = await Promise.all([
-      prisma.publisher.create({
-        data: { name: "Sony Interactive Entertainment" },
-      }),
-      prisma.publisher.create({
-        data: { name: "Microsoft Game Studios" },
-      }),
-      prisma.publisher.create({
-        data: { name: "Nintendo" },
-      }),
-      prisma.publisher.create({
-        data: { name: "Valve" },
-      }),
-      prisma.publisher.create({
-        data: { name: "Take-Two Interactive" },
-      }),
-      prisma.publisher.create({
-        data: { name: "Activision Blizzard" },
-      }),
-      prisma.publisher.create({
-        data: { name: "Electronic Arts" },
-      }),
-      prisma.publisher.create({
-        data: { name: "Ubisoft" },
-      }),
-      prisma.publisher.create({
-        data: { name: "Bandai Namco" },
-      }),
-      prisma.publisher.create({
-        data: { name: "Sega" },
-      }),
-    ]);
-
-    // Crear géneros y plataformas
-    console.log("  - Creando Genres y Platforms...");
-    const genreNames = [
-      "Acción",
-      "Aventura",
-      "RPG",
-      "Sigilo",
-      "Fantasía",
-      "Horror",
-      "Ciencia Ficción",
-      "Crimen",
+    // --- Plataformas estándar ---
+    const platformNames = [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "Switch",
+      "PS4",
+      "Xbox One",
     ];
-
-    const platformNames = ["PC", "PS5", "Xbox Series X", "Switch"];
-
-    const genres = await Promise.all(
-      genreNames.map((name) => prisma.genre.create({ data: { name } }))
-    );
-
+    console.log("  - Creando plataformas...");
     const platforms = await Promise.all(
       platformNames.map((name) => prisma.platform.create({ data: { name } }))
     );
-
-    const genreByName = Object.fromEntries(genres.map((g) => [g.name, g]));
     const platformByName = Object.fromEntries(
       platforms.map((p) => [p.name, p])
     );
 
-    // Crear 10 Games conectando géneros y platforms
-    console.log("  - Creando 10 Games (con genres y platforms)...");
-    const games = [] as any[];
-    let imagesCreated = 0;
+    // --- Géneros fijados por el usuario ---
+    const genreNames = [
+      "Accion",
+      "aventura",
+      "rpg",
+      "deportes",
+      "estrategia",
+      "simulacion",
+      "terror",
+      "carreras",
+    ];
+    console.log("  - Creando géneros...");
+    const genres = await Promise.all(
+      genreNames.map((name) => prisma.genre.create({ data: { name } }))
+    );
+    const genreByName = Object.fromEntries(genres.map((g) => [g.name, g]));
 
-    const createGame = async (data: any) => {
+    // --- Developers y Publishers (lista amplia para cubrir juegos reales) ---
+    const developerNames = [
+      "Kojima Productions",
+      "FromSoftware",
+      "Bethesda Game Studios",
+      "Rockstar Games",
+      "Naughty Dog",
+      "CD Projekt Red",
+      "Insomniac Games",
+      "Capcom",
+      "Square Enix",
+      "Ubisoft",
+      "PlatinumGames",
+      "id Software",
+      "Sucker Punch Productions",
+      "Remedy Entertainment",
+      "Annapurna Interactive",
+      "Larian Studios",
+      "Firaxis Games",
+      "Paradox Interactive",
+      "Creative Assembly",
+      "Asobo Studio",
+      "EA Sports",
+      "Codemasters",
+      "Playground Games",
+      "Polyphony Digital",
+      "Frontier Developments",
+      "SCS Software",
+      "Hello Games",
+      "Frictional Games",
+      "Bloober Team",
+      "Kunos Simulazioni",
+      "Psyonix",
+      "Sports Interactive",
+      "Turn 10 Studios",
+      "Ghost Games",
+    ];
+    const publisherNames = [
+      "Sony Interactive Entertainment",
+      "Microsoft Studios",
+      "Nintendo",
+      "Bandai Namco",
+      "Take-Two Interactive",
+      "Electronic Arts",
+      "Ubisoft",
+      "SEGA",
+      "Capcom",
+      "Square Enix",
+      "Activision",
+      "CD Projekt",
+      "Annapurna Interactive",
+      "Paradox Interactive",
+      "2K Games",
+      "Valve",
+      "Bethesda Softworks",
+      "Konami",
+      "Psyonix",
+      "EA Sports",
+    ];
+
+    console.log("  - Creando developers y publishers...");
+    const developers = await Promise.all(
+      developerNames.map((n) => prisma.developer.create({ data: { name: n } }))
+    );
+    const publishers = await Promise.all(
+      publisherNames.map((n) => prisma.publisher.create({ data: { name: n } }))
+    );
+
+    const devByName = Object.fromEntries(developers.map((d) => [d.name, d]));
+    const pubByName = Object.fromEntries(publishers.map((p) => [p.name, p]));
+
+    // --- Datos de juegos: al menos 10 por género ---
+    // Para cada juego: title, description, price, isOnSale, salePrice (si aplica), isRefundable, releaseDate,
+    // developerName, publisherName, genres: [genreName], platforms: [platformNames], coverUrl optional
+    const gamesData = [
+      // ----- ACCION (10) -----
+      {
+        title: "God of War Ragnarök",
+        description: "Acción épica y narrativa basada en mitología nórdica.",
+        price: 69.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2022-11-09"),
+        developer:
+          "Sucker Punch Productions" /* not exact but as placeholder */,
+        publisher: "Sony Interactive Entertainment",
+        genres: ["Accion"],
+        platforms: ["PS5"],
+      },
+      {
+        title: "Marvel's Spider-Man 2",
+        description: "Acción y parkour con combate dinámico en NYC.",
+        price: 69.99,
+        isOnSale: true,
+        salePrice: 49.99,
+        isRefundable: true,
+        releaseDate: new Date("2023-10-20"),
+        developer: "Insomniac Games",
+        publisher: "Sony Interactive Entertainment",
+        genres: ["Accion"],
+        platforms: ["PS5"],
+      },
+      {
+        title: "Devil May Cry 5",
+        description: "Hack'n'slash estilizado con combates vertiginosos.",
+        price: 39.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2019-03-08"),
+        developer: "Capcom",
+        publisher: "Capcom",
+        genres: ["Accion"],
+        platforms: ["PC", "PS4", "Xbox One"],
+      },
+      {
+        title: "Doom Eternal",
+        description: "FPS de acción frenética contra hordas demoníacas.",
+        price: 49.99,
+        isOnSale: true,
+        salePrice: 29.99,
+        isRefundable: true,
+        releaseDate: new Date("2020-03-20"),
+        developer: "id Software",
+        publisher: "Bethesda Softworks",
+        genres: ["Accion"],
+        platforms: ["PC", "PS5", "Xbox Series X"],
+      },
+      {
+        title: "Uncharted 4: A Thief's End",
+        description:
+          "Aventura-acción cinematográfica con toques de plataformas.",
+        price: 29.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2016-05-10"),
+        developer: "Naughty Dog",
+        publisher: "Sony Interactive Entertainment",
+        genres: ["Accion"],
+        platforms: ["PS4", "PS5"],
+      },
+      {
+        title: "Ghost of Tsushima",
+        description: "Acción samurái con mundo abierto y combate con katana.",
+        price: 59.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2020-07-17"),
+        developer: "Sucker Punch Productions",
+        publisher: "Sony Interactive Entertainment",
+        genres: ["Accion"],
+        platforms: ["PS4", "PS5"],
+      },
+      {
+        title: "Metal Gear Solid V: The Phantom Pain",
+        description: "Acción y sigilo en mundo abierto con base militar.",
+        price: 19.99,
+        isOnSale: true,
+        salePrice: 9.99,
+        isRefundable: true,
+        releaseDate: new Date("2015-09-01"),
+        developer: "Kojima Productions",
+        publisher: "Konami",
+        genres: ["Accion"],
+        platforms: ["PC", "PS4", "Xbox One"],
+      },
+      {
+        title: "Batman: Arkham Knight",
+        description:
+          "Acción y combate cuerpo a cuerpo con gadgets del murciélago.",
+        price: 24.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2015-06-23"),
+        developer: "Rocksteady Studios",
+        publisher: "Warner Bros. Interactive Entertainment",
+        genres: ["Accion"],
+        platforms: ["PC", "PS4", "Xbox One"],
+      },
+      {
+        title: "Control",
+        description:
+          "Acción sobrenatural en un entorno misterioso y destructible.",
+        price: 39.99,
+        isOnSale: true,
+        salePrice: 19.99,
+        isRefundable: true,
+        releaseDate: new Date("2019-08-27"),
+        developer: "Remedy Entertainment",
+        publisher: "505 Games",
+        genres: ["Accion"],
+        platforms: ["PC", "PS4", "PS5", "Xbox One", "Xbox Series X"],
+      },
+      {
+        title: "Assassin's Creed Valhalla",
+        description: "Acción y exploración vikinga con árbol de habilidades.",
+        price: 59.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2020-11-10"),
+        developer: "Ubisoft",
+        publisher: "Ubisoft",
+        genres: ["Accion"],
+        platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+      },
+
+      // ----- AVENTURA (10) -----
+      {
+        title: "The Last of Us Part II",
+        description: "Aventura narrativa y supervivencia emocional.",
+        price: 59.99,
+        isOnSale: true,
+        salePrice: 34.99,
+        isRefundable: true,
+        releaseDate: new Date("2020-06-19"),
+        developer: "Naughty Dog",
+        publisher: "Sony Interactive Entertainment",
+        genres: ["aventura"],
+        platforms: ["PS4", "PS5"],
+      },
+      {
+        title: "Red Dead Redemption 2",
+        description: "Aventura western con mundo abierto y narrativa profunda.",
+        price: 59.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2018-10-26"),
+        developer: "Rockstar Games",
+        publisher: "Rockstar Games",
+        genres: ["aventura"],
+        platforms: ["PC", "PS4", "Xbox One"],
+      },
+      {
+        title: "Life Is Strange",
+        description: "Aventura episódica centrada en narrativa y decisiones.",
+        price: 14.99,
+        isOnSale: true,
+        salePrice: 6.99,
+        isRefundable: true,
+        releaseDate: new Date("2015-01-30"),
+        developer: "Dontnod Entertainment",
+        publisher: "Square Enix",
+        genres: ["aventura"],
+        platforms: ["PC", "PS4", "Xbox One", "Switch"],
+      },
+      {
+        title: "The Legend of Zelda: Breath of the Wild",
+        description: "Aventura abierta con exploración y puzzles en Hyrule.",
+        price: 59.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2017-03-03"),
+        developer: "Nintendo EPD",
+        publisher: "Nintendo",
+        genres: ["aventura"],
+        platforms: ["Switch"],
+      },
+      {
+        title: "Tomb Raider (2013)",
+        description: "Reboot de aventura y exploración arqueológica.",
+        price: 19.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2013-03-05"),
+        developer: "Crystal Dynamics",
+        publisher: "Square Enix",
+        genres: ["aventura"],
+        platforms: ["PC", "PS4", "Xbox One"],
+      },
+      {
+        title: "Uncharted: The Lost Legacy",
+        description: "Aventura-acción independiente con exploración y puzles.",
+        price: 29.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2017-08-22"),
+        developer: "Naughty Dog",
+        publisher: "Sony Interactive Entertainment",
+        genres: ["aventura"],
+        platforms: ["PS4", "PS5"],
+      },
+      {
+        title: "Firewatch",
+        description:
+          "Aventura narrativa en primera persona ambientada en un bosque.",
+        price: 9.99,
+        isOnSale: true,
+        salePrice: 3.99,
+        isRefundable: true,
+        releaseDate: new Date("2016-02-09"),
+        developer: "Campo Santo",
+        publisher: "Annapurna Interactive",
+        genres: ["aventura"],
+        platforms: ["PC", "PS4", "Xbox One", "Switch"],
+      },
+      {
+        title: "Outer Wilds",
+        description: "Aventura espacial de exploración y descubrimiento.",
+        price: 24.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2019-05-28"),
+        developer: "Mobius Digital",
+        publisher: "Annapurna Interactive",
+        genres: ["aventura"],
+        platforms: ["PC", "PS4", "Xbox One", "Switch"],
+      },
+      {
+        title: "The Walking Dead: Season One",
+        description: "Aventura episódica centrada en decisiones emocionales.",
+        price: 14.99,
+        isOnSale: true,
+        salePrice: 7.99,
+        isRefundable: true,
+        releaseDate: new Date("2012-04-24"),
+        developer: "Telltale Games",
+        publisher: "Skybound Games",
+        genres: ["aventura"],
+        platforms: ["PC", "PS4", "Xbox One", "Switch"],
+      },
+      {
+        title: "Control (Deluxe Edition)",
+        description: "Aventura sobrenatural con narrativa surrealista.",
+        price: 49.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2019-08-27"),
+        developer: "Remedy Entertainment",
+        publisher: "505 Games",
+        genres: ["aventura"],
+        platforms: ["PC", "PS4", "PS5", "Xbox One", "Xbox Series X"],
+      },
+
+      // ----- RPG (10) -----
+      {
+        title: "Elden Ring",
+        description: "RPG de acción en mundo abierto creado por FromSoftware.",
+        price: 59.99,
+        isOnSale: true,
+        salePrice: 39.99,
+        isRefundable: true,
+        releaseDate: new Date("2022-02-25"),
+        developer: "FromSoftware",
+        publisher: "Bandai Namco",
+        genres: ["rpg"],
+        platforms: ["PC", "PS5", "Xbox Series X"],
+      },
+      {
+        title: "The Witcher 3: Wild Hunt",
+        description: "RPG narrativo con mundo abierto y decisiones profundas.",
+        price: 39.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2015-05-19"),
+        developer: "CD Projekt Red",
+        publisher: "CD Projekt",
+        genres: ["rpg"],
+        platforms: ["PC", "PS4", "Xbox One", "Switch"],
+      },
+      {
+        title: "Final Fantasy XVI",
+        description: "RPG épico con combate en tiempo real y relato dramático.",
+        price: 69.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2023-06-22"),
+        developer: "Square Enix",
+        publisher: "Square Enix",
+        genres: ["rpg"],
+        platforms: ["PS5"],
+      },
+      {
+        title: "The Elder Scrolls V: Skyrim",
+        description: "RPG de fantasía enorme y sistema de progresión abierto.",
+        price: 29.99,
+        isOnSale: true,
+        salePrice: 9.99,
+        isRefundable: true,
+        releaseDate: new Date("2011-11-11"),
+        developer: "Bethesda Game Studios",
+        publisher: "Bethesda Softworks",
+        genres: ["rpg"],
+        platforms: ["PC", "PS4", "Xbox One", "Switch"],
+      },
+      {
+        title: "Persona 5 Royal",
+        description: "RPG japonés centrado en turnos, estilo y narrativa.",
+        price: 49.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2020-03-31"),
+        developer: "Atlus",
+        publisher: "SEGA",
+        genres: ["rpg"],
+        platforms: ["PS4", "PS5", "Switch", "PC"],
+      },
+      {
+        title: "Divinity: Original Sin 2",
+        description: "RPG táctico con profunda interacción ambiental.",
+        price: 44.99,
+        isOnSale: true,
+        salePrice: 19.99,
+        isRefundable: true,
+        releaseDate: new Date("2017-09-14"),
+        developer: "Larian Studios",
+        publisher: "Larian Studios",
+        genres: ["rpg"],
+        platforms: ["PC", "PS4", "Xbox One", "Switch"],
+      },
+      {
+        title: "Mass Effect Legendary Edition",
+        description: "Trilogía remasterizada de RPGs de ciencia ficción.",
+        price: 49.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2021-05-14"),
+        developer: "BioWare",
+        publisher: "Electronic Arts",
+        genres: ["rpg"],
+        platforms: ["PC", "PS4", "Xbox One"],
+      },
+      {
+        title: "Dragon Age: Inquisition",
+        description: "RPG con decisiones políticas y grandes batallas.",
+        price: 19.99,
+        isOnSale: true,
+        salePrice: 7.99,
+        isRefundable: true,
+        releaseDate: new Date("2014-11-18"),
+        developer: "BioWare",
+        publisher: "Electronic Arts",
+        genres: ["rpg"],
+        platforms: ["PC", "PS4", "Xbox One"],
+      },
+      {
+        title: "Cyberpunk 2077",
+        description: "RPG futurista con mundo abierto y narrativa adulta.",
+        price: 59.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2020-12-10"),
+        developer: "CD Projekt Red",
+        publisher: "CD Projekt",
+        genres: ["rpg"],
+        platforms: ["PC", "PS5", "Xbox Series X"],
+      },
+      {
+        title: "Pillars of Eternity II: Deadfire",
+        description:
+          "RPG isométrico con narrativa profunda y party-based combat.",
+        price: 34.99,
+        isOnSale: true,
+        salePrice: 14.99,
+        isRefundable: true,
+        releaseDate: new Date("2018-05-08"),
+        developer: "Obsidian Entertainment",
+        publisher: "Paradox Interactive",
+        genres: ["rpg"],
+        platforms: ["PC", "PS4", "Xbox One"],
+      },
+
+      // ----- DEPORTES (10) -----
+      {
+        title: "FIFA 23",
+        description:
+          "Simulación de fútbol con modos online y clubes licenciados.",
+        price: 59.99,
+        isOnSale: true,
+        salePrice: 29.99,
+        isRefundable: true,
+        releaseDate: new Date("2022-09-27"),
+        developer: "EA Sports",
+        publisher: "Electronic Arts",
+        genres: ["deportes"],
+        platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+      },
+      {
+        title: "NBA 2K23",
+        description:
+          "Simulación de baloncesto con énfasis en carrera y MyTeam.",
+        price: 59.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2022-09-09"),
+        developer: "Visual Concepts",
+        publisher: "2K Games",
+        genres: ["deportes"],
+        platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+      },
+      {
+        title: "Madden NFL 23",
+        description:
+          "Simulación de fútbol americano con modos carrera y online.",
+        price: 59.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2022-08-19"),
+        developer: "EA Tiburon",
+        publisher: "Electronic Arts",
+        genres: ["deportes"],
+        platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+      },
+      {
+        title: "F1 23",
+        description: "Simulación de Fórmula 1 con físicas y gestión de equipo.",
+        price: 59.99,
+        isOnSale: true,
+        salePrice: 39.99,
+        isRefundable: true,
+        releaseDate: new Date("2023-06-16"),
+        developer: "Codemasters",
+        publisher: "Electronic Arts",
+        genres: ["deportes"],
+        platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+      },
+      {
+        title: "Rocket League",
+        description: "Deporte con coches: fútbol vehicular competitivo.",
+        price: 0.0,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2015-07-07"),
+        developer: "Psyonix",
+        publisher: "Psyonix",
+        genres: ["deportes"],
+        platforms: ["PC", "PS5", "Xbox Series X", "Switch", "PS4", "Xbox One"],
+      },
+      {
+        title: "Tony Hawk's Pro Skater 1 + 2",
+        description: "Skateboarding arcade con tablas y combos extremos.",
+        price: 39.99,
+        isOnSale: true,
+        salePrice: 19.99,
+        isRefundable: true,
+        releaseDate: new Date("2020-09-04"),
+        developer: "Vicarious Visions",
+        publisher: "Activision",
+        genres: ["deportes"],
+        platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One", "Switch"],
+      },
+      {
+        title: "Football Manager 2023",
+        description: "Gestión futbolística profunda y simulación de club.",
+        price: 49.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2022-11-08"),
+        developer: "Sports Interactive",
+        publisher: "SEGA",
+        genres: ["deportes"],
+        platforms: ["PC"],
+      },
+      {
+        title: "eFootball 2023",
+        description: "Simulador de fútbol free-to-play de Konami.",
+        price: 0.0,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2021-09-30"),
+        developer: "Konami",
+        publisher: "Konami",
+        genres: ["deportes"],
+        platforms: ["PC", "PS4", "PS5", "Xbox One", "Xbox Series X"],
+      },
+      {
+        title: "PGA Tour 2K23",
+        description: "Simulación de golf con licencias del PGA Tour.",
+        price: 49.99,
+        isOnSale: true,
+        salePrice: 24.99,
+        isRefundable: true,
+        releaseDate: new Date("2022-10-14"),
+        developer: "HB Studios",
+        publisher: "2K Games",
+        genres: ["deportes"],
+        platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+      },
+      {
+        title: "MotoGP 23",
+        description: "Simulación de motos con físicas realistas.",
+        price: 49.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2023-04-06"),
+        developer: "Milestone",
+        publisher: "Milestone",
+        genres: ["deportes"],
+        platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+      },
+
+      // ----- ESTRATEGIA (10) -----
+      {
+        title: "Civilization VI",
+        description:
+          "Estrategia por turnos: construcción y gestión de imperios.",
+        price: 29.99,
+        isOnSale: true,
+        salePrice: 9.99,
+        isRefundable: true,
+        releaseDate: new Date("2016-10-21"),
+        developer: "Firaxis Games",
+        publisher: "2K Games",
+        genres: ["estrategia"],
+        platforms: ["PC", "Switch", "PS4", "Xbox One"],
+      },
+      {
+        title: "XCOM 2",
+        description: "Estrategia táctica contra invasión alienígena.",
+        price: 29.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2016-02-05"),
+        developer: "Firaxis Games",
+        publisher: "2K Games",
+        genres: ["estrategia"],
+        platforms: ["PC", "PS4", "Xbox One"],
+      },
+      {
+        title: "Age of Empires IV",
+        description: "Estrategia en tiempo real con civilizaciones históricas.",
+        price: 49.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2021-10-28"),
+        developer: "Relic Entertainment",
+        publisher: "Microsoft Studios",
+        genres: ["estrategia"],
+        platforms: ["PC"],
+      },
+      {
+        title: "Total War: WARHAMMER II",
+        description: "Gran estrategia y batallas en tiempo real con facciones.",
+        price: 39.99,
+        isOnSale: true,
+        salePrice: 14.99,
+        isRefundable: true,
+        releaseDate: new Date("2017-09-28"),
+        developer: "Creative Assembly",
+        publisher: "SEGA",
+        genres: ["estrategia"],
+        platforms: ["PC"],
+      },
+      {
+        title: "Stellaris",
+        description:
+          "Estrategia espacial de gran escala y exploración galáctica.",
+        price: 39.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2016-05-09"),
+        developer: "Paradox Interactive",
+        publisher: "Paradox Interactive",
+        genres: ["estrategia"],
+        platforms: ["PC"],
+      },
+      {
+        title: "Crusader Kings III",
+        description: "Estrategia grandiosa centrada en dinastías y política.",
+        price: 49.99,
+        isOnSale: true,
+        salePrice: 19.99,
+        isRefundable: true,
+        releaseDate: new Date("2020-09-01"),
+        developer: "Paradox Development Studio",
+        publisher: "Paradox Interactive",
+        genres: ["estrategia"],
+        platforms: ["PC"],
+      },
+      {
+        title: "Company of Heroes 2",
+        description: "Estrategia táctica en la Segunda Guerra Mundial.",
+        price: 19.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2013-06-25"),
+        developer: "Relic Entertainment",
+        publisher: "SEGA",
+        genres: ["estrategia"],
+        platforms: ["PC"],
+      },
+      {
+        title: "Anno 1800",
+        description:
+          "Estrategia y construcción de ciudades en la era industrial.",
+        price: 39.99,
+        isOnSale: true,
+        salePrice: 14.99,
+        isRefundable: true,
+        releaseDate: new Date("2019-04-16"),
+        developer: "Blue Byte",
+        publisher: "Ubisoft",
+        genres: ["estrategia"],
+        platforms: ["PC"],
+      },
+      {
+        title: "StarCraft II",
+        description: "Estrategia en tiempo real con tres razas competitivas.",
+        price: 0.0,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2010-07-27"),
+        developer: "Blizzard Entertainment",
+        publisher: "Blizzard Entertainment",
+        genres: ["estrategia"],
+        platforms: ["PC"],
+      },
+      {
+        title: "Warcraft III: Reforged",
+        description: "Remasterización de un clásico de estrategia y narrativa.",
+        price: 29.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2020-01-28"),
+        developer: "Blizzard Entertainment",
+        publisher: "Blizzard Entertainment",
+        genres: ["estrategia"],
+        platforms: ["PC"],
+      },
+
+      // ----- SIMULACION (10) -----
+      {
+        title: "Microsoft Flight Simulator",
+        description: "Simulador de vuelo con recreación real del planeta.",
+        price: 59.99,
+        isOnSale: true,
+        salePrice: 39.99,
+        isRefundable: true,
+        releaseDate: new Date("2020-08-18"),
+        developer: "Asobo Studio",
+        publisher: "Xbox Game Studios",
+        genres: ["simulacion"],
+        platforms: ["PC", "Xbox Series X"],
+      },
+      {
+        title: "The Sims 4",
+        description: "Simulación de vida con creación de personajes y hogares.",
+        price: 39.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2014-09-02"),
+        developer: "Maxis",
+        publisher: "Electronic Arts",
+        genres: ["simulacion"],
+        platforms: ["PC", "PS4", "Xbox One"],
+      },
+      {
+        title: "Euro Truck Simulator 2",
+        description: "Simulación de conducción de camiones por Europa.",
+        price: 9.99,
+        isOnSale: true,
+        salePrice: 3.99,
+        isRefundable: true,
+        releaseDate: new Date("2012-10-19"),
+        developer: "SCS Software",
+        publisher: "SCS Software",
+        genres: ["simulacion"],
+        platforms: ["PC"],
+      },
+      {
+        title: "Cities: Skylines",
+        description:
+          "Simulación y construcción de ciudades con detalle urbano.",
+        price: 29.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2015-03-10"),
+        developer: "Colossal Order",
+        publisher: "Paradox Interactive",
+        genres: ["simulacion"],
+        platforms: ["PC", "PS4", "Xbox One", "Switch"],
+      },
+      {
+        title: "Kerbal Space Program",
+        description:
+          "Simulación espacial con física realista y construcción de cohetes.",
+        price: 39.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2015-04-27"),
+        developer: "Squad",
+        publisher: "Private Division",
+        genres: ["simulacion"],
+        platforms: ["PC", "PS4", "Xbox One"],
+      },
+      {
+        title: "Assetto Corsa",
+        description:
+          "Simulación de conducción con enfoque en físicas realistas.",
+        price: 19.99,
+        isOnSale: true,
+        salePrice: 7.99,
+        isRefundable: true,
+        releaseDate: new Date("2014-12-19"),
+        developer: "Kunos Simulazioni",
+        publisher: "505 Games",
+        genres: ["simulacion"],
+        platforms: ["PC", "PS4", "Xbox One"],
+      },
+      {
+        title: "Farming Simulator 22",
+        description: "Simulación agrícola con maquinaria y economía de granja.",
+        price: 34.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2021-11-22"),
+        developer: "Giants Software",
+        publisher: "Focus Home Interactive",
+        genres: ["simulacion"],
+        platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+      },
+      {
+        title: "Planet Coaster",
+        description: "Simulación y construcción de parques de atracciones.",
+        price: 29.99,
+        isOnSale: true,
+        salePrice: 12.99,
+        isRefundable: true,
+        releaseDate: new Date("2016-11-17"),
+        developer: "Frontier Developments",
+        publisher: "Frontier Developments",
+        genres: ["simulacion"],
+        platforms: ["PC"],
+      },
+      {
+        title: "No Man's Sky",
+        description:
+          "Simulación espacial exploratoria con actualizaciones constantes.",
+        price: 49.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2016-08-09"),
+        developer: "Hello Games",
+        publisher: "Hello Games",
+        genres: ["simulacion"],
+        platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+      },
+      {
+        title: "Ship Simulator Extremes",
+        description: "Simulación marítima y de navegación.",
+        price: 14.99,
+        isOnSale: true,
+        salePrice: 4.99,
+        isRefundable: true,
+        releaseDate: new Date("2009-10-30"),
+        developer: "VSTEP",
+        publisher: "Paradox Interactive",
+        genres: ["simulacion"],
+        platforms: ["PC"],
+      },
+
+      // ----- TERROR (10) -----
+      {
+        title: "Resident Evil 4 (Remake)",
+        description: "Survival horror con tensión, puzzles y acción.",
+        price: 39.99,
+        isOnSale: true,
+        salePrice: 24.99,
+        isRefundable: true,
+        releaseDate: new Date("2023-03-24"),
+        developer: "Capcom",
+        publisher: "Capcom",
+        genres: ["terror"],
+        platforms: ["PC", "PS5", "Xbox Series X"],
+      },
+      {
+        title: "Amnesia: The Dark Descent",
+        description:
+          "Horror atmosférico centrado en sigilo y miedo psicológico.",
+        price: 9.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2010-09-08"),
+        developer: "Frictional Games",
+        publisher: "Frictional Games",
+        genres: ["terror"],
+        platforms: ["PC"],
+      },
+      {
+        title: "Outlast",
+        description:
+          "Survival horror en primera persona con cámara como herramienta.",
+        price: 14.99,
+        isOnSale: true,
+        salePrice: 4.99,
+        isRefundable: true,
+        releaseDate: new Date("2013-09-04"),
+        developer: "Red Barrels",
+        publisher: "Red Barrels",
+        genres: ["terror"],
+        platforms: ["PC", "PS4", "Xbox One", "Switch"],
+      },
+      {
+        title: "Alien: Isolation",
+        description: "Horror de supervivencia ambientado en el universo Alien.",
+        price: 19.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2014-10-07"),
+        developer: "Creative Assembly",
+        publisher: "SEGA",
+        genres: ["terror"],
+        platforms: ["PC", "PS4", "Xbox One", "PS3", "Xbox 360"],
+      },
+      {
+        title: "The Evil Within",
+        description: "Horror psicológico con combates intensos.",
+        price: 19.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2014-10-14"),
+        developer: "Tango Gameworks",
+        publisher: "Bethesda Softworks",
+        genres: ["terror"],
+        platforms: ["PC", "PS4", "Xbox One"],
+      },
+      {
+        title: "Until Dawn",
+        description:
+          "Horror cinematográfico con ramas narrativas y decisiones.",
+        price: 29.99,
+        isOnSale: true,
+        salePrice: 9.99,
+        isRefundable: true,
+        releaseDate: new Date("2015-08-25"),
+        developer: "Supermassive Games",
+        publisher: "Sony Interactive Entertainment",
+        genres: ["terror"],
+        platforms: ["PS4", "PS5"],
+      },
+      {
+        title: "Silent Hill 2 (Remaster Placeholder)",
+        description: "Clásico del horror psicológico — remaster hipotético.",
+        price: 39.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2001-09-24"),
+        developer: "Konami",
+        publisher: "Konami",
+        genres: ["terror"],
+        platforms: ["PS2", "PS3", "PS4"],
+      },
+      {
+        title: "Layers of Fear",
+        description: "Horror psicológico centrado en el artista perturbado.",
+        price: 14.99,
+        isOnSale: true,
+        salePrice: 6.99,
+        isRefundable: true,
+        releaseDate: new Date("2016-02-16"),
+        developer: "Bloober Team",
+        publisher: "Bloober Team",
+        genres: ["terror"],
+        platforms: ["PC", "PS4", "Xbox One", "Switch"],
+      },
+      {
+        title: "Dead Space (Remake)",
+        description: "Survival horror espacial con atmósfera opresiva.",
+        price: 39.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2023-01-27"),
+        developer: "Motive Studio",
+        publisher: "Electronic Arts",
+        genres: ["terror"],
+        platforms: ["PC", "PS5", "Xbox Series X"],
+      },
+      {
+        title: "Phasmophobia",
+        description: "Horror cooperativo centrado en caza de fantasmas.",
+        price: 12.99,
+        isOnSale: true,
+        salePrice: 4.99,
+        isRefundable: true,
+        releaseDate: new Date("2020-09-18"),
+        developer: "Kinetic Games",
+        publisher: "Kinetic Games",
+        genres: ["terror"],
+        platforms: ["PC"],
+      },
+
+      // ----- CARRERAS (10) -----
+      {
+        title: "Forza Horizon 5",
+        description: "Arcade-racing en mundo abierto con desafíos y eventos.",
+        price: 59.99,
+        isOnSale: true,
+        salePrice: 34.99,
+        isRefundable: true,
+        releaseDate: new Date("2021-11-09"),
+        developer: "Playground Games",
+        publisher: "Microsoft Studios",
+        genres: ["carreras"],
+        platforms: ["PC", "Xbox Series X", "Xbox One"],
+      },
+      {
+        title: "Gran Turismo 7",
+        description:
+          "Simulador de conducción con atención al detalle y físicas.",
+        price: 69.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2022-03-04"),
+        developer: "Polyphony Digital",
+        publisher: "Sony Interactive Entertainment",
+        genres: ["carreras"],
+        platforms: ["PS5", "PS4"],
+      },
+      {
+        title: "F1 23",
+        description: "Simulación oficial de la temporada de Fórmula 1.",
+        price: 59.99,
+        isOnSale: true,
+        salePrice: 39.99,
+        isRefundable: true,
+        releaseDate: new Date("2023-06-16"),
+        developer: "Codemasters",
+        publisher: "Electronic Arts",
+        genres: ["carreras"],
+        platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+      },
+      {
+        title: "Need for Speed Heat",
+        description: "Carreras callejeras y personalización de coches.",
+        price: 29.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2019-11-08"),
+        developer: "Ghost Games",
+        publisher: "Electronic Arts",
+        genres: ["carreras"],
+        platforms: ["PC", "PS4", "Xbox One"],
+      },
+      {
+        title: "Dirt 5",
+        description:
+          "Carreras off-road con énfasis en espectáculo y multijugador.",
+        price: 39.99,
+        isOnSale: true,
+        salePrice: 19.99,
+        isRefundable: true,
+        releaseDate: new Date("2020-11-06"),
+        developer: "Codemasters",
+        publisher: "Codemasters",
+        genres: ["carreras"],
+        platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+      },
+      {
+        title: "Burnout Paradise Remastered",
+        description: "Arcade racing con choques masivos y eventos urbanos.",
+        price: 19.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2018-03-16"),
+        developer: "Criterion Games",
+        publisher: "Electronic Arts",
+        genres: ["carreras"],
+        platforms: ["PC", "PS4", "Xbox One", "Switch"],
+      },
+      {
+        title: "Project CARS 3",
+        description: "Simcade con amplio roster de coches y pistas.",
+        price: 29.99,
+        isOnSale: true,
+        salePrice: 9.99,
+        isRefundable: true,
+        releaseDate: new Date("2020-08-28"),
+        developer: "Slightly Mad Studios",
+        publisher: "Bandai Namco",
+        genres: ["carreras"],
+        platforms: ["PC", "PS4", "Xbox One"],
+      },
+      {
+        title: "Assetto Corsa Competizione",
+        description: "Simulación GT con físicas de competición y licencia SRO.",
+        price: 39.99,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2019-05-29"),
+        developer: "Kunos Simulazioni",
+        publisher: "505 Games",
+        genres: ["carreras"],
+        platforms: ["PC", "PS4", "Xbox One"],
+      },
+      {
+        title: "Trackmania",
+        description:
+          "Arcade racing centrado en tiempos y pistas creadas por la comunidad.",
+        price: 0.0,
+        isOnSale: false,
+        isRefundable: true,
+        releaseDate: new Date("2020-07-01"),
+        developer: "Nadeo",
+        publisher: "Ubisoft",
+        genres: ["carreras"],
+        platforms: ["PC"],
+      },
+      {
+        title: "MotoGP 23 (Racing)",
+        description: "Simulación de MotoGP con físicas y temporadas oficiales.",
+        price: 49.99,
+        isOnSale: true,
+        salePrice: 29.99,
+        isRefundable: true,
+        releaseDate: new Date("2023-04-06"),
+        developer: "Milestone",
+        publisher: "Milestone",
+        genres: ["carreras"],
+        platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+      },
+    ];
+
+    // --- Helper: crea un juego y sus 5 imágenes placeholder ---
+    let imagesCreated = 0;
+    const createGame = async (g: {
+      title: string;
+      description: string;
+      price: number;
+      isOnSale?: boolean;
+      salePrice?: number;
+      isRefundable?: boolean;
+      releaseDate: Date;
+      developer: string;
+      publisher: string;
+      genres: string[];
+      platforms: string[];
+    }) => {
+      // Resolver developer / publisher (si no existen, crear on-the-fly)
+      let dev = devByName[g.developer];
+      if (!dev) {
+        dev = await prisma.developer.create({ data: { name: g.developer } });
+        devByName[g.developer] = dev;
+      }
+      let pub = pubByName[g.publisher];
+      if (!pub) {
+        pub = await prisma.publisher.create({ data: { name: g.publisher } });
+        pubByName[g.publisher] = pub;
+      }
+
+      // comprobar y mapear géneros (throw si falta)
+      const genreConnect = (g.genres || []).map((name) => {
+        const genre = genreByName[name];
+        if (!genre) throw new Error(`Genre not found: ${name}`);
+        return { id: genre.id };
+      });
+
+      // comprobar y mapear plataformas (fallback a PC si falta)
+      const platformConnect = (g.platforms || []).map((name) => {
+        const platform = platformByName[name];
+        if (!platform) {
+          const pc = platformByName["PC"];
+          if (!pc)
+            throw new Error(
+              `Platform not found: ${name} (and fallback PC missing)`
+            );
+          return { id: pc.id };
+        }
+        return { id: platform.id };
+      });
+
       const created = await prisma.game.create({
         data: {
-          title: data.title,
-          description: data.description,
-          price: data.price,
-          salePrice: data.salePrice,
-          isOnSale: data.isOnSale,
-          isRefundable: data.isRefundable,
-          releaseDate: data.releaseDate,
-          developerId: data.developerId,
-          publisherId: data.publisherId,
-          genres: {
-            connect: data.genres.map((n: string) => ({
-              id: (genreByName[n] as any)?.id,
-            })),
-          },
-          platforms: {
-            connect: data.platforms.map((n: string) => ({
-              id: (platformByName[n] as any)?.id,
-            })),
-          },
+          title: g.title,
+          description: g.description,
+          price: g.price,
+          salePrice: g.isOnSale
+            ? typeof g.salePrice === "number"
+              ? g.salePrice
+              : Math.round(g.price * 0.6 * 100) / 100
+            : null,
+          isOnSale: !!g.isOnSale,
+          isRefundable: g.isRefundable ?? true,
+          releaseDate: g.releaseDate,
+          developerId: dev.id,
+          publisherId: pub.id,
+          genres: { connect: genreConnect },
+          platforms: { connect: platformConnect },
         },
       });
-      // Add 5 images, first is cover
+
+      // 5 imágenes únicas por juego (placeholders) — evitar undefined en title
+      const base = encodeURIComponent(String(g.title ?? "Juego"));
       const imageUrls = [
-        data.coverUrl ?? "https://placehold.co/600x400?text=Portada",
-        "https://placehold.co/600x400?text=Imagen+2",
-        "https://placehold.co/600x400?text=Imagen+3",
-        "https://placehold.co/600x400?text=Imagen+4",
-        "https://placehold.co/600x400?text=Imagen+5",
+        `https://placehold.co/600x400?text=${base}+Portada`,
+        `https://placehold.co/600x400?text=${base}+Img2`,
+        `https://placehold.co/600x400?text=${base}+Img3`,
+        `https://placehold.co/600x400?text=${base}+Img4`,
+        `https://placehold.co/600x400?text=${base}+Img5`,
       ];
       for (let i = 0; i < imageUrls.length; i++) {
+        // Normalizar/forzar string para evitar 'string | undefined'
+        const url = String(
+          imageUrls[i] ?? "https://placehold.co/600x400?text=Juego"
+        );
+        const titleSafe = String(g.title ?? "Juego");
+
         await prisma.gameImage.create({
           data: {
             gameId: created.id,
-            url: imageUrls[i],
+            url, // ahora TS sabe que es string
             altText:
               i === 0
-                ? `${data.title} (Portada)`
-                : `${data.title} Imagen ${i + 1}`,
+                ? `${titleSafe} (Portada)`
+                : `${titleSafe} Imagen ${i + 1}`,
           },
         });
         imagesCreated++;
@@ -197,321 +1287,24 @@ async function seedData() {
       return created;
     };
 
-    games.push(
-      await createGame({
-        title: "Metal Gear Solid V",
-        description: "Un juego de sigilo épico con mecánicas innovadoras",
-        price: 49.99,
-        platforms: ["PS5", "PC"],
-        genres: ["Sigilo", "Acción"],
-        developerId: developers[0].id,
-        publisherId: publishers[0].id,
-        releaseDate: new Date("2015-09-01"),
-      })
-    );
-    games.push(
-      await createGame({
-        title: "Elden Ring",
-        description: "RPG de acción desafiante en mundo abierto",
-        price: 59.99,
-        platforms: ["PC", "PS5"],
-        genres: ["RPG", "Acción"],
-        developerId: developers[1].id,
-        publisherId: publishers[4].id,
-        releaseDate: new Date("2022-02-25"),
-      })
-    );
-    games.push(
-      await createGame({
-        title: "The Elder Scrolls V: Skyrim",
-        description: "Épico RPG de fantasía medieval en mundo abierto",
-        price: 59.99,
-        platforms: ["PC"],
-        genres: ["RPG", "Fantasía"],
-        developerId: developers[2].id,
-        publisherId: publishers[1].id,
-        releaseDate: new Date("2011-11-11"),
-      })
-    );
-    games.push(
-      await createGame({
-        title: "Grand Theft Auto V",
-        description: "Juego de acción y crimen en ciudad abierta",
-        price: 69.99,
-        platforms: ["PC", "Xbox Series X"],
-        genres: ["Acción", "Crimen"],
-        developerId: developers[3].id,
-        publisherId: publishers[4].id,
-        releaseDate: new Date("2013-09-17"),
-      })
-    );
-    games.push(
-      await createGame({
-        title: "The Last of Us",
-        description:
-          "Juego de acción y supervivencia en mundo post-apocalíptico",
-        price: 59.99,
-        platforms: ["PS5"],
-        genres: ["Acción", "Aventura"],
-        developerId: developers[4].id,
-        publisherId: publishers[0].id,
-        releaseDate: new Date("2013-06-14"),
-      })
-    );
-    games.push(
-      await createGame({
-        title: "Cyberpunk 2077",
-        description: "RPG de acción en un futuro distópico",
-        price: 59.99,
-        platforms: ["PC", "PS5"],
-        genres: ["RPG", "Ciencia Ficción"],
-        developerId: developers[5].id,
-        publisherId: publishers[8].id,
-        releaseDate: new Date("2020-12-10"),
-      })
-    );
-    games.push(
-      await createGame({
-        title: "Spider-Man: Miles Morales",
-        description: "Juego de superhéroes de acción en Nueva York",
-        price: 49.99,
-        platforms: ["PS5"],
-        genres: ["Acción", "Aventura"],
-        developerId: developers[6].id,
-        publisherId: publishers[0].id,
-        releaseDate: new Date("2020-11-12"),
-      })
-    );
-    games.push(
-      await createGame({
-        title: "Resident Evil 4",
-        description: "Juego de horror de acción con tensión constante",
-        price: 39.99,
-        platforms: ["PC", "PS5"],
-        genres: ["Horror", "Acción"],
-        developerId: developers[7].id,
-        publisherId: publishers[8].id,
-        releaseDate: new Date("2023-03-24"),
-      })
-    );
-    games.push(
-      await createGame({
-        title: "Final Fantasy XVI",
-        description: "RPG épico de fantasía con combate dinámico",
-        price: 69.99,
-        platforms: ["PS5"],
-        genres: ["RPG", "Fantasía"],
-        developerId: developers[8].id,
-        publisherId: publishers[0].id,
-        releaseDate: new Date("2023-06-22"),
-      })
-    );
-    games.push(
-      await createGame({
-        title: "Assassin's Creed Mirage",
-        description: "Juego de acción y sigilo en Bagdad medieval",
-        price: 49.99,
-        platforms: ["PC"],
-        genres: ["Acción", "Sigilo"],
-        developerId: developers[9].id,
-        publisherId: publishers[7].id,
-        releaseDate: new Date("2023-10-05"),
-      })
-    );
-
-    // Crear 10 Users (solo usuarios regulares, los admins los crea seedAdmin.ts)
-    console.log("  - Creando 10 Users regulares...");
-    const users = await Promise.all([
-      prisma.user.create({
-        data: {
-          email: "player1@gamesage.com",
-          name: "Player One",
-          surname: "Ramos",
-          nickname: "PlayerOne",
-          accountAt: new Date().toISOString(),
-          passwordHash: await bcrypt.hash("Password123!", saltRounds),
-          isAdmin: false,
-          balance: 12.5,
-          addressLine1: "Av. Central 123",
-          addressLine2: "Piso 4",
-          city: "Madrid",
-          region: "Comunidad de Madrid",
-          postalCode: "28013",
-          country: "España",
-        },
-      }),
-      prisma.user.create({
-        data: {
-          email: "player2@gamesage.com",
-          name: "Player Two",
-          surname: "Gómez",
-          nickname: "PlayerTwo",
-          accountAt: new Date().toISOString(),
-          passwordHash: await bcrypt.hash("Password123!", saltRounds),
-          isAdmin: false,
-          balance: 5.0,
-          addressLine1: "Calle Luna 7",
-          addressLine2: "",
-          city: "Sevilla",
-          region: "Andalucía",
-          postalCode: "41001",
-          country: "España",
-        },
-      }),
-      prisma.user.create({
-        data: {
-          email: "gamer@gamesage.com",
-          name: "Gamer Pro",
-          surname: "Vega",
-          nickname: "GamerPro",
-          accountAt: new Date().toISOString(),
-          passwordHash: await bcrypt.hash("Password123!", saltRounds),
-          isAdmin: false,
-          balance: 42.0,
-          addressLine1: "Plaza Mayor 1",
-          addressLine2: "",
-          city: "Barcelona",
-          region: "Cataluña",
-          postalCode: "08002",
-          country: "España",
-        },
-      }),
-      prisma.user.create({
-        data: {
-          email: "collector@gamesage.com",
-          name: "Game Collector",
-          surname: "López",
-          nickname: "GameCollector",
-          accountAt: new Date().toISOString(),
-          passwordHash: await bcrypt.hash("Password123!", saltRounds),
-          isAdmin: false,
-          balance: 150.0,
-          addressLine1: "Rambla 45",
-          addressLine2: "Local 3",
-          city: "Valencia",
-          region: "Comunidad Valenciana",
-          postalCode: "46001",
-          country: "España",
-        },
-      }),
-      prisma.user.create({
-        data: {
-          email: "speedrunner@gamesage.com",
-          name: "Speedrunner",
-          surname: "Martín",
-          nickname: "Speedrunner",
-          accountAt: new Date().toISOString(),
-          passwordHash: await bcrypt.hash("Password123!", saltRounds),
-          isAdmin: false,
-          balance: 8.75,
-          addressLine1: "C/ Carrera 12",
-          addressLine2: "Apto 2B",
-          city: "Bilbao",
-          region: "País Vasco",
-          postalCode: "48001",
-          country: "España",
-        },
-      }),
-      prisma.user.create({
-        data: {
-          email: "casual@gamesage.com",
-          name: "Casual Gamer",
-          surname: "Núñez",
-          nickname: "CasualGamer",
-          accountAt: new Date().toISOString(),
-          passwordHash: await bcrypt.hash("Password123!", saltRounds),
-          isAdmin: false,
-          balance: 3.5,
-          addressLine1: "Av. de la Constitución 9",
-          addressLine2: "",
-          city: "Málaga",
-          region: "Andalucía",
-          postalCode: "29001",
-          country: "España",
-        },
-      }),
-      prisma.user.create({
-        data: {
-          email: "hardcore@gamesage.com",
-          name: "Hardcore Fan",
-          surname: "Torres",
-          nickname: "HardcoreFan",
-          accountAt: new Date().toISOString(),
-          passwordHash: await bcrypt.hash("Password123!", saltRounds),
-          isAdmin: false,
-          balance: 75.0,
-          addressLine1: "Calle Fuego 3",
-          addressLine2: "",
-          city: "Zaragoza",
-          region: "Aragón",
-          postalCode: "50001",
-          country: "España",
-        },
-      }),
-      prisma.user.create({
-        data: {
-          email: "reviewer@gamesage.com",
-          name: "Game Reviewer",
-          surname: "Silva",
-          nickname: "GameReviewer",
-          accountAt: new Date().toISOString(),
-          passwordHash: await bcrypt.hash("Password123!", saltRounds),
-          isAdmin: false,
-          balance: 20.0,
-          addressLine1: "C/ del Libro 5",
-          addressLine2: "",
-          city: "A Coruña",
-          region: "Galicia",
-          postalCode: "15001",
-          country: "España",
-        },
-      }),
-      prisma.user.create({
-        data: {
-          email: "streamer@gamesage.com",
-          name: "Content Streamer",
-          surname: "Pérez",
-          nickname: "ContentStreamer",
-          accountAt: new Date().toISOString(),
-          passwordHash: await bcrypt.hash("Password123!", saltRounds),
-          isAdmin: false,
-          balance: 60.0,
-          addressLine1: "Ronda Norte 22",
-          addressLine2: "",
-          city: "Murcia",
-          region: "Región de Murcia",
-          postalCode: "30001",
-          country: "España",
-        },
-      }),
-      prisma.user.create({
-        data: {
-          email: "developer@gamesage.com",
-          name: "Game Developer",
-          surname: "Morales",
-          nickname: "GameDeveloper",
-          accountAt: new Date().toISOString(),
-          passwordHash: await bcrypt.hash("Password123!", saltRounds),
-          isAdmin: false,
-          balance: 200.0,
-          addressLine1: "Polígono Industrial, Nave 8",
-          addressLine2: "",
-          city: "Valladolid",
-          region: "Castilla y León",
-          postalCode: "47001",
-          country: "España",
-        },
-      }),
-    ]);
+    console.log("  - Insertando juegos (esto puede tardar unos segundos)...");
+    const createdGames = [];
+    for (const g of gamesData) {
+      // Normalizar platforms: si plataforma no existe, asignar PC como fallback
+      g.platforms = (g.platforms || ["PC"]).map((p) =>
+        platformByName[p] ? p : "PC"
+      );
+      // Normalizar genres: should exist
+      createdGames.push(await createGame(g));
+    }
 
     console.log("✅ Seed completado:");
-    console.log(`   - ${developers.length} Developers creados`);
-    console.log(`   - ${publishers.length} Publishers creados`);
+    console.log(`   - ${Object.keys(devByName).length} Developers creados`);
+    console.log(`   - ${Object.keys(pubByName).length} Publishers creados`);
     console.log(`   - ${genres.length} Géneros creados`);
     console.log(`   - ${platforms.length} Plataformas creadas`);
-    console.log(`   - ${games.length} Games creados`);
+    console.log(`   - ${createdGames.length} Games creados`);
     console.log(`   - ${imagesCreated} GameImages creadas`);
-    console.log(`   - ${users.length} Users regulares creados`);
   } catch (err) {
     console.error("❌ Error durante el seed:", err);
     process.exit(1);
