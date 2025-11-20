@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostListener, inject, Inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   ReactiveFormsModule,
@@ -38,6 +38,21 @@ export class LoginComponent {
     this.navigateTo =
       this.router.getCurrentNavigation()?.extras.state?.['navigateTo'] ||
       '/dashboard';
+  }
+
+
+  isMenuOpen = false;
+   @ViewChild('menu') menu!: ElementRef;
+  ngOnInit(): void {}
+
+  toggleMenu(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+   @HostListener('document:click', ['$event'])
+  onClick(event: Event) {
+    if (this.isMenuOpen && this.menu && !this.menu.nativeElement.contains(event.target)) {
+      this.isMenuOpen = false;
+    }
   }
 
   async onSubmit() {
@@ -85,19 +100,6 @@ export class LoginComponent {
         return '';
     }
     return '';
-  }
-  isMenuOpen = false;
-   @ViewChild('menu') menu!: ElementRef;
-
-  ngOnInit(): void {}
-  toggleMenu(): void {
-    this.isMenuOpen = !this.isMenuOpen;
-  }
-   @HostListener('document:click', ['$event'])
-  onClick(event: Event) {
-    if (this.isMenuOpen && this.menu && !this.menu.nativeElement.contains(event.target)) {
-      this.isMenuOpen = false;
-    }
   }
 }
 

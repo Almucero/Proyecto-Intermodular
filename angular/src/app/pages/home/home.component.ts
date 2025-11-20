@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
-  categories = ['Acción','Aventura','RPG','Deportes','Estrategia','Simulación','Terror','Carreras'];
+  genres = ['Acción','Aventura','RPG','Deportes','Estrategia','Simulación','Terror','Carreras'];
 
   featuredImages: string[] = [
     'https://via.placeholder.com/300x200?text=Imagen+1',
