@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
-import { Credentials } from '../models/credentials';
+import { SignInPayload } from '../../models/auth.model';
 
-export interface User extends Credentials {
+export interface User extends SignInPayload {
   name?: string;
   surname?: string;
 }
@@ -18,7 +18,7 @@ export class LocalStorageAuthService {
   constructor() {
     const authData = localStorage.getItem(this.AUTH_KEY);
     if (authData) {
-      const credentials = JSON.parse(authData) as Credentials;
+      const credentials = JSON.parse(authData) as SignInPayload;
       this.validateAndSetUser(credentials);
     }
   }
@@ -33,7 +33,7 @@ export class LocalStorageAuthService {
     return true;
   }
 
-  login(credentials: Credentials): boolean {
+  login(credentials: SignInPayload): boolean {
     const isValid = this.validateAndSetUser(credentials);
     if (isValid) {
       localStorage.setItem(this.AUTH_KEY, JSON.stringify(credentials));
@@ -46,7 +46,7 @@ export class LocalStorageAuthService {
     this.user.set(null);
   }
 
-  private validateAndSetUser(credentials: Credentials): boolean {
+  private validateAndSetUser(credentials: SignInPayload): boolean {
     const users = this.getRegisteredUsers();
     const user = users.find(
       (u) =>

@@ -1,5 +1,5 @@
 export interface Model {
-  id: string;
-  createdAt: string;
-  updatedAt: String;
+  id: number;
+  createdAt?: string | null;
+  updatedAt?: string | null;
 }

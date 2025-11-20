@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { Credentials } from '../models/credentials';
+import { SignInPayload } from '../../models/auth.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { User } from '../models/user';
+import { User } from '../../models/auth.model';
 import { firstValueFrom } from 'rxjs';
 
 export interface LoginResponse {
@@ -60,7 +60,7 @@ export class StrapiAuthService {
     }
   }
 
-  async login(credentials: Credentials): Promise<boolean> {
+  async login(credentials: SignInPayload): Promise<boolean> {
     this.error.set(null);
     const body = {
       identifier: credentials.email,
