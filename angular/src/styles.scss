@@ -1,0 +1,10 @@
+input:focus,
+textarea:focus,
+button:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
