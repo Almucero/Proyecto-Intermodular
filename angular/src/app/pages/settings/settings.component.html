@@ -1,1 +1,99 @@
-<p>settings works!</p>
+<div class="min-h-screen bg-gray-900 text-white font-sans">
+    <header class="relative flex items-center justify-between px-6 py-1 border-b border-gray-800 bg-gray-950">
+      <div class="flex items-center gap-20">
+        <button
+    (click)="toggleMenu(); $event.stopPropagation()"
+    class="p-0 bg-transparent border-none hover:opacity-80 focus:outline-none">
+          <img
+            src="weather_15627895.png"
+            alt="Menu"
+            class="w-9 h-9"
+          />
+  </button>
+        <div class="flex items-center gap-1 text-cyan-200 font-semibold text-2xl">
+            <a href=" ">
+          <img
+            src="ChatGPT_Image_23_oct_2025__13_32_07-removebg-preview (1).png"
+            alt="GameSage Logo"
+            class="w-14 h-14 object-cover rounded-xl"
+          />
+            </a>
+          <span class="-mt-3 relative">GameSage</span>
+        </div>
+      </div>
+      
+      
+  
+      <div class="absolute left-1/2 transform -translate-x-1/2 flex items-center gap-1 bg-gray-800 px-8 py-2 w-1/3 border border-white rounded-full">
+    <img
+        src="png-transparent-circle-font-icon-free-search-white-line-search-removebg-preview.png"
+        alt="Search"
+        class="w-7 h-5"
+      />
+    <span class="text-gray-400"></span>
+    <input
+      type="text"
+      placeholder="Buscar"
+  class="bg-transparent outline-none text-white border-none px-0 py-0 "
+    />
+  </div>
+  
+      <div class="flex items-center gap-4 text-2xl">
+        <button class="p-0 bg-transparent border-none hover:opacity-80 focus:outline-none">
+          <a href="/aichat">
+          <img
+            src="Captura_de_pantalla_2025-11-14_132810_-_Editada__1_-removebg-preview.png"
+            alt="AI Chat"
+            class="w-12 h-12 cursor-pointer"
+          />
+          </a>
+        </button>
+    <button class="p-0 bg-transparent border-none hover:opacity-80 focus:outline-none">
+      <a href="/favourites">
+      <img
+        src="shape_14755023-removebg-preview.png"
+        alt="Favourites"
+        class="w-9 h-9 cursor-pointer"
+      />
+      </a>
+    </button>
+  
+    <button class="p-0 bg-transparent border-none hover:opacity-80 focus:outline-none">
+      <a href="/cart">
+      <img
+        src="internet_14812086-removebg-preview.png"
+        alt="Shopping cart"
+        class="w-9 h-9 cursor-pointer"
+      />
+      </a>
+    </button>
+  
+    <button class="p-0 bg-transparent border-none hover:opacity-80 focus:outline-none">
+      <a href="/login">
+      <img
+        src="social_14821347-removebg-preview.png "
+        alt="user profile"
+        class="w-9 h-9"
+      />
+      </a>
+    </button>
+  </div>
+    </header>
+  
+    <div
+    #menu
+      class="fixed top-0 left-0 h-full w-64 bg-gray-800 text-white transform transition-transform duration-300 z-50"
+      [class.-translate-x-full]="!isMenuOpen"
+      [class.translate-x-0]="isMenuOpen"
+    >
+      <div class="p-6">
+        <h2 class="text-2xl font-bold mb-4">Menú</h2>
+          <a href=" " class="text-white no-underline">Inicio</a><br><br>
+          <a routerLink="/settings" class="text-white no-underline">Ajustes</a><br><br>
+          <a routerLink="/help" class="text-white no-underline">Ayuda</a><br><br>
+          <a routerLink="/contact" class="text-white no-underline">Contacto</a><br><br>
+          <a routerLink="/privacy" class="text-white no-underline">Políticas de privacidad</a><br><br>
+          <a routerLink="/conditions" class="text-white no-underline">Términos y condiciones</a><br><br>
+          <a routerLink="/cookies" class="text-white no-underline">Configuración de cookies</a>
+      </div>
+    </div>
