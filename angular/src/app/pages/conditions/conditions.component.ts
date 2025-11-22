@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
-import { HeaderComponent } from '../../shared/components/header/header.component';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { HeaderComponent } from '../../shared/components/header/header.component';
 
 @Component({
   selector: 'app-conditions',
-  imports: [RouterModule, HeaderComponent],
+  imports: [RouterModule,HeaderComponent],
   templateUrl: './conditions.component.html',
-  styleUrl: './conditions.component.scss',
+  styleUrl: './conditions.component.scss'
 })
 export class ConditionsComponent {
-  ngOnInit(): void {}
+
 }
