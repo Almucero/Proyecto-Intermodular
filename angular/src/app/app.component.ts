@@ -7,7 +7,7 @@ import { ErrorToastComponent } from './shared/components/error-toast/error-toast
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet], //ErrorToastComponent
+  imports: [RouterOutlet, ErrorToastComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })

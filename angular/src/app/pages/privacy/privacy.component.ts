@@ -1,24 +1,13 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
+import { HeaderComponent } from '../../shared/components/header/header.component';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-privacy',
-  imports: [RouterModule],
+  imports: [RouterModule, HeaderComponent],
   templateUrl: './privacy.component.html',
-  styleUrl: './privacy.component.scss'
+  styleUrl: './privacy.component.scss',
 })
 export class PrivacyComponent {
-  isMenuOpen = false;
-  @ViewChild('menu') menu!: ElementRef;
- ngOnInit(): void {}
-
- toggleMenu(): void {
-   this.isMenuOpen = !this.isMenuOpen;
- }
-  @HostListener('document:click', ['$event'])
- onClick(event: Event) {
-   if (this.isMenuOpen && this.menu && !this.menu.nativeElement.contains(event.target)) {
-     this.isMenuOpen = false;
-   }
- }
+  ngOnInit(): void {}
 }

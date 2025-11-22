@@ -1,4 +1,5 @@
-import { Component, ElementRef, HostListener, ViewChild, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { HeaderComponent } from '../../shared/components/header/header.component';
 import { CommonModule } from '@angular/common';
 import {
   AbstractControl,
@@ -34,7 +35,7 @@ function passwordMatches(control: AbstractControl): ValidationErrors | null {
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, HeaderComponent], //RouterLink
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
@@ -73,6 +74,8 @@ export class RegisterComponent {
       } else {
         this.registrationError = 'El email ya está registrado';
       }
+    } else {
+      this.formRegister.markAllAsTouched();
     }
   }
 
@@ -151,22 +154,8 @@ export class RegisterComponent {
     }
     return '';
   }
-  isMenuOpen = false;
-   @ViewChild('menu') menu!: ElementRef;
-  ngOnInit(): void {}
-
-  toggleMenu(): void {
-    this.isMenuOpen = !this.isMenuOpen;
-  }
-   @HostListener('document:click', ['$event'])
-  onClick(event: Event) {
-    if (this.isMenuOpen && this.menu && !this.menu.nativeElement.contains(event.target)) {
-      this.isMenuOpen = false;
-    }
-  }
 
   goToLogin() {
     this.router.navigate(['/login']);
   }
-
 }
