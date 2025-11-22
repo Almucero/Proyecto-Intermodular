@@ -1,22 +1,25 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  inject,
+  ViewChild,
+} from '@angular/core';
 import {
   FormBuilder,
   ReactiveFormsModule,
   Validators,
   FormGroup,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AUTH_SERVICE } from '../../core/services/auth.token';
 import { HttpClient } from '@angular/common/http';
-import { HeaderComponent } from '../../shared/components/header/header.component';
-import { TranslatePipe } from '../../pipes/translate.pipe';
-import { LanguageService } from '../../core/services/language.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, HeaderComponent, TranslatePipe],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
@@ -28,7 +31,6 @@ export class LoginComponent {
   navigateTo: string = '';
   private router = inject(Router);
   private auth = inject(AUTH_SERVICE);
-  private languageService = inject(LanguageService);
 
   constructor(private formSvc: FormBuilder, private http: HttpClient) {
     this.formLogin = this.formSvc.group({
@@ -44,6 +46,24 @@ export class LoginComponent {
       '/dashboard';
   }
 
+  isMenuOpen = false;
+  @ViewChild('menu') menu!: ElementRef;
+  ngOnInit(): void {}
+
+  toggleMenu(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+  @HostListener('document:click', ['$event'])
+  onClick(event: Event) {
+    if (
+      this.isMenuOpen &&
+      this.menu &&
+      !this.menu.nativeElement.contains(event.target)
+    ) {
+      this.isMenuOpen = false;
+    }
+  }
+
   async onSubmit() {
     this.loginError = '';
     if (this.formLogin.valid) {
@@ -51,8 +71,10 @@ export class LoginComponent {
       if (success) {
         this.router.navigate([this.navigateTo]);
       } else {
-        this.loginError = this.languageService.translate('errorLoginFailed');
+        this.loginError = 'Usuario no registrado o credenciales incorrectas';
       }
+    } else {
+      this.formLogin.markAllAsTouched();
     }
   }
 
@@ -60,19 +82,40 @@ export class LoginComponent {
     this.router.navigate(['/register']);
   }
 
-  getError(control: string): string {
-    const errors = this.formLogin.controls[control]?.errors;
-    if (!errors) return '';
+  goBack() {
+    this.router.navigate(['/']);
+  }
 
+  getError(control: string) {
     switch (control) {
       case 'email':
-        if (errors['required']) return this.languageService.translate('errorEmailRequired');
-        if (errors['email']) return this.languageService.translate('errorEmailInvalid');
+        if (
+          this.formLogin.controls['email'].errors != null &&
+          Object.keys(this.formLogin.controls['email'].errors).includes(
+            'required'
+          )
+        )
+          return 'El campo email es requerido';
+        else if (
+          this.formLogin.controls['email'].errors != null &&
+          Object.keys(this.formLogin.controls['email'].errors).includes('email')
+        )
+          return 'El email no es correcto';
         break;
       case 'password':
-        if (errors['required']) return this.languageService.translate('errorPasswordRequired');
+        if (
+          this.formLogin.controls['password'].errors != null &&
+          Object.keys(this.formLogin.controls['password'].errors).includes(
+            'required'
+          )
+        )
+          return 'El campo contraseña es requerido';
         break;
+      default:
+        return '';
     }
     return '';
   }
 }
+
+//hacer loginError con signal

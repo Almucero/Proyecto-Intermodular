@@ -1,3 +1,9 @@
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
 img {
   transition: transform 0.3s ease;
 }
@@ -20,8 +26,26 @@ img:hover {
   animation: slide-down 0.3s ease-out;
 }
 
-button, img {
-  background: transparent !important;
-  border: none;
-  box-shadow: none;
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.cursor-grab {
+  cursor: grab;
+}
+
+.cursor-grab:active {
+  cursor: grabbing;
+}
+
+/* Optional: Prevent text selection during drag */
+.no-select {
+  user-select: none;
 }
