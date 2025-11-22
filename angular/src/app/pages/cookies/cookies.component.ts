@@ -1,24 +1,13 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { HeaderComponent } from '../../shared/components/header/header.component';
 
 @Component({
   selector: 'app-cookies',
-  imports: [RouterModule],
+  imports: [RouterModule, HeaderComponent],
   templateUrl: './cookies.component.html',
-  styleUrl: './cookies.component.scss'
+  styleUrl: './cookies.component.scss',
 })
 export class CookiesComponent {
-  isMenuOpen = false;
-  @ViewChild('menu') menu!: ElementRef;
- ngOnInit(): void {}
-
- toggleMenu(): void {
-   this.isMenuOpen = !this.isMenuOpen;
- }
-  @HostListener('document:click', ['$event'])
- onClick(event: Event) {
-   if (this.isMenuOpen && this.menu && !this.menu.nativeElement.contains(event.target)) {
-     this.isMenuOpen = false;
-   }
- }
+  ngOnInit(): void {}
 }

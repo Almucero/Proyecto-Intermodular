@@ -1,24 +1,13 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
+import { HeaderComponent } from '../../shared/components/header/header.component';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-favourites',
-  imports: [RouterModule],
+  imports: [RouterModule, HeaderComponent],
   templateUrl: './favourites.component.html',
-  styleUrl: './favourites.component.scss'
+  styleUrl: './favourites.component.scss',
 })
 export class FavouritesComponent {
-  isMenuOpen = false;
-  @ViewChild('menu') menu!: ElementRef;
- ngOnInit(): void {}
-
- toggleMenu(): void {
-   this.isMenuOpen = !this.isMenuOpen;
- }
-  @HostListener('document:click', ['$event'])
- onClick(event: Event) {
-   if (this.isMenuOpen && this.menu && !this.menu.nativeElement.contains(event.target)) {
-     this.isMenuOpen = false;
-   }
- }
+  ngOnInit(): void {}
 }
