@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { HeaderComponent } from '../../shared/components/header/header.component';
 import { CommonModule } from '@angular/common';
 import {
   AbstractControl,
@@ -8,11 +9,8 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AUTH_SERVICE } from '../../core/services/auth.token';
-import { HeaderComponent } from '../../shared/components/header/header.component';
-import { TranslatePipe } from '../../pipes/translate.pipe';
-import { LanguageService } from '../../core/services/language.service';
 
 function passwordMatches(control: AbstractControl): ValidationErrors | null {
   const group = control as FormGroup;
@@ -37,7 +35,7 @@ function passwordMatches(control: AbstractControl): ValidationErrors | null {
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, HeaderComponent, TranslatePipe],
+  imports: [CommonModule, ReactiveFormsModule, HeaderComponent], //RouterLink
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
@@ -47,7 +45,6 @@ export class RegisterComponent {
   showPassword = false;
   private router = inject(Router);
   private auth = inject(AUTH_SERVICE);
-  private languageService = inject(LanguageService);
 
   constructor(private formSvc: FormBuilder) {
     this.formRegister = this.formSvc.group(
@@ -75,8 +72,10 @@ export class RegisterComponent {
         sessionStorage.setItem('registrationSuccess', 'true');
         this.router.navigate(['/login']);
       } else {
-        this.registrationError = this.languageService.translate('errorEmailAlreadyRegistered');
+        this.registrationError = 'El email ya está registrado';
       }
+    } else {
+      this.formRegister.markAllAsTouched();
     }
   }
 
@@ -85,27 +84,72 @@ export class RegisterComponent {
   }
 
   getError(control: string): string {
-    const errors = this.formRegister.controls[control]?.errors;
-    if (!errors) return '';
-
     switch (control) {
       case 'email':
-        if (errors['required']) return this.languageService.translate('errorEmailRequired');
-        if (errors['email']) return this.languageService.translate('errorEmailInvalid');
+        if (
+          this.formRegister.controls['email'].errors != null &&
+          Object.keys(this.formRegister.controls['email'].errors).includes(
+            'required'
+          )
+        )
+          return 'El campo email es requerido';
+        else if (
+          this.formRegister.controls['email'].errors != null &&
+          Object.keys(this.formRegister.controls['email'].errors).includes(
+            'email'
+          )
+        )
+          return 'El email no es correcto';
         break;
       case 'password':
-        if (errors['required']) return this.languageService.translate('errorPasswordRequired');
-        if (errors['pattern']) return this.languageService.translate('errorPasswordPattern');
+        if (
+          this.formRegister.controls['password'].errors != null &&
+          Object.keys(this.formRegister.controls['password'].errors).includes(
+            'required'
+          )
+        )
+          return 'El campo contraseña es requerido';
+        else if (
+          this.formRegister.controls['password'].errors != null &&
+          Object.keys(this.formRegister.controls['password'].errors).includes(
+            'pattern'
+          )
+        )
+          return 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número';
         break;
       case 'password2':
-        if (errors['required']) return this.languageService.translate('errorPassword2Required');
-        if (errors['passwordMatch']) return this.languageService.translate('errorPasswordMismatch');
+        if (
+          this.formRegister.controls['password2'].errors != null &&
+          Object.keys(this.formRegister.controls['password2'].errors).includes(
+            'required'
+          )
+        )
+          return 'Repite la contraseña';
+        else if (
+          this.formRegister.controls['password2'].errors != null &&
+          Object.keys(this.formRegister.controls['password2'].errors).includes(
+            'passwordMatch'
+          )
+        )
+          return 'Las contraseñas no coinciden';
         break;
       case 'name':
-        if (errors['required']) return this.languageService.translate('errorNameRequired');
+        if (
+          this.formRegister.controls['name'].errors != null &&
+          Object.keys(this.formRegister.controls['name'].errors).includes(
+            'required'
+          )
+        )
+          return 'El nombre es requerido';
         break;
       case 'surname':
-        if (errors['required']) return this.languageService.translate('errorSurnameRequired');
+        if (
+          this.formRegister.controls['surname'].errors != null &&
+          Object.keys(this.formRegister.controls['surname'].errors).includes(
+            'required'
+          )
+        )
+          return 'El apellido es requerido';
         break;
     }
     return '';
