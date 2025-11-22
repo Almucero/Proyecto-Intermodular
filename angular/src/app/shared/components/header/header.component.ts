@@ -1,52 +1,48 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-import { TranslatePipe } from '../../../pipes/translate.pipe';
-import { Language, LanguageService } from '../../../core/services/language.service';
+import { Component, ViewChild, HostListener, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  imports: [TranslatePipe, CommonModule,RouterModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-isMenuOpen = false;
-isLangMenuOpen = false;
-
-languages: { code: Language; flag: string; name: string }[] = [
-    { code: 'es', flag: 'espana.png', name: 'Español' },
-    { code: 'en', flag: 'estados-unidos.png', name: 'English' },
-    { code: 'de', flag: 'alemania.png', name: 'Deutsch' },
-    { code: 'fr', flag: 'francia.png', name: 'Français' },
-    { code: 'it', flag: 'italia.png', name: 'Italiano' }
-  ];
-   @ViewChild('menu') menu!: ElementRef;
-
-  constructor(private http: HttpClient,public languageService: LanguageService) {}
-
-  ngOnInit(): void {}
+  isMenuOpen = false;
+  searchActive = false;
+  @ViewChild('menu') menu!: ElementRef;
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
   }
-  toggleLangMenu() {
-    this.isLangMenuOpen = !this.isLangMenuOpen;
+
+  onSearchFocus(): void {
+    this.searchActive = true;
   }
 
-  setLanguage(lang: Language) {
-    this.languageService.setLanguage(lang);
-    this.isLangMenuOpen = false;
+  onSearchBlur(): void {
+    // pequeño delay para permitir clicks en el overlay antes de cerrar
+    setTimeout(() => {
+      const active = document.activeElement as HTMLElement | null;
+      // si el foco no está dentro del wrapper de búsqueda, cerramos
+      if (!active || !active.closest('.search-wrapper')) {
+        this.searchActive = false;
+      }
+    }, 120); // 120ms es suficiente; evita 0 que a veces hace race
   }
 
-  get currentFlag() {
-    const current = this.languages.find(l => l.code === this.languageService.getCurrentLang());
-    return current ? current.flag : 'espana.png';
+  closeSearch(): void {
+    this.searchActive = false;
   }
-   @HostListener('document:click', ['$event'])
+
+  @HostListener('document:click', ['$event'])
   onClick(event: Event) {
-    if (this.isMenuOpen && this.menu && !this.menu.nativeElement.contains(event.target)) {
+    if (
+      this.isMenuOpen &&
+      this.menu &&
+      !this.menu.nativeElement.contains(event.target)
+    ) {
       this.isMenuOpen = false;
     }
   }

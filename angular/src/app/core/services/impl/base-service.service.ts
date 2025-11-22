@@ -15,21 +15,24 @@ export class BaseService<T extends Model> implements IBaseService<T> {
   constructor(
     @Inject(REPOSITORY_TOKEN) protected repository: IBaseRepository<T>
   ) {}
-  delete(id: string): Observable<T> {
-    return this.repository.delete(id);
-  }
-  update(id: string, entity: T): Observable<T> {
-    return this.repository.update(id, entity);
-  }
 
-  add(entity: T): Observable<T> {
-    return this.repository.add(entity);
+  getAll(filters?: SearchParams): Observable<T[]> {
+    return this.repository.getAll(filters ?? {});
   }
 
   getById(id: string): Observable<T | null> {
     return this.repository.getById(id);
   }
 
-  getAll(): Observable<T[]>;
-  getAll(filters?: SearchParams): Observable<T[]> {}
+  add(entity: T): Observable<T> {
+    return this.repository.add(entity);
+  }
+
+  update(id: string, entity: T): Observable<T> {
+    return this.repository.update(id, entity);
+  }
+
+  delete(id: string): Observable<T> {
+    return this.repository.delete(id);
+  }
 }

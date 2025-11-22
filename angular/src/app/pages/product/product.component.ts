@@ -1,19 +1,13 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../shared/components/header/header.component';
-import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-product',
-  imports: [HeaderComponent,CommonModule, RouterModule],
+  imports: [RouterModule, HeaderComponent],
   templateUrl: './product.component.html',
-  styleUrl: './product.component.scss'
+  styleUrl: './product.component.scss',
 })
 export class ProductComponent {
-
-  constructor(private route: ActivatedRoute) {}
-  ngOnInit() {
-  const id = this.route.snapshot.paramMap.get('id');
-  console.log('Producto:', id);
-}
+  ngOnInit(): void {}
 }

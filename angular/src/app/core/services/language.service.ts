@@ -1,294 +1,37 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-
-export type Language = 'es' | 'en' | 'de' | 'fr' | 'it';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LanguageService {
-  private currentLangSubject = new BehaviorSubject<Language>('es');
-  currentLang$ = this.currentLangSubject.asObservable();
+  private readonly LANG_KEY = 'selectedLanguage';
+  private defaultLang = 'es';
 
-  private translations: Record<Language, any> = {
-    es: {
-      genres: 'Géneros',
-      bestSellers: 'Más vendidos',
-      offers: 'Ofertas',
-      topRated: 'Mejor Valorados',
-      searchPlaceholder: 'Buscar',
-      menu: 'Menú',
-      home: 'Inicio',
-      settings: 'Ajustes',
-      help: 'Ayuda',
-      contact: 'Contacto',
-      privacy: 'Políticas de privacidad',
-      conditions: 'Términos y condiciones',
-      cookies: 'Configuración de cookies',
-      genre_action: 'Acción',
-      genre_adventure: 'Aventura',
-      genre_rpg: 'RPG',
-      genre_sports: 'Deportes',
-      genre_strategy: 'Estrategia',
-      genre_simulation: 'Simulación',
-      genre_horror: 'Terror',
-      genre_racing: 'Carreras',
-      loginTitle: 'Inicia sesión en tu cuenta',
-      noAccount: '¿No tienes una cuenta?',
-      registerLink: 'Regístrate',
-      emailLabel: 'Correo electrónico',
-      emailPlaceholder: 'tu@email',
-      passwordLabel: 'Contraseña',
-      passwordPlaceholder: 'tu contraseña',
-      loginButton: 'Iniciar sesión',
-      registerTitle: 'Vamos a crear tu cuenta',
-      alreadyAccount: '¿Ya tienes cuenta?',
-      loginLink: 'Iniciar sesión',
-      nameLabel: 'Nombre',
-      namePlaceholder: 'Tu nombre',
-      surnameLabel: 'Apellido/os',
-      surnamePlaceholder: 'Tu apellido',
-      password2Label: 'Repite tu contraseña',
-      password2Placeholder: 'Repite tu contraseña',
-      createAccountButton: 'Crear cuenta',
-      backButton: 'Volver',
-      errorEmailRequired: 'El campo email es requerido',
-      errorEmailInvalid: 'El email no es correcto',
-      errorPasswordRequired: 'El campo contraseña es requerido',
-      errorPasswordPattern: 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número',
-      errorPassword2Required: 'Repite la contraseña',
-      errorPasswordMismatch: 'Las contraseñas no coinciden',
-      errorNameRequired: 'El nombre es requerido',
-      errorSurnameRequired: 'El apellido es requerido',
-      errorEmailAlreadyRegistered: 'El email ya está registrado',
-      errorLoginFailed: 'Usuario no registrado o credenciales incorrectas'
-    },
-    en: {
-      genres: 'Genres',
-      bestSellers: 'Best Sellers',
-      offers: 'Offers',
-      topRated: 'Top Rated',
-      searchPlaceholder: 'Search',
-      menu: 'Menu',
-      home: 'Home',
-      settings: 'Settings',
-      help: 'Help',
-      contact: 'Contact',
-      privacy: 'Privacy Policy',
-      conditions: 'Terms & Conditions',
-      cookies: 'Cookie Settings',
-      genre_action: 'Action',
-      genre_adventure: 'Adventure',
-      genre_rpg: 'RPG',
-      genre_sports: 'Sports',
-      genre_strategy: 'Strategy',
-      genre_simulation: 'Simulation',
-      genre_horror: 'Horror',
-      genre_racing: 'Racing',
-      loginTitle: 'Log in to your account',
-      noAccount: 'Don\'t have an account?',
-      registerLink: 'Sign up',
-      emailLabel: 'Email',
-      emailPlaceholder: 'your@email',
-      passwordLabel: 'Password',
-      passwordPlaceholder: 'your password',
-      loginButton: 'Log in',
-      registerTitle: 'Let\'s create your account',
-      alreadyAccount: 'Already have an account?',
-      loginLink: 'Log in',
-      nameLabel: 'Name',
-      namePlaceholder: 'Your name',
-      surnameLabel: 'Surname',
-      surnamePlaceholder: 'Your surname',
-      password2Label: 'Repeat password',
-      password2Placeholder: 'Repeat password',
-      createAccountButton: 'Create account',
-      backButton: 'Back',
-      errorEmailRequired: 'Email field is required',
-      errorEmailInvalid: 'Email is not valid',
-      errorPasswordRequired: 'Password field is required',
-      errorPasswordPattern: 'Password must have at least 8 characters, one uppercase, one lowercase and one number',
-      errorPassword2Required: 'Repeat the password',
-      errorPasswordMismatch: 'Passwords do not match',
-      errorNameRequired: 'Name is required',
-      errorSurnameRequired: 'Surname is required',
-      errorEmailAlreadyRegistered: 'Email is already registered',
-      errorLoginFailed: 'User not registered or incorrect credentials'
-    },
-    de: {
-      genres: 'Genres',
-      bestSellers: 'Bestseller',
-      offers: 'Angebote',
-      topRated: 'Bestbewertet',
-      searchPlaceholder: 'Suchen',
-      menu: 'Menü',
-      home: 'Startseite',
-      settings: 'Einstellungen',
-      help: 'Hilfe',
-      contact: 'Kontakt',
-      privacy: 'Datenschutz',
-      conditions: 'AGB',
-      cookies: 'Cookie-Einstellungen',
-      genre_action: 'Action',
-      genre_adventure: 'Abenteuer',
-      genre_rpg: 'RPG',
-      genre_sports: 'Sport',
-      genre_strategy: 'Strategie',
-      genre_simulation: 'Simulation',
-      genre_horror: 'Horror',
-      genre_racing: 'Rennspiele',
-      loginTitle: 'Melden Sie sich an',
-      noAccount: 'Haben Sie kein Konto?',
-      registerLink: 'Registrieren',
-      emailLabel: 'E-Mail',
-      emailPlaceholder: 'ihre@email',
-      passwordLabel: 'Passwort',
-      passwordPlaceholder: 'ihr passwort',
-      loginButton: 'Anmelden',
-      registerTitle: 'Erstellen Sie Ihr Konto',
-      alreadyAccount: 'Haben Sie bereits ein Konto?',
-      loginLink: 'Anmelden',
-      nameLabel: 'Name',
-      namePlaceholder: 'Ihr Name',
-      surnameLabel: 'Nachname',
-      surnamePlaceholder: 'Ihr Nachname',
-      password2Label: 'Passwort wiederholen',
-      password2Placeholder: 'Passwort wiederholen',
-      createAccountButton: 'Konto erstellen',
-      backButton: 'Zurück',
-      errorEmailRequired: 'E-Mail-Feld ist erforderlich',
-      errorEmailInvalid: 'E-Mail ist nicht gültig',
-      errorPasswordRequired: 'Passwortfeld ist erforderlich',
-      errorPasswordPattern: 'Passwort muss mindestens 8 Zeichen, einen Großbuchstaben, einen Kleinbuchstaben und eine Zahl enthalten',
-      errorPassword2Required: 'Passwort wiederholen',
-      errorPasswordMismatch: 'Passwörter stimmen nicht überein',
-      errorNameRequired: 'Name ist erforderlich',
-      errorSurnameRequired: 'Nachname ist erforderlich',
-      errorEmailAlreadyRegistered: 'E-Mail ist bereits registriert',
-      errorLoginFailed: 'Benutzer nicht registriert oder falsche Anmeldedaten'
-    },
-    fr: {
-      genres: 'Genres',
-      bestSellers: 'Meilleures ventes',
-      offers: 'Offres',
-      topRated: 'Les mieux notés',
-      searchPlaceholder: 'Rechercher',
-      menu: 'Menu',
-      home: 'Accueil',
-      settings: 'Paramètres',
-      help: 'Aide',
-      contact: 'Contact',
-      privacy: 'Politique de confidentialité',
-      conditions: 'Termes et conditions',
-      cookies: 'Paramètres des cookies',
-      genre_action: 'Action',
-      genre_adventure: 'Aventure',
-      genre_rpg: 'RPG',
-      genre_sports: 'Sports',
-      genre_strategy: 'Stratégie',
-      genre_simulation: 'Simulation',
-      genre_horror: 'Horreur',
-      genre_racing: 'Course',
-      loginTitle: 'Connectez-vous',
-      noAccount: 'Vous n\'avez pas de compte ?',
-      registerLink: 'S\'inscrire',
-      emailLabel: 'E-mail',
-      emailPlaceholder: 'votre@email',
-      passwordLabel: 'Mot de passe',
-      passwordPlaceholder: 'votre mot de passe',
-      loginButton: 'Se connecter',
-      registerTitle: 'Créons votre compte',
-      alreadyAccount: 'Vous avez déjà un compte ?',
-      loginLink: 'Se connecter',
-      nameLabel: 'Prénom',
-      namePlaceholder: 'Votre prénom',
-      surnameLabel: 'Nom',
-      surnamePlaceholder: 'Votre nom',
-      password2Label: 'Répétez le mot de passe',
-      password2Placeholder: 'Répétez le mot de passe',
-      createAccountButton: 'Créer un compte',
-      backButton: 'Retour',
-      errorEmailRequired: 'Le champ e-mail est requis',
-      errorEmailInvalid: 'L\'e-mail n\'est pas valide',
-      errorPasswordRequired: 'Le champ mot de passe est requis',
-      errorPasswordPattern: 'Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre',
-      errorPassword2Required: 'Répétez le mot de passe',
-      errorPasswordMismatch: 'Les mots de passe ne correspondent pas',
-      errorNameRequired: 'Le prénom est requis',
-      errorSurnameRequired: 'Le nom est requis',
-      errorEmailAlreadyRegistered: 'L\'e-mail est déjà enregistré',
-      errorLoginFailed: 'Utilisateur non enregistré ou identifiants incorrects'
-    },
-    it: {
-      genres: 'Generi',
-      bestSellers: 'I più venduti',
-      offers: 'Offerte',
-      topRated: 'Più votati',
-      searchPlaceholder: 'Cerca',
-      menu: 'Menù',
-      home: 'Home',
-      settings: 'Impostazioni',
-      help: 'Aiuto',
-      contact: 'Contatto',
-      privacy: 'Privacy',
-      conditions: 'Termini e condizioni',
-      cookies: 'Impostazioni cookie',
-      genre_action: 'Azione',
-      genre_adventure: 'Avventura',
-      genre_rpg: 'RPG',
-      genre_sports: 'Sport',
-      genre_strategy: 'Strategia',
-      genre_simulation: 'Simulazione',
-      genre_horror: 'Orrore',
-      genre_racing: 'Corse',
-      loginTitle: 'Accedi al tuo account',
-      noAccount: 'Non hai un account?',
-      registerLink: 'Registrati',
-      emailLabel: 'Email',
-      emailPlaceholder: 'tua@email',
-      passwordLabel: 'Password',
-      passwordPlaceholder: 'tua password',
-      loginButton: 'Accedi',
-      registerTitle: 'Creiamo il tuo account',
-      alreadyAccount: 'Hai già un account?',
-      loginLink: 'Accedi',
-      nameLabel: 'Nome',
-      namePlaceholder: 'Il tuo nome',
-      surnameLabel: 'Cognome',
-      surnamePlaceholder: 'Il tuo cognome',
-      password2Label: 'Ripeti password',
-      password2Placeholder: 'Ripeti password',
-      createAccountButton: 'Crea account',
-      backButton: 'Indietro',
-      errorEmailRequired: 'Il campo email è obbligatorio',
-      errorEmailInvalid: 'L\'email non è valida',
-      errorPasswordRequired: 'Il campo password è obbligatorio',
-      errorPasswordPattern: 'La password deve contenere almeno 8 caratteri, una maiuscola, una minuscola e un numero',
-      errorPassword2Required: 'Ripeti la password',
-      errorPasswordMismatch: 'Le password non corrispondono',
-      errorNameRequired: 'Il nome è obbligatorio',
-      errorSurnameRequired: 'Il cognome è obbligatorio',
-      errorEmailAlreadyRegistered: 'L\'email è già registrata',
-      errorLoginFailed: 'Utente non registrato o credenziali errate'
-    }
-  };
+  constructor(private translate: TranslateService) {
+    translate.addLangs(['es', 'en']);
+    translate.setDefaultLang('es');
 
-  constructor() {}
+    const browserLang = translate.getBrowserLang();
+    translate.use(browserLang?.match(/es|en/) ? browserLang : 'es');
 
-  get t() {
-    return this.translations[this.currentLangSubject.value];
+    const storedLang = this.getStoredLanguage();
+    this.changeLanguage(storedLang);
   }
 
-  translate(key: string): string {
-    const lang = this.currentLangSubject.value;
-    return this.translations[lang][key] || key;
+  changeLanguage(lang: string) {
+    this.translate.use(lang);
   }
 
-  setLanguage(lang: Language) {
-    this.currentLangSubject.next(lang);
+  getCurrentLang(): string {
+    return this.translate.currentLang;
   }
 
-  getCurrentLang() {
-    return this.currentLangSubject.value;
+  getStoredLanguage(): string {
+    return localStorage.getItem(this.LANG_KEY) || this.defaultLang;
+  }
+
+  storeLanguage(lang: string): void {
+    localStorage.setItem(this.LANG_KEY, lang);
   }
 }
