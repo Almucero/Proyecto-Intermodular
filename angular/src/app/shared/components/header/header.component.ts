@@ -22,8 +22,14 @@ export class HeaderComponent {
   }
 
   onSearchBlur(): void {
-    // small timeout to allow click on overlay to register before blur hides it
-    setTimeout(() => (this.searchActive = false), 0);
+    // pequeño delay para permitir clicks en el overlay antes de cerrar
+    setTimeout(() => {
+      const active = document.activeElement as HTMLElement | null;
+      // si el foco no está dentro del wrapper de búsqueda, cerramos
+      if (!active || !active.closest('.search-wrapper')) {
+        this.searchActive = false;
+      }
+    }, 120); // 120ms es suficiente; evita 0 que a veces hace race
   }
 
   closeSearch(): void {

@@ -5,77 +5,53 @@ header {
   z-index: 1000;
 }
 
-img {
-  transition: transform 0.3s ease;
-}
-img:hover {
-  transform: scale(1.05);
-}
-
-@keyframes slide-down {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-slide-down {
-  animation: slide-down 0.3s ease-out;
-}
-
-button,
-img {
-  background: transparent !important;
-  border: none;
-  box-shadow: none;
-}
-
-/* Search bar specific styles */
+/* Search bar: borde negro siempre, y más contraste al activar */
 .search-wrapper {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.35rem 0.75rem; /* control padding via component CSS (avoid Tailwind px-4) */
-  height: 40px; /* less tall */
-  transition: padding 0.12s ease, background-color 0.12s ease;
+  padding: 0.35rem 0.75rem;
+  height: 40px;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  background-color: #111827;
+  border-radius: 9999px;
 }
 
+/* icon wrapper y input como ya tenías */
 .search-icon-wrapper {
   width: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex: 0 0 28px;
-  transition: width 0.18s ease, opacity 0.18s ease, margin 0.18s ease;
+  transition: all 0.2s ease;
 }
-
 .search-icon {
   width: 22px;
-  height: auto; /* preserve aspect ratio, avoid squashing */
+  height: auto;
   display: block;
 }
-
 .search-input {
   flex: 1 1 auto;
   font-size: 0.95rem;
-  padding-left: 0.6rem; /* extra space from the icon initially */
+  padding-left: 0.6rem;
   height: 28px;
-  color: #fff !important; /* ensure text is white */
-  transition: color 0.12s ease, font-weight 0.12s ease, padding-left 0.18s ease;
+  color: #fff !important;
+  background-color: transparent !important;
+  outline: none !important;
+  border: none !important;
+  appearance: none;
+  transition: all 0.2s ease;
 }
 
-/* White placeholder text */
+/* Placeholder blanco */
 .search-input::placeholder {
   color: #fff !important;
   opacity: 1;
 }
 
-/* When focused: collapse the icon wrapper, reduce left padding so text goes to start */
-/* also support class on header for toggling (more reliable across view encapsulation) */
+/* Al enfocar: colapsa icono y resalta borde (más oscuro) */
 header.search-active .search-icon-wrapper,
 header .search-wrapper:focus-within .search-icon-wrapper {
   width: 0;
@@ -85,40 +61,37 @@ header .search-wrapper:focus-within .search-icon-wrapper {
 
 header.search-active .search-wrapper,
 header .search-wrapper:focus-within {
-  padding-left: 0 !important; /* move input to the left edge when focused */
+  padding-left: 0 !important;
+  border-color: transparent;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
 }
 
-/* Ensure the input itself has no left padding when active */
+/* input sin padding izquierdo cuando activo */
 header.search-active .search-input,
 header .search-wrapper:focus-within .search-input {
   padding-left: 0 !important;
-}
-
-header.search-active .search-input,
-.search-input:focus {
-  color: #ffffff !important;
+  color: #fff !important;
   font-weight: 700 !important;
 }
 
-/* Overlay to darken the rest of the page while search is active, but leave header visible */
+/* Overlay: cubre toda la página debajo del header */
 .header-overlay {
   position: fixed;
   top: var(--header-height, 64px);
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.7);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.12s ease;
-  z-index: 900; /* below header (1000) */
+  transition: opacity 0.2s ease;
+  z-index: 900;
+  backdrop-filter: blur(2px);
 }
 
-/* Show overlay when search is focused */
+/* Mostrar overlay cuando está activo */
 .search-wrapper:focus-within ~ .header-overlay,
 header.search-active .header-overlay {
   opacity: 1 !important;
   pointer-events: auto !important;
 }
-
-/* Make sure the overlay doesn't hide the header because header has higher z-index */

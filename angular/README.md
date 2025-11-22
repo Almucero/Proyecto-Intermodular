@@ -57,3 +57,9 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+por hacer: Vale, funciona bien lo de desactivar los botones. Otra cosa, intetna que la velocidad a la que se scrollea por el carrusel coincida con como se mueven los elementos. Es decir, lo logico seria que si yo mantengo clic en un elemento y empiezo a mover el raton, yo tenga en todo momento ese elemento bajo el raton, y que se mueva a la velocidad correcta. Actualmente eso no ocurre, si se mantiene clic en algo y se mueve hacia un lado el raton, el elemento mantenido rapidamente adelantara a la velocidad real del raton.
+
+desactivar copiado en carrusel
+
+titulo de pantallas
