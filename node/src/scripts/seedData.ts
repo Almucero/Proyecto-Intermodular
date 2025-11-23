@@ -1,50 +1,10 @@
 import "dotenv/config";
-import bcrypt from "bcrypt";
 import { prisma } from "../config/db.js";
 
-/**
- * Seed ampliado:
- * - Géneros fijos: Accion, aventura, rpg, deportes, estrategia, simulacion, terror, carreras
- * - >=10 juegos por género (80 juegos)
- * - NO toca usuarios (no delete/create users)
- * - Cada juego recibe 5 imágenes placeholder únicas
- * Uso: npm run seed:data
- */
 async function seedData() {
   try {
     console.log("🌱 Iniciando seed ampliado...");
 
-    // --- BORRAR datos existentes salvo usuarios ---
-    await prisma.gameImage.deleteMany();
-    await prisma.game.deleteMany();
-    await prisma.developer.deleteMany();
-    await prisma.publisher.deleteMany();
-    await prisma.genre.deleteMany();
-    await prisma.platform.deleteMany();
-    // Nota: NO tocamos prisma.user (según petición)
-
-    // Resetear secuencias de autoincremento (Postgres) — excepto User
-    await prisma.$executeRawUnsafe(
-      'ALTER SEQUENCE "Game_id_seq" RESTART WITH 1'
-    );
-    await prisma.$executeRawUnsafe(
-      'ALTER SEQUENCE "GameImage_id_seq" RESTART WITH 1'
-    );
-    await prisma.$executeRawUnsafe(
-      'ALTER SEQUENCE "Developer_id_seq" RESTART WITH 1'
-    );
-    await prisma.$executeRawUnsafe(
-      'ALTER SEQUENCE "Publisher_id_seq" RESTART WITH 1'
-    );
-    await prisma.$executeRawUnsafe(
-      'ALTER SEQUENCE "Genre_id_seq" RESTART WITH 1'
-    );
-    await prisma.$executeRawUnsafe(
-      'ALTER SEQUENCE "Platform_id_seq" RESTART WITH 1'
-    );
-    // No reseteamos User sequence ni tocamos users
-
-    // --- Plataformas estándar ---
     const platformNames = [
       "PC",
       "PS5",
@@ -61,7 +21,6 @@ async function seedData() {
       platforms.map((p) => [p.name, p])
     );
 
-    // --- Géneros fijados por el usuario ---
     const genreNames = [
       "Accion",
       "aventura",
@@ -78,7 +37,6 @@ async function seedData() {
     );
     const genreByName = Object.fromEntries(genres.map((g) => [g.name, g]));
 
-    // --- Developers y Publishers (lista amplia para cubrir juegos reales) ---
     const developerNames = [
       "Kojima Productions",
       "FromSoftware",
@@ -149,9 +107,6 @@ async function seedData() {
     const devByName = Object.fromEntries(developers.map((d) => [d.name, d]));
     const pubByName = Object.fromEntries(publishers.map((p) => [p.name, p]));
 
-    // --- Datos de juegos: al menos 10 por género ---
-    // Para cada juego: title, description, price, isOnSale, salePrice (si aplica), isRefundable, releaseDate,
-    // developerName, publisherName, genres: [genreName], platforms: [platformNames], coverUrl optional
     const gamesData = [
       // ----- ACCION (10) -----
       {
@@ -159,10 +114,10 @@ async function seedData() {
         description: "Acción épica y narrativa basada en mitología nórdica.",
         price: 69.99,
         isOnSale: false,
+        salePrice: 41.99,
         isRefundable: true,
         releaseDate: new Date("2022-11-09"),
-        developer:
-          "Sucker Punch Productions" /* not exact but as placeholder */,
+        developer: "Sucker Punch Productions",
         publisher: "Sony Interactive Entertainment",
         genres: ["Accion"],
         platforms: ["PS5"],
@@ -189,6 +144,7 @@ async function seedData() {
         description: "Hack'n'slash estilizado con combates vertiginosos.",
         price: 39.99,
         isOnSale: false,
+        salePrice: 23.99,
         isRefundable: true,
         releaseDate: new Date("2019-03-08"),
         developer: "Capcom",
@@ -219,6 +175,7 @@ async function seedData() {
           "Aventura-acción cinematográfica con toques de plataformas.",
         price: 29.99,
         isOnSale: false,
+        salePrice: 17.99,
         isRefundable: true,
         releaseDate: new Date("2016-05-10"),
         developer: "Naughty Dog",
@@ -233,6 +190,7 @@ async function seedData() {
         description: "Acción samurái con mundo abierto y combate con katana.",
         price: 59.99,
         isOnSale: false,
+        salePrice: 35.99,
         isRefundable: true,
         releaseDate: new Date("2020-07-17"),
         developer: "Sucker Punch Productions",
@@ -263,6 +221,7 @@ async function seedData() {
           "Acción y combate cuerpo a cuerpo con gadgets del murciélago.",
         price: 24.99,
         isOnSale: false,
+        salePrice: 14.99,
         isRefundable: true,
         releaseDate: new Date("2015-06-23"),
         developer: "Rocksteady Studios",
@@ -293,6 +252,7 @@ async function seedData() {
         description: "Acción y exploración vikinga con árbol de habilidades.",
         price: 59.99,
         isOnSale: false,
+        salePrice: 35.99,
         isRefundable: true,
         releaseDate: new Date("2020-11-10"),
         developer: "Ubisoft",
@@ -324,6 +284,7 @@ async function seedData() {
         description: "Aventura western con mundo abierto y narrativa profunda.",
         price: 59.99,
         isOnSale: false,
+        salePrice: 35.99,
         isRefundable: true,
         releaseDate: new Date("2018-10-26"),
         developer: "Rockstar Games",
@@ -353,6 +314,7 @@ async function seedData() {
         description: "Aventura abierta con exploración y puzzles en Hyrule.",
         price: 59.99,
         isOnSale: false,
+        salePrice: 35.99,
         isRefundable: true,
         releaseDate: new Date("2017-03-03"),
         developer: "Nintendo EPD",
@@ -367,6 +329,7 @@ async function seedData() {
         description: "Reboot de aventura y exploración arqueológica.",
         price: 19.99,
         isOnSale: false,
+        salePrice: 11.99,
         isRefundable: true,
         releaseDate: new Date("2013-03-05"),
         developer: "Crystal Dynamics",
@@ -381,6 +344,7 @@ async function seedData() {
         description: "Aventura-acción independiente con exploración y puzles.",
         price: 29.99,
         isOnSale: false,
+        salePrice: 17.99,
         isRefundable: true,
         releaseDate: new Date("2017-08-22"),
         developer: "Naughty Dog",
@@ -411,6 +375,7 @@ async function seedData() {
         description: "Aventura espacial de exploración y descubrimiento.",
         price: 24.99,
         isOnSale: false,
+        salePrice: 14.99,
         isRefundable: true,
         releaseDate: new Date("2019-05-28"),
         developer: "Mobius Digital",
@@ -440,6 +405,7 @@ async function seedData() {
         description: "Aventura sobrenatural con narrativa surrealista.",
         price: 49.99,
         isOnSale: false,
+        salePrice: 29.99,
         isRefundable: true,
         releaseDate: new Date("2019-08-27"),
         developer: "Remedy Entertainment",
@@ -471,6 +437,7 @@ async function seedData() {
         description: "RPG narrativo con mundo abierto y decisiones profundas.",
         price: 39.99,
         isOnSale: false,
+        salePrice: 23.99,
         isRefundable: true,
         releaseDate: new Date("2015-05-19"),
         developer: "CD Projekt Red",
@@ -485,6 +452,7 @@ async function seedData() {
         description: "RPG épico con combate en tiempo real y relato dramático.",
         price: 69.99,
         isOnSale: false,
+        salePrice: 41.99,
         isRefundable: true,
         releaseDate: new Date("2023-06-22"),
         developer: "Square Enix",
@@ -514,6 +482,7 @@ async function seedData() {
         description: "RPG japonés centrado en turnos, estilo y narrativa.",
         price: 49.99,
         isOnSale: false,
+        salePrice: 29.99,
         isRefundable: true,
         releaseDate: new Date("2020-03-31"),
         developer: "Atlus",
@@ -543,6 +512,7 @@ async function seedData() {
         description: "Trilogía remasterizada de RPGs de ciencia ficción.",
         price: 49.99,
         isOnSale: false,
+        salePrice: 29.99,
         isRefundable: true,
         releaseDate: new Date("2021-05-14"),
         developer: "BioWare",
@@ -572,6 +542,7 @@ async function seedData() {
         description: "RPG futurista con mundo abierto y narrativa adulta.",
         price: 59.99,
         isOnSale: false,
+        salePrice: 35.99,
         isRefundable: true,
         releaseDate: new Date("2020-12-10"),
         developer: "CD Projekt Red",
@@ -621,6 +592,7 @@ async function seedData() {
           "Simulación de baloncesto con énfasis en carrera y MyTeam.",
         price: 59.99,
         isOnSale: false,
+        salePrice: 35.99,
         isRefundable: true,
         releaseDate: new Date("2022-09-09"),
         developer: "Visual Concepts",
@@ -636,6 +608,7 @@ async function seedData() {
           "Simulación de fútbol americano con modos carrera y online.",
         price: 59.99,
         isOnSale: false,
+        salePrice: 35.99,
         isRefundable: true,
         releaseDate: new Date("2022-08-19"),
         developer: "EA Tiburon",
@@ -665,6 +638,7 @@ async function seedData() {
         description: "Deporte con coches: fútbol vehicular competitivo.",
         price: 0.0,
         isOnSale: false,
+        salePrice: 0.0,
         isRefundable: true,
         releaseDate: new Date("2015-07-07"),
         developer: "Psyonix",
@@ -694,6 +668,7 @@ async function seedData() {
         description: "Gestión futbolística profunda y simulación de club.",
         price: 49.99,
         isOnSale: false,
+        salePrice: 29.99,
         isRefundable: true,
         releaseDate: new Date("2022-11-08"),
         developer: "Sports Interactive",
@@ -708,6 +683,7 @@ async function seedData() {
         description: "Simulador de fútbol free-to-play de Konami.",
         price: 0.0,
         isOnSale: false,
+        salePrice: 0.0,
         isRefundable: true,
         releaseDate: new Date("2021-09-30"),
         developer: "Konami",
@@ -737,6 +713,7 @@ async function seedData() {
         description: "Simulación de motos con físicas realistas.",
         price: 49.99,
         isOnSale: false,
+        salePrice: 29.99,
         isRefundable: true,
         releaseDate: new Date("2023-04-06"),
         developer: "Milestone",
@@ -769,6 +746,7 @@ async function seedData() {
         description: "Estrategia táctica contra invasión alienígena.",
         price: 29.99,
         isOnSale: false,
+        salePrice: 17.99,
         isRefundable: true,
         releaseDate: new Date("2016-02-05"),
         developer: "Firaxis Games",
@@ -783,6 +761,7 @@ async function seedData() {
         description: "Estrategia en tiempo real con civilizaciones históricas.",
         price: 49.99,
         isOnSale: false,
+        salePrice: 29.99,
         isRefundable: true,
         releaseDate: new Date("2021-10-28"),
         developer: "Relic Entertainment",
@@ -813,6 +792,7 @@ async function seedData() {
           "Estrategia espacial de gran escala y exploración galáctica.",
         price: 39.99,
         isOnSale: false,
+        salePrice: 23.99,
         isRefundable: true,
         releaseDate: new Date("2016-05-09"),
         developer: "Paradox Interactive",
@@ -842,6 +822,7 @@ async function seedData() {
         description: "Estrategia táctica en la Segunda Guerra Mundial.",
         price: 19.99,
         isOnSale: false,
+        salePrice: 11.99,
         isRefundable: true,
         releaseDate: new Date("2013-06-25"),
         developer: "Relic Entertainment",
@@ -872,6 +853,7 @@ async function seedData() {
         description: "Estrategia en tiempo real con tres razas competitivas.",
         price: 0.0,
         isOnSale: false,
+        salePrice: 0.0,
         isRefundable: true,
         releaseDate: new Date("2010-07-27"),
         developer: "Blizzard Entertainment",
@@ -886,6 +868,7 @@ async function seedData() {
         description: "Remasterización de un clásico de estrategia y narrativa.",
         price: 29.99,
         isOnSale: false,
+        salePrice: 17.99,
         isRefundable: true,
         releaseDate: new Date("2020-01-28"),
         developer: "Blizzard Entertainment",
@@ -917,6 +900,7 @@ async function seedData() {
         description: "Simulación de vida con creación de personajes y hogares.",
         price: 39.99,
         isOnSale: false,
+        salePrice: 23.99,
         isRefundable: true,
         releaseDate: new Date("2014-09-02"),
         developer: "Maxis",
@@ -947,6 +931,7 @@ async function seedData() {
           "Simulación y construcción de ciudades con detalle urbano.",
         price: 29.99,
         isOnSale: false,
+        salePrice: 17.99,
         isRefundable: true,
         releaseDate: new Date("2015-03-10"),
         developer: "Colossal Order",
@@ -962,6 +947,7 @@ async function seedData() {
           "Simulación espacial con física realista y construcción de cohetes.",
         price: 39.99,
         isOnSale: false,
+        salePrice: 23.99,
         isRefundable: true,
         releaseDate: new Date("2015-04-27"),
         developer: "Squad",
@@ -992,6 +978,7 @@ async function seedData() {
         description: "Simulación agrícola con maquinaria y economía de granja.",
         price: 34.99,
         isOnSale: false,
+        salePrice: 20.99,
         isRefundable: true,
         releaseDate: new Date("2021-11-22"),
         developer: "Giants Software",
@@ -1022,6 +1009,7 @@ async function seedData() {
           "Simulación espacial exploratoria con actualizaciones constantes.",
         price: 49.99,
         isOnSale: false,
+        salePrice: 29.99,
         isRefundable: true,
         releaseDate: new Date("2016-08-09"),
         developer: "Hello Games",
@@ -1069,6 +1057,7 @@ async function seedData() {
           "Horror atmosférico centrado en sigilo y miedo psicológico.",
         price: 9.99,
         isOnSale: false,
+        salePrice: 5.99,
         isRefundable: true,
         releaseDate: new Date("2010-09-08"),
         developer: "Frictional Games",
@@ -1099,6 +1088,7 @@ async function seedData() {
         description: "Horror de supervivencia ambientado en el universo Alien.",
         price: 19.99,
         isOnSale: false,
+        salePrice: 11.99,
         isRefundable: true,
         releaseDate: new Date("2014-10-07"),
         developer: "Creative Assembly",
@@ -1113,6 +1103,7 @@ async function seedData() {
         description: "Horror psicológico con combates intensos.",
         price: 19.99,
         isOnSale: false,
+        salePrice: 11.99,
         isRefundable: true,
         releaseDate: new Date("2014-10-14"),
         developer: "Tango Gameworks",
@@ -1143,6 +1134,7 @@ async function seedData() {
         description: "Clásico del horror psicológico — remaster hipotético.",
         price: 39.99,
         isOnSale: false,
+        salePrice: 23.99,
         isRefundable: true,
         releaseDate: new Date("2001-09-24"),
         developer: "Konami",
@@ -1172,6 +1164,7 @@ async function seedData() {
         description: "Survival horror espacial con atmósfera opresiva.",
         price: 39.99,
         isOnSale: false,
+        salePrice: 23.99,
         isRefundable: true,
         releaseDate: new Date("2023-01-27"),
         developer: "Motive Studio",
@@ -1219,6 +1212,7 @@ async function seedData() {
           "Simulador de conducción con atención al detalle y físicas.",
         price: 69.99,
         isOnSale: false,
+        salePrice: 41.99,
         isRefundable: true,
         releaseDate: new Date("2022-03-04"),
         developer: "Polyphony Digital",
@@ -1248,6 +1242,7 @@ async function seedData() {
         description: "Carreras callejeras y personalización de coches.",
         price: 29.99,
         isOnSale: false,
+        salePrice: 17.99,
         isRefundable: true,
         releaseDate: new Date("2019-11-08"),
         developer: "Ghost Games",
@@ -1278,6 +1273,7 @@ async function seedData() {
         description: "Arcade racing con choques masivos y eventos urbanos.",
         price: 19.99,
         isOnSale: false,
+        salePrice: 11.99,
         isRefundable: true,
         releaseDate: new Date("2018-03-16"),
         developer: "Criterion Games",
@@ -1307,6 +1303,7 @@ async function seedData() {
         description: "Simulación GT con físicas de competición y licencia SRO.",
         price: 39.99,
         isOnSale: false,
+        salePrice: 23.99,
         isRefundable: true,
         releaseDate: new Date("2019-05-29"),
         developer: "Kunos Simulazioni",
@@ -1322,6 +1319,7 @@ async function seedData() {
           "Arcade racing centrado en tiempos y pistas creadas por la comunidad.",
         price: 0.0,
         isOnSale: false,
+        salePrice: 0.0,
         isRefundable: true,
         releaseDate: new Date("2020-07-01"),
         developer: "Nadeo",
@@ -1348,22 +1346,20 @@ async function seedData() {
       },
     ];
 
-    // --- Helper: crea un juego y sus 5 imágenes placeholder ---
-    let imagesCreated = 0;
     const createGame = async (g: {
       title: string;
       description: string;
       price: number;
-      isOnSale?: boolean;
-      salePrice?: number;
-      isRefundable?: boolean;
+      isOnSale: boolean;
+      salePrice: number;
+      isRefundable: boolean;
       releaseDate: Date;
       developer: string;
       publisher: string;
       genres: string[];
       platforms: string[];
-      rating?: number;
-      numberOfSales?: number;
+      rating: number;
+      numberOfSales: number;
     }) => {
       let dev = devByName[g.developer];
       if (!dev) {
@@ -1395,79 +1391,33 @@ async function seedData() {
         return { id: platform.id };
       });
 
-      // Normalizar rating (null o número entre 0.0 y 5.0 con 1 decimal)
-      const rating =
-        typeof g.rating === "number"
-          ? Math.max(0, Math.min(5, Math.round(g.rating * 10) / 10))
-          : Math.round(Math.random() * 5 * 10) / 10; // si no viene, genera uno aleatorio 0.0-5.0
-
-      // Normalizar numberOfSales (si no viene, valor aleatorio razonable)
-      const numberOfSales =
-        typeof g.numberOfSales === "number"
-          ? Math.max(0, Math.floor(g.numberOfSales))
-          : Math.floor(Math.random() * 50000); // 0..49999 por defecto
-
       const created = await prisma.game.create({
         data: {
           title: g.title,
           description: g.description,
           price: g.price,
-          salePrice: g.isOnSale
-            ? typeof g.salePrice === "number"
-              ? g.salePrice
-              : Math.round(g.price * 0.6 * 100) / 100
-            : null,
-          isOnSale: !!g.isOnSale,
-          isRefundable: g.isRefundable ?? true,
+          salePrice: g.salePrice,
+          isOnSale: g.isOnSale,
+          isRefundable: g.isRefundable,
           releaseDate: g.releaseDate,
           developerId: dev.id,
           publisherId: pub.id,
           genres: { connect: genreConnect },
           platforms: { connect: platformConnect },
-          // <- nuevos campos
-          rating: rating,
-          numberOfSales: numberOfSales,
+          rating: g.rating,
+          numberOfSales: g.numberOfSales,
         },
       });
 
-      const base = encodeURIComponent(String(g.title ?? "Juego"));
-      const imageUrls = [
-        `https://placehold.co/600x400?text=${base}+Portada`,
-        `https://placehold.co/600x400?text=${base}+Img2`,
-        `https://placehold.co/600x400?text=${base}+Img3`,
-        `https://placehold.co/600x400?text=${base}+Img4`,
-        `https://placehold.co/600x400?text=${base}+Img5`,
-      ];
-
-      for (let i = 0; i < imageUrls.length; i++) {
-        const url = String(
-          imageUrls[i] ?? "https://placehold.co/600x400?text=Juego"
-        );
-        const titleSafe = String(g.title ?? "Juego");
-
-        await prisma.gameImage.create({
-          data: {
-            gameId: created.id,
-            url,
-            altText:
-              i === 0
-                ? `${titleSafe} (Portada)`
-                : `${titleSafe} Imagen ${i + 1}`,
-          },
-        });
-        imagesCreated++;
-      }
       return created;
     };
 
     console.log("  - Insertando juegos (esto puede tardar unos segundos)...");
     const createdGames = [];
     for (const g of gamesData) {
-      // Normalizar platforms: si plataforma no existe, asignar PC como fallback
       g.platforms = (g.platforms || ["PC"]).map((p) =>
         platformByName[p] ? p : "PC"
       );
-      // Normalizar genres: should exist
       createdGames.push(await createGame(g));
     }
 
@@ -1477,7 +1427,6 @@ async function seedData() {
     console.log(`   - ${genres.length} Géneros creados`);
     console.log(`   - ${platforms.length} Plataformas creadas`);
     console.log(`   - ${createdGames.length} Games creados`);
-    console.log(`   - ${imagesCreated} GameImages creadas`);
   } catch (err) {
     console.error("❌ Error durante el seed:", err);
     process.exit(1);
