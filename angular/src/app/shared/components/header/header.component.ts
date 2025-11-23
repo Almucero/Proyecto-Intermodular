@@ -1,10 +1,13 @@
 import { Component, ViewChild, HostListener, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Language, TranslatePipe } from '@ngx-translate/core';
+import { LanguageSelectorComponent } from '../language-selector/language-selector.component';
 
 @Component({
   selector: 'app-header',
-  imports: [CommonModule, RouterModule],
+  standalone: true,
+  imports: [CommonModule, RouterModule, TranslatePipe, LanguageSelectorComponent],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })

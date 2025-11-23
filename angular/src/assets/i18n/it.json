@@ -1,0 +1,109 @@
+{
+    "common": {
+        "searchPlaceholder": "Cerca"
+    },
+    "header": {
+        "menu": "Menù"
+    },
+    "menu": {
+        "home": "Home",
+        "settings": "Impostazioni",
+        "help": "Aiuto",
+        "contact": "Contatto",
+        "privacy": "Privacy",
+        "conditions": "Termini e condizioni",
+        "cookies": "Impostazioni cookie"
+    },
+    "genres": {
+        "title": "Generi",
+        "action": "Azione",
+        "adventure": "Avventura",
+        "rpg": "RPG",
+        "sports": "Sport",
+        "strategy": "Strategia",
+        "simulation": "Simulazione",
+        "horror": "Orrore",
+        "racing": "Corse"
+    },
+    "home": {
+        "bestSellers": "I più venduti",
+        "offers": "Offerte",
+        "topRated": "Più votati"
+    },
+    "login": {
+        "title": "Accedi al tuo account",
+        "noAccount": "Non hai un account?",
+        "registerLink": "Registrati",
+        "emailLabel": "Email",
+        "emailPlaceholder": "tua@email",
+        "passwordLabel": "Password",
+        "passwordPlaceholder": "tua password",
+        "loginButton": "Accedi"
+    },
+    "register": {
+        "title": "Creiamo il tuo account",
+        "alreadyAccount": "Hai già un account?",
+        "loginLink": "Accedi",
+        "nameLabel": "Nome",
+        "namePlaceholder": "Il tuo nome",
+        "surnameLabel": "Cognome",
+        "surnamePlaceholder": "Il tuo cognome",
+        "password2Label": "Ripeti password",
+        "password2Placeholder": "Ripeti password",
+        "createAccountButton": "Crea account",
+        "backButton": "Indietro"
+    },
+    "errors": {
+        "emailRequired": "Il campo email è obbligatorio",
+        "emailInvalid": "L'email non è valida",
+        "passwordRequired": "Il campo password è obbligatorio",
+        "passwordPattern": "La password deve contenere almeno 8 caratteri, una maiuscola, una minuscola e un numero",
+        "password2Required": "Ripeti la password",
+        "passwordMismatch": "Le password non corrispondono",
+        "nameRequired": "Il nome è obbligatorio",
+        "surnameRequired": "Il cognome è obbligatorio",
+        "emailAlreadyRegistered": "L'email è già registrata"
+    },
+    "product": {
+        "platform": "Piattaforma",
+        "buy": "Acquista",
+        "addToFavorites": "Aggiungi ai preferiti",
+        "addToCart": "Aggiungi al carrello",
+        "developer": "Sviluppatore",
+        "publisher": "Editore",
+        "releaseDate": "Data di uscita",
+        "refund": "Rimborso",
+        "cover": "Copertina",
+        "image": "Immagine"
+    },
+    "dashboard": {
+        "user": "Utente",
+        "accountInfo": "Informazioni account",
+        "displayName": "Nome visualizzato",
+        "emailAddress": "Indirizzo email",
+        "personalData": "Dati personali",
+        "personalDataNote": "Questi dati personali sono privati e non verranno mostrati ad altri utenti. Consulta la",
+        "privacyPolicy": "politica sulla privacy",
+        "name": "Nome",
+        "surname": "Cognome",
+        "address": "Indirizzo",
+        "addressLine1": "Riga indirizzo 1",
+        "addressLine2": "Riga indirizzo 2",
+        "city": "Città",
+        "region": "Regione",
+        "postalCode": "Codice postale",
+        "country": "Paese",
+        "configure": "Configura",
+        "cancel": "Annulla",
+        "save": "Salva",
+        "payments": "Pagamenti",
+        "balance": "Saldo",
+        "pointsBalance": "Saldo punti",
+        "addFunds": "Aggiungi fondi",
+        "paymentMethods": "I tuoi metodi di pagamento",
+        "defaultPayment": "(Predefinito)",
+        "addPaymentMethod": "Aggiungi un metodo di pagamento",
+        "creditCard": "Carta di credito/debito",
+        "changeImage": "Cambia immagine"
+    }
+}
