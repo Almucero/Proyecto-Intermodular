@@ -10,11 +10,13 @@ import {
 import { Router } from '@angular/router';
 import { AUTH_SERVICE } from '../../core/services/auth.token';
 import { HttpClient } from '@angular/common/http';
+import { TranslatePipe } from '@ngx-translate/core';
+import { LanguageService } from '../../core/services/language.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, HeaderComponent],
+  imports: [ReactiveFormsModule, CommonModule, HeaderComponent, TranslatePipe],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
@@ -26,6 +28,7 @@ export class LoginComponent {
   navigateTo: string = '';
   private router = inject(Router);
   private auth = inject(AUTH_SERVICE);
+  private languageService = inject(LanguageService);
 
   constructor(private formSvc: FormBuilder, private http: HttpClient) {
     this.formLogin = this.formSvc.group({
@@ -66,6 +69,7 @@ export class LoginComponent {
   }
 
   getError(control: string) {
+    const translateService = this.languageService;
     switch (control) {
       case 'email':
         if (
@@ -74,12 +78,12 @@ export class LoginComponent {
             'required'
           )
         )
-          return 'El campo email es requerido';
+          return 'errors.emailRequired';
         else if (
           this.formLogin.controls['email'].errors != null &&
           Object.keys(this.formLogin.controls['email'].errors).includes('email')
         )
-          return 'El email no es correcto';
+          return 'errors.emailInvalid';
         break;
       case 'password':
         if (
@@ -88,7 +92,7 @@ export class LoginComponent {
             'required'
           )
         )
-          return 'El campo contraseña es requerido';
+          return 'errors.passwordRequired';
         break;
       default:
         return '';
