@@ -1,5 +1,6 @@
 import request from "supertest";
 import app from "../app";
+import { prisma } from "../config/db";
 
 describe("Users Endpoints", () => {
   let authToken: string;
@@ -25,6 +26,15 @@ describe("Users Endpoints", () => {
     });
 
     adminToken = adminRes.body?.token || authToken; // fallback to regular user if admin login fails
+  });
+
+  afterAll(async () => {
+    if (testUser.email) {
+      await prisma.user
+        .delete({ where: { email: testUser.email } })
+        .catch(() => {});
+    }
+    await prisma.$disconnect();
   });
 
   describe("GET /api/users", () => {
