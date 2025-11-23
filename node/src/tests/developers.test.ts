@@ -1,5 +1,6 @@
 import request from "supertest";
 import app from "../app";
+import { prisma } from "../config/db";
 
 describe("Developers Endpoints", () => {
   let authToken: string;
@@ -17,10 +18,15 @@ describe("Developers Endpoints", () => {
   });
 
   afterAll(async () => {
-    await request(app)
-      .post("/api/auth/login")
-      .send({ email: "irrelevant", password: "irrelevant" })
-      .catch(() => {});
+    // Clean up test user
+    if (authToken) {
+      // We don't have the user ID or email stored in a variable accessible here easily unless we parse the token or store it.
+      // But wait, the testUser object is defined in the describe block scope!
+      await prisma.user
+        .delete({ where: { email: testUser.email } })
+        .catch(() => {});
+    }
+    await prisma.$disconnect();
   });
 
   it("debe listar developers con autenticación", async () => {

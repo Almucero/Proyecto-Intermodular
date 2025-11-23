@@ -6,11 +6,13 @@ describe("GameImages API", () => {
   let adminToken: string;
   let gameId: number;
   let uploadedImageId: number;
+  let adminEmail: string;
 
   beforeAll(async () => {
     // Create admin user
+    adminEmail = `admin${Date.now()}@example.com`;
     const adminUser = {
-      email: `admin${Date.now()}@example.com`,
+      email: adminEmail,
       name: "Admin User",
       password: "password123",
     };
@@ -70,6 +72,13 @@ describe("GameImages API", () => {
     }
 
     await prisma.game.delete({ where: { id: gameId } });
+
+    if (adminEmail) {
+      await prisma.user
+        .delete({ where: { email: adminEmail } })
+        .catch(() => {});
+    }
+
     await prisma.$disconnect();
   });
 
