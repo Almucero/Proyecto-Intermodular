@@ -11,6 +11,8 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AUTH_SERVICE } from '../../core/services/auth.token';
+import { TranslatePipe } from '@ngx-translate/core';
+import { LanguageService } from '../../core/services/language.service';
 
 function passwordMatches(control: AbstractControl): ValidationErrors | null {
   const group = control as FormGroup;
@@ -35,7 +37,7 @@ function passwordMatches(control: AbstractControl): ValidationErrors | null {
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, HeaderComponent], //RouterLink
+  imports: [CommonModule, ReactiveFormsModule, HeaderComponent, TranslatePipe], //RouterLink
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
@@ -45,6 +47,7 @@ export class RegisterComponent {
   showPassword = false;
   private router = inject(Router);
   private auth = inject(AUTH_SERVICE);
+  private languageService = inject(LanguageService);
 
   constructor(private formSvc: FormBuilder) {
     this.formRegister = this.formSvc.group(
@@ -92,14 +95,14 @@ export class RegisterComponent {
             'required'
           )
         )
-          return 'El campo email es requerido';
+          return 'errors.emailRequired';
         else if (
           this.formRegister.controls['email'].errors != null &&
           Object.keys(this.formRegister.controls['email'].errors).includes(
             'email'
           )
         )
-          return 'El email no es correcto';
+          return 'errors.emailInvalid';
         break;
       case 'password':
         if (
@@ -108,14 +111,14 @@ export class RegisterComponent {
             'required'
           )
         )
-          return 'El campo contraseña es requerido';
+          return 'errors.passwordRequired';
         else if (
           this.formRegister.controls['password'].errors != null &&
           Object.keys(this.formRegister.controls['password'].errors).includes(
             'pattern'
           )
         )
-          return 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número';
+          return 'errors.passwordPattern';
         break;
       case 'password2':
         if (
@@ -124,14 +127,14 @@ export class RegisterComponent {
             'required'
           )
         )
-          return 'Repite la contraseña';
+          return 'errors.password2Required';
         else if (
           this.formRegister.controls['password2'].errors != null &&
           Object.keys(this.formRegister.controls['password2'].errors).includes(
             'passwordMatch'
           )
         )
-          return 'Las contraseñas no coinciden';
+          return 'errors.passwordMismatch';
         break;
       case 'name':
         if (
@@ -140,7 +143,7 @@ export class RegisterComponent {
             'required'
           )
         )
-          return 'El nombre es requerido';
+          return 'errors.nameRequired';
         break;
       case 'surname':
         if (
@@ -149,7 +152,7 @@ export class RegisterComponent {
             'required'
           )
         )
-          return 'El apellido es requerido';
+          return 'errors.surnameRequired';
         break;
     }
     return '';

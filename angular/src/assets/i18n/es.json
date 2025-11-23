@@ -1,5 +1,109 @@
 {
+  "common": {
+    "searchPlaceholder": "Buscar"
+  },
+  "header": {
+    "menu": "Menú"
+  },
+  "menu": {
+    "home": "Inicio",
+    "settings": "Ajustes",
+    "help": "Ayuda",
+    "contact": "Contacto",
+    "privacy": "Políticas de privacidad",
+    "conditions": "Términos y condiciones",
+    "cookies": "Configuración de cookies"
+  },
+  "genres": {
+    "title": "Géneros",
+    "action": "Acción",
+    "adventure": "Aventura",
+    "rpg": "RPG",
+    "sports": "Deportes",
+    "strategy": "Estrategia",
+    "simulation": "Simulación",
+    "horror": "Terror",
+    "racing": "Carreras"
+  },
   "home": {
-    "title": "Bienvenido"
+    "bestSellers": "Más vendidos",
+    "offers": "Ofertas",
+    "topRated": "Mejor Valorados"
+  },
+  "login": {
+    "title": "Inicia sesión en tu cuenta",
+    "noAccount": "¿No tienes una cuenta?",
+    "registerLink": "Regístrate",
+    "emailLabel": "Correo electrónico",
+    "emailPlaceholder": "tu@email",
+    "passwordLabel": "Contraseña",
+    "passwordPlaceholder": "tu contraseña",
+    "loginButton": "Iniciar sesión"
+  },
+  "register": {
+    "title": "Vamos a crear tu cuenta",
+    "alreadyAccount": "¿Ya tienes cuenta?",
+    "loginLink": "Iniciar sesión",
+    "nameLabel": "Nombre",
+    "namePlaceholder": "Tu nombre",
+    "surnameLabel": "Apellido/os",
+    "surnamePlaceholder": "Tu apellido",
+    "password2Label": "Repite tu contraseña",
+    "password2Placeholder": "Repite tu contraseña",
+    "createAccountButton": "Crear cuenta",
+    "backButton": "Volver"
+  },
+  "errors": {
+    "emailRequired": "El campo email es requerido",
+    "emailInvalid": "El email no es correcto",
+    "passwordRequired": "El campo contraseña es requerido",
+    "passwordPattern": "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número",
+    "password2Required": "Repite la contraseña",
+    "passwordMismatch": "Las contraseñas no coinciden",
+    "nameRequired": "El nombre es requerido",
+    "surnameRequired": "El apellido es requerido",
+    "emailAlreadyRegistered": "El email ya está registrado"
+  },
+  "product": {
+    "platform": "Plataforma",
+    "buy": "Comprar",
+    "addToFavorites": "Añadir a favoritos",
+    "addToCart": "Añadir a la cesta",
+    "developer": "Desarrolladora",
+    "publisher": "Editora",
+    "releaseDate": "Lanzamiento",
+    "refund": "Rembolso",
+    "cover": "Portada",
+    "image": "Imagen"
+  },
+  "dashboard": {
+    "user": "Usuario",
+    "accountInfo": "Información de la cuenta",
+    "displayName": "Nombre en pantalla",
+    "emailAddress": "Dirección de correo",
+    "personalData": "Datos personales",
+    "personalDataNote": "Estos datos personales son privados y no se mostrarán a otros usuarios. Consulta las",
+    "privacyPolicy": "políticas de privacidad",
+    "name": "Nombre",
+    "surname": "Apellidos",
+    "address": "Dirección",
+    "addressLine1": "Línea de dirección 1",
+    "addressLine2": "Línea de dirección 2",
+    "city": "Ciudad",
+    "region": "Región",
+    "postalCode": "Código postal",
+    "country": "País",
+    "configure": "Configurar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "payments": "Pagos",
+    "balance": "Saldo",
+    "pointsBalance": "Saldo en puntos",
+    "addFunds": "Añadir fondos",
+    "paymentMethods": "Tus métodos de pago",
+    "defaultPayment": "(Por defecto)",
+    "addPaymentMethod": "Añadir un método de pago",
+    "creditCard": "Tarjeta de crédito/debito",
+    "changeImage": "Cambiar imagen"
   }
 }

@@ -1,5 +1,109 @@
 {
-  "home": {
-    "title": "Welcome"
-  }
+    "common": {
+        "searchPlaceholder": "Search"
+    },
+    "header": {
+        "menu": "Menu"
+    },
+    "menu": {
+        "home": "Home",
+        "settings": "Settings",
+        "help": "Help",
+        "contact": "Contact",
+        "privacy": "Privacy Policy",
+        "conditions": "Terms & Conditions",
+        "cookies": "Cookie Settings"
+    },
+    "genres": {
+        "title": "Genres",
+        "action": "Action",
+        "adventure": "Adventure",
+        "rpg": "RPG",
+        "sports": "Sports",
+        "strategy": "Strategy",
+        "simulation": "Simulation",
+        "horror": "Horror",
+        "racing": "Racing"
+    },
+    "home": {
+        "bestSellers": "Best Sellers",
+        "offers": "Offers",
+        "topRated": "Top Rated"
+    },
+    "login": {
+        "title": "Log in to your account",
+        "noAccount": "Don't have an account?",
+        "registerLink": "Sign up",
+        "emailLabel": "Email",
+        "emailPlaceholder": "your@email",
+        "passwordLabel": "Password",
+        "passwordPlaceholder": "your password",
+        "loginButton": "Log in"
+    },
+    "register": {
+        "title": "Let's create your account",
+        "alreadyAccount": "Already have an account?",
+        "loginLink": "Log in",
+        "nameLabel": "Name",
+        "namePlaceholder": "Your name",
+        "surnameLabel": "Surname",
+        "surnamePlaceholder": "Your surname",
+        "password2Label": "Repeat password",
+        "password2Placeholder": "Repeat password",
+        "createAccountButton": "Create account",
+        "backButton": "Back"
+    },
+    "errors": {
+        "emailRequired": "Email field is required",
+        "emailInvalid": "Email is not valid",
+        "passwordRequired": "Password field is required",
+        "passwordPattern": "Password must have at least 8 characters, one uppercase, one lowercase and one number",
+        "password2Required": "Repeat the password",
+        "passwordMismatch": "Passwords do not match",
+        "nameRequired": "Name is required",
+        "surnameRequired": "Surname is required",
+        "emailAlreadyRegistered": "Email is already registered"
+    },
+    "product": {
+        "platform": "Platform",
+        "buy": "Buy",
+        "addToFavorites": "Add to favorites",
+        "addToCart": "Add to cart",
+        "developer": "Developer",
+        "publisher": "Publisher",
+        "releaseDate": "Release Date",
+        "refund": "Refund",
+        "cover": "Cover",
+        "image": "Image"
+    },
+    "dashboard": {
+        "user": "User",
+        "accountInfo": "Account information",
+        "displayName": "Display name",
+        "emailAddress": "Email address",
+        "personalData": "Personal data",
+        "personalDataNote": "This personal data is private and will not be shown to other users. Check the",
+        "privacyPolicy": "privacy policy",
+        "name": "Name",
+        "surname": "Surname",
+        "address": "Address",
+        "addressLine1": "Address line 1",
+        "addressLine2": "Address line 2",
+        "city": "City",
+        "region": "Region",
+        "postalCode": "Postal code",
+        "country": "Country",
+        "configure": "Configure",
+        "cancel": "Cancel",
+        "save": "Save",
+        "payments": "Payments",
+        "balance": "Balance",
+        "pointsBalance": "Points balance",
+        "addFunds": "Add funds",
+        "paymentMethods": "Your payment methods",
+        "defaultPayment": "(Default)",
+        "addPaymentMethod": "Add a payment method",
+        "creditCard": "Credit/debit card",
+        "changeImage": "Change image"
+    }
 }

@@ -1,185 +1,134 @@
-<div
-  class="h-screen flex flex-col bg-gray-900 text-white font-sans overflow-hidden"
->
-  <app-header class="flex-none"></app-header>
+<div class="min-h-screen bg-gray-900 text-white font-sans pb-20">
+    <app-header class="flex-none"></app-header>
 
-  <div class="flex-1 flex flex-col justify-between pb-4 overflow-hidden">
-    <section class="mt-4 text-center flex-none">
-      <h2 class="text-2xl font-bold text-cyan-300 mb-2">Géneros</h2>
-      <div
-        class="flex justify-center gap-3 overflow-x-auto py-1 px-4 no-scrollbar"
-      >
-        <span
-          *ngFor="let gen of genres"
-          class="flex-shrink-0 px-5 py-2 bg-gray-800 hover:bg-cyan-500 hover:text-white transition rounded-full cursor-pointer text-base whitespace-nowrap"
-          (click)="goToGenres(gen)"
-        >
-          {{ gen }}
-        </span>
-      </div>
-    </section>
-    <div class="flex-1 flex flex-col justify-evenly min-h-0">
-      <section class="relative flex flex-col justify-center min-h-0">
-        <h2 class="px-8 text-xl font-semibold text-cyan-300 mb-1">
-          Mas vendidos
-        </h2>
-        <div class="relative w-full px-10">
-          <span
-            (click)="scrollLeft(carouselInMasVendidos, 'masVendidos')"
-            [class.opacity-30]="!arrowState['masVendidos'].left"
-            [class.pointer-events-none]="!arrowState['masVendidos'].left"
-            class="absolute left-2 top-1/2 -translate-y-1/2 text-white text-4xl cursor-pointer select-none z-10 hover:text-cyan-300 transition-colors"
-          >
-            &#8249;
-          </span>
-          <div
-            #carouselInMasVendidos
-            class="flex gap-4 overflow-x-auto px-2 py-2 no-scrollbar cursor-grab active:cursor-grabbing"
-            (scroll)="updateScrollState(carouselInMasVendidos, 'masVendidos')"
-            (mousedown)="onMouseDown($event, carouselInMasVendidos)"
-            (mouseleave)="onMouseLeave(carouselInMasVendidos)"
-            (mouseup)="onMouseUp(carouselInMasVendidos)"
-            (mousemove)="onMouseMove($event, carouselInMasVendidos)"
-          >
-            <div
-              *ngFor="let item of featuredImages"
-              class="flex-shrink-0 w-56 group cursor-pointer"
-              (click)="goToProduct(item.id)"
-            >
-              <div
-                class="h-32 bg-gray-700 rounded-xl overflow-hidden shadow-md group-hover:scale-105 transition-transform duration-300"
-              >
-                <img
-                  [src]="item.url"
-                  [alt]="item.title"
-                  class="w-full h-full object-cover pointer-events-none"
-                />
-              </div>
-              <p
-                class="mt-2 text-center text-sm font-medium text-gray-300 group-hover:text-white transition-colors truncate"
-              >
-                {{ item.title }}
-              </p>
+    <div class="flex-1 flex flex-col justify-between pb-4 overflow-hidden">
+        <section class="mt-4 text-center flex-none">
+            <h2 class="text-2xl font-bold text-cyan-300 mb-2">{{ 'genres.title' | translate }}</h2>
+            <div class="flex justify-center gap-3 overflow-x-auto py-1 px-4 no-scrollbar">
+                <span *ngFor="let gen of genres"
+                    class="flex-shrink-0 px-5 py-2 bg-gray-800 hover:bg-cyan-500 hover:text-white transition rounded-full cursor-pointer text-base whitespace-nowrap"
+                    (click)="goToGenres(gen)">
+                    {{ gen| translate }}
+                </span>
             </div>
-          </div>
-          <span
-            (click)="scrollRight(carouselInMasVendidos, 'masVendidos')"
-            [class.opacity-30]="!arrowState['masVendidos'].right"
-            [class.pointer-events-none]="!arrowState['masVendidos'].right"
-            class="absolute right-2 top-1/2 -translate-y-1/2 text-white text-4xl cursor-pointer select-none z-10 hover:text-cyan-300 transition-colors"
-          >
-            &#8250;
-          </span>
-        </div>
-      </section>
-      <section class="relative flex flex-col justify-center min-h-0">
-        <h2 class="px-8 text-xl font-semibold text-cyan-300 mb-1">Ofertas</h2>
-        <div class="relative w-full px-10">
-          <span
-            (click)="scrollLeft(carouselInOfertas, 'ofertas')"
-            [class.opacity-30]="!arrowState['ofertas'].left"
-            [class.pointer-events-none]="!arrowState['ofertas'].left"
-            class="absolute left-2 top-1/2 -translate-y-1/2 text-white text-4xl cursor-pointer select-none z-10 hover:text-cyan-300 transition-colors"
-          >
-            &#8249;
-          </span>
+        </section>
+        <div class="flex-1 flex flex-col justify-evenly min-h-0">
+            <section class="relative flex flex-col justify-center min-h-0">
+                <h2 class="px-8 text-xl font-semibold text-cyan-300 mb-1">
+                    {{ 'home.bestSellers' | translate }}
+                </h2>
+                <div class="relative w-full px-10">
+                    <span (click)="scrollLeft(carouselInMasVendidos, 'masVendidos')"
+                        [class.opacity-30]="!arrowState['masVendidos'].left"
+                        [class.pointer-events-none]="!arrowState['masVendidos'].left"
+                        class="absolute left-2 top-1/2 -translate-y-1/2 text-white text-4xl cursor-pointer select-none z-10 hover:text-cyan-300 transition-colors">
+                        &#8249;
+                    </span>
+                    <div #carouselInMasVendidos
+                        class="flex gap-4 overflow-x-auto px-2 py-2 no-scrollbar cursor-grab active:cursor-grabbing"
+                        (scroll)="updateScrollState(carouselInMasVendidos, 'masVendidos')"
+                        (mousedown)="onMouseDown($event, carouselInMasVendidos)"
+                        (mouseleave)="onMouseLeave(carouselInMasVendidos)" (mouseup)="onMouseUp(carouselInMasVendidos)"
+                        (mousemove)="onMouseMove($event, carouselInMasVendidos)">
+                        <div *ngFor="let item of featuredImages" class="flex-shrink-0 w-56 group cursor-pointer"
+                            (click)="goToProduct(item.id)">
+                            <div
+                                class="h-32 bg-gray-700 rounded-xl overflow-hidden shadow-md group-hover:scale-105 transition-transform duration-300">
+                                <img [src]="item.url" [alt]="item.title"
+                                    class="w-full h-full object-cover pointer-events-none" />
+                            </div>
+                            <p
+                                class="mt-2 text-center text-sm font-medium text-gray-300 group-hover:text-white transition-colors truncate">
+                                {{ item.title }}
+                            </p>
+                        </div>
+                    </div>
+                    <span (click)="scrollRight(carouselInMasVendidos, 'masVendidos')"
+                        [class.opacity-30]="!arrowState['masVendidos'].right"
+                        [class.pointer-events-none]="!arrowState['masVendidos'].right"
+                        class="absolute right-2 top-1/2 -translate-y-1/2 text-white text-4xl cursor-pointer select-none z-10 hover:text-cyan-300 transition-colors">
+                        &#8250;
+                    </span>
+                </div>
+            </section>
+            <section class="relative flex flex-col justify-center min-h-0">
+                <h2 class="px-8 text-xl font-semibold text-cyan-300 mb-1">{{ 'home.offers' | translate }}</h2>
+                <div class="relative w-full px-10">
+                    <span (click)="scrollLeft(carouselInOfertas, 'ofertas')"
+                        [class.opacity-30]="!arrowState['ofertas'].left"
+                        [class.pointer-events-none]="!arrowState['ofertas'].left"
+                        class="absolute left-2 top-1/2 -translate-y-1/2 text-white text-4xl cursor-pointer select-none z-10 hover:text-cyan-300 transition-colors">
+                        &#8249;
+                    </span>
 
-          <div
-            #carouselInOfertas
-            class="flex gap-4 overflow-x-auto px-2 py-2 no-scrollbar cursor-grab active:cursor-grabbing"
-            (scroll)="updateScrollState(carouselInOfertas, 'ofertas')"
-            (mousedown)="onMouseDown($event, carouselInOfertas)"
-            (mouseleave)="onMouseLeave(carouselInOfertas)"
-            (mouseup)="onMouseUp(carouselInOfertas)"
-            (mousemove)="onMouseMove($event, carouselInOfertas)"
-          >
-            <div
-              *ngFor="let item of featuredImages"
-              class="flex-shrink-0 w-56 group cursor-pointer"
-              (click)="goToProduct(item.id)"
-            >
-              <div
-                class="h-32 bg-gray-700 rounded-xl overflow-hidden shadow-md group-hover:scale-105 transition-transform duration-300"
-              >
-                <img
-                  [src]="item.url"
-                  [alt]="item.title"
-                  class="w-full h-full object-cover pointer-events-none"
-                />
-              </div>
-              <p
-                class="mt-2 text-center text-sm font-medium text-gray-300 group-hover:text-white transition-colors truncate"
-              >
-                {{ item.title }}
-              </p>
-            </div>
-          </div>
-          <span
-            (click)="scrollRight(carouselInOfertas, 'ofertas')"
-            [class.opacity-30]="!arrowState['ofertas'].right"
-            [class.pointer-events-none]="!arrowState['ofertas'].right"
-            class="absolute right-2 top-1/2 -translate-y-1/2 text-white text-4xl cursor-pointer select-none z-10 hover:text-cyan-300 transition-colors"
-          >
-            &#8250;
-          </span>
-        </div>
-      </section>
-      <section class="relative flex flex-col justify-center min-h-0">
-        <h2 class="px-8 text-xl font-semibold text-cyan-300 mb-1">
-          Mejor Valorados
-        </h2>
-        <div class="relative w-full px-10">
-          <span
-            (click)="scrollLeft(carouselInMejorValorados, 'mejorValorados')"
-            [class.opacity-30]="!arrowState['mejorValorados'].left"
-            [class.pointer-events-none]="!arrowState['mejorValorados'].left"
-            class="absolute left-2 top-1/2 -translate-y-1/2 text-white text-4xl cursor-pointer select-none z-10 hover:text-cyan-300 transition-colors"
-          >
-            &#8249;
-          </span>
+                    <div #carouselInOfertas
+                        class="flex gap-4 overflow-x-auto px-2 py-2 no-scrollbar cursor-grab active:cursor-grabbing"
+                        (scroll)="updateScrollState(carouselInOfertas, 'ofertas')"
+                        (mousedown)="onMouseDown($event, carouselInOfertas)"
+                        (mouseleave)="onMouseLeave(carouselInOfertas)" (mouseup)="onMouseUp(carouselInOfertas)"
+                        (mousemove)="onMouseMove($event, carouselInOfertas)">
+                        <div *ngFor="let item of featuredImages" class="flex-shrink-0 w-56 group cursor-pointer"
+                            (click)="goToProduct(item.id)">
+                            <div
+                                class="h-32 bg-gray-700 rounded-xl overflow-hidden shadow-md group-hover:scale-105 transition-transform duration-300">
+                                <img [src]="item.url" [alt]="item.title"
+                                    class="w-full h-full object-cover pointer-events-none" />
+                            </div>
+                            <p
+                                class="mt-2 text-center text-sm font-medium text-gray-300 group-hover:text-white transition-colors truncate">
+                                {{ item.title }}
+                            </p>
+                        </div>
+                    </div>
+                    <span (click)="scrollRight(carouselInOfertas, 'ofertas')"
+                        [class.opacity-30]="!arrowState['ofertas'].right"
+                        [class.pointer-events-none]="!arrowState['ofertas'].right"
+                        class="absolute right-2 top-1/2 -translate-y-1/2 text-white text-4xl cursor-pointer select-none z-10 hover:text-cyan-300 transition-colors">
+                        &#8250;
+                    </span>
+                </div>
+            </section>
+            <section class="relative flex flex-col justify-center min-h-0">
+                <h2 class="px-8 text-xl font-semibold text-cyan-300 mb-1">
+                    {{ 'home.topRated' | translate }}
+                </h2>
+                <div class="relative w-full px-10">
+                    <span (click)="scrollLeft(carouselInMejorValorados, 'mejorValorados')"
+                        [class.opacity-30]="!arrowState['mejorValorados'].left"
+                        [class.pointer-events-none]="!arrowState['mejorValorados'].left"
+                        class="absolute left-2 top-1/2 -translate-y-1/2 text-white text-4xl cursor-pointer select-none z-10 hover:text-cyan-300 transition-colors">
+                        &#8249;
+                    </span>
 
-          <div
-            #carouselInMejorValorados
-            class="flex gap-4 overflow-x-auto px-2 py-2 no-scrollbar cursor-grab active:cursor-grabbing"
-            (scroll)="
+                    <div #carouselInMejorValorados
+                        class="flex gap-4 overflow-x-auto px-2 py-2 no-scrollbar cursor-grab active:cursor-grabbing"
+                        (scroll)="
               updateScrollState(carouselInMejorValorados, 'mejorValorados')
-            "
-            (mousedown)="onMouseDown($event, carouselInMejorValorados)"
-            (mouseleave)="onMouseLeave(carouselInMejorValorados)"
-            (mouseup)="onMouseUp(carouselInMejorValorados)"
-            (mousemove)="onMouseMove($event, carouselInMejorValorados)"
-          >
-            <div
-              *ngFor="let item of featuredImages"
-              class="flex-shrink-0 w-56 group cursor-pointer"
-              (click)="goToProduct(item.id)"
-            >
-              <div
-                class="h-32 bg-gray-700 rounded-xl overflow-hidden shadow-md group-hover:scale-105 transition-transform duration-300"
-              >
-                <img
-                  [src]="item.url"
-                  [alt]="item.title"
-                  class="w-full h-full object-cover pointer-events-none"
-                />
-              </div>
-              <p
-                class="mt-2 text-center text-sm font-medium text-gray-300 group-hover:text-white transition-colors truncate"
-              >
-                {{ item.title }}
-              </p>
-            </div>
-          </div>
-          <span
-            (click)="scrollRight(carouselInMejorValorados, 'mejorValorados')"
-            [class.opacity-30]="!arrowState['mejorValorados'].right"
-            [class.pointer-events-none]="!arrowState['mejorValorados'].right"
-            class="absolute right-2 top-1/2 -translate-y-1/2 text-white text-4xl cursor-pointer select-none z-10 hover:text-cyan-300 transition-colors"
-          >
-            &#8250;
-          </span>
+            " (mousedown)="onMouseDown($event, carouselInMejorValorados)"
+                        (mouseleave)="onMouseLeave(carouselInMejorValorados)"
+                        (mouseup)="onMouseUp(carouselInMejorValorados)"
+                        (mousemove)="onMouseMove($event, carouselInMejorValorados)">
+                        <div *ngFor="let item of featuredImages" class="flex-shrink-0 w-56 group cursor-pointer"
+                            (click)="goToProduct(item.id)">
+                            <div
+                                class="h-32 bg-gray-700 rounded-xl overflow-hidden shadow-md group-hover:scale-105 transition-transform duration-300">
+                                <img [src]="item.url" [alt]="item.title"
+                                    class="w-full h-full object-cover pointer-events-none" />
+                            </div>
+                            <p
+                                class="mt-2 text-center text-sm font-medium text-gray-300 group-hover:text-white transition-colors truncate">
+                                {{ item.title }}
+                            </p>
+                        </div>
+                    </div>
+                    <span (click)="scrollRight(carouselInMejorValorados, 'mejorValorados')"
+                        [class.opacity-30]="!arrowState['mejorValorados'].right"
+                        [class.pointer-events-none]="!arrowState['mejorValorados'].right"
+                        class="absolute right-2 top-1/2 -translate-y-1/2 text-white text-4xl cursor-pointer select-none z-10 hover:text-cyan-300 transition-colors">
+                        &#8250;
+                    </span>
+                </div>
+            </section>
         </div>
-      </section>
     </div>
-  </div>
 </div>

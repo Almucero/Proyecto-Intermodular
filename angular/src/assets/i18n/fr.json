@@ -1,0 +1,109 @@
+{
+    "common": {
+        "searchPlaceholder": "Rechercher"
+    },
+    "header": {
+        "menu": "Menu"
+    },
+    "menu": {
+        "home": "Accueil",
+        "settings": "Paramètres",
+        "help": "Aide",
+        "contact": "Contact",
+        "privacy": "Politique de confidentialité",
+        "conditions": "Termes et conditions",
+        "cookies": "Paramètres des cookies"
+    },
+    "genres": {
+        "title": "Genres",
+        "action": "Action",
+        "adventure": "Aventure",
+        "rpg": "RPG",
+        "sports": "Sports",
+        "strategy": "Stratégie",
+        "simulation": "Simulation",
+        "horror": "Horreur",
+        "racing": "Course"
+    },
+    "home": {
+        "bestSellers": "Meilleures ventes",
+        "offers": "Offres",
+        "topRated": "Les mieux notés"
+    },
+    "login": {
+        "title": "Connectez-vous",
+        "noAccount": "Vous n'avez pas de compte ?",
+        "registerLink": "S'inscrire",
+        "emailLabel": "E-mail",
+        "emailPlaceholder": "votre@email",
+        "passwordLabel": "Mot de passe",
+        "passwordPlaceholder": "votre mot de passe",
+        "loginButton": "Se connecter"
+    },
+    "register": {
+        "title": "Créons votre compte",
+        "alreadyAccount": "Vous avez déjà un compte ?",
+        "loginLink": "Se connecter",
+        "nameLabel": "Prénom",
+        "namePlaceholder": "Votre prénom",
+        "surnameLabel": "Nom",
+        "surnamePlaceholder": "Votre nom",
+        "password2Label": "Répétez le mot de passe",
+        "password2Placeholder": "Répétez le mot de passe",
+        "createAccountButton": "Créer un compte",
+        "backButton": "Retour"
+    },
+    "errors": {
+        "emailRequired": "Le champ e-mail est requis",
+        "emailInvalid": "L'e-mail n'est pas valide",
+        "passwordRequired": "Le champ mot de passe est requis",
+        "passwordPattern": "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre",
+        "password2Required": "Répétez le mot de passe",
+        "passwordMismatch": "Les mots de passe ne correspondent pas",
+        "nameRequired": "Le prénom est requis",
+        "surnameRequired": "Le nom est requis",
+        "emailAlreadyRegistered": "L'e-mail est déjà enregistré"
+    },
+    "product": {
+        "platform": "Plateforme",
+        "buy": "Acheter",
+        "addToFavorites": "Ajouter aux favoris",
+        "addToCart": "Ajouter au panier",
+        "developer": "Développeur",
+        "publisher": "Éditeur",
+        "releaseDate": "Date de sortie",
+        "refund": "Remboursement",
+        "cover": "Couverture",
+        "image": "Image"
+    },
+    "dashboard": {
+        "user": "Utilisateur",
+        "accountInfo": "Informations du compte",
+        "displayName": "Nom d'affichage",
+        "emailAddress": "Adresse e-mail",
+        "personalData": "Données personnelles",
+        "personalDataNote": "Ces données personnelles sont privées et ne seront pas affichées aux autres utilisateurs. Consultez la",
+        "privacyPolicy": "politique de confidentialité",
+        "name": "Prénom",
+        "surname": "Nom",
+        "address": "Adresse",
+        "addressLine1": "Ligne d'adresse 1",
+        "addressLine2": "Ligne d'adresse 2",
+        "city": "Ville",
+        "region": "Région",
+        "postalCode": "Code postal",
+        "country": "Pays",
+        "configure": "Configurer",
+        "cancel": "Annuler",
+        "save": "Enregistrer",
+        "payments": "Paiements",
+        "balance": "Solde",
+        "pointsBalance": "Solde de points",
+        "addFunds": "Ajouter des fonds",
+        "paymentMethods": "Vos méthodes de paiement",
+        "defaultPayment": "(Par défaut)",
+        "addPaymentMethod": "Ajouter une méthode de paiement",
+        "creditCard": "Carte de crédit/débit",
+        "changeImage": "Changer l'image"
+    }
+}

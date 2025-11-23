@@ -3,22 +3,24 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../shared/components/header/header.component';
+import { TranslatePipe } from '@ngx-translate/core';
+
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, RouterModule, HeaderComponent],
+  imports: [CommonModule, RouterModule, HeaderComponent, TranslatePipe],
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
   genres = [
-    'Acción',
-    'Aventura',
-    'RPG',
-    'Deportes',
-    'Estrategia',
-    'Simulación',
-    'Terror',
-    'Carreras',
+    'genres.action',
+    'genres.adventure',
+    'genres.rpg',
+    'genres.sports',
+    'genres.strategy',
+    'genres.simulation',
+    'genres.horror',
+    'genres.racing',
   ];
 
   featuredImages = [
