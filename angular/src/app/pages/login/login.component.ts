@@ -1,25 +1,20 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  inject,
-  ViewChild,
-} from '@angular/core';
+import { HeaderComponent } from '../../shared/components/header/header.component';
+import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
   ReactiveFormsModule,
   Validators,
   FormGroup,
 } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { AUTH_SERVICE } from '../../core/services/auth.token';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterLink],
+  imports: [ReactiveFormsModule, CommonModule, HeaderComponent],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
@@ -46,23 +41,7 @@ export class LoginComponent {
       '/dashboard';
   }
 
-  isMenuOpen = false;
-  @ViewChild('menu') menu!: ElementRef;
   ngOnInit(): void {}
-
-  toggleMenu(): void {
-    this.isMenuOpen = !this.isMenuOpen;
-  }
-  @HostListener('document:click', ['$event'])
-  onClick(event: Event) {
-    if (
-      this.isMenuOpen &&
-      this.menu &&
-      !this.menu.nativeElement.contains(event.target)
-    ) {
-      this.isMenuOpen = false;
-    }
-  }
 
   async onSubmit() {
     this.loginError = '';

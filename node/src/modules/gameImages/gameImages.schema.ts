@@ -1,15 +1,27 @@
 import { z } from "zod";
 
-export const createGameImageSchema = z.object({
-  gameId: z.number().int().positive("El ID del juego es requerido"),
-  url: z.string().url("URL debe ser válida"),
+// Schema for uploading a new image (multipart/form-data fields)
+export const uploadGameImageSchema = z.object({
+  gameId: z
+    .string()
+    .transform((val) => Number(val))
+    .refine((val) => !isNaN(val), {
+      message: "gameId debe ser un número válido",
+    }),
   altText: z.string().optional(),
 });
 
+// Schema for updating an image (multipart/form-data fields)
 export const updateGameImageSchema = z.object({
-  url: z.string().url("URL debe ser válida").optional(),
+  gameId: z
+    .string()
+    .optional()
+    .transform((val) => (val ? Number(val) : undefined))
+    .refine((val) => val === undefined || !isNaN(val), {
+      message: "gameId debe ser un número válido",
+    }),
   altText: z.string().optional(),
 });
 
-export type CreateGameImageInput = z.infer<typeof createGameImageSchema>;
+export type UploadGameImageInput = z.infer<typeof uploadGameImageSchema>;
 export type UpdateGameImageInput = z.infer<typeof updateGameImageSchema>;

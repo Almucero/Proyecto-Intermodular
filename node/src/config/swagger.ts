@@ -383,12 +383,50 @@ const options: swaggerJsdoc.Options = {
               format: "uri",
               description: "URL de la imagen",
             },
+            publicId: {
+              type: "string",
+              description: "ID público en Cloudinary",
+            },
+            format: { type: "string", description: "Formato de imagen" },
+            resourceType: { type: "string", description: "Tipo de recurso" },
+            bytes: { type: "integer", description: "Tamaño en bytes" },
+            width: { type: "integer", description: "Ancho" },
+            height: { type: "integer", description: "Alto" },
+            originalName: { type: "string", description: "Nombre original" },
+            folder: { type: "string", description: "Carpeta en Cloudinary" },
             altText: { type: "string", description: "Texto alternativo" },
             gameId: {
               type: "integer",
               description: "ID del juego relacionado",
             },
-            game: {
+          },
+        },
+        GameImageDetail: {
+          type: "object",
+          properties: {
+            id: { type: "integer", description: "ID de la imagen" },
+            url: {
+              type: "string",
+              format: "uri",
+              description: "URL de la imagen",
+            },
+            publicId: {
+              type: "string",
+              description: "ID público en Cloudinary",
+            },
+            format: { type: "string", description: "Formato de imagen" },
+            resourceType: { type: "string", description: "Tipo de recurso" },
+            bytes: { type: "integer", description: "Tamaño en bytes" },
+            width: { type: "integer", description: "Ancho" },
+            height: { type: "integer", description: "Alto" },
+            originalName: { type: "string", description: "Nombre original" },
+            folder: { type: "string", description: "Carpeta en Cloudinary" },
+            altText: { type: "string", description: "Texto alternativo" },
+            gameId: {
+              type: "integer",
+              description: "ID del juego relacionado",
+            },
+            Game: {
               type: "object",
               properties: {
                 id: { type: "integer", description: "ID del juego" },
@@ -411,33 +449,6 @@ const options: swaggerJsdoc.Options = {
               },
             },
           },
-        },
-        Developer: {
-          type: "object",
-          properties: {
-            id: { type: "integer", description: "ID del desarrollador" },
-            name: { type: "string", description: "Nombre del desarrollador" },
-          },
-          required: ["id", "name"],
-        },
-        CreateGameInput: {
-          type: "object",
-          properties: {
-            title: { type: "string" },
-            description: { type: "string" },
-            price: { type: "number" },
-            salePrice: { type: "number" },
-            isOnSale: { type: "boolean" },
-            isRefundable: { type: "boolean" },
-            rating: { type: "number" },
-            numberOfSales: { type: "integer" },
-            publisherId: { type: "integer" },
-            developerId: { type: "integer" },
-            releaseDate: { type: "string", format: "date" },
-            genres: { type: "array", items: { type: "string" } },
-            platforms: { type: "array", items: { type: "string" } },
-          },
-          required: ["title"],
         },
         UpdateGameInput: {
           type: "object",

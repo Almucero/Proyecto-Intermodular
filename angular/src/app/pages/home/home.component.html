@@ -3,9 +3,7 @@
 >
   <app-header class="flex-none"></app-header>
 
-  <!-- Main Content: Flex column to fill remaining height -->
   <div class="flex-1 flex flex-col justify-between pb-4 overflow-hidden">
-    <!-- Genres Section -->
     <section class="mt-4 text-center flex-none">
       <h2 class="text-2xl font-bold text-cyan-300 mb-2">Géneros</h2>
       <div
@@ -20,10 +18,7 @@
         </span>
       </div>
     </section>
-
-    <!-- Sections Container: Distribute remaining space -->
     <div class="flex-1 flex flex-col justify-evenly min-h-0">
-      <!-- Mas Vendidos -->
       <section class="relative flex flex-col justify-center min-h-0">
         <h2 class="px-8 text-xl font-semibold text-cyan-300 mb-1">
           Mas vendidos
@@ -37,7 +32,6 @@
           >
             &#8249;
           </span>
-
           <div
             #carouselInMasVendidos
             class="flex gap-4 overflow-x-auto px-2 py-2 no-scrollbar cursor-grab active:cursor-grabbing"
@@ -68,7 +62,6 @@
               </p>
             </div>
           </div>
-
           <span
             (click)="scrollRight(carouselInMasVendidos, 'masVendidos')"
             [class.opacity-30]="!arrowState['masVendidos'].right"
@@ -79,8 +72,6 @@
           </span>
         </div>
       </section>
-
-      <!-- Ofertas -->
       <section class="relative flex flex-col justify-center min-h-0">
         <h2 class="px-8 text-xl font-semibold text-cyan-300 mb-1">Ofertas</h2>
         <div class="relative w-full px-10">
@@ -123,7 +114,6 @@
               </p>
             </div>
           </div>
-
           <span
             (click)="scrollRight(carouselInOfertas, 'ofertas')"
             [class.opacity-30]="!arrowState['ofertas'].right"
@@ -134,8 +124,6 @@
           </span>
         </div>
       </section>
-
-      <!-- Mejor Valorados -->
       <section class="relative flex flex-col justify-center min-h-0">
         <h2 class="px-8 text-xl font-semibold text-cyan-300 mb-1">
           Mejor Valorados
@@ -182,7 +170,6 @@
               </p>
             </div>
           </div>
-
           <span
             (click)="scrollRight(carouselInMejorValorados, 'mejorValorados')"
             [class.opacity-30]="!arrowState['mejorValorados'].right"

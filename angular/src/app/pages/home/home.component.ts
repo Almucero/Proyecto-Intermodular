@@ -118,7 +118,6 @@ export class HomeComponent implements OnInit {
   startX = 0;
   scrollLeftPos = 0;
 
-  // Track arrow visibility for each section
   arrowState: { [key: string]: { left: boolean; right: boolean } } = {
     masVendidos: { left: false, right: true },
     ofertas: { left: false, right: true },
@@ -129,16 +128,10 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  // Initialize states after view init if needed, or just rely on scroll events
-  ngAfterViewInit() {
-    // Optional: Check initial state if content might overflow immediately
-    // We can't easily access ViewChildren here without adding them,
-    // but the initial state {left: false, right: true} is usually correct for start.
-  }
+  ngAfterViewInit() {}
 
   scrollLeft(carousel: HTMLElement, section: string) {
     carousel.scrollBy({ left: -300, behavior: 'smooth' });
-    // Timeout to allow scroll to happen before checking
     setTimeout(() => this.updateScrollState(carousel, section), 350);
   }
 
@@ -151,7 +144,6 @@ export class HomeComponent implements OnInit {
     const scrollLeft = carousel.scrollLeft;
     const maxScrollLeft = carousel.scrollWidth - carousel.clientWidth;
 
-    // Tolerance of 1px for float calculation differences
     const isAtStart = scrollLeft <= 1;
     const isAtEnd = scrollLeft >= maxScrollLeft - 1;
 
@@ -171,12 +163,11 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/genres', nombre.toLowerCase()]);
   }
 
-  // Drag events
   onMouseDown(e: MouseEvent, carousel: HTMLElement) {
-    this.isDragging = false; // Reset initially
+    this.isDragging = false;
     this.startX = e.pageX - carousel.offsetLeft;
     this.scrollLeftPos = carousel.scrollLeft;
-    carousel.classList.add('active'); // Optional: for styling cursor
+    carousel.classList.add('active');
   }
 
   onMouseLeave(carousel: HTMLElement) {
@@ -187,20 +178,19 @@ export class HomeComponent implements OnInit {
   onMouseUp(carousel: HTMLElement) {
     setTimeout(() => {
       this.isDragging = false;
-    }, 50); // Small delay to prevent click trigger immediately after drag
+    }, 50);
     carousel.classList.remove('active');
   }
 
   onMouseMove(e: MouseEvent, carousel: HTMLElement) {
-    // Check if mouse button is down (buttons === 1 is left click)
+    if (e.buttons !== 1) return;
     if (e.buttons !== 1) return;
 
     e.preventDefault();
     const x = e.pageX - carousel.offsetLeft;
-    const walk = (x - this.startX) * 2; // Scroll-fast
+    const walk = (x - this.startX) * 2;
     carousel.scrollLeft = this.scrollLeftPos - walk;
 
-    // If moved significantly, mark as dragging to prevent click
     if (Math.abs(walk) > 5) {
       this.isDragging = true;
     }

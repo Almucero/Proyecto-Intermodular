@@ -64,13 +64,22 @@ model Game {
 }
 
 model GameImage {
-  id        Int      @id @default(autoincrement())
-  url       String
-  altText   String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  gameId    Int
-  Game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  id           Int      @id @default(autoincrement())
+  url          String
+  publicId     String?  @unique
+  format       String?
+  resourceType String?
+  bytes        Int?
+  width        Int?
+  height       Int?
+  originalName String?
+  folder       String?
+  
+  altText      String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  gameId       Int
+  Game         Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
   @@index([gameId])
 }
 

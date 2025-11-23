@@ -5,7 +5,6 @@ header {
   z-index: 1000;
 }
 
-/* Search bar: borde negro siempre, y más contraste al activar */
 .search-wrapper {
   display: flex;
   align-items: center;
@@ -18,7 +17,6 @@ header {
   border-radius: 9999px;
 }
 
-/* icon wrapper y input como ya tenías */
 .search-icon-wrapper {
   width: 28px;
   display: flex;
@@ -45,13 +43,11 @@ header {
   transition: all 0.2s ease;
 }
 
-/* Placeholder blanco */
 .search-input::placeholder {
   color: #fff !important;
   opacity: 1;
 }
 
-/* Al enfocar: colapsa icono y resalta borde (más oscuro) */
 header.search-active .search-icon-wrapper,
 header .search-wrapper:focus-within .search-icon-wrapper {
   width: 0;
@@ -66,7 +62,6 @@ header .search-wrapper:focus-within {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
 }
 
-/* input sin padding izquierdo cuando activo */
 header.search-active .search-input,
 header .search-wrapper:focus-within .search-input {
   padding-left: 0 !important;
@@ -74,7 +69,6 @@ header .search-wrapper:focus-within .search-input {
   font-weight: 700 !important;
 }
 
-/* Overlay: cubre toda la página debajo del header */
 .header-overlay {
   position: fixed;
   top: var(--header-height, 64px);
@@ -89,7 +83,6 @@ header .search-wrapper:focus-within .search-input {
   backdrop-filter: blur(2px);
 }
 
-/* Mostrar overlay cuando está activo */
 .search-wrapper:focus-within ~ .header-overlay,
 header.search-active .header-overlay {
   opacity: 1 !important;
