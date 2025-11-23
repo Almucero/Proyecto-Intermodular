@@ -56,4 +56,4 @@ npm run dev          # en dev ahora se sincronizan los admins desde ADMIN_EMAILS
 
 **Paso 4:** Abre la documentación Swagger en <http://localhost:3000/api-docs> para comprobar que el funcionamiento sea correcto, allí verás los endpoints y las respuestas documentadas (incluidos códigos 200/201/400/401/403/404/409/500 según corresponda).
 
-Por hacer: Hacer cloudinary
+Por hacer: Hacer que el seed limpiar datos borre las imagenes de cloudinary y la base de datos, junto con las carpetas de los juegos. Hacer que al cambiar de juego una imagen se verifique si la carpeta previa queda vacia, y en caso afirmativo borrarla. Ver que hacer con el seed de datos para imagenes (quizas tenga que hacerse a mano). Hacer que todos los juegos tenga un precio de oferta, aunque no esten en oferta. Al hacer update en una imagen se queda vacio el altText, y en cloudinary no pasa nada, en la llamada se cambian datos pero en cloudinary no se actualiza nada (dice que no lo borra por no estar vacio).
