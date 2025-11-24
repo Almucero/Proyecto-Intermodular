@@ -76,4 +76,4 @@ Las imágenes de juegos se almacenan en Cloudinary y se organizan automáticamen
 ### TODO
 
 - Ampliar seed de datos con más juegos e imágenes de ejemplo
-- Seed de datos añada users no admins
+- Borrar carpetas en cloudinary funciona cuando le da la gana

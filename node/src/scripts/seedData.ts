@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { prisma } from "../config/db.js";
+import bcrypt from "bcrypt";
 
 async function seedData() {
   try {
@@ -1421,12 +1422,124 @@ async function seedData() {
       createdGames.push(await createGame(g));
     }
 
+    // ----- USUARIOS NO ADMINISTRADORES -----
+    console.log("  - Creando usuarios no administradores...");
+    const saltRounds = 10;
+    const usersData = [
+      {
+        email: "usuario1@example.com",
+        password: "Password1!",
+        name: "Carlos",
+        surname: "García",
+        nickname: "carlosG",
+        balance: 150.5,
+        points: 250,
+        addressLine1: "Calle Mayor 123",
+        addressLine2: "Piso 3, Puerta B",
+        city: "Madrid",
+        region: "Comunidad de Madrid",
+        postalCode: "28013",
+        country: "España",
+        accountAt: "carlosG@steam",
+      },
+      {
+        email: "usuario2@example.com",
+        password: "Password2!",
+        name: "María",
+        surname: "López",
+        nickname: "maria_l",
+        balance: 75.0,
+        points: 180,
+        addressLine1: "Avenida Diagonal 456",
+        addressLine2: null,
+        city: "Barcelona",
+        region: "Cataluña",
+        postalCode: "08019",
+        country: "España",
+        accountAt: "maria_lopez@epic",
+      },
+      {
+        email: "usuario3@example.com",
+        password: "Password3!",
+        name: "Juan",
+        surname: "Martínez",
+        nickname: "juanm",
+        balance: 0.0,
+        points: 50,
+        addressLine1: "Calle de la Cruz 78",
+        addressLine2: "Bajo A",
+        city: "Valencia",
+        region: "Comunidad Valenciana",
+        postalCode: "46002",
+        country: "España",
+        accountAt: null,
+      },
+      {
+        email: "usuario4@example.com",
+        password: "Password4!",
+        name: "Ana",
+        surname: "Rodríguez",
+        nickname: "anita_r",
+        balance: 200.75,
+        points: 420,
+        addressLine1: "Plaza de España 15",
+        addressLine2: "Torre 2, 5º C",
+        city: "Sevilla",
+        region: "Andalucía",
+        postalCode: "41013",
+        country: "España",
+        accountAt: "anita.rodriguez@playstation",
+      },
+      {
+        email: "usuario5@example.com",
+        password: "Password5!",
+        name: "Pedro",
+        surname: "Fernández",
+        nickname: "pedroF",
+        balance: 50.25,
+        points: 100,
+        addressLine1: "Carretera de la Sierra 89",
+        addressLine2: "Chalet 12",
+        city: "Bilbao",
+        region: "País Vasco",
+        postalCode: "48004",
+        country: "España",
+        accountAt: "pedroF@xbox",
+      },
+    ];
+
+    const createdUsers = [];
+    for (const userData of usersData) {
+      const passwordHash = await bcrypt.hash(userData.password, saltRounds);
+      const user = await prisma.user.create({
+        data: {
+          email: userData.email,
+          name: userData.name,
+          surname: userData.surname,
+          nickname: userData.nickname,
+          passwordHash,
+          balance: userData.balance,
+          points: userData.points,
+          isAdmin: false,
+          addressLine1: userData.addressLine1,
+          addressLine2: userData.addressLine2,
+          city: userData.city,
+          region: userData.region,
+          postalCode: userData.postalCode,
+          country: userData.country,
+          accountAt: userData.accountAt,
+        },
+      });
+      createdUsers.push(user);
+    }
+
     console.log("✅ Seed completado:");
     console.log(`   - ${Object.keys(devByName).length} Developers creados`);
     console.log(`   - ${Object.keys(pubByName).length} Publishers creados`);
     console.log(`   - ${genres.length} Géneros creados`);
     console.log(`   - ${platforms.length} Plataformas creadas`);
     console.log(`   - ${createdGames.length} Games creados`);
+    console.log(`   - ${createdUsers.length} Usuarios no admin creados`);
   } catch (err) {
     console.error("❌ Error durante el seed:", err);
     process.exit(1);
