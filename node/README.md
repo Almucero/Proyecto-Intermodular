@@ -77,3 +77,7 @@ Las imágenes de juegos se almacenan en Cloudinary y se organizan automáticamen
 
 - Ampliar seed de datos con más juegos e imágenes de ejemplo
 - Borrar carpetas en cloudinary funciona cuando le da la gana
+- Game stock
+- Game video url
+- User image
+- Que en cloudinary las game images se guardan todas en una carpeta de game images, y las de users en una carpeta de user images
