@@ -50,7 +50,8 @@ export async function updateGameImageWithFileCtrl(req: Request, res: Response) {
       return res.status(400).json({ message: "ID inválido" });
     }
 
-    const altText = req.body.altText;
+    // Convert empty string to undefined to preserve existing altText
+    const altText = req.body.altText === "" ? undefined : req.body.altText;
     const newGameId = req.body.gameId ? Number(req.body.gameId) : undefined;
 
     if (newGameId !== undefined && isNaN(newGameId)) {
