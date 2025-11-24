@@ -177,7 +177,11 @@ export async function updateGameImageWithFile(
   let updateData: any = {
     gameId: targetGameId,
   };
-  if (altText !== undefined) updateData.altText = altText;
+  // Only update altText if explicitly provided (even if empty string)
+  // If undefined, keep existing altText
+  if (altText !== undefined) {
+    updateData.altText = altText;
+  }
 
   // Case 1: New file provided -> Replace image
   if (file) {
@@ -220,9 +224,14 @@ export async function updateGameImageWithFile(
       width: result.width || null,
       height: result.height || null,
       originalName: file.originalname,
-      folder: result.folder || null,
-      altText: altText || file.originalname,
+      folder: folderName, // Use sanitized folder name, not result.folder
     };
+    // Only override altText if explicitly provided, otherwise use filename
+    if (altText !== undefined) {
+      updateData.altText = altText;
+    } else {
+      updateData.altText = existingImage.altText || file.originalname;
+    }
   }
   // Case 2: No new file, but game changed -> Move image
   else if (newGameId && newGameId !== oldGameId && existingImage.publicId) {
@@ -260,7 +269,7 @@ export async function updateGameImageWithFile(
   if (newGameId && newGameId !== oldGameId && oldFolder) {
     const remainingImages = await prisma.gameImage.count({
       where: {
-        gameId: oldGameId,
+        folder: oldFolder, // Check by folder name, not gameId
         publicId: { not: null },
       },
     });
@@ -320,15 +329,15 @@ export async function deleteGameImage(id: number) {
   // Delete from database
   await prisma.gameImage.delete({ where: { id } as any });
 
-  // Check if there are any remaining images for this game
+  // Check if there are any remaining images in this folder
   const remainingImages = await prisma.gameImage.count({
     where: {
-      gameId,
+      folder: folder, // Check by folder name, not gameId
       publicId: { not: null },
     },
   });
 
-  // If no more images for this game, delete the folder from Cloudinary
+  // If no more images in this folder, delete it from Cloudinary
   if (remainingImages === 0 && folder) {
     try {
       await cloudinary.api.delete_folder(folder);
