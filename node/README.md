@@ -56,6 +56,24 @@ npm run dev          # en dev ahora se sincronizan los admins desde ADMIN_EMAILS
 
 **Paso 4:** Abre la documentación Swagger en <http://localhost:3000/api-docs> para comprobar que el funcionamiento sea correcto, allí verás los endpoints y las respuestas documentadas (incluidos códigos 200/201/400/401/403/404/409/500 según corresponda).
 
-Por hacer: Hacer que al cambiar de juego una imagen se verifique si la carpeta previa queda vacia, y en caso afirmativo borrarla. Al hacer update en una imagen se queda vacio el altText, y en cloudinary no pasa nada, en la llamada se cambian datos pero en cloudinary no se actualiza nada (dice que no lo borra por no estar vacio). Hacer que si se borra algo desde cloudinary, se borre también de la base de datos. Ampliar seed de datos con mas juegos y con imagenes de juegos por archivos.
+## Gestión de Imágenes en Cloudinary
 
-Al actualizar algo en el campo de imagen, si no se pone nada en altText, este no va vacio, nunca, se deja el de antes o se cambia ya como tu veas mejor. Por otro lado, respecto al cambio de carpetas, lo que yo quiero es que si una imagen que yo he subido, que ha creado y se encuentra en una carpeta nueva con el nombre del juego, la cambio de juego con el update, esta cambie de carpeta a la nueva carpeta del juego, que en caso de no existir la crea, y en el proceso, verifica si la carpeta queda vacia, si es asi la borra
+Las imágenes de juegos se almacenan en Cloudinary y se organizan automáticamente en carpetas basadas en el nombre del juego sanitizado.
+
+### Comportamiento Automático
+
+- **Al subir una imagen**: Se crea/usa la carpeta del juego correspondiente
+- **Al actualizar `gameId`**: La imagen se mueve a la carpeta del nuevo juego
+- **Al eliminar una imagen**: Si la carpeta queda vacía, se elimina automáticamente
+- **Preservación de `altText`**: Al actualizar sin proporcionar `altText`, se mantiene el valor anterior
+
+### Importante: Sincronización Unidireccional
+
+> **⚠️ IMPORTANTE**: Las imágenes deben eliminarse SIEMPRE desde la API, nunca directamente desde Cloudinary.
+>
+> Cloudinary no ofrece webhooks en el plan gratuito para notificar eliminaciones. Si eliminas una imagen directamente desde Cloudinary, la referencia permanecerá en la base de datos causando inconsistencias.
+
+### TODO
+
+- Ampliar seed de datos con más juegos e imágenes de ejemplo
+- Seed de datos añada users no admins
