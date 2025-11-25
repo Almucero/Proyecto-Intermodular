@@ -9,10 +9,6 @@ cloudinary.config({
   api_secret: env.CLOUDINARY_API_SECRET,
 });
 
-/**
- * Sanitize game title to create a valid folder name
- * (Duplicated from gameImages.service.ts to avoid dependency issues in scripts)
- */
 function sanitizeFolderName(title: string): string {
   return title
     .toLowerCase()
@@ -31,30 +27,30 @@ async function cleanAllData() {
   try {
     console.log("🧹 Iniciando limpieza de datos...");
 
-    console.log("  - Obteniendo imágenes para borrar de Cloudinary...");
-    const allImages = await prisma.gameImage.findMany({
+    console.log("  - Obteniendo media para borrar de Cloudinary...");
+    const allMedia = await prisma.media.findMany({
       where: { publicId: { not: null } },
       select: { publicId: true },
     });
 
-    if (allImages.length > 0) {
-      console.log(`  - Borrando ${allImages.length} imágenes de Cloudinary...`);
-      const publicIds = allImages.map((img) => img.publicId!);
+    if (allMedia.length > 0) {
+      console.log(`  - Borrando ${allMedia.length} archivos de Cloudinary...`);
+      const publicIds = allMedia.map((img) => img.publicId!);
       const chunkSize = 100;
       for (let i = 0; i < publicIds.length; i += chunkSize) {
         const chunk = publicIds.slice(i, i + chunkSize);
         try {
           await cloudinary.api.delete_resources(chunk);
         } catch (e) {
-          console.error("Error borrando chunk de imágenes en Cloudinary:", e);
+          console.error("Error borrando chunk de archivos en Cloudinary:", e);
         }
       }
     }
 
-    console.log("  - Borrando carpetas de juegos en Cloudinary...");
+    console.log("  - Borrando carpetas de juegos y usuarios en Cloudinary...");
     const allGames = await prisma.game.findMany({ select: { title: true } });
     for (const game of allGames) {
-      const folderName = sanitizeFolderName(game.title);
+      const folderName = `gameImages/${sanitizeFolderName(game.title)}`;
       try {
         await cloudinary.api.delete_folder(folderName);
       } catch (error: any) {
@@ -63,8 +59,8 @@ async function cleanAllData() {
       }
     }
 
-    console.log("  - Eliminando GameImages...");
-    await prisma.gameImage.deleteMany({});
+    console.log("  - Eliminando Media...");
+    await prisma.media.deleteMany({});
     console.log("  - Eliminando Games...");
     await prisma.game.deleteMany({});
     console.log("  - Eliminando Genres...");
@@ -86,7 +82,7 @@ async function cleanAllData() {
         'ALTER SEQUENCE "Game_id_seq" RESTART WITH 1'
       );
       await prisma.$executeRawUnsafe(
-        'ALTER SEQUENCE "GameImage_id_seq" RESTART WITH 1'
+        'ALTER SEQUENCE "Media_id_seq" RESTART WITH 1'
       );
       await prisma.$executeRawUnsafe(
         'ALTER SEQUENCE "Developer_id_seq" RESTART WITH 1'

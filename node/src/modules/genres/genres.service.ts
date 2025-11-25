@@ -27,6 +27,8 @@ export async function findGenreById(id: number) {
           isOnSale: true,
           isRefundable: true,
           numberOfSales: true,
+          stock: true,
+          videoUrl: true,
           rating: true,
           releaseDate: true,
         },

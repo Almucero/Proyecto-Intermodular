@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 
 async function seedData() {
   try {
-    console.log("🌱 Iniciando seed ampliado...");
+    console.log("🌱 Iniciando seed de datos...");
 
     const platformNames = [
       "PC",

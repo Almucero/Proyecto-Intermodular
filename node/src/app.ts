@@ -15,7 +15,7 @@ import developersRoutes from "./modules/developers/developers.routes.js";
 import publishersRoutes from "./modules/publishers/publishers.routes.js";
 import genresRoutes from "./modules/genres/genres.routes.js";
 import platformsRoutes from "./modules/platforms/platforms.routes.js";
-import gameImagesRoutes from "./modules/gameImages/gameImages.routes.js";
+import mediaRoutes from "./modules/media/media.routes.js";
 
 const app = express();
 
@@ -51,7 +51,7 @@ app.use("/api/developers", developersRoutes);
 app.use("/api/publishers", publishersRoutes);
 app.use("/api/genres", genresRoutes);
 app.use("/api/platforms", platformsRoutes);
-app.use("/api/game-images", gameImagesRoutes);
+app.use("/api/media", mediaRoutes);
 
 app.use(errorHandler);
 

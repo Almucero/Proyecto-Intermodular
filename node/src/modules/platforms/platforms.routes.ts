@@ -74,18 +74,20 @@ router.get("/", listPlatformsCtrl);
  *               ejemplo:
  *                 value:
  *                   id: 1
- *                   name: "string"
+ *                   name: "PC"
  *                   games:
  *                     - id: 1
- *                       title: "string"
- *                       description: "string"
- *                       price: 0
+ *                       title: "The Witcher 3"
+ *                       description: "RPG de mundo abierto épico"
+ *                       price: 39.99
  *                       salePrice: null
  *                       isOnSale: false
- *                       isRefundable: false
- *                       numberOfSales: 0
- *                       rating: null
- *                       releaseDate: "2025-11-17"
+ *                       isRefundable: true
+ *                       numberOfSales: 15000
+ *                       stock: 50
+ *                       videoUrl: "https://www.youtube.com/watch?v=example"
+ *                       rating: 4.8
+ *                       releaseDate: "2015-05-19"
  *       404:
  *         description: Plataforma no encontrada
  */

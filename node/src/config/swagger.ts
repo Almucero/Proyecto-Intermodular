@@ -111,6 +111,10 @@ const options: swaggerJsdoc.Options = {
             region: { type: "string", description: "Región/Provincia" },
             postalCode: { type: "string", description: "Código postal" },
             country: { type: "string", description: "País" },
+            media: {
+              type: "array",
+              items: { $ref: "#/components/schemas/Media" },
+            },
           },
         },
         RegisterInput: {
@@ -288,6 +292,12 @@ const options: swaggerJsdoc.Options = {
               description: "Indica si el juego es reembolsable",
             },
             numberOfSales: { type: "integer", description: "Número de ventas" },
+            stock: { type: "integer", description: "Stock disponible" },
+            videoUrl: {
+              type: "string",
+              format: "uri",
+              description: "URL del vídeo promocional",
+            },
             rating: {
               type: "number",
               format: "float",
@@ -325,9 +335,9 @@ const options: swaggerJsdoc.Options = {
               type: "array",
               items: { $ref: "#/components/schemas/Platform" },
             },
-            images: {
+            media: {
               type: "array",
-              items: { $ref: "#/components/schemas/GameImage" },
+              items: { $ref: "#/components/schemas/Media" },
             },
           },
           required: ["id", "title"],
@@ -374,20 +384,20 @@ const options: swaggerJsdoc.Options = {
           },
           required: ["id", "name"],
         },
-        GameImage: {
+        Media: {
           type: "object",
           properties: {
-            id: { type: "integer", description: "ID de la imagen" },
+            id: { type: "integer", description: "ID del archivo" },
             url: {
               type: "string",
               format: "uri",
-              description: "URL de la imagen",
+              description: "URL del archivo",
             },
             publicId: {
               type: "string",
               description: "ID público en Cloudinary",
             },
-            format: { type: "string", description: "Formato de imagen" },
+            format: { type: "string", description: "Formato" },
             resourceType: { type: "string", description: "Tipo de recurso" },
             bytes: { type: "integer", description: "Tamaño en bytes" },
             width: { type: "integer", description: "Ancho" },
@@ -397,24 +407,30 @@ const options: swaggerJsdoc.Options = {
             altText: { type: "string", description: "Texto alternativo" },
             gameId: {
               type: "integer",
-              description: "ID del juego relacionado",
+              description:
+                "ID del juego relacionado (solo presente si el media pertenece a un juego)",
+            },
+            userId: {
+              type: "integer",
+              description:
+                "ID del usuario relacionado (solo presente si el media pertenece a un usuario)",
             },
           },
         },
-        GameImageDetail: {
+        MediaDetail: {
           type: "object",
           properties: {
-            id: { type: "integer", description: "ID de la imagen" },
+            id: { type: "integer", description: "ID del archivo" },
             url: {
               type: "string",
               format: "uri",
-              description: "URL de la imagen",
+              description: "URL del archivo",
             },
             publicId: {
               type: "string",
               description: "ID público en Cloudinary",
             },
-            format: { type: "string", description: "Formato de imagen" },
+            format: { type: "string", description: "Formato" },
             resourceType: { type: "string", description: "Tipo de recurso" },
             bytes: { type: "integer", description: "Tamaño en bytes" },
             width: { type: "integer", description: "Ancho" },
@@ -425,27 +441,23 @@ const options: swaggerJsdoc.Options = {
             gameId: {
               type: "integer",
               description: "ID del juego relacionado",
+            },
+            userId: {
+              type: "integer",
+              description: "ID del usuario relacionado",
             },
             Game: {
               type: "object",
               properties: {
                 id: { type: "integer", description: "ID del juego" },
                 title: { type: "string", description: "Título del juego" },
-                description: { type: "string", description: "Descripción" },
-                price: { type: "number", description: "Precio" },
-                salePrice: { type: "number", description: "Precio en oferta" },
-                isOnSale: { type: "boolean", description: "¿Está en oferta?" },
-                isRefundable: {
-                  type: "boolean",
-                  description: "¿Es reembolsable?",
-                },
-                numberOfSales: { type: "integer", description: "Ventas" },
-                rating: { type: "number", description: "Valoración" },
-                releaseDate: {
-                  type: "string",
-                  format: "date",
-                  description: "Fecha de lanzamiento",
-                },
+              },
+            },
+            User: {
+              type: "object",
+              properties: {
+                id: { type: "integer", description: "ID del usuario" },
+                name: { type: "string", description: "Nombre del usuario" },
               },
             },
           },
@@ -461,6 +473,8 @@ const options: swaggerJsdoc.Options = {
             isRefundable: { type: "boolean" },
             rating: { type: "number" },
             numberOfSales: { type: "integer" },
+            stock: { type: "integer" },
+            videoUrl: { type: "string" },
             publisherId: { type: "integer" },
             developerId: { type: "integer" },
             releaseDate: { type: "string", format: "date" },
@@ -561,32 +575,6 @@ const options: swaggerJsdoc.Options = {
             name: { type: "string", description: "Nombre del publisher" },
           },
         },
-        CreateGameImageInput: {
-          type: "object",
-          required: ["gameId", "url"],
-          properties: {
-            gameId: { type: "integer", description: "ID del juego" },
-            url: {
-              type: "string",
-              format: "uri",
-              description: "URL de la imagen",
-            },
-            altText: { type: "string", description: "Texto alternativo" },
-            order: { type: "integer", description: "Orden de la imagen" },
-          },
-        },
-        UpdateGameImageInput: {
-          type: "object",
-          properties: {
-            url: {
-              type: "string",
-              format: "uri",
-              description: "URL de la imagen",
-            },
-            altText: { type: "string", description: "Texto alternativo" },
-            order: { type: "integer", description: "Orden de la imagen" },
-          },
-        },
       },
     },
     // No global security: endpoints opt-in with `security: [{ bearerAuth: [] }]`
@@ -624,8 +612,8 @@ const options: swaggerJsdoc.Options = {
         description: "Gestión de plataformas (CRUD)",
       },
       {
-        name: "GameImages",
-        description: "Gestión de imágenes de juego (CRUD)",
+        name: "Media",
+        description: "Gestión de archivos multimedia (CRUD)",
       },
     ],
   },
