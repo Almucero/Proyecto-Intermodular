@@ -1,16 +1,15 @@
 <header [class.search-active]="searchActive"
     class="flex-none relative flex items-center justify-between px-6 py-1 border-b border-gray-800 bg-gray-950">
-    <div class="flex items-center gap-4">
-        <button (click)="toggleMenu(); $event.stopPropagation()"
+    <div class="flex items-center gap-4 transition-transform duration-300" [class.translate-x-64]="isMenuOpen">
+        <button *ngIf="!isMenuOpen" (click)="toggleMenu(); $event.stopPropagation()"
             class="p-0 bg-transparent border-none hover:opacity-80 focus:outline-none">
             <img src="assets/menu.png" alt="Menu" class="w-9 h-9" />
         </button>
-        <div class="flex items-center gap-2 text-cyan-200 font-semibold text-2xl">
-            <a href="/">
-                <img src="assets/game_sage_logo.png" alt="GameSage Logo" class="w-14 h-14 object-cover rounded-xl" />
-            </a>
+        <a href="/"
+            class="flex items-center gap-2 text-cyan-200 font-semibold text-2xl no-underline hover:opacity-80 transition-opacity">
+            <img src="assets/game_sage_logo.png" alt="GameSage Logo" class="w-14 h-14 object-cover rounded-xl" />
             <span>GameSage</span>
-        </div>
+        </a>
     </div>
     <div class="absolute left-1/2 transform -translate-x-1/2 w-1/3">
         <div class="search-wrapper bg-gray-800 rounded-full flex items-center">
@@ -51,7 +50,9 @@
     class="fixed top-0 left-0 h-full w-64 border-gray-800 bg-gray-950 text-white transform transition-transform duration-300 z-[2000] -translate-x-full"
     [class.-translate-x-full]="!isMenuOpen" [class.translate-x-0]="isMenuOpen">
     <div class="p-6">
-        <h2 class="text-2xl font-bold text-cyan-300 mb-6 pb-3 border-b border-gray-700">Menú</h2>
+        <h2 (click)="toggleMenu()"
+            class="text-2xl font-bold text-cyan-300 mb-6 pb-3 border-b border-gray-700 cursor-pointer hover:text-cyan-400 transition-colors">
+            Menú</h2>
         <a href="/" class="block text-white no-underline hover:text-cyan-300 transition-colors text-lg mb-4">{{
             'menu.home' | translate }}</a>
         <a routerLink="/settings"

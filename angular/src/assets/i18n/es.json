@@ -12,7 +12,35 @@
     "contact": "Contacto",
     "privacy": "Políticas de privacidad",
     "conditions": "Términos y condiciones",
-    "cookies": "Configuración de cookies"
+    "cookies": "Configuración de cookies",
+    "aichat": "Chat IA"
+  },
+  "aichat": {
+    "title": "Chat IA"
+  },
+  "cart": {
+    "title": "Cesta"
+  },
+  "favourites": {
+    "title": "Favoritos"
+  },
+  "settings": {
+    "title": "Ajustes"
+  },
+  "contact": {
+    "title": "Contacto"
+  },
+  "help": {
+    "title": "Ayuda"
+  },
+  "conditions": {
+    "title": "Términos y condiciones"
+  },
+  "cookiesPage": {
+    "title": "Configuración de cookies"
+  },
+  "privacy": {
+    "title": "Políticas de privacidad"
   },
   "genres": {
     "title": "Géneros",

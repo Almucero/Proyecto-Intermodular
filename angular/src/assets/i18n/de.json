@@ -12,7 +12,35 @@
         "contact": "Kontakt",
         "privacy": "Datenschutz",
         "conditions": "AGB",
-        "cookies": "Cookie-Einstellungen"
+        "cookies": "Cookie-Einstellungen",
+        "aichat": "KI-Chat"
+    },
+    "aichat": {
+        "title": "KI-Chat"
+    },
+    "cart": {
+        "title": "Warenkorb"
+    },
+    "favourites": {
+        "title": "Favoriten"
+    },
+    "settings": {
+        "title": "Einstellungen"
+    },
+    "contact": {
+        "title": "Kontakt"
+    },
+    "help": {
+        "title": "Hilfe"
+    },
+    "conditions": {
+        "title": "AGB"
+    },
+    "cookiesPage": {
+        "title": "Cookie-Einstellungen"
+    },
+    "privacy": {
+        "title": "Datenschutz"
     },
     "genres": {
         "title": "Genres",
