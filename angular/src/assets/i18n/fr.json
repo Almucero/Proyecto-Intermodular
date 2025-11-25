@@ -12,7 +12,35 @@
         "contact": "Contact",
         "privacy": "Politique de confidentialité",
         "conditions": "Termes et conditions",
-        "cookies": "Paramètres des cookies"
+        "cookies": "Paramètres des cookies",
+        "aichat": "Chat IA"
+    },
+    "aichat": {
+        "title": "Chat IA"
+    },
+    "cart": {
+        "title": "Panier"
+    },
+    "favourites": {
+        "title": "Favoris"
+    },
+    "settings": {
+        "title": "Paramètres"
+    },
+    "contact": {
+        "title": "Contact"
+    },
+    "help": {
+        "title": "Aide"
+    },
+    "conditions": {
+        "title": "Termes et conditions"
+    },
+    "cookiesPage": {
+        "title": "Paramètres des cookies"
+    },
+    "privacy": {
+        "title": "Politique de confidentialité"
     },
     "genres": {
         "title": "Genres",

@@ -130,8 +130,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  ngAfterViewInit() {}
-
   scrollLeft(carousel: HTMLElement, section: string) {
     carousel.scrollBy({ left: -300, behavior: 'smooth' });
     setTimeout(() => this.updateScrollState(carousel, section), 350);

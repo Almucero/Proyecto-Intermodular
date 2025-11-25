@@ -12,7 +12,35 @@
         "contact": "Contact",
         "privacy": "Privacy Policy",
         "conditions": "Terms & Conditions",
-        "cookies": "Cookie Settings"
+        "cookies": "Cookie Settings",
+        "aichat": "AI Chat"
+    },
+    "aichat": {
+        "title": "AI Chat"
+    },
+    "cart": {
+        "title": "Cart"
+    },
+    "favourites": {
+        "title": "Favorites"
+    },
+    "settings": {
+        "title": "Settings"
+    },
+    "contact": {
+        "title": "Contact"
+    },
+    "help": {
+        "title": "Help"
+    },
+    "conditions": {
+        "title": "Terms & Conditions"
+    },
+    "cookiesPage": {
+        "title": "Cookie Settings"
+    },
+    "privacy": {
+        "title": "Privacy Policy"
     },
     "genres": {
         "title": "Genres",
