@@ -62,6 +62,21 @@ export async function findUserById(id: number) {
       region: true,
       postalCode: true,
       country: true,
+      media: {
+        select: {
+          id: true,
+          url: true,
+          publicId: true,
+          format: true,
+          resourceType: true,
+          bytes: true,
+          width: true,
+          height: true,
+          originalName: true,
+          folder: true,
+          altText: true,
+        },
+      },
     },
   });
 }
