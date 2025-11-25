@@ -76,15 +76,17 @@ const router = Router();
  *               ejemplo:
  *                 value:
  *                   - id: 1
- *                     title: "string"
- *                     description: "string"
- *                     price: 0
+ *                     title: "The Witcher 3"
+ *                     description: "RPG de mundo abierto épico"
+ *                     price: 39.99
  *                     salePrice: null
  *                     isOnSale: false
- *                     isRefundable: false
- *                     numberOfSales: 0
- *                     rating: null
- *                     releaseDate: "2025-11-17"
+ *                     isRefundable: true
+ *                     numberOfSales: 15000
+ *                     stock: 50
+ *                     videoUrl: "https://www.youtube.com/watch?v=example"
+ *                     rating: 4.8
+ *                     releaseDate: "2015-05-19"
  *       500:
  *         description: Error interno del servidor
  *         content:
@@ -119,32 +121,34 @@ router.get("/", listGamesCtrl);
  *               ejemplo:
  *                 value:
  *                   id: 1
- *                   title: "string"
- *                   description: "string"
- *                   price: 0
+ *                   title: "The Witcher 3"
+ *                   description: "RPG de mundo abierto épico"
+ *                   price: 39.99
  *                   salePrice: null
  *                   isOnSale: false
- *                   isRefundable: false
- *                   numberOfSales: 0
- *                   rating: null
- *                   releaseDate: "2025-11-17"
+ *                   isRefundable: true
+ *                   numberOfSales: 15000
+ *                   stock: 50
+ *                   videoUrl: "https://www.youtube.com/watch?v=example"
+ *                   rating: 4.8
+ *                   releaseDate: "2015-05-19"
  *                   developer:
  *                     id: 1
- *                     name: "string"
+ *                     name: "CD Projekt Red"
  *                   publisher:
  *                     id: 2
- *                     name: "string"
+ *                     name: "CD Projekt"
  *                   genres:
- *                     - id: 5
- *                       name: "string"
- *                   platforms:
  *                     - id: 3
- *                       name: "string"
- *                   images:
+ *                       name: "RPG"
+ *                   platforms:
+ *                     - id: 1
+ *                       name: "PC"
+ *                   media:
  *                     - id: 201
- *                       url: "string"
- *                       altText: "string"
- *                       order: 1
+ *                       url: "https://res.cloudinary.com/example.jpg"
+ *                       altText: "Game cover"
+ *                       gameId: 1
  *       400:
  *         description: ID inválido
  *         content:
@@ -174,6 +178,29 @@ router.get("/:id", getGameCtrl);
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/CreateGameInput'
+ *           examples:
+ *             complete:
+ *               summary: Ejemplo completo con todos los campos
+ *               value:
+ *                 title: "Cyberpunk 2077"
+ *                 description: "Juego de rol de acción en mundo abierto ambientado en Night City"
+ *                 price: 59.99
+ *                 isOnSale: true
+ *                 salePrice: 29.99
+ *                 isRefundable: true
+ *                 stock: 100
+ *                 videoUrl: "https://www.youtube.com/watch?v=8X2kIfS6fb8"
+ *                 rating: 4.5
+ *                 releaseDate: "2020-12-10"
+ *                 publisherId: 2
+ *                 developerId: 1
+ *                 genres: ["Acción", "RPG"]
+ *                 platforms: ["PC", "PlayStation", "Xbox"]
+ *             minimal:
+ *               summary: Ejemplo mínimo con campos requeridos
+ *               value:
+ *                 title: "Nuevo Juego"
+ *                 price: 49.99
  *     responses:
  *       201:
  *         description: Juego creado

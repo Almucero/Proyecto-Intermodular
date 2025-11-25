@@ -33,7 +33,7 @@ export async function getGameCtrl(req: Request, res: Response) {
       return res.status(400).json({ message: "ID inválido" });
     }
 
-    const game = await findGameById(id);
+    const game: any = await findGameById(id);
     if (!game) {
       return res.status(404).json({ message: "Juego no encontrado" });
     }
@@ -54,8 +54,8 @@ export async function getGameCtrl(req: Request, res: Response) {
     if (game.platforms) {
       response.platforms = game.platforms;
     }
-    if (game.images) {
-      response.images = game.images;
+    if (game.media) {
+      response.media = game.media;
     }
     delete response.publisherId;
     delete response.developerId;
@@ -101,6 +101,7 @@ export async function createGameCtrl(req: Request, res: Response) {
     if (payload.price !== undefined) payload.price = Number(payload.price);
     if (payload.salePrice !== undefined)
       payload.salePrice = Number(payload.salePrice);
+    if (payload.stock !== undefined) payload.stock = Number(payload.stock);
 
     const created = await createGame(payload);
     res.status(201).json(created);
@@ -159,6 +160,7 @@ export async function updateGameCtrl(req: Request, res: Response) {
     if (payload.price !== undefined) payload.price = Number(payload.price);
     if (payload.salePrice !== undefined)
       payload.salePrice = Number(payload.salePrice);
+    if (payload.stock !== undefined) payload.stock = Number(payload.stock);
 
     const updated = await updateGame(id, payload);
     res.json(updated);

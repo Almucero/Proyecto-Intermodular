@@ -1,12 +1,12 @@
 import multer from "multer";
 import { Router } from "express";
 import {
-  listGameImagesCtrl,
-  getGameImageCtrl,
-  updateGameImageWithFileCtrl,
-  deleteGameImageCtrl,
-  uploadGameImageCtrl,
-} from "./gameImages.controller.js";
+  listMediaCtrl,
+  getMediaCtrl,
+  updateMediaCtrl,
+  deleteMediaCtrl,
+  uploadMediaCtrl,
+} from "./media.controller.js";
 import { auth } from "../../middleware/auth.js";
 import { adminOnly } from "../../middleware/authorize.js";
 
@@ -29,18 +29,19 @@ const upload = multer({
 
 /**
  * @swagger
- * /api/game-images:
+ * /api/media:
  *   get:
- *     summary: Lista todas las imágenes de juegos
- *     tags: [GameImages]
+ *     summary: Lista todos los archivos multimedia
+ *     tags: [Media]
  *     security: []
  *     parameters:
  *       - in: query
- *         name: gameId
+ *         name: type
  *         schema:
- *           type: integer
+ *           type: string
+ *           enum: [user, game]
  *         required: false
- *         description: Filtrar por ID del juego
+ *         description: Tipo de entidad (user o game)
  *       - in: query
  *         name: folder
  *         schema:
@@ -59,24 +60,60 @@ const upload = multer({
  *           type: string
  *         required: false
  *         description: Filtrar por tipo de recurso
+ *       - in: query
+ *         name: publicId
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Filtrar por ID público de Cloudinary
+ *       - in: query
+ *         name: bytes
+ *         schema:
+ *           type: integer
+ *         required: false
+ *         description: Filtrar por tamaño en bytes
+ *       - in: query
+ *         name: width
+ *         schema:
+ *           type: integer
+ *         required: false
+ *         description: Filtrar por ancho
+ *       - in: query
+ *         name: height
+ *         schema:
+ *           type: integer
+ *         required: false
+ *         description: Filtrar por alto
+ *       - in: query
+ *         name: originalName
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Filtrar por nombre original
+ *       - in: query
+ *         name: altText
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Filtrar por texto alternativo
  *     responses:
  *       200:
- *         description: Lista de imágenes de juegos
+ *         description: Lista de archivos multimedia
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/GameImage'
+ *                 $ref: '#/components/schemas/Media'
  */
-router.get("/", listGameImagesCtrl);
+router.get("/", listMediaCtrl);
 
 /**
  * @swagger
- * /api/game-images/upload:
+ * /api/media/upload:
  *   post:
- *     summary: Sube una imagen de juego a Cloudinary (solo administradores)
- *     tags: [GameImages]
+ *     summary: Sube un archivo multimedia a Cloudinary (solo administradores)
+ *     tags: [Media]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -87,42 +124,39 @@ router.get("/", listGameImagesCtrl);
  *             type: object
  *             required:
  *               - file
- *               - gameId
+ *               - type
+ *               - id
  *             properties:
  *               file:
  *                 type: string
  *                 format: binary
  *                 description: Archivo de imagen
- *               gameId:
+ *               type:
+ *                 type: string
+ *                 enum: [user, game]
+ *                 description: Tipo de entidad (user o game)
+ *               id:
  *                 type: integer
- *                 description: ID del juego
- *                 example: ""
+ *                 description: ID de la entidad (usuario o juego)
  *               altText:
  *                 type: string
  *                 description: Texto alternativo (opcional)
- *                 example: ""
  *     responses:
  *       201:
- *         description: Imagen subida exitosamente
+ *         description: Archivo subido exitosamente
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/GameImage'
+ *               $ref: '#/components/schemas/Media'
  */
-router.post(
-  "/upload",
-  auth,
-  adminOnly,
-  upload.single("file"),
-  uploadGameImageCtrl
-);
+router.post("/upload", auth, adminOnly, upload.single("file"), uploadMediaCtrl);
 
 /**
  * @swagger
- * /api/game-images/{id}:
+ * /api/media/{id}:
  *   get:
- *     summary: Obtiene una imagen de juego por ID
- *     tags: [GameImages]
+ *     summary: Obtiene un archivo multimedia por ID
+ *     tags: [Media]
  *     security: []
  *     parameters:
  *       - in: path
@@ -130,25 +164,25 @@ router.post(
  *         schema:
  *           type: integer
  *         required: true
- *         description: ID de la imagen
+ *         description: ID del archivo
  *     responses:
  *       200:
- *         description: Información de la imagen
+ *         description: Información del archivo
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/GameImageDetail'
+ *               $ref: '#/components/schemas/MediaDetail'
  *       404:
- *         description: Imagen no encontrada
+ *         description: Archivo no encontrado
  */
-router.get("/:id", getGameImageCtrl);
+router.get("/:id", getMediaCtrl);
 
 /**
  * @swagger
- * /api/game-images/{id}/upload:
+ * /api/media/{id}/upload:
  *   put:
- *     summary: Actualiza una imagen de juego (solo administradores)
- *     tags: [GameImages]
+ *     summary: Actualiza un archivo multimedia (solo administradores)
+ *     tags: [Media]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -157,7 +191,7 @@ router.get("/:id", getGameImageCtrl);
  *         schema:
  *           type: integer
  *         required: true
- *         description: ID de la imagen
+ *         description: ID del archivo
  *     requestBody:
  *       required: true
  *       content:
@@ -168,39 +202,41 @@ router.get("/:id", getGameImageCtrl);
  *               file:
  *                 type: string
  *                 format: binary
- *                 description: Nuevo archivo de imagen (opcional)
+ *                 description: Nuevo archivo (opcional)
  *               altText:
  *                 type: string
  *                 description: Texto alternativo (opcional)
- *                 example: ""
- *               gameId:
+ *               type:
+ *                 type: string
+ *                 enum: [user, game]
+ *                 description: Cambiar tipo de entidad (opcional)
+ *               id:
  *                 type: integer
- *                 description: Cambiar juego (opcional, mueve a carpeta del nuevo juego)
- *                 example: ""
+ *                 description: Cambiar ID de entidad (opcional)
  *     responses:
  *       200:
- *         description: Imagen actualizada
+ *         description: Archivo actualizado
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/GameImage'
+ *               $ref: '#/components/schemas/Media'
  *       404:
- *         description: Imagen no encontrada
+ *         description: Archivo no encontrado
  */
 router.put(
   "/:id/upload",
   auth,
   adminOnly,
   upload.single("file"),
-  updateGameImageWithFileCtrl
+  updateMediaCtrl
 );
 
 /**
  * @swagger
- * /api/game-images/{id}:
+ * /api/media/{id}:
  *   delete:
- *     summary: Elimina una imagen de juego (solo administradores)
- *     tags: [GameImages]
+ *     summary: Elimina un archivo multimedia (solo administradores)
+ *     tags: [Media]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -209,17 +245,17 @@ router.put(
  *         schema:
  *           type: integer
  *         required: true
- *         description: ID de la imagen
+ *         description: ID del archivo
  *     responses:
  *       200:
- *         description: Imagen eliminada
+ *         description: Archivo eliminado
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/GameImageDetail'
+ *               $ref: '#/components/schemas/MediaDetail'
  *       404:
- *         description: Imagen no encontrada
+ *         description: Archivo no encontrado
  */
-router.delete("/:id", auth, adminOnly, deleteGameImageCtrl);
+router.delete("/:id", auth, adminOnly, deleteMediaCtrl);
 
 export default router;
