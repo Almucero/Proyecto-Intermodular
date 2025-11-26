@@ -4,6 +4,8 @@ import { SignInPayload } from '../../models/auth.model';
 export interface User extends SignInPayload {
   name?: string;
   surname?: string;
+  profileImage?: string;
+  username?: string;
 }
 
 @Injectable({
@@ -44,6 +46,40 @@ export class LocalStorageAuthService {
   logout() {
     localStorage.removeItem(this.AUTH_KEY);
     this.user.set(null);
+  }
+
+  updateProfileImage(image: string): void {
+    const currentUser = this.user();
+    if (currentUser) {
+      const updatedUser = { ...currentUser, profileImage: image };
+      this.user.set(updatedUser);
+
+      const users = this.getRegisteredUsers();
+      const userIndex = users.findIndex((u) => u.email === currentUser.email);
+      if (userIndex !== -1) {
+        users[userIndex] = updatedUser;
+        localStorage.setItem(this.USERS_KEY, JSON.stringify(users));
+      }
+
+      localStorage.setItem(this.AUTH_KEY, JSON.stringify(updatedUser));
+    }
+  }
+
+  updateUser(userData: Partial<User>): void {
+    const currentUser = this.user();
+    if (currentUser) {
+      const updatedUser = { ...currentUser, ...userData };
+      this.user.set(updatedUser);
+
+      const users = this.getRegisteredUsers();
+      const userIndex = users.findIndex((u) => u.email === currentUser.email);
+      if (userIndex !== -1) {
+        users[userIndex] = updatedUser;
+        localStorage.setItem(this.USERS_KEY, JSON.stringify(users));
+      }
+
+      localStorage.setItem(this.AUTH_KEY, JSON.stringify(updatedUser));
+    }
   }
 
   private validateAndSetUser(credentials: SignInPayload): boolean {

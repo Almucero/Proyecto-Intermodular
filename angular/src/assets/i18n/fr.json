@@ -66,7 +66,9 @@
         "emailPlaceholder": "votre@email",
         "passwordLabel": "Mot de passe",
         "passwordPlaceholder": "votre mot de passe",
-        "loginButton": "Se connecter"
+        "loginButton": "Se connecter",
+        "rememberMe": "Se souvenir de moi",
+        "forgotPassword": "Mot de passe oublié ?"
     },
     "register": {
         "title": "Créons votre compte",
@@ -132,6 +134,7 @@
         "defaultPayment": "(Par défaut)",
         "addPaymentMethod": "Ajouter une méthode de paiement",
         "creditCard": "Carte de crédit/débit",
-        "changeImage": "Changer l'image"
+        "changeImage": "Changer l'image",
+        "logout": "Se déconnecter"
     }
 }

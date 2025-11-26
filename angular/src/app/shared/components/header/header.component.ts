@@ -4,6 +4,9 @@ import { RouterModule } from '@angular/router';
 import { Language, TranslatePipe } from '@ngx-translate/core';
 import { LanguageSelectorComponent } from '../language-selector/language-selector.component';
 
+import { AUTH_SERVICE } from '../../../core/services/auth.token';
+import { inject } from '@angular/core';
+
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -15,6 +18,9 @@ export class HeaderComponent {
   isMenuOpen = false;
   searchActive = false;
   @ViewChild('menu') menu!: ElementRef;
+
+  private authService = inject(AUTH_SERVICE);
+  user = this.authService.user;
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;

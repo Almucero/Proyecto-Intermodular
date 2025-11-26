@@ -3,18 +3,19 @@
     <div class="flex items-center gap-4 transition-transform duration-300" [class.translate-x-64]="isMenuOpen">
         <button *ngIf="!isMenuOpen" (click)="toggleMenu(); $event.stopPropagation()"
             class="p-0 bg-transparent border-none hover:opacity-80 focus:outline-none">
-            <img src="assets/menu.png" alt="Menu" class="w-9 h-9" />
+            <img src="assets/icons/menu.png" alt="Menu" class="w-9 h-9" />
         </button>
         <a href="/"
             class="flex items-center gap-2 text-cyan-200 font-semibold text-2xl no-underline hover:opacity-80 transition-opacity">
-            <img src="assets/game_sage_logo.png" alt="GameSage Logo" class="w-14 h-14 object-cover rounded-xl" />
+            <img src="assets/branding/game_sage_logo.png" alt="GameSage Logo"
+                class="w-14 h-14 object-cover rounded-xl" />
             <span>GameSage</span>
         </a>
     </div>
     <div class="absolute left-1/2 transform -translate-x-1/2 w-1/3">
         <div class="search-wrapper bg-gray-800 rounded-full flex items-center">
             <span class="search-icon-wrapper">
-                <img src="assets/search.png" alt="Search" class="search-icon" />
+                <img src="assets/icons/search.png" alt="Search" class="search-icon" />
             </span>
             <input type="text" [placeholder]="'common.searchPlaceholder' | translate"
                 class="search-input bg-transparent outline-none text-gray-300 border-none" (focus)="onSearchFocus()"
@@ -26,22 +27,23 @@
         <app-language-selector></app-language-selector>
         <button class="p-0 bg-transparent border-none hover:opacity-80 focus:outline-none">
             <a href="/aichat">
-                <img src="assets/aichat.png" alt="AI Chat" class="w-9 h-9 cursor-pointer" />
+                <img src="assets/icons/aichat.png" alt="AI Chat" class="w-9 h-9 cursor-pointer" />
             </a>
         </button>
         <button class="p-0 bg-transparent border-none hover:opacity-80 focus:outline-none">
             <a href="/favourites">
-                <img src="assets/favourites.png" alt="Favourites" class="w-9 h-9 cursor-pointer" />
+                <img src="assets/icons/favourites.png" alt="Favourites" class="w-9 h-9 cursor-pointer" />
             </a>
         </button>
         <button class="p-0 bg-transparent border-none hover:opacity-80 focus:outline-none">
             <a href="/cart">
-                <img src="assets/cart.png" alt="Shopping cart" class="w-9 h-9 cursor-pointer" />
+                <img src="assets/icons/cart.png" alt="Shopping cart" class="w-9 h-9 cursor-pointer" />
             </a>
         </button>
         <button class="p-0 bg-transparent border-none hover:opacity-80 focus:outline-none">
-            <a href="/login">
-                <img src="assets/user.png" alt="user profile" class="w-9 h-9" />
+            <a [routerLink]="user() ? '/dashboard' : '/login'">
+                <img [src]="user()?.profileImage || 'assets/icons/user.png'" alt="user profile"
+                    class="w-9 h-9 rounded-full object-cover" />
             </a>
         </button>
     </div>

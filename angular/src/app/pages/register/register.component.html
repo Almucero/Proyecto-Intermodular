@@ -26,13 +26,11 @@
               </svg>
             </span>
             <input id="name" formControlName="name" [placeholder]="'register.namePlaceholder' | translate"
-              autocomplete="given-name"
-              class="w-full pl-10 h-10 rounded-sm border border-gray-600 bg-gray-800 text-white
-              focus:outline-none focus:ring-2 focus:ring-blue-300"
-              type="text" />
+              autocomplete="given-name" class="w-full pl-10 h-10 rounded-sm border border-gray-600 bg-gray-800 text-white
+              focus:outline-none focus:ring-2 focus:ring-blue-300" type="text" />
           </div>
-          @if(formRegister.controls['name'].touched &&
-          formRegister.controls['name'].errors){
+          @if((formRegister.controls['name'].touched && formRegister.controls['name'].hasError('required')) ||
+          (submitted && formRegister.controls['name'].errors)){
           <span class="text-red-500 mt-3 mix-blend-color-dodge">
             {{ getError("name") | translate }}
           </span>
@@ -53,8 +51,8 @@
               [placeholder]="'register.surnamePlaceholder' | translate"
               class="w-full pl-10 h-10 rounded-sm border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-300" />
           </div>
-          @if(formRegister.controls['surname'].touched &&
-          formRegister.controls['surname'].errors){
+          @if((formRegister.controls['surname'].touched && formRegister.controls['surname'].hasError('required')) ||
+          (submitted && formRegister.controls['surname'].errors)){
           <span class="text-red-500 mt-3 mix-blend-color-dodge">
             {{ getError("surname") | translate }}
           </span>
@@ -76,8 +74,8 @@
               class="w-full pl-10 h-10 rounded-sm border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-300 focus:bg-gray-800"
               type="email" />
           </div>
-          @if(formRegister.controls['email'].touched &&
-          formRegister.controls['email'].errors){
+          @if((formRegister.controls['email'].touched && formRegister.controls['email'].hasError('required')) ||
+          (submitted && formRegister.controls['email'].errors)){
           <span class="text-red-500 mt-3 mix-blend-color-dodge">
             {{ getError("email") | translate }}
           </span>
@@ -116,8 +114,8 @@
               }
             </span>
           </div>
-          @if(formRegister.controls['password'].touched &&
-          formRegister.controls['password'].errors){
+          @if((formRegister.controls['password'].touched && formRegister.controls['password'].hasError('required')) ||
+          (submitted && formRegister.controls['password'].errors)){
           <span class="text-red-500 mt-3 mix-blend-color-dodge">
             {{ getError("password") | translate }}
           </span>
@@ -139,8 +137,8 @@
               class="w-full pl-10 h-10 rounded-sm border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-300"
               type="password" />
           </div>
-          @if(formRegister.controls['password2'].touched &&
-          formRegister.controls['password2'].errors){
+          @if((formRegister.controls['password2'].touched && formRegister.controls['password2'].hasError('required')) ||
+          (submitted && formRegister.controls['password2'].errors)){
           <span class="text-red-500 mt-3 mix-blend-color-dodge">
             {{ getError("password2") | translate }}
           </span>
