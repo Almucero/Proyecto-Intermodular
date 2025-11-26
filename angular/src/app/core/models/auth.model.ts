@@ -8,6 +8,8 @@ export interface User {
   name: string;
   surname: string;
   email: string;
+  profileImage?: string;
+  username?: string;
 }
 
 export interface SignUpPayload {
