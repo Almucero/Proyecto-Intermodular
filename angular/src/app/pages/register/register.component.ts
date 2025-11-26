@@ -45,6 +45,7 @@ export class RegisterComponent {
   formRegister: FormGroup;
   registrationError = '';
   showPassword = false;
+  submitted = false;
   private router = inject(Router);
   private auth = inject(AUTH_SERVICE);
   private languageService = inject(LanguageService);
@@ -69,6 +70,8 @@ export class RegisterComponent {
   }
 
   async onSubmit() {
+    this.submitted = true;
+    this.registrationError = ''; // Changed from false to '' to match type
     if (this.formRegister.valid) {
       const success = await this.auth.register(this.formRegister.value);
       if (success) {
