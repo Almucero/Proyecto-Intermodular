@@ -35,9 +35,9 @@ export class LocalStorageAuthService {
     return true;
   }
 
-  login(credentials: SignInPayload): boolean {
+  login(credentials: SignInPayload, rememberMe: boolean = false): boolean {
     const isValid = this.validateAndSetUser(credentials);
-    if (isValid) {
+    if (isValid && rememberMe) {
       localStorage.setItem(this.AUTH_KEY, JSON.stringify(credentials));
     }
     return isValid;
@@ -61,7 +61,9 @@ export class LocalStorageAuthService {
         localStorage.setItem(this.USERS_KEY, JSON.stringify(users));
       }
 
-      localStorage.setItem(this.AUTH_KEY, JSON.stringify(updatedUser));
+      if (localStorage.getItem(this.AUTH_KEY)) {
+        localStorage.setItem(this.AUTH_KEY, JSON.stringify(updatedUser));
+      }
     }
   }
 
@@ -78,7 +80,9 @@ export class LocalStorageAuthService {
         localStorage.setItem(this.USERS_KEY, JSON.stringify(users));
       }
 
-      localStorage.setItem(this.AUTH_KEY, JSON.stringify(updatedUser));
+      if (localStorage.getItem(this.AUTH_KEY)) {
+        localStorage.setItem(this.AUTH_KEY, JSON.stringify(updatedUser));
+      }
     }
   }
 
