@@ -168,6 +168,7 @@ export class HomeComponent implements OnInit {
     this.startX = e.pageX - carousel.offsetLeft;
     this.scrollLeftPos = carousel.scrollLeft;
     carousel.classList.add('active');
+    e.preventDefault(); // Prevent text selection
   }
 
   onMouseLeave(carousel: HTMLElement) {
@@ -184,11 +185,10 @@ export class HomeComponent implements OnInit {
 
   onMouseMove(e: MouseEvent, carousel: HTMLElement) {
     if (e.buttons !== 1) return;
-    if (e.buttons !== 1) return;
 
-    e.preventDefault();
+    e.preventDefault(); // Prevent text selection
     const x = e.pageX - carousel.offsetLeft;
-    const walk = (x - this.startX) * 2;
+    const walk = (x - this.startX); // Changed from * 2 to * 1 for 1:1 speed
     carousel.scrollLeft = this.scrollLeftPos - walk;
 
     if (Math.abs(walk) > 5) {
