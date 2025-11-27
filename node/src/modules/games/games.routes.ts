@@ -146,7 +146,15 @@ router.get("/", listGamesCtrl);
  *                       name: "PC"
  *                   media:
  *                     - id: 201
- *                       url: "https://res.cloudinary.com/example.jpg"
+ *                       url: "https://res.cloudinary.com/example/image/upload/games/1/cover.jpg"
+ *                       publicId: "games/1/cover"
+ *                       format: "jpg"
+ *                       resourceType: "image"
+ *                       bytes: 125340
+ *                       width: 1920
+ *                       height: 1080
+ *                       originalName: "witcher3_cover.jpg"
+ *                       folder: "games/1"
  *                       altText: "Game cover"
  *                       gameId: 1
  *       400:

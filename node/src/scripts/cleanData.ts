@@ -59,6 +59,17 @@ async function cleanAllData() {
       }
     }
 
+    const allUsers = await prisma.user.findMany({ select: { name: true } });
+    for (const user of allUsers) {
+      const folderName = `userImages/${sanitizeFolderName(user.name)}`;
+      try {
+        await cloudinary.api.delete_folder(folderName);
+      } catch (error: any) {
+        if (error?.error?.http_code !== 404) {
+        }
+      }
+    }
+
     console.log("  - Eliminando Media...");
     await prisma.media.deleteMany({});
     console.log("  - Eliminando Games...");

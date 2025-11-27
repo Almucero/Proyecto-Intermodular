@@ -25,7 +25,6 @@ export async function getPlatformCtrl(req: Request, res: Response) {
     const item = await findPlatformById(id);
     if (!item)
       return res.status(404).json({ message: "Platform no encontrado" });
-    // Map relation names to lowercase
     const response: any = { ...item };
     if (item.games) {
       response.games = item.games;

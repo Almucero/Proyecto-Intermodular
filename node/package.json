@@ -2,7 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "type": "module",
-  "description": "Este proyecto implementa una API REST con Node.js, Express y PostgreSQL siguiendo un desarrollo incremental versionado con Git tags.",
+  "description": "API REST para gestión de autenticación, usuarios, videojuegos, desarrolladoras, publishers, géneros, plataformas y archivos multimedia con autenticación JWT, validación Zod, rate limiting y testing completo",
   "main": "index.js",
   "scripts": {
     "dev": "npm run seed:admin && nodemon src/index.ts",

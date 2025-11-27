@@ -11,7 +11,6 @@ describe("Media API", () => {
   let adminEmail: string;
 
   beforeAll(async () => {
-    // Create admin user
     adminEmail = `admin${Date.now()}@example.com`;
     const adminUser = {
       email: adminEmail,
@@ -36,7 +35,6 @@ describe("Media API", () => {
     });
     userId = adminData!.id;
 
-    // Create a test game
     const game = await prisma.game.create({
       data: {
         title: "Test Game for Media",
@@ -49,13 +47,10 @@ describe("Media API", () => {
   });
 
   afterAll(async () => {
-    // Clean up database
     await prisma.media.deleteMany({ where: { OR: [{ gameId }, { userId }] } });
 
-    // Cleanup Cloudinary folders
     const { v2: cloudinary } = await import("cloudinary");
 
-    // Game folder
     const game = await prisma.game.findUnique({ where: { id: gameId } });
     if (game) {
       const folderName = `gameImages/${game.title
@@ -71,7 +66,6 @@ describe("Media API", () => {
     }
     await prisma.game.delete({ where: { id: gameId } });
 
-    // User folder
     const user = await prisma.user.findUnique({ where: { id: userId } });
     if (user) {
       const nameToUse = user.name || user.accountId || `user-${userId}`;
