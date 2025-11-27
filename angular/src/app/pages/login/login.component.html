@@ -24,14 +24,12 @@
                   d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
               </svg>
             </span>
-            <input id="email" name="email" formControlName="email"
-              [placeholder]="'login.emailPlaceholder' | translate"
+            <input id="email" name="email" formControlName="email" [placeholder]="'login.emailPlaceholder' | translate"
               class="w-full pl-10 h-10 rounded-sm border border-gray-600 bg-gray-800 text-white
-              focus:outline-none focus:ring-2 focus:ring-blue-300"
-              type="text" />
+              focus:outline-none focus:ring-2 focus:ring-blue-300" type="text" />
           </div>
-          @if(formLogin.controls['email'].touched &&
-          formLogin.controls['email'].errors){
+          @if((formLogin.controls['email'].touched && formLogin.controls['email'].hasError('required')) || (submitted &&
+          formLogin.controls['email'].errors)){
           <span class="text-red-500 mt-3 mix-blend-color-dodge">
             {{ getError("email") | translate }}
           </span>
@@ -72,12 +70,22 @@
               }
             </span>
           </div>
-          @if(formLogin.controls['password'].touched &&
-          formLogin.controls['password'].errors){
+          @if((formLogin.controls['password'].touched && formLogin.controls['password'].hasError('required')) ||
+          (submitted && formLogin.controls['password'].errors)){
           <span class="text-red-500 mt-3 mix-blend-color-dodge">
             {{ getError("password") | translate }}
           </span>
           }
+        </div>
+        <div class="mb-3 flex items-center justify-between">
+          <label class="flex items-center gap-2 text-white text-sm cursor-pointer">
+            <input type="checkbox"
+              class="w-4 h-4 rounded border-gray-600 bg-gray-800 text-blue-400 focus:ring-2 focus:ring-blue-300">
+            <span>{{ 'login.rememberMe' | translate }}</span>
+          </label>
+          <a routerLink="/forgot-password" class="text-blue-300 hover:text-blue-400 underline text-sm">
+            {{ 'login.forgotPassword' | translate }}
+          </a>
         </div>
         @if(loginError){
         <div class="mb-3 text-red-500 text-center mix-blend-color-dodge">

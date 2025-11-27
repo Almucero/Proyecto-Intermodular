@@ -15,16 +15,16 @@ export class LanguageSelectorComponent {
   isLangMenuOpen = false;
 
   languages: { code: Language; flag: string; name: string }[] = [
-    { code: 'es', flag: 'assets/espana.png', name: 'Español' },
-    { code: 'en', flag: 'assets/estados-unidos.png', name: 'English' },
-    { code: 'de', flag: 'assets/alemania.png', name: 'Deutsch' },
-    { code: 'fr', flag: 'assets/francia.png', name: 'Français' },
-    { code: 'it', flag: 'assets/italia.png', name: 'Italiano' }
+    { code: 'es', flag: 'assets/flags/espana.png', name: 'Español' },
+    { code: 'en', flag: 'assets/flags/estados-unidos.png', name: 'English' },
+    { code: 'de', flag: 'assets/flags/alemania.png', name: 'Deutsch' },
+    { code: 'fr', flag: 'assets/flags/francia.png', name: 'Français' },
+    { code: 'it', flag: 'assets/flags/italia.png', name: 'Italiano' }
   ];
 
   get currentFlag(): string {
     const current = this.languages.find(l => l.code === this.languageService.getCurrentLang());
-    return current ? current.flag : 'assets/espana.png';
+    return current ? current.flag : 'assets/flags/espana.png';
   }
 
   get currentLanguageName(): string {
