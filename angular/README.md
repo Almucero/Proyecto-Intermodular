@@ -1,6 +1,6 @@
 # GameSage
 
-Posibles mejoras: velociad correcta del carrusel, desactivar copiado en carrusel (al arrastrar).  poner la barra esa vertical que separa la imagen de los datos.  Hacer recuerdame y has olvidado contraseña.el menu arregarlo, imagenes del mismo tamaño en productos,  poner tooltips.lo del nombre dentro de usuario en todos los idiomas.poner imagenes en en generos.hacer pantalla de busqueda.
+Posibles mejoras: velociad correcta del carrusel, desactivar copiado en carrusel (al arrastrar).  poner la barra esa vertical que separa la imagen de los datos.  Hacer recuerdame y has olvidado contraseña.el menu arregarlo, imagenes del mismo tamaño en productos,  poner tooltips.lo del nombre dentro de usuario en todos los idiomas.poner imagenes en en generos.hacer pantalla de busqueda.que lo de generos tenga el mismo tamaño para todos los idiomas
 
 
 hecho:
