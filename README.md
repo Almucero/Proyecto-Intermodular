@@ -1,7 +1,7 @@
 # GameSage
 
 Proyecto intermodular desarrollado en el segundo curso del CFGS en Desarrollo de Aplicaciones Multiplataforma.  
-Participantes: **Rosario González** y **Álvaro Jiménez**.
+Participantes: **Rosario González** y **Álvaro Jiménez**
 
 GameSage reúne en un solo proyecto todo lo aprendido durante el curso en diversas asignaturas, integrando backend, frontend web, aplicación móvil, base de datos, despliegue en la nube y prototipado UI, entre otros.
 

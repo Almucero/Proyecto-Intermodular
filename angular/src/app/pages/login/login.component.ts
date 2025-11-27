@@ -25,6 +25,7 @@ export class LoginComponent {
   loginError = '';
   showPassword = false;
   registrationSuccess = false;
+  submitted = false;
   navigateTo: string = '';
   private router = inject(Router);
   private auth = inject(AUTH_SERVICE);
@@ -47,6 +48,7 @@ export class LoginComponent {
   ngOnInit(): void {}
 
   async onSubmit() {
+    this.submitted = true;
     this.loginError = '';
     if (this.formLogin.valid) {
       const success = await this.auth.login(this.formLogin.value);
