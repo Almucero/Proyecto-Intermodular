@@ -1,4 +1,4 @@
-# GameSage
+# Proyecto intermodular: GameSage
 
 Proyecto intermodular desarrollado en el segundo curso del CFGS en Desarrollo de Aplicaciones Multiplataforma.  
 Participantes: **Rosario González** y **Álvaro Jiménez**
