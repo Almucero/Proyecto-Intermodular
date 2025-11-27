@@ -35,6 +35,7 @@ export class LoginComponent {
     this.formLogin = this.formSvc.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
+      rememberMe: [false],
     });
     if (sessionStorage.getItem('registrationSuccess')) {
       this.registrationSuccess = true;
@@ -51,7 +52,8 @@ export class LoginComponent {
     this.submitted = true;
     this.loginError = '';
     if (this.formLogin.valid) {
-      const success = await this.auth.login(this.formLogin.value);
+      const { email, password, rememberMe } = this.formLogin.value;
+      const success = await this.auth.login({ email, password }, rememberMe);
       if (success) {
         this.router.navigate([this.navigateTo]);
       } else {
