@@ -40,7 +40,8 @@ app.get("/api-docs", (req, res, next) => {
   const host = req.get("host") || "";
   const isProduction = host.includes("gamesage-service.onrender.com");
 
-  const dynamicSpec: any = { ...swaggerSpec };
+  const dynamicSpec = JSON.parse(JSON.stringify(swaggerSpec));
+
   if (isProduction && dynamicSpec.servers) {
     dynamicSpec.servers = [
       {
@@ -54,7 +55,11 @@ app.get("/api-docs", (req, res, next) => {
     ];
   }
 
-  return swaggerUi.setup(dynamicSpec)(req, res, next);
+  return swaggerUi.setup(dynamicSpec, {
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
+  })(req, res, next);
 });
 
 if (env.NODE_ENV !== "test") {
