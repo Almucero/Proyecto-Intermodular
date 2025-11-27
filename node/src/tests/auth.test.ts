@@ -1,5 +1,6 @@
 import request from "supertest";
 import app from "../app";
+import { prisma } from "../config/db";
 
 describe("Auth Endpoints", () => {
   const testUser = {
@@ -7,6 +8,46 @@ describe("Auth Endpoints", () => {
     name: "Test User",
     password: "password123",
   };
+
+  afterAll(async () => {
+    const emailsToDelete = [testUser.email];
+
+    const loginUserPattern = `login${testUser.email
+      .split("@")[0]
+      .replace("test", "")}@example.com`;
+    emailsToDelete.push(loginUserPattern);
+
+    await prisma.user
+      .deleteMany({
+        where: {
+          OR: [
+            {
+              email: {
+                startsWith: `test${testUser.email
+                  .split("@")[0]
+                  .replace("test", "")}`,
+              },
+            },
+            {
+              email: {
+                startsWith: `login${testUser.email
+                  .split("@")[0]
+                  .replace("test", "")}`,
+              },
+            },
+            {
+              email: {
+                startsWith: `fail`,
+              },
+            },
+            { email: { startsWith: `new@example.com` } },
+          ],
+        },
+      })
+      .catch(() => {});
+
+    await prisma.$disconnect();
+  });
 
   describe("POST /api/auth/register", () => {
     it("debe registrar un nuevo usuario", async () => {

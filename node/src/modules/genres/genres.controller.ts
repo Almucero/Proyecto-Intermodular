@@ -24,7 +24,6 @@ export async function getGenreCtrl(req: Request, res: Response) {
     if (isNaN(id)) return res.status(400).json({ message: "ID inválido" });
     const item = await findGenreById(id);
     if (!item) return res.status(404).json({ message: "Genre no encontrado" });
-    // Map relation names to lowercase
     const response: any = { ...item };
     if (item.games) {
       response.games = item.games;

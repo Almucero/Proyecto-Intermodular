@@ -1,8 +1,6 @@
-// Utility to deep-serialize Prisma results (Decimal -> number/string, Date -> ISO)
 export function serializePrisma(value: any): any {
   if (value === null || value === undefined) return value;
 
-  // Decimal from Prisma (decimal.js) typically has toNumber()
   if (typeof value === "object" && typeof value.toNumber === "function") {
     try {
       return value.toNumber();

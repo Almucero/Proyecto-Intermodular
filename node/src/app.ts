@@ -27,8 +27,6 @@ app.use(
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 app.use(requestLogger);
-
-// Serialize Prisma decimals and Dates to JSON-safe values
 app.use(responseSerializer);
 
 if (env.NODE_ENV !== "test") {
@@ -37,7 +35,27 @@ if (env.NODE_ENV !== "test") {
 
 app.get("/health", (_req, res) => res.json({ ok: true }));
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/api-docs", swaggerUi.serve);
+app.get("/api-docs", (req, res, next) => {
+  const host = req.get("host") || "";
+  const isProduction = host.includes("gamesage-service.onrender.com");
+
+  const dynamicSpec: any = { ...swaggerSpec };
+  if (isProduction && dynamicSpec.servers) {
+    dynamicSpec.servers = [
+      {
+        url: `https://gamesage-service.onrender.com`,
+        description: "Servidor de producción",
+      },
+      {
+        url: `http://localhost:${env.PORT}`,
+        description: "Servidor de desarrollo",
+      },
+    ];
+  }
+
+  return swaggerUi.setup(dynamicSpec)(req, res, next);
+});
 
 if (env.NODE_ENV !== "test") {
   app.use("/api/auth", authLimiter, authRoutes);

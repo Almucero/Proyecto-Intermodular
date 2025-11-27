@@ -33,7 +33,6 @@ export async function getMediaCtrl(req: Request, res: Response) {
 
     const response: any = { ...item };
 
-    // Clean IDs: only show the relevant one
     if (item.gameId !== null) {
       delete response.userId;
     } else if (item.userId !== null) {
@@ -71,7 +70,6 @@ export async function updateMediaCtrl(req: Request, res: Response) {
 
     const updated = await updateMedia(id, req.file, altText, newType, newId);
 
-    // Clean response to only show relevant ID
     const response: any = { ...updated };
     if (updated.gameId !== null) {
       delete response.userId;
@@ -100,7 +98,6 @@ export async function deleteMediaCtrl(req: Request, res: Response) {
     if (isNaN(id)) return res.status(400).json({ message: "ID inválido" });
     const deleted = await deleteMedia(id);
 
-    // Clean response to only show relevant ID
     const response: any = { ...deleted };
     if (deleted.gameId !== null) {
       delete response.userId;
@@ -138,7 +135,6 @@ export async function uploadMediaCtrl(req: Request, res: Response) {
     const altText = req.body.altText;
     const media = await uploadMedia(type, id, req.file, altText);
 
-    // Clean response to only show relevant ID
     const response: any = { ...media };
     if (media.gameId !== null) {
       delete response.userId;

@@ -1,7 +1,159 @@
 import "dotenv/config";
 import { prisma } from "../config/db.js";
 import bcrypt from "bcrypt";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import { v2 as cloudinary } from "cloudinary";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const MEDIA_BASE_PATH = path.join(__dirname, "../../media");
+const GAME_IMAGES_PATH = path.join(MEDIA_BASE_PATH, "gameImages");
+const USER_IMAGES_PATH = path.join(MEDIA_BASE_PATH, "userImages");
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
+  api_key: process.env.CLOUDINARY_API_KEY!,
+  api_secret: process.env.CLOUDINARY_API_SECRET!,
+});
+
+/**
+ * Función que sanitiza un nombre de carpeta
+ * @param name Nombre de la carpeta
+ * @returns Nombre sanitizado
+ */
+function sanitizeFolderName(name: string): string {
+  return name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+/**
+ * Sube todas las imágenes de todos los juegos y usuarios de una sola vez
+ * Busca en la base de datos todos los juegos y usuarios, y sube sus imágenes
+ * desde las carpetas locales configuradas
+ * @returns Objeto con conteos de imágenes subidas
+ */
+async function uploadAllMedia() {
+  console.log("  - Subiendo media desde carpetas locales...");
+
+  const allGames = await prisma.game.findMany({
+    select: { id: true, title: true },
+  });
+
+  let totalGameImages = 0;
+
+  for (const game of allGames) {
+    const sanitizedName = sanitizeFolderName(game.title);
+    const gameFolderPath = path.join(GAME_IMAGES_PATH, game.title);
+
+    if (!fs.existsSync(gameFolderPath)) continue;
+
+    const imageFiles = fs
+      .readdirSync(gameFolderPath)
+      .filter((file) => /\.(jpg|jpeg|png|gif|webp)$/i.test(file));
+
+    if (imageFiles.length === 0) continue;
+
+    for (const file of imageFiles) {
+      const filePath = path.join(gameFolderPath, file);
+      try {
+        const uploadResult = await cloudinary.uploader.upload(filePath, {
+          folder: `gameImages/${sanitizedName}`,
+          resource_type: "auto",
+        });
+
+        await prisma.media.create({
+          data: {
+            url: uploadResult.secure_url,
+            publicId: uploadResult.public_id,
+            format: uploadResult.format,
+            resourceType: uploadResult.resource_type,
+            bytes: uploadResult.bytes,
+            width: uploadResult.width ?? null,
+            height: uploadResult.height ?? null,
+            originalName: file,
+            folder: `gameImages/${sanitizedName}`,
+            altText: `${game.title} - ${file}`,
+            gameId: game.id,
+          },
+        });
+
+        totalGameImages++;
+      } catch (error) {
+        console.error(`❌ Error subiendo ${file} para ${game.title}:`, error);
+      }
+    }
+  }
+
+  const allUsers = await prisma.user.findMany({
+    select: { id: true, name: true, accountAt: true },
+  });
+
+  let totalUserAvatars = 0;
+
+  for (const user of allUsers) {
+    const sanitizedName = user.accountAt
+      ? sanitizeFolderName(user.accountAt)
+      : sanitizeFolderName(user.name);
+    const userFolderPath = path.join(USER_IMAGES_PATH, user.name);
+
+    if (!fs.existsSync(userFolderPath)) continue;
+
+    const imageFiles = fs
+      .readdirSync(userFolderPath)
+      .filter((file) => /\.(jpg|jpeg|png|gif|webp)$/i.test(file));
+
+    if (imageFiles.length === 0) continue;
+
+    const file = imageFiles[0];
+    if (!file) continue;
+
+    const filePath = path.join(userFolderPath, file);
+
+    try {
+      const uploadResult = await cloudinary.uploader.upload(filePath, {
+        folder: `userImages/${sanitizedName}`,
+        resource_type: "auto",
+      });
+
+      await prisma.media.create({
+        data: {
+          url: uploadResult.secure_url,
+          publicId: uploadResult.public_id,
+          format: uploadResult.format,
+          resourceType: uploadResult.resource_type,
+          bytes: uploadResult.bytes,
+          width: uploadResult.width ?? null,
+          height: uploadResult.height ?? null,
+          originalName: file,
+          folder: `userImages/${sanitizedName}`,
+          altText: `${user.name} avatar`,
+          userId: user.id,
+        },
+      });
+
+      totalUserAvatars++;
+    } catch (error) {
+      console.error(`❌ Error subiendo avatar para ${user.name}:`, error);
+    }
+  }
+
+  return {
+    gameImages: totalGameImages,
+    userAvatars: totalUserAvatars,
+  };
+}
+
+/**
+ * Función que semilla los datos iniciales en la base de datos
+ * @returns Objeto con conteos de datos semillados
+ */
 async function seedData() {
   try {
     console.log("🌱 Iniciando seed de datos...");
@@ -24,13 +176,13 @@ async function seedData() {
 
     const genreNames = [
       "Accion",
-      "aventura",
-      "rpg",
-      "deportes",
-      "estrategia",
-      "simulacion",
-      "terror",
-      "carreras",
+      "Aventura",
+      "RPG",
+      "Deportes",
+      "Estrategia",
+      "Simulacion",
+      "Terror",
+      "Carreras",
     ];
     console.log("  - Creando géneros...");
     const genres = await Promise.all(
@@ -124,6 +276,8 @@ async function seedData() {
         platforms: ["PS5"],
         rating: 4.8,
         numberOfSales: 850000,
+        stock: 100,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Marvel's Spider-Man 2",
@@ -139,6 +293,8 @@ async function seedData() {
         platforms: ["PS5"],
         rating: 4.6,
         numberOfSales: 500000,
+        stock: 80,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Devil May Cry 5",
@@ -154,6 +310,8 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One"],
         rating: 4.4,
         numberOfSales: 420000,
+        stock: 23,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Doom Eternal",
@@ -169,6 +327,8 @@ async function seedData() {
         platforms: ["PC", "PS5", "Xbox Series X"],
         rating: 4.5,
         numberOfSales: 610000,
+        stock: 65,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Uncharted 4: A Thief's End",
@@ -185,6 +345,8 @@ async function seedData() {
         platforms: ["PS4", "PS5"],
         rating: 4.7,
         numberOfSales: 720000,
+        stock: 87,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Ghost of Tsushima",
@@ -200,6 +362,8 @@ async function seedData() {
         platforms: ["PS4", "PS5"],
         rating: 4.6,
         numberOfSales: 540000,
+        stock: 123,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Metal Gear Solid V: The Phantom Pain",
@@ -215,6 +379,8 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One"],
         rating: 4.3,
         numberOfSales: 380000,
+        stock: 12,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Batman: Arkham Knight",
@@ -231,6 +397,8 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One"],
         rating: 4.2,
         numberOfSales: 310000,
+        stock: 76,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Control",
@@ -247,6 +415,8 @@ async function seedData() {
         platforms: ["PC", "PS4", "PS5", "Xbox One", "Xbox Series X"],
         rating: 4.0,
         numberOfSales: 220000,
+        stock: 87,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Assassin's Creed Valhalla",
@@ -262,9 +432,11 @@ async function seedData() {
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
         rating: 3.9,
         numberOfSales: 680000,
+        stock: 456,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
 
-      // ----- AVENTURA (10) -----
+      // ----- Aventura (10) -----
       {
         title: "The Last of Us Part II",
         description: "Aventura narrativa y supervivencia emocional.",
@@ -275,10 +447,12 @@ async function seedData() {
         releaseDate: new Date("2020-06-19"),
         developer: "Naughty Dog",
         publisher: "Sony Interactive Entertainment",
-        genres: ["aventura"],
+        genres: ["Aventura"],
         platforms: ["PS4", "PS5"],
         rating: 4.9,
         numberOfSales: 980000,
+        stock: 0,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Red Dead Redemption 2",
@@ -290,10 +464,12 @@ async function seedData() {
         releaseDate: new Date("2018-10-26"),
         developer: "Rockstar Games",
         publisher: "Rockstar Games",
-        genres: ["aventura"],
+        genres: ["Aventura"],
         platforms: ["PC", "PS4", "Xbox One"],
         rating: 4.9,
         numberOfSales: 1200000,
+        stock: 0,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Life Is Strange",
@@ -305,10 +481,12 @@ async function seedData() {
         releaseDate: new Date("2015-01-30"),
         developer: "Dontnod Entertainment",
         publisher: "Square Enix",
-        genres: ["aventura"],
+        genres: ["Aventura"],
         platforms: ["PC", "PS4", "Xbox One", "Switch"],
         rating: 4.1,
         numberOfSales: 240000,
+        stock: 78,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "The Legend of Zelda: Breath of the Wild",
@@ -320,14 +498,16 @@ async function seedData() {
         releaseDate: new Date("2017-03-03"),
         developer: "Nintendo EPD",
         publisher: "Nintendo",
-        genres: ["aventura"],
+        genres: ["Aventura"],
         platforms: ["Switch"],
         rating: 5.0,
         numberOfSales: 1500000,
+        stock: 234,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Tomb Raider (2013)",
-        description: "Reboot de aventura y exploración arqueológica.",
+        description: "Reboot de Aventura y exploración arqueológica.",
         price: 19.99,
         isOnSale: false,
         salePrice: 11.99,
@@ -335,10 +515,12 @@ async function seedData() {
         releaseDate: new Date("2013-03-05"),
         developer: "Crystal Dynamics",
         publisher: "Square Enix",
-        genres: ["aventura"],
+        genres: ["Aventura"],
         platforms: ["PC", "PS4", "Xbox One"],
         rating: 4.0,
         numberOfSales: 320000,
+        stock: 12,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Uncharted: The Lost Legacy",
@@ -350,10 +532,12 @@ async function seedData() {
         releaseDate: new Date("2017-08-22"),
         developer: "Naughty Dog",
         publisher: "Sony Interactive Entertainment",
-        genres: ["aventura"],
+        genres: ["Aventura"],
         platforms: ["PS4", "PS5"],
         rating: 4.3,
         numberOfSales: 260000,
+        stock: 5,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Firewatch",
@@ -366,10 +550,12 @@ async function seedData() {
         releaseDate: new Date("2016-02-09"),
         developer: "Campo Santo",
         publisher: "Annapurna Interactive",
-        genres: ["aventura"],
+        genres: ["Aventura"],
         platforms: ["PC", "PS4", "Xbox One", "Switch"],
         rating: 4.2,
         numberOfSales: 145000,
+        stock: 1,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Outer Wilds",
@@ -381,10 +567,12 @@ async function seedData() {
         releaseDate: new Date("2019-05-28"),
         developer: "Mobius Digital",
         publisher: "Annapurna Interactive",
-        genres: ["aventura"],
+        genres: ["Aventura"],
         platforms: ["PC", "PS4", "Xbox One", "Switch"],
         rating: 4.7,
         numberOfSales: 180000,
+        stock: 12,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "The Walking Dead: Season One",
@@ -396,10 +584,12 @@ async function seedData() {
         releaseDate: new Date("2012-04-24"),
         developer: "Telltale Games",
         publisher: "Skybound Games",
-        genres: ["aventura"],
+        genres: ["Aventura"],
         platforms: ["PC", "PS4", "Xbox One", "Switch"],
         rating: 4.1,
         numberOfSales: 290000,
+        stock: 25,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Control (Deluxe Edition)",
@@ -411,10 +601,12 @@ async function seedData() {
         releaseDate: new Date("2019-08-27"),
         developer: "Remedy Entertainment",
         publisher: "505 Games",
-        genres: ["aventura"],
+        genres: ["Aventura"],
         platforms: ["PC", "PS4", "PS5", "Xbox One", "Xbox Series X"],
         rating: 4.0,
         numberOfSales: 200000,
+        stock: 456,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
 
       // ----- RPG (10) -----
@@ -428,10 +620,12 @@ async function seedData() {
         releaseDate: new Date("2022-02-25"),
         developer: "FromSoftware",
         publisher: "Bandai Namco",
-        genres: ["rpg"],
+        genres: ["RPG"],
         platforms: ["PC", "PS5", "Xbox Series X"],
         rating: 4.9,
         numberOfSales: 1400000,
+        stock: 76,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "The Witcher 3: Wild Hunt",
@@ -443,10 +637,12 @@ async function seedData() {
         releaseDate: new Date("2015-05-19"),
         developer: "CD Projekt Red",
         publisher: "CD Projekt",
-        genres: ["rpg"],
+        genres: ["RPG"],
         platforms: ["PC", "PS4", "Xbox One", "Switch"],
         rating: 4.9,
         numberOfSales: 1300000,
+        stock: 0,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Final Fantasy XVI",
@@ -458,10 +654,12 @@ async function seedData() {
         releaseDate: new Date("2023-06-22"),
         developer: "Square Enix",
         publisher: "Square Enix",
-        genres: ["rpg"],
+        genres: ["RPG"],
         platforms: ["PS5"],
         rating: 4.2,
         numberOfSales: 240000,
+        stock: 12,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "The Elder Scrolls V: Skyrim",
@@ -473,10 +671,12 @@ async function seedData() {
         releaseDate: new Date("2011-11-11"),
         developer: "Bethesda Game Studios",
         publisher: "Bethesda Softworks",
-        genres: ["rpg"],
+        genres: ["RPG"],
         platforms: ["PC", "PS4", "Xbox One", "Switch"],
         rating: 4.8,
         numberOfSales: 1600000,
+        stock: 876,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Persona 5 Royal",
@@ -488,10 +688,12 @@ async function seedData() {
         releaseDate: new Date("2020-03-31"),
         developer: "Atlus",
         publisher: "SEGA",
-        genres: ["rpg"],
+        genres: ["RPG"],
         platforms: ["PS4", "PS5", "Switch", "PC"],
         rating: 4.7,
         numberOfSales: 420000,
+        stock: 54,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Divinity: Original Sin 2",
@@ -503,10 +705,12 @@ async function seedData() {
         releaseDate: new Date("2017-09-14"),
         developer: "Larian Studios",
         publisher: "Larian Studios",
-        genres: ["rpg"],
+        genres: ["RPG"],
         platforms: ["PC", "PS4", "Xbox One", "Switch"],
         rating: 4.8,
         numberOfSales: 380000,
+        stock: 90,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Mass Effect Legendary Edition",
@@ -518,10 +722,12 @@ async function seedData() {
         releaseDate: new Date("2021-05-14"),
         developer: "BioWare",
         publisher: "Electronic Arts",
-        genres: ["rpg"],
+        genres: ["RPG"],
         platforms: ["PC", "PS4", "Xbox One"],
         rating: 4.5,
         numberOfSales: 300000,
+        stock: 12,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Dragon Age: Inquisition",
@@ -533,10 +739,12 @@ async function seedData() {
         releaseDate: new Date("2014-11-18"),
         developer: "BioWare",
         publisher: "Electronic Arts",
-        genres: ["rpg"],
+        genres: ["RPG"],
         platforms: ["PC", "PS4", "Xbox One"],
         rating: 4.1,
         numberOfSales: 350000,
+        stock: 87,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Cyberpunk 2077",
@@ -548,10 +756,12 @@ async function seedData() {
         releaseDate: new Date("2020-12-10"),
         developer: "CD Projekt Red",
         publisher: "CD Projekt",
-        genres: ["rpg"],
+        genres: ["RPG"],
         platforms: ["PC", "PS5", "Xbox Series X"],
         rating: 3.8,
         numberOfSales: 1100000,
+        stock: 87,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Pillars of Eternity II: Deadfire",
@@ -564,13 +774,15 @@ async function seedData() {
         releaseDate: new Date("2018-05-08"),
         developer: "Obsidian Entertainment",
         publisher: "Paradox Interactive",
-        genres: ["rpg"],
+        genres: ["RPG"],
         platforms: ["PC", "PS4", "Xbox One"],
         rating: 4.4,
         numberOfSales: 95000,
+        stock: 1,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
 
-      // ----- DEPORTES (10) -----
+      // ----- Deportes (10) -----
       {
         title: "FIFA 23",
         description:
@@ -582,10 +794,12 @@ async function seedData() {
         releaseDate: new Date("2022-09-27"),
         developer: "EA Sports",
         publisher: "Electronic Arts",
-        genres: ["deportes"],
+        genres: ["Deportes"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
         rating: 3.7,
         numberOfSales: 2000000,
+        stock: 76,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "NBA 2K23",
@@ -598,10 +812,12 @@ async function seedData() {
         releaseDate: new Date("2022-09-09"),
         developer: "Visual Concepts",
         publisher: "2K Games",
-        genres: ["deportes"],
+        genres: ["Deportes"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
         rating: 3.9,
         numberOfSales: 850000,
+        stock: 1200,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Madden NFL 23",
@@ -614,10 +830,12 @@ async function seedData() {
         releaseDate: new Date("2022-08-19"),
         developer: "EA Tiburon",
         publisher: "Electronic Arts",
-        genres: ["deportes"],
+        genres: ["Deportes"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
         rating: 3.5,
         numberOfSales: 420000,
+        stock: 873,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "F1 23",
@@ -629,10 +847,12 @@ async function seedData() {
         releaseDate: new Date("2023-06-16"),
         developer: "Codemasters",
         publisher: "Electronic Arts",
-        genres: ["deportes"],
+        genres: ["Deportes"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
         rating: 4.2,
         numberOfSales: 260000,
+        stock: 2,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Rocket League",
@@ -644,10 +864,12 @@ async function seedData() {
         releaseDate: new Date("2015-07-07"),
         developer: "Psyonix",
         publisher: "Psyonix",
-        genres: ["deportes"],
+        genres: ["Deportes"],
         platforms: ["PC", "PS5", "Xbox Series X", "Switch", "PS4", "Xbox One"],
         rating: 4.3,
         numberOfSales: 900000,
+        stock: 3,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Tony Hawk's Pro Skater 1 + 2",
@@ -659,10 +881,12 @@ async function seedData() {
         releaseDate: new Date("2020-09-04"),
         developer: "Vicarious Visions",
         publisher: "Activision",
-        genres: ["deportes"],
+        genres: ["Deportes"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One", "Switch"],
         rating: 4.1,
         numberOfSales: 310000,
+        stock: 2,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Football Manager 2023",
@@ -674,10 +898,12 @@ async function seedData() {
         releaseDate: new Date("2022-11-08"),
         developer: "Sports Interactive",
         publisher: "SEGA",
-        genres: ["deportes"],
+        genres: ["Deportes"],
         platforms: ["PC"],
         rating: 4.6,
         numberOfSales: 450000,
+        stock: 65,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "eFootball 2023",
@@ -689,10 +915,12 @@ async function seedData() {
         releaseDate: new Date("2021-09-30"),
         developer: "Konami",
         publisher: "Konami",
-        genres: ["deportes"],
+        genres: ["Deportes"],
         platforms: ["PC", "PS4", "PS5", "Xbox One", "Xbox Series X"],
         rating: 2.8,
         numberOfSales: 150000,
+        stock: 87,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "PGA Tour 2K23",
@@ -704,10 +932,12 @@ async function seedData() {
         releaseDate: new Date("2022-10-14"),
         developer: "HB Studios",
         publisher: "2K Games",
-        genres: ["deportes"],
+        genres: ["Deportes"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
         rating: 3.9,
         numberOfSales: 95000,
+        stock: 78,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "MotoGP 23",
@@ -719,13 +949,15 @@ async function seedData() {
         releaseDate: new Date("2023-04-06"),
         developer: "Milestone",
         publisher: "Milestone",
-        genres: ["deportes"],
+        genres: ["Deportes"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
         rating: 3.8,
         numberOfSales: 60000,
+        stock: 87,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
 
-      // ----- ESTRATEGIA (10) -----
+      // ----- Estrategia (10) -----
       {
         title: "Civilization VI",
         description:
@@ -737,10 +969,12 @@ async function seedData() {
         releaseDate: new Date("2016-10-21"),
         developer: "Firaxis Games",
         publisher: "2K Games",
-        genres: ["estrategia"],
+        genres: ["Estrategia"],
         platforms: ["PC", "Switch", "PS4", "Xbox One"],
         rating: 4.4,
         numberOfSales: 780000,
+        stock: 65,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "XCOM 2",
@@ -752,10 +986,12 @@ async function seedData() {
         releaseDate: new Date("2016-02-05"),
         developer: "Firaxis Games",
         publisher: "2K Games",
-        genres: ["estrategia"],
+        genres: ["Estrategia"],
         platforms: ["PC", "PS4", "Xbox One"],
         rating: 4.2,
         numberOfSales: 420000,
+        stock: 556,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Age of Empires IV",
@@ -767,14 +1003,16 @@ async function seedData() {
         releaseDate: new Date("2021-10-28"),
         developer: "Relic Entertainment",
         publisher: "Microsoft Studios",
-        genres: ["estrategia"],
+        genres: ["Estrategia"],
         platforms: ["PC"],
         rating: 3.9,
         numberOfSales: 200000,
+        stock: 223,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Total War: WARHAMMER II",
-        description: "Gran estrategia y batallas en tiempo real con facciones.",
+        description: "Gran Estrategia y batallas en tiempo real con facciones.",
         price: 39.99,
         isOnSale: true,
         salePrice: 14.99,
@@ -782,10 +1020,12 @@ async function seedData() {
         releaseDate: new Date("2017-09-28"),
         developer: "Creative Assembly",
         publisher: "SEGA",
-        genres: ["estrategia"],
+        genres: ["Estrategia"],
         platforms: ["PC"],
         rating: 4.3,
         numberOfSales: 350000,
+        stock: 654,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Stellaris",
@@ -798,10 +1038,12 @@ async function seedData() {
         releaseDate: new Date("2016-05-09"),
         developer: "Paradox Interactive",
         publisher: "Paradox Interactive",
-        genres: ["estrategia"],
+        genres: ["Estrategia"],
         platforms: ["PC"],
         rating: 4.1,
         numberOfSales: 260000,
+        stock: 234,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Crusader Kings III",
@@ -813,10 +1055,12 @@ async function seedData() {
         releaseDate: new Date("2020-09-01"),
         developer: "Paradox Development Studio",
         publisher: "Paradox Interactive",
-        genres: ["estrategia"],
+        genres: ["Estrategia"],
         platforms: ["PC"],
         rating: 4.5,
         numberOfSales: 220000,
+        stock: 1,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Company of Heroes 2",
@@ -828,10 +1072,12 @@ async function seedData() {
         releaseDate: new Date("2013-06-25"),
         developer: "Relic Entertainment",
         publisher: "SEGA",
-        genres: ["estrategia"],
+        genres: ["Estrategia"],
         platforms: ["PC"],
         rating: 4.0,
         numberOfSales: 180000,
+        stock: 2,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Anno 1800",
@@ -844,10 +1090,12 @@ async function seedData() {
         releaseDate: new Date("2019-04-16"),
         developer: "Blue Byte",
         publisher: "Ubisoft",
-        genres: ["estrategia"],
+        genres: ["Estrategia"],
         platforms: ["PC"],
         rating: 4.1,
         numberOfSales: 210000,
+        stock: 5,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "StarCraft II",
@@ -859,14 +1107,16 @@ async function seedData() {
         releaseDate: new Date("2010-07-27"),
         developer: "Blizzard Entertainment",
         publisher: "Blizzard Entertainment",
-        genres: ["estrategia"],
+        genres: ["Estrategia"],
         platforms: ["PC"],
         rating: 4.2,
         numberOfSales: 950000,
+        stock: 10,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Warcraft III: Reforged",
-        description: "Remasterización de un clásico de estrategia y narrativa.",
+        description: "Remasterización de un clásico de Estrategia y narrativa.",
         price: 29.99,
         isOnSale: false,
         salePrice: 17.99,
@@ -874,13 +1124,15 @@ async function seedData() {
         releaseDate: new Date("2020-01-28"),
         developer: "Blizzard Entertainment",
         publisher: "Blizzard Entertainment",
-        genres: ["estrategia"],
+        genres: ["Estrategia"],
         platforms: ["PC"],
         rating: 2.9,
         numberOfSales: 120000,
+        stock: 23,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
 
-      // ----- SIMULACION (10) -----
+      // ----- Simulacion (10) -----
       {
         title: "Microsoft Flight Simulator",
         description: "Simulador de vuelo con recreación real del planeta.",
@@ -891,10 +1143,12 @@ async function seedData() {
         releaseDate: new Date("2020-08-18"),
         developer: "Asobo Studio",
         publisher: "Xbox Game Studios",
-        genres: ["simulacion"],
+        genres: ["Simulacion"],
         platforms: ["PC", "Xbox Series X"],
         rating: 4.7,
         numberOfSales: 480000,
+        stock: 0,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "The Sims 4",
@@ -906,10 +1160,12 @@ async function seedData() {
         releaseDate: new Date("2014-09-02"),
         developer: "Maxis",
         publisher: "Electronic Arts",
-        genres: ["simulacion"],
+        genres: ["Simulacion"],
         platforms: ["PC", "PS4", "Xbox One"],
         rating: 4.0,
         numberOfSales: 1100000,
+        stock: 298,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Euro Truck Simulator 2",
@@ -921,10 +1177,12 @@ async function seedData() {
         releaseDate: new Date("2012-10-19"),
         developer: "SCS Software",
         publisher: "SCS Software",
-        genres: ["simulacion"],
+        genres: ["Simulacion"],
         platforms: ["PC"],
         rating: 4.3,
         numberOfSales: 650000,
+        stock: 234,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Cities: Skylines",
@@ -937,10 +1195,12 @@ async function seedData() {
         releaseDate: new Date("2015-03-10"),
         developer: "Colossal Order",
         publisher: "Paradox Interactive",
-        genres: ["simulacion"],
+        genres: ["Simulacion"],
         platforms: ["PC", "PS4", "Xbox One", "Switch"],
         rating: 4.5,
         numberOfSales: 420000,
+        stock: 345,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Kerbal Space Program",
@@ -953,10 +1213,12 @@ async function seedData() {
         releaseDate: new Date("2015-04-27"),
         developer: "Squad",
         publisher: "Private Division",
-        genres: ["simulacion"],
+        genres: ["Simulacion"],
         platforms: ["PC", "PS4", "Xbox One"],
         rating: 4.4,
         numberOfSales: 200000,
+        stock: 231,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Assetto Corsa",
@@ -969,10 +1231,12 @@ async function seedData() {
         releaseDate: new Date("2014-12-19"),
         developer: "Kunos Simulazioni",
         publisher: "505 Games",
-        genres: ["simulacion"],
+        genres: ["Simulacion"],
         platforms: ["PC", "PS4", "Xbox One"],
         rating: 4.2,
         numberOfSales: 175000,
+        stock: 6,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Farming Simulator 22",
@@ -984,10 +1248,12 @@ async function seedData() {
         releaseDate: new Date("2021-11-22"),
         developer: "Giants Software",
         publisher: "Focus Home Interactive",
-        genres: ["simulacion"],
+        genres: ["Simulacion"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
         rating: 3.8,
         numberOfSales: 90000,
+        stock: 876,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Planet Coaster",
@@ -999,10 +1265,12 @@ async function seedData() {
         releaseDate: new Date("2016-11-17"),
         developer: "Frontier Developments",
         publisher: "Frontier Developments",
-        genres: ["simulacion"],
+        genres: ["Simulacion"],
         platforms: ["PC"],
         rating: 4.1,
         numberOfSales: 160000,
+        stock: 1233,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "No Man's Sky",
@@ -1015,10 +1283,12 @@ async function seedData() {
         releaseDate: new Date("2016-08-09"),
         developer: "Hello Games",
         publisher: "Hello Games",
-        genres: ["simulacion"],
+        genres: ["Simulacion"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
         rating: 4.0,
         numberOfSales: 750000,
+        stock: 123,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Ship Simulator Extremes",
@@ -1030,13 +1300,15 @@ async function seedData() {
         releaseDate: new Date("2009-10-30"),
         developer: "VSTEP",
         publisher: "Paradox Interactive",
-        genres: ["simulacion"],
+        genres: ["Simulacion"],
         platforms: ["PC"],
         rating: 3.6,
         numberOfSales: 12000,
+        stock: 87,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
 
-      // ----- TERROR (10) -----
+      // ----- Terror (10) -----
       {
         title: "Resident Evil 4 (Remake)",
         description: "Survival horror con tensión, puzzles y acción.",
@@ -1047,10 +1319,12 @@ async function seedData() {
         releaseDate: new Date("2023-03-24"),
         developer: "Capcom",
         publisher: "Capcom",
-        genres: ["terror"],
+        genres: ["Terror"],
         platforms: ["PC", "PS5", "Xbox Series X"],
         rating: 4.5,
         numberOfSales: 540000,
+        stock: 45,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Amnesia: The Dark Descent",
@@ -1063,10 +1337,12 @@ async function seedData() {
         releaseDate: new Date("2010-09-08"),
         developer: "Frictional Games",
         publisher: "Frictional Games",
-        genres: ["terror"],
+        genres: ["Terror"],
         platforms: ["PC"],
         rating: 4.2,
         numberOfSales: 220000,
+        stock: 87,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Outlast",
@@ -1079,10 +1355,12 @@ async function seedData() {
         releaseDate: new Date("2013-09-04"),
         developer: "Red Barrels",
         publisher: "Red Barrels",
-        genres: ["terror"],
+        genres: ["Terror"],
         platforms: ["PC", "PS4", "Xbox One", "Switch"],
         rating: 4.0,
         numberOfSales: 310000,
+        stock: 56,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Alien: Isolation",
@@ -1094,10 +1372,12 @@ async function seedData() {
         releaseDate: new Date("2014-10-07"),
         developer: "Creative Assembly",
         publisher: "SEGA",
-        genres: ["terror"],
+        genres: ["Terror"],
         platforms: ["PC", "PS4", "Xbox One", "PS3", "Xbox 360"],
         rating: 4.4,
         numberOfSales: 290000,
+        stock: 23,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "The Evil Within",
@@ -1109,10 +1389,12 @@ async function seedData() {
         releaseDate: new Date("2014-10-14"),
         developer: "Tango Gameworks",
         publisher: "Bethesda Softworks",
-        genres: ["terror"],
+        genres: ["Terror"],
         platforms: ["PC", "PS4", "Xbox One"],
         rating: 3.9,
         numberOfSales: 140000,
+        stock: 1,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Until Dawn",
@@ -1125,13 +1407,15 @@ async function seedData() {
         releaseDate: new Date("2015-08-25"),
         developer: "Supermassive Games",
         publisher: "Sony Interactive Entertainment",
-        genres: ["terror"],
+        genres: ["Terror"],
         platforms: ["PS4", "PS5"],
         rating: 4.1,
         numberOfSales: 170000,
+        stock: 76,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
-        title: "Silent Hill 2 (Remaster Placeholder)",
+        title: "Silent Hill 2 Remake",
         description: "Clásico del horror psicológico — remaster hipotético.",
         price: 39.99,
         isOnSale: false,
@@ -1140,10 +1424,12 @@ async function seedData() {
         releaseDate: new Date("2001-09-24"),
         developer: "Konami",
         publisher: "Konami",
-        genres: ["terror"],
+        genres: ["Terror"],
         platforms: ["PS2", "PS3", "PS4"],
         rating: 4.8,
         numberOfSales: 520000,
+        stock: 90,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Layers of Fear",
@@ -1155,10 +1441,12 @@ async function seedData() {
         releaseDate: new Date("2016-02-16"),
         developer: "Bloober Team",
         publisher: "Bloober Team",
-        genres: ["terror"],
+        genres: ["Terror"],
         platforms: ["PC", "PS4", "Xbox One", "Switch"],
         rating: 3.7,
         numberOfSales: 75000,
+        stock: 2,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Dead Space (Remake)",
@@ -1170,10 +1458,12 @@ async function seedData() {
         releaseDate: new Date("2023-01-27"),
         developer: "Motive Studio",
         publisher: "Electronic Arts",
-        genres: ["terror"],
+        genres: ["Terror"],
         platforms: ["PC", "PS5", "Xbox Series X"],
         rating: 4.0,
         numberOfSales: 160000,
+        stock: 657,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Phasmophobia",
@@ -1185,13 +1475,15 @@ async function seedData() {
         releaseDate: new Date("2020-09-18"),
         developer: "Kinetic Games",
         publisher: "Kinetic Games",
-        genres: ["terror"],
+        genres: ["Terror"],
         platforms: ["PC"],
         rating: 4.2,
         numberOfSales: 230000,
+        stock: 12,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
 
-      // ----- CARRERAS (10) -----
+      // ----- Carreras (10) -----
       {
         title: "Forza Horizon 5",
         description: "Arcade-racing en mundo abierto con desafíos y eventos.",
@@ -1202,10 +1494,12 @@ async function seedData() {
         releaseDate: new Date("2021-11-09"),
         developer: "Playground Games",
         publisher: "Microsoft Studios",
-        genres: ["carreras"],
+        genres: ["Carreras"],
         platforms: ["PC", "Xbox Series X", "Xbox One"],
         rating: 4.6,
         numberOfSales: 820000,
+        stock: 54,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Gran Turismo 7",
@@ -1218,25 +1512,30 @@ async function seedData() {
         releaseDate: new Date("2022-03-04"),
         developer: "Polyphony Digital",
         publisher: "Sony Interactive Entertainment",
-        genres: ["carreras"],
+        genres: ["Carreras"],
         platforms: ["PS5", "PS4"],
         rating: 4.0,
         numberOfSales: 300000,
+        stock: 123,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
-        title: "F1 23",
-        description: "Simulación oficial de la temporada de Fórmula 1.",
+        title: "Need for Speed Unbound",
+        description:
+          "Juego de carreras de acción con personalización de coches, circuitos urbanos y persecuciones llenas de adrenalina.",
         price: 59.99,
         isOnSale: true,
         salePrice: 39.99,
         isRefundable: true,
-        releaseDate: new Date("2023-06-16"),
-        developer: "Codemasters",
+        releaseDate: new Date("2023-12-01"),
+        developer: "Criterion Games",
         publisher: "Electronic Arts",
-        genres: ["carreras"],
+        genres: ["Carreras"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
-        rating: 4.1,
-        numberOfSales: 180000,
+        rating: 4.2,
+        numberOfSales: 95000,
+        stock: 1500,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Need for Speed Heat",
@@ -1248,10 +1547,12 @@ async function seedData() {
         releaseDate: new Date("2019-11-08"),
         developer: "Ghost Games",
         publisher: "Electronic Arts",
-        genres: ["carreras"],
+        genres: ["Carreras"],
         platforms: ["PC", "PS4", "Xbox One"],
         rating: 3.6,
         numberOfSales: 220000,
+        stock: 98,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Dirt 5",
@@ -1264,10 +1565,12 @@ async function seedData() {
         releaseDate: new Date("2020-11-06"),
         developer: "Codemasters",
         publisher: "Codemasters",
-        genres: ["carreras"],
+        genres: ["Carreras"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
         rating: 3.9,
         numberOfSales: 90000,
+        stock: 100,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Burnout Paradise Remastered",
@@ -1279,10 +1582,12 @@ async function seedData() {
         releaseDate: new Date("2018-03-16"),
         developer: "Criterion Games",
         publisher: "Electronic Arts",
-        genres: ["carreras"],
+        genres: ["Carreras"],
         platforms: ["PC", "PS4", "Xbox One", "Switch"],
         rating: 4.2,
         numberOfSales: 210000,
+        stock: 10,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Project CARS 3",
@@ -1294,10 +1599,12 @@ async function seedData() {
         releaseDate: new Date("2020-08-28"),
         developer: "Slightly Mad Studios",
         publisher: "Bandai Namco",
-        genres: ["carreras"],
+        genres: ["Carreras"],
         platforms: ["PC", "PS4", "Xbox One"],
         rating: 3.4,
         numberOfSales: 45000,
+        stock: 89,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Assetto Corsa Competizione",
@@ -1309,10 +1616,12 @@ async function seedData() {
         releaseDate: new Date("2019-05-29"),
         developer: "Kunos Simulazioni",
         publisher: "505 Games",
-        genres: ["carreras"],
+        genres: ["Carreras"],
         platforms: ["PC", "PS4", "Xbox One"],
         rating: 4.1,
         numberOfSales: 125000,
+        stock: 534,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "Trackmania",
@@ -1325,10 +1634,12 @@ async function seedData() {
         releaseDate: new Date("2020-07-01"),
         developer: "Nadeo",
         publisher: "Ubisoft",
-        genres: ["carreras"],
+        genres: ["Carreras"],
         platforms: ["PC"],
         rating: 3.8,
         numberOfSales: 90000,
+        stock: 768,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
       {
         title: "MotoGP 23 (Racing)",
@@ -1340,13 +1651,20 @@ async function seedData() {
         releaseDate: new Date("2023-04-06"),
         developer: "Milestone",
         publisher: "Milestone",
-        genres: ["carreras"],
+        genres: ["Carreras"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
         rating: 3.7,
         numberOfSales: 47000,
+        stock: 456,
+        videoUrl: "https://www.youtube.com/watch?v=nugrbr8dvvk",
       },
     ];
 
+    /**
+     * Función que crea un juego en la base de datos
+     * @param g Objeto con los datos del juego
+     * @returns Objeto con los datos del juego creado
+     */
     const createGame = async (g: {
       title: string;
       description: string;
@@ -1361,6 +1679,8 @@ async function seedData() {
       platforms: string[];
       rating: number;
       numberOfSales: number;
+      stock: number;
+      videoUrl: string;
     }) => {
       let dev = devByName[g.developer];
       if (!dev) {
@@ -1407,12 +1727,19 @@ async function seedData() {
           platforms: { connect: platformConnect },
           rating: g.rating,
           numberOfSales: g.numberOfSales,
+          stock: g.stock,
+          videoUrl: g.videoUrl,
         },
       });
 
       return created;
     };
 
+    /**
+     * Función que inserta juegos en la base de datos
+     * @param gamesData Array de objetos con los datos de los juegos
+     * @returns Array de objetos con los datos de los juegos insertados
+     */
     console.log("  - Insertando juegos (esto puede tardar unos segundos)...");
     const createdGames = [];
     for (const g of gamesData) {
@@ -1427,7 +1754,7 @@ async function seedData() {
     const saltRounds = 10;
     const usersData = [
       {
-        email: "usuario1@example.com",
+        email: "Carlos@gmail.com",
         password: "Password1!",
         name: "Carlos",
         surname: "García",
@@ -1437,13 +1764,13 @@ async function seedData() {
         addressLine1: "Calle Mayor 123",
         addressLine2: "Piso 3, Puerta B",
         city: "Madrid",
-        region: "Comunidad de Madrid",
+        region: "Madrid",
         postalCode: "28013",
-        country: "España",
-        accountAt: "carlosG@steam",
+        country: "Spain",
+        accountAt: "@carlosG",
       },
       {
-        email: "usuario2@example.com",
+        email: "Maria@gmail.com",
         password: "Password2!",
         name: "María",
         surname: "López",
@@ -1453,13 +1780,13 @@ async function seedData() {
         addressLine1: "Avenida Diagonal 456",
         addressLine2: null,
         city: "Barcelona",
-        region: "Cataluña",
+        region: "Catalonia",
         postalCode: "08019",
-        country: "España",
-        accountAt: "maria_lopez@epic",
+        country: "Spain",
+        accountAt: "@maria_lopez",
       },
       {
-        email: "usuario3@example.com",
+        email: "Juan@gmail.com",
         password: "Password3!",
         name: "Juan",
         surname: "Martínez",
@@ -1469,13 +1796,13 @@ async function seedData() {
         addressLine1: "Calle de la Cruz 78",
         addressLine2: "Bajo A",
         city: "Valencia",
-        region: "Comunidad Valenciana",
+        region: "Valencian Community",
         postalCode: "46002",
-        country: "España",
-        accountAt: null,
+        country: "Spain",
+        accountAt: "@juanm",
       },
       {
-        email: "usuario4@example.com",
+        email: "Ana@gmail.com",
         password: "Password4!",
         name: "Ana",
         surname: "Rodríguez",
@@ -1485,13 +1812,13 @@ async function seedData() {
         addressLine1: "Plaza de España 15",
         addressLine2: "Torre 2, 5º C",
         city: "Sevilla",
-        region: "Andalucía",
+        region: "Andalusia",
         postalCode: "41013",
-        country: "España",
-        accountAt: "anita.rodriguez@playstation",
+        country: "Spain",
+        accountAt: "@anita_rodriguez",
       },
       {
-        email: "usuario5@example.com",
+        email: "Pedro@gmail.com",
         password: "Password5!",
         name: "Pedro",
         surname: "Fernández",
@@ -1501,10 +1828,10 @@ async function seedData() {
         addressLine1: "Carretera de la Sierra 89",
         addressLine2: "Chalet 12",
         city: "Bilbao",
-        region: "País Vasco",
+        region: "Basque Country",
         postalCode: "48004",
-        country: "España",
-        accountAt: "pedroF@xbox",
+        country: "Spain",
+        accountAt: "@pedroF",
       },
     ];
 
@@ -1533,6 +1860,8 @@ async function seedData() {
       createdUsers.push(user);
     }
 
+    const mediaCounts = await uploadAllMedia();
+
     console.log("✅ Seed completado:");
     console.log(`   - ${Object.keys(devByName).length} Developers creados`);
     console.log(`   - ${Object.keys(pubByName).length} Publishers creados`);
@@ -1540,8 +1869,10 @@ async function seedData() {
     console.log(`   - ${platforms.length} Plataformas creadas`);
     console.log(`   - ${createdGames.length} Games creados`);
     console.log(`   - ${createdUsers.length} Usuarios no admin creados`);
+    console.log(`   - ${mediaCounts.gameImages} Imágenes de juegos subidas`);
+    console.log(`   - ${mediaCounts.userAvatars} Avatares de usuarios subidos`);
   } catch (err) {
-    console.error("❌ Error durante el seed:", err);
+    console.error("❌ Error durante el seed: ", err);
     process.exit(1);
   } finally {
     await prisma.$disconnect();
@@ -1549,3 +1880,97 @@ async function seedData() {
 }
 
 seedData().then(() => process.exit(0));
+
+/**
+ *
+ * URLs útiles:
+ *
+ * Url a poner en buscador para encontrar imágenes de juegos: <https://www.google.com/search?tbm=isch&q=JUEGO+NAME+filetype:webp&tbs=isz:ex,iszw:1920,iszh:1080>
+ * Url a poner en buscador para encontrar imágenes de usuarios: <https://www.google.com/search?tbm=isch&q=portrait+filetype:webp&tbs=isz:ex,iszw:256,iszh:256>
+ *
+ *
+ * JUEGOS YA INTRODUCIDOS:
+ * |----|---------------------------------------------|
+ * | 01 | God of War Ragnarök                         |
+ * | 02 | Marvel's Spider-Man 2                       |
+ * | 03 | Devil May Cry 5                             |
+ * | 04 | Doom Eternal                                |
+ * | 05 | Uncharted 4: A Thief's End                  |
+ * | 06 | Ghost of Tsushima                           |
+ * | 07 | Metal Gear Solid V: The Phantom Pain        |
+ * | 08 | Batman: Arkham Knight                       |
+ * | 09 | Control                                     |
+ * | 10 | Assassin's Creed Valhalla                   |
+ * | 11 | The Last of Us Part II                      |
+ * | 12 | Red Dead Redemption 2                       |
+ * | 13 | Life is Strange                             |
+ * | 14 | The Legend of Zelda: Breath of the Wild     |
+ * | 15 | Tomb Raider (2013)                          |
+ * | 16 | Uncharted: The Lost Legacy                  |
+ * | 17 | Firewatch                                   |
+ * | 18 | Outer Wilds                                 |
+ * | 19 | The Walking Dead: Season One                |
+ * | 20 | Control (Deluxe Edition)                    |
+ * | 21 | Elden Ring                                  |
+ * | 22 | The Witcher 3: Wild Hunt                    |
+ * | 23 | Final Fantasy XVI                           |
+ * | 24 | The Elder Scrolls V: Skyrim                 |
+ * | 25 | Persona 5 Royal                             |
+ * | 26 | Divinity: Original Sin 2                    |
+ * | 27 | Mass Effect Legendary Edition               |
+ * | 28 | Dragon Age: Inquisition                     |
+ * | 29 | Cyberpunk 2077                              |
+ * | 30 | Pillars of Eternity II: Deadfire            |
+ * | 31 | FIFA 23                                     |
+ * | 32 | NBA 2K23                                    |
+ * | 33 | Madden NFL 23                               |
+ * | 34 | F1 23                                       |
+ * | 35 | Rocket League                               |
+ * | 36 | Tony Hawk's Pro Skater 1 + 2                |
+ * | 37 | Football Manager 2023                       |
+ * | 38 | eFootball 2023                              |
+ * | 39 | PGA Tour 2K23                               |
+ * | 40 | MotoGP 23                                   |
+ * | 41 | Civilization VI                             |
+ * | 42 | XCOM 2                                      |
+ * | 43 | Age of Empires IV                           |
+ * | 44 | Total War: WARHAMMER 2                      |
+ * | 45 | Stellaris                                   |
+ * | 46 | Crusader Kings III                          |
+ * | 47 | Company of Heroes 2                         |
+ * | 48 | Anno 1800                                   |
+ * | 49 | StarCraft II                                |
+ * | 50 | Warcraft III: Reforged                      |
+ * | 51 | Microsoft Flight Simulator                  |
+ * | 52 | The Sims 4                                  |
+ * | 53 | Euro Truck Simulator 2                      |
+ * | 54 | Cities: Skylines                            |
+ * | 55 | Kerbal Space Program                        |
+ * | 56 | Assetto Corsa                               |
+ * | 57 | Farming Simulator 22                        |
+ * | 58 | Planet Coaster                              |
+ * | 59 | No Man's Sky                                |
+ * | 60 | Ship Simulator Exptremes                    |
+ * | 61 | Resident Evil 4 (Remake)                    |
+ * | 62 | Amnesia: The Dark Descent                   |
+ * | 63 | Outlast                                     |
+ * | 64 | Alien: Isolation                            |
+ * | 65 | The Evil Within                             |
+ * | 66 | Until Dawn                                  |
+ * | 67 | Silent Hill 2 (Remake)                      |
+ * | 68 | Layers of Fear                              |
+ * | 69 | Dead Space (Remake)                         |
+ * | 70 | Phasmophobia                                |
+ * | 71 | Forza Horizon 5                             |
+ * | 72 | Gran Turismo 7                              |
+ * | 73 | Need for Speed Unbound                      |
+ * | 74 | Need for Speed Heat                         |
+ * | 75 | Dirt 5                                      |
+ * | 76 | Burnout Paradise Remastered                 |
+ * | 77 | Project CARS 3                              |
+ * | 78 | Assetto Corsa Competizione                  |
+ * | 79 | Trackmania                                  |
+ * | 80 | MotoGP 23 (Racing)                          |
+ * |----|---------------------------------------------|
+ *
+ */

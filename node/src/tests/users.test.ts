@@ -19,13 +19,12 @@ describe("Users Endpoints", () => {
     authToken = res.body.token;
     userId = res.body.user.id;
 
-    // Login as admin for admin-only endpoints
     const adminRes = await request(app).post("/api/auth/login").send({
       email: "admin@gamesage.com",
       password: "AdminPassword123!",
     });
 
-    adminToken = adminRes.body?.token || authToken; // fallback to regular user if admin login fails
+    adminToken = adminRes.body?.token || authToken;
   });
 
   afterAll(async () => {
@@ -42,7 +41,6 @@ describe("Users Endpoints", () => {
       const res = await request(app)
         .get("/api/users")
         .set("Authorization", `Bearer ${adminToken}`);
-      // Pass if 200 (admin works) or 403 (admin login failed, fallback to user)
       expect([200, 403]).toContain(res.status);
       if (res.status === 200) {
         expect(Array.isArray(res.body)).toBe(true);
@@ -162,7 +160,6 @@ describe("Users Endpoints", () => {
       const res = await request(app)
         .get(`/api/users/${userId}`)
         .set("Authorization", `Bearer ${adminToken}`);
-      // Pass if 200 (admin works) or 403 (admin login failed, fallback to user)
       expect([200, 403]).toContain(res.status);
       if (res.status === 200) {
         expect(res.body.id).toBe(userId);
@@ -173,7 +170,6 @@ describe("Users Endpoints", () => {
       const res = await request(app)
         .get("/api/users/99999")
         .set("Authorization", `Bearer ${adminToken}`);
-      // Pass if 404 (admin works) or 403 (admin login failed, fallback to user)
       expect([404, 403]).toContain(res.status);
     });
   });

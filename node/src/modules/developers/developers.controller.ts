@@ -27,7 +27,6 @@ export async function getDeveloperCtrl(req: Request, res: Response) {
     if (!item)
       return res.status(404).json({ message: "Desarrollador no encontrado" });
 
-    // Normalize relation property names to `games` if Prisma returned a different casing
     const response: any = { ...item };
     if ((item as any).Game) {
       response.games = (item as any).Game;
@@ -37,7 +36,6 @@ export async function getDeveloperCtrl(req: Request, res: Response) {
       response.games = (item as any).Games;
       delete (response as any).Games;
     }
-    // if item.games already exists, keep it as-is
     res.json(response);
   } catch (error: any) {
     res.status(500).json({ message: error.message });

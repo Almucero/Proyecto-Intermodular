@@ -38,7 +38,6 @@ export async function getGameCtrl(req: Request, res: Response) {
       return res.status(404).json({ message: "Juego no encontrado" });
     }
 
-    // Map relation names to lowercase and remove foreign keys
     const response: any = { ...game };
     if (game.Publisher) {
       response.publisher = game.Publisher;
@@ -84,7 +83,6 @@ export async function createGameCtrl(req: Request, res: Response) {
     if (payload.developerId !== undefined)
       payload.developerId = Number(payload.developerId);
 
-    // normalize genres/platforms: accept comma-separated string or array
     if (payload.genres && typeof payload.genres === "string") {
       payload.genres = payload.genres
         .split(/[,;]+/)
