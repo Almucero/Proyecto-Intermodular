@@ -1,7 +1,7 @@
 # Proyecto intermodular: GameSage
 
 Proyecto intermodular desarrollado en el segundo curso del CFGS en Desarrollo de Aplicaciones Multiplataforma.  
-Participantes: **Rosario González** y **Álvaro Jiménez**
+Participantes: **[Rosario González](#rosario-gonzález)** y **[Álvaro Jiménez](#álvaro-jiménez)**
 
 GameSage reúne en un solo proyecto todo lo aprendido durante el curso en diversas asignaturas, integrando backend, frontend web, aplicación móvil, base de datos, despliegue en la nube y prototipado UI, entre otros.
 
@@ -109,3 +109,4 @@ El sistema se compone de:
 ### Swagger: [Swagger Docs](https://gamesage-service.onrender.com/api-docs/)
 
 ### Prototipo en Figma: [Ver prototipo](https://www.figma.com/proto/8WRYpwCvkO9wDyGhu57rel/App-venta-de-videojuegos?node-id=0-1&t=04WaZdl2dDfJg0df-1)
+
