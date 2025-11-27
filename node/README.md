@@ -60,3 +60,4 @@ npm run dev          # en dev ahora se sincronizan los admins desde ADMIN_EMAILS
 
 - Ampliar seed de datos con más juegos e imágenes de ejemplo
 - Borrar carpetas en cloudinary funciona cuando le da la gana
+- Hacer que todas las imagenes que se suban en el seed se conviertan a webp
