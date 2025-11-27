@@ -123,11 +123,13 @@ export async function uploadMedia(
   } else if (type === "user") {
     const user = await prisma.user.findUnique({
       where: { id },
-      select: { name: true, accountId: true },
+      select: { name: true, accountId: true, accountAt: true },
     });
     if (!user) throw new Error("User not found");
-    const nameToUse = user.name || user.accountId || `user-${id}`;
-    folderName = `userImages/${sanitizeFolderName(nameToUse)}`;
+    const folderIdentifier =
+      user.accountAt ||
+      sanitizeFolderName(user.name || user.accountId || `user-${id}`);
+    folderName = `userImages/${folderIdentifier}`;
     userId = id;
   } else {
     throw new Error("Invalid media type");
@@ -206,11 +208,14 @@ export async function updateMedia(
     } else {
       const user = await prisma.user.findUnique({
         where: { id: targetId },
-        select: { name: true, accountId: true },
+        select: { name: true, accountId: true, accountAt: true },
       });
       if (!user) throw new Error("Target user not found");
-      const nameToUse = user.name || user.accountId || `user-${targetId}`;
-      targetFolderName = `userImages/${sanitizeFolderName(nameToUse)}`;
+      // Use accountAt directly if available (preserves @), otherwise sanitize name
+      const folderIdentifier =
+        user.accountAt ||
+        sanitizeFolderName(user.name || user.accountId || `user-${targetId}`);
+      targetFolderName = `userImages/${folderIdentifier}`;
       updateData.userId = targetId;
       updateData.gameId = null;
     }
