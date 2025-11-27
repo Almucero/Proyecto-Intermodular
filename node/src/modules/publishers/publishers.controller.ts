@@ -27,7 +27,6 @@ export async function getPublisherCtrl(req: Request, res: Response) {
     if (!item)
       return res.status(404).json({ message: "Publisher no encontrado" });
 
-    // Map relation names to lowercase
     const response: any = { ...item };
     if (item.Game) {
       response.games = item.Game;

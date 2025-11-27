@@ -1,5 +1,6 @@
 import request from "supertest";
 import app from "../app";
+import { prisma } from "../config/db";
 
 describe("Publishers Endpoints", () => {
   let authToken: string;
@@ -17,10 +18,10 @@ describe("Publishers Endpoints", () => {
   });
 
   afterAll(async () => {
-    await request(app)
-      .post("/api/auth/login")
-      .send({ email: "irrelevant", password: "irrelevant" })
+    await prisma.user
+      .delete({ where: { email: testUser.email } })
       .catch(() => {});
+    await prisma.$disconnect();
   });
 
   it("debe listar publishers con autenticación", async () => {

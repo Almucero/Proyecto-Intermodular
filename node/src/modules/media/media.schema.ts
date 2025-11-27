@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-// Schema for uploading a new media (multipart/form-data fields)
 export const uploadMediaSchema = z.object({
   type: z.enum(["user", "game"]),
   id: z
@@ -12,7 +11,6 @@ export const uploadMediaSchema = z.object({
   altText: z.string().optional(),
 });
 
-// Schema for updating media (multipart/form-data fields)
 export const updateMediaSchema = z.object({
   type: z.enum(["user", "game"]).optional(),
   id: z

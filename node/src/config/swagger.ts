@@ -13,7 +13,7 @@ const options: swaggerJsdoc.Options = {
       title: "GameSage API",
       version: "1.0.0",
       description:
-        "API REST para gestión de videojuegos, desarrolladores y publishers con autenticación JWT, validación Zod, rate limiting y testing completo",
+        "API REST para gestión de autenticación, usuarios, videojuegos, desarrolladoras, publishers, géneros, plataformas y archivos multimedia con autenticación JWT, validación Zod, rate limiting y testing completo",
       contact: {
         name: "API Support",
       },
@@ -577,7 +577,6 @@ const options: swaggerJsdoc.Options = {
         },
       },
     },
-    // No global security: endpoints opt-in with `security: [{ bearerAuth: [] }]`
     tags: [
       {
         name: "Health",
@@ -617,7 +616,6 @@ const options: swaggerJsdoc.Options = {
       },
     ],
   },
-  // Include both .js and .ts route files so development (ts) and built (js) paths are discovered
   apis: [
     join(__dirname, "../modules/**/*.routes.js"),
     join(__dirname, "../modules/**/*.routes.ts"),

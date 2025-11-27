@@ -85,6 +85,25 @@ const router = Router();
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/User'
+ *             examples:
+ *               ejemplo:
+ *                 value:
+ *                   - id: 1
+ *                     accountId: "21323fdd1234gs"
+ *                     accountAt: "@jhon"
+ *                     email: "user@gmail.com"
+ *                     name: "John"
+ *                     surname: "Doe"
+ *                     nickname: "johndoe"
+ *                     isAdmin: false
+ *                     points: 100
+ *                     balance: 50.00
+ *                     addressLine1: "123 Main St"
+ *                     addressLine2: null
+ *                     city: "Madrid"
+ *                     region: "Madrid"
+ *                     postalCode: "28001"
+ *                     country: "Spain"
  *       401:
  *         description: No autorizado
  *         content:
@@ -245,6 +264,37 @@ router.patch(
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/User'
+ *             examples:
+ *               ejemplo:
+ *                 value:
+ *                   id: 1
+ *                   accountId: "21323fdd1234gs"
+ *                   accountAt: "@jhon"
+ *                   email: "user@gmail.com"
+ *                   name: "John"
+ *                   surname: "Doe"
+ *                   nickname: "johndoe"
+ *                   isAdmin: false
+ *                   points: 100
+ *                   balance: 50.00
+ *                   addressLine1: "123 Main St"
+ *                   addressLine2: null
+ *                   city: "Madrid"
+ *                   region: "Madrid"
+ *                   postalCode: "28001"
+ *                   country: "Spain"
+ *                   media:
+ *                     - id: 501
+ *                       url: "https://res.cloudinary.com/example/image/upload/users/1/avatar.jpg"
+ *                       publicId: "users/1/avatar"
+ *                       format: "jpg"
+ *                       resourceType: "image"
+ *                       bytes: 45230
+ *                       width: 200
+ *                       height: 200
+ *                       originalName: "avatar.jpg"
+ *                       folder: "users/1"
+ *                       altText: "User avatar"
  *       400:
  *         description: ID inválido
  *         content:

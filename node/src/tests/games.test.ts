@@ -1,5 +1,6 @@
 import request from "supertest";
 import app from "../app";
+import { prisma } from "../config/db";
 
 describe("Games Endpoints", () => {
   let authToken: string;
@@ -13,6 +14,13 @@ describe("Games Endpoints", () => {
   beforeAll(async () => {
     const res = await request(app).post("/api/auth/register").send(testUser);
     authToken = res.body.token;
+  });
+
+  afterAll(async () => {
+    await prisma.user
+      .delete({ where: { email: testUser.email } })
+      .catch(() => {});
+    await prisma.$disconnect();
   });
 
   it("debe listar games con autenticación", async () => {

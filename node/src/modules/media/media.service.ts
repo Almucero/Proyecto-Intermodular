@@ -17,7 +17,6 @@ export async function listMedia(filters?: {
 }) {
   const where: any = {};
 
-  // Map type + id to gameId or userId
   if (filters?.type && filters?.id) {
     if (filters.type === "game") {
       where.gameId = filters.id;
@@ -49,7 +48,6 @@ export async function listMedia(filters?: {
     },
   });
 
-  // Clean response to only show the relevant ID
   return results.map((item) => {
     const cleaned: any = { ...item };
     if (item.gameId !== null) {
@@ -95,16 +93,13 @@ export async function findMediaById(id: number) {
   });
 }
 
-/**
- * Sanitize name to create a valid folder name
- */
 function sanitizeFolderName(name: string): string {
   return name
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "") // Remove diacritics
-    .replace(/[^a-z0-9]+/g, "-") // Replace non-alphanumeric with hyphens
-    .replace(/^-+|-+$/g, ""); // Remove leading/trailing hyphens
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
 export async function uploadMedia(
@@ -128,10 +123,9 @@ export async function uploadMedia(
   } else if (type === "user") {
     const user = await prisma.user.findUnique({
       where: { id },
-      select: { name: true, accountId: true }, // Use name or accountId for folder
+      select: { name: true, accountId: true },
     });
     if (!user) throw new Error("User not found");
-    // Use name if available, otherwise accountId, fallback to id
     const nameToUse = user.name || user.accountId || `user-${id}`;
     folderName = `userImages/${sanitizeFolderName(nameToUse)}`;
     userId = id;
@@ -171,9 +165,6 @@ export async function uploadMedia(
   });
 }
 
-/**
- * Update media with new file upload or metadata change
- */
 export async function updateMedia(
   id: number,
   file?: Express.Multer.File,
@@ -193,7 +184,6 @@ export async function updateMedia(
     throw new Error("Media not found");
   }
 
-  // Determine target type and id
   const currentType = existingMedia.gameId ? "game" : "user";
   const currentOwnerId = existingMedia.gameId || existingMedia.userId!;
 
@@ -201,9 +191,8 @@ export async function updateMedia(
   const targetId = newId || currentOwnerId;
 
   let updateData: any = {};
-  let targetFolderName = existingMedia.folder!; // Default to existing folder
+  let targetFolderName = existingMedia.folder!;
 
-  // If type or owner changed, calculate new folder
   if (targetType !== currentType || targetId !== currentOwnerId) {
     if (targetType === "game") {
       const game = await prisma.game.findUnique({
@@ -231,9 +220,7 @@ export async function updateMedia(
     updateData.altText = altText;
   }
 
-  // Case 1: New file provided -> Replace image
   if (file) {
-    // Delete old image
     if (existingMedia.publicId) {
       try {
         await cloudinary.uploader.destroy(existingMedia.publicId);
@@ -245,7 +232,6 @@ export async function updateMedia(
       }
     }
 
-    // Upload new image
     const result = await new Promise<any>((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
         {
@@ -275,9 +261,7 @@ export async function updateMedia(
     if (altText === undefined) {
       updateData.altText = existingMedia.altText || file.originalname;
     }
-  }
-  // Case 2: No new file, but folder changed -> Move image
-  else if (
+  } else if (
     targetFolderName !== existingMedia.folder &&
     existingMedia.publicId
   ) {
@@ -306,7 +290,6 @@ export async function updateMedia(
     data: updateData,
   });
 
-  // Cleanup old folder if empty
   if (targetFolderName !== existingMedia.folder && existingMedia.folder) {
     await cleanupFolderIfEmpty(existingMedia.folder);
   }

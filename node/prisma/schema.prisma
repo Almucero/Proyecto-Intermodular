@@ -47,7 +47,6 @@ model Game {
   isOnSale      Boolean    @default(false)
   salePrice     Decimal?   @db.Decimal(12,2)
   isRefundable  Boolean    @default(false)
-
   numberOfSales Int        @default(0)
   stock         Int        @default(0)
   videoUrl      String?
@@ -77,17 +76,13 @@ model Media {
   height       Int?
   originalName String?
   folder       String?
-  
   altText      String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  
   gameId       Int?
   Game         Game?    @relation(fields: [gameId], references: [id], onDelete: Cascade)
-  
   userId       Int?
   User         User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
   @@index([gameId])
   @@index([userId])
 }
@@ -96,7 +91,7 @@ model User {
   id           Int      @id @default(autoincrement())
   accountId    String?  @unique @default(cuid())
   email        String   @unique
-  accountAt    String?
+  accountAt    String?  @unique
   nickname     String?
   name         String
   surname      String?
