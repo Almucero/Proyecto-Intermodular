@@ -211,7 +211,6 @@ export async function updateMedia(
         select: { name: true, accountId: true, accountAt: true },
       });
       if (!user) throw new Error("Target user not found");
-      // Use accountAt directly if available (preserves @), otherwise sanitize name
       const folderIdentifier =
         user.accountAt ||
         sanitizeFolderName(user.name || user.accountId || `user-${targetId}`);
