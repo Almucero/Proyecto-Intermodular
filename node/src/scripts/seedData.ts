@@ -101,7 +101,8 @@ async function uploadAllMedia() {
     const sanitizedName = user.accountAt
       ? sanitizeFolderName(user.accountAt)
       : sanitizeFolderName(user.name);
-    const userFolderPath = path.join(USER_IMAGES_PATH, user.name);
+    const folderNameToLookup = user.accountAt || user.name;
+    const userFolderPath = path.join(USER_IMAGES_PATH, folderNameToLookup);
 
     if (!fs.existsSync(userFolderPath)) continue;
 
