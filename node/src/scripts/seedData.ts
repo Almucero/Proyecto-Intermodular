@@ -5,9 +5,6 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { v2 as cloudinary } from "cloudinary";
-import pLimit from "p-limit";
-import sharp from "sharp";
-import { promises as fsp } from "fs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -39,7 +36,7 @@ function sanitizeFolderName(name: string): string {
 /**
  * Sube todas las imágenes de todos los juegos y usuarios de una sola vez
  * Busca en la base de datos todos los juegos y usuarios, y sube sus imágenes
- * desde las carpetas locales configuradas
+ * desde las carpetas locales configuradas. Solo acepta archivos .webp
  * @returns Objeto con conteos de imágenes subidas
  */
 async function uploadAllMedia() {
@@ -53,17 +50,59 @@ async function uploadAllMedia() {
 
   for (const game of allGames) {
     const sanitizedName = sanitizeFolderName(game.title);
-    const gameFolderPath = path.join(GAME_IMAGES_PATH, game.title);
 
-    if (!fs.existsSync(gameFolderPath)) continue;
+    let folderName = game.title;
+    let gameFolderPath = path.join(GAME_IMAGES_PATH, folderName);
+
+    if (!fs.existsSync(gameFolderPath)) {
+      const nameWithHyphen = game.title.replace(/: /g, " - ");
+      const pathWithHyphen = path.join(GAME_IMAGES_PATH, nameWithHyphen);
+
+      if (fs.existsSync(pathWithHyphen)) {
+        folderName = nameWithHyphen;
+        gameFolderPath = pathWithHyphen;
+      } else {
+        const nameClean = game.title
+          .replace(/[()]/g, "")
+          .trim()
+          .replace(/\s+/g, " ");
+        const pathClean = path.join(GAME_IMAGES_PATH, nameClean);
+
+        if (fs.existsSync(pathClean)) {
+          folderName = nameClean;
+          gameFolderPath = pathClean;
+        } else {
+          const nameColonHyphen = game.title.replace(/:/g, " -");
+          const pathColonHyphen = path.join(GAME_IMAGES_PATH, nameColonHyphen);
+          if (fs.existsSync(pathColonHyphen)) {
+            folderName = nameColonHyphen;
+            gameFolderPath = pathColonHyphen;
+          }
+        }
+      }
+    }
+
+    if (!fs.existsSync(gameFolderPath)) {
+      console.warn(
+        `⚠️ Carpeta no encontrada para: "${game.title}" (intentado: "${folderName}")`
+      );
+      continue;
+    }
 
     const imageFiles = fs
       .readdirSync(gameFolderPath)
-      .filter((file) => /\.(jpg|jpeg|png|gif|webp)$/i.test(file));
+      .filter((file) => /\.(jpg|jpeg|jfif|png|gif|webp)$/i.test(file));
 
     if (imageFiles.length === 0) continue;
 
     for (const file of imageFiles) {
+      if (!/\.webp$/i.test(file)) {
+        console.error(
+          `❌ Error: ${file} no es .webp en la carpeta de "${game.title}". Solo se aceptan archivos .webp en el seed.`
+        );
+        continue;
+      }
+
       const filePath = path.join(gameFolderPath, file);
       try {
         const uploadResult = await cloudinary.uploader.upload(filePath, {
@@ -109,12 +148,19 @@ async function uploadAllMedia() {
 
     const imageFiles = fs
       .readdirSync(userFolderPath)
-      .filter((file) => /\.(jpg|jpeg|png|gif|webp)$/i.test(file));
+      .filter((file) => /\.(jpg|jpeg|jfif|png|gif|webp)$/i.test(file));
 
     if (imageFiles.length === 0) continue;
 
     const file = imageFiles[0];
     if (!file) continue;
+
+    if (!/\.webp$/i.test(file)) {
+      console.error(
+        `❌ Error: ${file} no es .webp en la carpeta de "${user.name}". Solo se aceptan archivos .webp en el seed.`
+      );
+      continue;
+    }
 
     const filePath = path.join(userFolderPath, file);
 
@@ -251,10 +297,11 @@ async function seedData() {
       "EA Sports",
     ];
 
-    console.log("  - Creando developers y publishers...");
+    console.log("  - Creando developers...");
     const developers = await Promise.all(
       developerNames.map((n) => prisma.developer.create({ data: { name: n } }))
     );
+    console.log("  - Creando publishers...");
     const publishers = await Promise.all(
       publisherNames.map((n) => prisma.publisher.create({ data: { name: n } }))
     );
@@ -1742,7 +1789,7 @@ async function seedData() {
      * @param gamesData Array de objetos con los datos de los juegos
      * @returns Array de objetos con los datos de los juegos insertados
      */
-    console.log("  - Insertando juegos (esto puede tardar unos segundos)...");
+    console.log("  - Insertando juegos...");
     const createdGames = [];
     for (const g of gamesData) {
       g.platforms = (g.platforms || ["PC"]).map((p) =>
