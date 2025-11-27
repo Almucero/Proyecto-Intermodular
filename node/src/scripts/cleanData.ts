@@ -59,14 +59,30 @@ async function cleanAllData() {
       }
     }
 
-    const allUsers = await prisma.user.findMany({ select: { name: true } });
+    const allUsers = await prisma.user.findMany({
+      select: { name: true, accountAt: true },
+    });
     for (const user of allUsers) {
-      const folderName = `userImages/${sanitizeFolderName(user.name)}`;
+      const folderIdentifier = user.accountAt || sanitizeFolderName(user.name);
+      const folderName = `userImages/${folderIdentifier}`;
       try {
         await cloudinary.api.delete_folder(folderName);
       } catch (error: any) {
         if (error?.error?.http_code !== 404) {
         }
+      }
+    }
+
+    try {
+      await cloudinary.api.delete_folder("gameImages");
+    } catch (error: any) {
+      if (error?.error?.http_code !== 404) {
+      }
+    }
+    try {
+      await cloudinary.api.delete_folder("userImages");
+    } catch (error: any) {
+      if (error?.error?.http_code !== 404) {
       }
     }
 

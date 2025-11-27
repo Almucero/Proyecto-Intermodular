@@ -98,9 +98,7 @@ async function uploadAllMedia() {
   let totalUserAvatars = 0;
 
   for (const user of allUsers) {
-    const sanitizedName = user.accountAt
-      ? sanitizeFolderName(user.accountAt)
-      : sanitizeFolderName(user.name);
+    const sanitizedName = user.accountAt || sanitizeFolderName(user.name);
     const folderNameToLookup = user.accountAt || user.name;
     const userFolderPath = path.join(USER_IMAGES_PATH, folderNameToLookup);
 
