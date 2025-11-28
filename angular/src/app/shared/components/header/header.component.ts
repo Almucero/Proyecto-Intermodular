@@ -1,11 +1,10 @@
-import { Component, ViewChild, HostListener, ElementRef } from '@angular/core';
+import { Component, ViewChild, HostListener, ElementRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Language, TranslatePipe } from '@ngx-translate/core';
 import { LanguageSelectorComponent } from '../language-selector/language-selector.component';
 
 import { AUTH_SERVICE } from '../../../core/services/auth.token';
-import { inject } from '@angular/core';
 
 @Component({
   selector: 'app-header',
