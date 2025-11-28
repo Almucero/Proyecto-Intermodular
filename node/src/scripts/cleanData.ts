@@ -27,14 +27,15 @@ async function cleanAllData() {
   try {
     console.log("🧹 Iniciando limpieza de datos...");
 
-    console.log("  - Obteniendo media para borrar de Cloudinary...");
     const allMedia = await prisma.media.findMany({
       where: { publicId: { not: null } },
       select: { publicId: true },
     });
 
     if (allMedia.length > 0) {
-      console.log(`  - Borrando ${allMedia.length} archivos de Cloudinary...`);
+      console.log(
+        `  - Eliminando ${allMedia.length} archivos de Cloudinary...`
+      );
       const publicIds = allMedia.map((img) => img.publicId!);
       const chunkSize = 100;
       for (let i = 0; i < publicIds.length; i += chunkSize) {
@@ -47,7 +48,7 @@ async function cleanAllData() {
       }
     }
 
-    console.log("  - Borrando carpetas de juegos y usuarios en Cloudinary...");
+    console.log("  - Eliminando carpetas de juegos en Cloudinary...");
     const allGames = await prisma.game.findMany({ select: { title: true } });
     for (const game of allGames) {
       const folderName = `gameImages/${sanitizeFolderName(game.title)}`;
@@ -59,6 +60,7 @@ async function cleanAllData() {
       }
     }
 
+    console.log("  - Eliminando carpetas de usuarios en Cloudinary...");
     const allUsers = await prisma.user.findMany({
       select: { name: true, accountAt: true },
     });
