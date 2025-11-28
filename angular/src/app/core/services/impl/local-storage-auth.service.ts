@@ -14,14 +14,25 @@ export interface User extends SignInPayload {
 export class LocalStorageAuthService {
   private readonly USERS_KEY = 'REGISTERED_USERS';
   private readonly AUTH_KEY = 'AUTHENTICATION';
+  private rememberMeActive: boolean = false;
 
   public user = signal<User | null>(null);
 
   constructor() {
-    const authData = localStorage.getItem(this.AUTH_KEY);
+    // Primero verificar localStorage (para usuarios con "Recuérdame" activo)
+    let authData = localStorage.getItem(this.AUTH_KEY);
     if (authData) {
       const credentials = JSON.parse(authData) as SignInPayload;
       this.validateAndSetUser(credentials);
+      this.rememberMeActive = true;
+    } else {
+      // Si no hay en localStorage, verificar sessionStorage (sesión temporal)
+      authData = sessionStorage.getItem(this.AUTH_KEY);
+      if (authData) {
+        const credentials = JSON.parse(authData) as SignInPayload;
+        this.validateAndSetUser(credentials);
+        this.rememberMeActive = false;
+      }
     }
   }
 
@@ -37,15 +48,29 @@ export class LocalStorageAuthService {
 
   login(credentials: SignInPayload, rememberMe: boolean = false): boolean {
     const isValid = this.validateAndSetUser(credentials);
-    if (isValid && rememberMe) {
-      localStorage.setItem(this.AUTH_KEY, JSON.stringify(credentials));
+    if (isValid) {
+      // Limpiar ambos storages primero
+      localStorage.removeItem(this.AUTH_KEY);
+      sessionStorage.removeItem(this.AUTH_KEY);
+      
+      // Guardar en el storage correspondiente
+      if (rememberMe) {
+        localStorage.setItem(this.AUTH_KEY, JSON.stringify(credentials));
+        this.rememberMeActive = true;
+      } else {
+        sessionStorage.setItem(this.AUTH_KEY, JSON.stringify(credentials));
+        this.rememberMeActive = false;
+      }
     }
     return isValid;
   }
 
   logout() {
+    // Limpiar ambos storages
     localStorage.removeItem(this.AUTH_KEY);
+    sessionStorage.removeItem(this.AUTH_KEY);
     this.user.set(null);
+    this.rememberMeActive = false;
   }
 
   updateProfileImage(image: string): void {
@@ -61,8 +86,10 @@ export class LocalStorageAuthService {
         localStorage.setItem(this.USERS_KEY, JSON.stringify(users));
       }
 
-      if (localStorage.getItem(this.AUTH_KEY)) {
-        localStorage.setItem(this.AUTH_KEY, JSON.stringify(updatedUser));
+      // Actualizar en el storage activo
+      const storage = this.rememberMeActive ? localStorage : sessionStorage;
+      if (storage.getItem(this.AUTH_KEY)) {
+        storage.setItem(this.AUTH_KEY, JSON.stringify(updatedUser));
       }
     }
   }
@@ -80,8 +107,10 @@ export class LocalStorageAuthService {
         localStorage.setItem(this.USERS_KEY, JSON.stringify(users));
       }
 
-      if (localStorage.getItem(this.AUTH_KEY)) {
-        localStorage.setItem(this.AUTH_KEY, JSON.stringify(updatedUser));
+      // Actualizar en el storage activo
+      const storage = this.rememberMeActive ? localStorage : sessionStorage;
+      if (storage.getItem(this.AUTH_KEY)) {
+        storage.setItem(this.AUTH_KEY, JSON.stringify(updatedUser));
       }
     }
   }
@@ -106,6 +135,3 @@ export class LocalStorageAuthService {
   }
 }
 
-//hacer resolve y reject con promise para login, con httpresponse (200, 401) (... : Promise<HTTPResponse>)
-//onSubmit en login, ahora async y con await y try catch
-//(mas todos los cambios que implique)

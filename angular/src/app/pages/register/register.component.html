@@ -18,7 +18,8 @@
             <span class="text-red-500"> *</span>
           </div>
           <div class="relative">
-            <span class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2">
+            <span class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"
+              [title]="'tooltips.nameIcon' | translate">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -40,7 +41,8 @@
           <label class="text-white font-medium" for="surname">{{ 'register.surnameLabel' | translate }}</label>
           <span class="text-red-500"> *</span>
           <div class="relative">
-            <span class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2">
+            <span class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"
+              [title]="'tooltips.surnameIcon' | translate">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -62,7 +64,8 @@
           <label class="text-white font-medium" for="email">{{ 'login.emailLabel' | translate }}</label>
           <span class="text-red-500"> *</span>
           <div class="relative">
-            <span class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2">
+            <span class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"
+              [title]="'tooltips.emailIcon' | translate">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -85,7 +88,8 @@
           <label class="text-white font-medium" for="password">{{ 'login.passwordLabel' | translate }}</label>
           <span class="text-red-500"> *</span>
           <div class="relative">
-            <span class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2">
+            <span class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"
+              [title]="'tooltips.passwordIcon' | translate">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -97,7 +101,8 @@
               class="w-full pl-10 h-10 rounded-sm border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-300"
               [type]="showPassword ? 'text' : 'password'" />
             <span (click)="showPassword = !showPassword"
-              class="text-gray-400 cursor-pointer absolute right-3 top-1/2 -translate-y-1/2">
+              class="text-gray-400 cursor-pointer absolute right-3 top-1/2 -translate-y-1/2"
+              [title]="showPassword ? ('tooltips.hidePassword' | translate) : ('tooltips.showPassword' | translate)">
               @if(!showPassword){
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-6">
@@ -125,7 +130,8 @@
           <label class="text-white font-medium" for="password">{{ 'register.password2Label' | translate }}</label>
           <span class="text-red-500"> *</span>
           <div class="relative">
-            <span class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2">
+            <span class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"
+              [title]="'tooltips.passwordIcon' | translate">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round"

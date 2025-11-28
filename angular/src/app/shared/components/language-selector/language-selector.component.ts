@@ -1,11 +1,12 @@
 import { Component, inject, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Language, LanguageService } from './../../../core/services/language.service';
 
 @Component({
   selector: 'app-language-selector',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './language-selector.component.html',
   styleUrls: ['./language-selector.component.scss']
 })
