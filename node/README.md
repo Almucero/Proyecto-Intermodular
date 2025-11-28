@@ -59,4 +59,4 @@ npm run dev          # en dev ahora se sincronizan los admins desde ADMIN_EMAILS
 ### TODO
 
 - Borrar carpetas en cloudinary funciona cuando le da la gana
-- 78/80 carpetas
+- 78/80 carpetas (warhammer 2 y slient hill)
