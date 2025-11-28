@@ -13,7 +13,7 @@
           </div>
           <button *ngIf="isEditing" (click)="fileInput.click()"
             class="absolute bottom-0 right-0 bg-cyan-400 hover:bg-cyan-300 text-white p-3 rounded-full shadow-lg transition-transform transform hover:scale-110 focus:outline-none border-2 border-gray-900"
-            [title]="'dashboard.changeImage' | translate">
+            [title]="'tooltips.changeProfileImage' | translate">
             <img src="assets/icons/camera.png" alt="camera" class="w-10 h-10" />
           </button>
           <input #fileInput type="file" class="hidden" accept="image/*" (change)="onFileSelected($event)" />
@@ -28,13 +28,13 @@
             <span>{{ userHandle }}</span>
             <img src="assets/icons/copy.png" alt="copy"
               class="w-4 h-4 cursor-pointer hover:opacity-80 transition-opacity" [appCopyOnClick]="userHandle"
-              title="Copiar usuario" />
+              [title]="'tooltips.copyUsername' | translate" />
           </div>
           <div class="flex items-center gap-2 text-gray-500 text-sm mt-1">
             <span>ID: {{ userId }}</span>
             <img src="assets/icons/copy.png" alt="copy"
               class="w-4 h-4 cursor-pointer hover:opacity-80 transition-opacity" [appCopyOnClick]="userId"
-              title="Copiar ID" />
+              [title]="'tooltips.copyId' | translate" />
           </div>
         </div>
 
@@ -185,13 +185,15 @@
           </h4>
           <div class="bg-gray-800 border border-gray-700 rounded-md p-3 flex items-center justify-between mb-8">
             <div class="flex items-center gap-3">
-              <img src="assets/icons/card.png" alt="card" class="w-10 h-14 cursor-pointer" />
+              <img src="assets/icons/card.png" alt="card" class="w-10 h-14 cursor-pointer"
+                [title]="'tooltips.paymentCard' | translate" />
               <span class="text-white font-mono text-lg">**** 2156</span>
               <span class="text-gray-400 text-sm">{{
                 "dashboard.defaultPayment" | translate
                 }}</span>
             </div>
-            <img src="assets/icons/menu.png" alt="mini_menu" class="w-8 h-8 cursor-pointer" />
+            <img src="assets/icons/menu.png" alt="mini_menu" class="w-8 h-8 cursor-pointer"
+              [title]="'tooltips.paymentOptions' | translate" />
           </div>
 
           <h4 class="text-lg font-medium text-white mb-3">
