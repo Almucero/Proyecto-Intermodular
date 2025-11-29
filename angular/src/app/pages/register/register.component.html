@@ -8,7 +8,9 @@
       </h1>
       <p class="mb-4 text-white text-center">
         {{ 'register.alreadyAccount' | translate }}
-        <a (click)="goToLogin()" class="text-blue-300 underline cursor-pointer">{{ 'register.loginLink' | translate
+        <a (click)="goToLogin()"
+          class="text-blue-300 underline cursor-pointer transition-transform duration-150 active:scale-95">{{
+          'register.loginLink' | translate
           }}</a>
       </p>
       <form class="px-5" [formGroup]="formRegister" (ngSubmit)="onSubmit()">
@@ -101,7 +103,7 @@
               class="w-full pl-10 h-10 rounded-sm border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-300"
               [type]="showPassword ? 'text' : 'password'" />
             <span (click)="showPassword = !showPassword"
-              class="text-gray-400 cursor-pointer absolute right-3 top-1/2 -translate-y-1/2"
+              class="text-gray-400 cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 transition-transform duration-150 active:scale-95"
               [title]="showPassword ? ('tooltips.hidePassword' | translate) : ('tooltips.showPassword' | translate)">
               @if(!showPassword){
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -157,12 +159,12 @@
         }
         <div class="flex flex-col gap-3 mt-4 mb-3">
           <button
-            class="rounded-full w-full px-4 py-2 font-medium bg-blue-400 hover:bg-blue-600 border border-blue-300 text-white"
+            class="rounded-full w-full px-4 py-2 font-medium bg-blue-400 hover:bg-blue-600 border border-blue-300 text-white transition-transform duration-150 active:scale-95"
             type="submit">
             {{ 'register.createAccountButton' | translate }}
           </button>
           <button type="button" (click)="goBack()"
-            class="rounded-full w-full px-4 py-2 font-medium bg-gray-500 hover:bg-gray-600 border border-gray-400 text-white">
+            class="rounded-full w-full px-4 py-2 font-medium bg-gray-500 hover:bg-gray-600 border border-gray-400 text-white transition-transform duration-150 active:scale-95">
             {{ 'register.backButton' | translate }}
           </button>
         </div>
