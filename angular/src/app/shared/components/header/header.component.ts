@@ -1,4 +1,10 @@
-import { Component, ViewChild, HostListener, ElementRef, inject } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  HostListener,
+  ElementRef,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Language, TranslatePipe } from '@ngx-translate/core';
@@ -9,7 +15,12 @@ import { AUTH_SERVICE } from '../../../core/services/auth.token';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterModule, TranslatePipe, LanguageSelectorComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    TranslatePipe,
+    LanguageSelectorComponent,
+  ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
