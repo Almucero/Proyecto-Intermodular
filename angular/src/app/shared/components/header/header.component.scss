@@ -84,7 +84,8 @@ header .search-wrapper:focus-within .search-input {
 }
 
 .search-wrapper:focus-within ~ .header-overlay,
-header.search-active .header-overlay {
+header.search-active .header-overlay,
+header.menu-active .header-overlay {
   opacity: 1 !important;
   pointer-events: auto !important;
 }
