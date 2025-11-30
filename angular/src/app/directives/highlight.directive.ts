@@ -25,7 +25,10 @@ export class HighlightDirective implements OnInit {
 
   private originalBackground: string = '';
 
-  constructor(private el: ElementRef, private renderer: Renderer2) {}
+  constructor(
+    private el: ElementRef,
+    private renderer: Renderer2,
+  ) {}
 
   ngOnInit() {
     const computedStyle = window.getComputedStyle(this.el.nativeElement);
@@ -37,7 +40,7 @@ export class HighlightDirective implements OnInit {
     this.renderer.setStyle(
       this.el.nativeElement,
       'background-color',
-      this.appHighlight
+      this.appHighlight,
     );
   }
 
@@ -45,7 +48,7 @@ export class HighlightDirective implements OnInit {
     this.renderer.setStyle(
       this.el.nativeElement,
       'background-color',
-      this.originalBackground
+      this.originalBackground,
     );
   }
 }

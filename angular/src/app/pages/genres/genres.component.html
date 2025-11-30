@@ -1,17 +1,27 @@
 <div class="min-h-screen bg-gray-900 text-white font-sans pb-20">
-  <app-header></app-header>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
-    <h2 class="text-2xl font-bold text-cyan-300 mb-6 text-center">{{ genresName | translate }}</h2>
+    <h2 class="text-2xl font-bold text-cyan-300 mb-6 text-center">
+      {{ genresName | translate }}
+    </h2>
 
     <div class="grid grid-cols-5 gap-6 px-4">
-      <div *ngFor="let item of featuredImages"
+      <div
+        *ngFor="let item of featuredImages"
         class="w-56 group cursor-pointer transition-transform duration-150 active:scale-95"
-        (click)="goToProduct(item.id)">
+        (click)="goToProduct(item.id)"
+      >
         <div
-          class="h-32 bg-gray-700 rounded-xl overflow-hidden shadow-md group-hover:scale-105 transition-transform duration-300">
-          <img [src]="item.url" [alt]="item.title" class="w-full h-full object-cover pointer-events-none" />
+          class="h-32 bg-gray-700 rounded-xl overflow-hidden shadow-md group-hover:scale-105 transition-transform duration-300"
+        >
+          <img
+            [src]="item.url"
+            [alt]="item.title"
+            class="w-full h-full object-cover pointer-events-none"
+          />
         </div>
-        <p class="mt-2 text-center text-sm font-medium text-gray-300 group-hover:text-white transition-colors truncate">
+        <p
+          class="mt-2 text-center text-sm font-medium text-gray-300 group-hover:text-white transition-colors truncate"
+        >
           {{ item.title }}
         </p>
       </div>

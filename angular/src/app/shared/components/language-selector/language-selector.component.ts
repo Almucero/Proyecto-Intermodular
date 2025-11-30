@@ -51,14 +51,14 @@ export class LanguageSelectorComponent implements OnInit {
 
   get currentLanguageName(): string {
     const current = this.languages.find(
-      (l) => l.code === this.languageService.getCurrentLang()
+      (l) => l.code === this.languageService.getCurrentLang(),
     );
     return current ? current.name : 'Español';
   }
 
   get availableLanguages(): { code: Language; flag: string; name: string }[] {
     return this.languages.filter(
-      (l) => l.code !== this.languageService.getCurrentLang()
+      (l) => l.code !== this.languageService.getCurrentLang(),
     );
   }
 

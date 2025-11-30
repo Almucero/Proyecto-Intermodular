@@ -1,106 +1,195 @@
 <div class="w-full">
   @if (!selectedFile()) {
-  <div (click)="onAreaClick()" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)"
-    [class.border-blue-500]="isDragging()" [class.bg-blue-50]="isDragging()"
-    [class.border-gray-300]="!isDragging() && !error()" [class.border-red-500]="error()" [class.bg-red-50]="error()"
-    [class.cursor-not-allowed]="disabled" [class.opacity-50]="disabled" [class.cursor-pointer]="!disabled"
-    class="border-2 border-dashed rounded-lg p-6 sm:p-8 md:p-12 transition-all duration-200 hover:border-blue-400 hover:bg-gray-50 active:scale-95">
-    <div class="flex flex-col items-center justify-center text-center gap-4">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-        [class.text-blue-500]="isDragging()" [class.text-gray-400]="!isDragging() && !error()"
-        [class.text-red-500]="error()" class="w-12 h-12 sm:w-16 sm:h-16">
-        <path stroke-linecap="round" stroke-linejoin="round"
-          d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
-      </svg>
+    <div
+      (click)="onAreaClick()"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)"
+      (drop)="onDrop($event)"
+      [class.border-blue-500]="isDragging()"
+      [class.bg-blue-50]="isDragging()"
+      [class.border-gray-300]="!isDragging() && !error()"
+      [class.border-red-500]="error()"
+      [class.bg-red-50]="error()"
+      [class.cursor-not-allowed]="disabled"
+      [class.opacity-50]="disabled"
+      [class.cursor-pointer]="!disabled"
+      class="border-2 border-dashed rounded-lg p-6 sm:p-8 md:p-12 transition-all duration-200 hover:border-blue-400 hover:bg-gray-50 active:scale-95"
+    >
+      <div class="flex flex-col items-center justify-center text-center gap-4">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          [class.text-blue-500]="isDragging()"
+          [class.text-gray-400]="!isDragging() && !error()"
+          [class.text-red-500]="error()"
+          class="w-12 h-12 sm:w-16 sm:h-16"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"
+          />
+        </svg>
 
-      <div>
-        <p class="text-sm sm:text-base md:text-lg font-medium text-gray-700 mb-2">
-          {{ placeholder }}
-        </p>
-        <p class="text-xs sm:text-sm text-gray-500">
-          Tamaño máximo: {{ maxSizeInMB }}MB
-        </p>
-        @if (acceptedMimeTypes.length > 0 && !acceptedMimeTypes.includes('*/*'))
-        {
-        <p class="text-xs text-gray-400 mt-1">
-          Tipos aceptados: {{ acceptedMimeTypes.join(", ") }}
-        </p>
-        }
+        <div>
+          <p
+            class="text-sm sm:text-base md:text-lg font-medium text-gray-700 mb-2"
+          >
+            {{ placeholder }}
+          </p>
+          <p class="text-xs sm:text-sm text-gray-500">
+            Tamaño máximo: {{ maxSizeInMB }}MB
+          </p>
+          @if (
+            acceptedMimeTypes.length > 0 && !acceptedMimeTypes.includes("*/*")
+          ) {
+            <p class="text-xs text-gray-400 mt-1">
+              Tipos aceptados: {{ acceptedMimeTypes.join(", ") }}
+            </p>
+          }
+        </div>
       </div>
     </div>
-  </div>
   } @else {
-  <div class="border-2 border-gray-300 rounded-lg overflow-hidden bg-white">
-    @if (isImage() && previewUrl()) {
-    <div class="relative w-full aspect-video bg-gray-100">
-      <img [src]="previewUrl()!" [alt]="selectedFile()!.name" class="w-full h-full object-contain" />
-      <button type="button" (click)="clearFile()" [disabled]="disabled"
-        class="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white p-2 rounded-full shadow-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed transition-transform duration-150 active:scale-95">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-          class="w-5 h-5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-        </svg>
-      </button>
-    </div>
-    } @if (isPDF() && safePdfUrl()) {
-    <div class="relative w-full aspect-[4/3] bg-gray-100">
-      <iframe [src]="safePdfUrl()!" class="w-full h-full" title="PDF Preview">
-      </iframe>
-      <button type="button" (click)="clearFile()" [disabled]="disabled"
-        class="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white p-2 rounded-full shadow-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed transition-transform duration-150 active:scale-95">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-          class="w-5 h-5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-        </svg>
-      </button>
-    </div>
-    }
+    <div class="border-2 border-gray-300 rounded-lg overflow-hidden bg-white">
+      @if (isImage() && previewUrl()) {
+        <div class="relative w-full aspect-video bg-gray-100">
+          <img
+            [src]="previewUrl()!"
+            [alt]="selectedFile()!.name"
+            class="w-full h-full object-contain"
+          />
+          <button
+            type="button"
+            (click)="clearFile()"
+            [disabled]="disabled"
+            class="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white p-2 rounded-full shadow-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed transition-transform duration-150 active:scale-95"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-5 h-5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+      }
+      @if (isPDF() && safePdfUrl()) {
+        <div class="relative w-full aspect-[4/3] bg-gray-100">
+          <iframe
+            [src]="safePdfUrl()!"
+            class="w-full h-full"
+            title="PDF Preview"
+          >
+          </iframe>
+          <button
+            type="button"
+            (click)="clearFile()"
+            [disabled]="disabled"
+            class="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white p-2 rounded-full shadow-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed transition-transform duration-150 active:scale-95"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-5 h-5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+      }
 
-    <div class="p-4 sm:p-6">
-      <div class="flex items-start gap-3 sm:gap-4">
-        <div class="text-3xl sm:text-4xl flex-shrink-0">
-          {{ getFileIcon() }}
+      <div class="p-4 sm:p-6">
+        <div class="flex items-start gap-3 sm:gap-4">
+          <div class="text-3xl sm:text-4xl flex-shrink-0">
+            {{ getFileIcon() }}
+          </div>
+
+          <div class="flex-1 min-w-0">
+            <p class="text-sm sm:text-base font-medium text-gray-900 truncate">
+              {{ selectedFile()!.name }}
+            </p>
+            <p class="text-xs sm:text-sm text-gray-500 mt-1">
+              {{ formatFileSize(selectedFile()!.size) }}
+            </p>
+            <p class="text-xs text-gray-400 mt-1">
+              {{ selectedFile()!.type || "Unknown type" }}
+            </p>
+          </div>
+
+          @if (!isImage() && !isPDF()) {
+            <button
+              type="button"
+              (click)="clearFile()"
+              [disabled]="disabled"
+              class="flex-shrink-0 text-red-500 hover:text-red-600 p-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed transition-transform duration-150 active:scale-95"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-5 h-5 sm:w-6 sm:h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6 18 18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          }
         </div>
 
-        <div class="flex-1 min-w-0">
-          <p class="text-sm sm:text-base font-medium text-gray-900 truncate">
-            {{ selectedFile()!.name }}
-          </p>
-          <p class="text-xs sm:text-sm text-gray-500 mt-1">
-            {{ formatFileSize(selectedFile()!.size) }}
-          </p>
-          <p class="text-xs text-gray-400 mt-1">
-            {{ selectedFile()!.type || "Unknown type" }}
-          </p>
-        </div>
-
-        @if (!isImage() && !isPDF()) {
-        <button type="button" (click)="clearFile()" [disabled]="disabled"
-          class="flex-shrink-0 text-red-500 hover:text-red-600 p-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed transition-transform duration-150 active:scale-95">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-            stroke="currentColor" class="w-5 h-5 sm:w-6 sm:h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-          </svg>
+        <button
+          type="button"
+          (click)="onAreaClick()"
+          [disabled]="disabled"
+          class="mt-4 w-full px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed transition-transform duration-150 active:scale-95"
+        >
+          Cambiar archivo
         </button>
-        }
       </div>
-
-      <button type="button" (click)="onAreaClick()" [disabled]="disabled"
-        class="mt-4 w-full px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed transition-transform duration-150 active:scale-95">
-        Cambiar archivo
-      </button>
     </div>
-  </div>
-  } @if (error()) {
-  <div class="mt-2 p-3 bg-red-50 border border-red-200 rounded-lg">
-    <div class="flex gap-2">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-        class="w-5 h-5 text-red-500 flex-shrink-0">
-        <path stroke-linecap="round" stroke-linejoin="round"
-          d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
-      </svg>
-      <p class="text-sm text-red-700">{{ error() }}</p>
+  }
+  @if (error()) {
+    <div class="mt-2 p-3 bg-red-50 border border-red-200 rounded-lg">
+      <div class="flex gap-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-5 h-5 text-red-500 flex-shrink-0"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
+          />
+        </svg>
+        <p class="text-sm text-red-700">{{ error() }}</p>
+      </div>
     </div>
-  </div>
   }
 </div>

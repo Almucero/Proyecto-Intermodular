@@ -2,13 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { HeaderComponent } from '../../shared/components/header/header.component';
 import { TranslatePipe } from '@ngx-translate/core';
-
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, RouterModule, HeaderComponent, TranslatePipe],
+  imports: [CommonModule, RouterModule, TranslatePipe],
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
@@ -126,7 +124,10 @@ export class HomeComponent implements OnInit {
     mejorValorados: { left: false, right: true },
   };
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {}
 
@@ -188,7 +189,7 @@ export class HomeComponent implements OnInit {
 
     e.preventDefault(); // Prevent text selection
     const x = e.pageX - carousel.offsetLeft;
-    const walk = (x - this.startX); // Changed from * 2 to * 1 for 1:1 speed
+    const walk = x - this.startX; // Changed from * 2 to * 1 for 1:1 speed
     carousel.scrollLeft = this.scrollLeftPos - walk;
 
     if (Math.abs(walk) > 5) {

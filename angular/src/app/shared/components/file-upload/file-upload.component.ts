@@ -209,15 +209,15 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
     if (!this.validateMimeType(file)) {
       this.error.set(
         `Tipo de archivo no permitido. Tipos aceptados: ${this.acceptedMimeTypes.join(
-          ', '
-        )}`
+          ', ',
+        )}`,
       );
       return;
     }
 
     if (!this.validateSize(file)) {
       this.error.set(
-        `El archivo es demasiado grande. Tamaño máximo: ${this.maxSizeInMB}MB`
+        `El archivo es demasiado grande. Tamaño máximo: ${this.maxSizeInMB}MB`,
       );
       return;
     }
@@ -276,7 +276,7 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
       this.blobUrl = URL.createObjectURL(file);
       // Sanitizar la URL para que Angular la acepte en el iframe
       this.safePdfUrl.set(
-        this.sanitizer.bypassSecurityTrustResourceUrl(this.blobUrl)
+        this.sanitizer.bypassSecurityTrustResourceUrl(this.blobUrl),
       );
       this.previewUrl.set(this.blobUrl);
     } else {

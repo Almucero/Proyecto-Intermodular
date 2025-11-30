@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from '../../shared/components/header/header.component';
 import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
@@ -16,7 +15,7 @@ import { LanguageService } from '../../core/services/language.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, HeaderComponent, TranslatePipe],
+  imports: [ReactiveFormsModule, CommonModule, TranslatePipe],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
@@ -31,7 +30,10 @@ export class LoginComponent {
   private auth = inject(AUTH_SERVICE);
   private languageService = inject(LanguageService);
 
-  constructor(private formSvc: FormBuilder, private http: HttpClient) {
+  constructor(
+    private formSvc: FormBuilder,
+    private http: HttpClient,
+  ) {
     this.formLogin = this.formSvc.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
@@ -79,7 +81,7 @@ export class LoginComponent {
         if (
           this.formLogin.controls['email'].errors != null &&
           Object.keys(this.formLogin.controls['email'].errors).includes(
-            'required'
+            'required',
           )
         )
           return 'errors.emailRequired';
@@ -93,7 +95,7 @@ export class LoginComponent {
         if (
           this.formLogin.controls['password'].errors != null &&
           Object.keys(this.formLogin.controls['password'].errors).includes(
-            'required'
+            'required',
           )
         )
           return 'errors.passwordRequired';

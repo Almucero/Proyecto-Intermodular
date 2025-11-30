@@ -1,7 +1,7 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 export function passwordValidator(
-  control: AbstractControl
+  control: AbstractControl,
 ): ValidationErrors | null {
   const passwordRegex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.])[A-Za-z\d@$!%*?&.]{8,}$/;
@@ -13,7 +13,7 @@ export function passwordValidator(
 }
 
 export function passwordsMatchValidator(
-  group: AbstractControl
+  group: AbstractControl,
 ): ValidationErrors | null {
   const password = group.get('password')?.value;
   const confirmPassword = group.get('password2')?.value;
