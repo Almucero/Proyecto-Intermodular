@@ -65,6 +65,8 @@ import { UserService } from './core/services/impl/user.service';
 // Para que funcione ahora mismo (quitar en futuro)
 import { AUTH_SERVICE } from './core/services/auth.token';
 import { LocalStorageAuthService } from './core/services/impl/local-storage-auth.service';
+import { AUTH_TOKEN } from './core/repositories/repository.tokens';
+import { BaseAuthenticationService } from './core/services/impl/base-authentication.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -98,30 +100,51 @@ export const appConfig: ApplicationConfig = {
 
     // API URLs
     { provide: API_URL_TOKEN, useValue: `${environment.apiUrl}/api` },
-    { provide: DEVELOPER_API_URL_TOKEN, useValue: `${environment.apiUrl}/api` },
-    { provide: GAME_API_URL_TOKEN, useValue: `${environment.apiUrl}/api` },
-    { provide: GENRE_API_URL_TOKEN, useValue: `${environment.apiUrl}/api` },
-    { provide: MEDIA_API_URL_TOKEN, useValue: `${environment.apiUrl}/api` },
-    { provide: PLATFORM_API_URL_TOKEN, useValue: `${environment.apiUrl}/api` },
-    { provide: PUBLISHER_API_URL_TOKEN, useValue: `${environment.apiUrl}/api` },
-    { provide: USER_API_URL_TOKEN, useValue: `${environment.apiUrl}/api` },
+    {
+      provide: DEVELOPER_API_URL_TOKEN,
+      useValue: `${environment.apiUrl}/api`,
+    },
+    {
+      provide: GAME_API_URL_TOKEN,
+      useValue: `${environment.apiUrl}/api`,
+    },
+    {
+      provide: GENRE_API_URL_TOKEN,
+      useValue: `${environment.apiUrl}/api`,
+    },
+    {
+      provide: MEDIA_API_URL_TOKEN,
+      useValue: `${environment.apiUrl}/api`,
+    },
+    {
+      provide: PLATFORM_API_URL_TOKEN,
+      useValue: `${environment.apiUrl}/api`,
+    },
+    {
+      provide: PUBLISHER_API_URL_TOKEN,
+      useValue: `${environment.apiUrl}/api`,
+    },
+    {
+      provide: USER_API_URL_TOKEN,
+      useValue: `${environment.apiUrl}/api`,
+    },
 
     // Auth URLs
     {
       provide: AUTH_SIGN_IN_API_URL_TOKEN,
-      useValue: `${environment.apiUrl}/api/auth/signin`,
+      useValue: `${environment.apiUrl}/api/auth/login`,
     },
     {
       provide: AUTH_SIGN_UP_API_URL_TOKEN,
-      useValue: `${environment.apiUrl}/api/auth/signup`,
+      useValue: `${environment.apiUrl}/api/auth/register`,
     },
     {
       provide: AUTH_ME_API_URL_TOKEN,
-      useValue: `${environment.apiUrl}/api/auth/me`,
+      useValue: `${environment.apiUrl}/api/users/me`,
     },
     {
       provide: UPLOAD_API_URL_TOKEN,
-      useValue: `${environment.apiUrl}/api/upload`,
+      useValue: `${environment.apiUrl}/api/media/upload`,
     },
 
     // Mappings
@@ -153,6 +176,7 @@ export const appConfig: ApplicationConfig = {
     { provide: UserService, useClass: UserService },
 
     AuthenticationServiceFactory,
+    { provide: AUTH_TOKEN, useExisting: BaseAuthenticationService },
     MediaServiceFactory,
   ],
 };

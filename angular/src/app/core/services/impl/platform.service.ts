@@ -9,8 +9,9 @@ import { IBaseRepository } from '../../repositories/interfaces/base-repository.i
 })
 export class PlatformService extends BaseService<Platform> {
   constructor(
-    @Inject(PLATFORM_REPOSITORY_TOKEN) repository: IBaseRepository<Platform>,
+    @Inject(PLATFORM_REPOSITORY_TOKEN) repository: IBaseRepository<Platform>
   ) {
     super(repository);
   }
+  // Métodos específicos si los hay
 }

@@ -12,6 +12,7 @@ export interface SignUpPayload {
 
 //esto es basura infecta (por cambiar)
 export interface User {
+  id: number;
   name: string;
   surname: string;
   email: string;

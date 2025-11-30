@@ -2,12 +2,11 @@ import { InjectionToken } from '@angular/core';
 import { IAuthentication } from '../services/interfaces/authentication.interface';
 import { IBaseRepository } from './interfaces/base-repository.interface';
 import { IDeveloperRepository } from './interfaces/developer-repository.interface';
-import { IMediaRepository } from './interfaces/media-repository.interface';
 import { IGameRepository } from './interfaces/game-repository.interface';
 import { IGenreRepository } from './interfaces/genre-repository.interface';
 import { IPlatformRepository } from './interfaces/platform-repository.interface';
 import { IPublisherRepository } from './interfaces/publisher-repository.interface';
-import { IUserRepository } from './interfaces/user-repositoy.interface';
+import { IUserRepository } from './interfaces/user-repository.interface';
 import { IBaseMapping } from './interfaces/base-mapping.interface';
 import { Developer } from '../models/developer.model';
 import { Media } from '../models/media.model';
@@ -15,82 +14,84 @@ import { Game } from '../models/game.model';
 import { Genre } from '../models/genre.model';
 import { Platform } from '../models/platform.model';
 import { Publisher } from '../models/publisher.model';
-import { User } from '../models/auth.model';
+import { User } from '../models/user.model';
+import { IAuthMapping } from '../services/interfaces/auth-mapping.interface';
+import { IMediaRepository } from './interfaces/media-repository.interface';
 
 //Resouce name tokens
 export const RESOURCE_NAME_TOKEN = new InjectionToken<string>('ResourceName');
 export const DEVELOPER_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
-  'DeveloperResourceName',
+  'DeveloperResourceName'
 );
 export const MEDIA_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
-  'MediaResourceName',
+  'MediaResourceName'
 );
 export const GAME_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
-  'GameResourceName',
+  'GameResourceName'
 );
 export const GENRE_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
-  'GenreResourceName',
+  'GenreResourceName'
 );
 export const PLATFORM_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
-  'PlatformResourceName',
+  'PlatformResourceName'
 );
 export const PUBLISHER_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
-  'PublisherResourceName',
+  'PublisherResourceName'
 );
 export const USER_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
-  'UserResourceName',
+  'UserResourceName'
 );
 
 //Repository tokens
 export const REPOSITORY_TOKEN = new InjectionToken<IBaseRepository<any>>(
-  'REPOSITORY_TOKEN',
+  'REPOSITORY_TOKEN'
 );
 export const DEVELOPER_REPOSITORY_TOKEN =
   new InjectionToken<IDeveloperRepository>('IDeveloperRepository');
 export const MEDIA_REPOSITORY_TOKEN = new InjectionToken<IMediaRepository>(
-  'IMediaRepository',
+  'IMediaRepository'
 );
 export const GAME_REPOSITORY_TOKEN = new InjectionToken<IGameRepository>(
-  'IGameRepository',
+  'IGameRepository'
 );
 export const GENRE_REPOSITORY_TOKEN = new InjectionToken<IGenreRepository>(
-  'IGenreRepository',
+  'IGenreRepository'
 );
 export const PLATFORM_REPOSITORY_TOKEN =
   new InjectionToken<IPlatformRepository>('IPlatformRepository');
 export const PUBLISHER_REPOSITORY_TOKEN =
   new InjectionToken<IPublisherRepository>('IPublisherRepository');
 export const USER_REPOSITORY_TOKEN = new InjectionToken<IUserRepository>(
-  'IUserRepository',
+  'IUserRepository'
 );
 
 //Api url tokens
 export const API_URL_TOKEN = new InjectionToken<string>('ApiUrl');
 export const DEVELOPER_API_URL_TOKEN = new InjectionToken<string>(
-  'DeveloperApiUrl',
+  'DeveloperApiUrl'
 );
 export const MEDIA_API_URL_TOKEN = new InjectionToken<string>('MediaApiUrl');
 export const GAME_API_URL_TOKEN = new InjectionToken<string>('GameApiUrl');
 export const GENRE_API_URL_TOKEN = new InjectionToken<string>('GenreApiUrl');
 export const PLATFORM_API_URL_TOKEN = new InjectionToken<string>(
-  'PlatformApiUrl',
+  'PlatformApiUrl'
 );
 export const PUBLISHER_API_URL_TOKEN = new InjectionToken<string>(
-  'PublisherApiUrl',
+  'PublisherApiUrl'
 );
 export const USER_API_URL_TOKEN = new InjectionToken<string>('UserApiUrl');
 export const AUTH_SIGN_IN_API_URL_TOKEN = new InjectionToken<string>(
-  'AuthSignInApiUrl',
+  'AuthSignInApiUrl'
 );
 export const AUTH_SIGN_UP_API_URL_TOKEN = new InjectionToken<string>(
-  'AuthSignUpApiUrl',
+  'AuthSignUpApiUrl'
 );
 export const AUTH_ME_API_URL_TOKEN = new InjectionToken<string>('AuthMeApiUrl');
 export const UPLOAD_API_URL_TOKEN = new InjectionToken<string>('UploadApiUrl');
 
 //Repository mappings
 export const REPOSITORY_MAPPING_TOKEN = new InjectionToken<IBaseMapping<any>>(
-  'IBaseRepositoryMapping',
+  'IBaseRepositoryMapping'
 );
 export const DEVELOPER_REPOSITORY_MAPPING_TOKEN = new InjectionToken<
   IBaseMapping<Developer>
@@ -116,9 +117,9 @@ export const USER_REPOSITORY_MAPPING_TOKEN = new InjectionToken<
 
 //Auth tokens
 export const AUTH_TOKEN = new InjectionToken<IAuthentication>(
-  'IAuthentication',
+  'IAuthentication'
 );
-export const AUTH_MAPPING_TOKEN = new InjectionToken<IBaseMapping<User>>(
-  'IAuthMapping',
+export const AUTH_MAPPING_TOKEN = new InjectionToken<IAuthMapping>(
+  'IAuthMapping'
 );
 export const BACKEND_TOKEN = new InjectionToken<string>('Backend');
