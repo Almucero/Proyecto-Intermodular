@@ -20,25 +20,23 @@ import { IAuthentication } from '../../services/interfaces/authentication.interf
 @Injectable({
   providedIn: 'root',
 })
-export class BaseRepositoryHttpService<T extends Model>
-  implements IBaseRepository<T>
-{
+export class BaseRepositoryHttpService<
+  T extends Model,
+> implements IBaseRepository<T> {
   constructor(
     protected http: HttpClient,
     @Inject(AUTH_TOKEN) protected auth: IAuthentication,
     @Inject(API_URL_TOKEN) protected apiUrl: string, // URL base de la API para el modelo
     @Inject(RESOURCE_NAME_TOKEN) protected resource: string, //nombre del recurso del repositorio
-    @Inject(REPOSITORY_MAPPING_TOKEN) protected mapping: IBaseMapping<T>
+    @Inject(REPOSITORY_MAPPING_TOKEN) protected mapping: IBaseMapping<T>,
   ) {
     this.apiUrl = apiUrl;
   }
 
-  getAll(
-    page: number,
-    pageSize: number,
-    filters: SearchParams
-  ): Observable<T[]> {
-    return this.http.get<T[]>(`${this.apiUrl}/${this.resource}`);
+  getAll(filters: SearchParams): Observable<T[]> {
+    return this.http
+      .get<T[]>(`${this.apiUrl}/${this.resource}`)
+      .pipe(map((res) => this.mapping.getAll(res)));
   }
 
   getById(id: string): Observable<T | null> {

@@ -52,7 +52,7 @@ export class LocalStorageAuthService {
       // Limpiar ambos storages primero
       localStorage.removeItem(this.AUTH_KEY);
       sessionStorage.removeItem(this.AUTH_KEY);
-      
+
       // Guardar en el storage correspondiente
       if (rememberMe) {
         localStorage.setItem(this.AUTH_KEY, JSON.stringify(credentials));
@@ -119,7 +119,7 @@ export class LocalStorageAuthService {
     const users = this.getRegisteredUsers();
     const user = users.find(
       (u) =>
-        u.email === credentials.email && u.password === credentials.password
+        u.email === credentials.email && u.password === credentials.password,
     );
 
     if (user) {
@@ -134,4 +134,3 @@ export class LocalStorageAuthService {
     return usersJson ? JSON.parse(usersJson) : [];
   }
 }
-

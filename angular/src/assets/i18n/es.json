@@ -15,6 +15,9 @@
     "cookies": "Configuración de cookies",
     "aichat": "Chat IA"
   },
+  "admin": {
+    "title": "Admin"
+  },
   "aichat": {
     "title": "Chat IA"
   },

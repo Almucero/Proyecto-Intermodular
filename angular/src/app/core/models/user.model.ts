@@ -1,4 +1,5 @@
 import { Model } from './base.model';
+import { Media } from './media.model';
 
 export interface User extends Model {
   accountId?: string | null;
@@ -7,6 +8,7 @@ export interface User extends Model {
   nickname?: string | null;
   name: string;
   surname?: string | null;
+  passwordHash: string;
   balance?: number | null;
   points: number;
   isAdmin: boolean;
@@ -16,4 +18,5 @@ export interface User extends Model {
   region?: string | null;
   postalCode?: string | null;
   country?: string | null;
+  media?: Media[];
 }

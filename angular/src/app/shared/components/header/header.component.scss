@@ -3,6 +3,12 @@ header {
   position: sticky;
   top: 0;
   z-index: 1000;
+  transition: box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+header.menu-active {
+  box-shadow: none !important;
 }
 
 .search-wrapper {

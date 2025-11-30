@@ -3,18 +3,18 @@ export interface SignInPayload {
   password: string;
 }
 
-//esto es basura infecta
+export interface SignUpPayload {
+  email: string;
+  password: string;
+  name: string;
+  surname?: string;
+}
+
+//esto es basura infecta (por cambiar)
 export interface User {
   name: string;
   surname: string;
   email: string;
   profileImage?: string;
   username?: string;
-}
-
-export interface SignUpPayload {
-  email: string;
-  password: string;
-  name: string;
-  surname?: string;
 }

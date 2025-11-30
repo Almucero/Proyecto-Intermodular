@@ -1,169 +1,172 @@
 {
-    "common": {
-        "searchPlaceholder": "Rechercher"
-    },
-    "header": {
-        "menu": "Menu"
-    },
-    "menu": {
-        "home": "Accueil",
-        "settings": "Paramètres",
-        "help": "Aide",
-        "contact": "Contact",
-        "privacy": "Politique de confidentialité",
-        "conditions": "Termes et conditions",
-        "cookies": "Paramètres des cookies",
-        "aichat": "Chat IA"
-    },
-    "aichat": {
-        "title": "Chat IA"
-    },
-    "cart": {
-        "title": "Panier"
-    },
-    "favourites": {
-        "title": "Favoris"
-    },
-    "settings": {
-        "title": "Paramètres"
-    },
-    "contact": {
-        "title": "Contact"
-    },
-    "help": {
-        "title": "Aide"
-    },
-    "conditions": {
-        "title": "Termes et conditions"
-    },
-    "cookiesPage": {
-        "title": "Paramètres des cookies"
-    },
-    "privacy": {
-        "title": "Politique de confidentialité"
-    },
-    "genres": {
-        "title": "Genres",
-        "action": "Action",
-        "adventure": "Aventure",
-        "rpg": "RPG",
-        "sports": "Sports",
-        "strategy": "Stratégie",
-        "simulation": "Simulation",
-        "horror": "Horreur",
-        "racing": "Course"
-    },
-    "home": {
-        "bestSellers": "Meilleures ventes",
-        "offers": "Offres",
-        "topRated": "Les mieux notés"
-    },
-    "login": {
-        "title": "Connectez-vous",
-        "noAccount": "Vous n'avez pas de compte ?",
-        "registerLink": "S'inscrire",
-        "emailLabel": "E-mail",
-        "emailPlaceholder": "votre@email",
-        "passwordLabel": "Mot de passe",
-        "passwordPlaceholder": "votre mot de passe",
-        "loginButton": "Se connecter",
-        "rememberMe": "Se souvenir de moi",
-        "forgotPassword": "Mot de passe oublié ?"
-    },
-    "register": {
-        "title": "Créons votre compte",
-        "alreadyAccount": "Vous avez déjà un compte ?",
-        "loginLink": "Se connecter",
-        "nameLabel": "Prénom",
-        "namePlaceholder": "Votre prénom",
-        "surnameLabel": "Nom",
-        "surnamePlaceholder": "Votre nom",
-        "password2Label": "Répétez le mot de passe",
-        "password2Placeholder": "Répétez le mot de passe",
-        "createAccountButton": "Créer un compte",
-        "backButton": "Retour"
-    },
-    "errors": {
-        "emailRequired": "Le champ e-mail est requis",
-        "emailInvalid": "L'e-mail n'est pas valide",
-        "passwordRequired": "Le champ mot de passe est requis",
-        "passwordPattern": "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre",
-        "password2Required": "Répétez le mot de passe",
-        "passwordMismatch": "Les mots de passe ne correspondent pas",
-        "nameRequired": "Le prénom est requis",
-        "surnameRequired": "Le nom est requis",
-        "emailAlreadyRegistered": "L'e-mail est déjà enregistré"
-    },
-    "product": {
-        "platform": "Plateforme",
-        "buy": "Acheter",
-        "addToFavorites": "Ajouter aux favoris",
-        "addToCart": "Ajouter au panier",
-        "developer": "Développeur",
-        "publisher": "Éditeur",
-        "releaseDate": "Date de sortie",
-        "refund": "Remboursement",
-        "cover": "Couverture",
-        "image": "Image"
-    },
-    "dashboard": {
-        "user": "Utilisateur",
-        "accountInfo": "Informations du compte",
-        "displayName": "Nom d'affichage",
-        "emailAddress": "Adresse e-mail",
-        "personalData": "Données personnelles",
-        "personalDataNote": "Ces données personnelles sont privées et ne seront pas affichées aux autres utilisateurs. Consultez la",
-        "privacyPolicy": "politique de confidentialité",
-        "name": "Prénom",
-        "surname": "Nom",
-        "address": "Adresse",
-        "addressLine1": "Ligne d'adresse 1",
-        "addressLine2": "Ligne d'adresse 2",
-        "city": "Ville",
-        "region": "Région",
-        "postalCode": "Code postal",
-        "country": "Pays",
-        "configure": "Configurer",
-        "cancel": "Annuler",
-        "save": "Enregistrer",
-        "payments": "Paiements",
-        "balance": "Solde",
-        "pointsBalance": "Solde de points",
-        "addFunds": "Ajouter des fonds",
-        "paymentMethods": "Vos méthodes de paiement",
-        "defaultPayment": "(Par défaut)",
-        "addPaymentMethod": "Ajouter une méthode de paiement",
-        "creditCard": "Carte de crédit/débit",
-        "changeImage": "Changer l'image",
-        "logout": "Se déconnecter"
-    },
-    "tooltips": {
-        "menu": "Ouvrir le menu",
-        "search": "Rechercher des jeux",
-        "aiChat": "Chat IA",
-        "favourites": "Voir les favoris",
-        "cart": "Voir le panier",
-        "userProfile": "Profil utilisateur",
-        "languageSelector": "Changer de langue",
-        "userIcon": "Utilisateur",
-        "emailIcon": "E-mail",
-        "passwordIcon": "Mot de passe",
-        "showPassword": "Afficher le mot de passe",
-        "hidePassword": "Masquer le mot de passe",
-        "nameIcon": "Nom",
-        "surnameIcon": "Nom de famille",
-        "usernameIcon": "Nom d'utilisateur",
-        "rating": "Évaluation",
-        "previousMedia": "Média précédent",
-        "nextMedia": "Média suivant",
-        "platformLocked": "Sélectionnez une plateforme pour acheter",
-        "changeProfileImage": "Changer l'image de profil",
-        "copyId": "Copier l'ID",
-        "copyUsername": "Copier le nom d'utilisateur",
-        "paymentCard": "Carte de paiement",
-        "paymentOptions": "Options de paiement",
-        "uploadFile": "Télécharger un fichier",
-        "deleteFile": "Supprimer le fichier",
-        "closeNotification": "Fermer la notification"
-    }
+  "common": {
+    "searchPlaceholder": "Rechercher"
+  },
+  "header": {
+    "menu": "Menu"
+  },
+  "menu": {
+    "home": "Accueil",
+    "settings": "Paramètres",
+    "help": "Aide",
+    "contact": "Contact",
+    "privacy": "Politique de confidentialité",
+    "conditions": "Termes et conditions",
+    "cookies": "Paramètres des cookies",
+    "aichat": "Chat IA"
+  },
+  "admin": {
+    "title": "Admin"
+  },
+  "aichat": {
+    "title": "Chat IA"
+  },
+  "cart": {
+    "title": "Panier"
+  },
+  "favourites": {
+    "title": "Favoris"
+  },
+  "settings": {
+    "title": "Paramètres"
+  },
+  "contact": {
+    "title": "Contact"
+  },
+  "help": {
+    "title": "Aide"
+  },
+  "conditions": {
+    "title": "Termes et conditions"
+  },
+  "cookiesPage": {
+    "title": "Paramètres des cookies"
+  },
+  "privacy": {
+    "title": "Politique de confidentialité"
+  },
+  "genres": {
+    "title": "Genres",
+    "action": "Action",
+    "adventure": "Aventure",
+    "rpg": "RPG",
+    "sports": "Sports",
+    "strategy": "Stratégie",
+    "simulation": "Simulation",
+    "horror": "Horreur",
+    "racing": "Course"
+  },
+  "home": {
+    "bestSellers": "Meilleures ventes",
+    "offers": "Offres",
+    "topRated": "Les mieux notés"
+  },
+  "login": {
+    "title": "Connectez-vous",
+    "noAccount": "Vous n'avez pas de compte ?",
+    "registerLink": "S'inscrire",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "votre@email",
+    "passwordLabel": "Mot de passe",
+    "passwordPlaceholder": "votre mot de passe",
+    "loginButton": "Se connecter",
+    "rememberMe": "Se souvenir de moi",
+    "forgotPassword": "Mot de passe oublié ?"
+  },
+  "register": {
+    "title": "Créons votre compte",
+    "alreadyAccount": "Vous avez déjà un compte ?",
+    "loginLink": "Se connecter",
+    "nameLabel": "Prénom",
+    "namePlaceholder": "Votre prénom",
+    "surnameLabel": "Nom",
+    "surnamePlaceholder": "Votre nom",
+    "password2Label": "Répétez le mot de passe",
+    "password2Placeholder": "Répétez le mot de passe",
+    "createAccountButton": "Créer un compte",
+    "backButton": "Retour"
+  },
+  "errors": {
+    "emailRequired": "Le champ e-mail est requis",
+    "emailInvalid": "L'e-mail n'est pas valide",
+    "passwordRequired": "Le champ mot de passe est requis",
+    "passwordPattern": "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre",
+    "password2Required": "Répétez le mot de passe",
+    "passwordMismatch": "Les mots de passe ne correspondent pas",
+    "nameRequired": "Le prénom est requis",
+    "surnameRequired": "Le nom est requis",
+    "emailAlreadyRegistered": "L'e-mail est déjà enregistré"
+  },
+  "product": {
+    "platform": "Plateforme",
+    "buy": "Acheter",
+    "addToFavorites": "Ajouter aux favoris",
+    "addToCart": "Ajouter au panier",
+    "developer": "Développeur",
+    "publisher": "Éditeur",
+    "releaseDate": "Date de sortie",
+    "refund": "Remboursement",
+    "cover": "Couverture",
+    "image": "Image"
+  },
+  "dashboard": {
+    "user": "Utilisateur",
+    "accountInfo": "Informations du compte",
+    "displayName": "Nom d'affichage",
+    "emailAddress": "Adresse e-mail",
+    "personalData": "Données personnelles",
+    "personalDataNote": "Ces données personnelles sont privées et ne seront pas affichées aux autres utilisateurs. Consultez la",
+    "privacyPolicy": "politique de confidentialité",
+    "name": "Prénom",
+    "surname": "Nom",
+    "address": "Adresse",
+    "addressLine1": "Ligne d'adresse 1",
+    "addressLine2": "Ligne d'adresse 2",
+    "city": "Ville",
+    "region": "Région",
+    "postalCode": "Code postal",
+    "country": "Pays",
+    "configure": "Configurer",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "payments": "Paiements",
+    "balance": "Solde",
+    "pointsBalance": "Solde de points",
+    "addFunds": "Ajouter des fonds",
+    "paymentMethods": "Vos méthodes de paiement",
+    "defaultPayment": "(Par défaut)",
+    "addPaymentMethod": "Ajouter une méthode de paiement",
+    "creditCard": "Carte de crédit/débit",
+    "changeImage": "Changer l'image",
+    "logout": "Se déconnecter"
+  },
+  "tooltips": {
+    "menu": "Ouvrir le menu",
+    "search": "Rechercher des jeux",
+    "aiChat": "Chat IA",
+    "favourites": "Voir les favoris",
+    "cart": "Voir le panier",
+    "userProfile": "Profil utilisateur",
+    "languageSelector": "Changer de langue",
+    "userIcon": "Utilisateur",
+    "emailIcon": "E-mail",
+    "passwordIcon": "Mot de passe",
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe",
+    "nameIcon": "Nom",
+    "surnameIcon": "Nom de famille",
+    "usernameIcon": "Nom d'utilisateur",
+    "rating": "Évaluation",
+    "previousMedia": "Média précédent",
+    "nextMedia": "Média suivant",
+    "platformLocked": "Sélectionnez une plateforme pour acheter",
+    "changeProfileImage": "Changer l'image de profil",
+    "copyId": "Copier l'ID",
+    "copyUsername": "Copier le nom d'utilisateur",
+    "paymentCard": "Carte de paiement",
+    "paymentOptions": "Options de paiement",
+    "uploadFile": "Télécharger un fichier",
+    "deleteFile": "Supprimer le fichier",
+    "closeNotification": "Fermer la notification"
+  }
 }
