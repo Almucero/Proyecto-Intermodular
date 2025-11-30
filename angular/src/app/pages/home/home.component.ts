@@ -1,15 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  ViewChildren,
+  QueryList,
+  ElementRef,
+} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { GameService } from '../../core/services/impl/game.service';
+import { MediaService } from '../../core/services/impl/media.service';
+import { Game } from '../../core/models/game.model';
 
 @Component({
   selector: 'app-home',
   imports: [CommonModule, RouterModule, TranslatePipe],
   templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
   genres = [
     'genres.action',
     'genres.adventure',
@@ -21,98 +33,12 @@ export class HomeComponent implements OnInit {
     'genres.racing',
   ];
 
-  featuredImages = [
-    {
-      id: 1,
-      url: 'https://via.placeholder.com/300x200?text=Zelda',
-      title: 'The Legend of Zelda',
-    },
-    {
-      id: 2,
-      url: 'https://via.placeholder.com/300x200?text=God+of+War',
-      title: 'God of War',
-    },
-    {
-      id: 3,
-      url: 'https://via.placeholder.com/300x200?text=Elden+Ring',
-      title: 'Elden Ring',
-    },
-    {
-      id: 4,
-      url: 'https://via.placeholder.com/300x200?text=Cyberpunk',
-      title: 'Cyberpunk 2077',
-    },
-    {
-      id: 5,
-      url: 'https://via.placeholder.com/300x200?text=Hollow+Knight',
-      title: 'Hollow Knight',
-    },
-    {
-      id: 6,
-      url: 'https://via.placeholder.com/300x200?text=Minecraft',
-      title: 'Minecraft',
-    },
-    {
-      id: 7,
-      url: 'https://via.placeholder.com/300x200?text=Fortnite',
-      title: 'Fortnite',
-    },
-    {
-      id: 8,
-      url: 'https://via.placeholder.com/300x200?text=Overwatch',
-      title: 'Overwatch 2',
-    },
-    {
-      id: 9,
-      url: 'https://via.placeholder.com/300x200?text=GTA+V',
-      title: 'Grand Theft Auto V',
-    },
-    {
-      id: 10,
-      url: 'https://via.placeholder.com/300x200?text=RDR2',
-      title: 'Red Dead Redemption 2',
-    },
-    {
-      id: 11,
-      url: 'https://via.placeholder.com/300x200?text=FIFA+23',
-      title: 'FIFA 23',
-    },
-    {
-      id: 12,
-      url: 'https://via.placeholder.com/300x200?text=Call+of+Duty',
-      title: 'Call of Duty: MWII',
-    },
-    {
-      id: 13,
-      url: 'https://via.placeholder.com/300x200?text=Among+Us',
-      title: 'Among Us',
-    },
-    {
-      id: 14,
-      url: 'https://via.placeholder.com/300x200?text=Stardew+Valley',
-      title: 'Stardew Valley',
-    },
-    {
-      id: 15,
-      url: 'https://via.placeholder.com/300x200?text=Terraria',
-      title: 'Terraria',
-    },
-    {
-      id: 16,
-      url: 'https://via.placeholder.com/300x200?text=Rocket+League',
-      title: 'Rocket League',
-    },
-    {
-      id: 17,
-      url: 'https://via.placeholder.com/300x200?text=Valorant',
-      title: 'Valorant',
-    },
-    {
-      id: 18,
-      url: 'https://via.placeholder.com/300x200?text=LoL',
-      title: 'League of Legends',
-    },
-  ];
+  bestSellers: Game[] = [];
+  onSaleGames: Game[] = [];
+  topRatedGames: Game[] = [];
+
+  safeVideoUrls: Map<number, SafeUrl> = new Map();
+  hoveredGameId: number | null = null;
 
   isDragging = false;
   startX = 0;
@@ -124,13 +50,103 @@ export class HomeComponent implements OnInit {
     mejorValorados: { left: false, right: true },
   };
 
+  // Referencias a todos los elementos SPAN del título
+  @ViewChildren('gameTitle') gameTitleElements!: QueryList<ElementRef>;
+
   constructor(
     private http: HttpClient,
     private router: Router,
+    private gameService: GameService,
+    private mediaService: MediaService,
+    private sanitizer: DomSanitizer
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadGames();
+  }
 
+  ngAfterViewInit(): void {
+    // Escucha los cambios (ej. cuando los *ngFor renderizan los títulos)
+    this.gameTitleElements.changes.subscribe(() => {
+      // Usamos requestAnimationFrame para asegurar que el DOM se haya pintado
+      window.requestAnimationFrame(() => this.checkLongTitles());
+    });
+    // Llamada inicial
+    window.requestAnimationFrame(() => this.checkLongTitles());
+  }
+
+  checkLongTitles(): void {
+    this.gameTitleElements.forEach((titleElement) => {
+      const spanElement = titleElement.nativeElement as HTMLSpanElement;
+
+      // El contenedor del span (title-container) es el parent
+      const containerElement = spanElement.parentElement as HTMLElement;
+
+      // Comparamos el ancho total del texto (scrollWidth) con el ancho visible del contenedor (clientWidth).
+      // Le damos un pequeño margen de error (+1px) para asegurar la detección.
+      if (spanElement.scrollWidth > containerElement.clientWidth + 1) {
+        spanElement.classList.add('long-text-animate');
+      } else {
+        spanElement.classList.remove('long-text-animate');
+      }
+    });
+  }
+
+  loadGames() {
+    this.gameService.getAll({}).subscribe((games) => {
+      this.mediaService.getAll({}).subscribe((allMedia) => {
+        games.forEach((game) => {
+          game.media = allMedia.filter((m) => m.gameId === game.id);
+          if (game.videoUrl) {
+            this.safeVideoUrls.set(
+              game.id,
+              this.sanitizer.bypassSecurityTrustUrl(game.videoUrl)
+            );
+          }
+        });
+
+        this.bestSellers = [...games]
+          .sort((a, b) => b.numberOfSales - a.numberOfSales)
+          .slice(0, 10);
+        const excludedIds = new Set(this.bestSellers.map((g) => g.id));
+        this.onSaleGames = games
+          .filter((g) => g.isOnSale && !excludedIds.has(g.id))
+          .slice(0, 10);
+        this.onSaleGames.forEach((g) => excludedIds.add(g.id));
+        this.topRatedGames = [...games]
+          .filter((g) => !excludedIds.has(g.id))
+          .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+          .slice(0, 10);
+
+        // Volver a revisar títulos después de que los datos se hayan cargado
+        setTimeout(() => this.checkLongTitles(), 0);
+      });
+    });
+  }
+
+  getSafeVideo(gameId: number): SafeUrl | undefined {
+    return this.safeVideoUrls.get(gameId);
+  }
+
+  getCoverUrl(game: Game): string {
+    if (!game.media || game.media.length === 0) {
+      return 'assets/images/placeholder.png';
+    }
+    const cover = game.media.find((m) =>
+      m.originalName?.toLowerCase().includes('cover')
+    );
+    return cover ? cover.url : game.media[0].url;
+  }
+
+  onGameMouseEnter(gameId: number): void {
+    this.hoveredGameId = gameId;
+  }
+
+  onGameMouseLeave(): void {
+    this.hoveredGameId = null;
+  }
+
+  // --- Scroll Logic ---
   scrollLeft(carousel: HTMLElement, section: string) {
     carousel.scrollBy({ left: -300, behavior: 'smooth' });
     setTimeout(() => this.updateScrollState(carousel, section), 350);
@@ -145,12 +161,9 @@ export class HomeComponent implements OnInit {
     const scrollLeft = carousel.scrollLeft;
     const maxScrollLeft = carousel.scrollWidth - carousel.clientWidth;
 
-    const isAtStart = scrollLeft <= 1;
-    const isAtEnd = scrollLeft >= maxScrollLeft - 1;
-
     this.arrowState[section] = {
-      left: !isAtStart,
-      right: !isAtEnd,
+      left: scrollLeft > 1,
+      right: scrollLeft < maxScrollLeft - 1,
     };
   }
 
@@ -168,30 +181,25 @@ export class HomeComponent implements OnInit {
     this.isDragging = false;
     this.startX = e.pageX - carousel.offsetLeft;
     this.scrollLeftPos = carousel.scrollLeft;
-    carousel.classList.add('active');
-    e.preventDefault(); // Prevent text selection
+    e.preventDefault();
   }
 
   onMouseLeave(carousel: HTMLElement) {
     this.isDragging = false;
-    carousel.classList.remove('active');
   }
 
   onMouseUp(carousel: HTMLElement) {
     setTimeout(() => {
       this.isDragging = false;
     }, 50);
-    carousel.classList.remove('active');
   }
 
   onMouseMove(e: MouseEvent, carousel: HTMLElement) {
     if (e.buttons !== 1) return;
-
-    e.preventDefault(); // Prevent text selection
+    e.preventDefault();
     const x = e.pageX - carousel.offsetLeft;
-    const walk = x - this.startX; // Changed from * 2 to * 1 for 1:1 speed
+    const walk = x - this.startX;
     carousel.scrollLeft = this.scrollLeftPos - walk;
-
     if (Math.abs(walk) > 5) {
       this.isDragging = true;
     }

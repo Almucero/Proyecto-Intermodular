@@ -42,9 +42,10 @@ export class StrapiAuthService {
         Authorization: `Bearer ${this.token}`,
       });
       const data = await firstValueFrom(
-        this.http.get<StrapiUser>(`${this.API}/users/me`, { headers }),
+        this.http.get<StrapiUser>(`${this.API}/users/me`, { headers })
       );
       const user: User = {
+        id: data.id,
         name: data.name ?? '',
         surname: data.surname ?? '',
         email: data.email,
@@ -68,11 +69,12 @@ export class StrapiAuthService {
     };
     try {
       const data = await firstValueFrom(
-        this.http.post<LoginResponse>(`${this.API}/auth/local`, body),
+        this.http.post<LoginResponse>(`${this.API}/auth/local`, body)
       );
       this.token = data.jwt;
       localStorage.setItem(this.TOKEN_KEY, data.jwt);
       const newUser: User = {
+        id: data.user.id,
         email: data.user.email,
         name: data.user.name ?? '',
         surname: data.user.surname ?? '',
@@ -94,7 +96,7 @@ export class StrapiAuthService {
     };
     try {
       const response = await firstValueFrom(
-        this.http.post<LoginResponse>(`${this.API}/auth/local/register`, body),
+        this.http.post<LoginResponse>(`${this.API}/auth/local/register`, body)
       );
       if (response.jwt) {
         this.token = response.jwt;
@@ -109,10 +111,11 @@ export class StrapiAuthService {
               name: userData.name,
               surname: userData.surname,
             },
-            { headers },
-          ),
+            { headers }
+          )
         );
         const newUser: User = {
+          id: response.user.id,
           email: response.user.email,
           name: userData.name,
           surname: userData.surname,

@@ -9,8 +9,9 @@ import { BaseService } from './base-service.service';
 })
 export class GameService extends BaseService<Game> {
   constructor(
-    @Inject(GAME_REPOSITORY_TOKEN) repository: IBaseRepository<Game>,
+    @Inject(GAME_REPOSITORY_TOKEN) repository: IBaseRepository<Game>
   ) {
     super(repository);
   }
+  // Métodos específicos si los hay
 }

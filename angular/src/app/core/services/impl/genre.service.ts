@@ -9,8 +9,9 @@ import { BaseService } from './base-service.service';
 })
 export class GenreService extends BaseService<Genre> {
   constructor(
-    @Inject(GENRE_REPOSITORY_TOKEN) repository: IBaseRepository<Genre>,
+    @Inject(GENRE_REPOSITORY_TOKEN) repository: IBaseRepository<Genre>
   ) {
     super(repository);
   }
+  // Métodos específicos si los hay
 }

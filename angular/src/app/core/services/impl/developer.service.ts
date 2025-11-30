@@ -9,8 +9,9 @@ import { Developer } from '../../models/developer.model';
 })
 export class DeveloperService extends BaseService<Developer> {
   constructor(
-    @Inject(DEVELOPER_REPOSITORY_TOKEN) repository: IBaseRepository<Developer>,
+    @Inject(DEVELOPER_REPOSITORY_TOKEN) repository: IBaseRepository<Developer>
   ) {
     super(repository);
   }
+  // Métodos específicos si los hay
 }

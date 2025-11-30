@@ -30,15 +30,12 @@
             [class.opacity-0]="!arrowState['masVendidos'].left"
             [class.opacity-100]="arrowState['masVendidos'].left"
           ></div>
-
           <span
             (click)="scrollLeft(carouselInMasVendidos, 'masVendidos')"
             [class.opacity-30]="!arrowState['masVendidos'].left"
-            [class.pointer-events-none]="!arrowState['masVendidos'].left"
             class="absolute left-2 top-[4.5rem] -translate-y-1/2 text-white text-4xl cursor-pointer select-none z-20 hover:text-cyan-300 transition-all duration-150 active:scale-95"
+            >&#8249;</span
           >
-            &#8249;
-          </span>
 
           <div
             #carouselInMasVendidos
@@ -50,36 +47,61 @@
             (mousemove)="onMouseMove($event, carouselInMasVendidos)"
           >
             <div
-              *ngFor="let item of featuredImages"
+              *ngFor="let item of bestSellers"
               class="flex-shrink-0 w-56 group cursor-pointer transition-all duration-150 active:scale-95"
               (click)="goToProduct(item.id)"
             >
               <div
-                class="h-32 bg-gray-700 rounded-xl overflow-hidden shadow-md group-hover:scale-105 transition-transform duration-300"
+                class="h-32 bg-gray-700 rounded-xl overflow-hidden shadow-md group-hover:scale-105 transition-transform duration-300 relative"
+                (mouseenter)="onGameMouseEnter(item.id)"
+                (mouseleave)="onGameMouseLeave()"
               >
                 <img
-                  [src]="item.url"
-                  [alt]="item.title"
-                  class="w-full h-full object-cover pointer-events-none"
+                  *ngIf="item.isOnSale"
+                  src="assets/images/sale.png"
+                  class="absolute top-0 left-0 w-16 h-16 z-30 pointer-events-none"
                 />
+                <img
+                  [src]="getCoverUrl(item)"
+                  class="w-full h-full object-cover pointer-events-none absolute inset-0 z-10"
+                />
+
+                <video
+                  *ngIf="hoveredGameId === item.id && item.videoUrl"
+                  [src]="getSafeVideo(item.id)"
+                  class="w-full h-full object-cover pointer-events-none absolute inset-0 z-20 bg-black"
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                ></video>
               </div>
-              <p
-                class="mt-2 text-center text-sm font-medium text-gray-300 group-hover:text-white transition-colors truncate"
+
+              <div
+                class="mt-2 flex items-center justify-between text-sm font-medium text-gray-300 group-hover:text-white transition-colors"
               >
-                {{ item.title }}
-              </p>
+                <div
+                  class="flex-1 min-w-0 pr-2 title-container"
+                  [title]="item.title"
+                >
+                  <span #gameTitle class="animate-scroll">{{
+                    item.title
+                  }}</span>
+                </div>
+                <span class="flex-shrink-0 whitespace-nowrap">{{
+                  (item.isOnSale ? item.salePrice : item.price)
+                    | currency : "EUR"
+                }}</span>
+              </div>
             </div>
           </div>
 
           <span
             (click)="scrollRight(carouselInMasVendidos, 'masVendidos')"
             [class.opacity-30]="!arrowState['masVendidos'].right"
-            [class.pointer-events-none]="!arrowState['masVendidos'].right"
             class="absolute right-2 top-[4.5rem] -translate-y-1/2 text-white text-4xl cursor-pointer select-none z-20 hover:text-cyan-300 transition-all duration-150 active:scale-95"
+            >&#8250;</span
           >
-            &#8250;
-          </span>
-
           <div
             class="absolute inset-y-0 right-0 w-48 bg-gradient-to-l from-gray-900 from-20% to-transparent z-10 pointer-events-none transition-opacity duration-300"
             [class.opacity-0]="!arrowState['masVendidos'].right"
@@ -98,15 +120,12 @@
             [class.opacity-0]="!arrowState['ofertas'].left"
             [class.opacity-100]="arrowState['ofertas'].left"
           ></div>
-
           <span
             (click)="scrollLeft(carouselInOfertas, 'ofertas')"
             [class.opacity-30]="!arrowState['ofertas'].left"
-            [class.pointer-events-none]="!arrowState['ofertas'].left"
             class="absolute left-2 top-[4.5rem] -translate-y-1/2 text-white text-4xl cursor-pointer select-none z-20 hover:text-cyan-300 transition-all duration-150 active:scale-95"
+            >&#8249;</span
           >
-            &#8249;
-          </span>
 
           <div
             #carouselInOfertas
@@ -118,36 +137,58 @@
             (mousemove)="onMouseMove($event, carouselInOfertas)"
           >
             <div
-              *ngFor="let item of featuredImages"
+              *ngFor="let item of onSaleGames"
               class="flex-shrink-0 w-56 group cursor-pointer transition-transform duration-150 active:scale-95"
               (click)="goToProduct(item.id)"
             >
               <div
-                class="h-32 bg-gray-700 rounded-xl overflow-hidden shadow-md group-hover:scale-105 transition-transform duration-300"
+                class="h-32 bg-gray-700 rounded-xl overflow-hidden shadow-md group-hover:scale-105 transition-transform duration-300 relative"
+                (mouseenter)="onGameMouseEnter(item.id)"
+                (mouseleave)="onGameMouseLeave()"
               >
                 <img
-                  [src]="item.url"
-                  [alt]="item.title"
-                  class="w-full h-full object-cover pointer-events-none"
+                  *ngIf="item.isOnSale"
+                  src="assets/images/sale.png"
+                  class="absolute top-0 left-0 w-16 h-16 z-30 pointer-events-none"
                 />
+                <img
+                  [src]="getCoverUrl(item)"
+                  class="w-full h-full object-cover pointer-events-none absolute inset-0 z-10"
+                />
+                <video
+                  *ngIf="hoveredGameId === item.id && item.videoUrl"
+                  [src]="getSafeVideo(item.id)"
+                  class="w-full h-full object-cover pointer-events-none absolute inset-0 z-20 bg-black"
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                ></video>
               </div>
-              <p
-                class="mt-2 text-center text-sm font-medium text-gray-300 group-hover:text-white transition-colors truncate"
+              <div
+                class="mt-2 flex items-center justify-between text-sm font-medium text-gray-300 group-hover:text-white transition-colors"
               >
-                {{ item.title }}
-              </p>
+                <div
+                  class="flex-1 min-w-0 pr-2 title-container"
+                  [title]="item.title"
+                >
+                  <span #gameTitle class="animate-scroll">{{
+                    item.title
+                  }}</span>
+                </div>
+                <span class="flex-shrink-0 whitespace-nowrap">{{
+                  (item.isOnSale ? item.salePrice : item.price)
+                    | currency : "EUR"
+                }}</span>
+              </div>
             </div>
           </div>
-
           <span
             (click)="scrollRight(carouselInOfertas, 'ofertas')"
             [class.opacity-30]="!arrowState['ofertas'].right"
-            [class.pointer-events-none]="!arrowState['ofertas'].right"
             class="absolute right-2 top-[4.5rem] -translate-y-1/2 text-white text-4xl cursor-pointer select-none z-20 hover:text-cyan-300 transition-all duration-150 active:scale-95"
+            >&#8250;</span
           >
-            &#8250;
-          </span>
-
           <div
             class="absolute inset-y-0 right-0 w-48 bg-gradient-to-l from-gray-900 from-20% to-transparent z-10 pointer-events-none transition-opacity duration-300"
             [class.opacity-0]="!arrowState['ofertas'].right"
@@ -166,15 +207,12 @@
             [class.opacity-0]="!arrowState['mejorValorados'].left"
             [class.opacity-100]="arrowState['mejorValorados'].left"
           ></div>
-
           <span
             (click)="scrollLeft(carouselInMejorValorados, 'mejorValorados')"
             [class.opacity-30]="!arrowState['mejorValorados'].left"
-            [class.pointer-events-none]="!arrowState['mejorValorados'].left"
             class="absolute left-2 top-[4.5rem] -translate-y-1/2 text-white text-4xl cursor-pointer select-none z-20 hover:text-cyan-300 transition-all duration-150 active:scale-95"
+            >&#8249;</span
           >
-            &#8249;
-          </span>
 
           <div
             #carouselInMejorValorados
@@ -188,36 +226,58 @@
             (mousemove)="onMouseMove($event, carouselInMejorValorados)"
           >
             <div
-              *ngFor="let item of featuredImages"
+              *ngFor="let item of topRatedGames"
               class="flex-shrink-0 w-56 group cursor-pointer transition-transform duration-150 active:scale-95"
               (click)="goToProduct(item.id)"
             >
               <div
-                class="h-32 bg-gray-700 rounded-xl overflow-hidden shadow-md group-hover:scale-105 transition-transform duration-300"
+                class="h-32 bg-gray-700 rounded-xl overflow-hidden shadow-md group-hover:scale-105 transition-transform duration-300 relative"
+                (mouseenter)="onGameMouseEnter(item.id)"
+                (mouseleave)="onGameMouseLeave()"
               >
                 <img
-                  [src]="item.url"
-                  [alt]="item.title"
-                  class="w-full h-full object-cover pointer-events-none"
+                  *ngIf="item.isOnSale"
+                  src="assets/images/sale.png"
+                  class="absolute top-0 left-0 w-16 h-16 z-30 pointer-events-none"
                 />
+                <img
+                  [src]="getCoverUrl(item)"
+                  class="w-full h-full object-cover pointer-events-none absolute inset-0 z-10"
+                />
+                <video
+                  *ngIf="hoveredGameId === item.id && item.videoUrl"
+                  [src]="getSafeVideo(item.id)"
+                  class="w-full h-full object-cover pointer-events-none absolute inset-0 z-20 bg-black"
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                ></video>
               </div>
-              <p
-                class="mt-2 text-center text-sm font-medium text-gray-300 group-hover:text-white transition-colors truncate"
+              <div
+                class="mt-2 flex items-center justify-between text-sm font-medium text-gray-300 group-hover:text-white transition-colors"
               >
-                {{ item.title }}
-              </p>
+                <div
+                  class="flex-1 min-w-0 pr-2 title-container"
+                  [title]="item.title"
+                >
+                  <span #gameTitle class="animate-scroll">{{
+                    item.title
+                  }}</span>
+                </div>
+                <span class="flex-shrink-0 whitespace-nowrap">{{
+                  (item.isOnSale ? item.salePrice : item.price)
+                    | currency : "EUR"
+                }}</span>
+              </div>
             </div>
           </div>
-
           <span
             (click)="scrollRight(carouselInMejorValorados, 'mejorValorados')"
             [class.opacity-30]="!arrowState['mejorValorados'].right"
-            [class.pointer-events-none]="!arrowState['mejorValorados'].right"
             class="absolute right-2 top-[4.5rem] -translate-y-1/2 text-white text-4xl cursor-pointer select-none z-20 hover:text-cyan-300 transition-all duration-150 active:scale-95"
+            >&#8250;</span
           >
-            &#8250;
-          </span>
-
           <div
             class="absolute inset-y-0 right-0 w-48 bg-gradient-to-l from-gray-900 from-20% to-transparent z-10 pointer-events-none transition-opacity duration-300"
             [class.opacity-0]="!arrowState['mejorValorados'].right"

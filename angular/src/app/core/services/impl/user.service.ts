@@ -9,8 +9,9 @@ import { IBaseRepository } from '../../repositories/interfaces/base-repository.i
 })
 export class UserService extends BaseService<User> {
   constructor(
-    @Inject(USER_REPOSITORY_TOKEN) repository: IBaseRepository<User>,
+    @Inject(USER_REPOSITORY_TOKEN) repository: IBaseRepository<User>
   ) {
     super(repository);
   }
+  // Métodos específicos si los hay
 }
