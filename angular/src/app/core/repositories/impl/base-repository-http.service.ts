@@ -33,12 +33,10 @@ export class BaseRepositoryHttpService<T extends Model>
     this.apiUrl = apiUrl;
   }
 
-  getAll(
-    page: number,
-    pageSize: number,
-    filters: SearchParams
-  ): Observable<T[]> {
-    return this.http.get<T[]>(`${this.apiUrl}/${this.resource}`);
+  getAll(filters: SearchParams): Observable<T[]> {
+    return this.http
+      .get<T[]>(`${this.apiUrl}/${this.resource}`, { params: filters as any })
+      .pipe(map((res) => this.mapping.getAll(res)));
   }
 
   getById(id: string): Observable<T | null> {

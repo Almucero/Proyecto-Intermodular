@@ -1,7 +1,7 @@
 import { Model } from './base.model';
-import { GamePreview } from './game-preview.model';
+import { Game } from './game.model';
 
 export interface Genre extends Model {
   name: string;
-  games?: GamePreview[];
+  games?: Game[];
 }

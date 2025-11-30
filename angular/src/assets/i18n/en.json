@@ -1,169 +1,172 @@
 {
-    "common": {
-        "searchPlaceholder": "Search"
-    },
-    "header": {
-        "menu": "Menu"
-    },
-    "menu": {
-        "home": "Home",
-        "settings": "Settings",
-        "help": "Help",
-        "contact": "Contact",
-        "privacy": "Privacy Policy",
-        "conditions": "Terms & Conditions",
-        "cookies": "Cookie Settings",
-        "aichat": "AI Chat"
-    },
-    "aichat": {
-        "title": "AI Chat"
-    },
-    "cart": {
-        "title": "Cart"
-    },
-    "favourites": {
-        "title": "Favorites"
-    },
-    "settings": {
-        "title": "Settings"
-    },
-    "contact": {
-        "title": "Contact"
-    },
-    "help": {
-        "title": "Help"
-    },
-    "conditions": {
-        "title": "Terms & Conditions"
-    },
-    "cookiesPage": {
-        "title": "Cookie Settings"
-    },
-    "privacy": {
-        "title": "Privacy Policy"
-    },
-    "genres": {
-        "title": "Genres",
-        "action": "Action",
-        "adventure": "Adventure",
-        "rpg": "RPG",
-        "sports": "Sports",
-        "strategy": "Strategy",
-        "simulation": "Simulation",
-        "horror": "Horror",
-        "racing": "Racing"
-    },
-    "home": {
-        "bestSellers": "Best Sellers",
-        "offers": "Offers",
-        "topRated": "Top Rated"
-    },
-    "login": {
-        "title": "Log in to your account",
-        "noAccount": "Don't have an account?",
-        "registerLink": "Sign up",
-        "emailLabel": "Email",
-        "emailPlaceholder": "your@email",
-        "passwordLabel": "Password",
-        "passwordPlaceholder": "your password",
-        "loginButton": "Log in",
-        "rememberMe": "Remember me",
-        "forgotPassword": "Forgot password?"
-    },
-    "register": {
-        "title": "Let's create your account",
-        "alreadyAccount": "Already have an account?",
-        "loginLink": "Log in",
-        "nameLabel": "Name",
-        "namePlaceholder": "Your name",
-        "surnameLabel": "Surname",
-        "surnamePlaceholder": "Your surname",
-        "password2Label": "Repeat password",
-        "password2Placeholder": "Repeat password",
-        "createAccountButton": "Create account",
-        "backButton": "Back"
-    },
-    "errors": {
-        "emailRequired": "Email field is required",
-        "emailInvalid": "Email is not valid",
-        "passwordRequired": "Password field is required",
-        "passwordPattern": "Password must have at least 8 characters, one uppercase, one lowercase and one number",
-        "password2Required": "Repeat the password",
-        "passwordMismatch": "Passwords do not match",
-        "nameRequired": "Name is required",
-        "surnameRequired": "Surname is required",
-        "emailAlreadyRegistered": "Email is already registered"
-    },
-    "product": {
-        "platform": "Platform",
-        "buy": "Buy",
-        "addToFavorites": "Add to favorites",
-        "addToCart": "Add to cart",
-        "developer": "Developer",
-        "publisher": "Publisher",
-        "releaseDate": "Release Date",
-        "refund": "Refund",
-        "cover": "Cover",
-        "image": "Image"
-    },
-    "dashboard": {
-        "user": "User",
-        "accountInfo": "Account information",
-        "displayName": "Display name",
-        "emailAddress": "Email address",
-        "personalData": "Personal data",
-        "personalDataNote": "This personal data is private and will not be shown to other users. Check the",
-        "privacyPolicy": "privacy policy",
-        "name": "Name",
-        "surname": "Surname",
-        "address": "Address",
-        "addressLine1": "Address line 1",
-        "addressLine2": "Address line 2",
-        "city": "City",
-        "region": "Region",
-        "postalCode": "Postal code",
-        "country": "Country",
-        "configure": "Configure",
-        "cancel": "Cancel",
-        "save": "Save",
-        "payments": "Payments",
-        "balance": "Balance",
-        "pointsBalance": "Points balance",
-        "addFunds": "Add funds",
-        "paymentMethods": "Your payment methods",
-        "defaultPayment": "(Default)",
-        "addPaymentMethod": "Add a payment method",
-        "creditCard": "Credit/debit card",
-        "changeImage": "Change image",
-        "logout": "Logout"
-    },
-    "tooltips": {
-        "menu": "Open menu",
-        "search": "Search games",
-        "aiChat": "AI Chat",
-        "favourites": "View favorites",
-        "cart": "View shopping cart",
-        "userProfile": "User profile",
-        "languageSelector": "Change language",
-        "userIcon": "User",
-        "emailIcon": "Email",
-        "passwordIcon": "Password",
-        "showPassword": "Show password",
-        "hidePassword": "Hide password",
-        "nameIcon": "Name",
-        "surnameIcon": "Surname",
-        "usernameIcon": "Username",
-        "rating": "Rating",
-        "previousMedia": "Previous media",
-        "nextMedia": "Next media",
-        "platformLocked": "Select a platform to buy",
-        "changeProfileImage": "Change profile image",
-        "copyId": "Copy ID",
-        "copyUsername": "Copy username",
-        "paymentCard": "Payment card",
-        "paymentOptions": "Payment options",
-        "uploadFile": "Upload file",
-        "deleteFile": "Delete file",
-        "closeNotification": "Close notification"
-    }
+  "common": {
+    "searchPlaceholder": "Search"
+  },
+  "header": {
+    "menu": "Menu"
+  },
+  "menu": {
+    "home": "Home",
+    "settings": "Settings",
+    "help": "Help",
+    "contact": "Contact",
+    "privacy": "Privacy Policy",
+    "conditions": "Terms & Conditions",
+    "cookies": "Cookie Settings",
+    "aichat": "AI Chat"
+  },
+  "admin": {
+    "title": "Admin"
+  },
+  "aichat": {
+    "title": "AI Chat"
+  },
+  "cart": {
+    "title": "Cart"
+  },
+  "favourites": {
+    "title": "Favorites"
+  },
+  "settings": {
+    "title": "Settings"
+  },
+  "contact": {
+    "title": "Contact"
+  },
+  "help": {
+    "title": "Help"
+  },
+  "conditions": {
+    "title": "Terms & Conditions"
+  },
+  "cookiesPage": {
+    "title": "Cookie Settings"
+  },
+  "privacy": {
+    "title": "Privacy Policy"
+  },
+  "genres": {
+    "title": "Genres",
+    "action": "Action",
+    "adventure": "Adventure",
+    "rpg": "RPG",
+    "sports": "Sports",
+    "strategy": "Strategy",
+    "simulation": "Simulation",
+    "horror": "Horror",
+    "racing": "Racing"
+  },
+  "home": {
+    "bestSellers": "Best Sellers",
+    "offers": "Offers",
+    "topRated": "Top Rated"
+  },
+  "login": {
+    "title": "Log in to your account",
+    "noAccount": "Don't have an account?",
+    "registerLink": "Sign up",
+    "emailLabel": "Email",
+    "emailPlaceholder": "your@email",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "your password",
+    "loginButton": "Log in",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?"
+  },
+  "register": {
+    "title": "Let's create your account",
+    "alreadyAccount": "Already have an account?",
+    "loginLink": "Log in",
+    "nameLabel": "Name",
+    "namePlaceholder": "Your name",
+    "surnameLabel": "Surname",
+    "surnamePlaceholder": "Your surname",
+    "password2Label": "Repeat password",
+    "password2Placeholder": "Repeat password",
+    "createAccountButton": "Create account",
+    "backButton": "Back"
+  },
+  "errors": {
+    "emailRequired": "Email field is required",
+    "emailInvalid": "Email is not valid",
+    "passwordRequired": "Password field is required",
+    "passwordPattern": "Password must have at least 8 characters, one uppercase, one lowercase and one number",
+    "password2Required": "Repeat the password",
+    "passwordMismatch": "Passwords do not match",
+    "nameRequired": "Name is required",
+    "surnameRequired": "Surname is required",
+    "emailAlreadyRegistered": "Email is already registered"
+  },
+  "product": {
+    "platform": "Platform",
+    "buy": "Buy",
+    "addToFavorites": "Add to favorites",
+    "addToCart": "Add to cart",
+    "developer": "Developer",
+    "publisher": "Publisher",
+    "releaseDate": "Release Date",
+    "refund": "Refund",
+    "cover": "Cover",
+    "image": "Image"
+  },
+  "dashboard": {
+    "user": "User",
+    "accountInfo": "Account information",
+    "displayName": "Display name",
+    "emailAddress": "Email address",
+    "personalData": "Personal data",
+    "personalDataNote": "This personal data is private and will not be shown to other users. Check the",
+    "privacyPolicy": "privacy policy",
+    "name": "Name",
+    "surname": "Surname",
+    "address": "Address",
+    "addressLine1": "Address line 1",
+    "addressLine2": "Address line 2",
+    "city": "City",
+    "region": "Region",
+    "postalCode": "Postal code",
+    "country": "Country",
+    "configure": "Configure",
+    "cancel": "Cancel",
+    "save": "Save",
+    "payments": "Payments",
+    "balance": "Balance",
+    "pointsBalance": "Points balance",
+    "addFunds": "Add funds",
+    "paymentMethods": "Your payment methods",
+    "defaultPayment": "(Default)",
+    "addPaymentMethod": "Add a payment method",
+    "creditCard": "Credit/debit card",
+    "changeImage": "Change image",
+    "logout": "Logout"
+  },
+  "tooltips": {
+    "menu": "Open menu",
+    "search": "Search games",
+    "aiChat": "AI Chat",
+    "favourites": "View favorites",
+    "cart": "View shopping cart",
+    "userProfile": "User profile",
+    "languageSelector": "Change language",
+    "userIcon": "User",
+    "emailIcon": "Email",
+    "passwordIcon": "Password",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "nameIcon": "Name",
+    "surnameIcon": "Surname",
+    "usernameIcon": "Username",
+    "rating": "Rating",
+    "previousMedia": "Previous media",
+    "nextMedia": "Next media",
+    "platformLocked": "Select a platform to buy",
+    "changeProfileImage": "Change profile image",
+    "copyId": "Copy ID",
+    "copyUsername": "Copy username",
+    "paymentCard": "Payment card",
+    "paymentOptions": "Payment options",
+    "uploadFile": "Upload file",
+    "deleteFile": "Delete file",
+    "closeNotification": "Close notification"
+  }
 }

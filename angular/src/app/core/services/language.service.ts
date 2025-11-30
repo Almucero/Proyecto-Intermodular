@@ -5,16 +5,24 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 export type Language = 'es' | 'en' | 'de' | 'fr' | 'it';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LanguageService {
   private translateService = inject(TranslateService);
-  
+
   private readonly STORAGE_KEY = 'app-language';
-  private readonly AVAILABLE_LANGUAGES: Language[] = ['es', 'en', 'de', 'fr', 'it'];
+  private readonly AVAILABLE_LANGUAGES: Language[] = [
+    'es',
+    'en',
+    'de',
+    'fr',
+    'it',
+  ];
   private readonly DEFAULT_LANGUAGE: Language = 'es';
 
-  private currentLangSubject = new BehaviorSubject<Language>(this.DEFAULT_LANGUAGE);
+  private currentLangSubject = new BehaviorSubject<Language>(
+    this.DEFAULT_LANGUAGE,
+  );
   currentLang$ = this.currentLangSubject.asObservable();
 
   constructor() {
@@ -26,7 +34,6 @@ export class LanguageService {
     if (savedLang) {
       this.setLanguage(savedLang);
     } else {
-      // Always use Spanish as default language
       this.setLanguage(this.DEFAULT_LANGUAGE);
     }
   }
@@ -50,7 +57,9 @@ export class LanguageService {
 
   private detectBrowserLanguage(): Language {
     const browserLang = navigator.language.split('-')[0];
-    return this.isValidLanguage(browserLang) ? (browserLang as Language) : this.DEFAULT_LANGUAGE;
+    return this.isValidLanguage(browserLang)
+      ? (browserLang as Language)
+      : this.DEFAULT_LANGUAGE;
   }
 
   private isValidLanguage(lang: string | null): boolean {

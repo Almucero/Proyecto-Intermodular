@@ -70,7 +70,7 @@ export class ErrorService {
   setError(
     message: string,
     type: ErrorType = ErrorType.UNKNOWN,
-    duration: number = 5000
+    duration: number = 5000,
   ) {
     const appError: AppError = {
       type,

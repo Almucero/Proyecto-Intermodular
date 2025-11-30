@@ -45,6 +45,7 @@ export class StrapiAuthService {
         this.http.get<StrapiUser>(`${this.API}/users/me`, { headers })
       );
       const user: User = {
+        id: data.id,
         name: data.name ?? '',
         surname: data.surname ?? '',
         email: data.email,
@@ -73,6 +74,7 @@ export class StrapiAuthService {
       this.token = data.jwt;
       localStorage.setItem(this.TOKEN_KEY, data.jwt);
       const newUser: User = {
+        id: data.user.id,
         email: data.user.email,
         name: data.user.name ?? '',
         surname: data.user.surname ?? '',
@@ -113,6 +115,7 @@ export class StrapiAuthService {
           )
         );
         const newUser: User = {
+          id: response.user.id,
           email: response.user.email,
           name: userData.name,
           surname: userData.surname,

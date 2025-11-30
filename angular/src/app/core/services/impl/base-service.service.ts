@@ -13,7 +13,7 @@ import { REPOSITORY_TOKEN } from '../../repositories/repository.tokens';
 })
 export class BaseService<T extends Model> implements IBaseService<T> {
   constructor(
-    @Inject(REPOSITORY_TOKEN) protected repository: IBaseRepository<T>
+    @Inject(REPOSITORY_TOKEN) protected repository: IBaseRepository<T>,
   ) {}
 
   getAll(filters?: SearchParams): Observable<T[]> {

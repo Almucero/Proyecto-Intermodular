@@ -18,7 +18,7 @@ export abstract class BaseAuthenticationService implements IAuthentication {
   >(undefined);
   public user$: Observable<User | undefined> = this._user.asObservable();
   protected _ready: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    false
+    false,
   );
   public ready$: Observable<boolean> = this._ready.asObservable();
   constructor(protected authMapping: IAuthMapping) {}

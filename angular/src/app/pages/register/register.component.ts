@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { HeaderComponent } from '../../shared/components/header/header.component';
 import { CommonModule } from '@angular/common';
 import {
   AbstractControl,
@@ -9,7 +8,7 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { AUTH_SERVICE } from '../../core/services/auth.token';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../core/services/language.service';
@@ -37,7 +36,7 @@ function passwordMatches(control: AbstractControl): ValidationErrors | null {
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, HeaderComponent, TranslatePipe], //RouterLink
+  imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
@@ -65,7 +64,7 @@ export class RegisterComponent {
         ],
         password2: ['', [Validators.required]],
       },
-      { validators: passwordMatches }
+      { validators: passwordMatches },
     );
   }
 
@@ -95,14 +94,14 @@ export class RegisterComponent {
         if (
           this.formRegister.controls['email'].errors != null &&
           Object.keys(this.formRegister.controls['email'].errors).includes(
-            'required'
+            'required',
           )
         )
           return 'errors.emailRequired';
         else if (
           this.formRegister.controls['email'].errors != null &&
           Object.keys(this.formRegister.controls['email'].errors).includes(
-            'email'
+            'email',
           )
         )
           return 'errors.emailInvalid';
@@ -111,14 +110,14 @@ export class RegisterComponent {
         if (
           this.formRegister.controls['password'].errors != null &&
           Object.keys(this.formRegister.controls['password'].errors).includes(
-            'required'
+            'required',
           )
         )
           return 'errors.passwordRequired';
         else if (
           this.formRegister.controls['password'].errors != null &&
           Object.keys(this.formRegister.controls['password'].errors).includes(
-            'pattern'
+            'pattern',
           )
         )
           return 'errors.passwordPattern';
@@ -127,14 +126,14 @@ export class RegisterComponent {
         if (
           this.formRegister.controls['password2'].errors != null &&
           Object.keys(this.formRegister.controls['password2'].errors).includes(
-            'required'
+            'required',
           )
         )
           return 'errors.password2Required';
         else if (
           this.formRegister.controls['password2'].errors != null &&
           Object.keys(this.formRegister.controls['password2'].errors).includes(
-            'passwordMatch'
+            'passwordMatch',
           )
         )
           return 'errors.passwordMismatch';
@@ -143,7 +142,7 @@ export class RegisterComponent {
         if (
           this.formRegister.controls['name'].errors != null &&
           Object.keys(this.formRegister.controls['name'].errors).includes(
-            'required'
+            'required',
           )
         )
           return 'errors.nameRequired';
@@ -152,7 +151,7 @@ export class RegisterComponent {
         if (
           this.formRegister.controls['surname'].errors != null &&
           Object.keys(this.formRegister.controls['surname'].errors).includes(
-            'required'
+            'required',
           )
         )
           return 'errors.surnameRequired';
