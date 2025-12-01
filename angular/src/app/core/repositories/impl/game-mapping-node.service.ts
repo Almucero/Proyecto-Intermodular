@@ -91,7 +91,7 @@ export class GameMappingNodeService implements IBaseMapping<Game> {
     };
 
     if (data.genres) {
-      payload.genres = data.genres.map((g) => g.id || g.name); // Send ID or name depending on backend expectation, usually IDs for connect
+      payload.genres = data.genres.map((g) => g.id || g.name);
     }
     if (data.platforms) {
       payload.platforms = data.platforms.map((p) => p.id || p.name);
@@ -102,22 +102,18 @@ export class GameMappingNodeService implements IBaseMapping<Game> {
 
   setUpdate(data: any): any {
     const payload: any = { ...data };
-
-    // Clean up relations for update if they exist in data
     if (data.genres) {
       payload.genres = data.genres.map((g: any) => g.id || g.name);
     }
     if (data.platforms) {
       payload.platforms = data.platforms.map((p: any) => p.id || p.name);
     }
-
-    // Remove read-only or nested object fields that shouldn't be sent directly
     delete payload.id;
     delete payload.createdAt;
     delete payload.updatedAt;
     delete payload.Publisher;
     delete payload.Developer;
-    delete payload.media; // Media usually handled separately or via specific endpoints
+    delete payload.media;
 
     return payload;
   }

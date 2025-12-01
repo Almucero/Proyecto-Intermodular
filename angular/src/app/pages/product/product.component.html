@@ -43,7 +43,15 @@
               class="w-full h-full"
               frameborder="0"
               scrolling="no"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; autoplay"
+              allow="
+                accelerometer;
+                autoplay;
+                clipboard-write;
+                encrypted-media;
+                gyroscope;
+                picture-in-picture;
+                autoplay;
+              "
               allowfullscreen
             ></iframe>
             <img
@@ -157,11 +165,11 @@
             <span
               *ngIf="game.isOnSale && game.price"
               class="text-gray-500 line-through text-xl"
-              >{{ game.price | currency : "EUR" }}</span
+              >{{ game.price | currency: "EUR" }}</span
             >
             <span class="text-white text-4xl font-bold">{{
               (game.isOnSale && game.salePrice ? game.salePrice : game.price)
-                | currency : "EUR"
+                | currency: "EUR"
             }}</span>
           </div>
 
@@ -267,9 +275,7 @@
                 "product.releaseDate" | translate
               }}</span>
               <span class="text-right text-gray-300">{{
-                game.releaseDate
-                  ? (game.releaseDate | date : "dd/MM/yy")
-                  : "N/A"
+                game.releaseDate ? (game.releaseDate | date: "dd/MM/yy") : "N/A"
               }}</span>
             </div>
             <div class="grid grid-cols-2 p-4">

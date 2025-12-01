@@ -9,7 +9,7 @@ import { IBaseRepository } from '../../repositories/interfaces/base-repository.i
 })
 export class PublisherService extends BaseService<Publisher> {
   constructor(
-    @Inject(PUBLISHER_REPOSITORY_TOKEN) repository: IBaseRepository<Publisher>
+    @Inject(PUBLISHER_REPOSITORY_TOKEN) repository: IBaseRepository<Publisher>,
   ) {
     super(repository);
   }

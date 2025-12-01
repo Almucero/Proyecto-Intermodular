@@ -19,7 +19,7 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
     @Inject(AUTH_MAPPING_TOKEN) protected override authMapping: IAuthMapping,
     @Inject(AUTH_SIGN_IN_API_URL_TOKEN) protected signInUrl: string,
     @Inject(AUTH_SIGN_UP_API_URL_TOKEN) protected signUpUrl: string,
-    @Inject(AUTH_ME_API_URL_TOKEN) protected meUrl: string
+    @Inject(AUTH_ME_API_URL_TOKEN) protected meUrl: string,
   ) {
     super(authMapping);
   }
@@ -32,7 +32,7 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
         // You might need to save token here or in an interceptor
         this._authenticated.next(true);
         this._user.next(this.authMapping.signIn(response));
-      })
+      }),
     );
   }
 
@@ -42,7 +42,7 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
       tap((response: any) => {
         this._authenticated.next(true);
         this._user.next(this.authMapping.signUp(response));
-      })
+      }),
     );
   }
 
@@ -62,7 +62,7 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
       tap((user) => {
         this._authenticated.next(true);
         this._user.next(user);
-      })
+      }),
     );
   }
 
