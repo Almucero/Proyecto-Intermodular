@@ -43,7 +43,6 @@ export class MediaMappingNodeService implements IBaseMapping<Media> {
   }
 
   setAdd(data: Media): any {
-    // Media creation is usually handled via upload, but if we need to create metadata:
     return {
       url: data.url,
       publicId: data.publicId,
@@ -63,7 +62,6 @@ export class MediaMappingNodeService implements IBaseMapping<Media> {
   setUpdate(data: any): any {
     const payload: any = {};
     if (data.altText !== undefined) payload.altText = data.altText;
-    // Add other updateable fields if necessary
     return payload;
   }
 }

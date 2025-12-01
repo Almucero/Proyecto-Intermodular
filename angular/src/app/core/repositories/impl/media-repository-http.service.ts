@@ -36,7 +36,7 @@ export class MediaRepositoryHttpService
   upload(file: File): Observable<Media> {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('type', 'game'); // Default type, can be adjusted if needed
+    formData.append('type', 'game');
 
     return this.http
       .post<Media>(this.uploadUrl, formData)

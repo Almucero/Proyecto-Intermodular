@@ -13,7 +13,7 @@ import { IBaseRepository } from '../../repositories/interfaces/base-repository.i
 export class MediaService extends BaseService<Media> implements IMediaService {
   constructor(
     @Inject(MEDIA_REPOSITORY_TOKEN)
-    protected override repository: IMediaRepository
+    protected override repository: IMediaRepository,
   ) {
     super(repository);
   }

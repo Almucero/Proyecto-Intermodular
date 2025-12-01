@@ -39,7 +39,6 @@ export class ProductComponent implements OnInit {
     { name: 'Xbox One', image: 'assets/images/platforms/xbox-one.png' },
   ];
 
-  // Helper getters for template
   get coverImage(): string | undefined {
     return this.game?.media?.find((m) =>
       m.altText?.toLowerCase().includes('cover')
@@ -79,7 +78,6 @@ export class ProductComponent implements OnInit {
   loadGame(id: string): void {
     this.gameService.getById(id).subscribe((game) => {
       if (game) {
-        // Fetch all media and map to this game
         this.mediaService.getAll({}).subscribe((allMedia) => {
           game.media = allMedia.filter((m) => m.gameId === game.id);
           this.game = game;
@@ -94,7 +92,6 @@ export class ProductComponent implements OnInit {
 
     this.mediaItems = [];
 
-    // 1. Video (default)
     if (this.game.videoUrl) {
       const embedUrl = this.convertToEmbedUrl(this.game.videoUrl);
       this.mediaItems.push({
@@ -104,7 +101,6 @@ export class ProductComponent implements OnInit {
       });
     }
 
-    // 2. Cover image (only for top carousel)
     if (this.coverImage) {
       this.mediaItems.push({
         type: 'image',
@@ -115,13 +111,11 @@ export class ProductComponent implements OnInit {
   }
 
   convertToEmbedUrl(url: string): string {
-    // Convert YouTube watch URL to embed URL
-    // https://www.youtube.com/watch?v=VIDEO_ID -> https://www.youtube.com/embed/VIDEO_ID?autoplay=1&mute=1
     const videoIdMatch = url.match(/[?&]v=([^&]+)/);
     if (videoIdMatch && videoIdMatch[1]) {
       return `https://www.youtube.com/embed/${videoIdMatch[1]}?autoplay=1&mute=1`;
     }
-    return url; // Return original if not a standard YouTube URL
+    return url;
   }
 
   isPlatformAvailable(platformName: string): boolean {

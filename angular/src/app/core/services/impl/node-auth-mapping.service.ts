@@ -42,7 +42,6 @@ export class NodeAuthMappingService implements IAuthMapping {
       name: data.name,
       surname: data.surname,
       email: data.email,
-      // Add other fields if necessary
     };
   }
 }
