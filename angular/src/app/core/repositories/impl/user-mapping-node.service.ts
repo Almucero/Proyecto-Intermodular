@@ -28,8 +28,7 @@ export class UserMappingNodeService implements IBaseMapping<User> {
       region: data.region,
       postalCode: data.postalCode,
       country: data.country,
-      passwordHash: data.passwordHash || '', // Provide default or mapped value
-      // Map other fields as needed
+      passwordHash: data.passwordHash || '',
     };
   }
 
@@ -51,7 +50,7 @@ export class UserMappingNodeService implements IBaseMapping<User> {
       surname: data.surname,
       email: data.email,
       nickname: data.nickname,
-      password: (data as any).password, // Cast to any to access password if it exists on the input object but not on the interface
+      password: (data as any).password,
       isAdmin: data.isAdmin,
     };
   }

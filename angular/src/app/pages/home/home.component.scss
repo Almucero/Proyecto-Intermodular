@@ -2,46 +2,36 @@
 .title-container {
   overflow: hidden;
   position: relative;
-  /* CORRECCIÓN CLAVE: El gradiente ahora solo afecta a la derecha, eliminando el sombreado al inicio */
   mask-image: linear-gradient(to right, black 0%, black 95%, transparent 100%);
 }
 
-/* Animación para textos largos */
 @keyframes scroll-wait-cycle {
-  /* 1. QUIETO AL INICIO */
   0%,
   20% {
     transform: translateX(0%);
   }
 
-  /* 2. SE MUEVE HACIA LA IZQUIERDA */
   70%,
   85% {
-    /* Mueve el texto a la izquierda, dejando el final visible (12rem es aprox. el ancho del contenedor) */
     transform: translateX(calc(-100% + 12rem));
   }
 
-  /* 3. VUELVE AL INICIO INSTANTÁNEAMENTE */
   85.1% {
-    /* El salto instantáneo ocurre aquí, justo después de la pausa */
     transform: translateX(0%);
   }
 
   100% {
-    /* Mantiene el estado en 0% hasta que el ciclo se reinicia */
     transform: translateX(0%);
   }
 }
 
-/* Estilo base para el texto del título (siempre aplica) */
 .animate-scroll {
   display: inline-block;
   white-space: nowrap;
   will-change: transform;
-  padding-right: 1rem; /* Margen al final del texto para que no se pegue al borde */
+  padding-right: 1rem;
 }
 
-/* SOLO si tiene la clase 'long-text-animate' (puesta por TS) se aplica la animación */
 .long-text-animate {
-  animation: scroll-wait-cycle 8s linear infinite; /* Usamos 'linear' para que el movimiento sea constante */
+  animation: scroll-wait-cycle 8s linear infinite;
 }

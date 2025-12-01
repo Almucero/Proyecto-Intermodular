@@ -50,7 +50,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     mejorValorados: { left: false, right: true },
   };
 
-  // Referencias a todos los elementos SPAN del título
   @ViewChildren('gameTitle') gameTitleElements!: QueryList<ElementRef>;
 
   constructor(
@@ -66,24 +65,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // Escucha los cambios (ej. cuando los *ngFor renderizan los títulos)
     this.gameTitleElements.changes.subscribe(() => {
-      // Usamos requestAnimationFrame para asegurar que el DOM se haya pintado
       window.requestAnimationFrame(() => this.checkLongTitles());
     });
-    // Llamada inicial
     window.requestAnimationFrame(() => this.checkLongTitles());
   }
 
   checkLongTitles(): void {
     this.gameTitleElements.forEach((titleElement) => {
       const spanElement = titleElement.nativeElement as HTMLSpanElement;
-
-      // El contenedor del span (title-container) es el parent
       const containerElement = spanElement.parentElement as HTMLElement;
-
-      // Comparamos el ancho total del texto (scrollWidth) con el ancho visible del contenedor (clientWidth).
-      // Le damos un pequeño margen de error (+1px) para asegurar la detección.
       if (spanElement.scrollWidth > containerElement.clientWidth + 1) {
         spanElement.classList.add('long-text-animate');
       } else {
@@ -117,8 +108,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
           .filter((g) => !excludedIds.has(g.id))
           .sort((a, b) => (b.rating || 0) - (a.rating || 0))
           .slice(0, 10);
-
-        // Volver a revisar títulos después de que los datos se hayan cargado
         setTimeout(() => this.checkLongTitles(), 0);
       });
     });
@@ -146,7 +135,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.hoveredGameId = null;
   }
 
-  // --- Scroll Logic ---
   scrollLeft(carousel: HTMLElement, section: string) {
     carousel.scrollBy({ left: -300, behavior: 'smooth' });
     setTimeout(() => this.updateScrollState(carousel, section), 350);
