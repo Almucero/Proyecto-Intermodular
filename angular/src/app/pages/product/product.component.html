@@ -64,19 +64,11 @@
             <button
               (click)="previousMedia()"
               [disabled]="currentMediaIndex === 0"
-<<<<<<< Updated upstream
               [class.group-hover:opacity-30]="currentMediaIndex === 0"
               [class.cursor-not-allowed]="currentMediaIndex === 0"
               [class.hover:scale-110]="currentMediaIndex !== 0"
               [class.active:scale-95]="currentMediaIndex !== 0"
               class="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all cursor-pointer duration-150 opacity-0 group-hover:opacity-100 z-50 pointer-events-auto"
-=======
-              [class.text-gray-500]="currentMediaIndex === 0"
-              [class.cursor-not-allowed]="currentMediaIndex === 0"
-              [class.hover:scale-110]="currentMediaIndex !== 0"
-              [class.active:scale-95]="currentMediaIndex !== 0"
-              class="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all cursor-pointer duration-150"
->>>>>>> Stashed changes
               [title]="'tooltips.previousMedia' | translate"
             >
               <svg
@@ -98,11 +90,7 @@
             <button
               (click)="nextMedia()"
               [disabled]="currentMediaIndex === mediaItems.length - 1"
-<<<<<<< Updated upstream
               [class.group-hover:opacity-30]="
-=======
-              [class.text-gray-500]="
->>>>>>> Stashed changes
                 currentMediaIndex === mediaItems.length - 1
               "
               [class.cursor-not-allowed]="
@@ -114,11 +102,7 @@
               [class.active:scale-95]="
                 currentMediaIndex !== mediaItems.length - 1
               "
-<<<<<<< Updated upstream
               class="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all cursor-pointer duration-150 opacity-0 group-hover:opacity-100 z-50 pointer-events-auto"
-=======
-              class="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all cursor-pointer duration-150"
->>>>>>> Stashed changes
               [title]="'tooltips.nextMedia' | translate"
             >
               <svg
@@ -283,20 +267,12 @@
               {{ "product.buy" | translate }}
             </button>
             <button
-<<<<<<< Updated upstream
               class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"
-=======
-              class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95"
->>>>>>> Stashed changes
             >
               {{ "product.addToFavorites" | translate }}
             </button>
             <button
-<<<<<<< Updated upstream
               class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"
-=======
-              class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95"
->>>>>>> Stashed changes
             >
               {{ "product.addToCart" | translate }}
             </button>
