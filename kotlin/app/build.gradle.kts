@@ -33,11 +33,12 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "1.8"
         freeCompilerArgs = listOf("-XXLanguage:+PropertyParamAnnotationDefaultTargetMode")
     }
     buildFeatures {
@@ -46,6 +47,13 @@ android {
 }
 
 dependencies {
+    implementation("androidx.compose.material:material-icons-extended:1.4.3")
+
+
+    implementation(libs.androidx.compose.foundation.layout)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.ui)
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     //Coil
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
