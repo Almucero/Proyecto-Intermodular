@@ -122,7 +122,7 @@ router.get("/", listMediaCtrl);
  * @swagger
  * /api/media/upload:
  *   post:
- *     summary: Sube un archivo multimedia a Cloudinary (solo administradores)
+ *     summary: Sube un archivo multimedia a Cloudinary (usuarios autenticados)
  *     tags: [Media]
  *     security:
  *       - bearerAuth: []
@@ -159,7 +159,8 @@ router.get("/", listMediaCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Media'
  */
-router.post("/upload", auth, adminOnly, upload.single("file"), uploadMediaCtrl);
+// Allow any authenticated user to upload media (not only admins)
+router.post("/upload", auth, upload.single("file"), uploadMediaCtrl);
 
 /**
  * @swagger

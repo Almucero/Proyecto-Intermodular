@@ -12,7 +12,7 @@ import {
   MEDIA_RESOURCE_NAME_TOKEN,
   UPLOAD_API_URL_TOKEN,
 } from '../repository.tokens';
-import { Observable, map } from 'rxjs';
+import { Observable, map, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -36,10 +36,30 @@ export class MediaRepositoryHttpService
   upload(file: File): Observable<Media> {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('type', 'game');
+    formData.append('type', 'user');
 
-    return this.http
-      .post<Media>(this.uploadUrl, formData)
-      .pipe(map((res) => this.mapping.getAdded(res)));
+    // Get current user ID from auth service
+    return this.auth.me().pipe(
+      map((user) => {
+        console.log('📸 Current user for upload:', user);
+        if (user && user.id) {
+          formData.append('id', user.id.toString());
+          console.log('✅ User ID added to FormData:', user.id);
+        } else {
+          console.error('❌ No user ID available for upload');
+        }
+        return formData;
+      }),
+      map((formData) => {
+        // Log what we're sending
+        console.log('📤 Uploading with FormData:');
+        formData.forEach((value, key) => {
+          console.log(`  ${key}:`, value);
+        });
+        return formData;
+      }),
+      switchMap((formData) => this.http.post<Media>(this.uploadUrl, formData)),
+      map((res) => this.mapping.getAdded(res))
+    );
   }
 }

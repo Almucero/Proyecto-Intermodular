@@ -10,7 +10,9 @@ import { RouterModule } from '@angular/router';
 import { Language, TranslatePipe } from '@ngx-translate/core';
 import { LanguageSelectorComponent } from '../language-selector/language-selector.component';
 
-import { AUTH_SERVICE } from '../../../core/services/auth.token';
+import { BaseAuthenticationService } from '../../../core/services/impl/base-authentication.service';
+
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-header',
@@ -29,8 +31,8 @@ export class HeaderComponent {
   searchActive = false;
   @ViewChild('menu') menu!: ElementRef;
 
-  private authService = inject(AUTH_SERVICE);
-  user = this.authService.user;
+  private authService = inject(BaseAuthenticationService);
+  user = toSignal(this.authService.user$);
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;

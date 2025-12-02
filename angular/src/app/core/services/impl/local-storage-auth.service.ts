@@ -8,6 +8,9 @@ export interface User extends SignInPayload {
   username?: string;
 }
 
+/**
+ * @deprecated Use NodeAuthenticationService instead
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -119,7 +122,7 @@ export class LocalStorageAuthService {
     const users = this.getRegisteredUsers();
     const user = users.find(
       (u) =>
-        u.email === credentials.email && u.password === credentials.password,
+        u.email === credentials.email && u.password === credentials.password
     );
 
     if (user) {

@@ -74,7 +74,7 @@ import { MediaRepositoryHttpService } from './impl/media-repository-http.service
 
 export function createBaseRepositoryFactory<T extends Model>(
   token: InjectionToken<IBaseRepository<T>>,
-  dependencies: any[],
+  dependencies: any[]
 ): FactoryProvider {
   return {
     provide: token,
@@ -84,7 +84,7 @@ export function createBaseRepositoryFactory<T extends Model>(
       auth: IAuthentication,
       apiURL: string,
       resource: string,
-      mapping: IBaseMapping<T>,
+      mapping: IBaseMapping<T>
     ) => {
       switch (backend) {
         case 'http':
@@ -93,7 +93,7 @@ export function createBaseRepositoryFactory<T extends Model>(
             auth,
             apiURL,
             resource,
-            mapping,
+            mapping
           );
         case 'local-storage':
           return new BaseRepositoryLocalStorageService<T>(resource, mapping);
@@ -115,7 +115,7 @@ export function createBaseMappingFactory<T extends Model>(
     | 'media'
     | 'platform'
     | 'publisher'
-    | 'user',
+    | 'user'
 ): FactoryProvider {
   return {
     provide: token,
@@ -152,7 +152,7 @@ export function createBaseMappingFactory<T extends Model>(
 
 export function createBaseAuthMappingFactory(
   token: InjectionToken<IAuthMapping>,
-  dependencies: any[],
+  dependencies: any[]
 ): FactoryProvider {
   return {
     provide: token,
@@ -174,48 +174,48 @@ export function createBaseAuthMappingFactory(
 export const DeveloperMappingFactory = createBaseMappingFactory<Developer>(
   DEVELOPER_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
-  'developer',
+  'developer'
 );
 
 export const GameMappingFactory = createBaseMappingFactory<Game>(
   GAME_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
-  'game',
+  'game'
 );
 
 export const GenreMappingFactory = createBaseMappingFactory<Genre>(
   GENRE_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
-  'genre',
+  'genre'
 );
 
 export const MediaMappingFactory = createBaseMappingFactory<Media>(
   MEDIA_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
-  'media',
+  'media'
 );
 
 export const PlatformMappingFactory = createBaseMappingFactory<Platform>(
   PLATFORM_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
-  'platform',
+  'platform'
 );
 
 export const PublisherMappingFactory = createBaseMappingFactory<Publisher>(
   PUBLISHER_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
-  'publisher',
+  'publisher'
 );
 
 export const UserMappingFactory = createBaseMappingFactory<User>(
   USER_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
-  'user',
+  'user'
 );
 
 export const AuthMappingFactory: FactoryProvider = createBaseAuthMappingFactory(
   AUTH_MAPPING_TOKEN,
-  [BACKEND_TOKEN],
+  [BACKEND_TOKEN]
 );
 
 export const AuthenticationServiceFactory: FactoryProvider = {
@@ -226,7 +226,7 @@ export const AuthenticationServiceFactory: FactoryProvider = {
     signUp: string,
     meUrl: string,
     mapping: IAuthMapping,
-    http: HttpClient,
+    http: HttpClient
   ) => {
     switch (backend) {
       case 'http':
@@ -235,7 +235,7 @@ export const AuthenticationServiceFactory: FactoryProvider = {
           mapping,
           signIn,
           signUp,
-          meUrl,
+          meUrl
         );
       case 'local-storage':
         throw new Error('BACKEND NOT IMPLEMENTED');
@@ -259,7 +259,7 @@ export const MediaServiceFactory: FactoryProvider = {
     backend: string,
     upload: string,
     auth: IAuthentication,
-    http: HttpClient,
+    http: HttpClient
   ) => {
     switch (backend) {
       case 'http':
@@ -309,15 +309,43 @@ export const GenreRepositoryFactory: FactoryProvider =
     GENRE_REPOSITORY_MAPPING_TOKEN,
   ]);
 
-export const MediaRepositoryFactory: FactoryProvider =
-  createBaseRepositoryFactory<Media>(MEDIA_REPOSITORY_TOKEN, [
+export const MediaRepositoryFactory: FactoryProvider = {
+  provide: MEDIA_REPOSITORY_TOKEN,
+  useFactory: (
+    backend: string,
+    http: HttpClient,
+    auth: IAuthentication,
+    apiUrl: string,
+    resource: string,
+    mapping: IBaseMapping<Media>,
+    uploadUrl: string
+  ) => {
+    switch (backend) {
+      case 'http':
+        return new MediaRepositoryHttpService(
+          http,
+          auth,
+          apiUrl,
+          resource,
+          mapping,
+          uploadUrl
+        );
+      case 'local-storage':
+        throw new Error('Local storage not implemented for Media');
+      default:
+        throw new Error(`Unknown backend: ${backend}`);
+    }
+  },
+  deps: [
     BACKEND_TOKEN,
     HttpClient,
     BaseAuthenticationService,
     MEDIA_API_URL_TOKEN,
     MEDIA_RESOURCE_NAME_TOKEN,
     MEDIA_REPOSITORY_MAPPING_TOKEN,
-  ]);
+    UPLOAD_API_URL_TOKEN,
+  ],
+};
 
 export const PlatformRepositoryFactory: FactoryProvider =
   createBaseRepositoryFactory<Platform>(PLATFORM_REPOSITORY_TOKEN, [

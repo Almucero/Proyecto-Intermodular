@@ -1,117 +1,105 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
+import { GameService } from '../../core/services/impl/game.service';
+import { Game } from '../../core/models/game.model';
+import { GameCardComponent } from '../../shared/components/game-card/game-card.component';
 
 @Component({
   selector: 'app-genres',
-  imports: [RouterModule, TranslatePipe, CommonModule],
+  imports: [RouterModule, TranslatePipe, CommonModule, GameCardComponent],
   templateUrl: './genres.component.html',
   styleUrl: './genres.component.scss',
 })
-export class GenresComponent {
-  genresName = '';
+export class GenresComponent implements OnInit {
+  genreName = '';
+  games: Game[] = [];
 
-  featuredImages = [
-    { id: 1, url: 'https://picsum.photos/400/300?random=1', title: 'Game 1' },
-    { id: 2, url: 'https://picsum.photos/400/300?random=2', title: 'Game 2' },
-    { id: 3, url: 'https://picsum.photos/400/300?random=3', title: 'Game 3' },
-    { id: 4, url: 'https://picsum.photos/400/300?random=4', title: 'Game 4' },
-    { id: 5, url: 'https://picsum.photos/400/300?random=5', title: 'Game 5' },
-    { id: 6, url: 'https://picsum.photos/400/300?random=6', title: 'Game 6' },
-    { id: 7, url: 'https://picsum.photos/400/300?random=7', title: 'Game 7' },
-    { id: 8, url: 'https://picsum.photos/400/300?random=8', title: 'Game 8' },
-    { id: 9, url: 'https://picsum.photos/400/300?random=9', title: 'Game 9' },
-    {
-      id: 10,
-      url: 'https://picsum.photos/400/300?random=10',
-      title: 'Game 10',
-    },
-    {
-      id: 11,
-      url: 'https://picsum.photos/400/300?random=11',
-      title: 'Game 11',
-    },
-    {
-      id: 12,
-      url: 'https://picsum.photos/400/300?random=12',
-      title: 'Game 12',
-    },
-    {
-      id: 13,
-      url: 'https://picsum.photos/400/300?random=13',
-      title: 'Game 13',
-    },
-    {
-      id: 14,
-      url: 'https://picsum.photos/400/300?random=14',
-      title: 'Game 14',
-    },
-    {
-      id: 15,
-      url: 'https://picsum.photos/400/300?random=15',
-      title: 'Game 15',
-    },
-    {
-      id: 16,
-      url: 'https://picsum.photos/400/300?random=16',
-      title: 'Game 16',
-    },
-    {
-      id: 17,
-      url: 'https://picsum.photos/400/300?random=17',
-      title: 'Game 17',
-    },
-    {
-      id: 18,
-      url: 'https://picsum.photos/400/300?random=18',
-      title: 'Game 18',
-    },
-    {
-      id: 19,
-      url: 'https://picsum.photos/400/300?random=19',
-      title: 'Game 19',
-    },
-    {
-      id: 20,
-      url: 'https://picsum.photos/400/300?random=20',
-      title: 'Game 20',
-    },
-    {
-      id: 21,
-      url: 'https://picsum.photos/400/300?random=21',
-      title: 'Game 21',
-    },
-    {
-      id: 22,
-      url: 'https://picsum.photos/400/300?random=22',
-      title: 'Game 22',
-    },
-    {
-      id: 23,
-      url: 'https://picsum.photos/400/300?random=23',
-      title: 'Game 23',
-    },
-    {
-      id: 24,
-      url: 'https://picsum.photos/400/300?random=24',
-      title: 'Game 24',
-    },
-    {
-      id: 25,
-      url: 'https://picsum.photos/400/300?random=25',
-      title: 'Game 25',
-    },
-  ];
+  private genreTranslationMap: { [key: string]: string } = {
+    action: 'Accion',
+    adventure: 'Aventura',
+    rpg: 'RPG',
+    sports: 'Deportes',
+    strategy: 'Estrategia',
+    simulation: 'Simulacion',
+    horror: 'Terror',
+    racing: 'Carreras',
+    platform: 'Plataformas',
+    puzzle: 'Puzzles',
+    fighting: 'Lucha',
+    music: 'Musicales',
+    'action-adventure': 'Acción-Aventura',
+    shooter: 'Shooter',
+    moba: 'MOBA',
+    roguelike: 'Roguelike',
+    sandbox: 'Sandbox',
+    mmorpg: 'MMORPG',
+    'battle-royale': 'Battle Royale',
+    'survival-horror': 'Survival Horror',
+    metroidvania: 'Metroidvania',
+    rts: 'RTS',
+    tbs: 'TBS',
+    'hack-and-slash': 'Hack and Slash',
+    'beat-em-up': "Beat 'Em Up",
+    'visual-novel': 'Novela Visual',
+    ccg: 'CCG',
+    fps: 'FPS',
+    tactical: 'Táctico',
+    'sci-fi': 'Ciencia Ficción',
+    educational: 'Educativo',
+    management: 'Gestión',
+    'city-building': 'Construcción de Ciudades',
+    exploration: 'Exploración',
+    survival: 'Supervivencia',
+    'psychological-horror': 'Horror Psicológico',
+    stealth: 'Stealth',
+    cinematic: 'Cinemático',
+    narrative: 'Narrativa',
+    cooperative: 'Cooperativo',
+    arcade: 'Arcade',
+    'open-world': 'Mundo Abierto',
+    'off-road': 'Off-Road',
+    simcade: 'Simcade',
+  };
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-  ) {
-    this.genresName = this.route.snapshot.paramMap.get('nombre')!;
+    private gameService: GameService
+  ) {}
+
+  ngOnInit(): void {
+    this.genreName = this.route.snapshot.paramMap.get('nombre') || '';
+    this.loadGames();
   }
 
-  goToProduct(id: number) {
-    this.router.navigate(['/product', id]);
+  loadGames(): void {
+    this.gameService.getAll({ include: 'genres,media' }).subscribe({
+      next: (allGames) => {
+        const genreKey = this.genreName.startsWith('genres.')
+          ? this.genreName.substring(7)
+          : this.genreName;
+        const genreNameInSpanish =
+          this.genreTranslationMap[genreKey.toLowerCase()];
+        this.games = allGames.filter((game) =>
+          game?.genres?.some((g) => g.name === genreNameInSpanish)
+        ) as Game[];
+      },
+      error: (err) => {
+        console.error('Error cargando juegos:', err);
+      },
+    });
+  }
+
+  getCoverUrl(game: Game): string {
+    const coverImage = game.media?.find((m) =>
+      m.altText?.toLowerCase().includes('cover')
+    );
+    return coverImage?.url || 'assets/images/placeholder.png';
+  }
+
+  goToProduct(id: number): void {
+    this.router.navigate(['/product', id.toString()]);
   }
 }
