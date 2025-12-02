@@ -40,7 +40,7 @@
             <iframe
               *ngIf="mediaItems[currentMediaIndex]?.type === 'video'"
               [src]="mediaItems[currentMediaIndex].url"
-              class="w-full h-full"
+              class="w-full h-full transition-opacity duration-300"
               frameborder="0"
               scrolling="no"
               allow="
@@ -58,12 +58,17 @@
               *ngIf="mediaItems[currentMediaIndex]?.type === 'image'"
               [src]="mediaItems[currentMediaIndex].url"
               [alt]="mediaItems[currentMediaIndex].label"
-              class="w-full h-full object-contain"
+              class="w-full h-full object-contain transition-opacity duration-300"
             />
 
             <button
               (click)="previousMedia()"
-              class="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all hover:scale-110 cursor-pointer duration-150 active:scale-95"
+              [disabled]="currentMediaIndex === 0"
+              [class.text-gray-500]="currentMediaIndex === 0"
+              [class.cursor-not-allowed]="currentMediaIndex === 0"
+              [class.hover:scale-110]="currentMediaIndex !== 0"
+              [class.active:scale-95]="currentMediaIndex !== 0"
+              class="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all cursor-pointer duration-150"
               [title]="'tooltips.previousMedia' | translate"
             >
               <svg
@@ -81,9 +86,23 @@
                 />
               </svg>
             </button>
+
             <button
               (click)="nextMedia()"
-              class="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all hover:scale-110 cursor-pointer duration-150 active:scale-95"
+              [disabled]="currentMediaIndex === mediaItems.length - 1"
+              [class.text-gray-500]="
+                currentMediaIndex === mediaItems.length - 1
+              "
+              [class.cursor-not-allowed]="
+                currentMediaIndex === mediaItems.length - 1
+              "
+              [class.hover:scale-110]="
+                currentMediaIndex !== mediaItems.length - 1
+              "
+              [class.active:scale-95]="
+                currentMediaIndex !== mediaItems.length - 1
+              "
+              class="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all cursor-pointer duration-150"
               [title]="'tooltips.nextMedia' | translate"
             >
               <svg
@@ -240,12 +259,12 @@
               {{ "product.buy" | translate }}
             </button>
             <button
-              class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all border flex items-center justify-center gap-2 duration-150 active:scale-95"
+              class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95"
             >
               {{ "product.addToFavorites" | translate }}
             </button>
             <button
-              class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all border flex items-center justify-center gap-2 duration-150 active:scale-95"
+              class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95"
             >
               {{ "product.addToCart" | translate }}
             </button>
