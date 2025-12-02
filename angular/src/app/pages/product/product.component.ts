@@ -82,6 +82,15 @@ export class ProductComponent implements OnInit {
           game.media = allMedia.filter((m) => m.gameId === game.id);
           this.game = game;
           this.buildMediaItems();
+
+          // 1. Lógica para seleccionar plataforma por defecto
+          const availablePlatforms = this.allPlatforms.filter((platform) =>
+            this.isPlatformAvailable(platform.name)
+          );
+
+          if (availablePlatforms.length === 1) {
+            this.selectedPlatform = availablePlatforms[0].name;
+          }
         });
       }
     });
@@ -110,10 +119,11 @@ export class ProductComponent implements OnInit {
     }
   }
 
+  // 2. Modificación de la URL para ocultar los controles del reproductor
   convertToEmbedUrl(url: string): string {
     const videoIdMatch = url.match(/[?&]v=([^&]+)/);
     if (videoIdMatch && videoIdMatch[1]) {
-      return `https://www.youtube.com/embed/${videoIdMatch[1]}?autoplay=1&mute=1`;
+      return `https://www.youtube.com/embed/${videoIdMatch[1]}?autoplay=1&mute=1&controls=0&disablekb=1`;
     }
     return url;
   }
