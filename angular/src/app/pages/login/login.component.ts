@@ -6,16 +6,19 @@ import {
   Validators,
   FormGroup,
 } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AUTH_SERVICE } from '../../core/services/auth.token';
+import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../core/services/language.service';
+import { BaseAuthenticationService } from '../../core/services/impl/base-authentication.service';
+import { SignInPayload } from '../../core/models/user.model';
+import { HeaderComponent } from '../../shared/components/header/header.component';
+import { FooterComponent } from '../../shared/components/footer/footer.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, TranslatePipe],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, TranslatePipe],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
@@ -26,15 +29,14 @@ export class LoginComponent {
   registrationSuccess = false;
   submitted = false;
   navigateTo: string = '';
-  private router = inject(Router);
-  private auth = inject(AUTH_SERVICE);
-  private languageService = inject(LanguageService);
 
-  constructor(
-    private formSvc: FormBuilder,
-    private http: HttpClient,
-  ) {
-    this.formLogin = this.formSvc.group({
+  private router = inject(Router);
+  private auth = inject(BaseAuthenticationService);
+  private languageService = inject(LanguageService);
+  private fb = inject(FormBuilder);
+
+  constructor(private http: HttpClient) {
+    this.formLogin = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
       rememberMe: [false],
@@ -50,17 +52,19 @@ export class LoginComponent {
 
   ngOnInit(): void {}
 
-  async onSubmit() {
+  onSubmit() {
     this.submitted = true;
     this.loginError = '';
     if (this.formLogin.valid) {
       const { email, password, rememberMe } = this.formLogin.value;
-      const success = await this.auth.login({ email, password }, rememberMe);
-      if (success) {
-        this.router.navigate([this.navigateTo]);
-      } else {
-        this.loginError = 'Usuario no registrado o credenciales incorrectas';
-      }
+      this.auth.signIn({ email, password }, rememberMe).subscribe({
+        next: () => {
+          this.router.navigate([this.navigateTo]);
+        },
+        error: () => {
+          this.loginError = 'Usuario no registrado o credenciales incorrectas';
+        },
+      });
     } else {
       this.formLogin.markAllAsTouched();
     }
@@ -81,7 +85,7 @@ export class LoginComponent {
         if (
           this.formLogin.controls['email'].errors != null &&
           Object.keys(this.formLogin.controls['email'].errors).includes(
-            'required',
+            'required'
           )
         )
           return 'errors.emailRequired';
@@ -95,7 +99,7 @@ export class LoginComponent {
         if (
           this.formLogin.controls['password'].errors != null &&
           Object.keys(this.formLogin.controls['password'].errors).includes(
-            'required',
+            'required'
           )
         )
           return 'errors.passwordRequired';

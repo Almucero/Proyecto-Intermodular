@@ -29,7 +29,8 @@ app.use(express.json({ limit: "10mb" }));
 app.use(requestLogger);
 app.use(responseSerializer);
 
-if (env.NODE_ENV !== "test") {
+// Apply general rate limiter only in production to avoid blocking local development
+if (env.NODE_ENV === "production") {
   app.use(generalLimiter);
 }
 

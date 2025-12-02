@@ -2,7 +2,12 @@ import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { routes } from './app.routes';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from '@angular/common/http';
+import { authInterceptorFn } from './core/interceptors/auth.interceptor';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { provideTranslateService } from '@ngx-translate/core';
 import { environment } from '../environments/environments';
@@ -44,7 +49,6 @@ import {
   GenreRepositoryFactory,
   MediaMappingFactory,
   MediaRepositoryFactory,
-  MediaServiceFactory,
   PlatformMappingFactory,
   PlatformRepositoryFactory,
   PublisherMappingFactory,
@@ -62,17 +66,11 @@ import { PlatformService } from './core/services/impl/platform.service';
 import { PublisherService } from './core/services/impl/publisher.service';
 import { UserService } from './core/services/impl/user.service';
 
-// Para que funcione ahora mismo (quitar en futuro)
-import { AUTH_SERVICE } from './core/services/auth.token';
-import { LocalStorageAuthService } from './core/services/impl/local-storage-auth.service';
-import { AUTH_TOKEN } from './core/repositories/repository.tokens';
-import { BaseAuthenticationService } from './core/services/impl/base-authentication.service';
-
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptorFn])),
     provideAnimations(),
     provideTranslateService({
       loader: provideTranslateHttpLoader({
@@ -82,9 +80,6 @@ export const appConfig: ApplicationConfig = {
       fallbackLang: 'es',
       lang: 'es',
     }),
-
-    // Para que funcione ahora mismo (quitar en futuro)
-    { provide: AUTH_SERVICE, useClass: LocalStorageAuthService },
 
     // Repository Configuration
     { provide: BACKEND_TOKEN, useValue: 'http' },
@@ -176,7 +171,5 @@ export const appConfig: ApplicationConfig = {
     { provide: UserService, useClass: UserService },
 
     AuthenticationServiceFactory,
-    { provide: AUTH_TOKEN, useExisting: BaseAuthenticationService },
-    MediaServiceFactory,
   ],
 };

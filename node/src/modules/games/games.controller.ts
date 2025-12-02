@@ -19,6 +19,8 @@ export async function listGamesCtrl(req: Request, res: Response) {
     if (req.query.isOnSale !== undefined)
       filters.isOnSale =
         req.query.isOnSale === "true" || req.query.isOnSale === "1";
+    if (req.query.include) filters.include = String(req.query.include);
+
     const games = await listGames(filters);
     res.json(games);
   } catch (error: any) {

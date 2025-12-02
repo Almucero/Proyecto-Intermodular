@@ -1,0 +1,48 @@
+<div
+  class="w-56 group cursor-pointer transition-all duration-150 active:scale-95"
+  (click)="onClick()"
+>
+  <div
+    class="h-32 bg-gray-700 rounded-xl overflow-hidden shadow-md group-hover:scale-105 transition-transform duration-300 relative"
+    (mouseenter)="onGameMouseEnter()"
+    (mouseleave)="onGameMouseLeave()"
+  >
+    <img
+      *ngIf="game.isOnSale"
+      src="assets/images/sale.png"
+      class="absolute top-0 left-0 w-16 h-16 z-30 pointer-events-none"
+    />
+    <img
+      [src]="coverUrl"
+      [alt]="game.title"
+      class="w-full h-full object-cover pointer-events-none absolute inset-0 z-10"
+    />
+
+    <video
+      *ngIf="hoveredGameId === game.id && game.videoUrl && safeVideoUrl"
+      [src]="safeVideoUrl"
+      class="w-full h-full object-cover pointer-events-none absolute inset-0 z-20 bg-black"
+      autoplay
+      muted
+      loop
+      playsinline
+    ></video>
+  </div>
+
+  <div
+    class="mt-2 flex justify-between items-center text-sm font-medium text-gray-300 group-hover:text-white transition-colors overflow-hidden"
+  >
+    <div class="flex-1 min-w-0 mr-2 title-container">
+      <span
+        #gameTitle
+        class="block truncate text-left whitespace-nowrap"
+        [title]="game.title"
+      >
+        {{ game.title }}
+      </span>
+    </div>
+    <span class="whitespace-nowrap flex-shrink-0">
+      {{ (game.isOnSale ? game.salePrice : game.price) | currency : "EUR" }}
+    </span>
+  </div>
+</div>

@@ -1,11 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { env } from "../../config/env.js";
-import {
-  createUser,
-  findUserByEmail,
-  findUserById,
-} from "../users/users.service.js";
+import { createUser, findUserByEmail } from "../users/users.service.js";
 
 export async function register(email: string, name: string, password: string) {
   const existing = await findUserByEmail(email);
@@ -15,13 +11,11 @@ export async function register(email: string, name: string, password: string) {
 
   const hash = await bcrypt.hash(password, env.BCRYPT_SALT_ROUNDS);
   const user = await createUser(email, name, hash);
-  // reload full user including media and relations
-  const fullUser = await findUserById((user as any).id);
   const token = jwt.sign(
     {
-      sub: (fullUser as any).id,
-      email: (fullUser as any).email,
-      isAdmin: (fullUser as any).isAdmin ?? false,
+      sub: user.id,
+      email: user.email,
+      isAdmin: (user as any).isAdmin ?? false,
     },
     env.JWT_SECRET,
     {
@@ -29,7 +23,7 @@ export async function register(email: string, name: string, password: string) {
     }
   );
 
-  return { user: fullUser, token };
+  return { user, token };
 }
 
 export async function login(email: string, password: string) {
@@ -42,14 +36,12 @@ export async function login(email: string, password: string) {
   if (!ok) {
     throw new Error("Credenciales inválidas");
   }
-  // Load full user with relations (media) to include in response
-  const fullUser = await findUserById((user as any).id);
 
   const token = jwt.sign(
     {
-      sub: (fullUser as any).id,
-      email: (fullUser as any).email,
-      isAdmin: (fullUser as any).isAdmin ?? false,
+      sub: user.id,
+      email: user.email,
+      isAdmin: (user as any).isAdmin ?? false,
     },
     env.JWT_SECRET,
     {
@@ -58,7 +50,24 @@ export async function login(email: string, password: string) {
   );
 
   return {
-    user: fullUser,
+    user: {
+      id: user.id,
+      accountId: (user as any).accountId,
+      accountAt: (user as any).accountAt,
+      nickname: (user as any).nickname,
+      email: user.email,
+      name: user.name,
+      surname: (user as any).surname,
+      balance: (user as any).balance,
+      points: (user as any).points,
+      isAdmin: (user as any).isAdmin ?? false,
+      addressLine1: (user as any).addressLine1,
+      addressLine2: (user as any).addressLine2,
+      city: (user as any).city,
+      region: (user as any).region,
+      postalCode: (user as any).postalCode,
+      country: (user as any).country,
+    },
     token,
   };
 }

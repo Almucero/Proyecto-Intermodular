@@ -14,10 +14,11 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { GameService } from '../../core/services/impl/game.service';
 import { MediaService } from '../../core/services/impl/media.service';
 import { Game } from '../../core/models/game.model';
+import { GameCardComponent } from '../../shared/components/game-card/game-card.component';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, RouterModule, TranslatePipe],
+  imports: [CommonModule, RouterModule, TranslatePipe, GameCardComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
@@ -33,9 +34,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
     'genres.racing',
   ];
 
-  bestSellers: Game[] = [];
-  onSaleGames: Game[] = [];
-  topRatedGames: Game[] = [];
+  bestSellers: Game[] = this.createPlaceholders();
+  onSaleGames: Game[] = this.createPlaceholders();
+  topRatedGames: Game[] = this.createPlaceholders();
 
   safeVideoUrls: Map<number, SafeUrl> = new Map();
   hoveredGameId: number | null = null;
@@ -191,5 +192,21 @@ export class HomeComponent implements OnInit, AfterViewInit {
     if (Math.abs(walk) > 5) {
       this.isDragging = true;
     }
+  }
+
+  createPlaceholders(): Game[] {
+    return Array(10).fill({
+      id: -1,
+      title: 'Loading...',
+      price: 0,
+      description: '',
+      releaseDate: new Date(),
+      rating: 0,
+      numberOfSales: 0,
+      isOnSale: false,
+      isRefundable: false,
+      stock: 0,
+      media: [],
+    } as unknown as Game);
   }
 }

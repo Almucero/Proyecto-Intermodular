@@ -40,6 +40,27 @@ describe("Games Endpoints", () => {
     expect(Array.isArray(res.body)).toBe(true);
   });
 
+  it("debe listar games sin relaciones por defecto", async () => {
+    const res = await request(app).get("/api/games");
+    expect(res.status).toBe(200);
+    if (res.body.length > 0) {
+      const game = res.body[0];
+      expect(game.id).toBeDefined();
+      expect(game.title).toBeDefined();
+      expect(game.genres).toBeUndefined();
+    }
+  });
+
+  it("debe listar games con relaciones cuando se incluyen", async () => {
+    const res = await request(app).get("/api/games?include=genres,media");
+    expect(res.status).toBe(200);
+    if (res.body.length > 0) {
+      const game = res.body[0];
+      expect(game.id).toBeDefined();
+      expect(game.title).toBeDefined();
+    }
+  });
+
   it("debe responder 400 o 404 para id inválido o inexistente", async () => {
     const res = await request(app).get("/api/games/invalid");
 

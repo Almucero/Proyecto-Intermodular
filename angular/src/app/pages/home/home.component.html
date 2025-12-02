@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-gray-900 text-white font-sans pb-20">
+<div class="min-h-screen bg-gray-900 text-white font-sans pb-8">
   <div class="flex-1 flex flex-col justify-between pb-4 overflow-hidden">
     <section class="mt-4 flex-none w-full">
       <h2 class="text-2xl font-bold text-cyan-300 mb-2 text-center">
@@ -20,13 +20,13 @@
     </section>
 
     <div class="flex-col justify-evenly min-h-3">
-      <section class="relative flex flex-col justify-center min-h-0">
-        <h2 class="px-8 text-xl font-semibold text-cyan-300 mb-4">
+      <section class="relative flex flex-col justify-center mt-0">
+        <h2 class="text-xl font-semibold text-cyan-300 mb-1 text-center">
           {{ "home.bestSellers" | translate }}
         </h2>
         <div class="relative w-full px-10">
           <div
-            class="absolute inset-y-0 left-0 w-48 bg-gradient-to-r from-gray-900 from-20% to-transparent z-10 pointer-events-none transition-opacity duration-300"
+            class="absolute inset-y-0 left-0 w-48 bg-gradient-to-r from-gray-900 from-20% to-transparent z-40 pointer-events-none transition-opacity duration-300"
             [class.opacity-0]="!arrowState['masVendidos'].left"
             [class.opacity-100]="arrowState['masVendidos'].left"
           ></div>
@@ -46,54 +46,13 @@
             (mouseup)="onMouseUp(carouselInMasVendidos)"
             (mousemove)="onMouseMove($event, carouselInMasVendidos)"
           >
-            <div
+            <app-game-card
               *ngFor="let item of bestSellers"
-              class="flex-shrink-0 w-56 group cursor-pointer transition-all duration-150 active:scale-95"
-              (click)="goToProduct(item.id)"
-            >
-              <div
-                class="h-32 bg-gray-700 rounded-xl overflow-hidden shadow-md group-hover:scale-105 transition-transform duration-300 relative"
-                (mouseenter)="onGameMouseEnter(item.id)"
-                (mouseleave)="onGameMouseLeave()"
-              >
-                <img
-                  *ngIf="item.isOnSale"
-                  src="assets/images/sale.png"
-                  class="absolute top-0 left-0 w-16 h-16 z-30 pointer-events-none"
-                />
-                <img
-                  [src]="getCoverUrl(item)"
-                  class="w-full h-full object-cover pointer-events-none absolute inset-0 z-10"
-                />
-
-                <video
-                  *ngIf="hoveredGameId === item.id && item.videoUrl"
-                  [src]="getSafeVideo(item.id)"
-                  class="w-full h-full object-cover pointer-events-none absolute inset-0 z-20 bg-black"
-                  autoplay
-                  muted
-                  loop
-                  playsinline
-                ></video>
-              </div>
-
-              <div
-                class="mt-2 flex items-center justify-between text-sm font-medium text-gray-300 group-hover:text-white transition-colors"
-              >
-                <div
-                  class="flex-1 min-w-0 pr-2 title-container"
-                  [title]="item.title"
-                >
-                  <span #gameTitle class="animate-scroll">{{
-                    item.title
-                  }}</span>
-                </div>
-                <span class="flex-shrink-0 whitespace-nowrap">{{
-                  (item.isOnSale ? item.salePrice : item.price)
-                    | currency: "EUR"
-                }}</span>
-              </div>
-            </div>
+              [game]="item"
+              [coverUrl]="getCoverUrl(item)"
+              (cardClick)="goToProduct($event)"
+              class="flex-shrink-0"
+            ></app-game-card>
           </div>
 
           <span
@@ -103,20 +62,20 @@
             >&#8250;</span
           >
           <div
-            class="absolute inset-y-0 right-0 w-48 bg-gradient-to-l from-gray-900 from-20% to-transparent z-10 pointer-events-none transition-opacity duration-300"
+            class="absolute inset-y-0 right-0 w-48 bg-gradient-to-l from-gray-900 from-20% to-transparent z-40 pointer-events-none transition-opacity duration-300"
             [class.opacity-0]="!arrowState['masVendidos'].right"
             [class.opacity-100]="arrowState['masVendidos'].right"
           ></div>
         </div>
       </section>
 
-      <section class="relative flex flex-col justify-center min-h-0">
-        <h2 class="px-8 text-xl font-semibold text-cyan-300 mb-4">
+      <section class="relative flex flex-col justify-center mt-6">
+        <h2 class="text-xl font-semibold text-cyan-300 mb-1 text-center">
           {{ "home.offers" | translate }}
         </h2>
         <div class="relative w-full px-10">
           <div
-            class="absolute inset-y-0 left-0 w-48 bg-gradient-to-r from-gray-900 from-20% to-transparent z-10 pointer-events-none transition-opacity duration-300"
+            class="absolute inset-y-0 left-0 w-48 bg-gradient-to-r from-gray-900 from-20% to-transparent z-40 pointer-events-none transition-opacity duration-300"
             [class.opacity-0]="!arrowState['ofertas'].left"
             [class.opacity-100]="arrowState['ofertas'].left"
           ></div>
@@ -178,7 +137,7 @@
                 </div>
                 <span class="flex-shrink-0 whitespace-nowrap">{{
                   (item.isOnSale ? item.salePrice : item.price)
-                    | currency: "EUR"
+                    | currency : "EUR"
                 }}</span>
               </div>
             </div>
@@ -190,20 +149,20 @@
             >&#8250;</span
           >
           <div
-            class="absolute inset-y-0 right-0 w-48 bg-gradient-to-l from-gray-900 from-20% to-transparent z-10 pointer-events-none transition-opacity duration-300"
+            class="absolute inset-y-0 right-0 w-48 bg-gradient-to-l from-gray-900 from-20% to-transparent z-40 pointer-events-none transition-opacity duration-300"
             [class.opacity-0]="!arrowState['ofertas'].right"
             [class.opacity-100]="arrowState['ofertas'].right"
           ></div>
         </div>
       </section>
 
-      <section class="relative flex flex-col justify-center min-h-0">
-        <h2 class="px-8 text-xl font-semibold text-cyan-300 mb-4">
+      <section class="relative flex flex-col justify-center mt-6">
+        <h2 class="text-xl font-semibold text-cyan-300 mb-1 text-center">
           {{ "home.topRated" | translate }}
         </h2>
         <div class="relative w-full px-10">
           <div
-            class="absolute inset-y-0 left-0 w-48 bg-gradient-to-r from-gray-900 from-20% to-transparent z-10 pointer-events-none transition-opacity duration-300"
+            class="absolute inset-y-0 left-0 w-48 bg-gradient-to-r from-gray-900 from-20% to-transparent z-40 pointer-events-none transition-opacity duration-300"
             [class.opacity-0]="!arrowState['mejorValorados'].left"
             [class.opacity-100]="arrowState['mejorValorados'].left"
           ></div>
@@ -267,7 +226,7 @@
                 </div>
                 <span class="flex-shrink-0 whitespace-nowrap">{{
                   (item.isOnSale ? item.salePrice : item.price)
-                    | currency: "EUR"
+                    | currency : "EUR"
                 }}</span>
               </div>
             </div>
@@ -279,7 +238,7 @@
             >&#8250;</span
           >
           <div
-            class="absolute inset-y-0 right-0 w-48 bg-gradient-to-l from-gray-900 from-20% to-transparent z-10 pointer-events-none transition-opacity duration-300"
+            class="absolute inset-y-0 right-0 w-48 bg-gradient-to-l from-gray-900 from-20% to-transparent z-40 pointer-events-none transition-opacity duration-300"
             [class.opacity-0]="!arrowState['mejorValorados'].right"
             [class.opacity-100]="arrowState['mejorValorados'].right"
           ></div>
