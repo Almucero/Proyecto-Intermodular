@@ -135,6 +135,7 @@ export class ProductComponent implements OnInit {
     }
   }
 
+<<<<<<< Updated upstream
   getVideoId(url: string): string | null {
     const videoIdMatch = url.match(/[?&]v=([^&]+)/);
     return videoIdMatch ? videoIdMatch[1] : null;
@@ -144,6 +145,16 @@ export class ProductComponent implements OnInit {
     const videoId = this.getVideoId(url);
     if (videoId) {
       return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3`;
+=======
+  // 2. Modificación de la URL para ocultar los controles del reproductor
+  convertToEmbedUrl(url: string): string {
+    // Convert YouTube watch URL to embed URL
+    // Añadir: &controls=0&disablekb=1
+    // Esto oculta la mayoría de los controles (reproducción, volumen, fullscreen)
+    const videoIdMatch = url.match(/[?&]v=([^&]+)/);
+    if (videoIdMatch && videoIdMatch[1]) {
+      return `https://www.youtube.com/embed/${videoIdMatch[1]}?autoplay=1&mute=1&controls=0&disablekb=1`;
+>>>>>>> Stashed changes
     }
     return url;
   }
