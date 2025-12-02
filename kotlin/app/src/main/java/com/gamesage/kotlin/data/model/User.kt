@@ -21,5 +21,6 @@ data class User(
     val city: String?,
     val region: String?,
     val postalCode: String?,
-    val country: String?
+    val country: String?,
+    val media: List<Media>?
 )

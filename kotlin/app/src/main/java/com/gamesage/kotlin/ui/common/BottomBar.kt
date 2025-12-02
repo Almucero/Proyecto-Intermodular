@@ -40,7 +40,6 @@ fun HomeBottomBar(
                 .size(32.dp)
                 .clickable { onAiChatClick() }
         )
-
         Icon(
             painter = painterResource(id = R.drawable.cart),
             contentDescription = "Cesta",
@@ -49,7 +48,6 @@ fun HomeBottomBar(
                 .size(32.dp)
                 .clickable { onCartClick() }
         )
-
         Icon(
             painter = painterResource(id = R.drawable.favourites),
             contentDescription = "Favoritos",
@@ -58,7 +56,6 @@ fun HomeBottomBar(
                 .size(32.dp)
                 .clickable { onFavoritesClick() }
         )
-
         Icon(
             painter = painterResource(id = R.drawable.user),
             contentDescription = "Perfil",

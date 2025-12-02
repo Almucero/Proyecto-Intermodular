@@ -7,5 +7,5 @@ data class Genre(
     val name: String,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime,
-    val games: List<Game> = emptyList() //Cuidado
+    val games: List<Game>?
 )

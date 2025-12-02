@@ -1,6 +1,6 @@
 package com.gamesage.kotlin.di
 
-import com.gamesage.kotlin.data.remote.GameSageApi
+import com.gamesage.kotlin.data.remote.api.GameSageApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

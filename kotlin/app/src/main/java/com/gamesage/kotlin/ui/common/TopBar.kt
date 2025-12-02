@@ -34,7 +34,6 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
@@ -44,7 +43,7 @@ fun MainScreen() {
             CenterAlignedTopAppBar(
                 title = { TopBar() },
                 scrollBehavior = scrollBehavior,
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color(0xFF030712)
                 )
             )
@@ -82,7 +81,6 @@ fun TopBar(
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Icono de menú
         Icon(
             imageVector = Icons.Default.Menu,
             contentDescription = "Menu",
@@ -91,27 +89,20 @@ fun TopBar(
                 .size(32.dp)
                 .clickable { onMenuClick() }
         )
-
         Spacer(modifier = Modifier.width(8.dp))
-
-        // Logo
         Image(
             painter = painterResource(id = R.drawable.game_sage_logo),
             contentDescription = "Logo GameSage",
             modifier = Modifier.size(45.dp)
         )
-
         Spacer(modifier = Modifier.width(8.dp))
-
         Text(
             text = "GameSage",
             color = Color(0xFF93E3FE),
             fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
             fontSize = 16.sp
         )
-
         Spacer(modifier = Modifier.weight(1f))
-
         Box(
             modifier = Modifier
                 .height(40.dp)

@@ -11,15 +11,17 @@ data class Game(
     val salePrice: Double?,
     val isRefundable: Boolean,
     val numberOfSales: Int,
+    val stock: Int?,
+    val videoUrl: String?,
     val rating: Float?,
     val releaseDate: LocalDateTime?,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime,
-    val genres: List<Genre> = emptyList(), //Cuidado
-    val platforms: List<Platform> = emptyList(), //Cuidado
-    val images: List<GameImage> = emptyList(), //Cuidado
+    val genres: List<Genre>?,
+    val platforms: List<Platform>?,
+    val media: List<Media>?,
     val publisherId: Int?,
     val developerId: Int?,
-    val publisher: Publisher?,
-    val developer: Developer?
+    val Publisher: Publisher?,
+    val Developer: Developer?
 )
