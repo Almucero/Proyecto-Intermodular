@@ -59,4 +59,5 @@ npm run dev          # en dev ahora se sincronizan los admins desde ADMIN_EMAILS
 ### TODO
 
 - Borrar carpetas en cloudinary funciona cuando le da la gana
+- añadir mas juegos (80/200)
 - Posibles adiciones: games: tags para juegos, pegi, reseñas, especificaciones pc. user: favoritos, cesta

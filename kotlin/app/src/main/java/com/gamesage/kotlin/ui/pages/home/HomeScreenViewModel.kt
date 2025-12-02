@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gamesage.kotlin.data.model.Game
-import com.gamesage.kotlin.data.model.GameImage
+import com.gamesage.kotlin.data.model.Media
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.delay
@@ -27,7 +27,7 @@ class HomeScreenViewModel @Inject constructor(
     }
 
     private fun fakeGame(id: Int): Game {
-        val fakeImage = GameImage(
+        val fakeImage = Media(
             id = id,
             url = "https://via.placeholder.com/600x400",
             altText = "Juego $id",

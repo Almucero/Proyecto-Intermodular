@@ -20,14 +20,12 @@ fun NavGraph() {
     val navController: NavHostController = rememberNavController()
     val startDestination = Destinations.Home.route
     val backStackEntry by navController.currentBackStackEntryAsState()
-
     Scaffold(
         modifier = Modifier.fillMaxSize(),
     ) { innerPadding ->
         val contentModifier = Modifier
             .consumeWindowInsets(innerPadding)
             .padding(innerPadding)
-
         NavHost(
             navController = navController,
             startDestination = startDestination
