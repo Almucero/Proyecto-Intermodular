@@ -63,6 +63,13 @@ const router = Router();
  *           type: boolean
  *         required: false
  *         description: Filtrar por si el juego está en oferta
+ *       - in: query
+ *         name: include
+ *         schema:
+ *           type: string
+ *           enum: [genres, platforms, media, developer, publisher]
+ *         required: false
+ *         description: Relaciones a incluir en la respuesta (comma-separated). Ej. genres,platforms,media
  *     responses:
  *       200:
  *         description: Lista de juegos
@@ -73,7 +80,8 @@ const router = Router();
  *               items:
  *                 $ref: '#/components/schemas/Game'
  *             examples:
- *               ejemplo:
+ *               sin_relaciones:
+ *                 summary: Sin relaciones (por defecto)
  *                 value:
  *                   - id: 1
  *                     title: "The Witcher 3"
@@ -87,6 +95,31 @@ const router = Router();
  *                     videoUrl: "https://www.youtube.com/watch?v=example"
  *                     rating: 4.8
  *                     releaseDate: "2015-05-19"
+ *               con_generos_y_media:
+ *                 summary: Con include=genres,media
+ *                 value:
+ *                   - id: 1
+ *                     title: "The Witcher 3"
+ *                     description: "RPG de mundo abierto épico"
+ *                     price: 39.99
+ *                     salePrice: null
+ *                     isOnSale: false
+ *                     isRefundable: true
+ *                     numberOfSales: 15000
+ *                     stock: 50
+ *                     videoUrl: "https://www.youtube.com/watch?v=example"
+ *                     rating: 4.8
+ *                     releaseDate: "2015-05-19"
+ *                     genres:
+ *                       - id: 3
+ *                         name: "RPG"
+ *                       - id: 14
+ *                         name: "Acción-Aventura"
+ *                     media:
+ *                       - id: 101
+ *                         url: "https://cdn.example.com/game1/cover.jpg"
+ *                         altText: "Cover art"
+ *                         gameId: 1
  *       500:
  *         description: Error interno del servidor
  *         content:

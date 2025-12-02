@@ -95,9 +95,9 @@
     >
       <a [routerLink]="user() ? '/dashboard' : '/login'">
         <img
-          [src]="user()?.profileImage || 'assets/icons/user.png'"
-          alt="user profile"
-          class="w-9 h-9 rounded-full object-cover transition-transform duration-150 active:scale-95"
+          [src]="user()?.media?.[0]?.url || 'assets/icons/user.png'"
+          [alt]="user()?.nickname || 'User'"
+          class="w-10 h-10 rounded-full object-cover transition-transform duration-150 active:scale-95"
         />
       </a>
     </button>

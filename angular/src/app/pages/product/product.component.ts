@@ -13,6 +13,7 @@ interface MediaItem {
   type: 'video' | 'image';
   label: string;
   url?: string | SafeResourceUrl;
+  thumbnail?: string;
 }
 
 @Component({
@@ -38,6 +39,15 @@ export class ProductComponent implements OnInit {
     { name: 'PS4', image: 'assets/images/platforms/ps4.png' },
     { name: 'Xbox One', image: 'assets/images/platforms/xbox-one.png' },
   ];
+
+  get sortedPlatforms() {
+    return [...this.allPlatforms].sort((a, b) => {
+      const aAvailable = this.isPlatformAvailable(a.name);
+      const bAvailable = this.isPlatformAvailable(b.name);
+      if (aAvailable === bAvailable) return 0;
+      return aAvailable ? -1 : 1;
+    });
+  }
 
   get coverImage(): string | undefined {
     return this.game?.media?.find((m) =>
@@ -82,6 +92,15 @@ export class ProductComponent implements OnInit {
           game.media = allMedia.filter((m) => m.gameId === game.id);
           this.game = game;
           this.buildMediaItems();
+
+          // 1. Lógica para seleccionar plataforma por defecto
+          const availablePlatforms = this.allPlatforms.filter((platform) =>
+            this.isPlatformAvailable(platform.name)
+          );
+
+          if (availablePlatforms.length === 1) {
+            this.selectedPlatform = availablePlatforms[0].name;
+          }
         });
       }
     });
@@ -93,11 +112,17 @@ export class ProductComponent implements OnInit {
     this.mediaItems = [];
 
     if (this.game.videoUrl) {
+      const videoId = this.getVideoId(this.game.videoUrl);
       const embedUrl = this.convertToEmbedUrl(this.game.videoUrl);
+      const thumbnailUrl = videoId
+        ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
+        : undefined;
+
       this.mediaItems.push({
         type: 'video',
         label: 'Video',
         url: this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl),
+        thumbnail: thumbnailUrl,
       });
     }
 
@@ -110,10 +135,15 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  convertToEmbedUrl(url: string): string {
+  getVideoId(url: string): string | null {
     const videoIdMatch = url.match(/[?&]v=([^&]+)/);
-    if (videoIdMatch && videoIdMatch[1]) {
-      return `https://www.youtube.com/embed/${videoIdMatch[1]}?autoplay=1&mute=1`;
+    return videoIdMatch ? videoIdMatch[1] : null;
+  }
+
+  convertToEmbedUrl(url: string): string {
+    const videoId = this.getVideoId(url);
+    if (videoId) {
+      return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3`;
     }
     return url;
   }

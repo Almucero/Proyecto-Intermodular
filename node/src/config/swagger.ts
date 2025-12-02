@@ -266,6 +266,8 @@ const options: swaggerJsdoc.Options = {
         },
         Game: {
           type: "object",
+          description:
+            "Objeto Juego. Nota: genres, platforms, media, developer y publisher son opcionales y solo aparecen si se solicitan con el parámetro ?include=...",
           properties: {
             id: { type: "integer", description: "ID del juego" },
             title: { type: "string", description: "Título del juego" },
@@ -308,8 +310,19 @@ const options: swaggerJsdoc.Options = {
               format: "date",
               description: "Fecha de lanzamiento",
             },
+            developerId: {
+              type: "integer",
+              description:
+                "ID del desarrollador (presente si include=developer)",
+            },
+            publisherId: {
+              type: "integer",
+              description: "ID del publisher (presente si include=publisher)",
+            },
             developer: {
               type: "object",
+              description:
+                "Información del desarrollador (solo presente si include=developer)",
               properties: {
                 id: { type: "integer", description: "ID del desarrollador" },
                 name: {
@@ -317,27 +330,82 @@ const options: swaggerJsdoc.Options = {
                   description: "Nombre del desarrollador",
                 },
               },
-              required: ["id", "name"],
             },
             publisher: {
               type: "object",
+              description:
+                "Información del publisher (solo presente si include=publisher)",
               properties: {
                 id: { type: "integer", description: "ID del publisher" },
                 name: { type: "string", description: "Nombre del publisher" },
               },
-              required: ["id", "name"],
             },
             genres: {
               type: "array",
+              description:
+                "Géneros del juego (solo presente si include=genres)",
               items: { $ref: "#/components/schemas/Genre" },
             },
             platforms: {
               type: "array",
+              description:
+                "Plataformas disponibles (solo presente si include=platforms)",
               items: { $ref: "#/components/schemas/Platform" },
             },
             media: {
               type: "array",
+              description:
+                "Archivos multimedia asociados (solo presente si include=media)",
               items: { $ref: "#/components/schemas/Media" },
+            },
+          },
+          required: ["id", "title"],
+        },
+        GameBasic: {
+          type: "object",
+          description:
+            "Juego sin relaciones (respuesta por defecto de GET /api/games sin ?include=...)",
+          properties: {
+            id: { type: "integer", description: "ID del juego" },
+            title: { type: "string", description: "Título del juego" },
+            description: {
+              type: "string",
+              description: "Descripción del juego",
+            },
+            price: {
+              type: "number",
+              format: "float",
+              description: "Precio del juego",
+            },
+            salePrice: {
+              type: "number",
+              format: "float",
+              description: "Precio de oferta",
+            },
+            isOnSale: {
+              type: "boolean",
+              description: "Indica si el juego está en oferta",
+            },
+            isRefundable: {
+              type: "boolean",
+              description: "Indica si el juego es reembolsable",
+            },
+            numberOfSales: { type: "integer", description: "Número de ventas" },
+            stock: { type: "integer", description: "Stock disponible" },
+            videoUrl: {
+              type: "string",
+              format: "uri",
+              description: "URL del vídeo promocional",
+            },
+            rating: {
+              type: "number",
+              format: "float",
+              description: "Calificación del juego",
+            },
+            releaseDate: {
+              type: "string",
+              format: "date",
+              description: "Fecha de lanzamiento",
             },
           },
           required: ["id", "title"],

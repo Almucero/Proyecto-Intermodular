@@ -8,10 +8,10 @@ export interface User extends Model {
   nickname?: string | null;
   name: string;
   surname?: string | null;
-  passwordHash: string;
+  passwordHash?: string; // Optional in frontend
   balance?: number | null;
-  points: number;
-  isAdmin: boolean;
+  points?: number;
+  isAdmin?: boolean;
   addressLine1?: string | null;
   addressLine2?: string | null;
   city?: string | null;
@@ -19,4 +19,17 @@ export interface User extends Model {
   postalCode?: string | null;
   country?: string | null;
   media?: Media[];
+}
+
+export interface SignInPayload {
+  email: string;
+  password: string;
+  rememberMe?: boolean;
+}
+
+export interface SignUpPayload {
+  email: string;
+  password: string;
+  name: string;
+  surname?: string;
 }

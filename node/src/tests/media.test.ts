@@ -6,9 +6,12 @@ describe("Media API", () => {
   let adminToken: string;
   let gameId: number;
   let userId: number;
+  let regularUserToken: string;
+  let regularUserId: number;
   let uploadedGameMediaId: number;
   let uploadedUserMediaId: number;
   let adminEmail: string;
+  let regularUserEmail: string;
 
   beforeAll(async () => {
     adminEmail = `admin${Date.now()}@example.com`;
@@ -44,6 +47,23 @@ describe("Media API", () => {
       },
     });
     gameId = game.id;
+
+    // Create a regular (non-admin) user for upload tests
+    regularUserEmail = `user${Date.now()}@example.com`;
+    const regularUser = {
+      email: regularUserEmail,
+      name: "Regular User",
+      password: "password123",
+    };
+    await request(app).post("/api/auth/register").send(regularUser);
+    const regularLogin = await request(app)
+      .post("/api/auth/login")
+      .send({ email: regularUser.email, password: regularUser.password });
+    regularUserToken = regularLogin.body.token;
+    const regularData = await prisma.user.findUnique({
+      where: { email: regularUserEmail },
+    });
+    regularUserId = regularData!.id;
   });
 
   afterAll(async () => {
@@ -84,6 +104,12 @@ describe("Media API", () => {
     if (adminEmail) {
       await prisma.user
         .delete({ where: { email: adminEmail } })
+        .catch(() => {});
+    }
+
+    if (regularUserEmail) {
+      await prisma.user
+        .delete({ where: { email: regularUserEmail } })
         .catch(() => {});
     }
 
@@ -135,6 +161,27 @@ describe("Media API", () => {
       expect(res.body.folder).toContain("userImages");
 
       uploadedUserMediaId = res.body.id;
+    }, 20000);
+
+    it("should allow regular authenticated user to upload user media", async () => {
+      const imageBuffer = Buffer.from(
+        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+        "base64"
+      );
+
+      const res = await request(app)
+        .post("/api/media/upload")
+        .set("Authorization", `Bearer ${regularUserToken}`)
+        .field("type", "user")
+        .field("id", regularUserId)
+        .attach("file", imageBuffer, "test-regular-user.png");
+
+      expect(res.status).toBe(201);
+      expect(res.body).toHaveProperty("id");
+      expect(res.body).toHaveProperty("url");
+      expect(res.body.userId).toBe(regularUserId);
+      expect(res.body).not.toHaveProperty("gameId");
+      expect(res.body.folder).toContain("userImages");
     }, 20000);
 
     it("should fail without file", async () => {

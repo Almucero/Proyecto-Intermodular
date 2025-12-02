@@ -61,15 +61,7 @@ export async function meCtrl(req: Request, res: Response) {
       return res.status(401).json({ message: "No autorizado" });
     }
 
-    // Prefer using findUserById to include relations (media) in the response
-    const userId = Number(req.user.sub);
-    if (isNaN(userId)) {
-      return res
-        .status(400)
-        .json({ message: "ID de usuario inválido en token" });
-    }
-
-    const user = await findUserById(userId);
+    const user = await findUserByEmail(req.user.email);
     if (!user) {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
@@ -125,17 +117,8 @@ export async function updateProfileCtrl(req: Request, res: Response) {
       return res.status(401).json({ message: "No autorizado" });
     }
 
-    const userId = Number(req.user.sub);
-    if (isNaN(userId)) {
-      return res
-        .status(400)
-        .json({ message: "ID de usuario inválido en token" });
-    }
-
-    await updateProfile(userId, req.body);
-    // Reload full user including media
-    const full = await findUserById(userId);
-    const { passwordHash, ...safe } = (full as any) || {};
+    const user = await updateProfile(req.user.sub, req.body);
+    const { passwordHash, ...safe } = (user as any) || {};
     res.json(safe);
   } catch (error: any) {
     if (error.code === "P2002") {

@@ -8,6 +8,7 @@ export async function listGames(filters?: {
   genre?: string | undefined;
   platform?: string | undefined;
   isOnSale?: boolean | undefined;
+  include?: string | undefined;
 }) {
   try {
     const where: any = {};
@@ -35,22 +36,51 @@ export async function listGames(filters?: {
         some: { name: { contains: filters.platform, mode: "insensitive" } },
       };
     }
+
+    const includeSet = new Set(
+      filters?.include
+        ? filters.include.split(",").map((s) => s.trim().toLowerCase())
+        : []
+    );
+
+    const select: any = {
+      id: true,
+      title: true,
+      description: true,
+      price: true,
+      salePrice: true,
+      isOnSale: true,
+      isRefundable: true,
+      numberOfSales: true,
+      stock: true,
+      videoUrl: true,
+      rating: true,
+      releaseDate: true,
+    };
+
+    if (includeSet.has("genres")) {
+      select.genres = { select: { id: true, name: true } };
+    }
+    if (includeSet.has("platforms")) {
+      select.platforms = { select: { id: true, name: true } };
+    }
+    if (includeSet.has("media")) {
+      select.media = {
+        select: { id: true, url: true, altText: true, gameId: true },
+      };
+    }
+    if (includeSet.has("developer")) {
+      select.Developer = { select: { id: true, name: true } };
+      select.developerId = true;
+    }
+    if (includeSet.has("publisher")) {
+      select.Publisher = { select: { id: true, name: true } };
+      select.publisherId = true;
+    }
+
     return await prisma.game.findMany({
       where,
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        price: true,
-        salePrice: true,
-        isOnSale: true,
-        isRefundable: true,
-        numberOfSales: true,
-        stock: true,
-        videoUrl: true,
-        rating: true,
-        releaseDate: true,
-      },
+      select,
       orderBy: { id: "asc" } as any,
     });
   } catch (e: any) {
@@ -107,7 +137,6 @@ export async function findGameById(id: number) {
 
 export async function createGame(data: any) {
   const payload: any = { ...data };
-  // handle relations: genres and platforms can be passed as array of names or ids
   if (data.genres) {
     payload.genres = {
       connect: data.genres.map((g: any) =>
