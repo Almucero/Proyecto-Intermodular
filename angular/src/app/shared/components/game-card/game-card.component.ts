@@ -10,11 +10,12 @@ import {
 import { CommonModule } from '@angular/common';
 import { Game } from '../../../core/models/game.model';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-game-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './game-card.component.html',
   styleUrl: './game-card.component.scss',
 })

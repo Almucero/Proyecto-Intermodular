@@ -1,4 +1,3 @@
-// Estilos para controlar el autocompletado del navegador
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -16,7 +15,6 @@ input[readonly]:-webkit-autofill:active {
   -webkit-text-fill-color: #d1d5db !important;
 }
 
-// Para modo edición (bg-gray-700)
 input.bg-gray-700:-webkit-autofill,
 input.bg-gray-700:-webkit-autofill:hover,
 input.bg-gray-700:-webkit-autofill:focus,

@@ -31,16 +31,16 @@ export class DashboardComponent {
 
   user = toSignal(this.auth.user$);
 
-  userHandle = '@the_realCrocodile';
-  userId = 'fc8cdbb6204846d2991d90b0c60d6d35';
+  userHandle = '';
+  userId = '';
 
   address = {
-    line1: 'Calle Falsa 123',
-    line2: 'Apto 4B',
-    city: 'Madrid',
-    region: 'Madrid',
-    postalCode: '28001',
-    country: 'España',
+    line1: '',
+    line2: '',
+    city: '',
+    region: '',
+    postalCode: '',
+    country: '',
   };
 
   balance = 0;
@@ -49,7 +49,13 @@ export class DashboardComponent {
   isEditing = false;
   editableUser: any = {};
 
+  selectedImageFile: File | null = null;
+  previewImageUrl: string | null = null;
+
   get profileImage(): string {
+    if (this.previewImageUrl) {
+      return this.previewImageUrl;
+    }
     const u = this.user();
     if (u && u.media && u.media.length > 0) {
       return u.media[0].url;
@@ -62,8 +68,8 @@ export class DashboardComponent {
       const u = this.user();
       if (u) {
         this.editableUser = { ...u };
-
-        // Load address from user
+        if (u.accountAt) this.userHandle = u.accountAt;
+        if (u.accountId) this.userId = u.accountId;
         if (u.addressLine1) this.address.line1 = u.addressLine1;
         if (u.addressLine2) this.address.line2 = u.addressLine2;
         if (u.city) this.address.city = u.city;
@@ -79,56 +85,99 @@ export class DashboardComponent {
     if (this.isEditing) {
       const currentUser = this.user();
       this.editableUser = { ...currentUser };
+    } else {
+      this.clearImagePreview();
     }
+  }
+
+  private clearImagePreview() {
+    if (this.previewImageUrl) {
+      URL.revokeObjectURL(this.previewImageUrl);
+    }
+    this.previewImageUrl = null;
+    this.selectedImageFile = null;
   }
 
   saveChanges() {
     const currentUser = this.user();
     if (currentUser && currentUser.id) {
-      const updatedUser: Partial<User> = {
-        name: this.editableUser.name,
-        surname: this.editableUser.surname,
-        email: this.editableUser.email,
-        nickname: this.editableUser.nickname,
-        addressLine1: this.address.line1,
-        addressLine2: this.address.line2,
-        city: this.address.city,
-        region: this.address.region,
-        postalCode: this.address.postalCode,
-        country: this.address.country,
-      };
-
-      this.userService.update('me', updatedUser as User).subscribe({
-        next: (user) => {
-          this.auth.me().subscribe();
-          this.isEditing = false;
-        },
-        error: (err) => console.error('Error updating user', err),
-      });
+      if (this.selectedImageFile) {
+        this.uploadImageThenSaveUser();
+      } else {
+        this.saveUserData();
+      }
     }
+  }
+
+  private saveUserData() {
+    const updatedUser: Partial<User> = {
+      name: this.editableUser.name,
+      surname: this.editableUser.surname,
+      email: this.editableUser.email,
+      nickname: this.editableUser.nickname,
+      addressLine1: this.address.line1,
+      addressLine2: this.address.line2,
+      city: this.address.city,
+      region: this.address.region,
+      postalCode: this.address.postalCode,
+      country: this.address.country,
+    };
+
+    this.userService.update('me', updatedUser as User).subscribe({
+      next: (user) => {
+        this.auth.me().subscribe();
+        this.isEditing = false;
+        this.clearImagePreview();
+      },
+      error: (err) => console.error('Error updating user', err),
+    });
+  }
+
+  private uploadImageThenSaveUser() {
+    const currentUser = this.user();
+
+    if (currentUser?.media && currentUser.media.length > 0) {
+      const oldMediaId = currentUser.media[0].id;
+      console.log('Deleting old profile image, ID:', oldMediaId);
+
+      this.mediaService.delete(oldMediaId.toString()).subscribe({
+        next: () => {
+          console.log('Old image deleted successfully');
+          this.uploadNewImageThenSaveUser();
+        },
+        error: (err) => {
+          console.error('Error deleting old image:', err);
+          this.uploadNewImageThenSaveUser();
+        },
+      });
+    } else {
+      console.log('No previous image, uploading new one');
+      this.uploadNewImageThenSaveUser();
+    }
+  }
+
+  private uploadNewImageThenSaveUser() {
+    if (!this.selectedImageFile) return;
+
+    this.mediaService.upload(this.selectedImageFile).subscribe({
+      next: (media) => {
+        console.log('Media uploaded successfully:', media);
+        this.saveUserData();
+      },
+      error: (err) => {
+        console.error('Error uploading file', err);
+        this.saveUserData();
+      },
+    });
   }
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const file = input.files[0];
-
-      this.mediaService.upload(file).subscribe({
-        next: (media) => {
-          console.log('✅ Media uploaded successfully:', media);
-          if (media && media.url) {
-            // Refresh user data to get the updated media array
-            this.auth.me().subscribe({
-              next: (user) => {
-                console.log('✅ User refreshed after upload:', user);
-                console.log('📸 New profile image:', user?.media?.[0]?.url);
-              },
-              error: (err) => console.error('❌ Error refreshing user:', err),
-            });
-          }
-        },
-        error: (err) => console.error('❌ Error uploading file', err),
-      });
+      this.clearImagePreview();
+      this.selectedImageFile = file;
+      this.previewImageUrl = URL.createObjectURL(file);
     }
   }
 

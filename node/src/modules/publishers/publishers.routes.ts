@@ -168,7 +168,7 @@ router.post(
   auth,
   validate(createPublisherSchema),
   adminOnly,
-  createPublisherCtrl
+  createPublisherCtrl,
 );
 
 /**
@@ -235,7 +235,7 @@ router.patch(
   auth,
   validate(updatePublisherSchema),
   adminOnly,
-  updatePublisherCtrl
+  updatePublisherCtrl,
 );
 
 /**

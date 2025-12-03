@@ -21,7 +21,15 @@ export class NodeAuthMappingService implements IAuthMapping {
       surname: payload.surname,
       email: payload.email,
       password: payload.password,
+      accountAt: `@${payload.name.replace(/\s+/g, '').toLowerCase()}`,
+      accountId: this.generateAccountId(),
     };
+  }
+
+  private generateAccountId(): string {
+    return 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'.replace(/[x]/g, () => {
+      return ((Math.random() * 16) | 0).toString(16);
+    });
   }
 
   signIn(response: any): User {
@@ -42,6 +50,8 @@ export class NodeAuthMappingService implements IAuthMapping {
       name: data.name,
       surname: data.surname,
       email: data.email,
+      accountAt: data.accountAt,
+      accountId: data.accountId,
       nickname: data.nickname,
       media: data.media,
       balance: data.balance,
@@ -55,7 +65,6 @@ export class NodeAuthMappingService implements IAuthMapping {
       country: data.country,
     };
 
-    // Add computed properties
     Object.defineProperty(user, 'profileImage', {
       get() {
         return this.media && this.media.length > 0

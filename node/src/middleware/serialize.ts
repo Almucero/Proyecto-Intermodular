@@ -4,7 +4,7 @@ import { serializePrisma } from "../utils/serialize.js";
 export function responseSerializer(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   const originalJson = res.json.bind(res);
 

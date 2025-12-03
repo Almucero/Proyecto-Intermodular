@@ -93,7 +93,6 @@ export class ProductComponent implements OnInit {
           this.game = game;
           this.buildMediaItems();
 
-          // 1. Lógica para seleccionar plataforma por defecto
           const availablePlatforms = this.allPlatforms.filter((platform) =>
             this.isPlatformAvailable(platform.name)
           );
@@ -115,7 +114,7 @@ export class ProductComponent implements OnInit {
       const videoId = this.getVideoId(this.game.videoUrl);
       const embedUrl = this.convertToEmbedUrl(this.game.videoUrl);
       const thumbnailUrl = videoId
-        ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
+        ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
         : undefined;
 
       this.mediaItems.push({

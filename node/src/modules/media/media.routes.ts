@@ -8,7 +8,6 @@ import {
   uploadMediaCtrl,
 } from "./media.controller.js";
 import { auth } from "../../middleware/auth.js";
-import { adminOnly } from "../../middleware/authorize.js";
 
 const router = Router();
 
@@ -122,7 +121,8 @@ router.get("/", listMediaCtrl);
  * @swagger
  * /api/media/upload:
  *   post:
- *     summary: Sube un archivo multimedia a Cloudinary (usuarios autenticados)
+ *     summary: Sube un archivo multimedia a Cloudinary
+ *     description: Admins pueden subir media de juegos y users. Usuarios autenticados pueden subir media para su propio perfil.
  *     tags: [Media]
  *     security:
  *       - bearerAuth: []
@@ -144,10 +144,10 @@ router.get("/", listMediaCtrl);
  *               type:
  *                 type: string
  *                 enum: [user, game]
- *                 description: Tipo de entidad (user o game)
+ *                 description: Tipo de entidad (user o game). Para game, requiere ser admin. Para user, solo puedes subir para tu propio perfil.
  *               id:
  *                 type: integer
- *                 description: ID de la entidad (usuario o juego)
+ *                 description: ID de la entidad (usuario o juego). Para user, debe ser tu ID.
  *               altText:
  *                 type: string
  *                 description: Texto alternativo (opcional)
@@ -158,8 +158,9 @@ router.get("/", listMediaCtrl);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Media'
+ *       403:
+ *         description: No tienes permiso para subir este tipo de media
  */
-// Allow any authenticated user to upload media (not only admins)
 router.post("/upload", auth, upload.single("file"), uploadMediaCtrl);
 
 /**
@@ -192,7 +193,8 @@ router.get("/:id", getMediaCtrl);
  * @swagger
  * /api/media/{id}/upload:
  *   put:
- *     summary: Actualiza un archivo multimedia (solo administradores)
+ *     summary: Actualiza un archivo multimedia
+ *     description: Admins pueden editar media de juegos y users. Usuarios pueden editar solo su propia media.
  *     tags: [Media]
  *     security:
  *       - bearerAuth: []
@@ -220,10 +222,10 @@ router.get("/:id", getMediaCtrl);
  *               type:
  *                 type: string
  *                 enum: [user, game]
- *                 description: Cambiar tipo de entidad (opcional)
+ *                 description: Cambiar tipo de entidad (opcional, solo para admins)
  *               id:
  *                 type: integer
- *                 description: Cambiar ID de entidad (opcional)
+ *                 description: Cambiar ID de entidad (opcional, solo para admins)
  *     responses:
  *       200:
  *         description: Archivo actualizado
@@ -231,22 +233,19 @@ router.get("/:id", getMediaCtrl);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Media'
+ *       403:
+ *         description: No tienes permiso para editar este archivo
  *       404:
  *         description: Archivo no encontrado
  */
-router.put(
-  "/:id/upload",
-  auth,
-  adminOnly,
-  upload.single("file"),
-  updateMediaCtrl
-);
+router.put("/:id/upload", auth, upload.single("file"), updateMediaCtrl);
 
 /**
  * @swagger
  * /api/media/{id}:
  *   delete:
- *     summary: Elimina un archivo multimedia (solo administradores)
+ *     summary: Elimina un archivo multimedia
+ *     description: Admins pueden eliminar media de juegos y users. Usuarios pueden eliminar solo su propia media.
  *     tags: [Media]
  *     security:
  *       - bearerAuth: []
@@ -264,9 +263,11 @@ router.put(
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/MediaDetail'
+ *       403:
+ *         description: No tienes permiso para eliminar este archivo
  *       404:
  *         description: Archivo no encontrado
  */
-router.delete("/:id", auth, adminOnly, deleteMediaCtrl);
+router.delete("/:id", auth, deleteMediaCtrl);
 
 export default router;

@@ -122,7 +122,7 @@ router.post(
   auth,
   adminOnly,
   validate(createPlatformSchema),
-  createPlatformCtrl
+  createPlatformCtrl,
 );
 
 /**
@@ -161,7 +161,7 @@ router.patch(
   auth,
   adminOnly,
   validate(updatePlatformSchema),
-  updatePlatformCtrl
+  updatePlatformCtrl,
 );
 
 /**

@@ -21,10 +21,13 @@ export abstract class BaseAuthenticationService implements IAuthentication {
     false
   );
   public ready$: Observable<boolean> = this._ready.asObservable();
+
   constructor(protected authMapping: IAuthMapping) {}
+
   abstract getCurrentUser(): Promise<any>;
   abstract signIn(authPayload: any, rememberMe?: boolean): Observable<any>;
   abstract signUp(registerPayload: any): Observable<any>;
   abstract signOut(): Observable<any>;
   abstract me(): Observable<any>;
+  abstract autoLogin(): void;
 }

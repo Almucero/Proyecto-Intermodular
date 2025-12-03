@@ -7,7 +7,8 @@ describe("Developers Endpoints", () => {
 
   const testUser = {
     email: `devtest${Date.now()}@example.com`,
-    name: "Dev Test User",
+    name: "Developer Test User",
+    surname: "Lastname",
     password: "password123",
   };
 
@@ -17,7 +18,7 @@ describe("Developers Endpoints", () => {
   });
 
   afterAll(async () => {
-    if (authToken) {
+    if (testUser.email) {
       await prisma.user
         .delete({ where: { email: testUser.email } })
         .catch(() => {});

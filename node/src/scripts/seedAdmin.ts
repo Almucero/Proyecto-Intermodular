@@ -25,7 +25,7 @@ async function crearAdmin() {
 
   if (emails.length === 0) {
     throw new Error(
-      "No admin emails provided. Set ADMIN_EMAILS in your environment."
+      "No admin emails provided. Set ADMIN_EMAILS in your environment.",
     );
   }
 
@@ -46,12 +46,12 @@ async function crearAdmin() {
   } as any);
 
   const adminsToDelete = existingAdmins.filter(
-    (admin) => !expectedAdminEmails.includes(admin.email.toLowerCase())
+    (admin) => !expectedAdminEmails.includes(admin.email.toLowerCase()),
   );
 
   if (adminsToDelete.length > 0) {
     console.log(
-      `Eliminando ${adminsToDelete.length} admin(s) que no están en ADMIN_EMAILS:`
+      `Eliminando ${adminsToDelete.length} admin(s) que no están en ADMIN_EMAILS:`,
     );
     for (const admin of adminsToDelete) {
       await prisma.user.delete({
@@ -92,7 +92,7 @@ async function crearAdmin() {
   }
 
   console.log(
-    "Seed completado. Admins sincronizados con ADMIN_EMAILS en el environment."
+    "Seed completado. Admins sincronizados con ADMIN_EMAILS en el environment.",
   );
 }
 

@@ -7,15 +7,42 @@ import {
   findUserById,
 } from "../users/users.service.js";
 
-export async function register(email: string, name: string, password: string) {
+export async function register(
+  email: string,
+  name: string,
+  surname: string,
+  password: string,
+  accountAt?: string | null,
+  accountId?: string | null,
+  nickname?: string | null,
+  addressLine1?: string | null,
+  addressLine2?: string | null,
+  city?: string | null,
+  region?: string | null,
+  postalCode?: string | null,
+  country?: string | null,
+) {
   const existing = await findUserByEmail(email);
   if (existing) {
     throw new Error("Email ya registrado");
   }
 
   const hash = await bcrypt.hash(password, env.BCRYPT_SALT_ROUNDS);
-  const user = await createUser(email, name, hash);
-  // reload full user including media and relations
+  const user = await createUser(
+    email,
+    name,
+    surname,
+    hash,
+    accountAt,
+    accountId,
+    nickname,
+    addressLine1,
+    addressLine2,
+    city,
+    region,
+    postalCode,
+    country,
+  );
   const fullUser = await findUserById((user as any).id);
   const token = jwt.sign(
     {
@@ -26,7 +53,7 @@ export async function register(email: string, name: string, password: string) {
     env.JWT_SECRET,
     {
       expiresIn: "7d",
-    }
+    },
   );
 
   return { user: fullUser, token };
@@ -42,7 +69,6 @@ export async function login(email: string, password: string) {
   if (!ok) {
     throw new Error("Credenciales inválidas");
   }
-  // Load full user with relations (media) to include in response
   const fullUser = await findUserById((user as any).id);
 
   const token = jwt.sign(
@@ -54,7 +80,7 @@ export async function login(email: string, password: string) {
     env.JWT_SECRET,
     {
       expiresIn: "7d",
-    }
+    },
   );
 
   return {

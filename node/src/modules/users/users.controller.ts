@@ -61,7 +61,6 @@ export async function meCtrl(req: Request, res: Response) {
       return res.status(401).json({ message: "No autorizado" });
     }
 
-    // Prefer using findUserById to include relations (media) in the response
     const userId = Number(req.user.sub);
     if (isNaN(userId)) {
       return res
@@ -133,7 +132,6 @@ export async function updateProfileCtrl(req: Request, res: Response) {
     }
 
     await updateProfile(userId, req.body);
-    // Reload full user including media
     const full = await findUserById(userId);
     const { passwordHash, ...safe } = (full as any) || {};
     res.json(safe);
@@ -155,7 +153,7 @@ export async function changePasswordCtrl(req: Request, res: Response) {
     const result = await changePassword(
       req.user.sub,
       currentPassword,
-      newPassword
+      newPassword,
     );
     res.json(result);
   } catch (error: any) {

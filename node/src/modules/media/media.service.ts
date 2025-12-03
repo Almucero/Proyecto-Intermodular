@@ -106,7 +106,7 @@ export async function uploadMedia(
   type: "user" | "game",
   id: number,
   file: Express.Multer.File,
-  altText?: string
+  altText?: string,
 ) {
   let folderName = "";
   let gameId: number | undefined;
@@ -144,7 +144,7 @@ export async function uploadMedia(
       (error, result) => {
         if (error) reject(error);
         else resolve(result);
-      }
+      },
     );
     uploadStream.end(file.buffer);
   });
@@ -172,7 +172,7 @@ export async function updateMedia(
   file?: Express.Multer.File,
   altText?: string,
   newType?: "user" | "game",
-  newId?: number
+  newId?: number,
 ) {
   const existingMedia = await prisma.media.findUnique({
     where: { id },
@@ -231,7 +231,7 @@ export async function updateMedia(
       } catch (error) {
         console.error(
           `Failed to delete old image: ${existingMedia.publicId}`,
-          error
+          error,
         );
       }
     }
@@ -245,7 +245,7 @@ export async function updateMedia(
         (error, result) => {
           if (error) reject(error);
           else resolve(result);
-        }
+        },
       );
       uploadStream.end(file.buffer);
     });
@@ -275,7 +275,7 @@ export async function updateMedia(
     try {
       const result = await cloudinary.uploader.rename(
         existingMedia.publicId,
-        newPublicId
+        newPublicId,
       );
       updateData = {
         ...updateData,
@@ -311,7 +311,7 @@ export async function deleteMedia(id: number) {
     } catch (error) {
       console.error(
         `Failed to delete image from Cloudinary: ${media.publicId}`,
-        error
+        error,
       );
     }
   }

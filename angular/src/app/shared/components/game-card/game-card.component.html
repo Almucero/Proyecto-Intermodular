@@ -30,7 +30,7 @@
   </div>
 
   <div
-    class="mt-2 flex justify-between items-center text-sm font-medium text-gray-300 group-hover:text-white transition-colors overflow-hidden"
+    class="mt-2 flex justify-between items-baseline text-sm font-medium text-gray-300 group-hover:text-white transition-colors overflow-hidden"
   >
     <div class="flex-1 min-w-0 mr-2 title-container">
       <span
@@ -42,7 +42,24 @@
       </span>
     </div>
     <span class="whitespace-nowrap flex-shrink-0">
-      {{ (game.isOnSale ? game.salePrice : game.price) | currency : "EUR" }}
+      <span
+        *ngIf="
+          (game.isOnSale && game.salePrice !== null
+            ? game.salePrice
+            : game.price) === 0
+        "
+      >
+        {{ "product.free" | translate }}
+      </span>
+      <span
+        *ngIf="
+          (game.isOnSale && game.salePrice !== null
+            ? game.salePrice
+            : game.price) !== 0
+        "
+      >
+        {{ (game.isOnSale ? game.salePrice : game.price) | currency : "EUR" }}
+      </span>
     </span>
   </div>
 </div>

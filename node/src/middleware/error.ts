@@ -5,7 +5,7 @@ export function errorHandler(
   err: any,
   req: Request,
   res: Response,
-  _next: NextFunction
+  _next: NextFunction,
 ) {
   logger.error(`${req.method} ${req.path} - ${err.message}`);
   logger.error(err.stack);

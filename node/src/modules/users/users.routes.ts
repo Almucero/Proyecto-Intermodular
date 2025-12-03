@@ -239,7 +239,7 @@ router.patch(
   "/me/password",
   auth,
   validate(changePasswordSchema),
-  changePasswordCtrl
+  changePasswordCtrl,
 );
 
 /**
@@ -438,7 +438,7 @@ router.patch(
   auth,
   adminOnly,
   validate(updateUserSchema),
-  updateUserCtrl
+  updateUserCtrl,
 );
 router.delete("/:id", auth, adminOnly, deleteUserCtrl);
 

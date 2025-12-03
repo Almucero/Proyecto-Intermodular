@@ -8,6 +8,7 @@ describe("Genres Endpoints", () => {
   const testUser = {
     email: `gentest${Date.now()}@example.com`,
     name: "Genre Test User",
+    surname: "Lastname",
     password: "password123",
   };
 
@@ -17,9 +18,11 @@ describe("Genres Endpoints", () => {
   });
 
   afterAll(async () => {
-    await prisma.user
-      .delete({ where: { email: testUser.email } })
-      .catch(() => {});
+    if (testUser.email) {
+      await prisma.user
+        .delete({ where: { email: testUser.email } })
+        .catch(() => {});
+    }
     await prisma.$disconnect();
   });
 

@@ -8,7 +8,7 @@ export interface User extends Model {
   nickname?: string | null;
   name: string;
   surname?: string | null;
-  passwordHash?: string; // Optional in frontend
+  passwordHash?: string;
   balance?: number | null;
   points?: number;
   isAdmin?: boolean;

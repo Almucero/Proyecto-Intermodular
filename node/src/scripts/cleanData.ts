@@ -34,7 +34,7 @@ async function cleanAllData() {
 
     if (allMedia.length > 0) {
       console.log(
-        `  - Eliminando ${allMedia.length} archivos de Cloudinary...`
+        `  - Eliminando ${allMedia.length} archivos de Cloudinary...`,
       );
       const publicIds = allMedia.map((img) => img.publicId!);
       const chunkSize = 100;
@@ -53,6 +53,9 @@ async function cleanAllData() {
     for (const game of allGames) {
       const folderName = `gameImages/${sanitizeFolderName(game.title)}`;
       try {
+        try {
+          await cloudinary.api.delete_resources_by_prefix(folderName);
+        } catch (err) {}
         await cloudinary.api.delete_folder(folderName);
       } catch (error: any) {
         if (error?.error?.http_code !== 404) {
@@ -68,6 +71,9 @@ async function cleanAllData() {
       const folderIdentifier = user.accountAt || sanitizeFolderName(user.name);
       const folderName = `userImages/${folderIdentifier}`;
       try {
+        try {
+          await cloudinary.api.delete_resources_by_prefix(folderName);
+        } catch (err) {}
         await cloudinary.api.delete_folder(folderName);
       } catch (error: any) {
         if (error?.error?.http_code !== 404) {
@@ -76,12 +82,18 @@ async function cleanAllData() {
     }
 
     try {
+      try {
+        await cloudinary.api.delete_resources_by_prefix("gameImages");
+      } catch (err) {}
       await cloudinary.api.delete_folder("gameImages");
     } catch (error: any) {
       if (error?.error?.http_code !== 404) {
       }
     }
     try {
+      try {
+        await cloudinary.api.delete_resources_by_prefix("userImages");
+      } catch (err) {}
       await cloudinary.api.delete_folder("userImages");
     } catch (error: any) {
       if (error?.error?.http_code !== 404) {
@@ -108,30 +120,33 @@ async function cleanAllData() {
     console.log("  - Reseteando secuencias de IDs...");
     try {
       await prisma.$executeRawUnsafe(
-        'ALTER SEQUENCE "Game_id_seq" RESTART WITH 1'
+        'ALTER SEQUENCE "Game_id_seq" RESTART WITH 1',
       );
       await prisma.$executeRawUnsafe(
-        'ALTER SEQUENCE "Media_id_seq" RESTART WITH 1'
+        'ALTER SEQUENCE "Media_id_seq" RESTART WITH 1',
       );
       await prisma.$executeRawUnsafe(
-        'ALTER SEQUENCE "Developer_id_seq" RESTART WITH 1'
+        'ALTER SEQUENCE "Developer_id_seq" RESTART WITH 1',
       );
       await prisma.$executeRawUnsafe(
-        'ALTER SEQUENCE "Publisher_id_seq" RESTART WITH 1'
+        'ALTER SEQUENCE "Publisher_id_seq" RESTART WITH 1',
       );
       await prisma.$executeRawUnsafe(
-        'ALTER SEQUENCE "Genre_id_seq" RESTART WITH 1'
+        'ALTER SEQUENCE "Genre_id_seq" RESTART WITH 1',
       );
       await prisma.$executeRawUnsafe(
-        'ALTER SEQUENCE "Platform_id_seq" RESTART WITH 1'
+        'ALTER SEQUENCE "Platform_id_seq" RESTART WITH 1',
+      );
+      await prisma.$executeRawUnsafe(
+        'ALTER SEQUENCE "User_id_seq" RESTART WITH 1',
       );
     } catch (e) {
       console.warn(
-        "  ⚠️ No se pudieron resetear las secuencias (posiblemente no es PostgreSQL o ya están resetadas)."
+        "  ⚠️ No se pudieron resetear las secuencias (posiblemente no es PostgreSQL o ya están resetadas).",
       );
     }
 
-    console.log("✅ Limpieza completada. Cloudinary y BD limpios.");
+    console.log("  ✅ Limpieza completada. Cloudinary y BD limpios.");
   } catch (err) {
     console.error("❌ Error durante la limpieza:", err);
     process.exit(1);

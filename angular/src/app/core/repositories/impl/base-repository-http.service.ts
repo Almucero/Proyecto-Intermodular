@@ -1,4 +1,3 @@
-// src/app/repositories/impl/base-repository-http.service.ts
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
@@ -14,7 +13,6 @@ import {
 } from '../repository.tokens';
 import { Model } from '../../models/base.model';
 import { IBaseMapping } from '../interfaces/base-mapping.interface';
-import { BaseAuthenticationService } from '../../services/impl/base-authentication.service';
 import { IAuthentication } from '../../services/interfaces/authentication.interface';
 
 @Injectable({
@@ -26,8 +24,8 @@ export class BaseRepositoryHttpService<T extends Model>
   constructor(
     protected http: HttpClient,
     @Inject(AUTH_TOKEN) protected auth: IAuthentication,
-    @Inject(API_URL_TOKEN) protected apiUrl: string, // URL base de la API para el modelo
-    @Inject(RESOURCE_NAME_TOKEN) protected resource: string, //nombre del recurso del repositorio
+    @Inject(API_URL_TOKEN) protected apiUrl: string,
+    @Inject(RESOURCE_NAME_TOKEN) protected resource: string,
     @Inject(REPOSITORY_MAPPING_TOKEN) protected mapping: IBaseMapping<T>
   ) {
     this.apiUrl = apiUrl;

@@ -8,6 +8,7 @@ describe("Games Endpoints", () => {
   const testUser = {
     email: `gametest${Date.now()}@example.com`,
     name: "Game Test User",
+    surname: "Lastname",
     password: "password123",
   };
 
@@ -17,9 +18,12 @@ describe("Games Endpoints", () => {
   });
 
   afterAll(async () => {
-    await prisma.user
-      .delete({ where: { email: testUser.email } })
-      .catch(() => {});
+    // Limpiar usuario de prueba
+    if (testUser.email) {
+      await prisma.user
+        .delete({ where: { email: testUser.email } })
+        .catch(() => {});
+    }
     await prisma.$disconnect();
   });
 
