@@ -16,6 +16,7 @@ import { CookiesComponent } from './pages/cookies/cookies.component';
 import { ProductComponent } from './pages/product/product.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { AdminComponent } from './pages/admin/admin.component';
+import { SearchComponent } from './pages/search/search.component';
 
 export const routes: Routes = [
   {
@@ -94,6 +95,11 @@ export const routes: Routes = [
     path: 'cookies',
     component: CookiesComponent,
     data: { animation: 'CookiesPage' },
+  },
+  {
+    path: 'search',
+    component: SearchComponent,
+    data: { animation: 'SearchPage' },
   },
   {
     path: 'admin',

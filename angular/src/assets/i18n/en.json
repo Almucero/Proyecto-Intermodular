@@ -31,7 +31,11 @@
     "title": "Settings"
   },
   "contact": {
-    "title": "Contact"
+    "title": "Contact",
+    "description": "We are here to help you. Use any of the means below and we will respond as soon as possible.",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address"
   },
   "help": {
     "title": "Help"
@@ -55,6 +59,33 @@
     "simulation": "Simulation",
     "horror": "Horror",
     "racing": "Racing"
+  },
+  "search": {
+    "title": "Filters",
+    "reset": "reset",
+    "removeFilter": "Remove filter",
+    "noResults": "No more results found...",
+    "filters": {
+      "price": {
+        "label": "Price",
+        "free": "Free",
+        "under10": "Under €10",
+        "10to20": "€10 - €20",
+        "20to40": "€20 - €40",
+        "over40": "Over €40"
+      },
+      "genre": {
+        "label": "Genre"
+      },
+      "platform": {
+        "label": "Platform",
+        "pc": "PC",
+        "playstation": "PlayStation",
+        "xbox": "Xbox",
+        "nintendo": "Nintendo",
+        "mobile": "Mobile"
+      }
+    }
   },
   "home": {
     "bestSellers": "Best Sellers",
