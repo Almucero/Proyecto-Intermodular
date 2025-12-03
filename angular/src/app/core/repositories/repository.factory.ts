@@ -141,7 +141,7 @@ export function createBaseMappingFactory<T extends Model>(
               throw new Error('MODEL MAPPING NOT IMPLEMENTED');
           }
         case 'local-storage':
-          throw new Error('BACKEND NOT IMPLEMENTED'); // Implement local storage mappings if needed
+          throw new Error('BACKEND NOT IMPLEMENTED');
         default:
           throw new Error('BACKEND NOT IMPLEMENTED');
       }
@@ -376,5 +376,3 @@ export const UserRepositoryFactory: FactoryProvider =
     USER_RESOURCE_NAME_TOKEN,
     USER_REPOSITORY_MAPPING_TOKEN,
   ]);
-
-//media es raro

@@ -84,7 +84,7 @@ async function uploadAllMedia() {
 
     if (!fs.existsSync(gameFolderPath)) {
       console.warn(
-        `⚠️ Carpeta no encontrada para: "${game.title}" (intentado: "${folderName}")`
+        `⚠️ Carpeta no encontrada para: "${game.title}" (intentado: "${folderName}")`,
       );
       continue;
     }
@@ -98,7 +98,7 @@ async function uploadAllMedia() {
     for (const file of imageFiles) {
       if (!/\.webp$/i.test(file)) {
         console.error(
-          `❌ Error: ${file} no es .webp en la carpeta de "${game.title}". Solo se aceptan archivos .webp en el seed.`
+          `❌ Error: ${file} no es .webp en la carpeta de "${game.title}". Solo se aceptan archivos .webp en el seed.`,
         );
         continue;
       }
@@ -157,7 +157,7 @@ async function uploadAllMedia() {
 
     if (!/\.webp$/i.test(file)) {
       console.error(
-        `❌ Error: ${file} no es .webp en la carpeta de "${user.name}". Solo se aceptan archivos .webp en el seed.`
+        `❌ Error: ${file} no es .webp en la carpeta de "${user.name}". Solo se aceptan archivos .webp en el seed.`,
       );
       continue;
     }
@@ -216,10 +216,10 @@ async function seedData() {
     ];
     console.log("  - Creando plataformas...");
     const platforms = await Promise.all(
-      platformNames.map((name) => prisma.platform.create({ data: { name } }))
+      platformNames.map((name) => prisma.platform.create({ data: { name } })),
     );
     const platformByName = Object.fromEntries(
-      platforms.map((p) => [p.name, p])
+      platforms.map((p) => [p.name, p]),
     );
 
     const genreNames = [
@@ -270,7 +270,7 @@ async function seedData() {
     ];
     console.log("  - Creando géneros...");
     const genres = await Promise.all(
-      genreNames.map((name) => prisma.genre.create({ data: { name } }))
+      genreNames.map((name) => prisma.genre.create({ data: { name } })),
     );
     const genreByName = Object.fromEntries(genres.map((g) => [g.name, g]));
 
@@ -335,11 +335,11 @@ async function seedData() {
 
     console.log("  - Creando developers...");
     const developers = await Promise.all(
-      developerNames.map((n) => prisma.developer.create({ data: { name: n } }))
+      developerNames.map((n) => prisma.developer.create({ data: { name: n } })),
     );
     console.log("  - Creando publishers...");
     const publishers = await Promise.all(
-      publisherNames.map((n) => prisma.publisher.create({ data: { name: n } }))
+      publisherNames.map((n) => prisma.publisher.create({ data: { name: n } })),
     );
 
     const devByName = Object.fromEntries(developers.map((d) => [d.name, d]));
@@ -1898,7 +1898,7 @@ async function seedData() {
           const pc = platformByName["PC"];
           if (!pc)
             throw new Error(
-              `Platform not found: ${name} (and fallback PC missing)`
+              `Platform not found: ${name} (and fallback PC missing)`,
             );
           return { id: pc.id };
         }
@@ -1937,7 +1937,7 @@ async function seedData() {
     const createdGames = [];
     for (const g of gamesData) {
       g.platforms = (g.platforms || ["PC"]).map((p) =>
-        platformByName[p] ? p : "PC"
+        platformByName[p] ? p : "PC",
       );
       createdGames.push(await createGame(g));
     }

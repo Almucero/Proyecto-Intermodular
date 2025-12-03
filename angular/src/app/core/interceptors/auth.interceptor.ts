@@ -16,12 +16,8 @@ export const authInterceptorFn: HttpInterceptorFn = (
 ): Observable<HttpEvent<any>> => {
   const authService = inject(BaseAuthenticationService);
 
-  // Get token from storage
   const token =
     localStorage.getItem('AUTH_TOKEN') || sessionStorage.getItem('AUTH_TOKEN');
-
-  console.log('🔍 AuthInterceptor - Token found:', token ? 'YES ✅' : 'NO ❌');
-  console.log('🌐 Request URL:', req.url);
 
   let authReq = req;
   if (token) {
@@ -30,15 +26,11 @@ export const authInterceptorFn: HttpInterceptorFn = (
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log('✨ Token added to request');
-  } else {
-    console.log('⚠️ No token available for request');
   }
 
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401) {
-        console.log('🚫 401 Unauthorized - signing out');
         authService.signOut();
       }
       return throwError(() => error);

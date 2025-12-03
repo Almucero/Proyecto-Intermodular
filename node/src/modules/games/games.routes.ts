@@ -346,7 +346,7 @@ router.patch(
   auth,
   validate(updateGameSchema),
   adminOnly,
-  updateGameCtrl
+  updateGameCtrl,
 );
 
 /**

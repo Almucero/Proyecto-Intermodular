@@ -152,7 +152,7 @@ router.patch(
   auth,
   adminOnly,
   validate(updateGenreSchema),
-  updateGenreCtrl
+  updateGenreCtrl,
 );
 
 /**

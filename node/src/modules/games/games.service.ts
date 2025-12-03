@@ -40,7 +40,7 @@ export async function listGames(filters?: {
     const includeSet = new Set(
       filters?.include
         ? filters.include.split(",").map((s) => s.trim().toLowerCase())
-        : []
+        : [],
     );
 
     const select: any = {
@@ -140,14 +140,14 @@ export async function createGame(data: any) {
   if (data.genres) {
     payload.genres = {
       connect: data.genres.map((g: any) =>
-        typeof g === "number" ? { id: g } : { name: g }
+        typeof g === "number" ? { id: g } : { name: g },
       ),
     };
   }
   if (data.platforms) {
     payload.platforms = {
       connect: data.platforms.map((p: any) =>
-        typeof p === "number" ? { id: p } : { name: p }
+        typeof p === "number" ? { id: p } : { name: p },
       ),
     };
   }
@@ -182,7 +182,7 @@ export async function updateGame(id: number, data: any) {
     payload.genres = {
       set: [],
       connect: data.genres.map((g: any) =>
-        typeof g === "number" ? { id: g } : { name: g }
+        typeof g === "number" ? { id: g } : { name: g },
       ),
     };
   }
@@ -190,7 +190,7 @@ export async function updateGame(id: number, data: any) {
     payload.platforms = {
       set: [],
       connect: data.platforms.map((p: any) =>
-        typeof p === "number" ? { id: p } : { name: p }
+        typeof p === "number" ? { id: p } : { name: p },
       ),
     };
   }

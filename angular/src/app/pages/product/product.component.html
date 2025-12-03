@@ -64,11 +64,12 @@
             <button
               (click)="previousMedia()"
               [disabled]="currentMediaIndex === 0"
-              [class.group-hover:opacity-30]="currentMediaIndex === 0"
+              [class.opacity-30]="currentMediaIndex === 0"
               [class.cursor-not-allowed]="currentMediaIndex === 0"
+              [class.cursor-pointer]="currentMediaIndex !== 0"
               [class.hover:scale-110]="currentMediaIndex !== 0"
               [class.active:scale-95]="currentMediaIndex !== 0"
-              class="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all cursor-pointer duration-150 opacity-0 group-hover:opacity-100 z-50 pointer-events-auto"
+              class="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all duration-150 **opacity-0 group-hover:opacity-100** z-50 pointer-events-auto"
               [title]="'tooltips.previousMedia' | translate"
             >
               <svg
@@ -90,11 +91,12 @@
             <button
               (click)="nextMedia()"
               [disabled]="currentMediaIndex === mediaItems.length - 1"
-              [class.group-hover:opacity-30]="
-                currentMediaIndex === mediaItems.length - 1
-              "
+              [class.opacity-30]="currentMediaIndex === mediaItems.length - 1"
               [class.cursor-not-allowed]="
                 currentMediaIndex === mediaItems.length - 1
+              "
+              [class.cursor-pointer]="
+                currentMediaIndex !== mediaItems.length - 1
               "
               [class.hover:scale-110]="
                 currentMediaIndex !== mediaItems.length - 1
@@ -102,7 +104,7 @@
               [class.active:scale-95]="
                 currentMediaIndex !== mediaItems.length - 1
               "
-              class="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all cursor-pointer duration-150 opacity-0 group-hover:opacity-100 z-50 pointer-events-auto"
+              class="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all duration-150 **opacity-0 group-hover:opacity-100** z-50 pointer-events-auto"
               [title]="'tooltips.nextMedia' | translate"
             >
               <svg
@@ -128,7 +130,10 @@
               (click)="selectMedia(i)"
               [class.border-cyan-400]="currentMediaIndex === i"
               [class.border-4]="currentMediaIndex === i"
-              class="w-24 h-16 bg-black rounded-lg overflow-hidden border-2 border-gray-700 cursor-pointer hover:border-gray-500 transition-all flex items-center justify-center duration-150 active:scale-95"
+              [class.scale-105]="currentMediaIndex === i"
+              [class.scale-90]="currentMediaIndex !== i"
+              [class.opacity-50]="currentMediaIndex !== i"
+              class="w-24 h-16 bg-black rounded-lg overflow-hidden border-2 border-gray-700 cursor-pointer hover:border-gray-500 transition-all flex items-center justify-center transform duration-150 relative active:scale-95"
             >
               <img
                 *ngIf="media.type === 'image'"
@@ -136,23 +141,38 @@
                 [alt]="media.label"
                 class="w-full h-full object-cover"
               />
-              <img
-                *ngIf="media.type === 'video' && media.thumbnail"
-                [src]="media.thumbnail"
-                [alt]="media.label"
-                class="w-full h-full object-cover"
-              />
-              <span
-                *ngIf="media.type === 'video' && !media.thumbnail"
-                class="text-gray-400 text-xs"
-                >▶ {{ media.label }}</span
+              <div
+                *ngIf="media.type === 'video'"
+                class="w-full h-full relative flex items-center justify-center"
               >
+                <img
+                  *ngIf="media.thumbnail"
+                  [src]="media.thumbnail"
+                  [alt]="media.label"
+                  class="w-full h-full object-cover opacity-75"
+                />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6 text-white absolute"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                <span *ngIf="!media.thumbnail" class="text-gray-400 text-xs"
+                  >▶ {{ media.label }}</span
+                >
+              </div>
             </div>
           </div>
         </div>
 
         <div class="text-gray-300 space-y-4 leading-relaxed text-sm">
-          <p class="whitespace-pre-line">{{ game.description }}</p>
+          <p class="whitespace-pre-line text-justify">{{ game.description }}</p>
         </div>
 
         <div class="grid grid-cols-2 gap-4">
@@ -189,12 +209,33 @@
       <div class="lg:col-span-4 space-y-2">
         <div class="bg-gray-900 p-6 rounded-lg -mt-7">
           <div class="flex items-baseline gap-3 mb-6">
-            <span class="text-white text-4xl font-bold">{{
-              (game.isOnSale && game.salePrice ? game.salePrice : game.price)
-                | currency : "EUR"
-            }}</span>
+            <span class="text-white text-4xl font-bold">
+              <span
+                *ngIf="
+                  (game.isOnSale && game.salePrice !== null
+                    ? game.salePrice
+                    : game.price) === 0
+                "
+              >
+                {{ "product.free" | translate }}
+              </span>
+              <span
+                *ngIf="
+                  (game.isOnSale && game.salePrice !== null
+                    ? game.salePrice
+                    : game.price) !== 0
+                "
+              >
+                {{
+                  (game.isOnSale && game.salePrice
+                    ? game.salePrice
+                    : game.price
+                  ) | currency : "EUR"
+                }}
+              </span>
+            </span>
             <span
-              *ngIf="game.isOnSale && game.price"
+              *ngIf="game.isOnSale && game.price && game.price !== 0"
               class="text-gray-500 line-through text-xl"
               >{{ game.price | currency : "EUR" }}</span
             >
@@ -244,10 +285,41 @@
           </div>
 
           <div class="space-y-3">
+            <div class="flex items-center justify-center gap-2 mb-6">
+              <svg
+                *ngIf="game.stock > 20"
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-green-500"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              <span
+                [class.text-green-500]="game.stock > 20"
+                [class.text-yellow-500]="game.stock > 0 && game.stock <= 20"
+                [class.text-red-500]="game.stock === 0"
+                class="text-sm font-bold"
+              >
+                <span *ngIf="game.stock > 20">{{
+                  "product.inStock" | translate
+                }}</span>
+                <span *ngIf="game.stock > 0 && game.stock <= 20">{{
+                  "product.fewLeft" | translate
+                }}</span>
+                <span *ngIf="game.stock === 0">{{
+                  "product.outOfStock" | translate
+                }}</span>
+              </span>
+            </div>
             <button
-              [disabled]="!selectedPlatform"
-              [class.opacity-50]="!selectedPlatform"
-              [class.cursor-not-allowed]="!selectedPlatform"
+              [disabled]="!selectedPlatform || game.stock === 0"
+              [class.opacity-50]="!selectedPlatform || game.stock === 0"
+              [class.cursor-not-allowed]="!selectedPlatform || game.stock === 0"
               class="w-full bg-gradient-to-r bg-cyan-400 hover:bg-cyan-300 hover:to-[#5a5a7a] text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"
             >
               <svg
@@ -267,61 +339,64 @@
               {{ "product.buy" | translate }}
             </button>
             <button
+              [disabled]="game.stock === 0"
+              [class.opacity-50]="game.stock === 0"
+              [class.cursor-not-allowed]="game.stock === 0"
               class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"
             >
-              {{ "product.addToFavorites" | translate }}
+              {{ "product.addToCart" | translate }}
             </button>
             <button
               class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"
             >
-              {{ "product.addToCart" | translate }}
+              {{ "product.addToFavorites" | translate }}
             </button>
           </div>
         </div>
 
         <div class="bg-gray-900 p-6 rounded-lg">
           <div
-            class="border border-solid border-gray-500 rounded-lg overflow-hidden text-sm"
+            class="text-sm border border-gray-500 divide-y divide-gray-500 info-list rounded-lg"
           >
-            <div
-              class="grid grid-cols-2 p-4 border-b border-solid border-gray-500"
-            >
-              <span class="text-gray-400">{{
-                "product.developer" | translate
-              }}</span>
-              <span class="text-right text-gray-300">{{
-                game.Developer?.name || "N/A"
-              }}</span>
+            <div class="grid grid-cols-2 item">
+              <span
+                class="text-gray-400 p-4 border-r border-gray-500 rounded-tl-lg"
+              >
+                {{ "product.developer" | translate }}
+              </span>
+              <span class="text-right text-gray-300 p-4 rounded-tr-lg">
+                {{ game.Developer?.name || "N/A" }}
+              </span>
             </div>
-            <div
-              class="grid grid-cols-2 p-4 border-b border-solid border-gray-500"
-            >
-              <span class="text-gray-400">{{
-                "product.publisher" | translate
-              }}</span>
-              <span class="text-right text-gray-300">{{
-                game.Publisher?.name || "N/A"
-              }}</span>
+            <div class="grid grid-cols-2 item">
+              <span class="text-gray-400 p-4 border-r border-gray-500">
+                {{ "product.publisher" | translate }}
+              </span>
+              <span class="text-right text-gray-300 p-4">
+                {{ game.Publisher?.name || "N/A" }}
+              </span>
             </div>
-            <div
-              class="grid grid-cols-2 p-4 border-b border-solid border-gray-500"
-            >
-              <span class="text-gray-400">{{
-                "product.releaseDate" | translate
-              }}</span>
-              <span class="text-right text-gray-300">{{
-                game.releaseDate
-                  ? (game.releaseDate | date : "dd/MM/yy")
-                  : "N/A"
-              }}</span>
+            <div class="grid grid-cols-2 item">
+              <span class="text-gray-400 p-4 border-r border-gray-500">
+                {{ "product.releaseDate" | translate }}
+              </span>
+              <span class="text-right text-gray-300 p-4">
+                {{
+                  game.releaseDate
+                    ? (game.releaseDate | date : "dd/MM/yyyy")
+                    : "N/A"
+                }}
+              </span>
             </div>
-            <div class="grid grid-cols-2 p-4">
-              <span class="text-gray-400">{{
-                "product.refund" | translate
-              }}</span>
-              <span class="text-right text-gray-300">{{
-                game.isRefundable ? "Si" : "No"
-              }}</span>
+            <div class="grid grid-cols-2 item">
+              <span
+                class="text-gray-400 p-4 border-r border-gray-500 rounded-bl-lg"
+              >
+                {{ "product.refund" | translate }}
+              </span>
+              <span class="text-right text-gray-300 p-4 rounded-br-lg">
+                {{ game.isRefundable ? "Si" : "No" }}
+              </span>
             </div>
           </div>
         </div>

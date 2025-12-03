@@ -60,6 +60,26 @@ export async function updateMediaCtrl(req: Request, res: Response) {
       return res.status(400).json({ message: "ID inválido" });
     }
 
+    const media = await findMediaById(id);
+    if (!media) {
+      return res.status(404).json({ message: "Media no encontrado" });
+    }
+
+    const isAdmin = req.user?.isAdmin === true;
+    if (media.gameId !== null) {
+      if (!isAdmin) {
+        return res.status(403).json({
+          message: "Solo administradores pueden editar media de juegos",
+        });
+      }
+    } else if (media.userId !== null) {
+      if (req.user?.sub !== media.userId && !isAdmin) {
+        return res
+          .status(403)
+          .json({ message: "Solo puedes editar tu propia media" });
+      }
+    }
+
     const altText = req.body.altText === "" ? undefined : req.body.altText;
     const newType = req.body.type as "user" | "game" | undefined;
     const newId = req.body.id ? Number(req.body.id) : undefined;
@@ -96,6 +116,27 @@ export async function deleteMediaCtrl(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);
     if (isNaN(id)) return res.status(400).json({ message: "ID inválido" });
+
+    const media = await findMediaById(id);
+    if (!media) {
+      return res.status(404).json({ message: "Media no encontrado" });
+    }
+
+    const isAdmin = req.user?.isAdmin === true;
+    if (media.gameId !== null) {
+      if (!isAdmin) {
+        return res.status(403).json({
+          message: "Solo administradores pueden eliminar media de juegos",
+        });
+      }
+    } else if (media.userId !== null) {
+      if (req.user?.sub !== media.userId && !isAdmin) {
+        return res
+          .status(403)
+          .json({ message: "Solo puedes eliminar tu propia media" });
+      }
+    }
+
     const deleted = await deleteMedia(id);
 
     const response: any = { ...deleted };
@@ -130,6 +171,21 @@ export async function uploadMediaCtrl(req: Request, res: Response) {
     }
     if (isNaN(id)) {
       return res.status(400).json({ message: "ID inválido" });
+    }
+
+    const isAdmin = req.user?.isAdmin === true;
+    if (type === "game") {
+      if (!isAdmin) {
+        return res.status(403).json({
+          message: "Solo administradores pueden subir media de juegos",
+        });
+      }
+    } else if (type === "user") {
+      if (req.user?.sub !== id && !isAdmin) {
+        return res
+          .status(403)
+          .json({ message: "Solo puedes subir media para tu propio perfil" });
+      }
     }
 
     const altText = req.body.altText;

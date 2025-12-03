@@ -13,8 +13,28 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../core/services/language.service';
 import { BaseAuthenticationService } from '../../core/services/impl/base-authentication.service';
 import { SignUpPayload } from '../../core/models/user.model';
-import { HeaderComponent } from '../../shared/components/header/header.component';
-import { FooterComponent } from '../../shared/components/footer/footer.component';
+
+function passwordMatches(control: AbstractControl): ValidationErrors | null {
+  const group = control as FormGroup;
+  const password = group.controls['password'];
+  const password2 = group.controls['password2'];
+
+  if (!password || !password2) return null;
+
+  if (password.value !== password2.value) {
+    const existing = password2.errors ? { ...password2.errors } : {};
+    password2.setErrors({ ...existing, passwordMatch: true });
+  } else {
+    if (password2.errors) {
+      const { passwordMatch, ...rest } = password2.errors as any;
+      const remaining = Object.keys(rest).length ? rest : null;
+      password2.setErrors(remaining);
+    } else {
+      password2.setErrors(null);
+    }
+  }
+  return null;
+}
 
 @Component({
   selector: 'app-register',
@@ -27,7 +47,6 @@ export class RegisterComponent {
   formRegister: FormGroup;
   registerError = '';
   showPassword = false;
-  showConfirmPassword = false;
   submitted = false;
 
   private router = inject(Router);
@@ -38,30 +57,27 @@ export class RegisterComponent {
     this.formRegister = this.formSvc.group(
       {
         name: ['', [Validators.required]],
-        surname: [''],
+        surname: ['', [Validators.required]],
         email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(6)]],
-        confirmPassword: ['', [Validators.required]],
-        terms: [false, [Validators.requiredTrue]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/),
+          ],
+        ],
+        password2: ['', [Validators.required]],
       },
       {
-        validators: this.passwordMatchValidator,
+        validators: passwordMatches,
       }
     );
-  }
-
-  ngOnInit(): void {}
-
-  passwordMatchValidator(g: AbstractControl): ValidationErrors | null {
-    const group = g as FormGroup;
-    return group.get('password')?.value === group.get('confirmPassword')?.value
-      ? null
-      : { mismatch: true };
   }
 
   onSubmit() {
     this.submitted = true;
     this.registerError = '';
+
     if (this.formRegister.valid) {
       const { name, surname, email, password } = this.formRegister.value;
       const payload: SignUpPayload = { name, surname, email, password };
@@ -71,8 +87,9 @@ export class RegisterComponent {
           sessionStorage.setItem('registrationSuccess', 'true');
           this.router.navigate(['/login']);
         },
-        error: () => {
-          this.registerError = 'El correo electrónico ya está registrado';
+        error: (err) => {
+          this.registerError =
+            err.error?.message || 'Error al registrar la cuenta';
         },
       });
     } else {
@@ -85,76 +102,40 @@ export class RegisterComponent {
   }
 
   goBack() {
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
   }
 
   getError(control: string) {
-    const translateService = this.languageService;
     switch (control) {
       case 'name':
-        if (
-          this.formRegister.controls['name'].errors != null &&
-          Object.keys(this.formRegister.controls['name'].errors).includes(
-            'required'
-          )
-        )
-          return 'errors.nameRequired';
+        if (this.hasError('name', 'required')) return 'errors.nameRequired';
+        break;
+      case 'surname':
+        if (this.hasError('surname', 'required'))
+          return 'errors.surnameRequired';
         break;
       case 'email':
-        if (
-          this.formRegister.controls['email'].errors != null &&
-          Object.keys(this.formRegister.controls['email'].errors).includes(
-            'required'
-          )
-        )
-          return 'errors.emailRequired';
-        else if (
-          this.formRegister.controls['email'].errors != null &&
-          Object.keys(this.formRegister.controls['email'].errors).includes(
-            'email'
-          )
-        )
-          return 'errors.emailInvalid';
+        if (this.hasError('email', 'required')) return 'errors.emailRequired';
+        if (this.hasError('email', 'email')) return 'errors.emailInvalid';
         break;
       case 'password':
-        if (
-          this.formRegister.controls['password'].errors != null &&
-          Object.keys(this.formRegister.controls['password'].errors).includes(
-            'required'
-          )
-        )
+        if (this.hasError('password', 'required'))
           return 'errors.passwordRequired';
-        else if (
-          this.formRegister.controls['password'].errors != null &&
-          Object.keys(this.formRegister.controls['password'].errors).includes(
-            'minlength'
-          )
-        )
-          return 'errors.passwordMinLength';
+        if (this.hasError('password', 'pattern'))
+          return 'errors.passwordPattern';
         break;
-      case 'confirmPassword':
-        if (
-          this.formRegister.controls['confirmPassword'].errors != null &&
-          Object.keys(
-            this.formRegister.controls['confirmPassword'].errors
-          ).includes('required')
-        )
-          return 'errors.confirmPasswordRequired';
-        else if (this.formRegister.errors?.['mismatch'])
+      case 'password2':
+        if (this.hasError('password2', 'required'))
+          return 'errors.password2Required';
+        if (this.hasError('password2', 'passwordMatch'))
           return 'errors.passwordMismatch';
         break;
-      case 'terms':
-        if (
-          this.formRegister.controls['terms'].errors != null &&
-          Object.keys(this.formRegister.controls['terms'].errors).includes(
-            'required'
-          )
-        )
-          return 'errors.termsRequired';
-        break;
-      default:
-        return '';
     }
     return '';
+  }
+
+  private hasError(controlName: string, errorName: string): boolean {
+    const control = this.formRegister.controls[controlName];
+    return (control.touched || this.submitted) && control.hasError(errorName);
   }
 }

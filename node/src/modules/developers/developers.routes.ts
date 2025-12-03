@@ -168,7 +168,7 @@ router.post(
   auth,
   validate(createDeveloperSchema),
   adminOnly,
-  createDeveloperCtrl
+  createDeveloperCtrl,
 );
 
 /**
@@ -235,7 +235,7 @@ router.patch(
   auth,
   validate(updateDeveloperSchema),
   adminOnly,
-  updateDeveloperCtrl
+  updateDeveloperCtrl,
 );
 
 /**

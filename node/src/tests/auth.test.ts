@@ -6,41 +6,20 @@ describe("Auth Endpoints", () => {
   const testUser = {
     email: `test${Date.now()}@example.com`,
     name: "Test User",
+    surname: "Lastname",
     password: "password123",
   };
 
   afterAll(async () => {
-    const emailsToDelete = [testUser.email];
-
-    const loginUserPattern = `login${testUser.email
-      .split("@")[0]
-      .replace("test", "")}@example.com`;
-    emailsToDelete.push(loginUserPattern);
-
     await prisma.user
       .deleteMany({
         where: {
           OR: [
-            {
-              email: {
-                startsWith: `test${testUser.email
-                  .split("@")[0]
-                  .replace("test", "")}`,
-              },
-            },
-            {
-              email: {
-                startsWith: `login${testUser.email
-                  .split("@")[0]
-                  .replace("test", "")}`,
-              },
-            },
-            {
-              email: {
-                startsWith: `fail`,
-              },
-            },
-            { email: { startsWith: `new@example.com` } },
+            { email: testUser.email },
+            { email: { startsWith: "login" } },
+            { email: { startsWith: "fail" } },
+            { email: { startsWith: "full" } },
+            { email: { startsWith: "new@example.com" } },
           ],
         },
       })
@@ -58,6 +37,7 @@ describe("Auth Endpoints", () => {
       expect(res.body).toHaveProperty("token");
       expect(res.body.user.email).toBe(testUser.email);
       expect(res.body.user.name).toBe(testUser.name);
+      expect(res.body.user.surname).toBe(testUser.surname);
       expect(res.body.user).not.toHaveProperty("passwordHash");
     });
 
@@ -93,12 +73,52 @@ describe("Auth Endpoints", () => {
 
       expect(res.status).toBe(400);
     });
+
+    it("debe fallar con apellido corto", async () => {
+      const res = await request(app)
+        .post("/api/auth/register")
+        .send({ ...testUser, email: "new@example.com", surname: "X" });
+
+      expect(res.status).toBe(400);
+    });
+
+    it("debe fallar sin apellido", async () => {
+      const { surname, ...userWithoutSurname } = testUser;
+      const res = await request(app)
+        .post("/api/auth/register")
+        .send({ ...userWithoutSurname, email: "new2@example.com" });
+
+      expect(res.status).toBe(400);
+    });
+
+    it("debe guardar campos opcionales (nickname, addressLine1, city, country)", async () => {
+      const userWithOptionalFields = {
+        email: `full${Date.now()}@example.com`,
+        name: "Full User",
+        surname: "Complete",
+        password: "password123",
+        nickname: "fullnick",
+        addressLine1: "123 Main St",
+        city: "New York",
+        country: "USA",
+      };
+      const res = await request(app)
+        .post("/api/auth/register")
+        .send(userWithOptionalFields);
+
+      expect(res.status).toBe(201);
+      expect(res.body.user.nickname).toBe("fullnick");
+      expect(res.body.user.addressLine1).toBe("123 Main St");
+      expect(res.body.user.city).toBe("New York");
+      expect(res.body.user.country).toBe("USA");
+    });
   });
 
   describe("POST /api/auth/login", () => {
     const loginUser = {
       email: `login${Date.now()}@example.com`,
       name: "Login User",
+      surname: "Lastname",
       password: "password123",
     };
 
@@ -121,6 +141,7 @@ describe("Auth Endpoints", () => {
       const failUser = {
         email: `fail${Date.now()}@example.com`,
         name: "Fail User",
+        surname: "Lastname",
         password: "correctpass123",
       };
       await request(app).post("/api/auth/register").send(failUser);

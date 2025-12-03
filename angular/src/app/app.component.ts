@@ -1,4 +1,3 @@
-import { HomeComponent } from './pages/home/home.component';
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ErrorToastComponent } from './shared/components/error-toast/error-toast.component';
@@ -28,7 +27,7 @@ export class AppComponent {
   private languageService = inject(LanguageService);
 
   constructor() {
-    this.authService;
+    this.authService.autoLogin();
   }
 
   prepareRoute(outlet: RouterOutlet) {

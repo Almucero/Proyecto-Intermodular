@@ -13,15 +13,15 @@ export const env = {
   BCRYPT_SALT_ROUNDS: Number(process.env.BCRYPT_SALT_ROUNDS ?? 10),
   CLOUDINARY_CLOUD_NAME: required(
     process.env.CLOUDINARY_CLOUD_NAME,
-    "CLOUDINARY_CLOUD_NAME"
+    "CLOUDINARY_CLOUD_NAME",
   ),
   CLOUDINARY_API_KEY: required(
     process.env.CLOUDINARY_API_KEY,
-    "CLOUDINARY_API_KEY"
+    "CLOUDINARY_API_KEY",
   ),
   CLOUDINARY_API_SECRET: required(
     process.env.CLOUDINARY_API_SECRET,
-    "CLOUDINARY_API_SECRET"
+    "CLOUDINARY_API_SECRET",
   ),
   ADMIN_EMAILS: process.env.ADMIN_EMAILS ?? "",
 };

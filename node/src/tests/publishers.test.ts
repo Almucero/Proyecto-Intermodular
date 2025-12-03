@@ -9,6 +9,7 @@ describe("Publishers Endpoints", () => {
   const testUser = {
     email: `pubtest${Date.now()}@example.com`,
     name: "Pub Test User",
+    surname: "Lastname",
     password: "password123",
   };
 
@@ -18,9 +19,11 @@ describe("Publishers Endpoints", () => {
   });
 
   afterAll(async () => {
-    await prisma.user
-      .delete({ where: { email: testUser.email } })
-      .catch(() => {});
+    if (testUser.email) {
+      await prisma.user
+        .delete({ where: { email: testUser.email } })
+        .catch(() => {});
+    }
     await prisma.$disconnect();
   });
 

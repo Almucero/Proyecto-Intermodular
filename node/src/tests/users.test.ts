@@ -10,6 +10,7 @@ describe("Users Endpoints", () => {
   const testUser = {
     email: `testuser${Date.now()}@example.com`,
     name: "Test User",
+    surname: "Lastname",
     password: "password123",
   };
 
