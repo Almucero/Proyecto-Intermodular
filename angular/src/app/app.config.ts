@@ -10,7 +10,7 @@ import {
 import { authInterceptorFn } from './core/interceptors/auth.interceptor';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { provideTranslateService } from '@ngx-translate/core';
-import { environment } from '../environments/environments';
+import { environment } from '../environments/environment';
 
 // Tokens
 import {
