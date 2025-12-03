@@ -3,4 +3,3 @@
   "ext": "ts",
   "exec": "tsx src/index.ts"
 }
-

@@ -25,11 +25,11 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
     @Inject(AUTH_ME_API_URL_TOKEN) protected meUrl: string
   ) {
     super(authMapping);
-    this.autoLogin();
   }
 
-  private autoLogin() {
-    const token = this.getToken();
+  public autoLogin() {
+    const token = localStorage.getItem(this.AUTH_KEY);
+
     if (token) {
       this.me().subscribe({
         next: () => {
@@ -56,11 +56,7 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
     const payload = this.authMapping.signInPayload(authPayload);
     return this.http.post(this.signInUrl, payload).pipe(
       tap((response: any) => {
-        console.log('🔐 Login response:', response);
-        console.log('🔑 Token received:', response.token);
         this.saveToken(response.token, rememberMe);
-        console.log('💾 Token saved. RememberMe:', rememberMe);
-        console.log('📦 Token in storage:', this.getToken());
         this._authenticated.next(true);
         this._user.next(this.authMapping.signIn(response));
       })
@@ -71,7 +67,7 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
     const payload = this.authMapping.signUpPayload(registerPayload);
     return this.http.post(this.signUpUrl, payload).pipe(
       tap((response: any) => {
-        this.saveToken(response.token, false); // Default to session storage
+        this.saveToken(response.token, false);
         this._authenticated.next(true);
         this._user.next(this.authMapping.signUp(response));
       })

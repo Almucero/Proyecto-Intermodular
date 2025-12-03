@@ -25,7 +25,6 @@
           <div class="relative">
             <span
               class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"
-              [title]="'tooltips.nameIcon' | translate"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -51,9 +50,7 @@
               type="text"
             />
           </div>
-          @if ( (formRegister.controls["name"].touched &&
-          formRegister.controls["name"].hasError("required")) || (submitted &&
-          formRegister.controls["name"].errors) ) {
+          @if (getError("name")) {
           <span class="text-red-500 mt-3 mix-blend-color-dodge">
             {{ getError("name") | translate }}
           </span>
@@ -67,7 +64,6 @@
           <div class="relative">
             <span
               class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"
-              [title]="'tooltips.surnameIcon' | translate"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -92,9 +88,7 @@
               class="w-full pl-10 h-10 rounded-sm border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-300"
             />
           </div>
-          @if ( (formRegister.controls["surname"].touched &&
-          formRegister.controls["surname"].hasError("required")) || (submitted
-          && formRegister.controls["surname"].errors) ) {
+          @if (getError("surname")) {
           <span class="text-red-500 mt-3 mix-blend-color-dodge">
             {{ getError("surname") | translate }}
           </span>
@@ -108,7 +102,6 @@
           <div class="relative">
             <span
               class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"
-              [title]="'tooltips.emailIcon' | translate"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -134,9 +127,7 @@
               type="email"
             />
           </div>
-          @if ( (formRegister.controls["email"].touched &&
-          formRegister.controls["email"].hasError("required")) || (submitted &&
-          formRegister.controls["email"].errors) ) {
+          @if (getError("email")) {
           <span class="text-red-500 mt-3 mix-blend-color-dodge">
             {{ getError("email") | translate }}
           </span>
@@ -150,7 +141,6 @@
           <div class="relative">
             <span
               class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"
-              [title]="'tooltips.passwordIcon' | translate"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -178,11 +168,6 @@
             <span
               (click)="showPassword = !showPassword"
               class="text-gray-400 cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 transition-transform duration-150 active:scale-95"
-              [title]="
-                showPassword
-                  ? ('tooltips.hidePassword' | translate)
-                  : ('tooltips.showPassword' | translate)
-              "
             >
               @if (!showPassword) {
               <svg
@@ -222,23 +207,20 @@
               }
             </span>
           </div>
-          @if ( (formRegister.controls["password"].touched &&
-          formRegister.controls["password"].hasError("required")) || (submitted
-          && formRegister.controls["password"].errors) ) {
+          @if (getError("password")) {
           <span class="text-red-500 mt-3 mix-blend-color-dodge">
             {{ getError("password") | translate }}
           </span>
           }
         </div>
         <div class="mb-3">
-          <label class="text-white font-medium" for="password">{{
+          <label class="text-white font-medium" for="password2">{{
             "register.password2Label" | translate
           }}</label>
           <span class="text-red-500"> *</span>
           <div class="relative">
             <span
               class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"
-              [title]="'tooltips.passwordIcon' | translate"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -264,22 +246,17 @@
               type="password"
             />
           </div>
-          @if ( (formRegister.controls["password2"].touched &&
-          formRegister.controls["password2"].hasError("required")) || (submitted
-          && formRegister.controls["password2"].errors) ) {
+          @if (getError("password2")) {
           <span class="text-red-500 mt-3 mix-blend-color-dodge">
             {{ getError("password2") | translate }}
           </span>
           }
         </div>
         @if (registerError) {
-        <div class="error-message">
+        <div class="mb-3 text-red-500 text-center mix-blend-color-dodge">
           {{ registerError }}
         </div>
         }
-        <div class="mb-3 text-red-500 text-center mix-blend-color-dodge">
-          {{ "errors.emailAlreadyRegistered" | translate }}
-        </div>
 
         <div class="flex flex-col gap-3 mt-4 mb-3">
           <button

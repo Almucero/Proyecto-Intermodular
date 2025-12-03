@@ -46,7 +46,7 @@
     "title": "Políticas de privacidad"
   },
   "genres": {
-    "title": "Géneros",
+    "title": "Géneros destacados",
     "action": "Acción",
     "adventure": "Aventura",
     "rpg": "RPG",
@@ -90,18 +90,25 @@
     "emailRequired": "El campo email es requerido",
     "emailInvalid": "El email no es correcto",
     "passwordRequired": "El campo contraseña es requerido",
+    "passwordMinLength": "La contraseña debe tener al menos 6 caracteres",
     "passwordPattern": "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número",
+    "confirmPasswordRequired": "Repite la contraseña",
     "password2Required": "Repite la contraseña",
     "passwordMismatch": "Las contraseñas no coinciden",
     "nameRequired": "El nombre es requerido",
     "surnameRequired": "El apellido es requerido",
-    "emailAlreadyRegistered": "El email ya está registrado"
+    "emailAlreadyRegistered": "El email ya está registrado",
+    "termsRequired": "Debes aceptar los términos y condiciones"
   },
   "product": {
     "platform": "Plataforma",
     "buy": "Comprar",
     "addToFavorites": "Añadir a favoritos",
     "addToCart": "Añadir a la cesta",
+    "free": "Gratis",
+    "inStock": "En stock",
+    "fewLeft": "Quedan pocos",
+    "outOfStock": "Fuera de stock",
     "developer": "Desarrolladora",
     "publisher": "Editora",
     "releaseDate": "Lanzamiento",

@@ -119,7 +119,7 @@ const options: swaggerJsdoc.Options = {
         },
         RegisterInput: {
           type: "object",
-          required: ["email", "name", "password"],
+          required: ["email", "name", "surname", "password"],
           properties: {
             email: {
               type: "string",
@@ -133,12 +133,22 @@ const options: swaggerJsdoc.Options = {
             },
             surname: {
               type: "string",
+              minLength: 2,
               description: "Apellido del usuario",
             },
             password: {
               type: "string",
               minLength: 8,
               description: "Contraseña del usuario",
+            },
+            accountAt: {
+              type: "string",
+              format: "date-time",
+              description: "Fecha de asociación de cuenta (opcional)",
+            },
+            accountId: {
+              type: "string",
+              description: "CUID de la cuenta (opcional)",
             },
             nickname: {
               type: "string",
@@ -454,6 +464,8 @@ const options: swaggerJsdoc.Options = {
         },
         Media: {
           type: "object",
+          description:
+            "Archivo multimedia. Permisos: Game media - solo admins pueden subir/editar/borrar. User media - usuarios pueden subir/editar/borrar solo su propia media.",
           properties: {
             id: { type: "integer", description: "ID del archivo" },
             url: {

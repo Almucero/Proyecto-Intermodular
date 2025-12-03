@@ -4,8 +4,36 @@ import { registerSchema, loginSchema } from "../users/users.schema.js";
 
 export async function registerCtrl(req: Request, res: Response) {
   try {
-    const { email, name, password } = registerSchema.parse(req.body);
-    const data = await register(email, name, password);
+    const {
+      email,
+      name,
+      surname,
+      password,
+      accountAt,
+      accountId,
+      nickname,
+      addressLine1,
+      addressLine2,
+      city,
+      region,
+      postalCode,
+      country,
+    } = registerSchema.parse(req.body);
+    const data = await register(
+      email,
+      name,
+      surname,
+      password,
+      accountAt,
+      accountId,
+      nickname,
+      addressLine1,
+      addressLine2,
+      city,
+      region,
+      postalCode,
+      country,
+    );
     res.status(201).json(data);
   } catch (e: any) {
     if (e.message === "Email ya registrado") {

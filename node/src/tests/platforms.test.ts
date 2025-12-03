@@ -6,8 +6,9 @@ describe("Platforms Endpoints", () => {
   let authToken: string;
 
   const testUser = {
-    email: `platest${Date.now()}@example.com`,
+    email: `plattest${Date.now()}@example.com`,
     name: "Platform Test User",
+    surname: "Lastname",
     password: "password123",
   };
 
@@ -17,9 +18,11 @@ describe("Platforms Endpoints", () => {
   });
 
   afterAll(async () => {
-    await prisma.user
-      .delete({ where: { email: testUser.email } })
-      .catch(() => {});
+    if (testUser.email) {
+      await prisma.user
+        .delete({ where: { email: testUser.email } })
+        .catch(() => {});
+    }
     await prisma.$disconnect();
   });
 
