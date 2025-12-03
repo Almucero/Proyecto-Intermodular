@@ -31,7 +31,11 @@
     "title": "Impostazioni"
   },
   "contact": {
-    "title": "Contatto"
+    "title": "Contatto",
+    "description": "Siamo qui per aiutarti. Usa uno dei mezzi qui sotto e ti risponderemo il prima possibile.",
+    "email": "E-mail",
+    "phone": "Telefono",
+    "address": "Indirizzo"
   },
   "help": {
     "title": "Aiuto"
@@ -55,6 +59,33 @@
     "simulation": "Simulazione",
     "horror": "Orrore",
     "racing": "Corse"
+  },
+  "search": {
+    "title": "Filtri",
+    "reset": "ripristina",
+    "removeFilter": "Rimuovi filtro",
+    "noResults": "Nessun altro risultato trovato...",
+    "filters": {
+      "price": {
+        "label": "Prezzo",
+        "free": "Gratis",
+        "under10": "Meno di 10€",
+        "10to20": "10€ - 20€",
+        "20to40": "20€ - 40€",
+        "over40": "Oltre 40€"
+      },
+      "genre": {
+        "label": "Genere"
+      },
+      "platform": {
+        "label": "Piattaforma",
+        "pc": "PC",
+        "playstation": "PlayStation",
+        "xbox": "Xbox",
+        "nintendo": "Nintendo",
+        "mobile": "Mobile"
+      }
+    }
   },
   "home": {
     "bestSellers": "I più venduti",

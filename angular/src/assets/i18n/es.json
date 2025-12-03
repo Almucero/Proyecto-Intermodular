@@ -31,7 +31,11 @@
     "title": "Ajustes"
   },
   "contact": {
-    "title": "Contacto"
+    "title": "Contacto",
+    "description": "Estamos aquí para ayudarte. Usa cualquiera de los medios a continuación y te responderemos lo antes posible.",
+    "email": "Correo electrónico",
+    "phone": "Teléfono",
+    "address": "Dirección"
   },
   "help": {
     "title": "Ayuda"
@@ -55,6 +59,33 @@
     "simulation": "Simulación",
     "horror": "Terror",
     "racing": "Carreras"
+  },
+  "search": {
+    "title": "Filtros",
+    "reset": "restablecer",
+    "removeFilter": "Eliminar filtro",
+    "noResults": "No se encontraron más resultados...",
+    "filters": {
+      "price": {
+        "label": "Precio",
+        "free": "Gratis",
+        "under10": "Menos de 10€",
+        "10to20": "10€ - 20€",
+        "20to40": "20€ - 40€",
+        "over40": "Más de 40€"
+      },
+      "genre": {
+        "label": "Género"
+      },
+      "platform": {
+        "label": "Plataforma",
+        "pc": "PC",
+        "playstation": "PlayStation",
+        "xbox": "Xbox",
+        "nintendo": "Nintendo",
+        "mobile": "Móvil"
+      }
+    }
   },
   "home": {
     "bestSellers": "Más vendidos",
