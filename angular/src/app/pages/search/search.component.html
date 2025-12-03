@@ -1,0 +1,90 @@
+<div class="min-h-screen bg-gray-900 text-white font-sans pb-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-2xl font-bold text-cyan-300">
+        {{ 'search.title' | translate }}
+        <span *ngIf="activeFilters.length > 0">({{ activeFilters.length }})</span>
+      </h2>
+      <button
+        *ngIf="activeFilters.length > 0"
+        (click)="resetFilters()"
+        class="text-cyan-300 hover:text-cyan-400 text-sm font-medium transition-colors duration-150 active:scale-95"
+      >
+        {{ 'search.reset' | translate }}
+      </button>
+    </div>
+
+    <div *ngIf="activeFilters.length > 0" class="flex flex-wrap gap-2 mb-6">
+      <div
+        *ngFor="let filter of activeFilters"
+        class="filter-chip bg-cyan-900 text-cyan-200 px-3 py-1 rounded-full text-sm flex items-center gap-2"
+      >
+        <span>{{ filter.label | translate }}</span>
+        <button
+          (click)="removeFilter(filter.type)"
+          class="hover:text-white transition-colors"
+          [title]="'search.removeFilter' | translate"
+        >
+          ×
+        </button>
+      </div>
+    </div>
+
+    <div class="filters-container mb-8 flex gap-4">
+      <div class="filter-dropdown">
+        <select
+          [value]="selectedPrice"
+          (change)="onPriceChange($event)"
+          class="filter-select bg-gray-800 text-white border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 cursor-pointer"
+        >
+          <option value="">{{ 'search.filters.price.label' | translate }}</option>
+          <option *ngFor="let option of priceOptions" [value]="option.value">
+            {{ option.label | translate }}
+          </option>
+        </select>
+      </div>
+
+      <div class="filter-dropdown">
+        <select
+          [value]="selectedGenre"
+          (change)="onGenreChange($event)"
+          class="filter-select bg-gray-800 text-white border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 cursor-pointer"
+        >
+          <option value="">{{ 'search.filters.genre.label' | translate }}</option>
+          <option *ngFor="let option of genreOptions" [value]="option.value">
+            {{ option.label | translate }}
+          </option>
+        </select>
+      </div>
+
+      <div class="filter-dropdown">
+        <select
+          [value]="selectedPlatform"
+          (change)="onPlatformChange($event)"
+          class="filter-select bg-gray-800 text-white border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 cursor-pointer"
+        >
+          <option value="">{{ 'search.filters.platform.label' | translate }}</option>
+          <option *ngFor="let option of platformOptions" [value]="option.value">
+            {{ option.label | translate }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div *ngIf="filteredGames.length > 0" class="grid grid-cols-5 gap-6 px-4">
+      <app-game-card
+        *ngFor="let game of filteredGames"
+        [game]="game"
+        [coverUrl]="getCoverUrl(game)"
+        (cardClick)="goToProduct($event)"
+      ></app-game-card>
+    </div>
+
+    <div
+      *ngIf="filteredGames.length === 0"
+      class="text-center text-gray-400 py-20"
+    >
+      <p class="text-xl">{{ 'search.noResults' | translate }}</p>
+    </div>
+  </div>
+</div>

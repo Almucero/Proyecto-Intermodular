@@ -6,7 +6,7 @@ import {
   inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Language, TranslatePipe } from '@ngx-translate/core';
 import { LanguageSelectorComponent } from '../language-selector/language-selector.component';
 
@@ -32,6 +32,7 @@ export class HeaderComponent {
   @ViewChild('menu') menu!: ElementRef;
 
   private authService = inject(BaseAuthenticationService);
+  private router = inject(Router);
   user = toSignal(this.authService.user$);
 
   toggleMenu(): void {
@@ -49,6 +50,17 @@ export class HeaderComponent {
         this.searchActive = false;
       }
     }, 120);
+  }
+
+  onSearch(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      const input = event.target as HTMLInputElement;
+      const query = input.value.trim();
+      if (query) {
+        this.router.navigate(['/search'], { queryParams: { q: query } });
+        this.searchActive = false;
+      }
+    }
   }
 
   closeSearch(): void {
