@@ -24,7 +24,7 @@ export async function createUser(
       name: name.trim(),
       surname: surname.trim(),
       passwordHash,
-      accountAt: accountAt ?? new Date().toISOString(),
+      accountAt: accountAt ?? null,
       accountId: accountId ?? null,
       nickname:
         (
