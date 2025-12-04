@@ -34,7 +34,7 @@ async function cleanAllData() {
 
     if (allMedia.length > 0) {
       console.log(
-        `  - Eliminando ${allMedia.length} archivos de Cloudinary...`,
+        `  - Eliminando ${allMedia.length} archivos de Cloudinary...`
       );
       const publicIds = allMedia.map((img) => img.publicId!);
       const chunkSize = 100;
@@ -100,6 +100,12 @@ async function cleanAllData() {
       }
     }
 
+    console.log("  - Eliminando Favorites...");
+    await prisma.favorite.deleteMany({});
+    console.log("  - Eliminando CartItems...");
+    await prisma.cartItem.deleteMany({});
+    console.log("  - Eliminando Purchases...");
+    await prisma.purchase.deleteMany({});
     console.log("  - Eliminando Media...");
     await prisma.media.deleteMany({});
     console.log("  - Eliminando Games...");
@@ -120,29 +126,38 @@ async function cleanAllData() {
     console.log("  - Reseteando secuencias de IDs...");
     try {
       await prisma.$executeRawUnsafe(
-        'ALTER SEQUENCE "Game_id_seq" RESTART WITH 1',
+        'ALTER SEQUENCE "Game_id_seq" RESTART WITH 1'
       );
       await prisma.$executeRawUnsafe(
-        'ALTER SEQUENCE "Media_id_seq" RESTART WITH 1',
+        'ALTER SEQUENCE "Media_id_seq" RESTART WITH 1'
       );
       await prisma.$executeRawUnsafe(
-        'ALTER SEQUENCE "Developer_id_seq" RESTART WITH 1',
+        'ALTER SEQUENCE "Developer_id_seq" RESTART WITH 1'
       );
       await prisma.$executeRawUnsafe(
-        'ALTER SEQUENCE "Publisher_id_seq" RESTART WITH 1',
+        'ALTER SEQUENCE "Publisher_id_seq" RESTART WITH 1'
       );
       await prisma.$executeRawUnsafe(
-        'ALTER SEQUENCE "Genre_id_seq" RESTART WITH 1',
+        'ALTER SEQUENCE "Genre_id_seq" RESTART WITH 1'
       );
       await prisma.$executeRawUnsafe(
-        'ALTER SEQUENCE "Platform_id_seq" RESTART WITH 1',
+        'ALTER SEQUENCE "Platform_id_seq" RESTART WITH 1'
       );
       await prisma.$executeRawUnsafe(
-        'ALTER SEQUENCE "User_id_seq" RESTART WITH 1',
+        'ALTER SEQUENCE "User_id_seq" RESTART WITH 1'
+      );
+      await prisma.$executeRawUnsafe(
+        'ALTER SEQUENCE "Favorite_id_seq" RESTART WITH 1'
+      );
+      await prisma.$executeRawUnsafe(
+        'ALTER SEQUENCE "CartItem_id_seq" RESTART WITH 1'
+      );
+      await prisma.$executeRawUnsafe(
+        'ALTER SEQUENCE "Purchase_id_seq" RESTART WITH 1'
       );
     } catch (e) {
       console.warn(
-        "  ⚠️ No se pudieron resetear las secuencias (posiblemente no es PostgreSQL o ya están resetadas).",
+        "  ⚠️ No se pudieron resetear las secuencias (posiblemente no es PostgreSQL o ya están resetadas)."
       );
     }
 

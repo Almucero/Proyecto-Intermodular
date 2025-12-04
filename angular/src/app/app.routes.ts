@@ -18,6 +18,9 @@ import { CartComponent } from './pages/cart/cart.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { SearchComponent } from './pages/search/search.component';
 
+import { adminGuard } from './core/guards/admin.guard';
+import { customerGuard } from './core/guards/customer.guard';
+
 export const routes: Routes = [
   {
     path: '',
@@ -38,7 +41,7 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [authGuard],
+    canActivate: [authGuard, customerGuard],
     data: { animation: 'DashboardPage' },
   },
   {
@@ -104,6 +107,7 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
+    canActivate: [authGuard, adminGuard],
     data: { animation: 'AdminPage' },
   },
 ];

@@ -2,15 +2,17 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
     <div class="flex items-center justify-between mb-6">
       <h2 class="text-2xl font-bold text-cyan-300">
-        {{ 'search.title' | translate }}
-        <span *ngIf="activeFilters.length > 0">({{ activeFilters.length }})</span>
+        {{ "search.title" | translate }}
+        <span *ngIf="activeFilters.length > 0"
+          >({{ activeFilters.length }})</span
+        >
       </h2>
       <button
         *ngIf="activeFilters.length > 0"
         (click)="resetFilters()"
         class="text-cyan-300 hover:text-cyan-400 text-sm font-medium transition-colors duration-150 active:scale-95"
       >
-        {{ 'search.reset' | translate }}
+        {{ "search.reset" | translate }}
       </button>
     </div>
 
@@ -25,7 +27,7 @@
           class="hover:text-white transition-colors"
           [title]="'search.removeFilter' | translate"
         >
-          ×
+          &times;
         </button>
       </div>
     </div>
@@ -37,7 +39,9 @@
           (change)="onPriceChange($event)"
           class="filter-select bg-gray-800 text-white border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 cursor-pointer"
         >
-          <option value="">{{ 'search.filters.price.label' | translate }}</option>
+          <option value="">
+            {{ "search.filters.price.label" | translate }}
+          </option>
           <option *ngFor="let option of priceOptions" [value]="option.value">
             {{ option.label | translate }}
           </option>
@@ -50,7 +54,9 @@
           (change)="onGenreChange($event)"
           class="filter-select bg-gray-800 text-white border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 cursor-pointer"
         >
-          <option value="">{{ 'search.filters.genre.label' | translate }}</option>
+          <option value="">
+            {{ "search.filters.genre.label" | translate }}
+          </option>
           <option *ngFor="let option of genreOptions" [value]="option.value">
             {{ option.label | translate }}
           </option>
@@ -63,7 +69,9 @@
           (change)="onPlatformChange($event)"
           class="filter-select bg-gray-800 text-white border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-500 cursor-pointer"
         >
-          <option value="">{{ 'search.filters.platform.label' | translate }}</option>
+          <option value="">
+            {{ "search.filters.platform.label" | translate }}
+          </option>
           <option *ngFor="let option of platformOptions" [value]="option.value">
             {{ option.label | translate }}
           </option>
@@ -84,7 +92,7 @@
       *ngIf="filteredGames.length === 0"
       class="text-center text-gray-400 py-20"
     >
-      <p class="text-xl">{{ 'search.noResults' | translate }}</p>
+      <p class="text-xl">{{ "search.noResults" | translate }}</p>
     </div>
   </div>
 </div>

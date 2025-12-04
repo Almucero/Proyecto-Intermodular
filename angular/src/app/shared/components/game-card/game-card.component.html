@@ -4,8 +4,6 @@
 >
   <div
     class="h-32 bg-gray-700 rounded-xl overflow-hidden shadow-md group-hover:scale-105 transition-transform duration-300 relative"
-    (mouseenter)="onGameMouseEnter()"
-    (mouseleave)="onGameMouseLeave()"
   >
     <img
       *ngIf="game.isOnSale"
@@ -17,22 +15,12 @@
       [alt]="game.title"
       class="w-full h-full object-cover pointer-events-none absolute inset-0 z-10"
     />
-
-    <video
-      *ngIf="hoveredGameId === game.id && game.videoUrl && safeVideoUrl"
-      [src]="safeVideoUrl"
-      class="w-full h-full object-cover pointer-events-none absolute inset-0 z-20 bg-black"
-      autoplay
-      muted
-      loop
-      playsinline
-    ></video>
   </div>
 
   <div
-    class="mt-2 flex justify-between items-baseline text-sm font-medium text-gray-300 group-hover:text-white transition-colors overflow-hidden"
+    class="mt-2 flex justify-between items-center text-sm font-medium text-gray-300 group-hover:text-white transition-colors overflow-hidden"
   >
-    <div class="flex-1 min-w-0 mr-2 title-container">
+    <div class="flex-1 min-w-0 mr-2 title-container h-5">
       <span
         #gameTitle
         class="block truncate text-left whitespace-nowrap"

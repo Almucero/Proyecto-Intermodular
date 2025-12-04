@@ -7,7 +7,7 @@ import {
   withFetch,
   withInterceptors,
 } from '@angular/common/http';
-import { authInterceptorFn } from './core/interceptors/auth.interceptor';
+
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { provideTranslateService } from '@ngx-translate/core';
 import { environment } from '../environments/environment';
@@ -70,7 +70,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withFetch(), withInterceptors([authInterceptorFn])),
+    provideHttpClient(withFetch()),
     provideAnimations(),
     provideTranslateService({
       loader: provideTranslateHttpLoader({

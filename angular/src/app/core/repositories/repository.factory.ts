@@ -8,7 +8,6 @@ import { BaseRepositoryLocalStorageService } from './impl/base-repository-local-
 import { IAuthentication } from '../services/interfaces/authentication.interface';
 import { BaseAuthenticationService } from '../services/impl/base-authentication.service';
 import { IAuthMapping } from '../services/interfaces/auth-mapping.interface';
-import { MediaService } from '../services/impl/media.service';
 
 // Models
 import { Developer } from '../models/developer.model';
@@ -21,12 +20,10 @@ import { User } from '../models/user.model';
 
 // Tokens
 import {
-  API_URL_TOKEN,
   AUTH_MAPPING_TOKEN,
   AUTH_ME_API_URL_TOKEN,
   AUTH_SIGN_IN_API_URL_TOKEN,
   AUTH_SIGN_UP_API_URL_TOKEN,
-  AUTH_TOKEN,
   BACKEND_TOKEN,
   DEVELOPER_API_URL_TOKEN,
   DEVELOPER_REPOSITORY_MAPPING_TOKEN,

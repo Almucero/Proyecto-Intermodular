@@ -32,7 +32,7 @@ export async function registerCtrl(req: Request, res: Response) {
       city,
       region,
       postalCode,
-      country,
+      country
     );
     res.status(201).json(data);
   } catch (e: any) {

@@ -655,6 +655,183 @@ const options: swaggerJsdoc.Options = {
             name: { type: "string", description: "Nombre del publisher" },
           },
         },
+        Favorite: {
+          type: "object",
+          description: "Favorito del usuario",
+          properties: {
+            id: { type: "integer", description: "ID del favorito" },
+            userId: { type: "integer", description: "ID del usuario" },
+            gameId: { type: "integer", description: "ID del juego" },
+            createdAt: {
+              type: "string",
+              format: "date-time",
+              description: "Fecha de creación",
+            },
+            game: {
+              type: "object",
+              description: "Información del juego favorito",
+              properties: {
+                id: { type: "integer", description: "ID del juego" },
+                title: { type: "string", description: "Título del juego" },
+                description: {
+                  type: "string",
+                  description: "Descripción del juego",
+                },
+                price: {
+                  type: "number",
+                  format: "float",
+                  description: "Precio del juego",
+                },
+                rating: {
+                  type: "number",
+                  format: "float",
+                  description: "Calificación",
+                },
+                releaseDate: {
+                  type: "string",
+                  format: "date",
+                  description: "Fecha de lanzamiento",
+                },
+                media: {
+                  type: "array",
+                  items: { $ref: "#/components/schemas/Media" },
+                },
+              },
+            },
+          },
+        },
+        FavoritesList: {
+          type: "array",
+          items: { $ref: "#/components/schemas/Favorite" },
+        },
+        CartItem: {
+          type: "object",
+          description: "Artículo del carrito de compras",
+          properties: {
+            id: { type: "integer", description: "ID del artículo" },
+            userId: { type: "integer", description: "ID del usuario" },
+            gameId: { type: "integer", description: "ID del juego" },
+            quantity: { type: "integer", description: "Cantidad", minimum: 1 },
+            createdAt: { type: "string", format: "date-time" },
+            updatedAt: { type: "string", format: "date-time" },
+            game: {
+              type: "object",
+              description: "Información del juego en el carrito",
+              properties: {
+                id: { type: "integer" },
+                title: { type: "string" },
+                description: { type: "string" },
+                price: { type: "number", format: "float" },
+                rating: { type: "number", format: "float" },
+                media: {
+                  type: "array",
+                  items: { $ref: "#/components/schemas/Media" },
+                },
+              },
+            },
+          },
+        },
+        CartList: {
+          type: "array",
+          items: { $ref: "#/components/schemas/CartItem" },
+        },
+        Purchase: {
+          type: "object",
+          description: "Compra realizada por el usuario",
+          properties: {
+            id: { type: "integer", description: "ID de la compra" },
+            userId: { type: "integer", description: "ID del usuario" },
+            gameId: { type: "integer", description: "ID del juego comprado" },
+            price: {
+              type: "number",
+              format: "float",
+              description: "Precio al momento de la compra",
+            },
+            status: {
+              type: "string",
+              enum: ["completed", "refunded"],
+              description: "Estado de la compra",
+            },
+            refundReason: {
+              type: "string",
+              description: "Razón del reembolso (si aplica)",
+            },
+            purchasedAt: {
+              type: "string",
+              format: "date-time",
+              description: "Fecha de la compra",
+            },
+            game: {
+              type: "object",
+              description: "Información del juego comprado",
+              properties: {
+                id: { type: "integer" },
+                title: { type: "string" },
+                description: { type: "string" },
+                price: { type: "number", format: "float" },
+                rating: { type: "number", format: "float" },
+                media: {
+                  type: "array",
+                  items: { $ref: "#/components/schemas/Media" },
+                },
+              },
+            },
+          },
+        },
+        PurchasesList: {
+          type: "array",
+          items: { $ref: "#/components/schemas/Purchase" },
+        },
+        CheckoutInput: {
+          type: "object",
+          required: ["gameIds"],
+          properties: {
+            gameIds: {
+              type: "array",
+              items: { type: "integer" },
+              description: "IDs de los juegos a comprar",
+              minItems: 1,
+            },
+          },
+        },
+        RefundInput: {
+          type: "object",
+          required: ["reason"],
+          properties: {
+            reason: {
+              type: "string",
+              description: "Razón del reembolso",
+              minLength: 1,
+            },
+          },
+        },
+        AddToFavoritesInput: {
+          type: "object",
+          properties: {
+            gameId: { type: "integer", description: "ID del juego" },
+          },
+        },
+        AddToCartInput: {
+          type: "object",
+          properties: {
+            quantity: {
+              type: "integer",
+              description: "Cantidad (por defecto 1)",
+              minimum: 1,
+            },
+          },
+        },
+        UpdateCartQuantityInput: {
+          type: "object",
+          required: ["quantity"],
+          properties: {
+            quantity: {
+              type: "integer",
+              description: "Nueva cantidad",
+              minimum: 1,
+            },
+          },
+        },
       },
     },
     tags: [
@@ -693,6 +870,18 @@ const options: swaggerJsdoc.Options = {
       {
         name: "Media",
         description: "Gestión de archivos multimedia (CRUD)",
+      },
+      {
+        name: "Favorites",
+        description: "Gestión de favoritos del usuario",
+      },
+      {
+        name: "Cart",
+        description: "Gestión del carrito de compras",
+      },
+      {
+        name: "Purchases",
+        description: "Gestión de compras y reembolsos",
       },
     ],
   },

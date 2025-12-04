@@ -6,4 +6,5 @@ export interface IAuthentication {
   signOut(): Observable<any>;
   me(): Observable<any>;
   getCurrentUser(): Promise<any>;
+  getToken(): string | null;
 }

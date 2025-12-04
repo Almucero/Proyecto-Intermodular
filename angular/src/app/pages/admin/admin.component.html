@@ -3,5 +3,13 @@
     <h2 class="text-2xl font-bold text-cyan-300 mb-6 text-center">
       {{ "admin.title" | translate }}
     </h2>
+    <div class="flex justify-center mt-8">
+      <button
+        (click)="onLogout()"
+        class="border-0 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-6 rounded transition-colors flex items-center gap-2 duration-150 active:scale-95 focus:outline-none cursor-pointer"
+      >
+        <span>{{ "dashboard.logout" | translate }}</span>
+      </button>
+    </div>
   </div>
 </div>
