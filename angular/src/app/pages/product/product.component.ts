@@ -6,8 +6,6 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { GameService } from '../../core/services/impl/game.service';
 import { MediaService } from '../../core/services/impl/media.service';
 import { Game } from '../../core/models/game.model';
-import { Media } from '../../core/models/media.model';
-import { Platform } from '../../core/models/platform.model';
 
 interface MediaItem {
   type: 'video' | 'image';

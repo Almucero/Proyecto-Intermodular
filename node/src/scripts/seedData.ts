@@ -942,7 +942,7 @@ async function seedData() {
         genres: ["Deportes", "Simulacion"],
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One", "Switch"],
         rating: 3.7,
-        numberOfSales: 2000000,
+        numberOfSales: 1000000,
         stock: 76,
         videoUrl: "https://www.youtube.com/watch?v=o3V-GvvzjE4",
       },
@@ -2057,13 +2057,8 @@ async function seedData() {
       createdUsers.push(user);
     }
 
-    // Agregar favoritos, carrito y compras para los usuarios regulares
-    console.log("  - Agregando datos de favoritos, carrito y compras...");
+    const gamesToUse = createdGames.slice(0, 10);
 
-    // Seleccionar algunos juegos para agregar a favoritos/carrito/compras
-    const gamesToUse = createdGames.slice(0, 10); // Primeros 10 juegos
-
-    // Contadores para logging
     let favAdded = 0;
     let cartAdded = 0;
     let purchasesAdded = 0;
@@ -2072,7 +2067,8 @@ async function seedData() {
     for (let i = 0; i < createdUsers.length; i++) {
       const user = createdUsers[i]!;
 
-      // Agregar 2-3 juegos a favoritos
+      console.log("  - Creando datos de favoritos...");
+
       const favCount = 2 + (i % 2);
       for (let j = 0; j < favCount && j < gamesToUse.length; j++) {
         await prisma.favorite.create({
@@ -2084,7 +2080,8 @@ async function seedData() {
         favAdded++;
       }
 
-      // Agregar 1-2 juegos al carrito
+      console.log("  - Creando datos de carritos...");
+
       const cartCount = 1 + (i % 2);
       for (let j = 0; j < cartCount && j < gamesToUse.length; j++) {
         const gameIndex = (favCount + j) % gamesToUse.length;
@@ -2092,13 +2089,14 @@ async function seedData() {
           data: {
             userId: user.id,
             gameId: gamesToUse[gameIndex]!.id,
-            quantity: 1 + (j % 2), // 1 o 2 de cantidad
+            quantity: 1 + (j % 2),
           },
         });
         cartAdded++;
       }
 
-      // Agregar 1-2 compras completadas
+      console.log("  - Creando compras...");
+
       const purchaseCount = 1 + (i % 2);
       for (let j = 0; j < purchaseCount && j < gamesToUse.length; j++) {
         const gameIndex = (favCount + cartCount + j) % gamesToUse.length;
@@ -2111,15 +2109,15 @@ async function seedData() {
             status: "completed",
             purchasedAt: new Date(
               Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000
-            ), // Últimos 30 días
+            ),
           },
         });
         purchasesAdded++;
       }
 
-      // Agregar 0-1 compra en estado de reembolso/refund
+      console.log("  - Creando datos de devoluciones...");
+
       if (i < 2) {
-        // Solo algunos usuarios
         const refundIndex =
           (favCount + cartCount + purchaseCount) % gamesToUse.length;
         const game = gamesToUse[refundIndex]!;
@@ -2131,7 +2129,7 @@ async function seedData() {
             status: "refunded",
             refundReason:
               i === 0 ? "No cumple mis expectativas" : "Problemas técnicos",
-            purchasedAt: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000), // Hace 15 días
+            purchasedAt: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000),
           },
         });
         refundsAdded++;
