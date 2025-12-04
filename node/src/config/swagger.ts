@@ -78,8 +78,7 @@ const options: swaggerJsdoc.Options = {
             accountId: { type: "string", description: "CUID de la cuenta" },
             accountAt: {
               type: "string",
-              format: "date-time",
-              description: "Fecha de asociación de cuenta",
+              description: "Arroba de la cuenta",
             },
             email: {
               type: "string",
@@ -143,8 +142,7 @@ const options: swaggerJsdoc.Options = {
             },
             accountAt: {
               type: "string",
-              format: "date-time",
-              description: "Fecha de asociación de cuenta (opcional)",
+              description: "Arroba de la cuenta",
             },
             accountId: {
               type: "string",

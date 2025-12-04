@@ -4,6 +4,7 @@ import {
   HostListener,
   ViewChild,
   ElementRef,
+  inject,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -21,12 +22,11 @@ import { CarouselComponent } from '../../shared/components/carousel/carousel.com
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  // --- REFERENCIAS PARA EL EFECTO PARALLAX ---
   @ViewChild('backgroundLayer') backgroundLayer!: ElementRef;
   @ViewChild('jokerLayer') jokerLayer!: ElementRef;
   @ViewChild('geraltLayer') geraltLayer!: ElementRef;
   @ViewChild('wavesLayer') wavesLayer!: ElementRef;
-  @ViewChild('mainContent') mainContent!: ElementRef; // NUEVA REFERENCIA PARA EL CONTENIDO INFERIOR
+  @ViewChild('mainContent') mainContent!: ElementRef;
 
   genres = [
     'genres.action',
@@ -94,9 +94,10 @@ export class HomeComponent implements OnInit {
   onSaleGames: Game[] = this.createPlaceholders();
   topRatedGames: Game[] = this.createPlaceholders();
 
+  private router = inject(Router);
+  private http = inject(HttpClient);
+
   constructor(
-    private http: HttpClient,
-    private router: Router,
     private gameService: GameService,
     private mediaService: MediaService
   ) {}
