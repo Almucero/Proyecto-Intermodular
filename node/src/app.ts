@@ -16,20 +16,22 @@ import publishersRoutes from "./modules/publishers/publishers.routes.js";
 import genresRoutes from "./modules/genres/genres.routes.js";
 import platformsRoutes from "./modules/platforms/platforms.routes.js";
 import mediaRoutes from "./modules/media/media.routes.js";
+import { favoritesRoutes } from "./modules/favorites/favorites.routes.js";
+import { cartRoutes } from "./modules/cart/cart.routes.js";
+import { purchasesRoutes } from "./modules/purchases/purchases.routes.js";
 
 const app = express();
 
 app.use(
   helmet({
     contentSecurityPolicy: false,
-  }),
+  })
 );
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 app.use(requestLogger);
 app.use(responseSerializer);
 
-// Apply general rate limiter only in production to avoid blocking local development
 if (env.NODE_ENV === "production") {
   app.use(generalLimiter);
 }
@@ -76,6 +78,12 @@ app.use("/api/publishers", publishersRoutes);
 app.use("/api/genres", genresRoutes);
 app.use("/api/platforms", platformsRoutes);
 app.use("/api/media", mediaRoutes);
+
+const router = express.Router();
+favoritesRoutes(router);
+cartRoutes(router);
+purchasesRoutes(router);
+app.use("/api", router);
 
 app.use(errorHandler);
 

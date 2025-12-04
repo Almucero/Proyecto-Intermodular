@@ -31,33 +31,52 @@ export class BaseRepositoryHttpService<T extends Model>
     this.apiUrl = apiUrl;
   }
 
+  private getHeaders(): { [header: string]: string | string[] } {
+    const token = this.auth.getToken();
+    if (token) {
+      return { Authorization: `Bearer ${token}` };
+    }
+    return {};
+  }
+
   getAll(filters: SearchParams): Observable<T[]> {
     return this.http
-      .get<T[]>(`${this.apiUrl}/${this.resource}`, { params: filters as any })
+      .get<T[]>(`${this.apiUrl}/${this.resource}`, {
+        params: filters as any,
+        headers: this.getHeaders(),
+      })
       .pipe(map((res) => this.mapping.getAll(res)));
   }
 
   getById(id: string): Observable<T | null> {
     return this.http
-      .get<T>(`${this.apiUrl}/${this.resource}/${id}`)
+      .get<T>(`${this.apiUrl}/${this.resource}/${id}`, {
+        headers: this.getHeaders(),
+      })
       .pipe(map((res) => this.mapping.getOne(res)));
   }
 
   add(entity: T): Observable<T> {
     return this.http
-      .post<T>(`${this.apiUrl}/${this.resource}`, entity)
+      .post<T>(`${this.apiUrl}/${this.resource}`, entity, {
+        headers: this.getHeaders(),
+      })
       .pipe(map((res) => this.mapping.getAdded(res)));
   }
 
   update(id: string, entity: T): Observable<T> {
     return this.http
-      .patch<T>(`${this.apiUrl}/${this.resource}/${id}`, entity)
+      .patch<T>(`${this.apiUrl}/${this.resource}/${id}`, entity, {
+        headers: this.getHeaders(),
+      })
       .pipe(map((res) => this.mapping.getUpdated(res)));
   }
 
   delete(id: string): Observable<T> {
     return this.http
-      .delete<T>(`${this.apiUrl}/${this.resource}/${id}`)
+      .delete<T>(`${this.apiUrl}/${this.resource}/${id}`, {
+        headers: this.getHeaders(),
+      })
       .pipe(map((res) => this.mapping.getDeleted(res)));
   }
 }

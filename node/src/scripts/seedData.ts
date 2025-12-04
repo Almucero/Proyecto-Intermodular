@@ -84,7 +84,7 @@ async function uploadAllMedia() {
 
     if (!fs.existsSync(gameFolderPath)) {
       console.warn(
-        `⚠️ Carpeta no encontrada para: "${game.title}" (intentado: "${folderName}")`,
+        `⚠️ Carpeta no encontrada para: "${game.title}" (intentado: "${folderName}")`
       );
       continue;
     }
@@ -98,7 +98,7 @@ async function uploadAllMedia() {
     for (const file of imageFiles) {
       if (!/\.webp$/i.test(file)) {
         console.error(
-          `❌ Error: ${file} no es .webp en la carpeta de "${game.title}". Solo se aceptan archivos .webp en el seed.`,
+          `❌ Error: ${file} no es .webp en la carpeta de "${game.title}". Solo se aceptan archivos .webp en el seed.`
         );
         continue;
       }
@@ -140,8 +140,12 @@ async function uploadAllMedia() {
   let totalUserAvatars = 0;
 
   for (const user of allUsers) {
-    const sanitizedName = user.accountAt || sanitizeFolderName(user.name);
-    const folderNameToLookup = user.accountAt || user.name;
+    const sanitizedName = user.accountAt
+      ? user.accountAt.toString()
+      : sanitizeFolderName(user.name);
+    const folderNameToLookup = user.accountAt
+      ? user.accountAt.toString()
+      : user.name;
     const userFolderPath = path.join(USER_IMAGES_PATH, folderNameToLookup);
 
     if (!fs.existsSync(userFolderPath)) continue;
@@ -157,7 +161,7 @@ async function uploadAllMedia() {
 
     if (!/\.webp$/i.test(file)) {
       console.error(
-        `❌ Error: ${file} no es .webp en la carpeta de "${user.name}". Solo se aceptan archivos .webp en el seed.`,
+        `❌ Error: ${file} no es .webp en la carpeta de "${user.name}". Solo se aceptan archivos .webp en el seed.`
       );
       continue;
     }
@@ -216,10 +220,10 @@ async function seedData() {
     ];
     console.log("  - Creando plataformas...");
     const platforms = await Promise.all(
-      platformNames.map((name) => prisma.platform.create({ data: { name } })),
+      platformNames.map((name) => prisma.platform.create({ data: { name } }))
     );
     const platformByName = Object.fromEntries(
-      platforms.map((p) => [p.name, p]),
+      platforms.map((p) => [p.name, p])
     );
 
     const genreNames = [
@@ -270,7 +274,7 @@ async function seedData() {
     ];
     console.log("  - Creando géneros...");
     const genres = await Promise.all(
-      genreNames.map((name) => prisma.genre.create({ data: { name } })),
+      genreNames.map((name) => prisma.genre.create({ data: { name } }))
     );
     const genreByName = Object.fromEntries(genres.map((g) => [g.name, g]));
 
@@ -335,11 +339,11 @@ async function seedData() {
 
     console.log("  - Creando developers...");
     const developers = await Promise.all(
-      developerNames.map((n) => prisma.developer.create({ data: { name: n } })),
+      developerNames.map((n) => prisma.developer.create({ data: { name: n } }))
     );
     console.log("  - Creando publishers...");
     const publishers = await Promise.all(
-      publisherNames.map((n) => prisma.publisher.create({ data: { name: n } })),
+      publisherNames.map((n) => prisma.publisher.create({ data: { name: n } }))
     );
 
     const devByName = Object.fromEntries(developers.map((d) => [d.name, d]));
@@ -1898,7 +1902,7 @@ async function seedData() {
           const pc = platformByName["PC"];
           if (!pc)
             throw new Error(
-              `Platform not found: ${name} (and fallback PC missing)`,
+              `Platform not found: ${name} (and fallback PC missing)`
             );
           return { id: pc.id };
         }
@@ -1937,7 +1941,7 @@ async function seedData() {
     const createdGames = [];
     for (const g of gamesData) {
       g.platforms = (g.platforms || ["PC"]).map((p) =>
-        platformByName[p] ? p : "PC",
+        platformByName[p] ? p : "PC"
       );
       createdGames.push(await createGame(g));
     }
@@ -2053,6 +2057,87 @@ async function seedData() {
       createdUsers.push(user);
     }
 
+    // Agregar favoritos, carrito y compras para los usuarios regulares
+    console.log("  - Agregando datos de favoritos, carrito y compras...");
+
+    // Seleccionar algunos juegos para agregar a favoritos/carrito/compras
+    const gamesToUse = createdGames.slice(0, 10); // Primeros 10 juegos
+
+    // Contadores para logging
+    let favAdded = 0;
+    let cartAdded = 0;
+    let purchasesAdded = 0;
+    let refundsAdded = 0;
+
+    for (let i = 0; i < createdUsers.length; i++) {
+      const user = createdUsers[i]!;
+
+      // Agregar 2-3 juegos a favoritos
+      const favCount = 2 + (i % 2);
+      for (let j = 0; j < favCount && j < gamesToUse.length; j++) {
+        await prisma.favorite.create({
+          data: {
+            userId: user.id,
+            gameId: gamesToUse[j]!.id,
+          },
+        });
+        favAdded++;
+      }
+
+      // Agregar 1-2 juegos al carrito
+      const cartCount = 1 + (i % 2);
+      for (let j = 0; j < cartCount && j < gamesToUse.length; j++) {
+        const gameIndex = (favCount + j) % gamesToUse.length;
+        await prisma.cartItem.create({
+          data: {
+            userId: user.id,
+            gameId: gamesToUse[gameIndex]!.id,
+            quantity: 1 + (j % 2), // 1 o 2 de cantidad
+          },
+        });
+        cartAdded++;
+      }
+
+      // Agregar 1-2 compras completadas
+      const purchaseCount = 1 + (i % 2);
+      for (let j = 0; j < purchaseCount && j < gamesToUse.length; j++) {
+        const gameIndex = (favCount + cartCount + j) % gamesToUse.length;
+        const game = gamesToUse[gameIndex]!;
+        await prisma.purchase.create({
+          data: {
+            userId: user.id,
+            gameId: game.id,
+            price: game.isOnSale ? game.salePrice! : game.price!,
+            status: "completed",
+            purchasedAt: new Date(
+              Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000
+            ), // Últimos 30 días
+          },
+        });
+        purchasesAdded++;
+      }
+
+      // Agregar 0-1 compra en estado de reembolso/refund
+      if (i < 2) {
+        // Solo algunos usuarios
+        const refundIndex =
+          (favCount + cartCount + purchaseCount) % gamesToUse.length;
+        const game = gamesToUse[refundIndex]!;
+        await prisma.purchase.create({
+          data: {
+            userId: user.id,
+            gameId: game.id,
+            price: game.isOnSale ? game.salePrice! : game.price!,
+            status: "refunded",
+            refundReason:
+              i === 0 ? "No cumple mis expectativas" : "Problemas técnicos",
+            purchasedAt: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000), // Hace 15 días
+          },
+        });
+        refundsAdded++;
+      }
+    }
+
     const mediaCounts = await uploadAllMedia();
 
     console.log("   ✅ Seed completado:");
@@ -2062,6 +2147,10 @@ async function seedData() {
     console.log(`   - ${platforms.length} Plataformas creadas`);
     console.log(`   - ${createdGames.length} Games creados`);
     console.log(`   - ${createdUsers.length} Usuarios no admin creados`);
+    console.log(`   - ${favAdded} Favoritos creados`);
+    console.log(`   - ${cartAdded} Items añadidos al carrito`);
+    console.log(`   - ${purchasesAdded} Compras completadas`);
+    console.log(`   - ${refundsAdded} Compras en estado 'refunded'`);
     console.log(`   - ${mediaCounts.gameImages} Imágenes de juegos subidas`);
     console.log(`   - ${mediaCounts.userAvatars} Avatares de usuarios subidos`);
   } catch (err) {
