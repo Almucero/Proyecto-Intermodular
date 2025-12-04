@@ -16,23 +16,29 @@ export async function createUser(
   city?: string | null,
   region?: string | null,
   postalCode?: string | null,
-  country?: string | null,
+  country?: string | null
 ) {
   return prisma.user.create({
     data: {
-      email,
-      name,
-      surname,
+      email: email.trim(),
+      name: name.trim(),
+      surname: surname.trim(),
       passwordHash,
       accountAt: accountAt ?? new Date().toISOString(),
       accountId: accountId ?? null,
-      nickname: nickname ?? name.split(" ")[0] ?? email.split("@")[0] ?? null,
-      addressLine1: addressLine1 ?? null,
-      addressLine2: addressLine2 ?? null,
-      city: city ?? null,
-      region: region ?? null,
-      postalCode: postalCode ?? null,
-      country: country ?? null,
+      nickname:
+        (
+          nickname ??
+          name.split(" ")[0] ??
+          email.split("@")[0] ??
+          null
+        )?.trim() ?? null,
+      addressLine1: addressLine1?.trim() ?? null,
+      addressLine2: addressLine2?.trim() ?? null,
+      city: city?.trim() ?? null,
+      region: region?.trim() ?? null,
+      postalCode: postalCode?.trim() ?? null,
+      country: country?.trim() ?? null,
       balance: new Prisma.Decimal(0),
     },
     select: {
@@ -161,7 +167,7 @@ export async function listUsers(filters?: {
 
 export async function updateUser(
   id: number,
-  data: { name?: string; email?: string },
+  data: { name?: string; email?: string }
 ) {
   return prisma.user.update({ where: { id }, data });
 }
@@ -172,7 +178,7 @@ export async function deleteUser(id: number) {
 
 export async function updateProfile(
   userId: number,
-  data: { name?: string; email?: string },
+  data: { name?: string; email?: string }
 ) {
   return prisma.user.update({
     where: { id: userId },
@@ -183,7 +189,7 @@ export async function updateProfile(
 export async function changePassword(
   userId: number,
   currentPassword: string,
-  newPassword: string,
+  newPassword: string
 ) {
   const user = await prisma.user.findUnique({ where: { id: userId } });
 

@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Game } from '../../../core/models/game.model';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
@@ -26,13 +25,9 @@ export class GameCardComponent implements AfterViewInit {
 
   @ViewChild('gameTitle') gameTitleElement!: ElementRef;
 
-  hoveredGameId: number | null = null;
-  safeVideoUrl: SafeUrl | null = null;
-
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor() {}
 
   ngAfterViewInit(): void {
-    // Check if title is long and needs animation
     window.requestAnimationFrame(() => this.checkLongTitle());
   }
 
@@ -42,26 +37,18 @@ export class GameCardComponent implements AfterViewInit {
         .nativeElement as HTMLSpanElement;
       const containerElement = spanElement.parentElement as HTMLElement;
 
-      if (spanElement.scrollWidth > containerElement.clientWidth + 1) {
+      const overflow = spanElement.scrollWidth - containerElement.clientWidth;
+
+      if (overflow > 0) {
+        spanElement.style.setProperty('--scroll-distance', `-${overflow}px`);
         spanElement.classList.add('long-text-animate');
+        containerElement.classList.add('fade-mask');
       } else {
         spanElement.classList.remove('long-text-animate');
+        spanElement.style.removeProperty('--scroll-distance');
+        containerElement.classList.remove('fade-mask');
       }
     }
-  }
-
-  onGameMouseEnter(): void {
-    this.hoveredGameId = this.game.id;
-    if (this.game.videoUrl) {
-      this.safeVideoUrl = this.sanitizer.bypassSecurityTrustUrl(
-        this.game.videoUrl
-      );
-    }
-  }
-
-  onGameMouseLeave(): void {
-    this.hoveredGameId = null;
-    this.safeVideoUrl = null;
   }
 
   onClick(): void {

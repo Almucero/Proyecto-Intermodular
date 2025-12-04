@@ -30,4 +30,5 @@ export abstract class BaseAuthenticationService implements IAuthentication {
   abstract signOut(): Observable<any>;
   abstract me(): Observable<any>;
   abstract autoLogin(): void;
+  abstract getToken(): string | null;
 }
