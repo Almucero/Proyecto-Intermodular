@@ -143,9 +143,16 @@ async function cleanAllData() {
       await prisma.$executeRawUnsafe(
         'ALTER SEQUENCE "Platform_id_seq" RESTART WITH 1'
       );
+
+      const maxUserId = await prisma.user.findFirst({
+        orderBy: { id: "desc" },
+        select: { id: true },
+      });
+      const nextUserId = maxUserId ? maxUserId.id + 1 : 1;
       await prisma.$executeRawUnsafe(
-        'ALTER SEQUENCE "User_id_seq" RESTART WITH 1'
+        `ALTER SEQUENCE "User_id_seq" RESTART WITH ${nextUserId}`
       );
+
       await prisma.$executeRawUnsafe(
         'ALTER SEQUENCE "Favorite_id_seq" RESTART WITH 1'
       );
@@ -154,6 +161,9 @@ async function cleanAllData() {
       );
       await prisma.$executeRawUnsafe(
         'ALTER SEQUENCE "Purchase_id_seq" RESTART WITH 1'
+      );
+      await prisma.$executeRawUnsafe(
+        'ALTER SEQUENCE "PurchaseItem_id_seq" RESTART WITH 1'
       );
     } catch (e) {
       console.warn(

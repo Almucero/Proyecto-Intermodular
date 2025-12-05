@@ -1,14 +1,32 @@
 import type { Request, Response, NextFunction } from "express";
 import { z } from "zod";
-import { checkoutSchema, refundSchema } from "./purchases.schema.js";
-import * as purchasesService from "./purchases.service.js";
+import {
+  completePurchase,
+  getUserPurchases,
+  getPurchase,
+  refundPurchase,
+} from "./purchases.service.js";
 import { logger } from "../../utils/logger.js";
 
+const checkoutSchema = z.object({
+  gameIds: z
+    .array(z.coerce.number().int().positive())
+    .min(1, "Al menos un juego es requerido"),
+});
+
+const refundSchema = z.object({
+  reason: z
+    .string()
+    .min(5, "La razón debe tener al menos 5 caracteres")
+    .max(500),
+});
+
 const purchaseIdSchema = z.object({
-  id: z.coerce
-    .number()
-    .int()
-    .positive("ID de compra debe ser un número positivo"),
+  id: z.coerce.number().int().positive("ID inválido"),
+});
+
+const statusQuerySchema = z.object({
+  status: z.enum(["completed", "refunded"]).optional(),
 });
 
 export async function checkoutCtrl(
@@ -18,35 +36,29 @@ export async function checkoutCtrl(
 ) {
   try {
     const user = req.user!;
-    const parsed = checkoutSchema.safeParse(req.body);
+    const bodyParsed = checkoutSchema.safeParse(req.body);
 
-    if (!parsed.success) {
-      return res.status(400).json({ errors: parsed.error.flatten() });
+    if (!bodyParsed.success) {
+      return res.status(400).json({
+        message: "Datos de entrada inválidos",
+        errors: bodyParsed.error.issues,
+      });
     }
 
-    const { gameIds } = parsed.data;
-
-    const purchases = await purchasesService.completePurchase(
-      user.sub,
-      gameIds
-    );
-
-    logger.info(
-      `User ${user.sub} completed purchase for ${gameIds.length} games`
-    );
-    res.status(201).json({
-      message: "Compra completada exitosamente",
-      purchases,
-    });
-  } catch (error) {
-    next(error);
+    const purchase = await completePurchase(user.sub, bodyParsed.data.gameIds);
+    res.status(201).json(purchase);
+  } catch (error: any) {
+    if (error.message === "No se encontraron artículos en el carrito") {
+      return res.status(404).json({ message: error.message });
+    }
+    if (error.message === "Debe proporcionar al menos un juego") {
+      return res.status(400).json({ message: error.message });
+    }
+    logger.error("Error in checkoutCtrl:", error);
+    res.status(500).json({ message: "Error al procesar la compra" });
   }
 }
 
-/**
- * GET /api/purchases
- * Obtener todas las compras del usuario
- */
 export async function getUserPurchasesCtrl(
   req: Request,
   res: Response,
@@ -54,19 +66,23 @@ export async function getUserPurchasesCtrl(
 ) {
   try {
     const user = req.user!;
+    const queryParsed = statusQuerySchema.safeParse(req.query);
 
-    const purchases = await purchasesService.getUserPurchases(user.sub);
+    if (!queryParsed.success) {
+      return res.status(400).json({
+        message: "Parámetros de consulta inválidos",
+        errors: queryParsed.error.issues,
+      });
+    }
 
-    res.status(200).json(purchases);
-  } catch (error) {
-    next(error);
+    const purchases = await getUserPurchases(user.sub, queryParsed.data.status);
+    res.json(purchases);
+  } catch (error: any) {
+    logger.error("Error in getUserPurchasesCtrl:", error);
+    res.status(500).json({ message: "Error al obtener compras" });
   }
 }
 
-/**
- * GET /api/purchases/:id
- * Obtener detalles de una compra
- */
 export async function getPurchaseCtrl(
   req: Request,
   res: Response,
@@ -74,26 +90,26 @@ export async function getPurchaseCtrl(
 ) {
   try {
     const user = req.user!;
-    const parsed = purchaseIdSchema.safeParse({ id: req.params.id });
+    const paramsParsed = purchaseIdSchema.safeParse({ id: req.params.id });
 
-    if (!parsed.success) {
-      return res.status(400).json({ errors: parsed.error.flatten() });
+    if (!paramsParsed.success) {
+      return res.status(400).json({
+        message: "ID inválido",
+        errors: paramsParsed.error.issues,
+      });
     }
 
-    const { id: purchaseId } = parsed.data;
-
-    const purchase = await purchasesService.getPurchase(user.sub, purchaseId);
-
-    res.status(200).json(purchase);
-  } catch (error) {
-    next(error);
+    const purchase = await getPurchase(user.sub, paramsParsed.data.id);
+    res.json(purchase);
+  } catch (error: any) {
+    if (error.message === "Compra no encontrada") {
+      return res.status(404).json({ message: error.message });
+    }
+    logger.error("Error in getPurchaseCtrl:", error);
+    res.status(500).json({ message: "Error al obtener la compra" });
   }
 }
 
-/**
- * POST /api/purchases/:id/refund
- * Solicitar reembolso
- */
 export async function refundPurchaseCtrl(
   req: Request,
   res: Response,
@@ -101,32 +117,37 @@ export async function refundPurchaseCtrl(
 ) {
   try {
     const user = req.user!;
-    const idParsed = purchaseIdSchema.safeParse({ id: req.params.id });
+    const paramsParsed = purchaseIdSchema.safeParse({ id: req.params.id });
     const bodyParsed = refundSchema.safeParse(req.body);
 
-    if (!idParsed.success) {
-      return res.status(400).json({ errors: idParsed.error.flatten() });
+    if (!paramsParsed.success) {
+      return res.status(400).json({
+        message: "ID inválido",
+        errors: paramsParsed.error.issues,
+      });
     }
 
     if (!bodyParsed.success) {
-      return res.status(400).json({ errors: bodyParsed.error.flatten() });
+      return res.status(400).json({
+        message: "Datos de entrada inválidos",
+        errors: bodyParsed.error.issues,
+      });
     }
 
-    const { id: purchaseId } = idParsed.data;
-    const { reason } = bodyParsed.data;
-
-    const purchase = await purchasesService.refundPurchase(
+    const purchase = await refundPurchase(
       user.sub,
-      purchaseId,
-      reason
+      paramsParsed.data.id,
+      bodyParsed.data.reason
     );
-
-    logger.info(`User ${user.sub} requested refund for purchase ${purchaseId}`);
-    res.status(200).json({
-      message: "Reembolso solicitado",
-      purchase,
-    });
-  } catch (error) {
-    next(error);
+    res.json(purchase);
+  } catch (error: any) {
+    if (error.message === "Compra no encontrada") {
+      return res.status(404).json({ message: error.message });
+    }
+    if (error.message === "Esta compra ya ha sido reembolsada") {
+      return res.status(400).json({ message: error.message });
+    }
+    logger.error("Error in refundPurchaseCtrl:", error);
+    res.status(500).json({ message: "Error al procesar el reembolso" });
   }
 }

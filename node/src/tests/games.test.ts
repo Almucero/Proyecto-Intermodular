@@ -18,7 +18,6 @@ describe("Games Endpoints", () => {
   });
 
   afterAll(async () => {
-    // Limpiar usuario de prueba
     if (testUser.email) {
       await prisma.user
         .delete({ where: { email: testUser.email } })

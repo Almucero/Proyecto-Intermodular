@@ -202,6 +202,12 @@ router.get("/", listGamesCtrl);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.get("/:id", getGameCtrl);
 
@@ -346,7 +352,7 @@ router.patch(
   auth,
   validate(updateGameSchema),
   adminOnly,
-  updateGameCtrl,
+  updateGameCtrl
 );
 
 /**

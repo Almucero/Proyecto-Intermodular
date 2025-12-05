@@ -655,46 +655,29 @@ const options: swaggerJsdoc.Options = {
         },
         Favorite: {
           type: "object",
-          description: "Favorito del usuario",
+          description:
+            "Favorito del usuario (respuesta aplanada con datos esenciales del juego)",
           properties: {
-            id: { type: "integer", description: "ID del favorito" },
-            userId: { type: "integer", description: "ID del usuario" },
-            gameId: { type: "integer", description: "ID del juego" },
-            createdAt: {
+            id: { type: "integer", description: "ID del juego" },
+            title: { type: "string", description: "Título del juego" },
+            price: {
+              type: "number",
+              format: "float",
+              description: "Precio del juego",
+            },
+            rating: {
+              type: "number",
+              format: "float",
+              description: "Calificación",
+            },
+            favoriteId: {
+              type: "integer",
+              description: "ID del registro favorito",
+            },
+            favoritedAt: {
               type: "string",
               format: "date-time",
-              description: "Fecha de creación",
-            },
-            game: {
-              type: "object",
-              description: "Información del juego favorito",
-              properties: {
-                id: { type: "integer", description: "ID del juego" },
-                title: { type: "string", description: "Título del juego" },
-                description: {
-                  type: "string",
-                  description: "Descripción del juego",
-                },
-                price: {
-                  type: "number",
-                  format: "float",
-                  description: "Precio del juego",
-                },
-                rating: {
-                  type: "number",
-                  format: "float",
-                  description: "Calificación",
-                },
-                releaseDate: {
-                  type: "string",
-                  format: "date",
-                  description: "Fecha de lanzamiento",
-                },
-                media: {
-                  type: "array",
-                  items: { $ref: "#/components/schemas/Media" },
-                },
-              },
+              description: "Fecha en que se agregó a favoritos",
             },
           },
         },
@@ -704,28 +687,30 @@ const options: swaggerJsdoc.Options = {
         },
         CartItem: {
           type: "object",
-          description: "Artículo del carrito de compras",
+          description:
+            "Artículo del carrito (respuesta aplanada con datos esenciales del juego)",
           properties: {
-            id: { type: "integer", description: "ID del artículo" },
-            userId: { type: "integer", description: "ID del usuario" },
-            gameId: { type: "integer", description: "ID del juego" },
+            id: { type: "integer", description: "ID del juego" },
+            title: { type: "string", description: "Título del juego" },
+            price: {
+              type: "number",
+              format: "float",
+              description: "Precio del juego",
+            },
+            rating: {
+              type: "number",
+              format: "float",
+              description: "Calificación",
+            },
+            cartItemId: {
+              type: "integer",
+              description: "ID del registro en el carrito",
+            },
             quantity: { type: "integer", description: "Cantidad", minimum: 1 },
-            createdAt: { type: "string", format: "date-time" },
-            updatedAt: { type: "string", format: "date-time" },
-            game: {
-              type: "object",
-              description: "Información del juego en el carrito",
-              properties: {
-                id: { type: "integer" },
-                title: { type: "string" },
-                description: { type: "string" },
-                price: { type: "number", format: "float" },
-                rating: { type: "number", format: "float" },
-                media: {
-                  type: "array",
-                  items: { $ref: "#/components/schemas/Media" },
-                },
-              },
+            addedAt: {
+              type: "string",
+              format: "date-time",
+              description: "Fecha en que se agregó al carrito",
             },
           },
         },
@@ -735,15 +720,14 @@ const options: swaggerJsdoc.Options = {
         },
         Purchase: {
           type: "object",
-          description: "Compra realizada por el usuario",
+          description: "Transacción de compra que contiene uno o más juegos",
           properties: {
-            id: { type: "integer", description: "ID de la compra" },
+            id: { type: "integer", description: "ID de la transacción" },
             userId: { type: "integer", description: "ID del usuario" },
-            gameId: { type: "integer", description: "ID del juego comprado" },
-            price: {
+            totalPrice: {
               type: "number",
               format: "float",
-              description: "Precio al momento de la compra",
+              description: "Precio total de la transacción",
             },
             status: {
               type: "string",
@@ -759,21 +743,37 @@ const options: swaggerJsdoc.Options = {
               format: "date-time",
               description: "Fecha de la compra",
             },
-            game: {
-              type: "object",
-              description: "Información del juego comprado",
-              properties: {
-                id: { type: "integer" },
-                title: { type: "string" },
-                description: { type: "string" },
-                price: { type: "number", format: "float" },
-                rating: { type: "number", format: "float" },
-                media: {
-                  type: "array",
-                  items: { $ref: "#/components/schemas/Media" },
-                },
-              },
+            items: {
+              type: "array",
+              description: "Juegos incluidos en la compra",
+              items: { $ref: "#/components/schemas/PurchaseItem" },
             },
+          },
+        },
+        PurchaseItem: {
+          type: "object",
+          description:
+            "Juego individual dentro de una compra (estructura aplanada)",
+          properties: {
+            id: { type: "integer", description: "ID del juego" },
+            title: { type: "string", description: "Título del juego" },
+            price: {
+              type: "number",
+              format: "float",
+              description: "Precio actual del juego",
+            },
+            rating: {
+              type: "number",
+              format: "float",
+              description: "Calificación del juego",
+            },
+            itemId: { type: "integer", description: "ID del item de compra" },
+            purchasePrice: {
+              type: "number",
+              format: "float",
+              description: "Precio pagado al momento de la compra",
+            },
+            quantity: { type: "integer", description: "Cantidad", minimum: 1 },
           },
         },
         PurchasesList: {

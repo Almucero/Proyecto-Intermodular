@@ -2064,10 +2064,18 @@ async function seedData() {
     let purchasesAdded = 0;
     let refundsAdded = 0;
 
+    let loggedFavs = false;
+    let loggedCarts = false;
+    let loggedPurchases = false;
+    let loggedRefunds = false;
+
     for (let i = 0; i < createdUsers.length; i++) {
       const user = createdUsers[i]!;
 
-      console.log("  - Creando datos de favoritos...");
+      if (!loggedFavs) {
+        console.log("  - Creando datos de favoritos...");
+        loggedFavs = true;
+      }
 
       const favCount = 2 + (i % 2);
       for (let j = 0; j < favCount && j < gamesToUse.length; j++) {
@@ -2080,7 +2088,10 @@ async function seedData() {
         favAdded++;
       }
 
-      console.log("  - Creando datos de carritos...");
+      if (!loggedCarts) {
+        console.log("  - Creando datos de carritos...");
+        loggedCarts = true;
+      }
 
       const cartCount = 1 + (i % 2);
       for (let j = 0; j < cartCount && j < gamesToUse.length; j++) {
@@ -2095,41 +2106,67 @@ async function seedData() {
         cartAdded++;
       }
 
-      console.log("  - Creando compras...");
+      if (!loggedPurchases) {
+        console.log("  - Creando datos de compras...");
+        loggedPurchases = true;
+      }
 
       const purchaseCount = 1 + (i % 2);
       for (let j = 0; j < purchaseCount && j < gamesToUse.length; j++) {
         const gameIndex = (favCount + cartCount + j) % gamesToUse.length;
         const game = gamesToUse[gameIndex]!;
+        const gamePrice = game.isOnSale ? game.salePrice! : game.price!;
+
         await prisma.purchase.create({
           data: {
             userId: user.id,
-            gameId: game.id,
-            price: game.isOnSale ? game.salePrice! : game.price!,
+            totalPrice: gamePrice,
             status: "completed",
             purchasedAt: new Date(
               Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000
             ),
+            items: {
+              create: [
+                {
+                  gameId: game.id,
+                  price: gamePrice,
+                  quantity: 1,
+                },
+              ],
+            },
           },
         });
         purchasesAdded++;
       }
 
-      console.log("  - Creando datos de devoluciones...");
+      if (!loggedRefunds) {
+        console.log("  - Creando datos de devoluciones...");
+        loggedRefunds = true;
+      }
 
       if (i < 2) {
         const refundIndex =
           (favCount + cartCount + purchaseCount) % gamesToUse.length;
         const game = gamesToUse[refundIndex]!;
+        const gamePrice = game.isOnSale ? game.salePrice! : game.price!;
+
         await prisma.purchase.create({
           data: {
             userId: user.id,
-            gameId: game.id,
-            price: game.isOnSale ? game.salePrice! : game.price!,
+            totalPrice: gamePrice,
             status: "refunded",
             refundReason:
               i === 0 ? "No cumple mis expectativas" : "Problemas técnicos",
             purchasedAt: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000),
+            items: {
+              create: [
+                {
+                  gameId: game.id,
+                  price: gamePrice,
+                  quantity: 1,
+                },
+              ],
+            },
           },
         });
         refundsAdded++;
@@ -2148,7 +2185,7 @@ async function seedData() {
     console.log(`   - ${favAdded} Favoritos creados`);
     console.log(`   - ${cartAdded} Items añadidos al carrito`);
     console.log(`   - ${purchasesAdded} Compras completadas`);
-    console.log(`   - ${refundsAdded} Compras en estado 'refunded'`);
+    console.log(`   - ${refundsAdded} Compras en estado refunded`);
     console.log(`   - ${mediaCounts.gameImages} Imágenes de juegos subidas`);
     console.log(`   - ${mediaCounts.userAvatars} Avatares de usuarios subidos`);
   } catch (err) {

@@ -114,6 +114,12 @@ const upload = multer({
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Media'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.get("/", listMediaCtrl);
 
@@ -160,6 +166,16 @@ router.get("/", listMediaCtrl);
  *               $ref: '#/components/schemas/Media'
  *       403:
  *         description: No tienes permiso para subir este tipo de media
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.post("/upload", auth, upload.single("file"), uploadMediaCtrl);
 
@@ -186,6 +202,16 @@ router.post("/upload", auth, upload.single("file"), uploadMediaCtrl);
  *               $ref: '#/components/schemas/MediaDetail'
  *       404:
  *         description: Archivo no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.get("/:id", getMediaCtrl);
 
@@ -235,8 +261,22 @@ router.get("/:id", getMediaCtrl);
  *               $ref: '#/components/schemas/Media'
  *       403:
  *         description: No tienes permiso para editar este archivo
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       404:
  *         description: Archivo no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.put("/:id/upload", auth, upload.single("file"), updateMediaCtrl);
 
@@ -265,8 +305,22 @@ router.put("/:id/upload", auth, upload.single("file"), updateMediaCtrl);
  *               $ref: '#/components/schemas/MediaDetail'
  *       403:
  *         description: No tienes permiso para eliminar este archivo
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       404:
  *         description: Archivo no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.delete("/:id", auth, deleteMediaCtrl);
 
