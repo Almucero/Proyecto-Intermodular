@@ -1,56 +1,103 @@
-<div class="min-h-screen bg-gray-900 text-white font-sans flex items-center justify-center">
+<div
+  class="contact-screen-wrapper min-h-screen bg-gray-900 text-white font-sans flex items-center justify-center"
+>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="contact-card bg-gray-700 rounded-3xl p-12 max-w-md mx-auto text-center">
-      <div class="relative flex items-center justify-center mb-6">
-        <h2 class="text-3xl font-bold text-cyan-300">
-          {{ 'contact.title' | translate }}
+    <div
+      class="contact-card bg-gray-700 rounded-3xl p-12 max-w-md mx-auto text-center"
+    >
+      <div class="contact-section max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+        <h2 class="text-3xl font-bold text-cyan-300 text-center mb-6">
+          {{ "contactScreen.title" | translate }}
         </h2>
-        <img src="assets/branding/game_sage_logo.png" alt="GameSage Logo"
-          class="w-12 h-12 object-cover rounded-xl absolute right-0 top-1/2 -translate-y-1/2" />
-      </div>
-      <p class="text-gray-300 text-sm mb-8 leading-relaxed">
-        {{ 'contact.description' | translate }}
-      </p>
-      <div class="mb-6">
-        <h3 class="text-cyan-300 font-semibold mb-2 flex items-center justify-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-          </svg>
-          {{ 'contact.email' | translate }}
-        </h3>
-        <a href="mailto:info.gamesage@gmail.com" class="text-white hover:text-cyan-300 transition-colors underline">
-          info.gamesage&#64;gmail.com
-        </a>
-      </div>
 
-      <div class="mb-6">
-        <h3 class="text-cyan-300 font-semibold mb-2 flex items-center justify-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-          </svg>
-          {{ 'contact.phone' | translate }}
-        </h3>
-        <p class="text-white">+34 123 45 43 21</p>
-      </div>
-
-      <div>
-        <h3 class="text-cyan-300 font-semibold mb-2 flex items-center justify-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
-          {{ 'contact.address' | translate }}
-        </h3>
-        <p class="text-white text-sm leading-relaxed">
-          Calle Sancha de Lara s/n,<br />
-          Barrio Centro Histórico,<br />
-          Distrito Centro, Málaga<br />
-          Comarca de Málaga, Málaga.
+        <p class="text-gray-300 text-sm mb-8 leading-relaxed text-justify">
+          {{ "contactScreen.description" | translate }}
         </p>
+
+        <div class="mb-6 text-center">
+          <h3
+            class="text-cyan-300 font-semibold mb-2 flex items-center justify-center gap-2"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              />
+            </svg>
+            {{ "contactScreen.email" | translate }}
+          </h3>
+          <a
+            href="mailto:info.gamesage@gmail.com"
+            onclick="window.open('https://mail.google.com/mail/?view=cm&to=info.gamesage@gmail.com', '_blank'); return false;"
+            class="text-white underline hover:text-white transition-colors"
+          >
+            info.gamesage&#64;gmail.com
+          </a>
+        </div>
+
+        <div class="mb-6 text-center">
+          <h3
+            class="text-cyan-300 font-semibold mb-2 flex items-center justify-center gap-2"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+              />
+            </svg>
+            {{ "contactScreen.phone" | translate }}
+          </h3>
+          <p class="text-white">
+            {{ "contactScreen.phone_number" | translate }}
+          </p>
+        </div>
+
+        <div class="text-center">
+          <h3
+            class="text-cyan-300 font-semibold mb-2 flex items-center justify-center gap-2"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+            {{ "contactScreen.address" | translate }}
+          </h3>
+          <p class="text-white text-sm leading-relaxed whitespace-pre-line">
+            {{ "contactScreen.address_text" | translate }}
+          </p>
+        </div>
       </div>
     </div>
   </div>
