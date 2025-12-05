@@ -7,7 +7,10 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "format": "npx prettier --write \"**/*.{ts,js,html,css,json}\""
+    "format": "npx prettier --write \"**/*.{ts,js,html,css,json}\"",
+    "clean": "npx rimraf dist logs coverage",
+    "clean:full": "npx rimraf dist node_modules logs coverage",
+    "reinstall": "npm run clean:full && npm install"
   },
   "private": true,
   "dependencies": {
