@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const addToCartSchema = z.object({
-  gameId: z.number().int().positive("gameId debe ser un número positivo"),
   quantity: z
     .number()
     .int()

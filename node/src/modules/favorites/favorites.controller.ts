@@ -1,6 +1,11 @@
 import type { Request, Response, NextFunction } from "express";
 import { z } from "zod";
-import * as favoritesService from "./favorites.service.js";
+import {
+  addToFavorites,
+  removeFromFavorites,
+  getUserFavorites,
+  isFavorite,
+} from "./favorites.service.js";
 import { logger } from "../../utils/logger.js";
 
 const gameIdSchema = z.object({
@@ -10,10 +15,6 @@ const gameIdSchema = z.object({
     .positive("gameId debe ser un número positivo"),
 });
 
-/**
- * POST /api/favorites/:gameId
- * Agregar juego a favoritos
- */
 export async function addToFavoritesCtrl(
   req: Request,
   res: Response,
@@ -29,19 +30,23 @@ export async function addToFavoritesCtrl(
 
     const { gameId } = parsed.data;
 
-    const favorite = await favoritesService.addToFavorites(user.sub, gameId);
+    const favorite = await addToFavorites(user.sub, gameId);
 
     logger.info(`User ${user.sub} added game ${gameId} to favorites`);
     res.status(201).json(favorite);
-  } catch (error) {
+  } catch (error: any) {
+    if (error.code === "P2002") {
+      return res
+        .status(409)
+        .json({ message: "Este juego ya está en favoritos" });
+    }
+    if (error.code === "P2003") {
+      return res.status(404).json({ message: "Juego no encontrado" });
+    }
     next(error);
   }
 }
 
-/**
- * DELETE /api/favorites/:gameId
- * Remover juego de favoritos
- */
 export async function removeFromFavoritesCtrl(
   req: Request,
   res: Response,
@@ -57,19 +62,18 @@ export async function removeFromFavoritesCtrl(
 
     const { gameId } = parsed.data;
 
-    const result = await favoritesService.removeFromFavorites(user.sub, gameId);
+    const result = await removeFromFavorites(user.sub, gameId);
 
     logger.info(`User ${user.sub} removed game ${gameId} from favorites`);
     res.status(200).json(result);
-  } catch (error) {
+  } catch (error: any) {
+    if (error.code === "P2025") {
+      return res.status(404).json({ message: "Favorito no encontrado" });
+    }
     next(error);
   }
 }
 
-/**
- * GET /api/favorites
- * Obtener favoritos del usuario
- */
 export async function getUserFavoritesCtrl(
   req: Request,
   res: Response,
@@ -78,7 +82,7 @@ export async function getUserFavoritesCtrl(
   try {
     const user = req.user!;
 
-    const favorites = await favoritesService.getUserFavorites(user.sub);
+    const favorites = await getUserFavorites(user.sub);
 
     res.status(200).json(favorites);
   } catch (error) {
@@ -86,10 +90,6 @@ export async function getUserFavoritesCtrl(
   }
 }
 
-/**
- * GET /api/favorites/check/:gameId
- * Verificar si un juego está en favoritos
- */
 export async function isFavoriteCtrl(
   req: Request,
   res: Response,
@@ -105,7 +105,7 @@ export async function isFavoriteCtrl(
 
     const { gameId } = parsed.data;
 
-    const isFav = await favoritesService.isFavorite(user.sub, gameId);
+    const isFav = await isFavorite(user.sub, gameId);
 
     res.status(200).json({ isFavorite: isFav });
   } catch (error) {

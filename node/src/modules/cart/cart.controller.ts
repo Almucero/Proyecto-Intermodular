@@ -1,7 +1,13 @@
 import type { Request, Response, NextFunction } from "express";
 import { z } from "zod";
-import { updateCartQuantitySchema } from "./cart.schema.js";
-import * as cartService from "./cart.service.js";
+import { updateCartQuantitySchema, addToCartSchema } from "./cart.schema.js";
+import {
+  addToCart,
+  removeFromCart,
+  updateQuantity,
+  getUserCart,
+  clearCart,
+} from "./cart.service.js";
 import { logger } from "../../utils/logger.js";
 
 const gameIdSchema = z.object({
@@ -11,19 +17,6 @@ const gameIdSchema = z.object({
     .positive("gameId debe ser un número positivo"),
 });
 
-const addToCartSchema = z.object({
-  quantity: z.coerce
-    .number()
-    .int()
-    .positive("quantity debe ser un número positivo")
-    .optional()
-    .default(1),
-});
-
-/**
- * POST /api/cart/:gameId
- * Agregar juego al carrito
- */
 export async function addToCartCtrl(
   req: Request,
   res: Response,
@@ -45,21 +38,26 @@ export async function addToCartCtrl(
     const { gameId } = gameIdParsed.data;
     const { quantity } = bodyParsed.data;
 
-    const cartItem = await cartService.addToCart(user.sub, gameId, quantity);
+    const cartItem = await addToCart(user.sub, gameId, quantity);
 
     logger.info(
       `User ${user.sub} added game ${gameId} to cart (qty: ${quantity})`
     );
     res.status(201).json(cartItem);
-  } catch (error) {
+  } catch (error: any) {
+    if (error.message === "Juego no encontrado") {
+      return res.status(404).json({ message: error.message });
+    }
+    if (
+      error.message === "La cantidad debe ser al menos 1" ||
+      error.message === "El juego no tiene precio válido definido"
+    ) {
+      return res.status(400).json({ message: error.message });
+    }
     next(error);
   }
 }
 
-/**
- * DELETE /api/cart/:gameId
- * Remover juego del carrito
- */
 export async function removeFromCartCtrl(
   req: Request,
   res: Response,
@@ -75,19 +73,20 @@ export async function removeFromCartCtrl(
 
     const { gameId } = parsed.data;
 
-    const result = await cartService.removeFromCart(user.sub, gameId);
+    const result = await removeFromCart(user.sub, gameId);
 
     logger.info(`User ${user.sub} removed game ${gameId} from cart`);
     res.status(200).json(result);
-  } catch (error) {
+  } catch (error: any) {
+    if (error.code === "P2025") {
+      return res
+        .status(404)
+        .json({ message: "Artículo del carrito no encontrado" });
+    }
     next(error);
   }
 }
 
-/**
- * PATCH /api/cart/:gameId
- * Actualizar cantidad en carrito
- */
 export async function updateCartQuantityCtrl(
   req: Request,
   res: Response,
@@ -109,25 +108,25 @@ export async function updateCartQuantityCtrl(
     const { gameId } = gameIdParsed.data;
     const { quantity } = bodyParsed.data;
 
-    const cartItem = await cartService.updateQuantity(
-      user.sub,
-      gameId,
-      quantity
-    );
+    const cartItem = await updateQuantity(user.sub, gameId, quantity);
 
     logger.info(
       `User ${user.sub} updated cart item ${gameId} quantity to ${quantity}`
     );
     res.status(200).json(cartItem);
-  } catch (error) {
+  } catch (error: any) {
+    if (error.code === "P2025") {
+      return res
+        .status(404)
+        .json({ message: "Artículo del carrito no encontrado" });
+    }
+    if (error.message === "La cantidad debe ser al menos 1") {
+      return res.status(400).json({ message: error.message });
+    }
     next(error);
   }
 }
 
-/**
- * GET /api/cart
- * Obtener carrito del usuario
- */
 export async function getUserCartCtrl(
   req: Request,
   res: Response,
@@ -136,7 +135,7 @@ export async function getUserCartCtrl(
   try {
     const user = req.user!;
 
-    const cartItems = await cartService.getUserCart(user.sub);
+    const cartItems = await getUserCart(user.sub);
 
     res.status(200).json(cartItems);
   } catch (error) {
@@ -144,10 +143,6 @@ export async function getUserCartCtrl(
   }
 }
 
-/**
- * DELETE /api/cart
- * Vaciar carrito
- */
 export async function clearCartCtrl(
   req: Request,
   res: Response,
@@ -156,7 +151,7 @@ export async function clearCartCtrl(
   try {
     const user = req.user!;
 
-    await cartService.clearCart(user.sub);
+    await clearCart(user.sub);
 
     logger.info(`User ${user.sub} cleared cart`);
     res.status(200).json({ message: "Carrito vaciado" });

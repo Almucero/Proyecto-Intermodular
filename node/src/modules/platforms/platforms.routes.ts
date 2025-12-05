@@ -46,6 +46,10 @@ const router = Router();
  *                     name: "string"
  *       500:
  *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.get("/", listPlatformsCtrl);
 
@@ -90,6 +94,16 @@ router.get("/", listPlatformsCtrl);
  *                       releaseDate: "2015-05-19"
  *       404:
  *         description: Plataforma no encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.get("/:id", getPlatformCtrl);
 
@@ -116,13 +130,23 @@ router.get("/:id", getPlatformCtrl);
  *               $ref: '#/components/schemas/Platform'
  *       403:
  *         description: Acceso denegado (solo administradores)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.post(
   "/",
   auth,
   adminOnly,
   validate(createPlatformSchema),
-  createPlatformCtrl,
+  createPlatformCtrl
 );
 
 /**
@@ -155,13 +179,23 @@ router.post(
  *               $ref: '#/components/schemas/Platform'
  *       404:
  *         description: Plataforma no encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.patch(
   "/:id",
   auth,
   adminOnly,
   validate(updatePlatformSchema),
-  updatePlatformCtrl,
+  updatePlatformCtrl
 );
 
 /**
@@ -184,6 +218,16 @@ router.patch(
  *         description: Plataforma eliminada
  *       404:
  *         description: Plataforma no encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.delete("/:id", auth, adminOnly, deletePlatformCtrl);
 

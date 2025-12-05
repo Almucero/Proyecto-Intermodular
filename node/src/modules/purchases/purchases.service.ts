@@ -1,204 +1,145 @@
 import { prisma } from "../../config/db.js";
-import { AppError } from "../../utils/errors.js";
 import { Prisma } from "@prisma/client";
 
 export async function completePurchase(userId: number, gameIds: number[]) {
   if (gameIds.length === 0) {
-    throw new AppError("Debe proporcionar al menos un juego", 400);
+    throw new Error("Debe proporcionar al menos un juego");
   }
 
-  try {
-    const cartItems = await prisma.cartItem.findMany({
-      where: {
-        userId,
-        gameId: { in: gameIds },
-      },
-      include: { game: true },
-    });
+  const cartItems = await prisma.cartItem.findMany({
+    where: {
+      userId,
+      gameId: { in: gameIds },
+    },
+    include: { game: true },
+  });
 
-    if (cartItems.length === 0) {
-      throw new AppError("No se encontraron artículos en el carrito", 404);
-    }
-
-    const purchases = await Promise.all(
-      cartItems.map((item) =>
-        prisma.purchase.create({
-          data: {
-            userId,
-            gameId: item.gameId,
-            price: item.game.price || new Prisma.Decimal(0),
-            status: "completed",
-          },
-          select: {
-            id: true,
-            userId: true,
-            gameId: true,
-            price: true,
-            status: true,
-            refundReason: true,
-            purchasedAt: true,
-            game: {
-              select: {
-                id: true,
-                title: true,
-                price: true,
-                description: true,
-                rating: true,
-                media: {
-                  select: {
-                    id: true,
-                    url: true,
-                    publicId: true,
-                    format: true,
-                    resourceType: true,
-                    bytes: true,
-                    width: true,
-                    height: true,
-                    originalName: true,
-                    folder: true,
-                    altText: true,
-                  },
-                  take: 1,
-                },
-              },
-            },
-          },
-        })
-      )
-    );
-
-    await prisma.cartItem.deleteMany({
-      where: {
-        userId,
-        gameId: { in: gameIds },
-      },
-    });
-
-    return purchases;
-  } catch (error: any) {
-    if (error instanceof AppError) throw error;
-    throw new AppError("Error al completar la compra", 500);
+  if (cartItems.length === 0) {
+    throw new Error("No se encontraron artículos en el carrito");
   }
-}
 
-export async function getUserPurchases(userId: number) {
-  return prisma.purchase.findMany({
-    where: { userId },
-    select: {
-      id: true,
-      userId: true,
-      gameId: true,
-      price: true,
-      status: true,
-      refundReason: true,
-      purchasedAt: true,
-      game: {
-        select: {
-          id: true,
-          title: true,
-          description: true,
-          price: true,
-          rating: true,
-          media: {
+  const totalPrice = cartItems.reduce((sum, item) => {
+    const gamePrice = item.game.price || new Prisma.Decimal(0);
+    return sum.add(gamePrice.mul(item.quantity));
+  }, new Prisma.Decimal(0));
+
+  const purchase = await prisma.purchase.create({
+    data: {
+      userId,
+      totalPrice,
+      status: "completed",
+      items: {
+        create: cartItems.map((item) => ({
+          gameId: item.gameId,
+          price: item.game.price || new Prisma.Decimal(0),
+          quantity: item.quantity,
+        })),
+      },
+    },
+    include: {
+      items: {
+        include: {
+          game: {
             select: {
               id: true,
-              url: true,
-              publicId: true,
-              format: true,
-              resourceType: true,
-              bytes: true,
-              width: true,
-              height: true,
-              originalName: true,
-              folder: true,
-              altText: true,
+              title: true,
+              price: true,
+              rating: true,
             },
-            take: 1,
           },
         },
       },
     },
-    orderBy: { purchasedAt: "desc" },
   });
+
+  await prisma.cartItem.deleteMany({
+    where: {
+      userId,
+      gameId: { in: gameIds },
+    },
+  });
+
+  return {
+    id: purchase.id,
+    userId: purchase.userId,
+    totalPrice: purchase.totalPrice,
+    status: purchase.status,
+    refundReason: purchase.refundReason,
+    purchasedAt: purchase.purchasedAt,
+    items: purchase.items.map((item) => ({
+      id: item.game.id,
+      title: item.game.title,
+      price: item.game.price,
+      rating: item.game.rating,
+      itemId: item.id,
+      purchasePrice: item.price,
+      quantity: item.quantity,
+    })),
+  };
 }
 
-export async function refundPurchase(
+export async function getUserPurchases(
   userId: number,
-  purchaseId: number,
-  reason: string
+  status?: "completed" | "refunded"
 ) {
-  try {
-    const purchase = await prisma.purchase.findUnique({
-      where: { id: purchaseId },
-    });
-
-    if (!purchase) {
-      throw new AppError("Compra no encontrada", 404);
-    }
-
-    if (purchase.userId !== userId) {
-      throw new AppError("No tienes permiso para reembolsar esta compra", 403);
-    }
-
-    if (purchase.status === "refunded") {
-      throw new AppError("Esta compra ya fue reembolsada", 400);
-    }
-
-    return await prisma.purchase.update({
-      where: { id: purchaseId },
-      data: {
-        status: "refunded",
-        refundReason: reason,
-      },
-      include: {
-        game: {
-          select: {
-            id: true,
-            title: true,
-            price: true,
+  const purchases = await prisma.purchase.findMany({
+    where: {
+      userId,
+      ...(status && { status }),
+    },
+    include: {
+      items: {
+        include: {
+          game: {
+            select: {
+              id: true,
+              title: true,
+              price: true,
+              rating: true,
+            },
           },
         },
       },
-    });
-  } catch (error: any) {
-    if (error instanceof AppError) throw error;
-    throw new AppError("Error al procesar reembolso", 500);
-  }
+    },
+    orderBy: {
+      purchasedAt: "desc",
+    },
+  });
+
+  return purchases.map((purchase) => ({
+    id: purchase.id,
+    totalPrice: purchase.totalPrice,
+    status: purchase.status,
+    refundReason: purchase.refundReason,
+    purchasedAt: purchase.purchasedAt,
+    items: purchase.items.map((item) => ({
+      id: item.game.id,
+      title: item.game.title,
+      price: item.game.price,
+      rating: item.game.rating,
+      itemId: item.id,
+      purchasePrice: item.price,
+      quantity: item.quantity,
+    })),
+  }));
 }
 
 export async function getPurchase(userId: number, purchaseId: number) {
-  const purchase = await prisma.purchase.findUnique({
-    where: { id: purchaseId },
-    select: {
-      id: true,
-      userId: true,
-      gameId: true,
-      price: true,
-      status: true,
-      refundReason: true,
-      purchasedAt: true,
-      game: {
-        select: {
-          id: true,
-          title: true,
-          description: true,
-          price: true,
-          rating: true,
-          media: {
+  const purchase = await prisma.purchase.findFirst({
+    where: {
+      id: purchaseId,
+      userId,
+    },
+    include: {
+      items: {
+        include: {
+          game: {
             select: {
               id: true,
-              url: true,
-              publicId: true,
-              format: true,
-              resourceType: true,
-              bytes: true,
-              width: true,
-              height: true,
-              originalName: true,
-              folder: true,
-              altText: true,
+              title: true,
+              price: true,
+              rating: true,
             },
-            take: 1,
           },
         },
       },
@@ -206,12 +147,83 @@ export async function getPurchase(userId: number, purchaseId: number) {
   });
 
   if (!purchase) {
-    throw new AppError("Compra no encontrada", 404);
+    throw new Error("Compra no encontrada");
   }
 
-  if (purchase.userId !== userId) {
-    throw new AppError("No tienes permiso para ver esta compra", 403);
+  return {
+    id: purchase.id,
+    totalPrice: purchase.totalPrice,
+    status: purchase.status,
+    refundReason: purchase.refundReason,
+    purchasedAt: purchase.purchasedAt,
+    items: purchase.items.map((item) => ({
+      id: item.game.id,
+      title: item.game.title,
+      price: item.game.price,
+      rating: item.game.rating,
+      itemId: item.id,
+      purchasePrice: item.price,
+      quantity: item.quantity,
+    })),
+  };
+}
+
+export async function refundPurchase(
+  userId: number,
+  purchaseId: number,
+  reason: string
+) {
+  const purchase = await prisma.purchase.findFirst({
+    where: {
+      id: purchaseId,
+      userId,
+    },
+  });
+
+  if (!purchase) {
+    throw new Error("Compra no encontrada");
   }
 
-  return purchase;
+  if (purchase.status === "refunded") {
+    throw new Error("Esta compra ya ha sido reembolsada");
+  }
+
+  const updated = await prisma.purchase.update({
+    where: { id: purchaseId },
+    data: {
+      status: "refunded",
+      refundReason: reason,
+    },
+    include: {
+      items: {
+        include: {
+          game: {
+            select: {
+              id: true,
+              title: true,
+              price: true,
+              rating: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return {
+    id: updated.id,
+    totalPrice: updated.totalPrice,
+    status: updated.status,
+    refundReason: updated.refundReason,
+    purchasedAt: updated.purchasedAt,
+    items: updated.items.map((item) => ({
+      id: item.game.id,
+      title: item.game.title,
+      price: item.game.price,
+      rating: item.game.rating,
+      itemId: item.id,
+      purchasePrice: item.price,
+      quantity: item.quantity,
+    })),
+  };
 }
