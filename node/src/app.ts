@@ -53,7 +53,7 @@ app.get("/api-docs", (req, res, next) => {
     if (env.NODE_ENV === "production") {
       dynamicSpec.servers = [
         {
-          url: `${protocol}://${host}`,
+          url: `${protocol}://${host}/`,
           description: "Servidor de producción (Vercel)",
         },
       ];
