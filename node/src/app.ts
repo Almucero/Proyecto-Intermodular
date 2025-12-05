@@ -74,6 +74,7 @@ app.get("/api-docs", (req, res, next) => {
       "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.0.0/swagger-ui-bundle.js",
       "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.0.0/swagger-ui-standalone-preset.js",
     ],
+    customCss: ".swagger-ui .topbar { display: none }",
     swaggerOptions: {
       persistAuthorization: true,
     },
