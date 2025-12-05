@@ -107,9 +107,10 @@ El sistema se compone de:
 
 ## Enlaces de Interés
 
-### Figma: [Enlace al prototipo en Figma](https://www.figma.com/proto/8WRYpwCvkO9wDyGhu57rel/App-venta-de-videojuegos?node-id=0-1&t=04WaZdl2dDfJg0df-1)
+### Figma: [https://www.figma.com/proto/...](https://www.figma.com/proto/8WRYpwCvkO9wDyGhu57rel/App-venta-de-videojuegos?node-id=0-1&t=04WaZdl2dDfJg0df-1)
 
-### API: [Enlace al BackEnd desplegado](gamesage-backend.vercel.app)
+### API: [gamesage-backend.vercel.app](https://gamesage-backend.vercel.app)
 
-### Web: [Enlace al FrontEnd deplegado](gamesage-frontend.vercel.app)
+### Web: [gamesage-frontend.vercel.app](https://gamesage-frontend.vercel.app)
+
 
