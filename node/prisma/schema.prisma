@@ -59,7 +59,7 @@ model Game {
   media         Media[]
   favorites     Favorite[]
   cartItems     CartItem[]
-  purchases     Purchase[]
+  purchaseItems PurchaseItem[]
   publisherId   Int?
   developerId   Int?
   Publisher     Publisher?  @relation(fields: [publisherId], references: [id], onDelete: SetNull)
@@ -146,17 +146,29 @@ model CartItem {
 }
 
 model Purchase {
-  id           Int      @id @default(autoincrement())
+  id           Int            @id @default(autoincrement())
   userId       Int
-  gameId       Int
-  price        Decimal  @db.Decimal(12,2)
-  status       String   @default("completed")
+  totalPrice   Decimal        @db.Decimal(12,2)
+  status       String         @default("completed")
   refundReason String?
-  purchasedAt  DateTime @default(now())
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  game         Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  purchasedAt  DateTime       @default(now())
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items        PurchaseItem[]
 
   @@index([userId])
-  @@index([gameId])
+  @@index([status])
   @@index([purchasedAt])
+}
+
+model PurchaseItem {
+  id         Int      @id @default(autoincrement())
+  purchaseId Int
+  gameId     Int
+  price      Decimal  @db.Decimal(12,2)
+  quantity   Int      @default(1)
+  purchase   Purchase @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
+  game       Game     @relation(fields: [gameId], references: [id], onDelete: Restrict)
+
+  @@index([purchaseId])
+  @@index([gameId])
 }

@@ -16,9 +16,9 @@ import publishersRoutes from "./modules/publishers/publishers.routes.js";
 import genresRoutes from "./modules/genres/genres.routes.js";
 import platformsRoutes from "./modules/platforms/platforms.routes.js";
 import mediaRoutes from "./modules/media/media.routes.js";
-import { favoritesRoutes } from "./modules/favorites/favorites.routes.js";
-import { cartRoutes } from "./modules/cart/cart.routes.js";
-import { purchasesRoutes } from "./modules/purchases/purchases.routes.js";
+import favoritesRoutes from "./modules/favorites/favorites.routes.js";
+import cartRoutes from "./modules/cart/cart.routes.js";
+import purchasesRoutes from "./modules/purchases/purchases.routes.js";
 
 const app = express();
 
@@ -78,12 +78,9 @@ app.use("/api/publishers", publishersRoutes);
 app.use("/api/genres", genresRoutes);
 app.use("/api/platforms", platformsRoutes);
 app.use("/api/media", mediaRoutes);
-
-const router = express.Router();
-favoritesRoutes(router);
-cartRoutes(router);
-purchasesRoutes(router);
-app.use("/api", router);
+app.use("/api/favorites", favoritesRoutes);
+app.use("/api/cart", cartRoutes);
+app.use("/api/purchases", purchasesRoutes);
 
 app.use(errorHandler);
 

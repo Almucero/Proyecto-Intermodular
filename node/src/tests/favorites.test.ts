@@ -17,7 +17,6 @@ describe("Favorites Endpoints", () => {
   };
 
   beforeAll(async () => {
-    // Crear usuario directamente en BD
     const passwordHash = await bcrypt.hash(testUser.password, 10);
     const user = await prisma.user.create({
       data: {
@@ -29,13 +28,10 @@ describe("Favorites Endpoints", () => {
     });
     userId = user.id;
 
-    // Login para obtener token
     const loginRes = await request(app)
       .post("/api/auth/login")
       .send({ email: testUser.email, password: testUser.password });
     authToken = loginRes.body.token;
-
-    // Obtener un juego para las pruebas
     const gamesRes = await request(app).get("/api/games");
     if (gamesRes.body && gamesRes.body.length > 0) {
       testGameId = gamesRes.body[0].id;
@@ -43,12 +39,9 @@ describe("Favorites Endpoints", () => {
   });
 
   afterAll(async () => {
-    // Limpiar favoritos del usuario
     if (userId) {
       await prisma.favorite.deleteMany({ where: { userId } }).catch(() => {});
     }
-
-    // Limpiar usuario de prueba
     if (userId) {
       await prisma.user.delete({ where: { id: userId } }).catch(() => {});
     }
@@ -56,7 +49,6 @@ describe("Favorites Endpoints", () => {
   });
 
   afterEach(async () => {
-    // Limpiar favoritos después de cada test para no ensuciar la BD
     if (userId) {
       await prisma.favorite.deleteMany({ where: { userId } }).catch(() => {});
     }
@@ -116,12 +108,9 @@ describe("Favorites Endpoints", () => {
       return;
     }
 
-    // Agregar primera vez
     await request(app)
       .post(`/api/favorites/${testGameId}`)
       .set("Authorization", `Bearer ${authToken}`);
-
-    // Intentar agregar segunda vez
     const res = await request(app)
       .post(`/api/favorites/${testGameId}`)
       .set("Authorization", `Bearer ${authToken}`);
@@ -135,13 +124,10 @@ describe("Favorites Endpoints", () => {
       return;
     }
 
-    // Agregar a favoritos
     await request(app)
       .post(`/api/favorites/${testGameId}`)
       .set("Authorization", `Bearer ${authToken}`)
-      .catch(() => {}); // Puede fallar si ya existe
-
-    // Verificar
+      .catch(() => {});
     const res = await request(app)
       .get(`/api/favorites/check/${testGameId}`)
       .set("Authorization", `Bearer ${authToken}`);
@@ -185,13 +171,10 @@ describe("Favorites Endpoints", () => {
       return;
     }
 
-    // Agregar a favoritos
     await request(app)
       .post(`/api/favorites/${testGameId}`)
       .set("Authorization", `Bearer ${authToken}`)
-      .catch(() => {}); // Puede fallar si ya existe
-
-    // Remover
+      .catch(() => {});
     const res = await request(app)
       .delete(`/api/favorites/${testGameId}`)
       .set("Authorization", `Bearer ${authToken}`);

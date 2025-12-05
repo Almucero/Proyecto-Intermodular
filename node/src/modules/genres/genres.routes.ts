@@ -43,6 +43,10 @@ const router = Router();
  *                     name: "string"
  *       500:
  *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.get("/", listGenresCtrl);
 
@@ -87,6 +91,16 @@ router.get("/", listGenresCtrl);
  *                       releaseDate: "2015-05-19"
  *       404:
  *         description: Género no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.get("/:id", getGenreCtrl);
 
@@ -113,6 +127,16 @@ router.get("/:id", getGenreCtrl);
  *               $ref: '#/components/schemas/Genre'
  *       403:
  *         description: Acceso denegado (solo administradores)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.post("/", auth, adminOnly, validate(createGenreSchema), createGenreCtrl);
 
@@ -146,13 +170,23 @@ router.post("/", auth, adminOnly, validate(createGenreSchema), createGenreCtrl);
  *               $ref: '#/components/schemas/Genre'
  *       404:
  *         description: Género no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.patch(
   "/:id",
   auth,
   adminOnly,
   validate(updateGenreSchema),
-  updateGenreCtrl,
+  updateGenreCtrl
 );
 
 /**
@@ -175,6 +209,16 @@ router.patch(
  *         description: Género eliminado
  *       404:
  *         description: Género no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.delete("/:id", auth, adminOnly, deleteGenreCtrl);
 

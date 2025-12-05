@@ -17,7 +17,6 @@ describe("Cart Endpoints", () => {
 
   beforeAll(async () => {
     try {
-      // Crear usuario directamente en BD
       const passwordHash = await bcrypt.hash(testUser.password, 10);
       const user = await prisma.user.create({
         data: {
@@ -29,7 +28,6 @@ describe("Cart Endpoints", () => {
       });
       userId = user.id;
 
-      // Login para obtener token
       const loginRes = await request(app)
         .post("/api/auth/login")
         .send({ email: testUser.email, password: testUser.password });
@@ -38,7 +36,6 @@ describe("Cart Endpoints", () => {
       console.error("beforeAll error:", err);
     }
 
-    // Obtener un juego para las pruebas
     const gamesRes = await request(app).get("/api/games");
     if (gamesRes.body && gamesRes.body.length > 0) {
       testGameId = gamesRes.body[0].id;
@@ -46,12 +43,9 @@ describe("Cart Endpoints", () => {
   });
 
   afterAll(async () => {
-    // Limpiar carrito del usuario
     if (userId) {
       await prisma.cartItem.deleteMany({ where: { userId } }).catch(() => {});
     }
-
-    // Limpiar usuario de prueba
     if (testUser.email) {
       await prisma.user
         .delete({ where: { email: testUser.email } })
@@ -61,7 +55,6 @@ describe("Cart Endpoints", () => {
   });
 
   afterEach(async () => {
-    // Limpiar carrito después de cada test para no ensuciar la BD
     if (userId) {
       await prisma.cartItem.deleteMany({ where: { userId } }).catch(() => {});
     }
@@ -147,7 +140,6 @@ describe("Cart Endpoints", () => {
       return;
     }
 
-    // Primera adición
     const res1 = await request(app)
       .post(`/api/cart/${testGameId}`)
       .set("Authorization", `Bearer ${authToken}`)
@@ -156,7 +148,6 @@ describe("Cart Endpoints", () => {
     if (res1.status === 201) {
       const qty1 = res1.body.quantity;
 
-      // Segunda adición
       const res2 = await request(app)
         .post(`/api/cart/${testGameId}`)
         .set("Authorization", `Bearer ${authToken}`)
@@ -193,13 +184,10 @@ describe("Cart Endpoints", () => {
       return;
     }
 
-    // Agregar al carrito primero
     await request(app)
       .post(`/api/cart/${testGameId}`)
       .set("Authorization", `Bearer ${authToken}`)
       .send({ quantity: 1 });
-
-    // Actualizar cantidad
     const res = await request(app)
       .patch(`/api/cart/${testGameId}`)
       .set("Authorization", `Bearer ${authToken}`)
@@ -238,13 +226,10 @@ describe("Cart Endpoints", () => {
       return;
     }
 
-    // Agregar al carrito primero
     await request(app)
       .post(`/api/cart/${testGameId}`)
       .set("Authorization", `Bearer ${authToken}`)
       .send({ quantity: 1 });
-
-    // Remover
     const res = await request(app)
       .delete(`/api/cart/${testGameId}`)
       .set("Authorization", `Bearer ${authToken}`);

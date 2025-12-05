@@ -234,12 +234,18 @@ router.patch("/me", auth, validate(updateProfileSchema), updateProfileCtrl);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.patch(
   "/me/password",
   auth,
   validate(changePasswordSchema),
-  changePasswordCtrl,
+  changePasswordCtrl
 );
 
 /**
@@ -438,7 +444,7 @@ router.patch(
   auth,
   adminOnly,
   validate(updateUserSchema),
-  updateUserCtrl,
+  updateUserCtrl
 );
 router.delete("/:id", auth, adminOnly, deleteUserCtrl);
 
