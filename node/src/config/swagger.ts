@@ -31,7 +31,7 @@ const options: swaggerJsdoc.Options = {
       },
     ],
     paths: {
-      "/health": {
+      "api/health": {
         get: {
           summary: "Verifica el estado del servicio - Despliega el web service",
           tags: ["Health"],
