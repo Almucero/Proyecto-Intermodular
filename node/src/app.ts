@@ -8,7 +8,6 @@ import { requestLogger } from "./middleware/requestLogger.js";
 import { responseSerializer } from "./middleware/serialize.js";
 import { env } from "./config/env.js";
 import { swaggerSpec } from "./config/swagger.js";
-// ... tus imports de rutas ...
 import authRoutes from "./modules/auth/auth.routes.js";
 import usersRoutes from "./modules/users/users.routes.js";
 import gamesRoutes from "./modules/games/games.routes.js";
