@@ -8,6 +8,7 @@ import { requestLogger } from "./middleware/requestLogger.js";
 import { responseSerializer } from "./middleware/serialize.js";
 import { env } from "./config/env.js";
 import { swaggerSpec } from "./config/swagger.js";
+// ... tus imports de rutas ...
 import authRoutes from "./modules/auth/auth.routes.js";
 import usersRoutes from "./modules/users/users.routes.js";
 import gamesRoutes from "./modules/games/games.routes.js";
@@ -38,7 +39,7 @@ if (env.NODE_ENV === "production") {
   app.use(generalLimiter);
 }
 
-app.get("/health", (_req, res) => res.json({ ok: true }));
+app.get("/api/health", (_req, res) => res.json({ ok: true }));
 
 app.use("/api-docs", swaggerUi.serve);
 app.get("/api-docs", (req, res, next) => {
@@ -67,6 +68,12 @@ app.get("/api-docs", (req, res, next) => {
   }
 
   return swaggerUi.setup(dynamicSpec, {
+    customCssUrl:
+      "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.0.0/swagger-ui.min.css",
+    customJs: [
+      "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.0.0/swagger-ui-bundle.js",
+      "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.0.0/swagger-ui-standalone-preset.js",
+    ],
     swaggerOptions: {
       persistAuthorization: true,
     },
