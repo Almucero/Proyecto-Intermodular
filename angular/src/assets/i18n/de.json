@@ -243,5 +243,130 @@
     "uploadFile": "Datei hochladen",
     "deleteFile": "Datei löschen",
     "closeNotification": "Benachrichtigung schließen"
+  },
+  "footer": {
+    "text": "GameSage. Alle Rechte vorbehalten."
+  },
+  "privacyScreen": {
+    "title": "Datenschutzerklärung",
+    "effective_date": "Gültig ab: 26.10.2025",
+    "intro": "Bei GameSage nehmen wir den Datenschutz ernst. Diese Datenschutzerklärung erläutert, welche personenbezogenen Daten wir erheben, zu welchem Zweck, wie wir sie verarbeiten und welche Rechte du hast.",
+    "section1_title": "1. Erhobene Daten",
+    "section1_intro": "Wir können und verarbeiten folgende Kategorien personenbezogener Daten:",
+    "section1_list": [
+      "Kontakt‑ und Kontodaten: Name, E-Mail-Adresse, Benutzername, Passwort (verschlüsselt gespeichert).",
+      "Nutzungsdaten: besuchte Seiten, Interaktionen mit dem KI‑Chat, Navigationsverlauf innerhalb der App, Logs, Zeiten und Fehler.",
+      "Präferenzen: Favoriten, bevorzugte Plattformen, Alerts und Nutzereinstellungen.",
+      "Technische Daten: IP-Adresse, Gerätetyp, Betriebssystem und Browser (für Diagnose und Sicherheit).",
+      "Test- / Sandbox-Daten: Schlüssel und Aufzeichnungen simulierte Käufe. Wir speichern keine echten Zahlungsdaten."
+    ],
+    "section2_title": "2. Zweck der Verarbeitung & Rechtsgrundlage",
+    "section2_intro": "Wir verarbeiten deine Daten zu folgenden Zwecken:",
+    "section2_list": [
+      "Bereitstellung und Wartung der Plattform: Verwaltung deines Kontos und Funktionen (Grundlage: Vertragsausführung / berechtigtes Interesse).",
+      "Verbesserung der Erfahrung und des KI‑Empfehlungssystems: Verarbeitung von Interaktionen (berechtigtes Interesse oder Einwilligung).",
+      "Kommunikation: Service‑Hinweise und transaktionale E-Mails (Vertragsausführung / berechtigtes Interesse).",
+      "Sicherheit und Diagnose: Fehlererkennung, Betrugsprävention und technische Verbesserung (berechtigtes Interesse).",
+      "Marketing (optional): nur mit expliziter Einwilligung."
+    ],
+    "section2_notice": "Wir verkaufen deine Daten nicht an Dritte. Die Verarbeitung erfolgt zu akademischen und Entwicklungszwecken.",
+    "section3_title": "3. Cookies und ähnliche Technologien",
+    "section3_intro": "Wir verwenden Cookies für essentielle Funktionen und Analysen. Verwendete Typen:",
+    "section3_list": [
+      "Unbedingt erforderliche Cookies: notwendig für die Funktion (Session).",
+      "Leistungs‑/Analyse‑Cookies: helfen, die Plattform zu verbessern (kann abgelehnt werden).",
+      "Funktions‑Cookies: merken deine Präferenzen."
+    ],
+    "section3_notice": "Beim ersten Besuch wird ein Banner angezeigt, um Cookies zu verwalten. Du kannst sie jederzeit im Browser anpassen.",
+    "section4_title": "4. Datenspeicherung",
+    "section4_list": [
+      "Konto- und Präferenzdaten: solange das Konto aktiv ist oder bis zur Löschung.",
+      "Nutzungs‑ und technische Logs: 30 Tage Speicherung; aggregierte Daten werden solange aufbewahrt, wie das Projekt läuft.",
+      "Test-/Sandbox-Daten: gelöscht mit Projektabschluss oder auf Anfrage."
+    ],
+    "section5_title": "5. Weitergabe und Dritte",
+    "section5_text": "Wir können externe Dienstleister nutzen (Hosting, E-Mail, Benachrichtigungen, Analytik). Diese handeln als Auftragsverarbeiter und müssen Sicherheitsmaßnahmen einhalten. Wir verkaufen keine Daten an Dritte.",
+    "section6_title": "6. Sicherheit",
+    "section6_text": "Wir treffen angemessene technische und organisatorische Maßnahmen, um deine Daten zu schützen (Verschlüsselung, Zugriffskontrollen, Backups). Kein System ist 100 % sicher — bei relevanten Sicherheitsvorfällen werden wir dich gemäß Gesetz benachrichtigen.",
+    "section7_title": "7. Betroffenenrechte",
+    "section7_intro": "Du kannst folgende Rechte ausüben:",
+    "section7_list": [
+      "Auskunft, Berichtigung und Löschung.",
+      "Einschränkung oder Widerspruch der Verarbeitung.",
+      "Datenportabilität.",
+      "Widerruf der Einwilligung jederzeit.",
+      "Beschwerde bei der zuständigen Datenschutzbehörde."
+    ],
+    "section7_contact": "Zur Ausübung deiner Rechte: ",
+    "section8_title": "8. Daten von Minderjährigen",
+    "section8_text": "Wenn du unter 14 Jahre alt bist, benötigen wir die Zustimmung einer verantwortlichen volljährigen Person. Ohne entsprechende Erlaubnis löschen wir erkannte Daten unverzüglich.",
+    "section9_title": "9. Änderungen der Richtlinie",
+    "section9_text": "Wir können diese Richtlinie aktualisieren. Wir geben das Änderungsdatum an und informieren — falls erforderlich — alle betroffenen Nutzer.",
+    "section10_title": "10. Kontakt",
+    "section10_text": "Für Fragen, Anliegen oder zusätzliche Anfragen: "
+  },
+  "conditionsScreen": {
+    "title": "Allgemeine Geschäftsbedingungen",
+    "effective_date": "Gültig ab: 26.10.2025",
+    "intro": "Willkommen bei GameSage. Durch den Zugriff auf unsere Plattform oder deren Nutzung erklärst du dich mit diesen Allgemeinen Geschäftsbedingungen einverstanden. Wir empfehlen, sie sorgfältig zu lesen, bevor du unsere Dienste nutzt.",
+
+    "section1_title": "1. Gegenstand des Dienstes",
+    "section1_text": "GameSage ist eine digitale Plattform, die es ermöglicht, Videospiele zu entdecken, zu vergleichen und zu erwerben, mittels eines intelligenten Empfehlungssystems und aktueller Preise von verschiedenen offiziellen Shops. Die Nutzung der Seite impliziert die vollständige Akzeptanz der hier beschriebenen Bedingungen.",
+
+    "section2_title": "2. Registrierung und Benutzerkonto",
+    "section2_intro": "Für den Zugriff auf bestimmte Funktionen (wie personalisierte Empfehlungen oder Kaufhistorie) kann es erforderlich sein, ein Konto zu erstellen. Der Nutzer verpflichtet sich:",
+    "section2_list": [
+      "Wahrheitsgemäße und aktuelle Informationen bereitzustellen.",
+      "Sein Passwort vertraulich zu behandeln.",
+      "Das Konto nicht mit Dritten zu teilen.",
+      "Jede unbefugte Nutzung sofort zu melden."
+    ],
+    "section2_notice": "Wir behalten uns das Recht vor, Konten zu sperren oder zu löschen, die gegen diese Regeln verstoßen oder missbräuchlich genutzt werden.",
+
+    "section3_title": "3. Zulässige Nutzung",
+    "section3_intro": "Der Nutzer verpflichtet sich, die Plattform legal und verantwortungsvoll zu nutzen. Folgendes ist untersagt:",
+    "section3_list": [
+      "Die Nutzung der Seite zu illegalen oder betrügerischen Zwecken.",
+      "Manipulation von Code, Datenbanken oder Inhalten.",
+      "Verbreitung oder Veröffentlichung von anstößigem oder nicht autorisiertem Material."
+    ],
+
+    "section4_title": "4. Geistiges Eigentum",
+    "section4_text": "Alle Inhalte von GameSage (Texte, Logos, Designs, Code usw.) sind durch Urheberrechte und geistige Eigentumsrechte geschützt. Bilder, Namen und Logos von Videospielen gehören ihren jeweiligen Eigentümern und werden nur zu Informationszwecken verwendet. Eine Vervielfältigung, Verbreitung oder kommerzielle Nutzung ohne Genehmigung ist nicht gestattet.",
+
+    "section5_title": "5. Preise und Produkte",
+    "section5_text": "Die auf der Plattform angezeigten Preise werden regelmäßig aktualisiert und enthalten Informationen aus verschiedenen offiziellen digitalen Shops (Steam, Epic, PSN, Xbox, Nintendo usw.). Obwohl wir uns bemühen, korrekte und aktuelle Informationen bereitzustellen, übernimmt GameSage keine Verantwortung für mögliche Fehler oder Preisabweichungen oder Verfügbarkeitsänderungen.",
+
+    "section6_title": "6. Haftungsbeschränkung",
+    "section6_intro": "GameSage ist nicht verantwortlich für:",
+    "section6_list": [
+      "Technische Ausfälle, Unterbrechungen oder Datenverluste.",
+      "Veraltete oder ungenaue Informationen von Dritten.",
+      "Direkte oder indirekte Schäden, die aus der Nutzung der Plattform oder externer Links entstehen."
+    ],
+    "section6_notice": "Der Nutzer verwendet den Dienst auf eigene Verantwortung.",
+
+    "section7_title": "7. Datenschutz",
+    "section7_text": "Die Erhebung und Verarbeitung personenbezogener Daten unterliegt unserer Datenschutzerklärung, in der erläutert wird, wie wir deine Informationen und deine Rechte als Nutzer schützen. Durch die Registrierung oder Nutzung des Dienstes bestätigst du, diese Richtlinie gelesen und akzeptiert zu haben.",
+
+    "section8_title": "8. Änderungen des Dienstes und der Bedingungen",
+    "section8_text": "Wir können die Dienste, Funktionen oder diese Bedingungen jederzeit aktualisieren oder ändern. Neue Versionen werden auf dieser Seite veröffentlicht und treten zum Zeitpunkt der Veröffentlichung in Kraft.",
+
+    "section9_title": "9. Anwendbares Recht und Gerichtsstand",
+    "section9_text": "Diese Allgemeinen Geschäftsbedingungen unterliegen spanischem Recht. Streitigkeiten werden vor den Gerichten und Tribunalen von Málaga/Andalusien entschieden, sofern nicht anderweitig gesetzlich vorgesehen.",
+
+    "section10_title": "10. Kontakt",
+    "section10_text": "Bei Fragen, Anregungen oder Problemen zu diesen Allgemeinen Geschäftsbedingungen kannst du schreiben an:",
+    "section10_contact": "info.gamesage@gmail.com"
+  },
+  "contactScreen": {
+    "title": "Kontakt",
+    "description": "Wenn Sie Fragen, Anregungen oder Probleme haben, können Sie uns per E-Mail, Telefon oder an unserer physischen Adresse kontaktieren.",
+    "email": "E-Mail",
+    "email_address": "info.gamesage@gmail.com",
+    "phone": "Telefon",
+    "phone_number": "+34 123 45 43 21",
+    "address": "Adresse",
+    "address_text": "Calle Sancha de Lara s/n,\nBarrio Centro Histórico,\nDistrito Centro, Málaga\nComarca de Málaga, Málaga"
   }
 }
