@@ -1,109 +1,133 @@
 <div class="min-h-screen bg-gray-900 text-white font-sans">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
-         <div class="max-w-4xl mx-auto py-12 px-6">
-    <h2 class="text-4xl font-bold text-center mb-6 text-cyan-300">
-      {{ "privacy.title" | translate }}
-    </h2>
-        <p class="text-center text-gray-600 mb-10">
-            <strong>Fecha de entrada en vigor:</strong> 26/10/2025
-        </p>
+    <div class="max-w-4xl mx-auto py-12 px-6 text-justify">
+      <h2 class="text-4xl font-bold text-center mb-6 text-cyan-300">
+        {{ "privacyScreen.title" | translate }}
+      </h2>
+      <p class="text-center text-gray-600 mb-10">
+        <strong>{{ "privacyScreen.effective_date" | translate }}</strong>
+      </p>
+      <p class="mb-6">
+        {{ "privacyScreen.intro" | translate }}
+      </p>
+      <h2 class="text-2xl font-semibold mt-10 mb-3">
+        {{ "privacyScreen.section1_title" | translate }}
+      </h2>
+      <p class="mb-4">{{ "privacyScreen.section1_intro" | translate }}</p>
 
-        <p class="mb-6">
-            En <strong>GameSage</strong> nos tomamos en serio la privacidad de las personas. Esta Política de Privacidad 
-            explica qué datos personales recopilamos, con qué propósito, cómo los tratamos y qué derechos tienes sobre ellos.
-        </p>
+      <ul class="list-disc pl-8 space-y-2 mb-6">
+        <li>{{ "privacyScreen.section1_list.0" | translate }}</li>
+        <li>{{ "privacyScreen.section1_list.1" | translate }}</li>
+        <li>{{ "privacyScreen.section1_list.2" | translate }}</li>
+        <li>{{ "privacyScreen.section1_list.3" | translate }}</li>
+        <li>{{ "privacyScreen.section1_list.4" | translate }}</li>
+      </ul>
 
-        <h2 class="text-2xl font-semibold mt-10 mb-3">1. Datos que recopilamos</h2>
-        <p class="mb-4">Podemos recopilar y tratar las siguientes categorías de datos personales:</p>
+      <h2 class="text-2xl font-semibold mt-10 mb-3">
+        {{ "privacyScreen.section2_title" | translate }}
+      </h2>
+      <p class="mb-4">{{ "privacyScreen.section2_intro" | translate }}</p>
 
-        <ul class="list-disc pl-8 space-y-2 mb-6">
-            <li><strong>Datos de contacto y cuenta:</strong> nombre, correo electrónico, nombre de usuario, contraseña (almacenada cifrada).</li>
-            <li><strong>Datos de uso:</strong> páginas visitadas, interacciones con el chat de IA, historial de navegación dentro de la app, logs, tiempos y errores.</li>
-            <li><strong>Preferencias:</strong> favoritos, plataformas preferidas, alertas y ajustes del usuario.</li>
-            <li><strong>Datos técnicos:</strong> IP, tipo de dispositivo, sistema operativo y navegador (diagnóstico y seguridad).</li>
-            <li><strong>Datos de prueba/sandbox:</strong> claves y registros de compras simuladas. No almacenamos datos reales de tarjetas de pago.</li>
-        </ul>
+      <ul class="list-disc pl-8 space-y-2 mb-6">
+        <li>{{ "privacyScreen.section2_list.0" | translate }}</li>
+        <li>{{ "privacyScreen.section2_list.1" | translate }}</li>
+        <li>{{ "privacyScreen.section2_list.2" | translate }}</li>
+        <li>{{ "privacyScreen.section2_list.3" | translate }}</li>
+        <li>{{ "privacyScreen.section2_list.4" | translate }}</li>
+      </ul>
 
-        <h2 class="text-2xl font-semibold mt-10 mb-3">2. Finalidades y base legal</h2>
-        <p class="mb-4">Tratamos tus datos para las siguientes finalidades:</p>
+      <p class="mb-6">
+        {{ "privacyScreen.section2_notice" | translate }}
+      </p>
 
-        <ul class="list-disc pl-8 space-y-2 mb-6">
-            <li><strong>Proveer y mantener la plataforma:</strong> gestionar tu cuenta y funcionalidades (base: ejecución del contrato / interés legítimo).</li>
-            <li><strong>Mejorar la experiencia y el recomendador IA:</strong> procesar interacciones (interés legítimo o consentimiento).</li>
-            <li><strong>Comunicación:</strong> avisos del servicio y correos transaccionales (ejecución del contrato / interés legítimo).</li>
-            <li><strong>Seguridad y diagnóstico:</strong> detección de errores, prevención de fraudes y mejora técnica (interés legítimo).</li>
-            <li><strong>Marketing (opcional):</strong> solo si das tu consentimiento explícito.</li>
-        </ul>
+      <h2 class="text-2xl font-semibold mt-10 mb-3">
+        {{ "privacyScreen.section3_title" | translate }}
+      </h2>
+      <p class="mb-4">{{ "privacyScreen.section3_intro" | translate }}</p>
 
-        <p class="mb-6">
-            No vendemos tus datos a terceros. El tratamiento se realiza con fines académicos y de desarrollo.
-        </p>
+      <ul class="list-disc pl-8 space-y-2 mb-6">
+        <li>{{ "privacyScreen.section3_list.0" | translate }}</li>
+        <li>{{ "privacyScreen.section3_list.1" | translate }}</li>
+        <li>{{ "privacyScreen.section3_list.2" | translate }}</li>
+      </ul>
 
-        <h2 class="text-2xl font-semibold mt-10 mb-3">3. Cookies y tecnologías similares</h2>
-        <p class="mb-4">Utilizamos cookies para funciones esenciales y análisis. Tipos utilizados:</p>
+      <p class="mb-6">{{ "privacyScreen.section3_notice" | translate }}</p>
 
-        <ul class="list-disc pl-8 space-y-2 mb-6">
-            <li><strong>Cookies estrictamente necesarias:</strong> esenciales para el funcionamiento (sesión).</li>
-            <li><strong>Cookies de rendimiento/analítica:</strong> ayudan a mejorar la plataforma (puedes rechazarlas).</li>
-            <li><strong>Cookies de funcionalidad:</strong> recuerdan tus preferencias.</li>
-        </ul>
+      <h2 class="text-2xl font-semibold mt-10 mb-3">
+        {{ "privacyScreen.section4_title" | translate }}
+      </h2>
 
-        <p class="mb-6">
-            En la primera visita se muestra un banner para gestionar las cookies. Puedes modificarlas desde tu navegador.
-        </p>
+      <ul class="list-disc pl-8 space-y-2 mb-6">
+        <li>{{ "privacyScreen.section4_list.0" | translate }}</li>
+        <li>{{ "privacyScreen.section4_list.1" | translate }}</li>
+        <li>{{ "privacyScreen.section4_list.2" | translate }}</li>
+      </ul>
 
-        <h2 class="text-2xl font-semibold mt-10 mb-3">4. Conservación de los datos</h2>
-        <ul class="list-disc pl-8 space-y-2 mb-6">
-            <li><strong>Datos de cuenta y preferencias:</strong> mientras la cuenta esté activa o hasta que solicites su eliminación.</li>
-            <li><strong>Logs de uso y datos técnicos:</strong> retenidos durante 30 días; datos agregados se guardan durante el proyecto.</li>
-            <li><strong>Datos de pruebas/sandbox:</strong> eliminados al cierre del proyecto o a petición.</li>
-        </ul>
+      <h2 class="text-2xl font-semibold mt-10 mb-3">
+        {{ "privacyScreen.section5_title" | translate }}
+      </h2>
+      <p class="mb-6">
+        {{ "privacyScreen.section5_text" | translate }}
+      </p>
 
-        <h2 class="text-2xl font-semibold mt-10 mb-3">5. Cesiones y terceros</h2>
-        <p class="mb-6">
-            Podemos utilizar proveedores externos (hosting, correo, notificaciones, analítica).  
-            Actúan como encargados de tratamiento y deben cumplir medidas de seguridad.  
-            <strong>No vendemos datos a terceros.</strong>
-        </p>
+      <h2 class="text-2xl font-semibold mt-10 mb-3">
+        {{ "privacyScreen.section6_title" | translate }}
+      </h2>
+      <p class="mb-6">
+        {{ "privacyScreen.section6_text" | translate }}
+      </p>
 
-        <h2 class="text-2xl font-semibold mt-10 mb-3">6. Seguridad</h2>
-        <p class="mb-6">
-            Implementamos medidas técnicas y organizativas razonables para proteger tus datos (cifrado, controles de acceso, copias de seguridad).  
-            Ningún sistema es 100% seguro; si se detecta una brecha relevante, te lo notificaremos según la normativa.
-        </p>
+      <h2 class="text-2xl font-semibold mt-10 mb-3">
+        {{ "privacyScreen.section7_title" | translate }}
+      </h2>
+      <p class="mb-4">{{ "privacyScreen.section7_intro" | translate }}</p>
 
-        <h2 class="text-2xl font-semibold mt-10 mb-3">7. Derechos del interesado</h2>
-        <p class="mb-4">Puedes ejercer los siguientes derechos:</p>
+      <ul class="list-disc pl-8 space-y-2 mb-6">
+        <li>{{ "privacyScreen.section7_list.0" | translate }}</li>
+        <li>{{ "privacyScreen.section7_list.1" | translate }}</li>
+        <li>{{ "privacyScreen.section7_list.2" | translate }}</li>
+        <li>{{ "privacyScreen.section7_list.3" | translate }}</li>
+        <li>{{ "privacyScreen.section7_list.4" | translate }}</li>
+      </ul>
 
-        <ul class="list-disc pl-8 space-y-2 mb-6">
-            <li>Acceso, rectificación y supresión.</li>
-            <li>Limitación u oposición al tratamiento.</li>
-            <li>Portabilidad de datos.</li>
-            <li>Retirada del consentimiento en cualquier momento.</li>
-            <li>Reclamación ante la Agencia Española de Protección de Datos.</li>
-        </ul>
+      <p class="mb-6">
+        📧 {{ "privacyScreen.section7_contact" | translate }}
+        <a
+          href="mailto:info.gamesage@gmail.com"
+          onclick="window.open('https://mail.google.com/mail/?view=cm&to=info.gamesage@gmail.com', '_blank'); return false;"
+          class="text-cyan-300 underline hover:text-cyan-400 transition-colors"
+        >
+          info.gamesage&#64;gmail.com
+        </a>
+      </p>
 
-        <p class="mb-6">
-            Para ejercer tus derechos:  
-            📧 <a href="mailto:info@gamesage.com" class="text-cyan-300 underline">info.gamesage&#64;gmail.com</a>
-        </p>
+      <h2 class="text-2xl font-semibold mt-10 mb-3">
+        {{ "privacyScreen.section8_title" | translate }}
+      </h2>
+      <p class="mb-6">
+        {{ "privacyScreen.section8_text" | translate }}
+      </p>
 
-        <h2 class="text-2xl font-semibold mt-10 mb-3">8. Datos de menores</h2>
-        <p class="mb-6">
-            Si eres menor de 14 años, necesitas el consentimiento de una persona adulta responsable.  
-            Eliminaremos cualquier dato detectado sin la autorización correspondiente.
-        </p>
+      <h2 class="text-2xl font-semibold mt-10 mb-3">
+        {{ "privacyScreen.section9_title" | translate }}
+      </h2>
+      <p class="mb-6">
+        {{ "privacyScreen.section9_text" | translate }}
+      </p>
 
-        <h2 class="text-2xl font-semibold mt-10 mb-3">9. Modificaciones de la política</h2>
-        <p class="mb-6">
-            Podemos actualizar esta política. Indicaremos la fecha de modificación y, si procede, informaremos a los usuarios.
-        </p>
-
-        <h2 class="text-2xl font-semibold mt-10 mb-3">10. Contacto</h2>
-        <p class="mb-20">
-            Para dudas, consultas o solicitudes adicionales:  
-            📧 <a href="mailto:info@gamesage.com" class="text-cyan-300 underline">info.gamesage&#64;gmail.com</a>
-        </p>
+      <h2 class="text-2xl font-semibold mt-10 mb-3">
+        {{ "privacyScreen.section10_title" | translate }}
+      </h2>
+      <p class="mb-20">
+        📧 {{ "privacyScreen.section10_text" | translate }}
+        <a
+          href="mailto:info.gamesage@gmail.com"
+          onclick="window.open('https://mail.google.com/mail/?view=cm&to=info.gamesage@gmail.com', '_blank'); return false;"
+          class="text-cyan-300 underline hover:text-cyan-400 transition-colors"
+        >
+          info.gamesage&#64;gmail.com
+        </a>
+      </p>
     </div>
   </div>
 </div>
