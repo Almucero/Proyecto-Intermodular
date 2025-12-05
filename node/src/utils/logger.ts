@@ -29,7 +29,7 @@ const format = winston.format.combine(
 
 const transports: winston.transport[] = [new winston.transports.Console()];
 
-if (env.NODE_ENV !== "production") {
+if (env.NODE_ENV !== "production" && process.env.VERCEL !== "1") {
   transports.push(
     new winston.transports.File({
       filename: "logs/error.log",
