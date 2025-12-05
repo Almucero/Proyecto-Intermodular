@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "rootDir": "./src",
+    "rootDir": ".",
     "outDir": "./dist",
     "module": "nodenext",
     "target": "esnext",
@@ -19,5 +19,6 @@
     "skipLibCheck": true,
     "esModuleInterop": true
   },
+  "include": ["src/**/*", "api/**/*"],
   "exclude": ["node_modules", "dist", "src/tests"]
 }

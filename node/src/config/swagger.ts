@@ -6,6 +6,8 @@ import { env } from "./env.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+const isProduction = env.NODE_ENV === "production";
+
 const options: swaggerJsdoc.Options = {
   definition: {
     openapi: "3.0.0",
@@ -29,7 +31,7 @@ const options: swaggerJsdoc.Options = {
       },
     ],
     paths: {
-      "/health": {
+      "/api/health": {
         get: {
           summary: "Verifica el estado del servicio - Despliega el web service",
           tags: ["Health"],
@@ -884,8 +886,9 @@ const options: swaggerJsdoc.Options = {
     ],
   },
   apis: [
-    join(__dirname, "../modules/**/*.routes.js"),
-    join(__dirname, "../modules/**/*.routes.ts"),
+    isProduction
+      ? join(__dirname, "../modules/**/*.routes.js")
+      : join(__dirname, "../modules/**/*.routes.ts"),
   ],
 };
 

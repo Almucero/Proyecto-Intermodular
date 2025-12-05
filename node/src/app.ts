@@ -22,6 +22,8 @@ import purchasesRoutes from "./modules/purchases/purchases.routes.js";
 
 const app = express();
 
+app.set("trust proxy", 1);
+
 app.use(
   helmet({
     contentSecurityPolicy: false,
@@ -36,29 +38,42 @@ if (env.NODE_ENV === "production") {
   app.use(generalLimiter);
 }
 
-app.get("/health", (_req, res) => res.json({ ok: true }));
+app.get("/api/health", (_req, res) => res.json({ ok: true }));
 
 app.use("/api-docs", swaggerUi.serve);
 app.get("/api-docs", (req, res, next) => {
   const host = req.get("host") || "";
-  const isProduction = host.includes("gamesage-service.onrender.com");
+  const protocol =
+    req.headers["x-forwarded-proto"] || (req.secure ? "https" : "http");
 
   const dynamicSpec = JSON.parse(JSON.stringify(swaggerSpec));
 
-  if (isProduction && dynamicSpec.servers) {
-    dynamicSpec.servers = [
-      {
-        url: `https://gamesage-service.onrender.com`,
-        description: "Servidor de producción",
-      },
-      {
-        url: `http://localhost:${env.PORT}`,
-        description: "Servidor de desarrollo",
-      },
-    ];
+  if (dynamicSpec.servers) {
+    if (env.NODE_ENV === "production") {
+      dynamicSpec.servers = [
+        {
+          url: `${protocol}://${host}/`,
+          description: "Servidor de producción (Vercel)",
+        },
+      ];
+    } else {
+      dynamicSpec.servers = [
+        {
+          url: `http://localhost:${env.PORT}`,
+          description: "Servidor de desarrollo",
+        },
+      ];
+    }
   }
 
   return swaggerUi.setup(dynamicSpec, {
+    customCssUrl:
+      "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.0.0/swagger-ui.min.css",
+    customJs: [
+      "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.0.0/swagger-ui-bundle.js",
+      "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.0.0/swagger-ui-standalone-preset.js",
+    ],
+    customCss: ".swagger-ui .topbar { display: none }",
     swaggerOptions: {
       persistAuthorization: true,
     },

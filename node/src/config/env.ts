@@ -9,19 +9,22 @@ export const env = {
   PORT: Number(process.env.PORT ?? 3000),
   NODE_ENV: process.env.NODE_ENV ?? "development",
   JWT_SECRET: required(process.env.JWT_SECRET, "JWT_SECRET"),
-  DATABASE_URL: required(process.env.DATABASE_URL, "DATABASE_URL"),
+  POSTGRES_PRISMA_URL: required(
+    process.env.POSTGRES_PRISMA_URL,
+    "POSTGRES_PRISMA_URL"
+  ),
   BCRYPT_SALT_ROUNDS: Number(process.env.BCRYPT_SALT_ROUNDS ?? 10),
   CLOUDINARY_CLOUD_NAME: required(
     process.env.CLOUDINARY_CLOUD_NAME,
-    "CLOUDINARY_CLOUD_NAME",
+    "CLOUDINARY_CLOUD_NAME"
   ),
   CLOUDINARY_API_KEY: required(
     process.env.CLOUDINARY_API_KEY,
-    "CLOUDINARY_API_KEY",
+    "CLOUDINARY_API_KEY"
   ),
   CLOUDINARY_API_SECRET: required(
     process.env.CLOUDINARY_API_SECRET,
-    "CLOUDINARY_API_SECRET",
+    "CLOUDINARY_API_SECRET"
   ),
   ADMIN_EMAILS: process.env.ADMIN_EMAILS ?? "",
 };

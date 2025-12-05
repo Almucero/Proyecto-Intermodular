@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GameSage API</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg-color: #050505;
+        --card-bg: rgba(20, 20, 25, 0.7);
+        --neon-blue: #00f3ff;
+        --neon-glow: 0 0 10px rgba(0, 243, 255, 0.5),
+          0 0 20px rgba(0, 243, 255, 0.3);
+        --text-color: #ffffff;
+        --text-secondary: #a0a0b0;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: var(--bg-color);
+        background-image: radial-gradient(
+          circle at center,
+          #11111f 0%,
+          #000000 100%
+        );
+        color: var(--text-color);
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            rgba(0, 243, 255, 0.03) 1px,
+            transparent 1px
+          ),
+          linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+        background-size: 30px 30px;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      .container {
+        text-align: center;
+        padding: 3rem 4rem;
+        background: var(--card-bg);
+        border: 1px solid rgba(0, 243, 255, 0.1);
+        border-radius: 16px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        max-width: 500px;
+        width: 90%;
+        position: relative;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      h1 {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+        color: var(--text-color);
+        text-transform: uppercase;
+        letter-spacing: -1px;
+      }
+
+      h1 span {
+        color: var(--neon-blue);
+        text-shadow: var(--neon-glow);
+      }
+
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 1.5rem 0;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        background: rgba(0, 243, 255, 0.1);
+        border: 1px solid rgba(0, 243, 255, 0.2);
+        color: var(--neon-blue);
+        font-size: 0.9rem;
+        font-weight: 600;
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      .pulse {
+        width: 8px;
+        height: 8px;
+        background-color: var(--neon-blue);
+        border-radius: 50%;
+        box-shadow: 0 0 10px var(--neon-blue);
+        animation: pulse 2s infinite;
+      }
+
+      p.description {
+        color: var(--text-secondary);
+        margin-bottom: 2.5rem;
+        line-height: 1.6;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 1rem 2rem;
+        background: transparent;
+        color: var(--neon-blue);
+        border: 1px solid var(--neon-blue);
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        background: var(--neon-blue);
+        color: #000;
+        box-shadow: var(--neon-glow);
+      }
+
+      @keyframes pulse {
+        0% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.5;
+          transform: scale(1.2);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>GameSage <span>API</span> 🚀</h1>
+
+      <div class="status">
+        <div class="pulse"></div>
+        SYSTEM OPERATIONAL
+      </div>
+
+      <p class="description">
+        El servicio backend está desplegado en la red Edge de Vercel.<br />
+        Acceso autorizado para documentación y pruebas.
+      </p>
+
+      <a href="/api-docs" class="btn"> Acceder a Docs > </a>
+    </div>
+  </body>
+</html>
