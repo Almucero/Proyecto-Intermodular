@@ -1,9 +1,9 @@
-# Proyecto intermodular: GameSage
+# Proyecto Intermodular: GameSage
 
 Proyecto intermodular desarrollado en el segundo curso del CFGS en Desarrollo de Aplicaciones Multiplataforma.  
 Participantes: **[Rosario González](#rosario-gonzález)** y **[Álvaro Jiménez](#álvaro-jiménez)**
 
-GameSage reúne en un solo proyecto todo lo aprendido durante el curso en diversas asignaturas, integrando backend, frontend web, aplicación móvil, base de datos, despliegue en la nube y prototipado UI, entre otros.
+GameSage reúne en un solo proyecto todo lo aprendido durante el curso, integrando una arquitectura moderna basada en la nube, backend serverless, frontend SPA, desarrollo móvil nativo y diseño UI/UX.
 
 ---
 
@@ -13,8 +13,8 @@ GameSage reúne en un solo proyecto todo lo aprendido durante el curso en divers
 2. [Descripción del Proyecto](#descripción-del-proyecto)
 3. [Arquitectura General](#arquitectura-general)
 4. [Componentes del Proyecto](#componentes-del-proyecto)
-   - [Base de Datos](#base-de-datos)
-   - [API / Servicio Web](#api--servicio-web)
+   - [Base de Datos (Neon)](#base-de-datos-neon)
+   - [API Serverless (Vercel)](#api-serverless-vercel)
    - [Aplicación Web (Angular)](#aplicación-web-angular)
    - [Aplicación Móvil (Kotlin)](#aplicación-móvil-kotlin)
    - [Prototipo en Figma](#prototipo-en-figma)
@@ -40,15 +40,15 @@ GameSage reúne en un solo proyecto todo lo aprendido durante el curso en divers
 
 ## Descripción del Proyecto
 
-GameSage es una plataforma orientada a la gestión, consulta y visualización de información relacionada con videojuegos.  
-El proyecto sirve como práctica completa del ciclo, integrando conocimientos de programación, diseño, bases de datos, servicios web, diseño de interfaces y despliegue.
+GameSage es una plataforma integral orientada a la gestión, consulta y visualización de información de videojuegos.  
+El proyecto representa la culminación del ciclo formativo, evolucionando hacia una **infraestructura 100% Serverless** centralizada en Vercel para garantizar escalabilidad, rendimiento y despliegue continuo.
 
 El sistema se compone de:
 
-- Una **base de datos alojada en Render**.
-- Un **servicio backend** en Node.js también desplegado en Render.
-- Una **aplicación web en Angular**, desplegada en Netlify.
-- Una **aplicación móvil desarrollada en Kotlin** que consume la misma API.
+- Una **base de datos PostgreSQL Serverless** gestionada por Neon.
+- Un **backend Node.js** desplegado como Serverless Functions en Vercel.
+- Una **aplicación web en Angular**, alojada en Vercel Edge Network.
+- Una **aplicación móvil nativa en Kotlin** que consume la API REST.
 - Un **prototipo de diseño UI/UX en Figma**.
 
 ---
@@ -56,57 +56,59 @@ El sistema se compone de:
 ## Arquitectura General
 
 ```text
-     [Base de Datos - Render]
-               ↑
-               |
- [API REST en Node.js - Render]
-               ↑
-      ┌────────┴────────┐
-      |                 |
-[Web Angular]  [App Móvil Kotlin]
-   Netlify           Android
+      [Base de Datos - Neon Serverless]
+                  (PostgreSQL)
+                       ↑
+                       |
+        [API Backend - Vercel Functions]
+               (Node.js / Express)
+                       ↑
+           ┌───────────┴───────────┐
+           |                       |
+    [Web Angular]         [App Móvil Kotlin]
+  (Vercel Hosting)             (Android)
 ```
 
 ---
 
 ## Componentes del Proyecto
 
-### Base de Datos
+### Base de Datos (Neon)
 
-- Alojada en **Render**.
-- Contiene toda la información estructurada que consume el backend.
+- **Tecnología:** PostgreSQL Serverless (Neon Tech).
+- **Integración:** Conectada nativamente a Vercel.
+- **Características:** Escalado automático a cero (Scale-to-Zero) y pool de conexiones optimizado para entornos serverless.
 
-### API / Servicio Web
+### API Serverless (Vercel)
 
-- Servidor desarrollado en **Node.js**.
-- Desplegado en **Render**.
-- Expone endpoints para juegos, usuarios y demás recursos necesarios.
-- Documentación disponible mediante **Swagger**.
+- **Tecnología:** Node.js + Express adaptado a Serverless.
+- **Despliegue:** Vercel Functions.
+- **Funcionalidad:** Centraliza la lógica de negocio, autenticación y gestión de datos.
+- **Documentación:** Interfaz interactiva disponible mediante **Swagger UI**.
 
 ### Aplicación Web (Angular)
 
-- Desarrollada en Angular.
-- Conectada a la API alojada en Render.
-- Desplegada en **Netlify**.
+- **Framework:** Angular (SPA).
+- **Despliegue:** Vercel (Edge Network).
+- **Características:** Conexión optimizada con el backend bajo el mismo ecosistema de despliegue, asegurando baja latencia.
 
 ### Aplicación Móvil (Kotlin)
 
-- App nativa para Android desarrollada en Kotlin.
-- Consume la misma API.
-- Permite acceder a la funcionalidad esencial de la plataforma.
+- **Tecnología:** Desarrollo nativo Android con Kotlin.
+- **Integración:** Consume la API REST expuesta en Vercel.
+- **Funcionalidad:** Acceso completo a la plataforma desde dispositivos móviles con experiencia nativa.
 
 ### Prototipo en Figma
 
-- Prototipo UI/UX inicial del proyecto.
-- Base de referencia para la estructura visual.
+- **Diseño:** Prototipo UI/UX de alta fidelidad.
+- **Uso:** Base de referencia para la estructura visual y flujo de usuario de ambas aplicaciones.
 
 ---
 
 ## Enlaces de Interés
 
-### Web: [Enlace a la web desplegada](https://gamingsage.netlify.app/)
+### Figma: [Enlace al prototipo en Figma, con diseños para web y móvil](https://www.figma.com/proto/8WRYpwCvkO9wDyGhu57rel/App-venta-de-videojuegos?node-id=0-1&t=04WaZdl2dDfJg0df-1)
 
-### Swagger: [Swagger Docs](https://gamesage-service.onrender.com/api-docs/)
+### API: [Enlace al BackEnd desplegado con toda la documentación](https://https://gamesage-backend.vercel.app)
 
-### Prototipo en Figma: [Ver prototipo](https://www.figma.com/proto/8WRYpwCvkO9wDyGhu57rel/App-venta-de-videojuegos?node-id=0-1&t=04WaZdl2dDfJg0df-1)
-
+### Web: [Enlace al FrontEnd deplegado con conexión a la API desplegada](https://www.google.com/search?q=https://tu-proyecto-angular.vercel.app/)
