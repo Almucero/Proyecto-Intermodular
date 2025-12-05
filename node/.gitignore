@@ -24,3 +24,5 @@ logs/
 
 # Archivos generados automáticamente
 src/generated/prisma/
+
+.vercel/

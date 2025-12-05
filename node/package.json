@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "description": "API REST para gestión de autenticación, usuarios, videojuegos, desarrolladoras, publishers, géneros, plataformas y archivos multimedia con autenticación JWT, validación Zod, rate limiting y testing completo",
-  "main": "index.js",
+  "main": "dist/src/index.js",
   "scripts": {
     "dev": "npm run seed:admin && nodemon src/index.ts",
     "seed:admin": "tsx src/scripts/seedAdmin.ts",
@@ -11,11 +11,15 @@
     "clean:data": "tsx src/scripts/cleanData.ts",
     "build": "tsc -p .",
     "build:full": "prisma generate && npm run seed:admin && npm run build",
-    "start": "node dist/index.js",
+    "start": "node dist/src/index.js",
     "test": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest",
     "test:watch": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --watch",
     "test:coverage": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --coverage",
-    "format": "npx prettier --write \"**/*.{ts,js,html,css,json}\""
+    "format": "npx prettier --write \"**/*.{ts,js,html,css,json}\"",
+    "postinstall": "prisma generate",
+    "clean": "npx rimraf dist logs coverage",
+    "clean:full": "npx rimraf dist node_modules logs coverage",
+    "reinstall": "npm run clean:full && npm install"
   },
   "keywords": [],
   "author": "",
