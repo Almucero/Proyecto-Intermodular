@@ -256,6 +256,13 @@
     "deleteFile": "Delete file",
     "closeNotification": "Close notification"
   },
+  "authGuard": {
+    "loginRequiredTitle": "Login Required",
+    "loginRequiredMessage": "You must be logged in to perform this action. Do you want to go to the login page?",
+    "login": "Log in",
+    "cancel": "Cancel",
+    "featureLoginRequired": "Log in to view your content"
+  },
   "footer": {
     "text": "GameSage. All rights reserved."
   },

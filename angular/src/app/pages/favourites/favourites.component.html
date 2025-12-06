@@ -4,7 +4,19 @@
       {{ "favourites.listTitle" | translate }}
     </h1>
 
-    @if (loading()) {
+    @if (!isAuthenticated()) {
+    <div class="flex flex-col items-center justify-center py-20">
+      <h2 class="text-2xl font-semibold text-white mb-6">
+        {{ "authGuard.featureLoginRequired" | translate }}
+      </h2>
+      <button
+        (click)="goToLogin()"
+        class="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg hover:from-cyan-400 hover:to-blue-400 transition-all font-medium shadow-lg"
+      >
+        {{ "authGuard.login" | translate }}
+      </button>
+    </div>
+    } @else { @if (loading()) {
     <div class="text-center text-gray-400 py-12">
       {{ "common.loading" | translate }}
     </div>
@@ -91,6 +103,6 @@
         {{ "favourites.transferAll" | translate }}
       </button>
     </div>
-    }
+    } }
   </div>
 </div>
