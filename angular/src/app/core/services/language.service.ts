@@ -34,7 +34,8 @@ export class LanguageService {
     if (savedLang) {
       this.setLanguage(savedLang);
     } else {
-      this.setLanguage(this.DEFAULT_LANGUAGE);
+      const browserLang = this.detectBrowserLanguage();
+      this.setLanguage(browserLang);
     }
   }
 

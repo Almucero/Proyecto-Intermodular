@@ -7,7 +7,7 @@
     "menu": "Menu"
   },
   "menu": {
-    "home": "Accueil",
+    "explore": "Explorer",
     "settings": "Paramètres",
     "help": "Aide",
     "contact": "Contact",
@@ -56,7 +56,27 @@
     "title": "Termes et conditions"
   },
   "cookiesPage": {
-    "title": "Paramètres des cookies"
+    "title": "Paramètres des cookies",
+    "last_update": "Dernière mise à jour : 26/10/2025",
+    "intro": "Chez <strong>GameSage</strong>, nous utilisons des cookies et des technologies similaires pour vous offrir une meilleure expérience, mémoriser vos préférences et analyser la façon dont vous interagissez avec notre site. Nous expliquons ci-dessous ce qu'ils sont, quels types nous utilisons et comment vous pouvez les gérer.",
+    "section1_title": "Que sont les cookies ?",
+    "section1_text": "Les cookies sont de petits fichiers texte que les sites Web enregistrent sur votre appareil (ordinateur, mobile ou tablette) lorsque vous les visitez. Ils permettent au site Web de mémoriser vos actions et préférences (telles que la connexion, la langue ou la taille de la police) pendant un certain temps, afin que vous n'ayez pas à les configurer à chaque fois que vous revenez.",
+    "section2_title": "Types de cookies que nous utilisons",
+    "section2_essential_title": "Cookies essentiels ou techniques",
+    "section2_essential_text": "Ils sont nécessaires au bon fonctionnement du site Web. Ils permettent la navigation, la connexion ou la gestion du panier. Ces cookies ne peuvent pas être désactivés.",
+    "section2_preferences_title": "Cookies de préférences",
+    "section2_preferences_text": "Ils permettent de mémoriser vos paramètres, tels que la langue, le thème ou le type de recommandations affichées par l'IA.",
+    "section2_analytics_title": "Cookies d'analyse ou de performance",
+    "section2_analytics_text": "Ils nous aident à comprendre comment les utilisateurs interagissent avec le Web, à détecter les erreurs et à améliorer l'expérience générale (par exemple, à l'aide d'outils d'analyse).",
+    "section2_marketing_title": "Cookies de marketing ou de publicité",
+    "section2_marketing_text": "Ils permettent d'afficher du contenu et des offres pertinents en fonction de vos intérêts, à l'intérieur ou à l'extérieur de la plateforme.",
+    "section3_title": "Gestion des cookies",
+    "section3_text": "Vous pouvez accepter tous les cookies, les refuser ou les configurer selon vos préférences. Vous pouvez également modifier les paramètres de votre navigateur pour bloquer ou supprimer les cookies. Notez que si vous désactivez les cookies essentiels, certaines parties du Web peuvent ne pas fonctionner correctement.",
+    "section3_links_intro": "Pour plus d'informations sur la gestion des cookies dans votre navigateur, visitez les liens suivants :",
+    "section4_title": "Modifications de la politique de cookies",
+    "section4_text": "Nous pouvons mettre à jour cette politique de cookies pour refléter les changements dans les cookies que nous utilisons ou pour des raisons juridiques, opérationnelles ou réglementaires. Nous vous recommandons de consulter cette page régulièrement pour rester informé de notre utilisation des cookies.",
+    "section5_title": "Contact",
+    "section5_text": "Si vous avez des questions sur notre politique de cookies, contactez-nous à :"
   },
   "privacy": {
     "title": "Politique de confidentialité"
@@ -265,50 +285,50 @@
     "intro": "Chez GameSage, nous prenons la confidentialité des personnes au sérieux. Cette politique de confidentialité explique quelles données personnelles nous recueillons, dans quel but, comment nous les traitons et quels droits vous avez à leur sujet.",
     "section1_title": "1. Données collectées",
     "section1_intro": "Nous pouvons collecter et traiter les catégories de données personnelles suivantes :",
-    "section1_list": [
-      "Données de contact et de compte : nom, adresse e-mail, nom d'utilisateur, mot de passe (stocké de manière chiffrée).",
-      "Données d'utilisation : pages visitées, interactions avec le chat IA, historique de navigation dans l'application, journaux, temps et erreurs.",
-      "Préférences : favoris, plateformes préférées, alertes et paramètres de l'utilisateur.",
-      "Données techniques : IP, type d'appareil, système d'exploitation et navigateur (diagnostic et sécurité).",
-      "Données de test/sandbox : clés et enregistrements d'achats simulés. Nous ne stockons pas de données réelles de cartes de paiement."
-    ],
+    "section1_list": {
+      "0": "<strong>Données de contact et de compte :</strong> nom, adresse e-mail, nom d'utilisateur, mot de passe (stocké de manière chiffrée).",
+      "1": "<strong>Données d'utilisation :</strong> pages visitées, interactions avec le chat IA, historique de navigation dans l'application, journaux, temps et erreurs.",
+      "2": "<strong>Préférences :</strong> favoris, plateformes préférées, alertes et paramètres de l'utilisateur.",
+      "3": "<strong>Données techniques :</strong> IP, type d'appareil, système d'exploitation et navigateur (diagnostic et sécurité).",
+      "4": "<strong>Données de test/sandbox :</strong> clés et enregistrements d'achats simulés. Nous ne stockons pas de données réelles de cartes de paiement."
+    },
     "section2_title": "2. Finalités et base légale",
     "section2_intro": "Nous traitons vos données aux fins suivantes :",
-    "section2_list": [
-      "Fournir et maintenir la plateforme : gérer votre compte et ses fonctionnalités (base : exécution du contrat / intérêt légitime).",
-      "Améliorer l'expérience et le recommandateur IA : traiter les interactions (intérêt légitime ou consentement).",
-      "Communication : notifications du service et e-mails transactionnels (exécution du contrat / intérêt légitime).",
-      "Sécurité et diagnostic : détection des erreurs, prévention de la fraude et amélioration technique (intérêt légitime).",
-      "Marketing (optionnel) : uniquement si vous donnez votre consentement explicite."
-    ],
+    "section2_list": {
+      "0": "<strong>Fournir et maintenir la plateforme :</strong> gérer votre compte et ses fonctionnalités (base : exécution du contrat / intérêt légitime).",
+      "1": "<strong>Améliorer l'expérience et le recommandateur IA :</strong> traiter les interactions (intérêt légitime ou consentement).",
+      "2": "<strong>Communication :</strong> notifications du service et e-mails transactionnels (exécution du contrat / intérêt légitime).",
+      "3": "<strong>Sécurité et diagnostic :</strong> détection des erreurs, prévention de la fraude et amélioration technique (intérêt légitime).",
+      "4": "<strong>Marketing (optionnel) :</strong> uniquement si vous donnez votre consentement explicite."
+    },
     "section2_notice": "Nous ne vendons pas vos données à des tiers. Le traitement se fait à des fins académiques et de développement.",
     "section3_title": "3. Cookies et technologies similaires",
     "section3_intro": "Nous utilisons des cookies pour des fonctions essentielles et des analyses. Types utilisés :",
-    "section3_list": [
-      "Cookies strictement nécessaires : essentiels pour le fonctionnement (session).",
-      "Cookies de performance/analytique : aident à améliorer la plateforme (vous pouvez les refuser).",
-      "Cookies de fonctionnalité : mémorisent vos préférences."
-    ],
+    "section3_list": {
+      "0": "<strong>Cookies strictement nécessaires :</strong> essentiels pour le fonctionnement (session).",
+      "1": "<strong>Cookies de performance/analytique :</strong> aident à améliorer la plateforme (vous pouvez les refuser).",
+      "2": "<strong>Cookies de fonctionnalité :</strong> mémorisent vos préférences."
+    },
     "section3_notice": "Lors de la première visite, une bannière permet de gérer les cookies. Vous pouvez les modifier dans votre navigateur.",
     "section4_title": "4. Conservation des données",
-    "section4_list": [
-      "Données de compte et préférences : tant que le compte est actif ou jusqu'à suppression sur demande.",
-      "Journaux d'utilisation et données techniques : conservés 30 jours ; les données agrégées sont conservées pour la durée du projet.",
-      "Données de test/sandbox : supprimées à la fin du projet ou sur demande."
-    ],
+    "section4_list": {
+      "0": "<strong>Données de compte et préférences :</strong> tant que le compte est actif ou jusqu'à suppression sur demande.",
+      "1": "<strong>Journaux d'utilisation et données techniques :</strong> conservés 30 jours ; les données agrégées sont conservées pour la durée du projet.",
+      "2": "<strong>Données de test/sandbox :</strong> supprimées à la fin du projet ou sur demande."
+    },
     "section5_title": "5. Partage et tiers",
     "section5_text": "Nous pouvons utiliser des prestataires externes (hébergement, e-mails, notifications, analytique). Ils agissent en tant que sous-traitants et doivent respecter les mesures de sécurité. Nous ne vendons pas vos données à des tiers.",
     "section6_title": "6. Sécurité",
     "section6_text": "Nous mettons en œuvre des mesures techniques et organisationnelles raisonnables pour protéger vos données (chiffrement, contrôles d'accès, sauvegardes). Aucun système n’est 100 % sécurisé ; en cas de violation majeure, nous vous informerons conformément à la réglementation.",
     "section7_title": "7. Droits des personnes concernées",
     "section7_intro": "Vous pouvez exercer les droits suivants :",
-    "section7_list": [
-      "Accès, rectification et suppression.",
-      "Limitation ou opposition au traitement.",
-      "Portabilité des données.",
-      "Retrait du consentement à tout moment.",
-      "Réclamation auprès de l’autorité française de protection des données."
-    ],
+    "section7_list": {
+      "0": "Accès, rectification et suppression.",
+      "1": "Limitation ou opposition au traitement.",
+      "2": "Portabilité des données.",
+      "3": "Retrait du consentement à tout moment.",
+      "4": "Réclamation auprès de l’autorité française de protection des données."
+    },
     "section7_contact": "Pour exercer vos droits : ",
     "section8_title": "8. Données des mineurs",
     "section8_text": "Si vous avez moins de 14 ans, le consentement d’une personne adulte responsable est nécessaire. Toute donnée détectée sans autorisation sera supprimée.",
@@ -321,52 +341,42 @@
     "title": "Conditions Générales",
     "effective_date": "Date d'entrée en vigueur : 26/10/2025",
     "intro": "Bienvenue sur GameSage. En accédant ou en utilisant notre plateforme, vous acceptez de respecter ces Conditions Générales. Nous vous recommandons de les lire attentivement avant d'utiliser nos services.",
-
     "section1_title": "1. Objet du service",
     "section1_text": "GameSage est une plateforme numérique qui permet de découvrir, comparer et acheter des jeux vidéo grâce à un système de recommandations intelligent et à des prix mis à jour provenant de différents magasins officiels. L'utilisation du site implique l'acceptation totale des conditions décrites ici.",
-
     "section2_title": "2. Inscription et compte utilisateur",
     "section2_intro": "Pour accéder à certaines fonctionnalités (comme les recommandations personnalisées ou l'historique des achats), il peut être nécessaire de créer un compte. L'utilisateur s'engage à :",
-    "section2_list": [
-      "Fournir des informations exactes et à jour.",
-      "Garder son mot de passe confidentiel.",
-      "Ne pas partager le compte avec des tiers.",
-      "Signaler immédiatement toute utilisation non autorisée."
-    ],
+    "section2_list": {
+      "0": "Fournir des informations exactes et à jour.",
+      "1": "Garder son mot de passe confidentiel.",
+      "2": "Ne pas partager le compte avec des tiers.",
+      "3": "Signaler immédiatement toute utilisation non autorisée."
+    },
     "section2_notice": "Nous nous réservons le droit de suspendre ou de supprimer les comptes qui enfreignent ces règles ou sont utilisés de manière abusive.",
-
     "section3_title": "3. Utilisation autorisée",
     "section3_intro": "L'utilisateur s'engage à utiliser la plateforme de manière légale et responsable. Sont interdits :",
-    "section3_list": [
-      "Utiliser le site à des fins illégales ou frauduleuses.",
-      "Manipuler le code, les bases de données ou le contenu.",
-      "Distribuer ou publier du contenu offensant ou non autorisé."
-    ],
-
+    "section3_list": {
+      "0": "Utiliser le site à des fins illégales ou frauduleuses.",
+      "1": "Manipuler le code, les bases de données ou le contenu.",
+      "2": "Distribuer ou publier du contenu offensant ou non autorisé."
+    },
     "section4_title": "4. Propriété intellectuelle",
     "section4_text": "Tous les contenus de GameSage (textes, logos, designs, code, etc.) sont protégés par le droit d'auteur et la propriété intellectuelle. Les images, noms et logos des jeux vidéo appartiennent à leurs propriétaires respectifs et sont utilisés uniquement à des fins d'information. Leur reproduction, distribution ou utilisation commerciale sans autorisation est interdite.",
-
     "section5_title": "5. Prix et produits",
     "section5_text": "Les prix affichés sur la plateforme sont régulièrement mis à jour et incluent des informations provenant de divers magasins numériques officiels (Steam, Epic, PSN, Xbox, Nintendo, etc.). Bien que nous nous efforcions de maintenir des informations correctes et à jour, GameSage n'est pas responsable des éventuelles erreurs, variations de prix ou disponibilités.",
-
     "section6_title": "6. Limitation de responsabilité",
     "section6_intro": "GameSage ne sera pas responsable de :",
-    "section6_list": [
-      "Pannes techniques, interruptions ou perte de données.",
-      "Informations obsolètes ou inexactes fournies par des tiers.",
-      "Dommages directs ou indirects résultant de l'utilisation de la plateforme ou de liens externes."
-    ],
+    "section6_list": {
+      "0": "Pannes techniques, interruptions ou perte de données.",
+      "1": "Informations obsolètes ou inexactes fournies par des tiers.",
+      "2": "Dommages directs ou indirects résultant de l'utilisation de la plateforme ou de liens externes."
+    },
     "section6_notice": "L'utilisateur utilise le service sous sa propre responsabilité.",
-
     "section7_title": "7. Protection des données",
     "section7_text": "La collecte et le traitement des données personnelles sont régis par notre Politique de Confidentialité, qui explique comment nous protégeons vos informations et vos droits en tant qu'utilisateur. En vous inscrivant ou en utilisant le service, vous confirmez avoir lu et accepté cette politique.",
-
     "section8_title": "8. Modifications du service et des conditions",
     "section8_text": "Nous pouvons mettre à jour ou modifier les services, fonctionnalités ou ces conditions à tout moment. Les nouvelles versions seront publiées sur cette même page et entreront en vigueur à la date de publication.",
-
     "section9_title": "9. Droit applicable et juridiction",
     "section9_text": "Ces Conditions Générales sont régies par le droit espagnol. Tout litige sera résolu par les tribunaux de Málaga/Andalousie, sauf disposition légale contraire.",
-
     "section10_title": "10. Contact",
     "section10_text": "Pour toute question, suggestion ou problème concernant ces Conditions Générales, vous pouvez écrire à :",
     "section10_contact": "info.gamesage@gmail.com"
