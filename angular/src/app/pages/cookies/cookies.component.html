@@ -1,147 +1,148 @@
-<div class="flex-1 w-full bg-gray-900 text-white font-sans">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
-    <div class="max-w-4xl mx-auto py-12 px-6">
-      <h2 class="text-4xl font-bold text-center mb-6 text-cyan-300">
-        {{ "cookiesPage.title" | translate }}
-      </h2>
-      <p class="text-center text-gray-600 mb-10">
-        <strong>Fecha de última actualización:</strong> 26/10/2025
-      </p>
-
-      <p class="mb-6">
-        En <strong>GameSage</strong> utilizamos cookies y tecnologías similares
-        para ofrecerte una mejor experiencia, recordar tus preferencias y
-        analizar cómo interactúas con nuestro sitio. A continuación te
-        explicamos qué son, qué tipos utilizamos y cómo puedes gestionarlas.
-      </p>
-
-      <h2 class="text-2xl font-semibold mt-10 mb-3">
-        1. ¿Qué son las cookies?
-      </h2>
-      <p class="mb-6">
-        Las cookies son pequeños archivos de texto que se almacenan en tu
-        dispositivo cuando visitas una web. Sirven para reconocer tu navegador,
-        recordar tus preferencias y, en algunos casos, recopilar información
-        anónima sobre tu actividad.
-      </p>
-
-      <h2 class="text-2xl font-semibold mt-10 mb-3">
-        2. Tipos de cookies que utilizamos
-      </h2>
-
-      <div class="space-y-6 mb-6">
-        <div>
-          <h3 class="font-semibold text-lg">
-            🔹 Cookies esenciales o técnicas
-          </h3>
-          <p>
-            Son necesarias para el correcto funcionamiento del sitio web.
-            Permiten la navegación, el inicio de sesión o la gestión del carrito
-            de compras. Estas cookies no pueden desactivarse.
-          </p>
-        </div>
-
-        <div>
-          <h3 class="font-semibold text-lg">
-            🔹 Cookies de preferencias o personalización
-          </h3>
-          <p>
-            Permiten recordar tus ajustes, como idioma, tema o tipo de
-            recomendaciones mostradas por la IA.
-          </p>
-        </div>
-
-        <div>
-          <h3 class="font-semibold text-lg">
-            🔹 Cookies de análisis o rendimiento
-          </h3>
-          <p>
-            Nos ayudan a entender cómo los usuarios interactúan con la web,
-            detectar errores y mejorar la experiencia general (por ejemplo,
-            mediante herramientas de analítica).
-          </p>
-        </div>
-
-        <div>
-          <h3 class="font-semibold text-lg">
-            🔹 Cookies de marketing o publicidad
-          </h3>
-          <p>
-            Permiten mostrar contenido y ofertas relevantes según tus intereses,
-            dentro o fuera de la plataforma.
-          </p>
-        </div>
+<div class="flex-1 w-full bg-gray-900 text-white font-sans relative overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 mb-20 relative z-10">
+    <div
+      class="max-w-4xl mx-auto bg-gray-800/60 backdrop-blur-md border border-gray-700/50 rounded-3xl p-8 md:p-12 shadow-2xl">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-cyan-300 mb-4 pb-2">
+          {{ "cookiesPage.title" | translate }}
+        </h2>
+        <p class="text-gray-400 font-medium">
+          {{ "cookiesPage.last_update" | translate }}
+        </p>
       </div>
 
-      <h2 class="text-2xl font-semibold mt-10 mb-3">3. Gestión de cookies</h2>
-      <p class="mb-4">
-        Puedes aceptar todas las cookies, rechazarlas o configurar tus
-        preferencias en cualquier momento desde el apartado “Configuración de
-        cookies” del sitio.
-      </p>
+      <div class="space-y-12 text-gray-300 leading-relaxed">
+        <p class="text-lg border-l-4 border-cyan-500 pl-4 italic bg-gray-900/30 p-4 rounded-r-lg"
+          [innerHTML]="'cookiesPage.intro' | translate">
+        </p>
 
-      <p class="mb-4">
-        También puedes eliminar o limitar el uso de cookies desde tu navegador
-        siguiendo estas guías oficiales:
-      </p>
+        <!-- Section 1 -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+            <span
+              class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-sm">1</span>
+            {{ "cookiesPage.section1_title" | translate }}
+          </h2>
+          <p>
+            {{ "cookiesPage.section1_text" | translate }}
+          </p>
+        </section>
 
-      <ul class="list-disc pl-8 space-y-2 mb-6">
-        <li>
-          Chrome:
-          <a
-            href="https://support.google.com/chrome/answer/95647"
-            class="text-cyan-300 underline"
-          >
-            support.google.com/chrome/answer/95647
-          </a>
-        </li>
-        <li>
-          Edge:
-          <a
-            href="https://support.microsoft.com/es-es/help/4027947"
-            class="text-cyan-300 underline"
-          >
-            support.microsoft.com/es-es/help/4027947
-          </a>
-        </li>
-        <li>
-          Firefox:
-          <a
-            href="https://support.mozilla.org/es/kb/habilitar-y-deshabilitar-cookies"
-            class="text-cyan-300 underline"
-          >
-            support.mozilla.org/es/kb/habilitar-y-deshabilitar-cookies
-          </a>
-        </li>
-        <li>
-          Safari:
-          <a
-            href="https://support.apple.com/es-es/guide/safari/sfri11471/mac"
-            class="text-cyan-300 underline"
-          >
-            support.apple.com/es-es/guide/safari/sfri11471/mac
-          </a>
-        </li>
-      </ul>
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+            <span
+              class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-sm">2</span>
+            {{ "cookiesPage.section2_title" | translate }}
+          </h2>
 
-      <h2 class="text-2xl font-semibold mt-10 mb-3">
-        4. Cambios en la política de cookies
-      </h2>
-      <p class="mb-6">
-        Podemos actualizar esta política en cualquier momento para adaptarla a
-        cambios legales o técnicos. Te recomendamos revisarla periódicamente
-        para mantenerte informado.
-      </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div
+              class="bg-gray-900/50 border border-gray-700 rounded-xl p-5 hover:border-cyan-500/50 transition-colors">
+              <h3 class="font-bold text-lg text-cyan-300 mb-2 flex items-center gap-2">
+                <span class="text-xl">⚙️</span> {{ "cookiesPage.section2_essential_title" | translate }}
+              </h3>
+              <p class="text-sm text-gray-400">
+                {{ "cookiesPage.section2_essential_text" | translate }}
+              </p>
+            </div>
 
-      <h2 class="text-2xl font-semibold mt-10 mb-3">5. Contacto</h2>
-      <p class="mb-20">
-        Si tienes dudas o deseas más información sobre el uso de cookies,
-        escríbenos a:<br />
-        📧
-        <a href="mailto:info@gamesage.com" class="text-cyan-300 underline">
-          info.gamesage&#64;gmail.com
-        </a>
-      </p>
+            <div
+              class="bg-gray-900/50 border border-gray-700 rounded-xl p-5 hover:border-cyan-500/50 transition-colors">
+              <h3 class="font-bold text-lg text-cyan-300 mb-2 flex items-center gap-2">
+                <span class="text-xl">🎨</span> {{ "cookiesPage.section2_preferences_title" | translate }}
+              </h3>
+              <p class="text-sm text-gray-400">
+                {{ "cookiesPage.section2_preferences_text" | translate }}
+              </p>
+            </div>
+
+            <div
+              class="bg-gray-900/50 border border-gray-700 rounded-xl p-5 hover:border-cyan-500/50 transition-colors">
+              <h3 class="font-bold text-lg text-cyan-300 mb-2 flex items-center gap-2">
+                <span class="text-xl">📊</span> {{ "cookiesPage.section2_analytics_title" | translate }}
+              </h3>
+              <p class="text-sm text-gray-400">
+                {{ "cookiesPage.section2_analytics_text" | translate }}
+              </p>
+            </div>
+
+            <div
+              class="bg-gray-900/50 border border-gray-700 rounded-xl p-5 hover:border-cyan-500/50 transition-colors">
+              <h3 class="font-bold text-lg text-cyan-300 mb-2 flex items-center gap-2">
+                <span class="text-xl">📢</span> {{ "cookiesPage.section2_marketing_title" | translate }}
+              </h3>
+              <p class="text-sm text-gray-400">
+                {{ "cookiesPage.section2_marketing_text" | translate }}
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+            <span
+              class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-sm">3</span>
+            {{ "cookiesPage.section3_title" | translate }}
+          </h2>
+          <p class="mb-4">
+            {{ "cookiesPage.section3_text" | translate }}
+          </p>
+          <p class="mb-4 text-sm text-gray-400">
+            {{ "cookiesPage.section3_links_intro" | translate }}
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <a href="https://support.google.com/chrome/answer/95647?hl=es" target="_blank"
+              class="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm transition-colors flex items-center gap-2">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Google_Chrome_icon_%28February_2022%29.svg"
+                alt="Chrome" class="w-4 h-4"> Chrome
+            </a>
+            <a href="https://support.microsoft.com/es-es/microsoft-edge/eliminar-las-cookies-en-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09"
+              target="_blank"
+              class="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm transition-colors flex items-center gap-2">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/Microsoft_Edge_logo_%282019%29.svg"
+                alt="Edge" class="w-4 h-4"> Edge
+            </a>
+            <a href="https://support.mozilla.org/es/kb/habilitar-y-deshabilitar-cookies-sitios-web-rastrear-preferencias"
+              target="_blank"
+              class="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm transition-colors flex items-center gap-2">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Firefox_logo%2C_2019.svg" alt="Firefox"
+                class="w-4 h-4"> Firefox
+            </a>
+            <a href="https://support.apple.com/es-es/guide/safari/sfri11471/mac" target="_blank"
+              class="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm transition-colors flex items-center gap-2">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/5/52/Safari_browser_logo.svg" alt="Safari"
+                class="w-4 h-4"> Safari
+            </a>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+            <span
+              class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-sm">4</span>
+            {{ "cookiesPage.section4_title" | translate }}
+          </h2>
+          <p>
+            {{ "cookiesPage.section4_text" | translate }}
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+            <span
+              class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-sm">5</span>
+            {{ "cookiesPage.section5_title" | translate }}
+          </h2>
+          <p class="flex items-center gap-2">
+            {{ "cookiesPage.section5_text" | translate }}
+            <a href="mailto:info.gamesage@gmail.com"
+              onclick="window.open('https://mail.google.com/mail/?view=cm&to=info.gamesage@gmail.com', '_blank'); return false;"
+              class="text-cyan-400 hover:text-cyan-300 underline transition-colors">
+              info.gamesage&#64;gmail.com
+            </a>
+          </p>
+        </section>
+      </div>
     </div>
   </div>
 </div>
