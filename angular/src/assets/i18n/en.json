@@ -7,7 +7,7 @@
     "menu": "Menu"
   },
   "menu": {
-    "home": "Home",
+    "explore": "Explore",
     "settings": "Settings",
     "help": "Help",
     "contact": "Contact",
@@ -56,7 +56,27 @@
     "title": "Terms & Conditions"
   },
   "cookiesPage": {
-    "title": "Cookie Settings"
+    "title": "Cookie Settings",
+    "last_update": "Last updated: 10/26/2025",
+    "intro": "At <strong>GameSage</strong> we use cookies and similar technologies to provide you with a better experience, remember your preferences and analyze how you interact with our site. Below we explain what they are, what types we use and how you can manage them.",
+    "section1_title": "What are cookies?",
+    "section1_text": "Cookies are small text files that websites save on your device (computer, mobile or tablet) when you visit them. They allow the website to remember your actions and preferences (such as login, language or font size) for a period of time, so you don't have to configure them every time you return.",
+    "section2_title": "Types of cookies we use",
+    "section2_essential_title": "Essential or technical cookies",
+    "section2_essential_text": "They are necessary for the correct functioning of the website. They allow navigation, login or shopping cart management. These cookies cannot be disabled.",
+    "section2_preferences_title": "Preference cookies",
+    "section2_preferences_text": "They allow remembering your settings, such as language, theme or type of recommendations shown by the AI.",
+    "section2_analytics_title": "Analytics or performance cookies",
+    "section2_analytics_text": "They help us understand how users interact with the web, detect errors and improve the general experience (for example, using analytics tools).",
+    "section2_marketing_title": "Marketing or advertising cookies",
+    "section2_marketing_text": "They allow showing relevant content and offers according to your interests, inside or outside the platform.",
+    "section3_title": "Cookie management",
+    "section3_text": "You can accept all cookies, reject them or configure them according to your preferences. You can also modify your browser settings to block or delete cookies. Note that if you disable essential cookies, some parts of the web may not work correctly.",
+    "section3_links_intro": "For more information on how to manage cookies in your browser, visit the following links:",
+    "section4_title": "Changes to the cookie policy",
+    "section4_text": "We may update this cookie policy to reflect changes in the cookies we use or for legal, operational or regulatory reasons. We recommend you review this page regularly to stay informed about our use of cookies.",
+    "section5_title": "Contact",
+    "section5_text": "If you have questions about our cookie policy, contact us at:"
   },
   "privacy": {
     "title": "Privacy Policy"
@@ -269,68 +289,58 @@
   "privacyScreen": {
     "title": "Privacy Policy",
     "effective_date": "Effective date: 26/10/2025",
-    "intro": "At GameSage, we take personal data privacy seriously. This Privacy Policy explains what personal data we collect, for what purpose, how we process it, and what rights you have.",
-
-    "section1_title": "1. Data Collected",
-    "section1_intro": "We may collect and process the following categories of personal data:",
-    "section1_list": [
-      "Contact and account data: name, email address, username, password (stored encrypted).",
-      "Usage data: visited pages, interactions with the AI chat, navigation history within the app, logs, times and errors.",
-      "Preferences: favorites, preferred platforms, alerts and user settings.",
-      "Technical data: IP address, device type, operating system and browser (diagnostics and security).",
-      "Test / sandbox data: keys and records of simulated purchases. We do not store real payment card data."
-    ],
-
-    "section2_title": "2. Purpose and Legal Basis",
-    "section2_intro": "We process your data for the following purposes:",
-    "section2_list": [
-      "Providing and maintaining the platform: managing your account and functionalities (basis: contract execution / legitimate interest).",
-      "Improving the experience and AI recommendation system: processing interactions (legitimate interest or consent).",
-      "Communication: service notifications and transactional emails (contract execution / legitimate interest).",
-      "Security and diagnostics: error detection, fraud prevention and technical improvement (legitimate interest).",
-      "Marketing (optional): only with explicit consent."
-    ],
-    "section2_notice": "We do not sell your data to third parties. Processing is carried out for academic and development purposes.",
-
-    "section3_title": "3. Cookies and Similar Technologies",
-    "section3_intro": "We use cookies for essential functions and analytics. Types used:",
-    "section3_list": [
-      "Strictly necessary cookies: essential for operation (session).",
-      "Performance / analytics cookies: help improve the platform (can be declined).",
-      "Functionality cookies: remember your preferences."
-    ],
-    "section3_notice": "On first visit, a banner is displayed to manage cookies. You can adjust them in your browser at any time.",
-
-    "section4_title": "4. Data Retention",
-    "section4_list": [
-      "Account and preference data: as long as the account is active or until deletion is requested.",
-      "Usage and technical logs: retained for 30 days; aggregated data is kept for the duration of the project.",
-      "Test / sandbox data: deleted at project completion or upon request."
-    ],
-
-    "section5_title": "5. Sharing and Third Parties",
-    "section5_text": "We may use external providers (hosting, email, notifications, analytics). They act as data processors and must comply with security measures. We do not sell data to third parties.",
-
-    "section6_title": "6. Security",
-    "section6_text": "We implement reasonable technical and organizational measures to protect your data (encryption, access controls, backups). No system is 100% secure — if a relevant security breach occurs, we will notify you according to applicable law.",
-
-    "section7_title": "7. Data Subject Rights",
+    "intro": "At GameSage, we take your privacy very seriously. This policy describes how we collect, use and protect your personal information when you use our platform.",
+    "section1_title": "1. Information we collect",
+    "section1_intro": "We collect different types of information to provide and improve our services:",
+    "section1_list": {
+      "0": "Registration data: Name, email, password.",
+      "1": "Profile data: Photo, game preferences, wishlist.",
+      "2": "Usage data: Browsing history, interactions with AI, games viewed.",
+      "3": "Technical data: IP address, device type, browser.",
+      "4": "Payment data: Transaction history (we do not store full card details)."
+    },
+    "section2_title": "2. Use of information",
+    "section2_intro": "We use your data to:",
+    "section2_list": {
+      "0": "Provide and maintain the service.",
+      "1": "Personalize your experience and game recommendations.",
+      "2": "Process transactions and send confirmations.",
+      "3": "Improve our AI and search algorithms.",
+      "4": "Send important communications and updates."
+    },
+    "section2_notice": "We do not sell your personal data to third parties.",
+    "section3_title": "3. Sharing information",
+    "section3_intro": "We only share your information in limited situations:",
+    "section3_list": {
+      "0": "Service providers: Hosting, analytics, payment processing.",
+      "1": "Legal compliance: If required by law or competent authority.",
+      "2": "Rights protection: To protect the security of GameSage and its users."
+    },
+    "section3_notice": "Links to external stores (Steam, Epic, etc.) are governed by their own privacy policies.",
+    "section4_title": "4. Data security",
+    "section4_list": {
+      "0": "We implement technical and organizational security measures.",
+      "1": "We use encryption to protect sensitive data.",
+      "2": "We limit access to personal information to authorized employees."
+    },
+    "section5_title": "5. Cookies",
+    "section5_text": "We use cookies to improve functionality and analyze usage. You can configure your browser to reject them, but some functions may not be available.",
+    "section6_title": "6. Data retention",
+    "section6_text": "We keep your data while your account is active or necessary to comply with our legal obligations. You can request the deletion of your account at any time.",
+    "section7_title": "7. Your rights",
     "section7_intro": "You can exercise the following rights:",
-    "section7_list": [
-      "Access, rectification and deletion.",
-      "Restriction or objection to processing.",
-      "Data portability.",
-      "Withdrawal of consent at any time.",
-      "Lodging a complaint with the relevant data protection authority."
-    ],
+    "section7_list": {
+      "0": "Access, rectification and deletion.",
+      "1": "Restriction or objection to processing.",
+      "2": "Data portability.",
+      "3": "Withdrawal of consent at any time.",
+      "4": "Lodging a complaint with the relevant data protection authority."
+    },
     "section7_contact": "To exercise your rights: ",
-
     "section8_title": "8. Data of Minors",
     "section8_text": "If you are under 14 years old, we require the consent of a responsible adult. Any detected data without proper authorization will be deleted immediately.",
-
     "section9_title": "9. Policy Changes",
     "section9_text": "We may update this policy. We will indicate the date of change and, if necessary, notify all affected users.",
-
     "section10_title": "10. Contact",
     "section10_text": "For questions, concerns or additional requests: "
   },
@@ -338,52 +348,42 @@
     "title": "Terms and Conditions",
     "effective_date": "Effective date: 26/10/2025",
     "intro": "Welcome to GameSage. By accessing or using our platform, you agree to comply with these Terms and Conditions. We recommend you read them carefully before using our services.",
-
     "section1_title": "1. Object of the service",
     "section1_text": "GameSage is a digital platform that allows you to discover, compare and purchase video games through an intelligent recommendation system and updated prices from different official stores. Using the site implies full acceptance of the conditions described here.",
-
     "section2_title": "2. Registration and user account",
     "section2_intro": "To access certain features (such as personalized recommendations or purchase history), it may be necessary to create an account. The user agrees to:",
-    "section2_list": [
-      "Provide truthful and up-to-date information.",
-      "Keep their password confidential.",
-      "Not share the account with third parties.",
-      "Immediately report any unauthorized use."
-    ],
+    "section2_list": {
+      "0": "Provide truthful and up-to-date information.",
+      "1": "Keep their password confidential.",
+      "2": "Not share the account with third parties.",
+      "3": "Immediately report any unauthorized use."
+    },
     "section2_notice": "We reserve the right to suspend or delete accounts that violate these rules or are misused.",
-
     "section3_title": "3. Permitted use",
     "section3_intro": "The user agrees to use the platform legally and responsibly. The following are prohibited:",
-    "section3_list": [
-      "Using the site for illegal or fraudulent purposes.",
-      "Manipulating code, databases or content.",
-      "Distributing or publishing offensive or unauthorized material."
-    ],
-
+    "section3_list": {
+      "0": "Using the site for illegal or fraudulent purposes.",
+      "1": "Manipulating code, databases or content.",
+      "2": "Distributing or publishing offensive or unauthorized material."
+    },
     "section4_title": "4. Intellectual property",
     "section4_text": "All content of GameSage (texts, logos, designs, code, etc.) is protected by copyright and intellectual property rights. The images, names and logos of video games belong to their respective owners and are used only for informational purposes. Their reproduction, distribution or commercial use without authorization is not permitted.",
-
     "section5_title": "5. Prices and products",
     "section5_text": "Prices shown on the platform are regularly updated and include information from various official digital stores (Steam, Epic, PSN, Xbox, Nintendo, etc.). Although we strive to maintain correct and up‑to‑date information, GameSage is not responsible for possible errors or variations in prices or availability.",
-
     "section6_title": "6. Limitation of liability",
     "section6_intro": "GameSage will not be responsible for:",
-    "section6_list": [
-      "Technical failures, interruptions or data loss.",
-      "Outdated or inaccurate information provided by third parties.",
-      "Direct or indirect damages arising from the use of the platform or external links."
-    ],
+    "section6_list": {
+      "0": "Technical failures, interruptions or data loss.",
+      "1": "Outdated or inaccurate information provided by third parties.",
+      "2": "Direct or indirect damages arising from the use of the platform or external links."
+    },
     "section6_notice": "The user uses the service under their own responsibility.",
-
     "section7_title": "7. Data protection",
     "section7_text": "The collection and processing of personal data are governed by our Privacy Policy, which explains how we protect your information and your rights as a user. By registering or using the service, you confirm that you have read and accepted that policy.",
-
     "section8_title": "8. Changes to the service and terms",
     "section8_text": "We may update or modify the services, features or these terms at any time. New versions will be published on this same page and will take effect at the time of their publication.",
-
     "section9_title": "9. Applicable law and jurisdiction",
     "section9_text": "These Terms and Conditions are governed by Spanish law. Any dispute or conflict will be resolved by the courts and tribunals of Málaga/Andalusia, unless otherwise provided by the applicable law.",
-
     "section10_title": "10. Contact",
     "section10_text": "If you have questions, suggestions or issues about these Terms and Conditions, you can write to:",
     "section10_contact": "info.gamesage@gmail.com"

@@ -61,10 +61,12 @@ export class HeaderComponent {
     if (event.key === 'Enter') {
       const input = event.target as HTMLInputElement;
       const query = input.value.trim();
-      if (query) {
+      if (!query) {
+        this.router.navigate(['/search'], { queryParams: {} });
+      } else {
         this.router.navigate(['/search'], { queryParams: { q: query } });
-        this.searchActive = false;
       }
+      this.searchActive = false;
     }
   }
 
