@@ -29,64 +29,40 @@ export class HomeComponent implements OnInit {
   @ViewChild('mainContent') mainContent!: ElementRef;
 
   genres = [
-    'genres.action',
-    'genres.adventure',
-    'genres.rpg',
-    'genres.sports',
-    'genres.strategy',
-    'genres.simulation',
-    'genres.horror',
-    'genres.racing',
+    { value: 'Accion', key: 'genres.action' },
+    { value: 'Aventura', key: 'genres.adventure' },
+    { value: 'RPG', key: 'genres.rpg' },
+    { value: 'Deportes', key: 'genres.sports' },
+    { value: 'Estrategia', key: 'genres.strategy' },
+    { value: 'Simulacion', key: 'genres.simulation' },
+    { value: 'Terror', key: 'genres.horror' },
+    { value: 'Carreras', key: 'genres.racing' },
   ];
 
   allGenres = [
-    'genres.action',
-    'genres.adventure',
-    'genres.rpg',
-    'genres.sports',
-    'genres.strategy',
-    'genres.simulation',
-    'genres.horror',
-    'genres.racing',
-    'genres.platform',
-    'genres.puzzle',
-    'genres.fighting',
-    'genres.music',
-    'genres.action-adventure',
-    'genres.shooter',
-    'genres.moba',
-    'genres.roguelike',
-    'genres.sandbox',
-    'genres.mmorpg',
-    'genres.battle-royale',
-    'genres.survival-horror',
-    'genres.metroidvania',
-    'genres.rts',
-    'genres.tbs',
-    'genres.hack-and-slash',
-    'genres.beat-em-up',
-    'genres.visual-novel',
-    'genres.ccg',
-    'genres.fps',
-    'genres.tactical',
-    'genres.sci-fi',
-    'genres.educational',
-    'genres.management',
-    'genres.city-building',
-    'genres.exploration',
-    'genres.survival',
-    'genres.psychological-horror',
-    'genres.stealth',
-    'genres.cinematic',
-    'genres.narrative',
-    'genres.cooperative',
-    'genres.arcade',
-    'genres.open-world',
-    'genres.off-road',
-    'genres.simcade',
+    { value: 'Accion', key: 'genres.action' },
+    { value: 'Aventura', key: 'genres.adventure' },
+    { value: 'RPG', key: 'genres.rpg' },
+    { value: 'Deportes', key: 'genres.sports' },
+    { value: 'Estrategia', key: 'genres.strategy' },
+    { value: 'Simulacion', key: 'genres.simulation' },
+    { value: 'Terror', key: 'genres.horror' },
+    { value: 'Carreras', key: 'genres.racing' },
+    { value: 'Sandbox', key: 'genres.sandbox' },
+    { value: 'TBS', key: 'genres.tbs' },
+    { value: 'Shooter', key: 'genres.shooter' },
+    { value: 'Acción-Aventura', key: 'genres.action-adventure' },
+    { value: 'RTS', key: 'genres.rts' },
+    { value: 'Ciencia Ficción', key: 'genres.sci-fi' },
+    { value: 'Gestión', key: 'genres.management' },
+    { value: 'Construcción de Ciudades', key: 'genres.city-building' },
+    { value: 'Exploración', key: 'genres.exploration' },
+    { value: 'Supervivencia', key: 'genres.survival' },
+    { value: 'Survival Horror', key: 'genres.survival-horror' },
+    { value: 'Educativo', key: 'genres.educational' },
   ];
 
-  otherGenres: string[] = [];
+  otherGenres: { value: string; key: string }[] = [];
   showAllGenres = false;
   isClosingGenreDropdown = false;
 
@@ -104,7 +80,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.otherGenres = this.allGenres.filter(
-      (genre) => !this.genres.includes(genre)
+      (genre) => !this.genres.some((g) => g.value === genre.value)
     );
     this.loadGames();
   }
@@ -204,7 +180,7 @@ export class HomeComponent implements OnInit {
   }
 
   goToGenres(nombre: string) {
-    this.router.navigate(['/genres', nombre.toLowerCase()]);
+    this.router.navigate(['/search'], { queryParams: { genre: nombre } });
   }
 
   createPlaceholders(): Game[] {
