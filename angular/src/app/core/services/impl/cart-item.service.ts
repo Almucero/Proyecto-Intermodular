@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject, tap } from 'rxjs';
 import {
   CART_ITEM_REPOSITORY_TOKEN,
   API_URL_TOKEN,
@@ -19,6 +19,8 @@ export class CartItemService
   extends BaseService<CartItem>
   implements ICartItemService
 {
+  public cartCount$ = new BehaviorSubject<number>(0);
+
   constructor(
     @Inject(CART_ITEM_REPOSITORY_TOKEN) repository: IBaseRepository<CartItem>,
     private http: HttpClient,
@@ -27,16 +29,36 @@ export class CartItemService
     private auth: BaseAuthenticationService
   ) {
     super(repository);
+    this.auth.authenticated$.subscribe((isAuth) => {
+      if (isAuth) {
+        this.refreshCount();
+      } else {
+        this.cartCount$.next(0);
+      }
+    });
+  }
+
+  refreshCount() {
+    this.getAll().subscribe({
+      next: (items) => this.cartCount$.next(items.length),
+      error: () => this.cartCount$.next(0),
+    });
   }
 
   override add(entity: CartItem): Observable<CartItem> {
     const headers: any = {};
     const token = this.auth.getToken();
     if (token) headers['Authorization'] = `Bearer ${token}`;
-    return this.http.post<CartItem>(
-      `${this.apiUrl}/${this.resource}/${entity.gameId}`,
-      { quantity: entity.quantity },
-      { headers }
-    );
+    return this.http
+      .post<CartItem>(
+        `${this.apiUrl}/${this.resource}/${entity.gameId}`,
+        { quantity: entity.quantity },
+        { headers }
+      )
+      .pipe(tap(() => this.refreshCount()));
+  }
+
+  override delete(id: string): Observable<CartItem> {
+    return super.delete(id).pipe(tap(() => this.refreshCount()));
   }
 }

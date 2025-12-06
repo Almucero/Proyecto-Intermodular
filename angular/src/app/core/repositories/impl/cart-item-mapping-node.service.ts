@@ -6,20 +6,29 @@ import { CartItem } from '../../models/cart-item.model';
   providedIn: 'root',
 })
 export class CartItemMappingNodeService implements IBaseMapping<CartItem> {
-  constructor() {}
-
   getAll(data: any): CartItem[] {
     return data.map((item: any) => this.getOne(item));
   }
 
   getOne(data: any): CartItem {
     return {
-      id: data.id,
-      userId: data.userId,
-      gameId: data.gameId,
+      id: data.cartItemId,
+      userId: data.userId || 0,
+      gameId: data.id,
       quantity: data.quantity,
       user: data.user,
-      game: data.game,
+      game: {
+        id: data.id,
+        title: data.title,
+        price: data.price,
+        isOnSale: data.isOnSale,
+        salePrice: data.salePrice,
+        rating: data.rating,
+        Developer: data.Developer,
+        Publisher: data.Publisher,
+        media: [],
+        platforms: [],
+      } as any,
     };
   }
 

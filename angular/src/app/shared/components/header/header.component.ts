@@ -7,11 +7,11 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { Language, TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageSelectorComponent } from '../language-selector/language-selector.component';
-
 import { BaseAuthenticationService } from '../../../core/services/impl/base-authentication.service';
-
+import { CartItemService } from '../../../core/services/impl/cart-item.service';
+import { FavoriteService } from '../../../core/services/impl/favorite.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -32,8 +32,13 @@ export class HeaderComponent {
   @ViewChild('menu') menu!: ElementRef;
 
   private authService = inject(BaseAuthenticationService);
+  private cartService = inject(CartItemService);
+  private favoriteService = inject(FavoriteService);
   private router = inject(Router);
+
   user = toSignal(this.authService.user$);
+  cartCount = toSignal(this.cartService.cartCount$);
+  favoritesCount = toSignal(this.favoriteService.favoritesCount$);
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;

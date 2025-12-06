@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateModule } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { GameService } from '../../core/services/impl/game.service';
 import { MediaService } from '../../core/services/impl/media.service';
 import { CartItemService } from '../../core/services/impl/cart-item.service';
 import { FavoriteService } from '../../core/services/impl/favorite.service';
+import { BaseAuthenticationService } from '../../core/services/impl/base-authentication.service';
 import { CartItem } from '../../core/models/cart-item.model';
 import { Favorite } from '../../core/models/favorite.model';
 import { Game } from '../../core/models/game.model';
@@ -21,7 +22,7 @@ interface MediaItem {
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [CommonModule, TranslatePipe],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss'],
 })
@@ -30,6 +31,9 @@ export class ProductComponent implements OnInit {
   selectedPlatform: string | null = null;
   currentMediaIndex: number = 0;
   mediaItems: MediaItem[] = [];
+  showAuthModal = signal(false);
+  isAuthenticated = signal(false);
+
   allPlatforms = [
     { name: 'PC', image: 'assets/images/platforms/pc.png' },
     { name: 'PS5', image: 'assets/images/platforms/ps5.png' },
@@ -80,6 +84,7 @@ export class ProductComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private cartItemService: CartItemService,
     private favoriteService: FavoriteService,
+    private authService: BaseAuthenticationService,
     private router: Router
   ) {}
 
@@ -88,6 +93,10 @@ export class ProductComponent implements OnInit {
     if (id) {
       this.loadGame(id);
     }
+
+    this.authService.authenticated$.subscribe((isAuth) => {
+      this.isAuthenticated.set(isAuth);
+    });
   }
 
   loadGame(id: string): void {
@@ -139,13 +148,36 @@ export class ProductComponent implements OnInit {
     }
   }
 
+  checkAuth(): boolean {
+    if (!this.isAuthenticated()) {
+      this.showAuthModal.set(true);
+      return false;
+    }
+    return true;
+  }
+
+  confirmLogin() {
+    this.showAuthModal.set(false);
+    this.router.navigate(['/login']);
+  }
+
+  cancelLogin() {
+    this.showAuthModal.set(false);
+  }
+
+  addedToCartSuccess = signal(false);
+  addedToFavoritesSuccess = signal(false);
+
   addToCart() {
-    if (!this.game) return;
+    if (!this.game || !this.checkAuth()) return;
 
     this.cartItemService
       .add({ gameId: Number(this.game.id), quantity: 1 } as unknown as CartItem)
       .subscribe({
-        next: () => this.router.navigate(['/cart']),
+        next: () => {
+          this.addedToCartSuccess.set(true);
+          setTimeout(() => this.addedToCartSuccess.set(false), 2000);
+        },
         error: (err) => {
           if (err.status === 401) {
             this.router.navigate(['/login']);
@@ -155,7 +187,7 @@ export class ProductComponent implements OnInit {
   }
 
   addToFavorites() {
-    if (!this.game) return;
+    if (!this.game || !this.checkAuth()) return;
 
     if (this.selectedPlatform) {
       try {
@@ -169,7 +201,10 @@ export class ProductComponent implements OnInit {
     this.favoriteService
       .add({ gameId: Number(this.game.id) } as unknown as Favorite)
       .subscribe({
-        next: () => this.router.navigate(['/favourites']),
+        next: () => {
+          this.addedToFavoritesSuccess.set(true);
+          setTimeout(() => this.addedToFavoritesSuccess.set(false), 2000);
+        },
         error: (err) => {
           if (err.status === 401) {
             this.router.navigate(['/login']);
@@ -180,7 +215,7 @@ export class ProductComponent implements OnInit {
 
   buyNow() {
     if (!this.game) return;
-    this.addToCart();
+    this.addToCart(); // addToCart already checks auth
   }
 
   isPlatformAvailable(platformName: string): boolean {

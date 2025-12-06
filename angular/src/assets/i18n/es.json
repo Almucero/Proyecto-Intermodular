@@ -257,6 +257,13 @@
     "deleteFile": "Eliminar archivo",
     "closeNotification": "Cerrar notificación"
   },
+  "authGuard": {
+    "loginRequiredTitle": "Inicio de sesión requerido",
+    "loginRequiredMessage": "Debes iniciar sesión para realizar esta acción. ¿Deseas ir a la página de inicio de sesión?",
+    "login": "Iniciar sesión",
+    "cancel": "Cancelar",
+    "featureLoginRequired": "Inicia sesión para ver tu contenido"
+  },
   "footer": {
     "text": "GameSage. Todos los derechos reservados."
   },
