@@ -1,21 +1,12 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 import { CartItemService } from '../../core/services/impl/cart-item.service';
-
-interface CartGame {
-  id: number;
-  title: string;
-  price: number;
-  rating?: number;
-  cartItemId: number;
-  quantity: number;
-  addedAt: string;
-  media?: any[];
-  developer?: { name: string };
-  publisher?: { name: string };
-  platforms?: { name: string }[];
-}
+import { MediaService } from '../../core/services/impl/media.service';
+import { BaseAuthenticationService } from '../../core/services/impl/base-authentication.service';
+import { CartItem } from '../../core/models/cart-item.model';
+import { Media } from '../../core/models/media.model';
 
 @Component({
   selector: 'app-cart',
@@ -25,14 +16,27 @@ interface CartGame {
   styleUrl: './cart.component.scss',
 })
 export class CartComponent implements OnInit {
-  cartItems = signal<CartGame[]>([]);
+  cartItems = signal<CartItem[]>([]);
   loading = signal(true);
   error = signal<string | null>(null);
+  isAuthenticated = signal(false);
 
-  constructor(private cartItemService: CartItemService) {}
+  constructor(
+    private cartItemService: CartItemService,
+    private mediaService: MediaService,
+    private authService: BaseAuthenticationService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    this.loadCart();
+    this.authService.authenticated$.subscribe((isAuth) => {
+      this.isAuthenticated.set(isAuth);
+      if (isAuth) {
+        this.loadCart();
+      } else {
+        this.loading.set(false);
+      }
+    });
   }
 
   loadCart() {
@@ -40,89 +44,108 @@ export class CartComponent implements OnInit {
     this.error.set(null);
 
     this.cartItemService.getAll().subscribe({
-      next: (data: any) => {
-        this.cartItems.set(data as CartGame[]);
-        this.loading.set(false);
+      next: (cartItems: CartItem[]) => {
+        this.mediaService.getAll({}).subscribe({
+          next: (allMedia: Media[]) => {
+            cartItems.forEach((item) => {
+              if (item.game) {
+                item.game.media = allMedia.filter(
+                  (m) => m.gameId == item.gameId
+                );
+              }
+            });
+            this.cartItems.set(cartItems);
+            this.loading.set(false);
+          },
+          error: () => {
+            this.cartItems.set(cartItems);
+            this.loading.set(false);
+          },
+        });
       },
-      error: (err) => {
-        console.error('Error loading cart:', err);
+      error: () => {
         this.error.set('Failed to load cart');
         this.loading.set(false);
       },
     });
   }
 
-  async incrementQuantity(item: CartGame) {
+  async incrementQuantity(item: CartItem) {
+    if (!item.gameId) return;
     try {
       await this.cartItemService
-        .update(String(item.id), {
+        .update(String(item.gameId), {
           ...item,
           quantity: item.quantity + 1,
         } as any)
         .toPromise();
-      // Update local state
       this.cartItems.update((items) =>
         items.map((i) =>
-          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+          i.gameId === item.gameId ? { ...i, quantity: i.quantity + 1 } : i
         )
       );
-    } catch (error) {
-      console.error('Error updating quantity:', error);
-    }
+    } catch (error) {}
   }
 
-  async decrementQuantity(item: CartGame) {
+  async decrementQuantity(item: CartItem) {
+    if (!item.gameId) return;
     if (item.quantity > 1) {
       try {
         await this.cartItemService
-          .update(String(item.id), {
+          .update(String(item.gameId), {
             ...item,
             quantity: item.quantity - 1,
           } as any)
           .toPromise();
-        // Update local state
         this.cartItems.update((items) =>
           items.map((i) =>
-            i.id === item.id ? { ...i, quantity: i.quantity - 1 } : i
+            i.gameId === item.gameId ? { ...i, quantity: i.quantity - 1 } : i
           )
         );
-      } catch (error) {
-        console.error('Error updating quantity:', error);
-      }
+      } catch (error) {}
     } else {
-      // If quantity is 1, remove from cart
-      await this.removeFromCart(item.id);
+      await this.removeFromCart(item.gameId);
     }
   }
 
   async removeFromCart(gameId: number) {
+    if (!gameId) return;
     try {
       await this.cartItemService.delete(String(gameId)).toPromise();
-      // Remove from local state
-      this.cartItems.update((items) => items.filter((i) => i.id !== gameId));
-    } catch (error) {
-      console.error('Error removing from cart:', error);
-    }
+      this.cartItems.update((items) =>
+        items.filter((i) => i.gameId !== gameId)
+      );
+    } catch (error) {}
   }
 
-  getItemTotal(item: CartGame): number {
-    return item.price * item.quantity;
+  getItemTotal(item: CartItem): number {
+    const price =
+      item.game?.isOnSale && item.game?.salePrice !== null
+        ? item.game.salePrice ?? 0
+        : item.game?.price ?? 0;
+    return price * item.quantity;
   }
 
-  getGameImage(game: CartGame): string {
-    return game.media?.[0]?.url || 'assets/placeholder-game.png';
+  getTotal(): number {
+    return this.cartItems().reduce(
+      (sum, item) => sum + this.getItemTotal(item),
+      0
+    );
   }
 
-  getGameDeveloper(game: CartGame): string {
-    return game.developer?.name || game.publisher?.name || 'Unknown';
+  getGameImage(item: CartItem): string {
+    return item.game?.media?.[0]?.url || 'assets/images/placeholder.png';
   }
 
-  getGamePlatform(game: CartGame): string {
-    return game.platforms?.[0]?.name || 'Multi-platform';
+  getGameDeveloper(item: CartItem): string {
+    return (
+      item.game?.Developer?.name || item.game?.Publisher?.name || 'Unknown'
+    );
   }
 
-  checkout() {
-    // TODO: Implement checkout logic
-    console.log('Checkout clicked');
+  checkout() {}
+
+  goToLogin() {
+    this.router.navigate(['/login']);
   }
 }

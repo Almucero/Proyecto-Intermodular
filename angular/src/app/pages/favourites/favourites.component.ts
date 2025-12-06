@@ -1,9 +1,11 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 import { FavoriteService } from '../../core/services/impl/favorite.service';
 import { CartItemService } from '../../core/services/impl/cart-item.service';
 import { MediaService } from '../../core/services/impl/media.service';
+import { BaseAuthenticationService } from '../../core/services/impl/base-authentication.service';
 import { Favorite } from '../../core/models/favorite.model';
 import { CartItem } from '../../core/models/cart-item.model';
 import { Media } from '../../core/models/media.model';
@@ -19,15 +21,25 @@ export class FavouritesComponent implements OnInit {
   favorites = signal<Favorite[]>([]);
   loading = signal(true);
   error = signal<string | null>(null);
+  isAuthenticated = signal(false);
 
   constructor(
     private favoriteService: FavoriteService,
     private cartItemService: CartItemService,
-    private mediaService: MediaService
+    private mediaService: MediaService,
+    private authService: BaseAuthenticationService,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    this.loadFavorites();
+    this.authService.authenticated$.subscribe((isAuth) => {
+      this.isAuthenticated.set(isAuth);
+      if (isAuth) {
+        this.loadFavorites();
+      } else {
+        this.loading.set(false);
+      }
+    });
   }
 
   loadFavorites() {
@@ -65,6 +77,7 @@ export class FavouritesComponent implements OnInit {
       await this.cartItemService
         .add({ gameId, quantity: 1 } as unknown as CartItem)
         .toPromise();
+      await this.removeFromFavorites(gameId);
     } catch (error) {}
   }
 
@@ -93,18 +106,10 @@ export class FavouritesComponent implements OnInit {
   }
 
   getGamePlatform(fav: Favorite): string {
-    try {
-      if (fav.gameId) {
-        const saved = localStorage.getItem('favorites_platforms');
-        if (saved) {
-          const platforms = JSON.parse(saved);
-          if (platforms[fav.gameId]) {
-            return platforms[fav.gameId];
-          }
-        }
-      }
-    } catch (e) {}
-
     return fav.game?.platforms?.map((p) => p.name).join(' | ') || '';
+  }
+
+  goToLogin() {
+    this.router.navigate(['/login']);
   }
 }
