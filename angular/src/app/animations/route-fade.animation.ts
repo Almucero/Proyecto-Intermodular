@@ -13,23 +13,26 @@ export const routeFadeAnimation = trigger('routeFadeAnimation', [
       ':enter',
       [
         style({
-          position: 'absolute',
           width: '100%',
+          height: '100%',
           opacity: 0,
         }),
       ],
-      { optional: true },
+      { optional: true }
     ),
     query(
       ':leave',
       [
         style({
           position: 'absolute',
+          top: 0,
+          left: 0,
           width: '100%',
+          height: '100%',
           opacity: 1,
         }),
       ],
-      { optional: true },
+      { optional: true }
     ),
     group([
       query(
@@ -39,10 +42,10 @@ export const routeFadeAnimation = trigger('routeFadeAnimation', [
             '250ms ease-out',
             style({
               opacity: 0,
-            }),
+            })
           ),
         ],
-        { optional: true },
+        { optional: true }
       ),
       query(
         ':enter',
@@ -51,10 +54,10 @@ export const routeFadeAnimation = trigger('routeFadeAnimation', [
             '350ms 100ms ease-in',
             style({
               opacity: 1,
-            }),
+            })
           ),
         ],
-        { optional: true },
+        { optional: true }
       ),
     ]),
   ]),

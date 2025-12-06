@@ -81,7 +81,15 @@ export async function getUserCart(userId: number) {
           id: true,
           title: true,
           price: true,
+          isOnSale: true,
+          salePrice: true,
           rating: true,
+          Developer: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
         },
       },
     },
@@ -89,10 +97,10 @@ export async function getUserCart(userId: number) {
   });
 
   return cartItems.map((item) => ({
-    ...item.game,
     cartItemId: item.id,
     quantity: item.quantity,
     addedAt: item.createdAt,
+    ...item.game,
   }));
 }
 

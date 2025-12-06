@@ -1,6 +1,7 @@
 {
   "common": {
-    "searchPlaceholder": "Rechercher"
+    "searchPlaceholder": "Rechercher",
+    "loading": "Chargement..."
   },
   "header": {
     "menu": "Menu"
@@ -21,11 +22,22 @@
   "aichat": {
     "title": "Chat IA"
   },
-  "cart": {
-    "title": "Panier"
-  },
   "favourites": {
-    "title": "Favoris"
+    "title": "Favoris",
+    "listTitle": "Liste de favoris",
+    "unitPrice": "Prix Unitaire",
+    "addToCart": "Ajouter au panier",
+    "removeFromFavorites": "Retirer des favoris",
+    "transferAll": "Transférer tous les produits au panier",
+    "empty": "Vous n'avez pas de jeux favoris"
+  },
+  "cart": {
+    "title": "Panier",
+    "unitPrice": "Prix Unitaire",
+    "total": "Total",
+    "quantity": "Quantité",
+    "buy": "Acheter",
+    "empty": "Votre panier est vide"
   },
   "settings": {
     "title": "Paramètres"

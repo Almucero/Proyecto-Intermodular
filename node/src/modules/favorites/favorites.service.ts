@@ -56,7 +56,15 @@ export async function getUserFavorites(userId: number) {
           id: true,
           title: true,
           price: true,
+          isOnSale: true,
+          salePrice: true,
           rating: true,
+          Developer: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
         },
       },
     },
@@ -64,9 +72,9 @@ export async function getUserFavorites(userId: number) {
   });
 
   return favorites.map((fav) => ({
-    ...fav.game,
-    favoritedAt: fav.createdAt,
     favoriteId: fav.id,
+    favoritedAt: fav.createdAt,
+    ...fav.game,
   }));
 }
 

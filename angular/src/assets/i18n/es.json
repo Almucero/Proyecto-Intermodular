@@ -1,6 +1,7 @@
 {
   "common": {
-    "searchPlaceholder": "Buscar"
+    "searchPlaceholder": "Buscar",
+    "loading": "Cargando..."
   },
   "header": {
     "menu": "Menú"
@@ -21,11 +22,22 @@
   "aichat": {
     "title": "Chat IA"
   },
-  "cart": {
-    "title": "Cesta"
-  },
   "favourites": {
-    "title": "Favoritos"
+    "title": "Favoritos",
+    "listTitle": "Lista de favoritos",
+    "unitPrice": "Precio Unitario",
+    "addToCart": "Añadir a la cesta",
+    "removeFromFavorites": "Eliminar de favoritos",
+    "transferAll": "Transferir todos los productos a la cesta",
+    "empty": "No tienes juegos en favoritos"
+  },
+  "cart": {
+    "title": "Cesta",
+    "unitPrice": "Precio Unitario",
+    "total": "Total",
+    "quantity": "Cantidad",
+    "buy": "Comprar",
+    "empty": "Tu cesta está vacía"
   },
   "settings": {
     "title": "Ajustes"
