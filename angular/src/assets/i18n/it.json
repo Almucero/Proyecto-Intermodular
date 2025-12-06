@@ -1,6 +1,7 @@
 {
   "common": {
-    "searchPlaceholder": "Cerca"
+    "searchPlaceholder": "Cerca",
+    "loading": "Caricamento..."
   },
   "header": {
     "menu": "Menù"
@@ -13,19 +14,30 @@
     "privacy": "Privacy",
     "conditions": "Termini e condizioni",
     "cookies": "Impostazioni cookie",
-    "aichat": "Chat IA"
+    "aichat": "Chat AI"
   },
   "admin": {
     "title": "Admin"
   },
   "aichat": {
-    "title": "Chat IA"
-  },
-  "cart": {
-    "title": "Carrello"
+    "title": "Chat AI"
   },
   "favourites": {
-    "title": "Preferiti"
+    "title": "Preferiti",
+    "listTitle": "Lista dei preferiti",
+    "unitPrice": "Prezzo Unitario",
+    "addToCart": "Aggiungi al carrello",
+    "removeFromFavorites": "Rimuovi dai preferiti",
+    "transferAll": "Trasferisci tutti i prodotti al carrello",
+    "empty": "Non hai giochi preferiti"
+  },
+  "cart": {
+    "title": "Carrello",
+    "unitPrice": "Prezzo Unitario",
+    "total": "Totale",
+    "quantity": "Quantità",
+    "buy": "Acquista",
+    "empty": "Il tuo carrello è vuoto"
   },
   "settings": {
     "title": "Impostazioni"

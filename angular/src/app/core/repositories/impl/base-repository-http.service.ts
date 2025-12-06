@@ -31,7 +31,7 @@ export class BaseRepositoryHttpService<T extends Model>
     this.apiUrl = apiUrl;
   }
 
-  private getHeaders(): { [header: string]: string | string[] } {
+  protected getHeaders(): { [header: string]: string | string[] } {
     const token = this.auth.getToken();
     if (token) {
       return { Authorization: `Bearer ${token}` };

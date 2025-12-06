@@ -32,7 +32,6 @@ export class UserMappingNodeService implements IBaseMapping<User> {
       media: data.media,
     };
 
-    // Add computed properties for backward compatibility
     Object.defineProperty(user, 'profileImage', {
       get() {
         return this.media && this.media.length > 0
