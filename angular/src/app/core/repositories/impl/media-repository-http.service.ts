@@ -45,7 +45,11 @@ export class MediaRepositoryHttpService
         }
         return formData;
       }),
-      switchMap((formData) => this.http.post<Media>(this.uploadUrl, formData)),
+      switchMap((formData) =>
+        this.http.post<Media>(this.uploadUrl, formData, {
+          headers: this.getHeaders(),
+        })
+      ),
       map((res) => this.mapping.getAdded(res))
     );
   }

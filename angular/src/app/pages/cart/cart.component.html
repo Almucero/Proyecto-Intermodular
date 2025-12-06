@@ -1,7 +1,98 @@
-<div class="min-h-screen bg-gray-900 text-white font-sans">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
-    <h2 class="text-2xl font-bold text-cyan-300 mb-6 text-center">
+<div class="flex-1 w-full bg-gray-900 text-white font-sans py-8">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h1 class="text-3xl font-bold text-cyan-300 mb-8 text-center">
       {{ "cart.title" | translate }}
-    </h2>
+    </h1>
+
+    @if (loading()) {
+    <div class="text-center text-gray-400 py-12">
+      {{ "common.loading" | translate }}
+    </div>
+    } @if (error()) {
+    <div class="text-center text-red-400 py-12">
+      {{ error() }}
+    </div>
+    } @if (!loading() && cartItems().length === 0) {
+    <div class="text-center text-gray-400 py-12">
+      {{ "cart.empty" | translate }}
+    </div>
+    }
+
+    <div class="space-y-6">
+      @for (item of cartItems(); track item.id) {
+      <div class="flex gap-4 bg-gray-800 rounded-lg p-4 items-center">
+        <!-- Game Image -->
+        <img
+          [src]="getGameImage(item)"
+          [alt]="item.title"
+          class="w-32 h-32 object-cover rounded-lg flex-shrink-0"
+        />
+
+        <!-- Game Info -->
+        <div class="flex-1">
+          <h3 class="text-xl font-semibold text-white mb-1">
+            {{ item.title }}
+          </h3>
+          <p class="text-gray-400 text-sm mb-1">
+            {{ getGameDeveloper(item) }}
+          </p>
+          <p class="text-gray-400 text-sm">
+            {{ getGamePlatform(item) }}
+          </p>
+        </div>
+
+        <!-- Quantity Controls -->
+        <div class="flex gap-2 items-center">
+          <button
+            (click)="decrementQuantity(item)"
+            class="w-10 h-10 flex items-center justify-center border-2 border-gray-600 rounded text-white hover:border-cyan-500 transition-colors"
+          >
+            −
+          </button>
+          <div
+            class="w-12 h-10 flex items-center justify-center border-2 border-gray-600 rounded text-white"
+          >
+            {{ item.quantity }}
+          </div>
+          <button
+            (click)="incrementQuantity(item)"
+            class="w-10 h-10 flex items-center justify-center border-2 border-gray-600 rounded text-white hover:border-cyan-500 transition-colors"
+          >
+            +
+          </button>
+        </div>
+
+        <!-- Price Section -->
+        <div class="flex gap-8 flex-shrink-0">
+          <div class="text-right">
+            <p class="text-gray-400 text-sm mb-1">
+              {{ "cart.unitPrice" | translate }}
+            </p>
+            <p class="text-lg font-bold text-white">{{ item.price }}€</p>
+          </div>
+          <div class="text-right">
+            <p class="text-gray-400 text-sm mb-1">
+              {{ "cart.total" | translate }}
+            </p>
+            <p class="text-lg font-bold text-white">
+              {{ getItemTotal(item) }}€
+            </p>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+
+    <!-- Buy Button -->
+    @if (cartItems().length > 0) {
+    <div class="mt-8 flex justify-start">
+      <button
+        (click)="checkout()"
+        class="px-8 py-3 bg-transparent border-2 border-cyan-500 text-cyan-500 rounded-lg hover:bg-cyan-500 hover:text-white transition-colors text-base font-medium"
+      >
+        {{ "cart.buy" | translate }}
+      </button>
+    </div>
+    }
   </div>
 </div>

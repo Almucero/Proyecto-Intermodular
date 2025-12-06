@@ -86,7 +86,9 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
   }
 
   me(): Observable<any> {
-    return this.http.get(this.meUrl).pipe(
+    const token = this.getToken();
+    const headers: any = token ? { Authorization: `Bearer ${token}` } : {};
+    return this.http.get(this.meUrl, { headers }).pipe(
       map((res) => this.authMapping.me(res)),
       tap((user) => {
         this._authenticated.next(true);

@@ -1,5 +1,8 @@
 import { Model } from './base.model';
 import { Media } from './media.model';
+import { CartItem } from './cart-item.model';
+import { Purchase } from './purchase.model';
+import { Favorite } from './favorite.model';
 
 export interface User extends Model {
   accountId?: string | null;
@@ -19,6 +22,9 @@ export interface User extends Model {
   postalCode?: string | null;
   country?: string | null;
   media?: Media[];
+  cartItems?: CartItem[];
+  purchases?: Purchase[];
+  favorites?: Favorite[];
 }
 
 export interface SignInPayload {

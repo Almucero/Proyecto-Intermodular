@@ -1,7 +1,10 @@
 header {
   --header-height: 64px;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   z-index: 1000;
   transition: box-shadow 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
@@ -94,4 +97,9 @@ header.search-active .header-overlay,
 header.menu-active .header-overlay {
   opacity: 1 !important;
   pointer-events: auto !important;
+}
+
+app-language-selector {
+  position: relative;
+  z-index: 1001;
 }

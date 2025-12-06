@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-gray-900 text-white font-sans pb-20" *ngIf="game">
+<div class="flex-1 w-full bg-gray-900 text-white font-sans pb-20" *ngIf="game">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
     <div class="mb-6">
       <h1 class="text-4xl font-bold text-white mb-2">{{ game.title }}</h1>
@@ -317,6 +317,7 @@
               </span>
             </div>
             <button
+              (click)="buyNow()"
               [disabled]="!selectedPlatform || game.stock === 0"
               [class.opacity-50]="!selectedPlatform || game.stock === 0"
               [class.cursor-not-allowed]="!selectedPlatform || game.stock === 0"
@@ -339,14 +340,19 @@
               {{ "product.buy" | translate }}
             </button>
             <button
-              [disabled]="game.stock === 0"
-              [class.opacity-50]="game.stock === 0"
-              [class.cursor-not-allowed]="game.stock === 0"
+              (click)="addToCart()"
+              [disabled]="!selectedPlatform || game.stock === 0"
+              [class.opacity-50]="!selectedPlatform || game.stock === 0"
+              [class.cursor-not-allowed]="!selectedPlatform || game.stock === 0"
               class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"
             >
               {{ "product.addToCart" | translate }}
             </button>
             <button
+              (click)="addToFavorites()"
+              [disabled]="!selectedPlatform"
+              [class.opacity-50]="!selectedPlatform"
+              [class.cursor-not-allowed]="!selectedPlatform"
               class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"
             >
               {{ "product.addToFavorites" | translate }}

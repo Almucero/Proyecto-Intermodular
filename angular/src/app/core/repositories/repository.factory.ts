@@ -17,6 +17,10 @@ import { Media } from '../models/media.model';
 import { Platform } from '../models/platform.model';
 import { Publisher } from '../models/publisher.model';
 import { User } from '../models/user.model';
+import { CartItem } from '../models/cart-item.model';
+import { Purchase } from '../models/purchase.model';
+import { PurchaseItem } from '../models/purchase-item.model';
+import { Favorite } from '../models/favorite.model';
 
 // Tokens
 import {
@@ -54,6 +58,22 @@ import {
   USER_REPOSITORY_MAPPING_TOKEN,
   USER_REPOSITORY_TOKEN,
   USER_RESOURCE_NAME_TOKEN,
+  CART_ITEM_API_URL_TOKEN,
+  CART_ITEM_REPOSITORY_MAPPING_TOKEN,
+  CART_ITEM_REPOSITORY_TOKEN,
+  CART_ITEM_RESOURCE_NAME_TOKEN,
+  PURCHASE_API_URL_TOKEN,
+  PURCHASE_REPOSITORY_MAPPING_TOKEN,
+  PURCHASE_REPOSITORY_TOKEN,
+  PURCHASE_RESOURCE_NAME_TOKEN,
+  PURCHASE_ITEM_API_URL_TOKEN,
+  PURCHASE_ITEM_REPOSITORY_MAPPING_TOKEN,
+  PURCHASE_ITEM_REPOSITORY_TOKEN,
+  PURCHASE_ITEM_RESOURCE_NAME_TOKEN,
+  FAVORITE_API_URL_TOKEN,
+  FAVORITE_REPOSITORY_MAPPING_TOKEN,
+  FAVORITE_REPOSITORY_TOKEN,
+  FAVORITE_RESOURCE_NAME_TOKEN,
 } from './repository.tokens';
 
 // Mapping Services
@@ -64,6 +84,10 @@ import { MediaMappingNodeService } from './impl/media-mapping-node.service';
 import { PlatformMappingNodeService } from './impl/platform-mapping-node.service';
 import { PublisherMappingNodeService } from './impl/publisher-mapping-node.service';
 import { UserMappingNodeService } from './impl/user-mapping-node.service';
+import { CartItemMappingNodeService } from './impl/cart-item-mapping-node.service';
+import { PurchaseMappingNodeService } from './impl/purchase-mapping-node.service';
+import { PurchaseItemMappingNodeService } from './impl/purchase-item-mapping-node.service';
+import { FavoriteMappingNodeService } from './impl/favorite-mapping-node.service';
 import { NodeAuthenticationService } from '../services/impl/node-authentication.service';
 import { NodeAuthMappingService } from '../services/impl/node-auth-mapping.service';
 import { BaseMediaService } from '../services/impl/base-media.service';
@@ -113,6 +137,10 @@ export function createBaseMappingFactory<T extends Model>(
     | 'platform'
     | 'publisher'
     | 'user'
+    | 'cart-item'
+    | 'purchase'
+    | 'purchase-item'
+    | 'favorite'
 ): FactoryProvider {
   return {
     provide: token,
@@ -134,6 +162,14 @@ export function createBaseMappingFactory<T extends Model>(
               return new PublisherMappingNodeService();
             case 'user':
               return new UserMappingNodeService();
+            case 'cart-item':
+              return new CartItemMappingNodeService();
+            case 'purchase':
+              return new PurchaseMappingNodeService();
+            case 'purchase-item':
+              return new PurchaseItemMappingNodeService();
+            case 'favorite':
+              return new FavoriteMappingNodeService();
             default:
               throw new Error('MODEL MAPPING NOT IMPLEMENTED');
           }
@@ -372,4 +408,69 @@ export const UserRepositoryFactory: FactoryProvider =
     USER_API_URL_TOKEN,
     USER_RESOURCE_NAME_TOKEN,
     USER_REPOSITORY_MAPPING_TOKEN,
+  ]);
+
+export const CartItemMappingFactory = createBaseMappingFactory<CartItem>(
+  CART_ITEM_REPOSITORY_MAPPING_TOKEN,
+  [BACKEND_TOKEN],
+  'cart-item'
+);
+
+export const PurchaseMappingFactory = createBaseMappingFactory<Purchase>(
+  PURCHASE_REPOSITORY_MAPPING_TOKEN,
+  [BACKEND_TOKEN],
+  'purchase'
+);
+
+export const PurchaseItemMappingFactory =
+  createBaseMappingFactory<PurchaseItem>(
+    PURCHASE_ITEM_REPOSITORY_MAPPING_TOKEN,
+    [BACKEND_TOKEN],
+    'purchase-item'
+  );
+
+export const FavoriteMappingFactory = createBaseMappingFactory<Favorite>(
+  FAVORITE_REPOSITORY_MAPPING_TOKEN,
+  [BACKEND_TOKEN],
+  'favorite'
+);
+
+export const CartItemRepositoryFactory: FactoryProvider =
+  createBaseRepositoryFactory<CartItem>(CART_ITEM_REPOSITORY_TOKEN, [
+    BACKEND_TOKEN,
+    HttpClient,
+    BaseAuthenticationService,
+    CART_ITEM_API_URL_TOKEN,
+    CART_ITEM_RESOURCE_NAME_TOKEN,
+    CART_ITEM_REPOSITORY_MAPPING_TOKEN,
+  ]);
+
+export const PurchaseRepositoryFactory: FactoryProvider =
+  createBaseRepositoryFactory<Purchase>(PURCHASE_REPOSITORY_TOKEN, [
+    BACKEND_TOKEN,
+    HttpClient,
+    BaseAuthenticationService,
+    PURCHASE_API_URL_TOKEN,
+    PURCHASE_RESOURCE_NAME_TOKEN,
+    PURCHASE_REPOSITORY_MAPPING_TOKEN,
+  ]);
+
+export const PurchaseItemRepositoryFactory: FactoryProvider =
+  createBaseRepositoryFactory<PurchaseItem>(PURCHASE_ITEM_REPOSITORY_TOKEN, [
+    BACKEND_TOKEN,
+    HttpClient,
+    BaseAuthenticationService,
+    PURCHASE_ITEM_API_URL_TOKEN,
+    PURCHASE_ITEM_RESOURCE_NAME_TOKEN,
+    PURCHASE_ITEM_REPOSITORY_MAPPING_TOKEN,
+  ]);
+
+export const FavoriteRepositoryFactory: FactoryProvider =
+  createBaseRepositoryFactory<Favorite>(FAVORITE_REPOSITORY_TOKEN, [
+    BACKEND_TOKEN,
+    HttpClient,
+    BaseAuthenticationService,
+    FAVORITE_API_URL_TOKEN,
+    FAVORITE_RESOURCE_NAME_TOKEN,
+    FAVORITE_REPOSITORY_MAPPING_TOKEN,
   ]);

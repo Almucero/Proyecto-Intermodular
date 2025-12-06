@@ -3,15 +3,18 @@ import { BaseService } from './base-service.service';
 import { Publisher } from '../../models/publisher.model';
 import { PUBLISHER_REPOSITORY_TOKEN } from '../../repositories/repository.tokens';
 import { IBaseRepository } from '../../repositories/interfaces/base-repository.interface';
+import { IPublisherService } from '../interfaces/publisher-service.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class PublisherService extends BaseService<Publisher> {
+export class PublisherService
+  extends BaseService<Publisher>
+  implements IPublisherService
+{
   constructor(
-    @Inject(PUBLISHER_REPOSITORY_TOKEN) repository: IBaseRepository<Publisher>,
+    @Inject(PUBLISHER_REPOSITORY_TOKEN) repository: IBaseRepository<Publisher>
   ) {
     super(repository);
   }
-  // Métodos específicos si los hay
 }

@@ -4,6 +4,9 @@ import { Platform } from './platform.model';
 import { Media } from './media.model';
 import { Developer } from './developer.model';
 import { Publisher } from './publisher.model';
+import { Favorite } from './favorite.model';
+import { CartItem } from './cart-item.model';
+import { PurchaseItem } from './purchase-item.model';
 
 export interface Game extends Model {
   title: string;
@@ -24,4 +27,7 @@ export interface Game extends Model {
   developerId?: number | null;
   Publisher?: Publisher | null;
   Developer?: Developer | null;
+  favorites?: Favorite[];
+  cartItems?: CartItem[];
+  purchaseItems?: PurchaseItem[];
 }

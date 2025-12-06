@@ -1,6 +1,7 @@
 {
   "common": {
-    "searchPlaceholder": "Search"
+    "searchPlaceholder": "Search",
+    "loading": "Loading..."
   },
   "header": {
     "menu": "Menu"
@@ -21,11 +22,22 @@
   "aichat": {
     "title": "AI Chat"
   },
-  "cart": {
-    "title": "Cart"
-  },
   "favourites": {
-    "title": "Favorites"
+    "title": "Favorites",
+    "listTitle": "Favorites List",
+    "unitPrice": "Unit Price",
+    "addToCart": "Add to Cart",
+    "removeFromFavorites": "Remove from Favorites",
+    "transferAll": "Transfer All Products to Cart",
+    "empty": "You have no favorite games"
+  },
+  "cart": {
+    "title": "Cart",
+    "unitPrice": "Unit Price",
+    "total": "Total",
+    "quantity": "Quantity",
+    "buy": "Buy",
+    "empty": "Your cart is empty"
   },
   "settings": {
     "title": "Settings"

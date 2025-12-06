@@ -1,6 +1,8 @@
-<app-header></app-header>
-<div class="route-container" [@routeFadeAnimation]="prepareRoute(outlet)">
-  <router-outlet #outlet="outlet"></router-outlet>
+<div class="app-container">
+  <app-header></app-header>
+  <div class="route-container" [@routeFadeAnimation]="prepareRoute(outlet)">
+    <router-outlet #outlet="outlet"></router-outlet>
+  </div>
+  <app-error-toast></app-error-toast>
+  <app-footer></app-footer>
 </div>
-<app-error-toast></app-error-toast>
-<app-footer></app-footer>

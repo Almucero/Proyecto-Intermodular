@@ -1,6 +1,7 @@
 {
   "common": {
-    "searchPlaceholder": "Suchen"
+    "searchPlaceholder": "Suchen",
+    "loading": "Laden..."
   },
   "header": {
     "menu": "Menü"
@@ -21,11 +22,22 @@
   "aichat": {
     "title": "KI-Chat"
   },
-  "cart": {
-    "title": "Warenkorb"
-  },
   "favourites": {
-    "title": "Favoriten"
+    "title": "Favoriten",
+    "listTitle": "Favoritenliste",
+    "unitPrice": "Stückpreis",
+    "addToCart": "In den Warenkorb",
+    "removeFromFavorites": "Aus Favoriten entfernen",
+    "transferAll": "Alle Produkte in den Warenkorb übertragen",
+    "empty": "Sie haben keine Lieblingsspiele"
+  },
+  "cart": {
+    "title": "Warenkorb",
+    "unitPrice": "Stückpreis",
+    "total": "Gesamt",
+    "quantity": "Menge",
+    "buy": "Kaufen",
+    "empty": "Ihr Warenkorb ist leer"
   },
   "settings": {
     "title": "Einstellungen"

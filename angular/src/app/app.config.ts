@@ -35,6 +35,14 @@ import {
   UPLOAD_API_URL_TOKEN,
   USER_API_URL_TOKEN,
   USER_RESOURCE_NAME_TOKEN,
+  CART_ITEM_RESOURCE_NAME_TOKEN,
+  PURCHASE_RESOURCE_NAME_TOKEN,
+  PURCHASE_ITEM_RESOURCE_NAME_TOKEN,
+  FAVORITE_RESOURCE_NAME_TOKEN,
+  CART_ITEM_API_URL_TOKEN,
+  PURCHASE_API_URL_TOKEN,
+  PURCHASE_ITEM_API_URL_TOKEN,
+  FAVORITE_API_URL_TOKEN,
 } from './core/repositories/repository.tokens';
 
 // Factories
@@ -55,6 +63,14 @@ import {
   PublisherRepositoryFactory,
   UserMappingFactory,
   UserRepositoryFactory,
+  CartItemMappingFactory,
+  CartItemRepositoryFactory,
+  PurchaseMappingFactory,
+  PurchaseRepositoryFactory,
+  PurchaseItemMappingFactory,
+  PurchaseItemRepositoryFactory,
+  FavoriteMappingFactory,
+  FavoriteRepositoryFactory,
 } from './core/repositories/repository.factory';
 
 // Services
@@ -65,6 +81,10 @@ import { MediaService } from './core/services/impl/media.service';
 import { PlatformService } from './core/services/impl/platform.service';
 import { PublisherService } from './core/services/impl/publisher.service';
 import { UserService } from './core/services/impl/user.service';
+import { CartItemService } from './core/services/impl/cart-item.service';
+import { PurchaseService } from './core/services/impl/purchase.service';
+import { PurchaseItemService } from './core/services/impl/purchase-item.service';
+import { FavoriteService } from './core/services/impl/favorite.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -92,6 +112,13 @@ export const appConfig: ApplicationConfig = {
     { provide: PLATFORM_RESOURCE_NAME_TOKEN, useValue: 'platforms' },
     { provide: PUBLISHER_RESOURCE_NAME_TOKEN, useValue: 'publishers' },
     { provide: USER_RESOURCE_NAME_TOKEN, useValue: 'users' },
+    { provide: CART_ITEM_RESOURCE_NAME_TOKEN, useValue: 'cart' },
+    { provide: PURCHASE_RESOURCE_NAME_TOKEN, useValue: 'purchases' },
+    {
+      provide: PURCHASE_ITEM_RESOURCE_NAME_TOKEN,
+      useValue: 'purchase-items',
+    },
+    { provide: FAVORITE_RESOURCE_NAME_TOKEN, useValue: 'favorites' },
 
     // API URLs
     { provide: API_URL_TOKEN, useValue: `${environment.apiUrl}/api` },
@@ -123,6 +150,22 @@ export const appConfig: ApplicationConfig = {
       provide: USER_API_URL_TOKEN,
       useValue: `${environment.apiUrl}/api`,
     },
+    {
+      provide: CART_ITEM_API_URL_TOKEN,
+      useValue: `${environment.apiUrl}/api`,
+    },
+    {
+      provide: PURCHASE_API_URL_TOKEN,
+      useValue: `${environment.apiUrl}/api`,
+    },
+    {
+      provide: PURCHASE_ITEM_API_URL_TOKEN,
+      useValue: `${environment.apiUrl}/api`,
+    },
+    {
+      provide: FAVORITE_API_URL_TOKEN,
+      useValue: `${environment.apiUrl}/api`,
+    },
 
     // Auth URLs
     {
@@ -150,6 +193,10 @@ export const appConfig: ApplicationConfig = {
     PlatformMappingFactory,
     PublisherMappingFactory,
     UserMappingFactory,
+    CartItemMappingFactory,
+    PurchaseMappingFactory,
+    PurchaseItemMappingFactory,
+    FavoriteMappingFactory,
     AuthMappingFactory,
 
     // Repositories
@@ -160,6 +207,10 @@ export const appConfig: ApplicationConfig = {
     PlatformRepositoryFactory,
     PublisherRepositoryFactory,
     UserRepositoryFactory,
+    CartItemRepositoryFactory,
+    PurchaseRepositoryFactory,
+    PurchaseItemRepositoryFactory,
+    FavoriteRepositoryFactory,
 
     // Services
     { provide: DeveloperService, useClass: DeveloperService },
@@ -169,6 +220,10 @@ export const appConfig: ApplicationConfig = {
     { provide: PlatformService, useClass: PlatformService },
     { provide: PublisherService, useClass: PublisherService },
     { provide: UserService, useClass: UserService },
+    { provide: CartItemService, useClass: CartItemService },
+    { provide: PurchaseService, useClass: PurchaseService },
+    { provide: PurchaseItemService, useClass: PurchaseItemService },
+    { provide: FavoriteService, useClass: FavoriteService },
 
     AuthenticationServiceFactory,
   ],

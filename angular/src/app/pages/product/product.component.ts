@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { GameService } from '../../core/services/impl/game.service';
 import { MediaService } from '../../core/services/impl/media.service';
+import { CartItemService } from '../../core/services/impl/cart-item.service';
+import { FavoriteService } from '../../core/services/impl/favorite.service';
+import { CartItem } from '../../core/models/cart-item.model';
+import { Favorite } from '../../core/models/favorite.model';
 import { Game } from '../../core/models/game.model';
 
 interface MediaItem {
@@ -73,7 +77,10 @@ export class ProductComponent implements OnInit {
     private route: ActivatedRoute,
     private gameService: GameService,
     private mediaService: MediaService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private cartItemService: CartItemService,
+    private favoriteService: FavoriteService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -132,17 +139,48 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  getVideoId(url: string): string | null {
-    const videoIdMatch = url.match(/[?&]v=([^&]+)/);
-    return videoIdMatch ? videoIdMatch[1] : null;
+  addToCart() {
+    if (!this.game) return;
+
+    this.cartItemService
+      .add({ gameId: Number(this.game.id), quantity: 1 } as unknown as CartItem)
+      .subscribe({
+        next: () => this.router.navigate(['/cart']),
+        error: (err) => {
+          if (err.status === 401) {
+            this.router.navigate(['/login']);
+          }
+        },
+      });
   }
 
-  convertToEmbedUrl(url: string): string {
-    const videoId = this.getVideoId(url);
-    if (videoId) {
-      return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3`;
+  addToFavorites() {
+    if (!this.game) return;
+
+    if (this.selectedPlatform) {
+      try {
+        const saved = localStorage.getItem('favorites_platforms');
+        const platforms = saved ? JSON.parse(saved) : {};
+        platforms[this.game.id] = this.selectedPlatform;
+        localStorage.setItem('favorites_platforms', JSON.stringify(platforms));
+      } catch (e) {}
     }
-    return url;
+
+    this.favoriteService
+      .add({ gameId: Number(this.game.id) } as unknown as Favorite)
+      .subscribe({
+        next: () => this.router.navigate(['/favourites']),
+        error: (err) => {
+          if (err.status === 401) {
+            this.router.navigate(['/login']);
+          }
+        },
+      });
+  }
+
+  buyNow() {
+    if (!this.game) return;
+    this.addToCart();
   }
 
   isPlatformAvailable(platformName: string): boolean {
@@ -150,11 +188,8 @@ export class ProductComponent implements OnInit {
   }
 
   selectPlatform(platform: string): void {
-    if (this.selectedPlatform === platform) {
-      this.selectedPlatform = null;
-    } else {
-      this.selectedPlatform = platform;
-    }
+    this.selectedPlatform =
+      this.selectedPlatform === platform ? null : platform;
   }
 
   previousMedia(): void {
@@ -184,5 +219,18 @@ export class ProductComponent implements OnInit {
     const fullStars = Math.floor(rating);
     const emptyStars = 5 - fullStars;
     return Array(emptyStars).fill(0);
+  }
+
+  private getVideoId(url: string): string | null {
+    const videoIdMatch = url.match(/[?&]v=([^&]+)/);
+    return videoIdMatch ? videoIdMatch[1] : null;
+  }
+
+  private convertToEmbedUrl(url: string): string {
+    const videoId = this.getVideoId(url);
+    if (videoId) {
+      return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3`;
+    }
+    return url;
   }
 }
