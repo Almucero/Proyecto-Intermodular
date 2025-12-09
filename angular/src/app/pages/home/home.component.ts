@@ -24,8 +24,9 @@ import { CarouselComponent } from '../../shared/components/carousel/carousel.com
 export class HomeComponent implements OnInit {
   @ViewChild('backgroundLayer') backgroundLayer!: ElementRef;
   @ViewChild('jokerLayer') jokerLayer!: ElementRef;
+  @ViewChild('titleLayer') titleLayer!: ElementRef;
   @ViewChild('geraltLayer') geraltLayer!: ElementRef;
-  @ViewChild('wavesLayer') wavesLayer!: ElementRef;
+  @ViewChild('bottomLayer') bottomLayer!: ElementRef;
   @ViewChild('mainContent') mainContent!: ElementRef;
 
   genres = [
@@ -91,7 +92,7 @@ export class HomeComponent implements OnInit {
 
     const backgroundSpeed = 0.8;
     const charactersSpeed = 0.4;
-    const wavesSpeed = 0.1;
+    const bottomSpeed = 0.1;
     const mainContentSpeed = 0.05;
 
     const maxBlurBackground = 5;
@@ -107,7 +108,7 @@ export class HomeComponent implements OnInit {
     const horizontalMovement = Math.sin(scrollPosition * 0.0005) * 50;
 
     const backgroundParallaxOffset = scrollPosition * backgroundSpeed;
-    const wavesParallaxOffset = scrollPosition * wavesSpeed;
+    const bottomParallaxOffset = scrollPosition * bottomSpeed;
     const mainContentOffset = scrollPosition * mainContentSpeed;
 
     if (this.backgroundLayer) {
@@ -126,9 +127,15 @@ export class HomeComponent implements OnInit {
       }px, 0)`;
       this.geraltLayer.nativeElement.style.filter = `drop-shadow(0 0 15px #ffffff) blur(${blurCharactersAmount}px)`;
     }
-    if (this.wavesLayer) {
-      this.wavesLayer.nativeElement.style.transform = `translateY(${wavesParallaxOffset}px)`;
-      this.wavesLayer.nativeElement.style.filter = 'none';
+    if (this.titleLayer) {
+      this.titleLayer.nativeElement.style.transform = `translate3d(-50%, calc(-50% + ${
+        scrollPosition * charactersSpeed
+      }px), 0)`;
+      this.titleLayer.nativeElement.style.filter = `drop-shadow(0 0 15px #ffffff) blur(${blurCharactersAmount}px)`;
+    }
+    if (this.bottomLayer) {
+      this.bottomLayer.nativeElement.style.transform = `translateY(${bottomParallaxOffset}px)`;
+      // Eliminada la linea que forzaba filter = 'none' para respetar el drop-shadow del CSS
     }
     if (this.mainContent) {
       this.mainContent.nativeElement.style.transform = `translateY(${mainContentOffset}px)`;
