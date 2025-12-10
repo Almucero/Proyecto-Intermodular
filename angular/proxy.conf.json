@@ -1,0 +1,10 @@
+{
+  "/google-api": {
+    "target": "https://generativelanguage.googleapis.com",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/google-api": ""
+    }
+  }
+}
