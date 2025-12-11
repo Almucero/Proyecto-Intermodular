@@ -23,9 +23,9 @@ const router = Router();
  *         application/json:
  *           schema:
  *             type: object
- *             required: [gameIds]
+ *             required: [cartItemIds]
  *             properties:
- *               gameIds:
+ *               cartItemIds:
  *                 type: array
  *                 items:
  *                   type: integer

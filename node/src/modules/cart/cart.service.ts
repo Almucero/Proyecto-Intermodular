@@ -1,6 +1,11 @@
 import { prisma } from "../../config/db.js";
 
-export async function addToCart(userId: number, gameId: number, quantity = 1) {
+export async function addToCart(
+  userId: number,
+  gameId: number,
+  platformId: number,
+  quantity = 1
+) {
   if (quantity < 1) {
     throw new Error("La cantidad debe ser al menos 1");
   }
@@ -20,14 +25,15 @@ export async function addToCart(userId: number, gameId: number, quantity = 1) {
 
   return await prisma.cartItem.upsert({
     where: {
-      userId_gameId: { userId, gameId },
+      userId_gameId_platformId: { userId, gameId, platformId },
     },
-    create: { userId, gameId, quantity },
+    create: { userId, gameId, platformId, quantity },
     update: { quantity: { increment: quantity } },
     select: {
       id: true,
       userId: true,
       gameId: true,
+      platformId: true,
       quantity: true,
       createdAt: true,
       updatedAt: true,
@@ -55,14 +61,24 @@ export async function addToCart(userId: number, gameId: number, quantity = 1) {
           },
         },
       },
+      platform: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
     },
   });
 }
 
-export async function removeFromCart(userId: number, gameId: number) {
+export async function removeFromCart(
+  userId: number,
+  gameId: number,
+  platformId: number
+) {
   await prisma.cartItem.delete({
     where: {
-      userId_gameId: { userId, gameId },
+      userId_gameId_platformId: { userId, gameId, platformId },
     },
   });
   return { message: "Juego removido del carrito" };
@@ -92,6 +108,12 @@ export async function getUserCart(userId: number) {
           },
         },
       },
+      platform: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
     },
     orderBy: { createdAt: "desc" },
   });
@@ -101,12 +123,14 @@ export async function getUserCart(userId: number) {
     quantity: item.quantity,
     addedAt: item.createdAt,
     ...item.game,
+    platform: item.platform,
   }));
 }
 
 export async function updateQuantity(
   userId: number,
   gameId: number,
+  platformId: number,
   quantity: number
 ) {
   if (quantity < 1) {
@@ -114,7 +138,7 @@ export async function updateQuantity(
   }
 
   return await prisma.cartItem.update({
-    where: { userId_gameId: { userId, gameId } },
+    where: { userId_gameId_platformId: { userId, gameId, platformId } },
     data: { quantity },
     select: {
       id: true,
@@ -144,6 +168,12 @@ export async function updateQuantity(
             },
             take: 1,
           },
+        },
+      },
+      platform: {
+        select: {
+          id: true,
+          name: true,
         },
       },
     },

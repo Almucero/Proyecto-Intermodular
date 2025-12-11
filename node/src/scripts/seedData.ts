@@ -2222,6 +2222,9 @@ async function seedData() {
           stockSwitch,
           videoUrl: g.videoUrl,
         },
+        include: {
+          platforms: true,
+        },
       });
 
       return created;
@@ -2378,9 +2381,21 @@ async function seedData() {
           data: {
             userId: user.id,
             gameId: gamesToUse[j]!.id,
+            platformId: gamesToUse[j]!.platforms[0]!.id,
           },
         });
         favAdded++;
+
+        if (i === 1 && j === 0 && gamesToUse[j]!.platforms.length > 1) {
+          await prisma.favorite.create({
+            data: {
+              userId: user.id,
+              gameId: gamesToUse[j]!.id,
+              platformId: gamesToUse[j]!.platforms[1]!.id,
+            },
+          });
+          favAdded++;
+        }
       }
 
       if (!loggedCarts) {
@@ -2391,14 +2406,29 @@ async function seedData() {
       const cartCount = 1 + (i % 2);
       for (let j = 0; j < cartCount && j < gamesToUse.length; j++) {
         const gameIndex = (favCount + j) % gamesToUse.length;
+        const game = gamesToUse[gameIndex]!;
+
         await prisma.cartItem.create({
           data: {
             userId: user.id,
-            gameId: gamesToUse[gameIndex]!.id,
+            gameId: game.id,
+            platformId: game.platforms[0]!.id,
             quantity: 1 + (j % 2),
           },
         });
         cartAdded++;
+
+        if (i === 2 && j === 0 && game.platforms.length > 1) {
+          await prisma.cartItem.create({
+            data: {
+              userId: user.id,
+              gameId: game.id,
+              platformId: game.platforms[1]!.id,
+              quantity: 1,
+            },
+          });
+          cartAdded++;
+        }
       }
 
       if (!loggedPurchases) {
@@ -2412,6 +2442,24 @@ async function seedData() {
         const game = gamesToUse[gameIndex]!;
         const gamePrice = game.isOnSale ? game.salePrice! : game.price!;
 
+        const purchaseItems = [
+          {
+            gameId: game.id,
+            platformId: game.platforms[0]!.id,
+            price: gamePrice,
+            quantity: 1,
+          },
+        ];
+
+        if (i === 0 && j === 0 && game.platforms.length > 1) {
+          purchaseItems.push({
+            gameId: game.id,
+            platformId: game.platforms[1]!.id,
+            price: gamePrice,
+            quantity: 1,
+          });
+        }
+
         await prisma.purchase.create({
           data: {
             userId: user.id,
@@ -2421,13 +2469,7 @@ async function seedData() {
               Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000
             ),
             items: {
-              create: [
-                {
-                  gameId: game.id,
-                  price: gamePrice,
-                  quantity: 1,
-                },
-              ],
+              create: purchaseItems,
             },
           },
         });
@@ -2457,6 +2499,7 @@ async function seedData() {
               create: [
                 {
                   gameId: game.id,
+                  platformId: game.platforms[0]!.id,
                   price: gamePrice,
                   quantity: 1,
                 },
