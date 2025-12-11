@@ -101,7 +101,18 @@ export async function createGameCtrl(req: Request, res: Response) {
     if (payload.price !== undefined) payload.price = Number(payload.price);
     if (payload.salePrice !== undefined)
       payload.salePrice = Number(payload.salePrice);
-    if (payload.stock !== undefined) payload.stock = Number(payload.stock);
+    if (payload.stockPc !== undefined)
+      payload.stockPc = Number(payload.stockPc);
+    if (payload.stockPs5 !== undefined)
+      payload.stockPs5 = Number(payload.stockPs5);
+    if (payload.stockXboxX !== undefined)
+      payload.stockXboxX = Number(payload.stockXboxX);
+    if (payload.stockSwitch !== undefined)
+      payload.stockSwitch = Number(payload.stockSwitch);
+    if (payload.stockPs4 !== undefined)
+      payload.stockPs4 = Number(payload.stockPs4);
+    if (payload.stockXboxOne !== undefined)
+      payload.stockXboxOne = Number(payload.stockXboxOne);
 
     const created = await createGame(payload);
     res.status(201).json(created);
@@ -160,7 +171,18 @@ export async function updateGameCtrl(req: Request, res: Response) {
     if (payload.price !== undefined) payload.price = Number(payload.price);
     if (payload.salePrice !== undefined)
       payload.salePrice = Number(payload.salePrice);
-    if (payload.stock !== undefined) payload.stock = Number(payload.stock);
+    if (payload.stockPc !== undefined)
+      payload.stockPc = Number(payload.stockPc);
+    if (payload.stockPs5 !== undefined)
+      payload.stockPs5 = Number(payload.stockPs5);
+    if (payload.stockXboxX !== undefined)
+      payload.stockXboxX = Number(payload.stockXboxX);
+    if (payload.stockSwitch !== undefined)
+      payload.stockSwitch = Number(payload.stockSwitch);
+    if (payload.stockPs4 !== undefined)
+      payload.stockPs4 = Number(payload.stockPs4);
+    if (payload.stockXboxOne !== undefined)
+      payload.stockXboxOne = Number(payload.stockXboxOne);
 
     const updated = await updateGame(id, payload);
     res.json(updated);

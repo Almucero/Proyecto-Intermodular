@@ -49,7 +49,12 @@ model Game {
   salePrice     Decimal?   @db.Decimal(12,2)
   isRefundable  Boolean    @default(false)
   numberOfSales Int        @default(0)
-  stock         Int        @default(0)
+  stockPc       Int        @default(0)
+  stockPs5      Int        @default(0)
+  stockXboxX    Int        @default(0)
+  stockSwitch   Int        @default(0)
+  stockPs4      Int        @default(0)
+  stockXboxOne  Int        @default(0)
   videoUrl      String?
   rating        Float?
   releaseDate   DateTime?

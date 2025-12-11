@@ -86,7 +86,12 @@ router.get("/", listPublishersCtrl);
  *                       isOnSale: false
  *                       isRefundable: true
  *                       numberOfSales: 15000
- *                       stock: 50
+ *                       stockPc: 50
+ *                       stockPs5: 30
+ *                       stockXboxX: 90
+ *                       stockSwitch: 0
+ *                       stockPs4: 2
+ *                       stockXboxOne: 87
  *                       videoUrl: "https://www.youtube.com/watch?v=example"
  *                       rating: 4.8
  *                       releaseDate: "2015-05-19"
@@ -168,7 +173,7 @@ router.post(
   auth,
   validate(createPublisherSchema),
   adminOnly,
-  createPublisherCtrl,
+  createPublisherCtrl
 );
 
 /**
@@ -235,7 +240,7 @@ router.patch(
   auth,
   validate(updatePublisherSchema),
   adminOnly,
-  updatePublisherCtrl,
+  updatePublisherCtrl
 );
 
 /**

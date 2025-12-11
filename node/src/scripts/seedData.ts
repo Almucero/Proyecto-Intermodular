@@ -223,7 +223,7 @@ async function seedData() {
       platformNames.map((name) => prisma.platform.create({ data: { name } }))
     );
     const platformByName = Object.fromEntries(
-      platforms.map((p) => [p.name, p])
+      platforms.map((p: { name: any }) => [p.name, p])
     );
 
     const genreNames = [
@@ -276,7 +276,9 @@ async function seedData() {
     const genres = await Promise.all(
       genreNames.map((name) => prisma.genre.create({ data: { name } }))
     );
-    const genreByName = Object.fromEntries(genres.map((g) => [g.name, g]));
+    const genreByName = Object.fromEntries(
+      genres.map((g: { name: any }) => [g.name, g])
+    );
 
     const developerNames = [
       "Kojima Productions",
@@ -346,8 +348,12 @@ async function seedData() {
       publisherNames.map((n) => prisma.publisher.create({ data: { name: n } }))
     );
 
-    const devByName = Object.fromEntries(developers.map((d) => [d.name, d]));
-    const pubByName = Object.fromEntries(publishers.map((p) => [p.name, p]));
+    const devByName = Object.fromEntries(
+      developers.map((d: { name: any }) => [d.name, d])
+    );
+    const pubByName = Object.fromEntries(
+      publishers.map((p: { name: any }) => [p.name, p])
+    );
 
     const gamesData = [
       {
@@ -371,7 +377,8 @@ async function seedData() {
         platforms: ["PS5", "PS4"],
         rating: 4.8,
         numberOfSales: 850000,
-        stock: 100,
+        stockPs5: 100,
+        stockPs4: 100,
         videoUrl: "https://www.youtube.com/watch?v=jb0LtQBNqhY",
       },
       {
@@ -389,7 +396,8 @@ async function seedData() {
         platforms: ["PS5", "PC"],
         rating: 4.6,
         numberOfSales: 500000,
-        stock: 80,
+        stockPs5: 80,
+        stockPc: 20,
         videoUrl: "https://www.youtube.com/watch?v=1UvGDXIixPE",
       },
       {
@@ -407,7 +415,11 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
         rating: 4.4,
         numberOfSales: 420000,
-        stock: 23,
+        stockPc: 23,
+        stockPs4: 23,
+        stockXboxOne: 23,
+        stockPs5: 23,
+        stockXboxX: 23,
         videoUrl: "https://www.youtube.com/watch?v=g_2VZvi0fQ0",
       },
       {
@@ -425,7 +437,12 @@ async function seedData() {
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One", "Switch"],
         rating: 4.5,
         numberOfSales: 610000,
-        stock: 65,
+        stockPc: 65,
+        stockPs5: 65,
+        stockXboxX: 65,
+        stockPs4: 65,
+        stockXboxOne: 65,
+        stockSwitch: 65,
         videoUrl: "https://www.youtube.com/watch?v=6SRj82vc1Jg",
       },
       {
@@ -449,7 +466,9 @@ async function seedData() {
         platforms: ["PS4", "PS5", "PC"],
         rating: 4.7,
         numberOfSales: 720000,
-        stock: 87,
+        stockPc: 87,
+        stockPs5: 87,
+        stockPs4: 87,
         videoUrl: "https://www.youtube.com/watch?v=34GJ9ZMAKqA",
       },
       {
@@ -473,7 +492,9 @@ async function seedData() {
         platforms: ["PS4", "PS5", "PC"],
         rating: 4.6,
         numberOfSales: 540000,
-        stock: 123,
+        stockPc: 123,
+        stockPs5: 123,
+        stockPs4: 123,
         videoUrl: "https://www.youtube.com/watch?v=jT9edKarhc8",
       },
       {
@@ -495,10 +516,12 @@ async function seedData() {
           "Sandbox",
           "Táctico",
         ],
-        platforms: ["PC", "PS4", "Xbox One", "PS3", "Xbox 360"],
+        platforms: ["PC", "PS4", "Xbox One"],
         rating: 4.3,
         numberOfSales: 380000,
-        stock: 12,
+        stockPc: 12,
+        stockPs4: 12,
+        stockXboxOne: 12,
         videoUrl: "https://www.youtube.com/watch?v=Krc1t4HU8GI",
       },
       {
@@ -522,7 +545,10 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "Switch"],
         rating: 4.2,
         numberOfSales: 310000,
-        stock: 76,
+        stockPc: 76,
+        stockPs4: 76,
+        stockXboxOne: 76,
+        stockSwitch: 76,
         videoUrl: "https://www.youtube.com/watch?v=L63rDlpJ3_o",
       },
       {
@@ -546,7 +572,12 @@ async function seedData() {
         platforms: ["PC", "PS4", "PS5", "Xbox One", "Xbox Series X", "Switch"],
         rating: 4.0,
         numberOfSales: 220000,
-        stock: 87,
+        stockPc: 87,
+        stockPs4: 87,
+        stockPs5: 87,
+        stockXboxOne: 87,
+        stockXboxX: 87,
+        stockSwitch: 87,
         videoUrl: "https://www.youtube.com/watch?v=F74LLDhAhhI",
       },
       {
@@ -564,7 +595,11 @@ async function seedData() {
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
         rating: 3.9,
         numberOfSales: 680000,
-        stock: 456,
+        stockPc: 456,
+        stockPs5: 456,
+        stockXboxX: 456,
+        stockPs4: 456,
+        stockXboxOne: 456,
         videoUrl: "https://www.youtube.com/watch?v=rKjUAWlbTJk",
       },
       {
@@ -582,7 +617,8 @@ async function seedData() {
         platforms: ["PS4", "PS5"],
         rating: 4.9,
         numberOfSales: 980000,
-        stock: 0,
+        stockPs4: 0,
+        stockPs5: 0,
         videoUrl: "https://www.youtube.com/watch?v=JdE9U9WW_HM",
       },
       {
@@ -600,7 +636,11 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
         rating: 4.9,
         numberOfSales: 1200000,
-        stock: 0,
+        stockPc: 0,
+        stockPs4: 0,
+        stockPs5: 0,
+        stockXboxOne: 0,
+        stockXboxX: 0,
         videoUrl: "https://www.youtube.com/watch?v=MyaYlbizpvs",
       },
       {
@@ -618,7 +658,12 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "Switch", "PS5", "Xbox Series X"],
         rating: 4.1,
         numberOfSales: 240000,
-        stock: 78,
+        stockPc: 78,
+        stockPs4: 78,
+        stockPs5: 78,
+        stockXboxOne: 78,
+        stockXboxX: 78,
+        stockSwitch: 78,
         videoUrl: "https://www.youtube.com/watch?v=AURVxvIZrmU",
       },
       {
@@ -636,7 +681,7 @@ async function seedData() {
         platforms: ["Switch"],
         rating: 5.0,
         numberOfSales: 1500000,
-        stock: 234,
+        stockSwitch: 234,
         videoUrl: "https://www.youtube.com/watch?v=zw47_q9wbBE",
       },
       {
@@ -654,7 +699,11 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
         rating: 4.0,
         numberOfSales: 320000,
-        stock: 12,
+        stockPc: 12,
+        stockPs4: 12,
+        stockPs5: 12,
+        stockXboxOne: 12,
+        stockXboxX: 12,
         videoUrl: "https://www.youtube.com/watch?v=M4SG6DfVvLs",
       },
       {
@@ -672,7 +721,9 @@ async function seedData() {
         platforms: ["PS4", "PS5", "PC"],
         rating: 4.3,
         numberOfSales: 260000,
-        stock: 5,
+        stockPc: 5,
+        stockPs4: 5,
+        stockPs5: 5,
         videoUrl: "https://www.youtube.com/watch?v=-PhhiKPHTWM",
       },
       {
@@ -690,7 +741,12 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "Switch", "PS5", "Xbox Series X"],
         rating: 4.2,
         numberOfSales: 145000,
-        stock: 1,
+        stockPc: 1,
+        stockPs4: 1,
+        stockPs5: 1,
+        stockXboxOne: 1,
+        stockXboxX: 1,
+        stockSwitch: 1,
         videoUrl: "https://www.youtube.com/watch?v=d02lhvvVSy8",
       },
       {
@@ -708,7 +764,12 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "Switch", "PS5", "Xbox Series X"],
         rating: 4.7,
         numberOfSales: 180000,
-        stock: 12,
+        stockPc: 12,
+        stockPs4: 12,
+        stockPs5: 12,
+        stockXboxOne: 12,
+        stockXboxX: 12,
+        stockSwitch: 12,
         videoUrl: "https://www.youtube.com/watch?v=d6LGnVCL1_A",
       },
       {
@@ -726,7 +787,12 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "Switch", "PS5", "Xbox Series X"],
         rating: 4.1,
         numberOfSales: 290000,
-        stock: 25,
+        stockPc: 25,
+        stockPs4: 25,
+        stockPs5: 25,
+        stockXboxOne: 25,
+        stockXboxX: 25,
+        stockSwitch: 25,
         videoUrl: "https://www.youtube.com/watch?v=N40uY51s5Z0",
       },
       {
@@ -744,7 +810,11 @@ async function seedData() {
         platforms: ["PC", "PS4", "PS5", "Xbox One", "Xbox Series X"],
         rating: 4.0,
         numberOfSales: 200000,
-        stock: 456,
+        stockPc: 456,
+        stockPs4: 456,
+        stockPs5: 456,
+        stockXboxOne: 456,
+        stockXboxX: 456,
         videoUrl: "https://www.youtube.com/watch?v=w6bE11FrSFM",
       },
       {
@@ -762,7 +832,11 @@ async function seedData() {
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
         rating: 4.9,
         numberOfSales: 1400000,
-        stock: 76,
+        stockPc: 76,
+        stockPs5: 76,
+        stockXboxX: 76,
+        stockPs4: 76,
+        stockXboxOne: 76,
         videoUrl: "https://www.youtube.com/watch?v=CptaXqVY6-E",
       },
       {
@@ -780,7 +854,12 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "Switch", "PS5", "Xbox Series X"],
         rating: 4.9,
         numberOfSales: 1300000,
-        stock: 0,
+        stockPc: 0,
+        stockPs4: 0,
+        stockPs5: 0,
+        stockXboxOne: 0,
+        stockXboxX: 0,
+        stockSwitch: 0,
         videoUrl: "https://www.youtube.com/watch?v=53MyR_Z3i1w",
       },
 
@@ -799,7 +878,8 @@ async function seedData() {
         platforms: ["PS5", "PC"],
         rating: 4.2,
         numberOfSales: 240000,
-        stock: 12,
+        stockPc: 12,
+        stockPs5: 12,
         videoUrl: "https://www.youtube.com/watch?v=iaJ4VVFGIa8",
       },
       {
@@ -817,7 +897,12 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "Switch", "PS5", "Xbox Series X"],
         rating: 4.8,
         numberOfSales: 1600000,
-        stock: 876,
+        stockPc: 876,
+        stockPs4: 876,
+        stockPs5: 876,
+        stockXboxOne: 876,
+        stockXboxX: 876,
+        stockSwitch: 876,
         videoUrl: "https://www.youtube.com/watch?v=6umhTJQltak",
       },
       {
@@ -835,7 +920,12 @@ async function seedData() {
         platforms: ["PS4", "PS5", "Switch", "PC", "Xbox One", "Xbox Series X"],
         rating: 4.7,
         numberOfSales: 420000,
-        stock: 54,
+        stockPc: 54,
+        stockPs4: 54,
+        stockPs5: 54,
+        stockXboxOne: 54,
+        stockXboxX: 54,
+        stockSwitch: 54,
         videoUrl: "https://www.youtube.com/watch?v=SKpSpvFCZRw",
       },
       {
@@ -853,7 +943,12 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "Switch", "PS5", "Xbox Series X"],
         rating: 4.8,
         numberOfSales: 380000,
-        stock: 90,
+        stockPc: 90,
+        stockPs4: 90,
+        stockPs5: 90,
+        stockXboxOne: 90,
+        stockXboxX: 90,
+        stockSwitch: 90,
         videoUrl: "https://www.youtube.com/watch?v=bTWTFX8qzPI",
       },
       {
@@ -871,7 +966,11 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
         rating: 4.5,
         numberOfSales: 300000,
-        stock: 12,
+        stockPc: 12,
+        stockPs4: 12,
+        stockPs5: 12,
+        stockXboxOne: 12,
+        stockXboxX: 12,
         videoUrl: "https://www.youtube.com/watch?v=n8i53TtQ6IQ",
       },
       {
@@ -889,7 +988,11 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
         rating: 4.1,
         numberOfSales: 350000,
-        stock: 87,
+        stockPc: 87,
+        stockPs4: 87,
+        stockPs5: 87,
+        stockXboxOne: 87,
+        stockXboxX: 87,
         videoUrl: "https://www.youtube.com/watch?v=jJqxfkgSUog",
       },
       {
@@ -907,7 +1010,11 @@ async function seedData() {
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
         rating: 3.8,
         numberOfSales: 1100000,
-        stock: 87,
+        stockPc: 87,
+        stockPs4: 87,
+        stockPs5: 87,
+        stockXboxOne: 87,
+        stockXboxX: 87,
         videoUrl: "https://www.youtube.com/watch?v=VhM3NRu23Sk",
       },
       {
@@ -925,7 +1032,11 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
         rating: 4.4,
         numberOfSales: 95000,
-        stock: 1,
+        stockPc: 1,
+        stockPs4: 1,
+        stockPs5: 1,
+        stockXboxOne: 1,
+        stockXboxX: 1,
         videoUrl: "https://www.youtube.com/watch?v=lsZARCYYxME",
       },
       {
@@ -943,7 +1054,12 @@ async function seedData() {
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One", "Switch"],
         rating: 3.7,
         numberOfSales: 1000000,
-        stock: 76,
+        stockPc: 76,
+        stockPs4: 76,
+        stockPs5: 76,
+        stockXboxOne: 76,
+        stockXboxX: 76,
+        stockSwitch: 76,
         videoUrl: "https://www.youtube.com/watch?v=o3V-GvvzjE4",
       },
       {
@@ -961,7 +1077,12 @@ async function seedData() {
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One", "Switch"],
         rating: 3.9,
         numberOfSales: 850000,
-        stock: 1200,
+        stockPc: 1200,
+        stockPs4: 1200,
+        stockPs5: 1200,
+        stockXboxOne: 1200,
+        stockXboxX: 1200,
+        stockSwitch: 1200,
         videoUrl: "https://www.youtube.com/watch?v=rBZ_q6wIJKY",
       },
       {
@@ -979,7 +1100,11 @@ async function seedData() {
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
         rating: 3.5,
         numberOfSales: 420000,
-        stock: 873,
+        stockPc: 873,
+        stockPs4: 873,
+        stockPs5: 873,
+        stockXboxOne: 873,
+        stockXboxX: 873,
         videoUrl: "https://www.youtube.com/watch?v=Qv6G_w8RUOo",
       },
       {
@@ -997,7 +1122,11 @@ async function seedData() {
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
         rating: 4.2,
         numberOfSales: 260000,
-        stock: 2,
+        stockPc: 2,
+        stockPs4: 2,
+        stockPs5: 2,
+        stockXboxOne: 2,
+        stockXboxX: 2,
         videoUrl: "https://www.youtube.com/watch?v=wHNgoRCWqTg",
       },
       {
@@ -1015,7 +1144,12 @@ async function seedData() {
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One", "Switch"],
         rating: 4.3,
         numberOfSales: 900000,
-        stock: 3,
+        stockPc: 3,
+        stockPs4: 3,
+        stockPs5: 3,
+        stockXboxOne: 3,
+        stockXboxX: 3,
+        stockSwitch: 3,
         videoUrl: "https://www.youtube.com/watch?v=SgSX3gOrj60",
       },
       {
@@ -1033,7 +1167,12 @@ async function seedData() {
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One", "Switch"],
         rating: 4.1,
         numberOfSales: 310000,
-        stock: 2,
+        stockPc: 2,
+        stockPs4: 2,
+        stockPs5: 2,
+        stockXboxOne: 2,
+        stockXboxX: 2,
+        stockSwitch: 2,
         videoUrl: "https://www.youtube.com/watch?v=4paYDD0WIVY",
       },
       {
@@ -1051,7 +1190,12 @@ async function seedData() {
         platforms: ["PC", "PS5", "Xbox Series X", "Xbox One", "PS4", "Switch"],
         rating: 4.6,
         numberOfSales: 450000,
-        stock: 65,
+        stockPc: 65,
+        stockPs4: 65,
+        stockPs5: 65,
+        stockXboxOne: 65,
+        stockXboxX: 65,
+        stockSwitch: 65,
         videoUrl: "https://www.youtube.com/watch?v=ISJxT7VLzYg",
       },
       {
@@ -1069,7 +1213,11 @@ async function seedData() {
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
         rating: 2.8,
         numberOfSales: 150000,
-        stock: 87,
+        stockPc: 87,
+        stockPs4: 87,
+        stockPs5: 87,
+        stockXboxOne: 87,
+        stockXboxX: 87,
         videoUrl: "https://www.youtube.com/watch?v=27Fa0aH2Pgg",
       },
       {
@@ -1087,7 +1235,11 @@ async function seedData() {
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
         rating: 3.9,
         numberOfSales: 95000,
-        stock: 78,
+        stockPc: 78,
+        stockPs4: 78,
+        stockPs5: 78,
+        stockXboxOne: 78,
+        stockXboxX: 78,
         videoUrl: "https://www.youtube.com/watch?v=tgTgzWFVtS0",
       },
       {
@@ -1105,7 +1257,12 @@ async function seedData() {
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One", "Switch"],
         rating: 3.8,
         numberOfSales: 60000,
-        stock: 87,
+        stockPc: 87,
+        stockPs4: 87,
+        stockPs5: 87,
+        stockXboxOne: 87,
+        stockXboxX: 87,
+        stockSwitch: 87,
         videoUrl: "https://www.youtube.com/watch?v=0ebBuFz44LQ",
       },
       {
@@ -1123,7 +1280,12 @@ async function seedData() {
         platforms: ["PC", "Switch", "PS4", "Xbox One", "PS5", "Xbox Series X"],
         rating: 4.4,
         numberOfSales: 780000,
-        stock: 65,
+        stockPc: 65,
+        stockSwitch: 65,
+        stockPs4: 65,
+        stockXboxOne: 65,
+        stockPs5: 65,
+        stockXboxX: 65,
         videoUrl: "https://www.youtube.com/watch?v=5KdE0p2joJw",
       },
       {
@@ -1141,7 +1303,12 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "Switch", "PS5", "Xbox Series X"],
         rating: 4.2,
         numberOfSales: 420000,
-        stock: 556,
+        stockPc: 556,
+        stockSwitch: 556,
+        stockPs4: 556,
+        stockXboxOne: 556,
+        stockPs5: 556,
+        stockXboxX: 556,
         videoUrl: "https://www.youtube.com/watch?v=ZlF4_o3qALo",
       },
       {
@@ -1159,7 +1326,9 @@ async function seedData() {
         platforms: ["PC", "Xbox Series X", "Xbox One"],
         rating: 3.9,
         numberOfSales: 200000,
-        stock: 223,
+        stockPc: 223,
+        stockXboxOne: 223,
+        stockXboxX: 223,
         videoUrl: "https://www.youtube.com/watch?v=5TnynE3PuDE",
       },
       {
@@ -1177,7 +1346,7 @@ async function seedData() {
         platforms: ["PC"],
         rating: 4.3,
         numberOfSales: 350000,
-        stock: 654,
+        stockPc: 654,
         videoUrl: "https://www.youtube.com/watch?v=fXxe897bW-A",
       },
       {
@@ -1195,7 +1364,11 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
         rating: 4.1,
         numberOfSales: 260000,
-        stock: 234,
+        stockPc: 234,
+        stockPs4: 234,
+        stockPs5: 234,
+        stockXboxOne: 234,
+        stockXboxX: 234,
         videoUrl: "https://www.youtube.com/watch?v=zW3YB2ptGws",
       },
       {
@@ -1213,7 +1386,9 @@ async function seedData() {
         platforms: ["PC", "PS5", "Xbox Series X"],
         rating: 4.5,
         numberOfSales: 220000,
-        stock: 1,
+        stockPc: 1,
+        stockPs5: 1,
+        stockXboxX: 1,
         videoUrl: "https://www.youtube.com/watch?v=xjn66Cl3pMA",
       },
       {
@@ -1231,7 +1406,7 @@ async function seedData() {
         platforms: ["PC"],
         rating: 4.0,
         numberOfSales: 180000,
-        stock: 2,
+        stockPc: 2,
         videoUrl: "https://www.youtube.com/watch?v=cUdezMxCY9s",
       },
       {
@@ -1249,7 +1424,9 @@ async function seedData() {
         platforms: ["PC", "PS5", "Xbox Series X"],
         rating: 4.1,
         numberOfSales: 210000,
-        stock: 5,
+        stockPc: 5,
+        stockPs5: 5,
+        stockXboxX: 5,
         videoUrl: "https://www.youtube.com/watch?v=JEYiNIJHUa8",
       },
       {
@@ -1267,7 +1444,7 @@ async function seedData() {
         platforms: ["PC"],
         rating: 4.2,
         numberOfSales: 950000,
-        stock: 10,
+        stockPc: 10,
         videoUrl: "https://www.youtube.com/watch?v=aVtXac6if14",
       },
       {
@@ -1285,7 +1462,7 @@ async function seedData() {
         platforms: ["PC"],
         rating: 2.9,
         numberOfSales: 120000,
-        stock: 23,
+        stockPc: 23,
         videoUrl: "https://www.youtube.com/watch?v=Q2zfx5hQ3CE",
       },
       {
@@ -1303,7 +1480,8 @@ async function seedData() {
         platforms: ["PC", "Xbox Series X"],
         rating: 4.7,
         numberOfSales: 480000,
-        stock: 0,
+        stockPc: 0,
+        stockXboxX: 0,
         videoUrl: "https://www.youtube.com/watch?v=BTETsm79D3A",
       },
       {
@@ -1321,7 +1499,11 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
         rating: 4.0,
         numberOfSales: 1100000,
-        stock: 298,
+        stockPc: 298,
+        stockPs4: 298,
+        stockXboxOne: 298,
+        stockPs5: 298,
+        stockXboxX: 298,
         videoUrl: "https://www.youtube.com/watch?v=DyNv44QR14g",
       },
       {
@@ -1339,7 +1521,7 @@ async function seedData() {
         platforms: ["PC"],
         rating: 4.3,
         numberOfSales: 650000,
-        stock: 234,
+        stockPc: 234,
         videoUrl: "https://www.youtube.com/watch?v=5uvwfskYwl0",
       },
       {
@@ -1357,7 +1539,12 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "Switch", "PS5", "Xbox Series X"],
         rating: 4.5,
         numberOfSales: 420000,
-        stock: 345,
+        stockPc: 345,
+        stockPs4: 345,
+        stockXboxOne: 345,
+        stockSwitch: 345,
+        stockPs5: 345,
+        stockXboxX: 345,
         videoUrl: "https://www.youtube.com/watch?v=CpWe03NhXKs",
       },
       {
@@ -1381,7 +1568,12 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X", "Switch"],
         rating: 4.4,
         numberOfSales: 200000,
-        stock: 231,
+        stockPc: 231,
+        stockPs4: 231,
+        stockXboxOne: 231,
+        stockPs5: 231,
+        stockXboxX: 231,
+        stockSwitch: 231,
         videoUrl: "https://www.youtube.com/watch?v=aAa9Ao26gtM",
       },
       {
@@ -1399,7 +1591,11 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
         rating: 4.2,
         numberOfSales: 175000,
-        stock: 6,
+        stockPc: 6,
+        stockPs4: 6,
+        stockXboxOne: 6,
+        stockPs5: 6,
+        stockXboxX: 6,
         videoUrl: "https://www.youtube.com/watch?v=TDFN-E30jhU",
       },
       {
@@ -1417,7 +1613,11 @@ async function seedData() {
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
         rating: 3.8,
         numberOfSales: 90000,
-        stock: 876,
+        stockPc: 876,
+        stockPs5: 876,
+        stockXboxX: 876,
+        stockPs4: 876,
+        stockXboxOne: 876,
         videoUrl: "https://www.youtube.com/watch?v=qg9VPiUtaic",
       },
       {
@@ -1440,7 +1640,11 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
         rating: 4.1,
         numberOfSales: 160000,
-        stock: 1233,
+        stockPc: 1233,
+        stockPs4: 1233,
+        stockXboxOne: 1233,
+        stockPs5: 1233,
+        stockXboxX: 1233,
         videoUrl: "https://www.youtube.com/watch?v=91Kli1Uwk9g",
       },
       {
@@ -1464,7 +1668,12 @@ async function seedData() {
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One", "Switch"],
         rating: 4.0,
         numberOfSales: 750000,
-        stock: 123,
+        stockPc: 123,
+        stockPs5: 123,
+        stockXboxX: 123,
+        stockPs4: 123,
+        stockXboxOne: 123,
+        stockSwitch: 123,
         videoUrl: "https://www.youtube.com/watch?v=OjoTHi2FI04",
       },
       {
@@ -1482,7 +1691,7 @@ async function seedData() {
         platforms: ["PC"],
         rating: 3.6,
         numberOfSales: 12000,
-        stock: 87,
+        stockPc: 87,
         videoUrl: "https://www.youtube.com/watch?v=rnny6Ux643o",
       },
       {
@@ -1500,7 +1709,10 @@ async function seedData() {
         platforms: ["PC", "PS5", "Xbox Series X", "PS4"],
         rating: 4.5,
         numberOfSales: 540000,
-        stock: 45,
+        stockPc: 45,
+        stockPs5: 45,
+        stockXboxX: 45,
+        stockPs4: 45,
         videoUrl: "https://www.youtube.com/watch?v=O75Ip4o1bs8",
       },
       {
@@ -1518,7 +1730,10 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "Switch"],
         rating: 4.2,
         numberOfSales: 220000,
-        stock: 87,
+        stockPc: 87,
+        stockPs4: 87,
+        stockXboxOne: 87,
+        stockSwitch: 87,
         videoUrl: "https://www.youtube.com/watch?v=u1nY_5-UrY4",
       },
       {
@@ -1541,7 +1756,12 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "Switch", "PS5", "Xbox Series X"],
         rating: 4.0,
         numberOfSales: 310000,
-        stock: 56,
+        stockPc: 56,
+        stockPs4: 56,
+        stockXboxOne: 56,
+        stockSwitch: 56,
+        stockPs5: 56,
+        stockXboxX: 56,
         videoUrl: "https://www.youtube.com/watch?v=uKA-IA4locM",
       },
       {
@@ -1556,10 +1776,13 @@ async function seedData() {
         developer: "Creative Assembly",
         publisher: "SEGA",
         genres: ["Survival Horror", "Stealth", "Ciencia Ficción"],
-        platforms: ["PC", "PS4", "Xbox One", "PS3", "Xbox 360", "Switch"],
+        platforms: ["PC", "PS4", "Xbox One", "Switch"],
         rating: 4.4,
         numberOfSales: 290000,
-        stock: 23,
+        stockPc: 23,
+        stockPs4: 23,
+        stockXboxOne: 23,
+        stockSwitch: 23,
         videoUrl: "https://www.youtube.com/watch?v=7h0cgmvIrZw",
       },
       {
@@ -1574,10 +1797,12 @@ async function seedData() {
         developer: "Tango Gameworks",
         publisher: "Bethesda Softworks",
         genres: ["Survival Horror", "Accion", "Horror Psicológico"],
-        platforms: ["PC", "PS4", "Xbox One", "PS3", "Xbox 360"],
+        platforms: ["PC", "PS4", "Xbox One"],
         rating: 3.9,
         numberOfSales: 140000,
-        stock: 1,
+        stockPc: 1,
+        stockPs4: 1,
+        stockXboxOne: 1,
         videoUrl: "https://www.youtube.com/watch?v=hvbBhouZHIU",
       },
       {
@@ -1595,7 +1820,8 @@ async function seedData() {
         platforms: ["PS4", "PS5"],
         rating: 4.1,
         numberOfSales: 170000,
-        stock: 76,
+        stockPs4: 76,
+        stockPs5: 76,
         videoUrl: "https://www.youtube.com/watch?v=LUk77c7fMC8",
       },
       {
@@ -1615,10 +1841,12 @@ async function seedData() {
           "Aventura",
           "Puzzles",
         ],
-        platforms: ["PS2", "PS3", "PS4", "PC", "Xbox"],
+        platforms: ["PS4", "PC", "Xbox One"],
         rating: 4.8,
         numberOfSales: 520000,
-        stock: 90,
+        stockPs4: 90,
+        stockPc: 90,
+        stockXboxOne: 90,
         videoUrl: "https://www.youtube.com/watch?v=pyC_qiW_4ZY",
       },
       {
@@ -1636,7 +1864,12 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "Switch", "PS5", "Xbox Series X"],
         rating: 3.7,
         numberOfSales: 75000,
-        stock: 2,
+        stockPs4: 2,
+        stockPc: 2,
+        stockXboxOne: 2,
+        stockSwitch: 2,
+        stockPs5: 2,
+        stockXboxX: 2,
         videoUrl: "https://www.youtube.com/watch?v=HUoyagyEVHA",
       },
       {
@@ -1654,7 +1887,9 @@ async function seedData() {
         platforms: ["PC", "PS5", "Xbox Series X"],
         rating: 4.0,
         numberOfSales: 160000,
-        stock: 657,
+        stockPs5: 657,
+        stockXboxX: 657,
+        stockPc: 657,
         videoUrl: "https://www.youtube.com/watch?v=4kRHnEi57gE",
       },
       {
@@ -1669,10 +1904,10 @@ async function seedData() {
         developer: "Kinetic Games",
         publisher: "Kinetic Games",
         genres: ["Survival Horror", "Cooperativo", "Simulacion"],
-        platforms: ["PC", "VR"],
+        platforms: ["PC"],
         rating: 4.2,
         numberOfSales: 230000,
-        stock: 12,
+        stockPc: 12,
         videoUrl: "https://www.youtube.com/watch?v=adFNARIHlOs",
       },
       {
@@ -1690,7 +1925,9 @@ async function seedData() {
         platforms: ["PC", "Xbox Series X", "Xbox One"],
         rating: 4.6,
         numberOfSales: 820000,
-        stock: 54,
+        stockPc: 54,
+        stockXboxX: 54,
+        stockXboxOne: 54,
         videoUrl: "https://www.youtube.com/watch?v=sfAxRnc6640",
       },
       {
@@ -1708,7 +1945,8 @@ async function seedData() {
         platforms: ["PS5", "PS4"],
         rating: 4.0,
         numberOfSales: 300000,
-        stock: 123,
+        stockPs5: 123,
+        stockPs4: 123,
         videoUrl: "https://www.youtube.com/watch?v=cVNGpCgryVA",
       },
       {
@@ -1726,7 +1964,11 @@ async function seedData() {
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
         rating: 4.2,
         numberOfSales: 95000,
-        stock: 1500,
+        stockPc: 1500,
+        stockPs5: 1500,
+        stockXboxX: 1500,
+        stockPs4: 1500,
+        stockXboxOne: 1500,
         videoUrl: "https://www.youtube.com/watch?v=kZpDoljJWNI",
       },
       {
@@ -1744,7 +1986,9 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One"],
         rating: 3.6,
         numberOfSales: 220000,
-        stock: 98,
+        stockPc: 98,
+        stockPs4: 98,
+        stockXboxOne: 98,
         videoUrl: "https://www.youtube.com/watch?v=DPwFhezJcVY",
       },
       {
@@ -1762,7 +2006,11 @@ async function seedData() {
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
         rating: 3.9,
         numberOfSales: 90000,
-        stock: 100,
+        stockPc: 100,
+        stockPs5: 100,
+        stockXboxX: 100,
+        stockPs4: 100,
+        stockXboxOne: 100,
         videoUrl: "https://www.youtube.com/watch?v=q0BnGyQ6SGk",
       },
       {
@@ -1780,7 +2028,12 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "Switch", "PS5", "Xbox Series X"],
         rating: 4.2,
         numberOfSales: 210000,
-        stock: 10,
+        stockPc: 10,
+        stockPs4: 10,
+        stockXboxOne: 10,
+        stockSwitch: 10,
+        stockPs5: 10,
+        stockXboxX: 10,
         videoUrl: "https://www.youtube.com/watch?v=BS6U6iU3jPk",
       },
       {
@@ -1798,7 +2051,11 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
         rating: 3.4,
         numberOfSales: 45000,
-        stock: 89,
+        stockPc: 89,
+        stockPs4: 89,
+        stockXboxOne: 89,
+        stockPs5: 89,
+        stockXboxX: 89,
         videoUrl: "https://www.youtube.com/watch?v=_NlG01OiUg8",
       },
       {
@@ -1816,7 +2073,11 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
         rating: 4.1,
         numberOfSales: 125000,
-        stock: 534,
+        stockPc: 534,
+        stockPs4: 534,
+        stockXboxOne: 534,
+        stockPs5: 534,
+        stockXboxX: 534,
         videoUrl: "https://www.youtube.com/watch?v=FfUj-C31MKQ",
       },
       {
@@ -1834,7 +2095,11 @@ async function seedData() {
         platforms: ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
         rating: 3.8,
         numberOfSales: 90000,
-        stock: 768,
+        stockPc: 768,
+        stockPs4: 768,
+        stockXboxOne: 768,
+        stockPs5: 768,
+        stockXboxX: 768,
         videoUrl: "https://www.youtube.com/watch?v=oA5l_Svdyu4",
       },
       {
@@ -1852,7 +2117,12 @@ async function seedData() {
         platforms: ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One", "Switch"],
         rating: 3.7,
         numberOfSales: 47000,
-        stock: 456,
+        stockPc: 456,
+        stockPs5: 456,
+        stockXboxX: 456,
+        stockPs4: 456,
+        stockXboxOne: 456,
+        stockSwitch: 456,
         videoUrl: "https://www.youtube.com/watch?v=PvgTSrE5bzA",
       },
     ];
@@ -1876,7 +2146,13 @@ async function seedData() {
       platforms: string[];
       rating: number;
       numberOfSales: number;
-      stock: number;
+      stock?: number;
+      stockPc?: number;
+      stockPs5?: number;
+      stockXboxX?: number;
+      stockPs4?: number;
+      stockXboxOne?: number;
+      stockSwitch?: number;
       videoUrl: string;
     }) => {
       let dev = devByName[g.developer];
@@ -1909,6 +2185,20 @@ async function seedData() {
         return { id: platform.id };
       });
 
+      const platforms = g.platforms || ["PC"];
+      const getStockFor = (platform: string, specificStock?: number) => {
+        if (specificStock !== undefined) return specificStock;
+        if (platforms.includes(platform)) return g.stock || 0;
+        return 0;
+      };
+
+      const stockPc = getStockFor("PC", g.stockPc);
+      const stockPs5 = getStockFor("PS5", g.stockPs5);
+      const stockXboxX = getStockFor("Xbox Series X", g.stockXboxX);
+      const stockPs4 = getStockFor("PS4", g.stockPs4);
+      const stockXboxOne = getStockFor("Xbox One", g.stockXboxOne);
+      const stockSwitch = getStockFor("Switch", g.stockSwitch);
+
       const created = await prisma.game.create({
         data: {
           title: g.title,
@@ -1924,7 +2214,12 @@ async function seedData() {
           platforms: { connect: platformConnect },
           rating: g.rating,
           numberOfSales: g.numberOfSales,
-          stock: g.stock,
+          stockPc,
+          stockPs5,
+          stockXboxX,
+          stockPs4,
+          stockXboxOne,
+          stockSwitch,
           videoUrl: g.videoUrl,
         },
       });
