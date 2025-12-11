@@ -38,25 +38,26 @@ router.get("/", auth, getUserCartCtrl);
 
 /**
  * @swagger
- * /api/cart/{gameId}:
+ * /api/cart:
  *   post:
  *     summary: Agregar juego al carrito
  *     tags: [Cart]
  *     security:
  *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: gameId
- *         schema:
- *           type: integer
- *         required: true
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - gameId
+ *               - platformId
  *             properties:
+ *               gameId:
+ *                 type: integer
+ *               platformId:
+ *                 type: integer
  *               quantity:
  *                 type: integer
  *                 default: 1
@@ -64,7 +65,7 @@ router.get("/", auth, getUserCartCtrl);
  *       201:
  *         description: Juego agregado al carrito
  *       400:
- *         description: Error de validación o juego no válido
+ *         description: Datos inválidos
  *         content:
  *           application/json:
  *             schema:
@@ -82,7 +83,7 @@ router.get("/", auth, getUserCartCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.post("/:gameId", auth, addToCartCtrl);
+router.post("/", auth, addToCartCtrl);
 
 /**
  * @swagger
@@ -98,6 +99,12 @@ router.post("/:gameId", auth, addToCartCtrl);
  *         schema:
  *           type: integer
  *         required: true
+ *       - in: query
+ *         name: platformId
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID de la plataforma
  *     responses:
  *       200:
  *         description: Juego removido del carrito
@@ -120,7 +127,7 @@ router.delete("/:gameId", auth, removeFromCartCtrl);
  * @swagger
  * /api/cart/{gameId}:
  *   patch:
- *     summary: Actualizar cantidad en carrito
+ *     summary: Actualizar cantidad
  *     tags: [Cart]
  *     security:
  *       - bearerAuth: []
@@ -136,16 +143,19 @@ router.delete("/:gameId", auth, removeFromCartCtrl);
  *         application/json:
  *           schema:
  *             type: object
- *             required: [quantity]
+ *             required:
+ *               - quantity
+ *               - platformId
  *             properties:
  *               quantity:
  *                 type: integer
- *                 minimum: 1
+ *               platformId:
+ *                 type: integer
  *     responses:
  *       200:
  *         description: Cantidad actualizada
  *       400:
- *         description: Cantidad inválida
+ *         description: Datos inválidos
  *         content:
  *           application/json:
  *             schema:

@@ -1,5 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import { z } from "zod";
+import { addToFavoritesSchema } from "./favorites.schema.js";
 import {
   addToFavorites,
   removeFromFavorites,
@@ -22,26 +23,30 @@ export async function addToFavoritesCtrl(
 ) {
   try {
     const user = req.user!;
-    const parsed = gameIdSchema.safeParse({ gameId: req.params.gameId });
+    const bodyParsed = addToFavoritesSchema.safeParse(req.body);
 
-    if (!parsed.success) {
-      return res.status(400).json({ errors: parsed.error.flatten() });
+    if (!bodyParsed.success) {
+      return res.status(400).json({ errors: bodyParsed.error.flatten() });
     }
 
-    const { gameId } = parsed.data;
+    const { gameId, platformId } = bodyParsed.data;
 
-    const favorite = await addToFavorites(user.sub, gameId);
+    const favorite = await addToFavorites(user.sub, gameId, platformId);
 
-    logger.info(`User ${user.sub} added game ${gameId} to favorites`);
+    logger.info(
+      `User ${user.sub} added game ${gameId} (platform ${platformId}) to favorites`
+    );
     res.status(201).json(favorite);
   } catch (error: any) {
     if (error.code === "P2002") {
-      return res
-        .status(409)
-        .json({ message: "Este juego ya está en favoritos" });
+      return res.status(409).json({
+        message: "Este juego ya está en favoritos para esta plataforma",
+      });
     }
     if (error.code === "P2003") {
-      return res.status(404).json({ message: "Juego no encontrado" });
+      return res
+        .status(404)
+        .json({ message: "Juego o plataforma no encontrado" });
     }
     next(error);
   }
@@ -61,10 +66,17 @@ export async function removeFromFavoritesCtrl(
     }
 
     const { gameId } = parsed.data;
+    const platformId = Number(req.query.platformId);
 
-    const result = await removeFromFavorites(user.sub, gameId);
+    if (!platformId || isNaN(platformId)) {
+      return res.status(400).json({ message: "platformId es requerido" });
+    }
 
-    logger.info(`User ${user.sub} removed game ${gameId} from favorites`);
+    const result = await removeFromFavorites(user.sub, gameId, platformId);
+
+    logger.info(
+      `User ${user.sub} removed game ${gameId} (platform ${platformId}) from favorites`
+    );
     res.status(200).json(result);
   } catch (error: any) {
     if (error.code === "P2025") {
@@ -104,8 +116,13 @@ export async function isFavoriteCtrl(
     }
 
     const { gameId } = parsed.data;
+    const platformId = Number(req.query.platformId);
 
-    const isFav = await isFavorite(user.sub, gameId);
+    if (!platformId || isNaN(platformId)) {
+      return res.status(400).json({ message: "platformId es requerido" });
+    }
+
+    const isFav = await isFavorite(user.sub, gameId, platformId);
 
     res.status(200).json({ isFavorite: isFav });
   } catch (error) {

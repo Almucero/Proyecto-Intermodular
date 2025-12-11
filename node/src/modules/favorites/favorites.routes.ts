@@ -37,29 +37,37 @@ router.get("/", auth, getUserFavoritesCtrl);
 
 /**
  * @swagger
- * /api/favorites/{gameId}:
+ * /api/favorites:
  *   post:
  *     summary: Agregar juego a favoritos
  *     tags: [Favorites]
  *     security:
  *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: gameId
- *         schema:
- *           type: integer
- *         required: true
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - gameId
+ *               - platformId
+ *             properties:
+ *               gameId:
+ *                 type: integer
+ *               platformId:
+ *                 type: integer
  *     responses:
  *       201:
  *         description: Juego agregado a favoritos
  *       404:
- *         description: Juego no encontrado
+ *         description: Juego o plataforma no encontrado
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
  *       409:
- *         description: El juego ya está en favoritos
+ *         description: El juego ya está en favoritos para esta plataforma
  *         content:
  *           application/json:
  *             schema:
@@ -71,7 +79,7 @@ router.get("/", auth, getUserFavoritesCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.post("/:gameId", auth, addToFavoritesCtrl);
+router.post("/", auth, addToFavoritesCtrl);
 
 /**
  * @swagger
@@ -87,6 +95,12 @@ router.post("/:gameId", auth, addToFavoritesCtrl);
  *         schema:
  *           type: integer
  *         required: true
+ *       - in: query
+ *         name: platformId
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID de la plataforma
  *     responses:
  *       200:
  *         description: Juego removido de favoritos
@@ -119,6 +133,12 @@ router.delete("/:gameId", auth, removeFromFavoritesCtrl);
  *         schema:
  *           type: integer
  *         required: true
+ *       - in: query
+ *         name: platformId
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID de la plataforma
  *     responses:
  *       200:
  *         description: Estado del favorito

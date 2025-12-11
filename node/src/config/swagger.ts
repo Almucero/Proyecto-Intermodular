@@ -828,6 +828,17 @@ const options: swaggerJsdoc.Options = {
                 },
               },
             },
+            platform: {
+              type: "object",
+              description: "Plataforma del juego",
+              properties: {
+                id: { type: "integer", description: "ID de la plataforma" },
+                name: {
+                  type: "string",
+                  description: "Nombre de la plataforma",
+                },
+              },
+            },
           },
         },
         FavoritesList: {
@@ -878,6 +889,17 @@ const options: swaggerJsdoc.Options = {
                 name: {
                   type: "string",
                   description: "Nombre del desarrollador",
+                },
+              },
+            },
+            platform: {
+              type: "object",
+              description: "Plataforma del juego",
+              properties: {
+                id: { type: "integer", description: "ID de la plataforma" },
+                name: {
+                  type: "string",
+                  description: "Nombre de la plataforma",
                 },
               },
             },
@@ -943,6 +965,17 @@ const options: swaggerJsdoc.Options = {
               description: "Precio pagado al momento de la compra",
             },
             quantity: { type: "integer", description: "Cantidad", minimum: 1 },
+            platform: {
+              type: "object",
+              description: "Plataforma del juego",
+              properties: {
+                id: { type: "integer", description: "ID de la plataforma" },
+                name: {
+                  type: "string",
+                  description: "Nombre de la plataforma",
+                },
+              },
+            },
           },
         },
         PurchasesList: {
@@ -951,12 +984,12 @@ const options: swaggerJsdoc.Options = {
         },
         CheckoutInput: {
           type: "object",
-          required: ["gameIds"],
+          required: ["cartItemIds"],
           properties: {
-            gameIds: {
+            cartItemIds: {
               type: "array",
               items: { type: "integer" },
-              description: "IDs de los juegos a comprar",
+              description: "IDs de los items del carrito a comprar",
               minItems: 1,
             },
           },
@@ -976,6 +1009,7 @@ const options: swaggerJsdoc.Options = {
           type: "object",
           properties: {
             gameId: { type: "integer", description: "ID del juego" },
+            platformId: { type: "integer", description: "ID de la plataforma" },
           },
         },
         AddToCartInput: {
@@ -986,11 +1020,12 @@ const options: swaggerJsdoc.Options = {
               description: "Cantidad (por defecto 1)",
               minimum: 1,
             },
+            platformId: { type: "integer", description: "ID de la plataforma" },
           },
         },
         UpdateCartQuantityInput: {
           type: "object",
-          required: ["quantity"],
+          required: ["quantity", "platformId"],
           properties: {
             quantity: {
               type: "integer",

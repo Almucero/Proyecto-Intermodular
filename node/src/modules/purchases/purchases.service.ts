@@ -1,21 +1,21 @@
 import { prisma } from "../../config/db.js";
 import { Prisma } from "@prisma/client";
 
-export async function completePurchase(userId: number, gameIds: number[]) {
-  if (gameIds.length === 0) {
-    throw new Error("Debe proporcionar al menos un juego");
+export async function completePurchase(userId: number, cartItemIds: number[]) {
+  if (cartItemIds.length === 0) {
+    throw new Error("Debe proporcionar al menos un artículo del carrito");
   }
 
   const cartItems = await prisma.cartItem.findMany({
     where: {
+      id: { in: cartItemIds },
       userId,
-      gameId: { in: gameIds },
     },
-    include: { game: true },
+    include: { game: true, platform: true },
   });
 
-  if (cartItems.length === 0) {
-    throw new Error("No se encontraron artículos en el carrito");
+  if (cartItems.length !== cartItemIds.length) {
+    throw new Error("Algunos artículos del carrito no fueron encontrados");
   }
 
   const totalPrice = cartItems.reduce((sum, item) => {
@@ -31,6 +31,7 @@ export async function completePurchase(userId: number, gameIds: number[]) {
       items: {
         create: cartItems.map((item) => ({
           gameId: item.gameId,
+          platformId: item.platformId,
           price: item.game.price || new Prisma.Decimal(0),
           quantity: item.quantity,
         })),
@@ -47,6 +48,12 @@ export async function completePurchase(userId: number, gameIds: number[]) {
               rating: true,
             },
           },
+          platform: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
         },
       },
     },
@@ -54,8 +61,8 @@ export async function completePurchase(userId: number, gameIds: number[]) {
 
   await prisma.cartItem.deleteMany({
     where: {
+      id: { in: cartItemIds },
       userId,
-      gameId: { in: gameIds },
     },
   });
 
@@ -74,6 +81,7 @@ export async function completePurchase(userId: number, gameIds: number[]) {
       itemId: item.id,
       purchasePrice: item.price,
       quantity: item.quantity,
+      platform: item.platform,
     })),
   };
 }
@@ -98,6 +106,12 @@ export async function getUserPurchases(
               rating: true,
             },
           },
+          platform: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
         },
       },
     },
@@ -120,6 +134,7 @@ export async function getUserPurchases(
       itemId: item.id,
       purchasePrice: item.price,
       quantity: item.quantity,
+      platform: item.platform,
     })),
   }));
 }
@@ -139,6 +154,12 @@ export async function getPurchase(userId: number, purchaseId: number) {
               title: true,
               price: true,
               rating: true,
+            },
+          },
+          platform: {
+            select: {
+              id: true,
+              name: true,
             },
           },
         },
@@ -164,6 +185,7 @@ export async function getPurchase(userId: number, purchaseId: number) {
       itemId: item.id,
       purchasePrice: item.price,
       quantity: item.quantity,
+      platform: item.platform,
     })),
   };
 }
@@ -205,6 +227,12 @@ export async function refundPurchase(
               rating: true,
             },
           },
+          platform: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
         },
       },
     },
@@ -224,6 +252,7 @@ export async function refundPurchase(
       itemId: item.id,
       purchasePrice: item.price,
       quantity: item.quantity,
+      platform: item.platform,
     })),
   };
 }

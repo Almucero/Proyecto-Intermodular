@@ -1,9 +1,9 @@
 import { z } from "zod";
 
 export const checkoutSchema = z.object({
-  gameIds: z
+  cartItemIds: z
     .array(z.number().int().positive())
-    .min(1, "Al menos un juego es requerido"),
+    .min(1, "Al menos un artículo del carrito es requerido"),
 });
 
 export type CheckoutInput = z.infer<typeof checkoutSchema>;
@@ -31,6 +31,12 @@ export const purchaseResponseSchema = z.object({
       title: z.string(),
       price: z.any().optional(),
       media: z.array(z.any()).optional(),
+    })
+    .optional(),
+  platform: z
+    .object({
+      id: z.number(),
+      name: z.string(),
     })
     .optional(),
 });

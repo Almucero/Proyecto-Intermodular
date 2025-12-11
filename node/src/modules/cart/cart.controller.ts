@@ -24,24 +24,18 @@ export async function addToCartCtrl(
 ) {
   try {
     const user = req.user!;
-    const gameIdParsed = gameIdSchema.safeParse({ gameId: req.params.gameId });
     const bodyParsed = addToCartSchema.safeParse(req.body);
-
-    if (!gameIdParsed.success) {
-      return res.status(400).json({ errors: gameIdParsed.error.flatten() });
-    }
 
     if (!bodyParsed.success) {
       return res.status(400).json({ errors: bodyParsed.error.flatten() });
     }
 
-    const { gameId } = gameIdParsed.data;
-    const { quantity } = bodyParsed.data;
+    const { gameId, quantity, platformId } = bodyParsed.data;
 
-    const cartItem = await addToCart(user.sub, gameId, quantity);
+    const cartItem = await addToCart(user.sub, gameId, platformId, quantity);
 
     logger.info(
-      `User ${user.sub} added game ${gameId} to cart (qty: ${quantity})`
+      `User ${user.sub} added game ${gameId} (platform ${platformId}) to cart (qty: ${quantity})`
     );
     res.status(201).json(cartItem);
   } catch (error: any) {
@@ -72,10 +66,17 @@ export async function removeFromCartCtrl(
     }
 
     const { gameId } = parsed.data;
+    const platformId = Number(req.query.platformId);
 
-    const result = await removeFromCart(user.sub, gameId);
+    if (!platformId || isNaN(platformId)) {
+      return res.status(400).json({ message: "platformId es requerido" });
+    }
 
-    logger.info(`User ${user.sub} removed game ${gameId} from cart`);
+    const result = await removeFromCart(user.sub, gameId, platformId);
+
+    logger.info(
+      `User ${user.sub} removed game ${gameId} (platform ${platformId}) from cart`
+    );
     res.status(200).json(result);
   } catch (error: any) {
     if (error.code === "P2025") {
@@ -106,12 +107,17 @@ export async function updateCartQuantityCtrl(
     }
 
     const { gameId } = gameIdParsed.data;
-    const { quantity } = bodyParsed.data;
+    const { quantity, platformId } = bodyParsed.data;
 
-    const cartItem = await updateQuantity(user.sub, gameId, quantity);
+    const cartItem = await updateQuantity(
+      user.sub,
+      gameId,
+      platformId,
+      quantity
+    );
 
     logger.info(
-      `User ${user.sub} updated cart item ${gameId} quantity to ${quantity}`
+      `User ${user.sub} updated cart item ${gameId} (platform ${platformId}) quantity to ${quantity}`
     );
     res.status(200).json(cartItem);
   } catch (error: any) {
