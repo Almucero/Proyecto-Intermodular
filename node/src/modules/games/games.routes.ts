@@ -91,7 +91,12 @@ const router = Router();
  *                     isOnSale: false
  *                     isRefundable: true
  *                     numberOfSales: 15000
- *                     stock: 50
+ *                     stockPc: 50
+ *                     stockPs5: 30
+ *                     stockXboxX: 90
+ *                     stockSwitch: 0
+ *                     stockPs4: 2
+ *                     stockXboxOne: 87
  *                     videoUrl: "https://www.youtube.com/watch?v=example"
  *                     rating: 4.8
  *                     releaseDate: "2015-05-19"
@@ -161,7 +166,12 @@ router.get("/", listGamesCtrl);
  *                   isOnSale: false
  *                   isRefundable: true
  *                   numberOfSales: 15000
- *                   stock: 50
+ *                   stockPc: 50
+ *                   stockPs5: 30
+ *                   stockXboxX: 90
+ *                   stockSwitch: 0
+ *                   stockPs4: 2
+ *                   stockXboxOne: 87
  *                   videoUrl: "https://www.youtube.com/watch?v=example"
  *                   rating: 4.8
  *                   releaseDate: "2015-05-19"
@@ -235,7 +245,12 @@ router.get("/:id", getGameCtrl);
  *                 isOnSale: true
  *                 salePrice: 29.99
  *                 isRefundable: true
- *                 stock: 100
+ *                 stockPc: 12
+ *                 stockPs5: 89
+ *                 stockXboxX: 23
+ *                 stockSwitch: 902
+ *                 stockPs4: 0
+ *                 stockXboxOne: 0
  *                 videoUrl: "https://www.youtube.com/watch?v=8X2kIfS6fb8"
  *                 rating: 4.5
  *                 releaseDate: "2020-12-10"

@@ -86,7 +86,12 @@ router.get("/", listDevelopersCtrl);
  *                       isOnSale: false
  *                       isRefundable: true
  *                       numberOfSales: 15000
- *                       stock: 50
+ *                       stockPc: 50
+ *                       stockPs5: 0
+ *                       stockXboxX: 0
+ *                       stockSwitch: 267
+ *                       stockPs4: 12
+ *                       stockXboxOne: 9
  *                       videoUrl: "https://www.youtube.com/watch?v=example"
  *                       rating: 4.8
  *                       releaseDate: "2015-05-19"
@@ -168,7 +173,7 @@ router.post(
   auth,
   validate(createDeveloperSchema),
   adminOnly,
-  createDeveloperCtrl,
+  createDeveloperCtrl
 );
 
 /**
@@ -235,7 +240,7 @@ router.patch(
   auth,
   validate(updateDeveloperSchema),
   adminOnly,
-  updateDeveloperCtrl,
+  updateDeveloperCtrl
 );
 
 /**
