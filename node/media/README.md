@@ -45,13 +45,13 @@ Toda la media debe organizarse así:
 media/
 ├── gameImages/
 │   ├── [Nombre del Juego]/
-│   │   ├── cover.jpg
-│   │   ├── screenshot1.png
+│   │   ├── cover.webp
+│   │   ├── screenshot1.webp
 │   │   └── ...
 │   └── ...
 └── userImages/
     ├── [Nombre del Usuario]/
-    │   └── avatar.jpg
+    │   └── avatar.webp
     └── ...
 ```
 
@@ -70,9 +70,9 @@ media/
 
 ---
 
-## 🖼️ Formatos soportados
+## 🖼️ Formato soportado
 
-- `jpg`, `jpeg`, `png`, `gif`, `webp`
+- `webp`
 
 ---
 
@@ -85,13 +85,13 @@ Si tienes el juego:
 Coloca:
 
 ```text
-media/gameImages/God of War Ragnarök/cover.jpg
+media/gameImages/God of War Ragnarök/cover.webp
 ```
 
 Se convertirá en Cloudinary a:
 
 ```text
-gameImages/god-of-war-ragnarok/cover.jpg
+gameImages/god-of-war-ragnarok/cover.webp
 ```
 
 ---
