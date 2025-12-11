@@ -7,9 +7,10 @@ import {
   refundPurchase,
 } from "./purchases.service.js";
 import { logger } from "../../utils/logger.js";
+import { error } from "console";
 
 const checkoutSchema = z.object({
-  gameIds: z
+  cartItemIds: z
     .array(z.coerce.number().int().positive())
     .min(1, "Al menos un juego es requerido"),
 });
@@ -39,23 +40,27 @@ export async function checkoutCtrl(
     const bodyParsed = checkoutSchema.safeParse(req.body);
 
     if (!bodyParsed.success) {
-      return res.status(400).json({
-        message: "Datos de entrada inválidos",
-        errors: bodyParsed.error.issues,
-      });
+      return res.status(400).json({ errors: bodyParsed.error.flatten() });
     }
 
-    const purchase = await completePurchase(user.sub, bodyParsed.data.gameIds);
+    const { cartItemIds } = bodyParsed.data;
+
+    const purchase = await completePurchase(user.sub, cartItemIds);
+
+    logger.info(
+      `User ${user.sub} completed purchase with items: ${cartItemIds.join(
+        ", "
+      )}`
+    );
     res.status(201).json(purchase);
   } catch (error: any) {
-    if (error.message === "No se encontraron artículos en el carrito") {
+    if (
+      error.message === "Algunos artículos del carrito no fueron encontrados"
+    ) {
       return res.status(404).json({ message: error.message });
     }
-    if (error.message === "Debe proporcionar al menos un juego") {
-      return res.status(400).json({ message: error.message });
-    }
     logger.error("Error in checkoutCtrl:", error);
-    res.status(500).json({ message: "Error al procesar la compra" });
+    return res.status(400).json({ message: error.message });
   }
 }
 

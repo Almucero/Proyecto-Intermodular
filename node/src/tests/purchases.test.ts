@@ -8,6 +8,7 @@ describe("Purchases Endpoints", () => {
   let userId: number;
   let testGameId: number;
   let purchaseId: number;
+  let testPlatformId: number;
 
   const testUser = {
     email: `purchasetest${Date.now()}@example.com`,
@@ -37,9 +38,19 @@ describe("Purchases Endpoints", () => {
       console.error("beforeAll error:", err);
     }
 
-    const gamesRes = await request(app).get("/api/games");
+    const gamesRes = await request(app).get("/api/games?include=platforms");
     if (gamesRes.body && gamesRes.body.length > 0) {
-      testGameId = gamesRes.body[0].id;
+      // Find a game that has platforms
+      const gameWithPlatform = gamesRes.body.find(
+        (g: any) => g.platforms && g.platforms.length > 0
+      );
+
+      if (gameWithPlatform) {
+        testGameId = gameWithPlatform.id;
+        testPlatformId = gameWithPlatform.platforms[0].id;
+      } else {
+        console.warn("No game with platforms found in seed data");
+      }
     }
   });
 
@@ -72,15 +83,17 @@ describe("Purchases Endpoints", () => {
       return;
     }
 
-    await request(app)
-      .post(`/api/cart/${testGameId}`)
+    const cartRes = await request(app)
+      .post(`/api/cart`)
       .set("Authorization", `Bearer ${authToken}`)
-      .send({ quantity: 1 });
+      .send({ gameId: testGameId, platformId: testPlatformId, quantity: 1 });
+
+    const cartItemId = cartRes.body.id;
 
     const res = await request(app)
       .post("/api/purchases/checkout")
       .set("Authorization", `Bearer ${authToken}`)
-      .send({ gameIds: [testGameId] });
+      .send({ cartItemIds: [cartItemId] });
 
     expect(res.status).toBe(201);
     expect(res.body).toHaveProperty("id");
@@ -107,7 +120,7 @@ describe("Purchases Endpoints", () => {
     const res = await request(app)
       .post("/api/purchases/checkout")
       .set("Authorization", `Bearer ${authToken}`)
-      .send({ gameIds: [] });
+      .send({ cartItemIds: [] });
 
     expect(res.status).toBe(400);
   });
@@ -116,7 +129,7 @@ describe("Purchases Endpoints", () => {
     const res = await request(app)
       .post("/api/purchases/checkout")
       .set("Authorization", `Bearer ${authToken}`)
-      .send({ gameIds: "invalid" });
+      .send({ cartItemIds: "invalid" });
 
     expect(res.status).toBe(400);
   });
@@ -125,7 +138,7 @@ describe("Purchases Endpoints", () => {
     const res = await request(app)
       .post("/api/purchases/checkout")
       .set("Authorization", `Bearer ${authToken}`)
-      .send({ gameIds: [99999] });
+      .send({ cartItemIds: [99999] });
 
     expect(res.status).toBe(404);
   });

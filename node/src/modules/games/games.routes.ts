@@ -67,9 +67,8 @@ const router = Router();
  *         name: include
  *         schema:
  *           type: string
- *           enum: [genres, platforms, media, developer, publisher, favorites, cartitems, purchaseitems]
  *         required: false
- *         description: Relaciones a incluir en la respuesta (comma-separated). Ej. genres,platforms,media,favorites
+ *         description: "Relaciones a incluir (comma-separated). Values: genres, platforms, media, developer, publisher, favorites, cartitems, purchaseitems"
  *     responses:
  *       200:
  *         description: Lista de juegos
