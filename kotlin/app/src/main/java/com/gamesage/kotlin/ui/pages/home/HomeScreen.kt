@@ -66,8 +66,9 @@ fun HomeScreen(
                     bottom = paddingValues.calculateBottomPadding()
                 )
         ) {
+            // --- CORRECCIÓN ---
+            // Se ha eliminado la referencia a `UiState.Initial` que no existe.
             when (uiState) {
-                UiState.Initial,
                 UiState.Loading -> LoadingView()
                 UiState.Error -> ErrorView()
                 is UiState.Success -> GameStoreContent(
@@ -77,6 +78,7 @@ fun HomeScreen(
         }
     }
 }
+
 
 
 @Composable
@@ -163,8 +165,10 @@ fun GameHorizontalList(title: String, games: List<Game>) {
 
 @Composable
 fun GameCard(game: Game) {
-    val imageUrl = game.images.firstOrNull()?.url
-        ?: "https://via.placeholder.com/600x400"
+    // --- CORRECCIÓN ---
+    // La propiedad correcta es 'media', no 'images'.
+    val imageUrl = game.media?.firstOrNull()?.url
+        ?: "https://via.placeholder.com/600x400" // URL de respaldo por si no hay imagen
 
     Column(
         modifier = Modifier
@@ -173,7 +177,9 @@ fun GameCard(game: Game) {
     ) {
         AsyncImage(
             model = imageUrl,
-            contentDescription = game.images.firstOrNull()?.altText,
+            // --- CORRECCIÓN ---
+            // Usamos 'altText' de la propiedad 'media'.
+            contentDescription = game.media?.firstOrNull()?.altText,
             modifier = Modifier
                 .height(110.dp)
                 .fillMaxWidth()
@@ -190,6 +196,7 @@ fun GameCard(game: Game) {
             overflow = TextOverflow.Ellipsis
         )
 
+        // El resto del código para mostrar el precio es correcto y no necesita cambios.
         game.price?.let {
             Text(
                 text = if (game.isOnSale && game.salePrice != null)
@@ -203,4 +210,5 @@ fun GameCard(game: Game) {
         }
     }
 }
+
 
