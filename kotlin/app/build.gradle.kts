@@ -49,12 +49,12 @@ android {
 dependencies {
     implementation("androidx.compose.material:material-icons-extended:1.4.3")
 
-
     implementation(libs.androidx.compose.foundation.layout)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.room.common.jvm)
     implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     //Coil
     implementation(libs.coil.compose)

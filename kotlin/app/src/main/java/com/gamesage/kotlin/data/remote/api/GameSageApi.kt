@@ -5,6 +5,11 @@ import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
+import com.gamesage.kotlin.data.remote.model.AuthResponse
+import com.gamesage.kotlin.data.remote.model.SignInRequest
+import com.gamesage.kotlin.data.remote.model.SignUpRequest
+import retrofit2.http.Body
 
 interface GameSageApi:
     AuthApi,
@@ -15,11 +20,12 @@ interface GameSageApi:
     GenresApi,
     PlatformsApi,
     MediaApi
+
 interface AuthApi {
     @POST("/api/auth/register")
-    suspend fun register()
+    suspend fun register(@Body request: SignUpRequest): AuthResponse
     @POST("api/auth/login")
-    suspend fun login()
+    suspend fun login(@Body request: SignInRequest): AuthResponse
 }
 interface UsersApi {
     @GET("api/users")
@@ -39,11 +45,11 @@ interface UsersApi {
 }
 interface GamesApi {
     @GET("api/games")
-    suspend fun readAllGames()
+    suspend fun readAllGames(@Query("include") include: String = "media,genres,platforms"): List<com.gamesage.kotlin.data.remote.model.GameApiModel>
     @POST("api/games")
     suspend fun createGame()
     @GET("api/games/{id}")
-    suspend fun readOneGame(@Path("id") id: Int)
+    suspend fun readOneGame(@Path("id") id: Int): com.gamesage.kotlin.data.remote.model.GameApiModel
     @PATCH("api/games/{id}")
     suspend fun updateGame(@Path("id") id: Int)
     @DELETE("api/games/{id}")
@@ -75,11 +81,11 @@ interface PublishersApi {
 }
 interface GenresApi {
     @GET("api/genres")
-    suspend fun readAllGenres()
+    suspend fun readAllGenres(): List<com.gamesage.kotlin.data.remote.model.GenreApiModel>
     @POST("api/genres")
     suspend fun createGenre()
     @GET("api/genres/{id}")
-    suspend fun readOneGenre(@Path("id") id: Int)
+    suspend fun readOneGenre(@Path("id") id: Int): com.gamesage.kotlin.data.remote.model.GenreApiModel
     @PATCH("api/genres/{id}")
     suspend fun updateGenre(@Path("id") id: Int)
     @DELETE("api/genres/{id}")

@@ -45,7 +45,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class AppModule {
-    //Developers
     @Singleton
     @Binds
     @RemoteDataSource
@@ -58,7 +57,6 @@ abstract class AppModule {
     @Singleton
     abstract fun bindDeveloperRepository(repository: DeveloperRepositoryImpl): DeveloperRepository
 
-    //Games
     @Singleton
     @Binds
     @RemoteDataSource
@@ -71,7 +69,6 @@ abstract class AppModule {
     @Singleton
     abstract fun bindGameRepository(repository: GameRepositoryImpl): GameRepository
 
-    //Genres
     @Singleton
     @Binds
     @RemoteDataSource
@@ -84,7 +81,6 @@ abstract class AppModule {
     @Singleton
     abstract fun bindGenreRepository(repository: GenreRepositoryImpl): GenreRepository
 
-    //Media
     @Singleton
     @Binds
     @RemoteDataSource
@@ -97,7 +93,6 @@ abstract class AppModule {
     @Singleton
     abstract fun bindMediaRepository(repository: MediaRepositoryImpl): MediaRepository
 
-    //Platforms
     @Singleton
     @Binds
     @RemoteDataSource
@@ -110,7 +105,6 @@ abstract class AppModule {
     @Singleton
     abstract fun bindPlatformRepository(repository: PlatformRepositoryImpl): PlatformRepository
 
-    //Publishers
     @Singleton
     @Binds
     @RemoteDataSource
@@ -123,7 +117,6 @@ abstract class AppModule {
     @Singleton
     abstract fun bindPublisherRepository(repository: PublisherRepositoryImpl): PublisherRepository
 
-    //Users
     @Singleton
     @Binds
     @RemoteDataSource

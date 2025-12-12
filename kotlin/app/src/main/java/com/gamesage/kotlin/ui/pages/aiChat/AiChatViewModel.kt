@@ -13,7 +13,6 @@ import javax.inject.Inject
 @HiltViewModel
 class AiChatViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val repository: GameSageRepository
 ): ViewModel() {
     private val _uiState: MutableStateFlow<UiState > =
         MutableStateFlow(value = UiState.Initial)
