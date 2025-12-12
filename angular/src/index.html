@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -9,6 +9,23 @@
     <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico" />
   </head>
   <body>
-    <app-root></app-root>
+    <app-root>
+      <style>
+        html,
+        body {
+          height: 100%;
+        }
+        body {
+          color: #64e7f9;
+          display: grid;
+          place-items: center;
+          text-align: center;
+        }
+      </style>
+      <section>
+        <img src="assets/branding/game_sage_logo.png" />
+        <h1>GameSage</h1>
+      </section>
+    </app-root>
   </body>
 </html>
