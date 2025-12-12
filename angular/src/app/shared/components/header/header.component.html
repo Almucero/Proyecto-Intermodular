@@ -119,9 +119,9 @@
   </div>
 </header>
 <div
+  *ngIf="isMenuOpen"
   #menu
   class="fixed top-0 left-0 h-full w-64 border-gray-800 bg-gray-950 text-white transform transition-transform duration-300 z-[2000] -translate-x-full select-none"
-  [class.-translate-x-full]="!isMenuOpen"
   [class.translate-x-0]="isMenuOpen"
 >
   <div class="p-6">
