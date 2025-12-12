@@ -26,5 +26,9 @@ export const env = {
     process.env.CLOUDINARY_API_SECRET,
     "CLOUDINARY_API_SECRET"
   ),
+  GOOGLE_GENERATIVE_AI_API_KEY: required(
+    process.env.GOOGLE_GENERATIVE_AI_API_KEY,
+    "GOOGLE_GENERATIVE_AI_API_KEY"
+  ),
   ADMIN_EMAILS: process.env.ADMIN_EMAILS ?? "",
 };

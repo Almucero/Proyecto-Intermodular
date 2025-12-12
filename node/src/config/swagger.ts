@@ -1085,6 +1085,10 @@ const options: swaggerJsdoc.Options = {
         name: "Purchases",
         description: "Gestión de compras y reembolsos",
       },
+      {
+        name: "Chat",
+        description: "Interacción con IA (Gemini)",
+      },
     ],
   },
   apis: [
