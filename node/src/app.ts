@@ -19,6 +19,7 @@ import mediaRoutes from "./modules/media/media.routes.js";
 import favoritesRoutes from "./modules/favorites/favorites.routes.js";
 import cartRoutes from "./modules/cart/cart.routes.js";
 import purchasesRoutes from "./modules/purchases/purchases.routes.js";
+import chatRoutes from "./modules/chat/chat.routes.js";
 
 const app = express();
 
@@ -97,6 +98,7 @@ app.use("/api/media", mediaRoutes);
 app.use("/api/favorites", favoritesRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/purchases", purchasesRoutes);
+app.use("/api/chat", chatRoutes);
 
 app.use(errorHandler);
 
