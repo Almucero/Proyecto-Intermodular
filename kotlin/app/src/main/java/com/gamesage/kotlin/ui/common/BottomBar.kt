@@ -22,14 +22,14 @@ fun HomeBottomBar(
     onCartClick: () -> Unit = {},
     onFavoritesClick: () -> Unit = {},
     onProfileClick: () -> Unit = {},
-    onAiChatClick: () -> Unit = {}
+    onAiChatClick: () -> Unit = {},
+    onMenuClick: () -> Unit = {}
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .background(Color(0xFF030712))
-            .padding(vertical = 10.dp, horizontal = 24.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
+            .padding(vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
@@ -37,6 +37,7 @@ fun HomeBottomBar(
             contentDescription = "AIChat",
             tint = Color.White,
             modifier = Modifier
+                .weight(1f)
                 .size(32.dp)
                 .clickable { onAiChatClick() }
         )
@@ -45,14 +46,25 @@ fun HomeBottomBar(
             contentDescription = "Cesta",
             tint = Color.White,
             modifier = Modifier
+                .weight(1f)
                 .size(32.dp)
                 .clickable { onCartClick() }
+        )
+        Icon(
+            painter = painterResource(id = R.drawable.menu),
+            contentDescription = "Menu",
+            tint = Color.White,
+            modifier = Modifier
+                .weight(1f)
+                .size(36.dp)
+                .clickable { onMenuClick() }
         )
         Icon(
             painter = painterResource(id = R.drawable.favourites),
             contentDescription = "Favoritos",
             tint = Color.White,
             modifier = Modifier
+                .weight(1f)
                 .size(32.dp)
                 .clickable { onFavoritesClick() }
         )
@@ -61,6 +73,7 @@ fun HomeBottomBar(
             contentDescription = "Perfil",
             tint = Color.White,
             modifier = Modifier
+                .weight(1f)
                 .size(32.dp)
                 .clickable { onProfileClick() }
         )

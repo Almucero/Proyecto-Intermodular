@@ -11,7 +11,12 @@ data class Game(
     val salePrice: Double?,
     val isRefundable: Boolean,
     val numberOfSales: Int,
-    val stock: Int?,
+    val stockPc: Int?,
+    val stockPs5: Int?,
+    val stockXboxX: Int?,
+    val stockSwitch: Int?,
+    val stockPs4: Int?,
+    val stockXboxOne: Int?,
     val videoUrl: String?,
     val rating: Float?,
     val releaseDate: LocalDateTime?,
@@ -25,3 +30,4 @@ data class Game(
     val Publisher: Publisher?,
     val Developer: Developer?
 )
+
