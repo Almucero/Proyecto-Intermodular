@@ -47,58 +47,45 @@ android {
 }
 
 dependencies {
+    implementation("androidx.compose.material:material-icons-extended:1.4.3")
+
+    implementation(libs.androidx.compose.foundation.layout)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.room.common.jvm)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
-
-    // --- TESTING ---
-    testImplementation("junit:junit:4.13.2")
-    // --- LIBRERÍAS PRINCIPALES DE ANDROIDX ---
-    // Usando versiones estables y probadas
-    implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.3")
-    implementation("androidx.activity:activity-compose:1.9.0")
-
-    // --- COMPOSE (BOM para alinear versiones) ---
-    // Se declara UNA SOLA VEZ para gobernar las versiones de Compose.
-    // Usando una BOM estable y reciente.
-    implementation(platform("androidx.compose:compose-bom:2024.06.00"))
-
-    // Dependencias de Compose SIN especificar versión. La BOM se encarga.
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.compose.foundation:foundation-layout")
-    implementation("androidx.compose.ui:ui-text-google-fonts")
-
-    // --- NAVEGACIÓN Y VIEWMODEL ---
-    implementation("androidx.navigation:navigation-compose:2.7.7")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.3")
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
-
-    // --- HILT (Inyección de Dependencias) ---
-    // Usando una versión de Hilt muy estable y ampliamente compatible.
-    implementation("com.google.dagger:hilt-android:2.51.1")
-    ksp("com.google.dagger:hilt-compiler:2.51.1")
-
-    // --- ROOM (Base de Datos) ---
-    implementation("androidx.room:room-ktx:2.6.1")
-    ksp("androidx.room:room-compiler:2.6.1")
-
-    // --- COIL (Carga de Imágenes) ---
-    // Usando la versión 2, que es la estable y recomendada.
-    implementation("io.coil-kt:coil-compose:2.6.0")
-
-    // --- RETROFIT (Red) ---
-    // Usando la versión 2.x, la más estable y usada.
-    implementation("com.squareup.retrofit2:retrofit:2.11.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
-
-    // --- SERIALIZACIÓN (si la usas con Retrofit en lugar de Gson) ---
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
-
-    // --- TESTING ---
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2024.06.00"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
+    //Coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+    //Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    //Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+    // View Model
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    // Navigation
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
+    //Others
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.ui.text.google.fonts)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
 }

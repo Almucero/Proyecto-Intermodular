@@ -1,7 +1,9 @@
 package com.gamesage.kotlin.ui.pages.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,6 +18,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -25,6 +28,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,6 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.gamesage.kotlin.data.model.Game
 import com.gamesage.kotlin.ui.common.HomeBottomBar
@@ -45,40 +52,25 @@ import com.gamesage.kotlin.ui.common.TopBar
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    viewModel: HomeScreenViewModel = hiltViewModel()
+    viewModel: HomeScreenViewModel = hiltViewModel(),
+    onGameClick: (Long) -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
-    Scaffold(
-        modifier = modifier
-            .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = { TopBar(scrollBehavior) },
-        bottomBar = { HomeBottomBar() },
-        containerColor = Color(0xFF111827)
-    ) { paddingValues ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(
-                    top = paddingValues.calculateTopPadding(),
-                    bottom = paddingValues.calculateBottomPadding()
-                )
-        ) {
-            // --- CORRECCIÓN ---
-            // Se ha eliminado la referencia a `UiState.Initial` que no existe.
-            when (uiState) {
-                UiState.Loading -> LoadingView()
-                UiState.Error -> ErrorView()
-                is UiState.Success -> GameStoreContent(
-                    state = uiState as UiState.Success
-                )
-            }
+    Box(
+        modifier = modifier.fillMaxSize()
+    ) {
+        when (uiState) {
+            UiState.Initial,
+            UiState.Loading -> LoadingView()
+            UiState.Error -> ErrorView(onRetry = { viewModel.retry() })
+            is UiState.Success -> GameStoreContent(
+                state = uiState as UiState.Success,
+                onGameClick = onGameClick
+            )
         }
     }
 }
-
 
 
 @Composable
@@ -92,17 +84,24 @@ fun LoadingView() {
 }
 
 @Composable
-fun ErrorView() {
+fun ErrorView(onRetry: () -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text("Ocurrió un error", color = Color.White)
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text("Ocurrió un error al cargar los datos", color = Color.White)
+            Spacer(Modifier.height(16.dp))
+            androidx.compose.material3.Button(onClick = onRetry) {
+                Text("Reintentar")
+            }
+        }
     }
 }
 
+
 @Composable
-fun GameStoreContent(state: UiState.Success) {
+fun GameStoreContent(state: UiState.Success, onGameClick: (Long) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -113,9 +112,9 @@ fun GameStoreContent(state: UiState.Success) {
         CategorySection(state.categories)
         Spacer(Modifier.height(12.dp))
 
-        GameHorizontalList("Más vendidos", state.bestSellers)
-        GameHorizontalList("Ofertas", state.offers)
-        GameHorizontalList("Mejor valorados", state.topRated)
+        GameHorizontalList("Más vendidos", state.bestSellers, onGameClick)
+        GameHorizontalList("Ofertas", state.offers, onGameClick)
+        GameHorizontalList("Mejor valorados", state.topRated, onGameClick)
     }
 }
 
@@ -141,7 +140,7 @@ fun CategorySection(categories: List<String>) {
 }
 
 @Composable
-fun GameHorizontalList(title: String, games: List<Game>) {
+fun GameHorizontalList(title: String, games: List<Game>, onGameClick: (Long) -> Unit) {
     Column(modifier = Modifier.padding(top = 20.dp)) {
 
         Text(
@@ -153,39 +152,53 @@ fun GameHorizontalList(title: String, games: List<Game>) {
 
         Spacer(Modifier.height(8.dp))
 
-        LazyRow(
-            contentPadding = PaddingValues(horizontal = 16.dp)
-        ) {
-            items(games.size) { index ->
-                GameCard(games[index])
+        if (games.isEmpty()) {
+            Text(
+                text = "No hay juegos disponibles",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+        } else {
+            LazyRow(
+                contentPadding = PaddingValues(horizontal = 16.dp)
+            ) {
+                items(games.size) { index ->
+                    GameCard(games[index], onGameClick)
+                }
             }
         }
     }
 }
 
 @Composable
-fun GameCard(game: Game) {
-    // --- CORRECCIÓN ---
-    // La propiedad correcta es 'media', no 'images'.
+fun GameCard(game: Game, onGameClick: (Long) -> Unit) {
     val imageUrl = game.media?.firstOrNull()?.url
-        ?: "https://via.placeholder.com/600x400" // URL de respaldo por si no hay imagen
+        ?: "https://via.placeholder.com/600x400"
 
     Column(
         modifier = Modifier
             .padding(end = 16.dp)
             .width(150.dp)
+            .clickable { onGameClick(game.id.toLong()) }
     ) {
-        AsyncImage(
-            model = imageUrl,
-            // --- CORRECCIÓN ---
-            // Usamos 'altText' de la propiedad 'media'.
-            contentDescription = game.media?.firstOrNull()?.altText,
+        Box(
             modifier = Modifier
                 .height(110.dp)
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(12.dp)),
-            contentScale = ContentScale.Crop
-        )
+                .clip(RoundedCornerShape(12.dp))
+                .background(Color(0xFF1F2937)),
+            contentAlignment = Alignment.Center
+        ) {
+            AsyncImage(
+                model = imageUrl,
+                contentDescription = game.media?.firstOrNull()?.altText,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop,
+                error = androidx.compose.ui.graphics.painter.ColorPainter(Color(0xFF374151)),
+                placeholder = androidx.compose.ui.graphics.painter.ColorPainter(Color(0xFF1F2937))
+            )
+        }
 
         Spacer(Modifier.height(6.dp))
 
@@ -196,7 +209,6 @@ fun GameCard(game: Game) {
             overflow = TextOverflow.Ellipsis
         )
 
-        // El resto del código para mostrar el precio es correcto y no necesita cambios.
         game.price?.let {
             Text(
                 text = if (game.isOnSale && game.salePrice != null)
@@ -210,5 +222,4 @@ fun GameCard(game: Game) {
         }
     }
 }
-
 
