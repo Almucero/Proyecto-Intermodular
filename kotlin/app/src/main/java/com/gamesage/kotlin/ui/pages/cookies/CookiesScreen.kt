@@ -9,6 +9,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.gamesage.kotlin.R
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -32,7 +34,7 @@ fun CookiesScreen(
                 .padding(16.dp)
         ) {
             Text(
-                text = "Política de Cookies",
+                text = stringResource(R.string.cookies_title),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF93E3FE),
@@ -40,54 +42,54 @@ fun CookiesScreen(
             )
             
             Text(
-                text = "Última actualización: Diciembre 2024",
+                text = stringResource(R.string.cookies_update),
                 fontSize = 14.sp,
                 color = Color(0xFF9CA3AF),
                 modifier = Modifier.padding(bottom = 24.dp)
             )
 
             InfoBox(
-                text = "En GameSage utilizamos cookies para mejorar tu experiencia de navegación, personalizar contenido y anuncios, proporcionar funciones de redes sociales y analizar nuestro tráfico."
+                text = stringResource(R.string.cookies_intro)
             )
             
             Spacer(modifier = Modifier.height(24.dp))
 
-            SectionTitle("1. ¿Qué son las cookies?")
-            SectionText("Las cookies son pequeños archivos de texto que se almacenan en tu dispositivo cuando visitas un sitio web. Nos ayudan a recordar tus preferencias y mejorar tu experiencia.")
+            SectionTitle(stringResource(R.string.cookies_section1_title))
+            SectionText(stringResource(R.string.cookies_section1_text))
             
             Spacer(modifier = Modifier.height(20.dp))
 
-            SectionTitle("2. Tipos de cookies que utilizamos")
+            SectionTitle(stringResource(R.string.cookies_section2_title))
             
             CookieTypeCard(
-                title = "Cookies Esenciales",
-                description = "Necesarias para el funcionamiento básico del sitio web."
+                title = stringResource(R.string.cookies_type_essential_title),
+                description = stringResource(R.string.cookies_type_essential_desc)
             )
             
             CookieTypeCard(
-                title = "Cookies de Preferencias",
-                description = "Recuerdan tus preferencias como idioma y configuración."
+                title = stringResource(R.string.cookies_type_pref_title),
+                description = stringResource(R.string.cookies_type_pref_desc)
             )
             
             CookieTypeCard(
-                title = "Cookies Analíticas",
-                description = "Nos ayudan a entender cómo usas el sitio para mejorarlo."
+                title = stringResource(R.string.cookies_type_analytics_title),
+                description = stringResource(R.string.cookies_type_analytics_desc)
             )
             
             CookieTypeCard(
-                title = "Cookies de Marketing",
-                description = "Personalizan anuncios según tus intereses."
+                title = stringResource(R.string.cookies_type_marketing_title),
+                description = stringResource(R.string.cookies_type_marketing_desc)
             )
             
             Spacer(modifier = Modifier.height(20.dp))
 
-            SectionTitle("3. Cómo gestionar las cookies")
-            SectionText("Puedes configurar tu navegador para rechazar cookies, pero esto puede afectar la funcionalidad del sitio.")
+            SectionTitle(stringResource(R.string.cookies_section3_title))
+            SectionText(stringResource(R.string.cookies_section3_text))
             
             Spacer(modifier = Modifier.height(20.dp))
 
-            SectionTitle("4. Más información")
-            SectionText("Para más información sobre nuestra política de cookies, contáctanos en info.gamesage@gmail.com")
+            SectionTitle(stringResource(R.string.cookies_section4_title))
+            SectionText(stringResource(R.string.cookies_section4_text))
         }
     }
 }

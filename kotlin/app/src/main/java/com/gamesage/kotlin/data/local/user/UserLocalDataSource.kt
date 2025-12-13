@@ -22,4 +22,8 @@ class UserLocalDataSource @Inject constructor(
     override suspend fun readOne(id: Long): Result<User> {
         TODO("Not yet implemented")
     }
+
+    override suspend fun me(): Result<User> {
+         TODO("Not yet implemented")
+    }
 }

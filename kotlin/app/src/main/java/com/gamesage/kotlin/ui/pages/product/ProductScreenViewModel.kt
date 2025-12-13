@@ -3,7 +3,10 @@ package com.gamesage.kotlin.ui.pages.product
 import com.gamesage.kotlin.R
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gamesage.kotlin.data.local.TokenManager
+import kotlinx.coroutines.flow.firstOrNull
 import com.gamesage.kotlin.data.model.Game
+import com.gamesage.kotlin.data.repository.cart.CartRepository
 import com.gamesage.kotlin.data.repository.game.GameRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +24,8 @@ sealed class ProductUiState {
         val currentMediaIndex: Int = 0,
         val showAuthModal: Boolean = false,
         val addedToCartSuccess: Boolean = false,
-        val addedToFavoritesSuccess: Boolean = false
+        val addedToFavoritesSuccess: Boolean = false,
+        val error: String? = null
     ) : ProductUiState()
     object Error : ProductUiState()
 }
@@ -39,7 +43,10 @@ enum class MediaType {
 
 @HiltViewModel
 class ProductScreenViewModel @Inject constructor(
-    private val gameRepository: GameRepository
+    private val gameRepository: GameRepository,
+    private val cartRepository: CartRepository,
+    private val favoritesRepository: com.gamesage.kotlin.data.repository.favorites.FavoritesRepository,
+    private val tokenManager: TokenManager
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<ProductUiState>(ProductUiState.Initial)
@@ -184,36 +191,109 @@ class ProductScreenViewModel @Inject constructor(
     fun addToCart() {
         val currentState = _uiState.value
         if (currentState is ProductUiState.Success) {
-            // TODO: Implement when CartItemRepository is available
-            _uiState.value = currentState.copy(addedToCartSuccess = true)
             viewModelScope.launch {
-                kotlinx.coroutines.delay(2000)
-                val state = _uiState.value
-                if (state is ProductUiState.Success) {
-                    _uiState.value = state.copy(addedToCartSuccess = false)
+                val token = tokenManager.token.firstOrNull()
+                if (token.isNullOrBlank()) {
+                    _uiState.value = currentState.copy(showAuthModal = true)
+                    return@launch
                 }
+
+                if (currentState.selectedPlatform == null) {
+                     _uiState.value = currentState.copy(error = "Selecciona una plataforma")
+                     kotlinx.coroutines.delay(2000)
+                     val state = _uiState.value
+                     if (state is ProductUiState.Success) {
+                         _uiState.value = state.copy(error = null)
+                     }
+                     return@launch
+                }
+
+                val platform = currentState.game.platforms?.find { it.name == currentState.selectedPlatform }
+                val platformId = platform?.id
+
+                if (platformId == null) {
+                    _uiState.value = currentState.copy(error = "Error: Plataforma no encontrada")
+                    return@launch
+                }
+
+                cartRepository.addToCart(currentState.game.id, platformId, 1).fold(
+                    onSuccess = {
+                        _uiState.value = currentState.copy(addedToCartSuccess = true, error = null)
+                        kotlinx.coroutines.delay(2000)
+                        val state = _uiState.value
+                        if (state is ProductUiState.Success) {
+                            _uiState.value = state.copy(addedToCartSuccess = false)
+                        }
+                    },
+                    onFailure = { e ->
+                        e.printStackTrace()
+                        _uiState.value = currentState.copy(error = "Error al añadir al carrito: ${e.message}")
+                        kotlinx.coroutines.delay(3000)
+                        val state = _uiState.value
+                        if (state is ProductUiState.Success) {
+                            _uiState.value = state.copy(error = null)
+                        }
+                    }
+                )
             }
+        }
+    }
+
+    fun clearError() {
+         val currentState = _uiState.value
+        if (currentState is ProductUiState.Success) {
+            _uiState.value = currentState.copy(error = null)
         }
     }
 
     fun addToFavorites() {
         val currentState = _uiState.value
         if (currentState is ProductUiState.Success) {
-            // TODO: Implement when FavoriteRepository is available
-            _uiState.value = currentState.copy(addedToFavoritesSuccess = true)
             viewModelScope.launch {
-                kotlinx.coroutines.delay(2000)
-                val state = _uiState.value
-                if (state is ProductUiState.Success) {
-                    _uiState.value = state.copy(addedToFavoritesSuccess = false)
+                val token = tokenManager.token.firstOrNull()
+                if (token.isNullOrBlank()) {
+                    _uiState.value = currentState.copy(showAuthModal = true)
+                    return@launch
                 }
+
+                if (currentState.selectedPlatform == null) {
+                    _uiState.value = currentState.copy(error = "Selecciona una plataforma")
+                     kotlinx.coroutines.delay(2000)
+                     val state = _uiState.value
+                     if (state is ProductUiState.Success) {
+                         _uiState.value = state.copy(error = null)
+                     }
+                    return@launch
+                }
+                
+                val platform = currentState.game.platforms?.find { it.name == currentState.selectedPlatform }
+                val platformId = platform?.id ?: return@launch
+
+                favoritesRepository.addToFavorites(currentState.game.id, platformId).fold(
+                    onSuccess = {
+                        _uiState.value = currentState.copy(addedToFavoritesSuccess = true)
+                        kotlinx.coroutines.delay(2000)
+                        val state = _uiState.value
+                         if (state is ProductUiState.Success) {
+                            _uiState.value = state.copy(addedToFavoritesSuccess = false)
+                        }
+                    },
+                    onFailure = { e ->
+                        _uiState.value = currentState.copy(error = "Error al añadir a favoritos: ${e.message}")
+                         kotlinx.coroutines.delay(2000)
+                         val state = _uiState.value
+                         if (state is ProductUiState.Success) {
+                             _uiState.value = state.copy(error = null)
+                         }
+                    }
+                )
             }
         }
     }
 
     fun buyNow() {
+        // For buy now we also add to cart then navigate (navigation handled in UI)
         addToCart()
-        // TODO: Navigate to checkout when navigation is implemented
     }
 
     fun showAuthModal(show: Boolean) {

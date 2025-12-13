@@ -27,12 +27,18 @@ import com.gamesage.kotlin.ui.common.TopBar
 import com.gamesage.kotlin.ui.common.HomeBottomBar
 import kotlinx.coroutines.launch
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
+import com.gamesage.kotlin.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NavGraph() {
+fun NavGraph(
+    startDestination: String = Destinations.Home.route,
+    tokenManager: com.gamesage.kotlin.data.local.TokenManager
+) {
     val navController: NavHostController = rememberNavController()
-    val startDestination = Destinations.Home.route
+    val token by tokenManager.token.collectAsState(initial = null)
+    
     val backStackEntry by navController.currentBackStackEntryAsState()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
@@ -74,7 +80,21 @@ fun NavGraph() {
         bottomBar = {
             HomeBottomBar(
                 onMenuClick = { showBottomSheet = true },
-                onProfileClick = { navController.navigate(Destinations.Login.route) }
+                onCartClick = { navController.navigate(Destinations.Cart.route) },
+                onFavoritesClick = { 
+                     if (token != null) {
+                         navController.navigate(Destinations.Favorites.route) 
+                     } else {
+                         navController.navigate(Destinations.Login.route)
+                     }
+                },
+                onProfileClick = { 
+                    if (token != null) {
+                        navController.navigate(Destinations.Dashboard.route)
+                    } else {
+                        navController.navigate(Destinations.Login.route)
+                    }
+                }
             )
         },
         containerColor = Color(0xFF111827)
@@ -88,6 +108,9 @@ fun NavGraph() {
                 HomeScreen(
                     onGameClick = { gameId ->
                         navController.navigate("product/$gameId")
+                    },
+                    onGenreClick = { genre ->
+                        navController.navigate(Destinations.Search.createRoute(genre = genre))
                     }
                 )
             }
@@ -103,6 +126,9 @@ fun NavGraph() {
                     gameId = gameId,
                     onNavigateBack = {
                         navController.popBackStack()
+                    },
+                    onNavigateToLogin = {
+                        navController.navigate(Destinations.Login.route)
                     }
                 )
             }
@@ -138,6 +164,11 @@ fun NavGraph() {
                         type = NavType.StringType
                         defaultValue = ""
                         nullable = true
+                    },
+                    navArgument("genre") { 
+                        type = NavType.StringType
+                        defaultValue = ""
+                        nullable = true
                     }
                 )
             ) { backStackEntry ->
@@ -160,7 +191,7 @@ fun NavGraph() {
                 com.gamesage.kotlin.ui.pages.login.LoginScreen(
                     onNavigateToRegister = { navController.navigate(Destinations.Register.route) },
                     onLoginSuccess = {
-                         navController.navigate(Destinations.Home.route) {
+                         navController.navigate(Destinations.Dashboard.route) {
                              popUpTo(Destinations.Login.route) { inclusive = true }
                          }
                     }
@@ -171,6 +202,31 @@ fun NavGraph() {
                 com.gamesage.kotlin.ui.pages.register.RegisterScreen(
                     onNavigateToLogin = { navController.navigate(Destinations.Login.route) },
                     onNavigateBack = { navController.popBackStack() }
+                )
+            }
+
+            composable(Destinations.Dashboard.route) {
+                com.gamesage.kotlin.ui.pages.dashboard.DashboardScreen(
+                    onLogout = {
+                        navController.navigate(Destinations.Login.route) {
+                            popUpTo(Destinations.Home.route) { inclusive = true }
+                        }
+                    }
+                )
+            }
+
+            composable(Destinations.Cart.route) {
+                com.gamesage.kotlin.ui.pages.cart.CartScreen(
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+
+            composable(Destinations.Favorites.route) {
+                com.gamesage.kotlin.ui.pages.favorites.FavoritesScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onGameClick = { gameId ->
+                        navController.navigate("product/$gameId")
+                    }
                 )
             }
         }
@@ -189,7 +245,8 @@ fun NavGraph() {
                         sheetState.hide()
                         showBottomSheet = false
                     }
-                }
+                },
+                onClearSearch = { searchQuery = "" }
             )
         }
     }
@@ -198,7 +255,8 @@ fun NavGraph() {
 @Composable
 fun MenuBottomSheetContent(
     navController: NavHostController,
-    onCloseMenu: () -> Unit
+    onCloseMenu: () -> Unit,
+    onClearSearch: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -213,7 +271,7 @@ fun MenuBottomSheetContent(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "Menú",
+                text = stringResource(R.string.menu_title),
                 color = Color(0xFF93E3FE),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
@@ -229,25 +287,26 @@ fun MenuBottomSheetContent(
 
             MenuItemRow(
                 icon = Icons.Default.Search,
-                text = "Explorar",
+                text = stringResource(R.string.menu_explore),
                 onClick = {
-                    navController.navigate(Destinations.Search.route)
+                    onClearSearch()
+                    navController.navigate(Destinations.Search.createRoute())
                     onCloseMenu()
                 }
             )
             MenuItemRow(
                 icon = Icons.Default.Settings,
-                text = "Ajustes",
+                text = stringResource(R.string.menu_settings),
                 onClick = { /* TODO */ }
             )
             MenuItemRow(
                 icon = Icons.Default.Info,
-                text = "Ayuda",
+                text = stringResource(R.string.menu_help),
                 onClick = { /* TODO */ }
             )
             MenuItemRow(
                 icon = Icons.Default.Person,
-                text = "Contacto",
+                text = stringResource(R.string.menu_contact),
                 onClick = {
                     navController.navigate(Destinations.Contact.route)
                     onCloseMenu()
@@ -255,7 +314,7 @@ fun MenuBottomSheetContent(
             )
             MenuItemRow(
                 icon = Icons.Default.Lock,
-                text = "Políticas de privacidad",
+                text = stringResource(R.string.menu_privacy),
                 onClick = {
                     navController.navigate(Destinations.Privacy.route)
                     onCloseMenu()
@@ -263,7 +322,7 @@ fun MenuBottomSheetContent(
             )
             MenuItemRow(
                 icon = Icons.Default.List,
-                text = "Términos y condiciones",
+                text = stringResource(R.string.menu_terms),
                 onClick = {
                     navController.navigate(Destinations.Terms.route)
                     onCloseMenu()
@@ -271,7 +330,7 @@ fun MenuBottomSheetContent(
             )
             MenuItemRow(
                 icon = Icons.Default.Star,
-                text = "Configuración de cookies",
+                text = stringResource(R.string.menu_cookies),
                 onClick = {
                     navController.navigate(Destinations.Cookies.route)
                     onCloseMenu()
@@ -280,7 +339,13 @@ fun MenuBottomSheetContent(
         }
 
         Divider(color = Color(0xFF4A4A4A), thickness = 1.dp)
-        HomeBottomBar(onMenuClick = onCloseMenu)
+        HomeBottomBar(
+            onMenuClick = onCloseMenu,
+            onCartClick = {
+                navController.navigate(Destinations.Cart.route)
+                onCloseMenu()
+            }
+        )
     }
 }
 

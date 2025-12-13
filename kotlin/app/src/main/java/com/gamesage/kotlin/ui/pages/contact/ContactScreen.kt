@@ -12,6 +12,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.gamesage.kotlin.R
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,7 +45,7 @@ fun ContactScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Contacto",
+                text = stringResource(R.string.contact_title),
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF93E3FE),
@@ -51,7 +53,7 @@ fun ContactScreen(
             )
             
             Text(
-                text = "¿Tienes alguna pregunta o necesitas ayuda? Estamos aquí para ti.",
+                text = stringResource(R.string.contact_subtitle),
                 fontSize = 16.sp,
                 color = Color(0xFFD1D5DB),
                 textAlign = TextAlign.Center,
@@ -62,7 +64,7 @@ fun ContactScreen(
 
             ContactCard(
                 icon = Icons.Default.Email,
-                title = "Email",
+                title = stringResource(R.string.contact_email_title),
                 content = "info.gamesage@gmail.com",
                 onClick = {
                     try {
@@ -80,7 +82,7 @@ fun ContactScreen(
 
             ContactCard(
                 icon = Icons.Default.Phone,
-                title = "Teléfono",
+                title = stringResource(R.string.contact_phone_title),
                 content = "+34 123 456 789",
                 onClick = null
             )
@@ -89,8 +91,8 @@ fun ContactScreen(
 
             ContactCard(
                 icon = Icons.Default.LocationOn,
-                title = "Dirección",
-                content = "Calle Ejemplo, 123\n28001 Madrid, España",
+                title = stringResource(R.string.contact_address_title),
+                content = stringResource(R.string.contact_address_content),
                 onClick = null
             )
         }
