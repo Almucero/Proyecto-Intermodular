@@ -8,4 +8,5 @@ interface UserDataSource {
     fun observe(): Flow<Result<List<User>>>
     suspend fun readAll(): Result<List<User>>
     suspend fun readOne(id: Long): Result<User>
+    suspend fun me(): Result<User>
 }

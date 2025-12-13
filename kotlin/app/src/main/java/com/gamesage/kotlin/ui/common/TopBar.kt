@@ -22,7 +22,13 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -62,7 +68,7 @@ fun TopBar(
         Box(
             modifier = Modifier
                 .height(40.dp)
-                .width(220.dp)
+                .width(200.dp) // Adjusted width to fit cart icon
                 .clip(RoundedCornerShape(20.dp))
                 .background(Color(0xFF1F2937))
                 .align(Alignment.Center),
@@ -112,16 +118,5 @@ fun TopBar(
                 )
             }
         }
-
-        // Icono de idiomas a la derecha
-        Icon(
-            painter = painterResource(id = R.drawable.espana),
-            contentDescription = "Idioma",
-            tint = Color.White,
-            modifier = Modifier
-                .size(28.dp)
-                .align(Alignment.CenterEnd)
-                .clickable { onLanguageClick() }
-        )
     }
 }

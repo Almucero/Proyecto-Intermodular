@@ -15,5 +15,11 @@ data class UserApiModel(
     val role: String? = null,
     val balance: Double? = null,
     val points: Int? = null,
-    val isAdmin: Boolean = false
+    val isAdmin: Boolean = false,
+    val addressLine1: String? = null,
+    val addressLine2: String? = null,
+    val city: String? = null,
+    val region: String? = null,
+    val postalCode: String? = null,
+    val country: String? = null
 )

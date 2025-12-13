@@ -17,6 +17,10 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun readOne(id: Long): Result<User> {
         return remoteDataSource.readOne(id)
     }
+
+    override suspend fun me(): Result<User> {
+        return remoteDataSource.me()
+    }
     override suspend fun readAll(): Result<List<User>> {
         return remoteDataSource.readAll()
     }

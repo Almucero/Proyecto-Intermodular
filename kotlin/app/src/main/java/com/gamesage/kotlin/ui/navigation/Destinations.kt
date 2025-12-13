@@ -15,9 +15,12 @@ sealed class Destinations(val route: String) {
     }
     
     @Serializable
-    data object Search: Destinations("search?query={query}") {
-        fun createRoute(query: String = ""): String {
-            return if (query.isNotEmpty()) "search?query=$query" else "search"
+    data object Search: Destinations("search?query={query}&genre={genre}") {
+        fun createRoute(query: String = "", genre: String = ""): String {
+            val params = mutableListOf<String>()
+            if (query.isNotEmpty()) params.add("query=$query")
+            if (genre.isNotEmpty()) params.add("genre=$genre")
+            return if (params.isNotEmpty()) "search?${params.joinToString("&")}" else "search"
         }
     }
     
@@ -38,4 +41,13 @@ sealed class Destinations(val route: String) {
 
     @Serializable
     data object Privacy: Destinations("privacy")
+
+    @Serializable
+    data object Dashboard: Destinations("dashboard")
+
+    @Serializable
+    data object Cart: Destinations("cart")
+
+    @Serializable
+    data object Favorites: Destinations("favorites")
 }

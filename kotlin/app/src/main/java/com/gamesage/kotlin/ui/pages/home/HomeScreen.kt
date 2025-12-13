@@ -48,12 +48,14 @@ import com.gamesage.kotlin.ui.common.HomeBottomBar
 import com.gamesage.kotlin.ui.common.TopBar
 
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeScreenViewModel = hiltViewModel(),
-    onGameClick: (Long) -> Unit = {}
+    onGameClick: (Long) -> Unit = {},
+    onGenreClick: (String) -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -66,7 +68,8 @@ fun HomeScreen(
             UiState.Error -> ErrorView(onRetry = { viewModel.retry() })
             is UiState.Success -> GameStoreContent(
                 state = uiState as UiState.Success,
-                onGameClick = onGameClick
+                onGameClick = onGameClick,
+                onGenreClick = onGenreClick
             )
         }
     }
@@ -101,7 +104,7 @@ fun ErrorView(onRetry: () -> Unit) {
 
 
 @Composable
-fun GameStoreContent(state: UiState.Success, onGameClick: (Long) -> Unit) {
+fun GameStoreContent(state: UiState.Success, onGameClick: (Long) -> Unit, onGenreClick: (String) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -109,7 +112,7 @@ fun GameStoreContent(state: UiState.Success, onGameClick: (Long) -> Unit) {
             .padding(top = 12.dp, bottom = 32.dp)
     ) {
 
-        CategorySection(state.categories)
+        CategorySection(state.categories, onGenreClick)
         Spacer(Modifier.height(12.dp))
 
         GameHorizontalList("Más vendidos", state.bestSellers, onGameClick)
@@ -119,7 +122,7 @@ fun GameStoreContent(state: UiState.Success, onGameClick: (Long) -> Unit) {
 }
 
 @Composable
-fun CategorySection(categories: List<String>) {
+fun CategorySection(categories: List<String>, onGenreClick: (String) -> Unit) {
     Row(
         modifier = Modifier
             .horizontalScroll(rememberScrollState())
@@ -131,6 +134,7 @@ fun CategorySection(categories: List<String>) {
                     .padding(end = 10.dp)
                     .clip(RoundedCornerShape(50))
                     .background(Color(0xFF1F2937))
+                    .clickable { onGenreClick(cat) }
                     .padding(horizontal = 18.dp, vertical = 8.dp)
             ) {
                 Text(cat, color = Color.White)
@@ -154,7 +158,7 @@ fun GameHorizontalList(title: String, games: List<Game>, onGameClick: (Long) -> 
 
         if (games.isEmpty()) {
             Text(
-                text = "No hay juegos disponibles",
+                text = "No hay juegos disponibles en esta categoría.",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                 modifier = Modifier.padding(horizontal = 16.dp)

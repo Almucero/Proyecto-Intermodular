@@ -22,8 +22,17 @@ const val productionUrl = "https://gamesage-service.onrender.com"
 class RemoteModule {
     @Provides
     @Singleton
-    fun provideGameSageApi(): GameSageApi {
-        val retrofit = Retrofit.Builder().baseUrl(developmentUrl).addConverterFactory(GsonConverterFactory.create()).build()
+    fun provideGameSageApi(tokenManager: com.gamesage.kotlin.data.local.TokenManager): GameSageApi {
+        val authInterceptor = com.gamesage.kotlin.data.remote.AuthInterceptor(tokenManager)
+        val client = okhttp3.OkHttpClient.Builder()
+            .addInterceptor(authInterceptor)
+            .build()
+            
+        val retrofit = Retrofit.Builder()
+            .baseUrl(developmentUrl)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
         return retrofit.create(GameSageApi::class.java)
     }
     
@@ -36,6 +45,42 @@ class RemoteModule {
     @Provides
     @Singleton
     fun provideGenresApi(gameSageApi: GameSageApi): GenresApi {
+        return gameSageApi
+    }
+
+    @Provides
+    @Singleton
+    fun provideUsersApi(gameSageApi: GameSageApi): com.gamesage.kotlin.data.remote.api.UsersApi {
+        return gameSageApi
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthApi(gameSageApi: GameSageApi): com.gamesage.kotlin.data.remote.api.AuthApi {
+        return gameSageApi
+    }
+
+    @Provides
+    @Singleton
+    fun provideDevelopersApi(gameSageApi: GameSageApi): com.gamesage.kotlin.data.remote.api.DevelopersApi {
+        return gameSageApi
+    }
+
+    @Provides
+    @Singleton
+    fun providePublishersApi(gameSageApi: GameSageApi): com.gamesage.kotlin.data.remote.api.PublishersApi {
+        return gameSageApi
+    }
+
+    @Provides
+    @Singleton
+    fun providePlatformsApi(gameSageApi: GameSageApi): com.gamesage.kotlin.data.remote.api.PlatformsApi {
+        return gameSageApi
+    }
+
+    @Provides
+    @Singleton
+    fun provideMediaApi(gameSageApi: GameSageApi): com.gamesage.kotlin.data.remote.api.MediaApi {
         return gameSageApi
     }
     

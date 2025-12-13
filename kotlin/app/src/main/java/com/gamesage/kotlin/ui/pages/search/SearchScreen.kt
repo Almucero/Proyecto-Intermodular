@@ -27,6 +27,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.gamesage.kotlin.data.model.Game
+import androidx.compose.ui.res.stringResource
+import com.gamesage.kotlin.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -69,9 +71,9 @@ fun SearchScreen(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("Filtros (${activeFilters.size})", color = Color.White, fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.search_filters) + " (${activeFilters.size})", color = Color.White, fontWeight = FontWeight.Bold)
                         TextButton(onClick = { viewModel.resetFilters() }) {
-                            Text("Resetear", color = Color(0xFF93E3FE))
+                            Text(stringResource(R.string.search_reset), color = Color(0xFF93E3FE))
                         }
                     }
 
@@ -92,7 +94,7 @@ fun SearchScreen(
                 
                 Spacer(modifier = Modifier.height(16.dp))
                 FilterSection(
-                    title = "Precio",
+                    title = stringResource(R.string.filter_price),
                     expanded = priceExpanded,
                     onToggle = { priceExpanded = !priceExpanded }
                 ) {
@@ -107,7 +109,7 @@ fun SearchScreen(
                 
                 Spacer(modifier = Modifier.height(8.dp))
                 FilterSection(
-                    title = "Género",
+                    title = stringResource(R.string.filter_genre),
                     expanded = genreExpanded,
                     onToggle = { genreExpanded = !genreExpanded }
                 ) {
@@ -119,7 +121,7 @@ fun SearchScreen(
                 
                 Spacer(modifier = Modifier.height(8.dp))
                 FilterSection(
-                    title = "Plataforma",
+                    title = stringResource(R.string.filter_platform),
                     expanded = platformExpanded,
                     onToggle = { platformExpanded = !platformExpanded }
                 ) {
@@ -142,14 +144,14 @@ fun SearchScreen(
                 }
                 is SearchUiState.Error -> {
                     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text("Error al cargar juegos", color = Color.White)
+                        Text(stringResource(R.string.search_error), color = Color.White)
                     }
                 }
                 is SearchUiState.Success -> {
                     val games = (uiState as SearchUiState.Success).games
                     if (games.isEmpty()) {
                         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                            Text("No se encontraron resultados", color = Color(0xFF9CA3AF), fontSize = 18.sp)
+                            Text(stringResource(R.string.search_no_results), color = Color(0xFF9CA3AF), fontSize = 18.sp)
                         }
                     } else {
                         LazyVerticalGrid(
@@ -220,13 +222,14 @@ fun PriceFilterContent(
     onPriceChange: (Int) -> Unit
 ) {
     Column {
-        listOf(
-            "free" to "Gratis",
+        val options = listOf(
+            "free" to stringResource(R.string.price_free),
             "0-10" to "0-10€",
             "10-20" to "10-20€",
             "20-40" to "20-40€",
             "40+" to "40€+"
-        ).forEach { (value, label) ->
+        )
+        options.forEach { (value, label) ->
             FilterOption(
                 label = label,
                 selected = selectedPrice == value,
@@ -265,14 +268,23 @@ fun GenreFilterContent(
     onSelectGenre: (String) -> Unit
 ) {
     Column {
-        listOf(
-            "Accion", "Aventura", "RPG", "Deportes", "Estrategia",
-            "Simulacion", "Terror", "Carreras", "Sandbox", "Shooter"
-        ).forEach { genre ->
+        val genres = listOf(
+             "Accion" to stringResource(R.string.genre_action),
+             "Aventura" to stringResource(R.string.genre_adventure),
+             "RPG" to stringResource(R.string.genre_rpg),
+             "Deportes" to stringResource(R.string.genre_sports),
+             "Estrategia" to stringResource(R.string.genre_strategy),
+             "Simulacion" to stringResource(R.string.genre_simulation),
+             "Terror" to stringResource(R.string.genre_horror),
+             "Carreras" to stringResource(R.string.genre_racing),
+             "Sandbox" to stringResource(R.string.genre_sandbox),
+             "Shooter" to stringResource(R.string.genre_shooter)
+        )
+        genres.forEach { (key, label) ->
             FilterOption(
-                label = genre,
-                selected = selectedGenre == genre,
-                onClick = { onSelectGenre(genre) }
+                label = label,
+                selected = selectedGenre == key,
+                onClick = { onSelectGenre(key) }
             )
         }
     }
@@ -337,7 +349,7 @@ fun FilterChip(
             Text(label, color = Color(0xFFD1D5DB), fontSize = 14.sp)
             Icon(
                 Icons.Default.Close,
-                contentDescription = "Eliminar",
+                contentDescription = stringResource(R.string.filter_remove),
                 tint = Color(0xFFD1D5DB),
                 modifier = Modifier
                     .size(16.dp)
