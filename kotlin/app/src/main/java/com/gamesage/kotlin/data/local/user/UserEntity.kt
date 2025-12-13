@@ -26,7 +26,8 @@ data class UserEntity(
     val city: String?,
     val region: String?,
     val postalCode: String?,
-    val country: String?
+    val country: String?,
+    val avatar: String?
 )
 
 fun User.toEntity(): UserEntity {
@@ -49,7 +50,8 @@ fun User.toEntity(): UserEntity {
         city = this.city,
         region = this.region,
         postalCode = this.postalCode,
-        country = this.country
+        country = this.country,
+        avatar = this.avatar
     )
 }
 
@@ -76,6 +78,7 @@ fun UserEntity.toModel(): User {
         region = this.region,
         postalCode = this.postalCode,
         country = this.country,
+        avatar = this.avatar,
         media = null
     )
 }

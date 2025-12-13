@@ -15,6 +15,7 @@ import javax.inject.Inject
 data class LoginUiState(
     val email: String = "",
     val password: String = "",
+    val rememberMe: Boolean = false,
     val isLoading: Boolean = false,
     val error: String? = null,
     val isSuccess: Boolean = false
@@ -22,7 +23,8 @@ data class LoginUiState(
 
 @HiltViewModel
 class LoginScreenViewModel @Inject constructor(
-    private val api: GameSageApi
+    private val api: GameSageApi,
+    private val tokenManager: com.gamesage.kotlin.data.local.TokenManager
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LoginUiState())
@@ -35,10 +37,15 @@ class LoginScreenViewModel @Inject constructor(
     fun onPasswordChange(password: String) {
         _uiState.update { it.copy(password = password, error = null) }
     }
+    
+    fun onRememberMeChange(rememberMe: Boolean) {
+        _uiState.update { it.copy(rememberMe = rememberMe) }
+    }
 
     fun login() {
         val email = _uiState.value.email
         val password = _uiState.value.password
+        val rememberMe = _uiState.value.rememberMe
 
         if (email.isBlank() || password.isBlank()) {
             _uiState.update { it.copy(error = "Rellena todos los campos") }
@@ -49,7 +56,8 @@ class LoginScreenViewModel @Inject constructor(
             _uiState.update { it.copy(isLoading = true, error = null) }
             try {
                 val response = api.login(SignInRequest(email, password))
-                // TODO: Save token/user info locally
+                tokenManager.saveToken(response.token)
+                tokenManager.saveRememberMe(rememberMe)
                 _uiState.update { it.copy(isLoading = false, isSuccess = true) }
             } catch (e: Exception) {
                 _uiState.update { it.copy(isLoading = false, error = "Usuario no registrado o credenciales incorrectas") }

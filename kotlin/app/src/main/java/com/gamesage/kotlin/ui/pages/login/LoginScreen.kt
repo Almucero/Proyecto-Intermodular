@@ -22,6 +22,8 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.ui.res.stringResource
+import com.gamesage.kotlin.R
 
 @Composable
 fun LoginScreen(
@@ -58,7 +60,7 @@ fun LoginScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Iniciar Sesión",
+                    text = stringResource(R.string.login_title),
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
@@ -66,12 +68,12 @@ fun LoginScreen(
                 )
 
                 Text(
-                    text = "¿No tienes cuenta? ",
+                    text = stringResource(R.string.login_no_account),
                     color = Color.White,
                     fontSize = 14.sp
                 )
                 Text(
-                    text = "Crea una aquí",
+                    text = stringResource(R.string.login_create_account),
                     color = Color(0xFF93E3FE),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
@@ -82,7 +84,7 @@ fun LoginScreen(
                 OutlinedTextField(
                     value = uiState.email,
                     onValueChange = viewModel::onEmailChange,
-                    label = { Text("Correo Electrónico", color = Color.Gray) },
+                    label = { Text(stringResource(R.string.register_email), color = Color.Gray) },
                     leadingIcon = { Icon(Icons.Default.Email, contentDescription = null, tint = Color.Gray) },
                     modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
                     colors = OutlinedTextFieldDefaults.colors(
@@ -97,13 +99,13 @@ fun LoginScreen(
                 OutlinedTextField(
                     value = uiState.password,
                     onValueChange = viewModel::onPasswordChange,
-                    label = { Text("Contraseña", color = Color.Gray) },
+                    label = { Text(stringResource(R.string.register_password), color = Color.Gray) },
                     leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null, tint = Color.Gray) },
                     trailingIcon = {
                         IconButton(onClick = { passwordVisible = !passwordVisible }) {
                             Icon(
                                 imageVector = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                                contentDescription = if (passwordVisible) "Ocultar" else "Mostrar",
+                                contentDescription = if (passwordVisible) stringResource(R.string.common_hide) else stringResource(R.string.common_show),
                                 tint = Color.Gray
                             )
                         }
@@ -120,6 +122,43 @@ fun LoginScreen(
                     ),
                     singleLine = true
                 )
+                }
+                
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.clickable { viewModel.onRememberMeChange(!uiState.rememberMe) }
+                    ) {
+                        Checkbox(
+                            checked = uiState.rememberMe,
+                            onCheckedChange = { viewModel.onRememberMeChange(it) },
+                            colors = CheckboxDefaults.colors(
+                                checkedColor = Color(0xFF3B82F6),
+                                uncheckedColor = Color.Gray,
+                                checkmarkColor = Color.White
+                            )
+                        )
+                        Text(
+                            text = stringResource(R.string.login_remember_me),
+                            color = Color.White,
+                            fontSize = 14.sp
+                        )
+                    }
+                    
+                    Text(
+                        text = stringResource(R.string.login_forgot_password),
+                        color = Color(0xFF93E3FE),
+                        fontSize = 14.sp,
+                        modifier = Modifier.clickable { /* TODO: Forgot password */ }
+                    )
+                }
+
                 if (uiState.error != null) {
                     Text(
                         text = uiState.error!!,
@@ -139,10 +178,9 @@ fun LoginScreen(
                     if (uiState.isLoading) {
                         CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
                     } else {
-                        Text("Iniciar Sesión", color = Color.White, fontSize = 16.sp)
+                        Text(stringResource(R.string.login_button), color = Color.White, fontSize = 16.sp)
                     }
                 }
             }
         }
     }
-}

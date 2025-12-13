@@ -1,3 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">GameSage</string>
+    
+    <!-- Menu -->
+    <string name="menu_title">Menu</string>
+    <string name="menu_explore">Explore</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_help">Help</string>
+    <string name="menu_contact">Contact</string>
+    <string name="menu_privacy">Privacy Policy</string>
+    <string name="menu_terms">Terms and Conditions</string>
+    <string name="menu_cookies">Cookie Settings</string>
+    <string name="menu_cart">Cart</string>
+    <string name="menu_favorites">Favorites</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_login">Login</string>
+    <string name="menu_register">Register</string>
+    
+    <!-- Home -->
+    <string name="home_best_sellers">Best Sellers</string>
+    <string name="home_offers">Offers</string>
+    <string name="home_top_rated">Top Rated</string>
+    <string name="home_no_games">No games available</string>
+    <string name="home_retry">Retry</string>
+    <string name="home_error_loading">An error occurred while loading data</string>
+    
+    <!-- Favorites -->
+    <string name="favorites_title">My Favorites</string>
+    <string name="favorites_empty">You have no favorites yet</string>
+    <string name="favorites_transfer_all">TRANSFER ALL TO CART</string>
+    
+    <!-- Search -->
+    <string name="search_placeholder">Search</string>
+    <string name="search_filters">Filters</string>
+    <string name="search_reset">Reset</string>
+    <string name="search_no_results">No results found</string>
+    <string name="search_error">Error loading games</string>
+    <string name="filter_price">Price</string>
+    <string name="filter_genre">Genre</string>
+    <string name="filter_platform">Platform</string>
+    <string name="filter_remove">Remove</string>
+    <string name="price_free">Free</string>
+    
+    <!-- Genres -->
+    <string name="genre_action">Action</string>
+    <string name="genre_adventure">Adventure</string>
+    <string name="genre_rpg">RPG</string>
+    <string name="genre_sports">Sports</string>
+    <string name="genre_strategy">Strategy</string>
+    <string name="genre_simulation">Simulation</string>
+    <string name="genre_horror">Horror</string>
+    <string name="genre_racing">Racing</string>
+    <string name="genre_sandbox">Sandbox</string>
+    <string name="genre_shooter">Shooter</string>
+    
+    <!-- Login & Register -->
+    <string name="login_title">Login</string>
+    <string name="login_no_account">Don\'t have an account? </string>
+    <string name="login_create_account">Create one here</string>
+    <string name="login_button">Login</string>
+    <string name="login_forgot_password">Forgot password?</string>
+    <string name="login_remember_me">Remember me</string>
+    <string name="register_title">Create Account</string>
+    <string name="register_has_account">Already have an account? </string>
+    <string name="register_login_here">Login here</string>
+    <string name="register_name">Name</string>
+    <string name="register_surname">Surname</string>
+    <string name="register_email">Email</string>
+    <string name="register_password">Password</string>
+    <string name="register_confirm_password">Confirm Password</string>
+    <string name="register_button">Create Account</string>
+    <string name="register_back">Back</string>
+    <string name="common_hide">Hide</string>
+    <string name="common_show">Show</string>
+    
+    <!-- Cart -->
+    <string name="cart_title">Shopping Cart</string>
+    <string name="cart_empty">Your cart is empty</string>
+    <string name="cart_total">Total:</string>
+    <string name="cart_checkout">Checkout</string>
+    <string name="cart_unknown_game">Unknown Game</string>
+    <string name="cart_unknown_developer">Unknown</string>
+    <string name="cart_unit_price">Price:</string>
+    <string name="cart_delete">Remove</string>
+    <string name="cart_unknown_error">Unknown Error</string>
+    
+    <!-- Product -->
+    <string name="product_loading_error">Error loading product</string>
+    <string name="product_retry">Retry</string>
+    <string name="product_stock_available">In Stock</string>
+    <string name="product_stock_low">Low Stock</string>
+    <string name="product_stock_out">Out of Stock</string>
+    <string name="product_buy_now">Buy Now</string>
+    <string name="product_add_to_cart">Add to Cart</string>
+    <string name="product_added_to_cart">Added!</string>
+    <string name="product_add_to_favorites">Add to Favorites</string>
+    <string name="product_description">Description</string>
+    <string name="product_no_description">No description</string>
+    <string name="product_screenshots">Screenshots</string>
+    <string name="product_developer">Developer</string>
+    <string name="product_publisher">Publisher</string>
+    <string name="product_release_date">Release Date</string>
+    <string name="product_refundable">Refundable</string>
+    <string name="product_yes">Yes</string>
+    <string name="product_no">No</string>
+    <string name="product_login_required">Login Required</string>
+    <string name="product_login_message">You must login to perform this action</string>
+    <string name="product_login_button">Login</string>
+    <string name="product_platform">Platform</string>
+    
+    <!-- Dashboard -->
+    <string name="dashboard_image_error">Error processing image</string>
+    <string name="dashboard_user_section">User</string>
+    <string name="dashboard_user_placeholder">User</string>
+    <string name="dashboard_account_info">Account Information</string>
+    <string name="dashboard_username">Username</string>
+    <string name="dashboard_email">Email</string>
+    <string name="dashboard_personal_data">Personal Data</string>
+    <string name="dashboard_privacy_notice">Your privacy is important to us. We will only use this information to send you your orders. See Privacy Policy</string>
+    <string name="dashboard_name">Name</string>
+    <string name="dashboard_surname">Surname</string>
+    <string name="dashboard_address_section">Address</string>
+    <string name="dashboard_address_line1">Address Line 1</string>
+    <string name="dashboard_address_line2">Address Line 2</string>
+    <string name="dashboard_city">City</string>
+    <string name="dashboard_region">State/Region</string>
+    <string name="dashboard_postal_code">Postal Code</string>
+    <string name="dashboard_country">Country</string>
+    <string name="dashboard_cancel">Cancel</string>
+    <string name="dashboard_configure">Configure</string>
+    <string name="dashboard_save">Save</string>
+    <string name="dashboard_logout">Logout</string>
+    <string name="dashboard_copied">Copied</string>
+    
+    <!-- Contact -->
+    <string name="contact_title">Contact</string>
+    <string name="contact_subtitle">Do you have any questions or need help? We are here for you.</string>
+    <string name="contact_email_title">Email</string>
+    <string name="contact_phone_title">Phone</string>
+    <string name="contact_address_title">Address</string>
+    <string name="contact_address_content">Example Street, 123\n28001 Madrid, Spain</string>
+    
+    <!-- Cookies -->
+    <string name="cookies_title">Cookie Policy</string>
+    <string name="cookies_update">Last Updated: December 2024</string>
+    <string name="cookies_intro">At GameSage we use cookies to improve your browsing experience.</string>
+    
+    <!-- Privacy -->
+    <string name="privacy_title">Privacy Policy</string>
+    <string name="privacy_update">Effective Date: December 2024</string>
+    <string name="privacy_intro">At GameSage, your privacy is important to us.</string>
+    
+    <string name="conditions_title">Terms and Conditions</string>
+    <string name="conditions_update">Effective Date: December 2024</string>
+    <string name="conditions_intro">Welcome to GameSage. By using our services, you agree to these terms.</string>
+    <string name="conditions_section1_title">1. Acceptance of Terms</string>
+    <string name="conditions_section1_text">By accessing and using GameSage, you agree to comply with these terms and conditions.</string>
+    <string name="conditions_section2_title">2. Use of Service</string>
+    <string name="conditions_section2_text">You must use GameSage responsibly and legally. It is not permitted to:</string>
+    <string name="conditions_section2_bp1">Use the service for illegal activities</string>
+    <string name="conditions_section2_bp2">Attempt to access other users\' accounts</string>
+    <string name="conditions_section2_bp3">Distribute malware or harmful content</string>
+    <string name="conditions_section2_bp4">Reverse engineer the service</string>
+    <string name="conditions_section3_title">3. User Accounts</string>
+    <string name="conditions_section3_text">You are responsible for maintaining the confidentiality of your account and password.</string>
+    <string name="conditions_section4_title">4. Purchases and Payments</string>
+    <string name="conditions_section4_text">All prices are in Euros and include VAT. Purchases are final unless otherwise stated.</string>
+    <string name="conditions_section5_title">5. Intellectual Property</string>
+    <string name="conditions_section5_text">All GameSage content is protected by copyright and other intellectual property laws.</string>
+    <string name="conditions_section6_title">6. Limitation of Liability</string>
+    <string name="conditions_section6_text">GameSage is not liable for indirect, incidental, or consequential damages arising from use of the service.</string>
+    <string name="conditions_section7_title">7. Modifications</string>
+    <string name="conditions_section7_text">We reserve the right to modify these terms at any time.</string>
+    <string name="conditions_section8_title">8. Contact</string>
+    <string name="conditions_section8_text">For questions about these terms, contact us at info.gamesage@gmail.com</string>
+    
+    <!-- Cookies Detailed -->
+    <string name="cookies_section1_title">1. What are cookies?</string>
+    <string name="cookies_section1_text">Cookies are small text files stored on your device when you visit a website.</string>
+    <string name="cookies_section2_title">2. Types of cookies we use</string>
+    <string name="cookies_type_essential_title">Essential Cookies</string>
+    <string name="cookies_type_essential_desc">Required for basic website functionality.</string>
+    <string name="cookies_type_pref_title">Preference Cookies</string>
+    <string name="cookies_type_pref_desc">Remember your preferences like language and settings.</string>
+    <string name="cookies_type_analytics_title">Analytics Cookies</string>
+    <string name="cookies_type_analytics_desc">Help us understand how you use the site to improve it.</string>
+    <string name="cookies_type_marketing_title">Marketing Cookies</string>
+    <string name="cookies_type_marketing_desc">Personalize ads based on your interests.</string>
+    <string name="cookies_section3_title">3. How to manage cookies</string>
+    <string name="cookies_section3_text">You can configure your browser to reject cookies, but this may affect site functionality.</string>
+    <string name="cookies_section4_title">4. More information</string>
+    <string name="cookies_section4_text">For more information about our cookie policy, contact us at info.gamesage@gmail.com</string>
+    
+    <!-- Privacy Detailed -->
+    <string name="privacy_section1_title">1. Information We Collect</string>
+    <string name="privacy_section1_text">We collect the following information:</string>
+    <string name="privacy_section1_bp1">Name and email address</string>
+    <string name="privacy_section1_bp2">Payment information (securely processed)</string>
+    <string name="privacy_section1_bp3">Purchase history and preferences</string>
+    <string name="privacy_section1_bp4">Usage and browsing data</string>
+    <string name="privacy_section1_bp5">IP address and device data</string>
+    <string name="privacy_section2_title">2. How We Use Your Information</string>
+    <string name="privacy_section2_text">We use your information to:</string>
+    <string name="privacy_section2_bp1">Process your orders and transactions</string>
+    <string name="privacy_section2_bp2">Improve our services</string>
+    <string name="privacy_section2_bp3">Send you updates and offers (with your consent)</string>
+    <string name="privacy_section2_bp4">Comply with legal obligations</string>
+    <string name="privacy_section2_bp5">Prevent fraud and ensure security</string>
+    <string name="privacy_section3_title">3. Information Sharing</string>
+    <string name="privacy_section3_text">We do not sell your personal information. We only share it with:</string>
+    <string name="privacy_section3_bp1">Payment service providers</string>
+    <string name="privacy_section3_bp2">Analytics and marketing services</string>
+    <string name="privacy_section3_bp3">Authorities when legally required</string>
+    <string name="privacy_section4_title">4. Data Security</string>
+    <string name="privacy_section4_text">We implement technical and organizational security measures to protect your information.</string>
+    <string name="privacy_section5_title">5. Your Rights</string>
+    <string name="privacy_section5_text">You have the right to:</string>
+    <string name="privacy_section5_bp1">Access your personal data</string>
+    <string name="privacy_section5_bp2">Rectify incorrect information</string>
+    <string name="privacy_section5_bp3">Request deletion of your data</string>
+    <string name="privacy_section5_bp4">Object to processing of your data</string>
+    <string name="privacy_section5_bp5">Data portability</string>
+    <string name="privacy_section6_title">6. Cookies</string>
+    <string name="privacy_section6_text">We use cookies to improve your experience. See our Cookie Policy for more information.</string>
+    <string name="privacy_section7_title">7. Changes to This Policy</string>
+    <string name="privacy_section7_text">We may update this policy occasionally. We will notify you of significant changes.</string>
+    <string name="privacy_section8_title">8. Contact</string>
+    <string name="privacy_section8_text">To exercise your rights or ask privacy questions, contact us at info.gamesage@gmail.com</string>
 </resources>

@@ -1,3 +1,371 @@
 package com.gamesage.kotlin.ui.pages.dashboard
 
-//TODO Misma forma de hacerlo que en aiChat
+import android.widget.Toast
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PhotoCamera
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import android.util.Base64
+import coil3.compose.AsyncImage
+import androidx.compose.ui.res.stringResource
+import com.gamesage.kotlin.R
+
+@Composable
+fun DashboardScreen(
+    onLogout: () -> Unit,
+    viewModel: DashboardScreenViewModel = hiltViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
+    val clipboardManager = LocalClipboardManager.current
+
+    LaunchedEffect(uiState.error) {
+        uiState.error?.let {
+            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    val imageErrorMessage = stringResource(R.string.dashboard_image_error)
+    val copiedMessage = stringResource(R.string.dashboard_copied)
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia()
+    ) { uri ->
+        uri?.let {
+            try {
+                val inputStream = context.contentResolver.openInputStream(it)
+                val bytes = inputStream?.readBytes()
+                inputStream?.close()
+                if (bytes != null) {
+                    val base64 = Base64.encodeToString(bytes, Base64.DEFAULT)
+                    // Prepend data URI scheme assuming JPEG/PNG. 
+                    // ideally we should detect mime type but "image/*" generic is fine for now
+                    val avatarString = "data:image/jpeg;base64,$base64"
+                    viewModel.onEditableDataChange(uiState.editableUser.copy(avatar = avatarString))
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context, imageErrorMessage, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    if (uiState.isLoading) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator(color = Color(0xFF22D3EE))
+        }
+    } else {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0xFF111827)) // Gray-900 equivalent
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp, bottom = 32.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = stringResource(R.string.dashboard_user_section),
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFFA5F3FC), // Cyan-200
+                modifier = Modifier.padding(vertical = 24.dp)
+            )
+
+            // Layout split for larger screens? For mobile we stick to vertical stack
+            // User Image
+            // User Image
+            Box(
+                modifier = Modifier.size(192.dp) // 48 * 4 = 192dp
+            ) {
+                val avatarModel = if (uiState.isEditing) {
+                    val avatarUrl = uiState.editableUser.avatar
+                    if (!avatarUrl.isNullOrEmpty()) avatarUrl else "https://via.placeholder.com/200"
+                } else {
+                    val avatarUrl = uiState.user?.avatar
+                    if (!avatarUrl.isNullOrEmpty()) avatarUrl else "https://via.placeholder.com/200"
+                }
+
+                AsyncImage(
+                    model = avatarModel,
+                    contentDescription = "User",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(CircleShape)
+                        .background(Color.Gray),
+                    contentScale = ContentScale.Crop
+                )
+                // Camera Icon for edit (Visual only for now)
+                if (uiState.isEditing) {
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .size(48.dp)
+                            .background(Color(0xFF22D3EE), CircleShape) // Cyan-400
+                            .clickable { 
+                                launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                            }
+                            .padding(12.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.PhotoCamera,
+                            contentDescription = "Change Picture",
+                            tint = Color.White, // Icon color
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            // User Info Header
+            Text(
+                text = uiState.user?.nickname ?: stringResource(R.string.dashboard_user_placeholder),
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
+            
+            Row(
+                modifier = Modifier.padding(top = 4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(text = "@${uiState.user?.nickname ?: ""}", color = Color(0xFF9CA3AF)) // Gray-400
+                Spacer(modifier = Modifier.width(8.dp))
+                // Copy Icon
+                // Copy Icon
+                Text(
+                    text = "📄", // Placeholder icon
+                    modifier = Modifier.clickable {
+                        clipboardManager.setText(AnnotatedString("@${uiState.user?.nickname}"))
+                        Toast.makeText(context, copiedMessage, Toast.LENGTH_SHORT).show()
+                    },
+                    color = Color.Gray
+                )
+            }
+            
+            Row(
+                modifier = Modifier.padding(top = 4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(text = "ID: ${uiState.user?.id ?: ""}", color = Color(0xFF6B7280), fontSize = 14.sp) // Gray-500
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = "📄",
+                    modifier = Modifier.clickable {
+                        clipboardManager.setText(AnnotatedString(uiState.user?.id?.toString() ?: ""))
+                        Toast.makeText(context, copiedMessage, Toast.LENGTH_SHORT).show()
+                    },
+                    color = Color.Gray,
+                    fontSize = 14.sp
+                )
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            // Account Info Section
+            SectionHeader(stringResource(R.string.dashboard_account_info))
+            DashboardTextField(
+                label = stringResource(R.string.dashboard_username),
+                value = uiState.editableUser.nickname,
+                onValueChange = { viewModel.onEditableDataChange(uiState.editableUser.copy(nickname = it)) },
+                isEditing = uiState.isEditing
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            DashboardTextField(
+                label = stringResource(R.string.dashboard_email),
+                value = uiState.editableUser.email,
+                onValueChange = { viewModel.onEditableDataChange(uiState.editableUser.copy(email = it)) },
+                isEditing = uiState.isEditing
+            )
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            // Personal Data Section
+            SectionHeader(stringResource(R.string.dashboard_personal_data))
+            Text(
+                text = stringResource(R.string.dashboard_privacy_notice),
+                color = Color(0xFF6B7280),
+                fontSize = 14.sp,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+            
+            DashboardTextField(
+                label = stringResource(R.string.dashboard_name),
+                value = uiState.editableUser.name,
+                onValueChange = { viewModel.onEditableDataChange(uiState.editableUser.copy(name = it)) },
+                isEditing = uiState.isEditing
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            DashboardTextField(
+                label = stringResource(R.string.dashboard_surname),
+                value = uiState.editableUser.surname,
+                onValueChange = { viewModel.onEditableDataChange(uiState.editableUser.copy(surname = it)) },
+                isEditing = uiState.isEditing
+            )
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            // Address Section
+            SectionHeader(stringResource(R.string.dashboard_address_section))
+            DashboardTextField(
+                label = stringResource(R.string.dashboard_address_line1),
+                value = uiState.editableUser.addressLine1,
+                onValueChange = { viewModel.onEditableDataChange(uiState.editableUser.copy(addressLine1 = it)) },
+                isEditing = uiState.isEditing
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            DashboardTextField(
+                label = stringResource(R.string.dashboard_address_line2),
+                value = uiState.editableUser.addressLine2,
+                onValueChange = { viewModel.onEditableDataChange(uiState.editableUser.copy(addressLine2 = it)) },
+                isEditing = uiState.isEditing
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            DashboardTextField(
+                label = stringResource(R.string.dashboard_city),
+                value = uiState.editableUser.city,
+                onValueChange = { viewModel.onEditableDataChange(uiState.editableUser.copy(city = it)) },
+                isEditing = uiState.isEditing
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            DashboardTextField(
+                label = stringResource(R.string.dashboard_region),
+                value = uiState.editableUser.region,
+                onValueChange = { viewModel.onEditableDataChange(uiState.editableUser.copy(region = it)) },
+                isEditing = uiState.isEditing
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            DashboardTextField(
+                label = stringResource(R.string.dashboard_postal_code),
+                value = uiState.editableUser.postalCode,
+                onValueChange = { viewModel.onEditableDataChange(uiState.editableUser.copy(postalCode = it)) },
+                isEditing = uiState.isEditing
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            DashboardTextField(
+                label = stringResource(R.string.dashboard_country),
+                value = uiState.editableUser.country,
+                onValueChange = { viewModel.onEditableDataChange(uiState.editableUser.copy(country = it)) },
+                isEditing = uiState.isEditing
+            )
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            // Action Buttons
+            Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
+                Button(
+                    onClick = { viewModel.toggleEdit() },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF22D3EE) // Cyan-400
+                    ),
+                    shape = RoundedCornerShape(4.dp)
+                ) {
+                    Text(if (uiState.isEditing) stringResource(R.string.dashboard_cancel) else stringResource(R.string.dashboard_configure), color = Color.White)
+                }
+
+                if (uiState.isEditing) {
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Button(
+                        onClick = { viewModel.saveChanges() },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF16A34A) // Green-600
+                        ),
+                        shape = RoundedCornerShape(4.dp)
+                    ) {
+                        Text(stringResource(R.string.dashboard_save), color = Color.White)
+                    }
+                }
+            }
+            
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Logout Button - Moved below Configure button
+            Button(
+                onClick = onLogout,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFDC2626) // Red-600
+                ),
+                shape = RoundedCornerShape(4.dp)
+                // Removed align(Start) to let it center (Column default is CenterHorizontally)
+            ) {
+                Text(stringResource(R.string.dashboard_logout), color = Color.White)
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+        }
+    }
+}
+
+@Composable
+fun SectionHeader(text: String) {
+    Text(
+        text = text,
+        fontSize = 20.sp,
+        fontWeight = FontWeight.Bold,
+        color = Color.White,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 16.dp)
+    )
+}
+
+@Composable
+fun DashboardTextField(
+    label: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+    isEditing: Boolean
+) {
+    Column {
+        Box(modifier = Modifier.fillMaxWidth()) {
+            // Label mimics floating label or internal text
+            // For simplicity, we can use OutlinedTextField or BasicTextField with custom style
+            // The design shows input with label inside top or floating.
+            
+            OutlinedTextField(
+                value = value,
+                onValueChange = if (isEditing) onValueChange else { _ -> },
+                label = { Text(label, color = Color(0xFF9CA3AF)) },
+                readOnly = !isEditing,
+                modifier = Modifier.fillMaxWidth(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color(0xFF22D3EE),
+                    unfocusedBorderColor = Color.Transparent,
+                    disabledBorderColor = Color.Transparent,
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = Color(0xFFD1D5DB),
+                    disabledTextColor = Color(0xFFD1D5DB),
+                    focusedContainerColor = if (isEditing) Color(0xFF374151) else Color(0xFF1F2937),
+                    unfocusedContainerColor = if (isEditing) Color(0xFF374151) else Color(0xFF1F2937),
+                    disabledContainerColor = Color(0xFF1F2937)
+                ),
+                singleLine = true
+            )
+        }
+    }
+}

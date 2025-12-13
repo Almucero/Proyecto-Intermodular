@@ -3,6 +3,7 @@ package com.gamesage.kotlin.ui.pages.product
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.runtime.remember
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -33,23 +34,42 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.gamesage.kotlin.data.model.Game
 import java.time.format.DateTimeFormatter
+import androidx.compose.ui.res.stringResource
+import com.gamesage.kotlin.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductScreen(
     gameId: Long,
     onNavigateBack: () -> Unit = {},
+    onNavigateToLogin: () -> Unit = {},
     viewModel: ProductScreenViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val mediaItems by viewModel.mediaItems.collectAsState()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(gameId) {
         viewModel.loadGame(gameId)
     }
 
+    // Observe error state
+    if (uiState is ProductUiState.Success) {
+        val state = uiState as ProductUiState.Success
+        LaunchedEffect(state.error) {
+            state.error?.let { error ->
+                snackbarHostState.showSnackbar(
+                    message = error,
+                    duration = SnackbarDuration.Short
+                )
+                viewModel.clearError()
+            }
+        }
+    }
+
     Scaffold(
-        containerColor = Color(0xFF111827)
+        containerColor = Color(0xFF111827),
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -60,11 +80,23 @@ fun ProductScreen(
                 is ProductUiState.Initial,
                 is ProductUiState.Loading -> LoadingView()
                 is ProductUiState.Error -> ErrorView(onRetry = { viewModel.retry() })
-                is ProductUiState.Success -> ProductContent(
-                    state = state,
-                    mediaItems = mediaItems,
-                    viewModel = viewModel
-                )
+                is ProductUiState.Success -> {
+                     ProductContent(
+                        state = state,
+                        mediaItems = mediaItems,
+                        viewModel = viewModel
+                    )
+                    
+                    if (state.showAuthModal) {
+                        AuthModal(
+                            onDismiss = { viewModel.showAuthModal(false) },
+                            onConfirm = { 
+                                viewModel.showAuthModal(false)
+                                onNavigateToLogin()
+                            }
+                        )
+                    }
+                }
             }
         }
     }
@@ -91,7 +123,7 @@ fun ErrorView(onRetry: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
-                "Error al cargar el producto",
+                stringResource(R.string.product_loading_error),
                 color = Color.White,
                 fontSize = 16.sp
             )
@@ -101,7 +133,7 @@ fun ErrorView(onRetry: () -> Unit) {
                     containerColor = Color(0xFF93E3FE)
                 )
             ) {
-                Text("Reintentar")
+                Text(stringResource(R.string.product_retry))
             }
         }
     }
@@ -164,14 +196,14 @@ fun ProductContent(
         
         Spacer(modifier = Modifier.height(24.dp))
         Text(
-            text = "Descripción",
+            text = stringResource(R.string.product_description),
             color = Color.White,
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = state.game.description ?: "Sin descripción",
+            text = state.game.description ?: stringResource(R.string.product_no_description),
             color = Color(0xFFD1D5DB),
             fontSize = 14.sp,
             lineHeight = 20.sp,
@@ -421,7 +453,7 @@ fun PriceSection(game: Game) {
         }
         
         Text(
-            text = if (displayPrice == 0.0) "GRATIS" else "%.2f€".format(displayPrice),
+            text = if (displayPrice == 0.0) stringResource(R.string.price_free) else "%.2f€".format(displayPrice),
             color = Color.White,
             fontSize = 36.sp,
             fontWeight = FontWeight.Bold
@@ -448,7 +480,7 @@ fun PlatformSelector(
 ) {
     Column {
         Text(
-            text = "Plataforma",
+            text = stringResource(R.string.product_platform),
             color = Color(0xFF9CA3AF),
             fontSize = 14.sp
         )
@@ -566,9 +598,9 @@ fun StockIndicator(stock: Int) {
         
         Text(
             text = when {
-                stock > 20 -> "En stock"
-                stock > 0 -> "Pocas unidades"
-                else -> "Agotado"
+                stock > 20 -> stringResource(R.string.product_stock_available)
+                stock > 0 -> stringResource(R.string.product_stock_low)
+                else -> stringResource(R.string.product_stock_out)
             },
             color = when {
                 stock > 20 -> Color(0xFF10B981)
@@ -603,22 +635,16 @@ fun ActionButtons(
                 .fillMaxWidth()
                 .height(48.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = if (addedToCartSuccess) Color(0xFF10B981) else Color(0xFF93E3FE),
+                containerColor = Color(0xFF93E3FE),
                 disabledContainerColor = Color(0xFF93E3FE).copy(alpha = 0.5f)
             ),
             shape = RoundedCornerShape(8.dp)
         ) {
-            if (addedToCartSuccess) {
-                Icon(Icons.Default.Check, contentDescription = null)
+            if (!isEnabled && selectedPlatform == null) {
+                Icon(Icons.Default.Lock, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Added!", fontWeight = FontWeight.Bold)
-            } else {
-                if (!isEnabled && selectedPlatform == null) {
-                    Icon(Icons.Default.Lock, contentDescription = null)
-                    Spacer(modifier = Modifier.width(8.dp))
-                }
-                Text("Comprar", fontWeight = FontWeight.Bold)
             }
+            Text(stringResource(R.string.product_buy_now), fontWeight = FontWeight.Bold)
         }
         Button(
             onClick = onAddToCart,
@@ -635,9 +661,9 @@ fun ActionButtons(
             if (addedToCartSuccess) {
                 Icon(Icons.Default.Check, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Added!", fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.product_added_to_cart), fontWeight = FontWeight.Bold)
             } else {
-                Text("Añadir al carrito", fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.product_add_to_cart), fontWeight = FontWeight.Bold)
             }
         }
 
@@ -656,9 +682,9 @@ fun ActionButtons(
             if (addedToFavoritesSuccess) {
                 Icon(Icons.Default.Check, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Added!", fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.product_added_to_cart), fontWeight = FontWeight.Bold)
             } else {
-                Text("Añadir a favoritos", fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.product_add_to_favorites), fontWeight = FontWeight.Bold)
             }
         }
     }
@@ -668,7 +694,7 @@ fun ActionButtons(
 fun ScreenshotsSection(screenshot1: String?, screenshot2: String?) {
     if (screenshot1 != null || screenshot2 != null) {
         Text(
-            text = "Capturas",
+            text = stringResource(R.string.product_screenshots),
             color = Color.White,
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold
@@ -715,10 +741,10 @@ fun GameInfoTable(game: Game) {
             .clip(RoundedCornerShape(8.dp))
             .border(1.dp, Color(0xFF6B7280), RoundedCornerShape(8.dp))
     ) {
-        InfoRow("Desarrollador", game.Developer?.name ?: "N/A", isFirst = true)
-        InfoRow("Editor", game.Publisher?.name ?: "N/A")
-        InfoRow("Fecha de lanzamiento", game.releaseDate?.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) ?: "N/A")
-        InfoRow("Reembolsable", if (game.isRefundable) "Sí" else "No", isLast = true)
+        InfoRow(stringResource(R.string.product_developer), game.Developer?.name ?: "N/A", isFirst = true)
+        InfoRow(stringResource(R.string.product_publisher), game.Publisher?.name ?: "N/A")
+        InfoRow(stringResource(R.string.product_release_date), game.releaseDate?.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) ?: "N/A")
+        InfoRow(stringResource(R.string.product_refundable), if (game.isRefundable) stringResource(R.string.product_yes) else stringResource(R.string.product_no), isLast = true)
     }
 }
 
@@ -763,17 +789,17 @@ fun AuthModal(
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            Text("Inicio de sesión requerido", color = Color.White)
+            Text(stringResource(R.string.product_login_required), color = Color.White)
         },
         text = {
             Text(
-                "Debes iniciar sesión para realizar esta acción",
+                stringResource(R.string.product_login_message),
                 color = Color(0xFFD1D5DB)
             )
         },
         confirmButton = {
             TextButton(onClick = onConfirm) {
-                Text("Iniciar sesión", color = Color(0xFF93E3FE))
+                Text(stringResource(R.string.product_login_button), color = Color(0xFF93E3FE))
             }
         },
         dismissButton = {

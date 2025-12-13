@@ -24,6 +24,8 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.ui.res.stringResource
+import com.gamesage.kotlin.R
 
 @Composable
 fun RegisterScreen(
@@ -61,7 +63,7 @@ fun RegisterScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Crear Cuenta",
+                    text = stringResource(R.string.register_title),
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
@@ -69,13 +71,13 @@ fun RegisterScreen(
                 )
 
                 Text(
-                    text = "¿Ya tienes cuenta? ",
+                    text = stringResource(R.string.register_has_account),
                     color = Color.White,
                     fontSize = 14.sp
                 )
                 TextButton(onClick = onNavigateToLogin) {
                     Text(
-                        text = "Inicia sesión aquí",
+                        text = stringResource(R.string.register_login_here),
                         color = Color(0xFF93E3FE),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold
@@ -85,7 +87,7 @@ fun RegisterScreen(
                 OutlinedTextField(
                     value = uiState.name,
                     onValueChange = viewModel::onNameChange,
-                    label = { Text("Nombre", color = Color.Gray) },
+                    label = { Text(stringResource(R.string.register_name), color = Color.Gray) },
                     leadingIcon = { Icon(Icons.Default.Person, contentDescription = null, tint = Color.Gray) },
                     modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
                     colors = OutlinedTextFieldDefaults.colors(
@@ -100,7 +102,7 @@ fun RegisterScreen(
                 OutlinedTextField(
                     value = uiState.surname,
                     onValueChange = viewModel::onSurnameChange,
-                    label = { Text("Apellidos", color = Color.Gray) },
+                    label = { Text(stringResource(R.string.register_surname), color = Color.Gray) },
                     leadingIcon = { Icon(Icons.Default.Person, contentDescription = null, tint = Color.Gray) },
                     modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
                     colors = OutlinedTextFieldDefaults.colors(
@@ -115,7 +117,7 @@ fun RegisterScreen(
                 OutlinedTextField(
                     value = uiState.email,
                     onValueChange = viewModel::onEmailChange,
-                    label = { Text("Correo Electrónico", color = Color.Gray) },
+                    label = { Text(stringResource(R.string.register_email), color = Color.Gray) },
                     leadingIcon = { Icon(Icons.Default.Email, contentDescription = null, tint = Color.Gray) },
                     modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
                     colors = OutlinedTextFieldDefaults.colors(
@@ -130,13 +132,13 @@ fun RegisterScreen(
                 OutlinedTextField(
                     value = uiState.password,
                     onValueChange = viewModel::onPasswordChange,
-                    label = { Text("Contraseña", color = Color.Gray) },
+                    label = { Text(stringResource(R.string.register_password), color = Color.Gray) },
                     leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null, tint = Color.Gray) },
                     trailingIcon = {
                         IconButton(onClick = { passwordVisible = !passwordVisible }) {
                             Icon(
                                 imageVector = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                                contentDescription = if (passwordVisible) "Ocultar" else "Mostrar",
+                                contentDescription = if (passwordVisible) stringResource(R.string.common_hide) else stringResource(R.string.common_show),
                                 tint = Color.Gray
                             )
                         }
@@ -156,7 +158,7 @@ fun RegisterScreen(
                 OutlinedTextField(
                     value = uiState.confirmPassword,
                     onValueChange = viewModel::onConfirmPasswordChange,
-                    label = { Text("Confirmar Contraseña", color = Color.Gray) },
+                    label = { Text(stringResource(R.string.register_confirm_password), color = Color.Gray) },
                     leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null, tint = Color.Gray) },
                     visualTransformation = PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -191,7 +193,7 @@ fun RegisterScreen(
                     if (uiState.isLoading) {
                         CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
                     } else {
-                        Text("Crear Cuenta", color = Color.White, fontSize = 16.sp)
+                        Text(stringResource(R.string.register_button), color = Color.White, fontSize = 16.sp)
                     }
                 }
 
@@ -203,7 +205,7 @@ fun RegisterScreen(
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Gray),
                     shape = RoundedCornerShape(25.dp)
                 ) {
-                    Text("Volver", color = Color.White, fontSize = 16.sp)
+                    Text(stringResource(R.string.register_back), color = Color.White, fontSize = 16.sp)
                 }
             }
         }

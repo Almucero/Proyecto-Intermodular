@@ -9,6 +9,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.gamesage.kotlin.R
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -33,7 +35,7 @@ fun PrivacyScreen(
                 .padding(16.dp)
         ) {
             Text(
-                text = "Política de Privacidad",
+                text = stringResource(R.string.privacy_title),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF93E3FE),
@@ -41,71 +43,71 @@ fun PrivacyScreen(
             )
             
             Text(
-                text = "Fecha de vigencia: Diciembre 2024",
+                text = stringResource(R.string.privacy_update),
                 fontSize = 14.sp,
                 color = Color(0xFF9CA3AF),
                 modifier = Modifier.padding(bottom = 24.dp)
             )
             
-            InfoBox("En GameSage, tu privacidad es importante para nosotros. Esta política explica cómo recopilamos, usamos y protegemos tu información personal.")
+            InfoBox(stringResource(R.string.privacy_intro))
             
             Spacer(modifier = Modifier.height(24.dp))
             
-            SectionTitle("1. Información que Recopilamos")
-            SectionText("Recopilamos la siguiente información:")
-            BulletPoint("Nombre y dirección de correo electrónico")
-            BulletPoint("Información de pago (procesada de forma segura)")
-            BulletPoint("Historial de compras y preferencias")
-            BulletPoint("Datos de uso y navegación")
-            BulletPoint("Dirección IP y datos del dispositivo")
+            SectionTitle(stringResource(R.string.privacy_section1_title))
+            SectionText(stringResource(R.string.privacy_section1_text))
+            BulletPoint(stringResource(R.string.privacy_section1_bp1))
+            BulletPoint(stringResource(R.string.privacy_section1_bp2))
+            BulletPoint(stringResource(R.string.privacy_section1_bp3))
+            BulletPoint(stringResource(R.string.privacy_section1_bp4))
+            BulletPoint(stringResource(R.string.privacy_section1_bp5))
             
             Spacer(modifier = Modifier.height(20.dp))
             
-            SectionTitle("2. Cómo Usamos tu Información")
-            SectionText("Utilizamos tu información para:")
-            BulletPoint("Procesar tus pedidos y transacciones")
-            BulletPoint("Mejorar nuestros servicios")
-            BulletPoint("Enviarte actualizaciones y ofertas (con tu consentimiento)")
-            BulletPoint("Cumplir con obligaciones legales")
-            BulletPoint("Prevenir fraudes y garantizar la seguridad")
+            SectionTitle(stringResource(R.string.privacy_section2_title))
+            SectionText(stringResource(R.string.privacy_section2_text))
+            BulletPoint(stringResource(R.string.privacy_section2_bp1))
+            BulletPoint(stringResource(R.string.privacy_section2_bp2))
+            BulletPoint(stringResource(R.string.privacy_section2_bp3))
+            BulletPoint(stringResource(R.string.privacy_section2_bp4))
+            BulletPoint(stringResource(R.string.privacy_section2_bp5))
             
             Spacer(modifier = Modifier.height(20.dp))
             
-            SectionTitle("3. Compartir Información")
-            SectionText("No vendemos tu información personal. Solo la compartimos con:")
-            BulletPoint("Proveedores de servicios de pago")
-            BulletPoint("Servicios de análisis y marketing")
-            BulletPoint("Autoridades cuando sea legalmente requerido")
+            SectionTitle(stringResource(R.string.privacy_section3_title))
+            SectionText(stringResource(R.string.privacy_section3_text))
+            BulletPoint(stringResource(R.string.privacy_section3_bp1))
+            BulletPoint(stringResource(R.string.privacy_section3_bp2))
+            BulletPoint(stringResource(R.string.privacy_section3_bp3))
             
             Spacer(modifier = Modifier.height(20.dp))
             
-            SectionTitle("4. Seguridad de los Datos")
-            SectionText("Implementamos medidas de seguridad técnicas y organizativas para proteger tu información.")
+            SectionTitle(stringResource(R.string.privacy_section4_title))
+            SectionText(stringResource(R.string.privacy_section4_text))
             
             Spacer(modifier = Modifier.height(20.dp))
             
-            SectionTitle("5. Tus Derechos")
-            SectionText("Tienes derecho a:")
-            BulletPoint("Acceder a tus datos personales")
-            BulletPoint("Rectificar información incorrecta")
-            BulletPoint("Solicitar la eliminación de tus datos")
-            BulletPoint("Oponerte al procesamiento de tus datos")
-            BulletPoint("Portabilidad de datos")
+            SectionTitle(stringResource(R.string.privacy_section5_title))
+            SectionText(stringResource(R.string.privacy_section5_text))
+            BulletPoint(stringResource(R.string.privacy_section5_bp1))
+            BulletPoint(stringResource(R.string.privacy_section5_bp2))
+            BulletPoint(stringResource(R.string.privacy_section5_bp3))
+            BulletPoint(stringResource(R.string.privacy_section5_bp4))
+            BulletPoint(stringResource(R.string.privacy_section5_bp5))
             
             Spacer(modifier = Modifier.height(20.dp))
             
-            SectionTitle("6. Cookies")
-            SectionText("Utilizamos cookies para mejorar tu experiencia. Consulta nuestra Política de Cookies para más información.")
+            SectionTitle(stringResource(R.string.privacy_section6_title))
+            SectionText(stringResource(R.string.privacy_section6_text))
             
             Spacer(modifier = Modifier.height(20.dp))
             
-            SectionTitle("7. Cambios en esta Política")
-            SectionText("Podemos actualizar esta política ocasionalmente. Te notificaremos de cambios significativos.")
+            SectionTitle(stringResource(R.string.privacy_section7_title))
+            SectionText(stringResource(R.string.privacy_section7_text))
             
             Spacer(modifier = Modifier.height(20.dp))
             
-            SectionTitle("8. Contacto")
-            SectionText("Para ejercer tus derechos o hacer preguntas sobre privacidad, contáctanos en info.gamesage@gmail.com")
+            SectionTitle(stringResource(R.string.privacy_section8_title))
+            SectionText(stringResource(R.string.privacy_section8_text))
         }
     }
 }

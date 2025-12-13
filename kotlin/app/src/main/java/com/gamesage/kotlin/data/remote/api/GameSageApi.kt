@@ -9,6 +9,7 @@ import retrofit2.http.Query
 import com.gamesage.kotlin.data.remote.model.AuthResponse
 import com.gamesage.kotlin.data.remote.model.SignInRequest
 import com.gamesage.kotlin.data.remote.model.SignUpRequest
+import com.gamesage.kotlin.data.remote.model.CartItemApiModel
 import retrofit2.http.Body
 
 interface GameSageApi:
@@ -19,7 +20,9 @@ interface GameSageApi:
     PublishersApi,
     GenresApi,
     PlatformsApi,
-    MediaApi
+    MediaApi,
+    CartApi,
+    FavoritesApi
 
 interface AuthApi {
     @POST("/api/auth/register")
@@ -31,9 +34,9 @@ interface UsersApi {
     @GET("api/users")
     suspend fun readAllUsers()
     @GET("api/users/me")
-    suspend fun me()
+    suspend fun me(): com.gamesage.kotlin.data.remote.model.UserApiModel
     @PATCH("api/users/me")
-    suspend fun updateOwnUser()
+    suspend fun updateOwnUser(@Body user: com.gamesage.kotlin.data.remote.model.UserApiModel): com.gamesage.kotlin.data.remote.model.AuthResponse
     @PATCH("api/users/me/password")
     suspend fun updateOwnPassword()
     @GET("api/users/{id}")
@@ -114,4 +117,32 @@ interface MediaApi {
     suspend fun deleteMedia(@Path("id") id: Int)
     @PATCH("api/media/{id}/upload")
     suspend fun updateMedia(@Path("id") id: Int)
+}
+
+interface CartApi {
+    @GET("api/cart")
+    suspend fun getCart(): List<com.gamesage.kotlin.data.remote.model.CartItemApiModel>
+    
+    @POST("api/cart")
+    suspend fun addToCart(@Body body: Map<String, Int>) // Body: { "gameId": 1, "platformId": 1, "quantity": 1 }
+    
+    @PATCH("api/cart/{gameId}")
+    suspend fun updateCartItem(@Path("gameId") gameId: Int, @Body body: Map<String, Int>) // Body: { "quantity": 1 }
+    
+    @DELETE("api/cart/{gameId}")
+    suspend fun removeFromCart(@Path("gameId") gameId: Int, @Query("platformId") platformId: Int)
+}
+
+interface FavoritesApi {
+    @GET("api/favorites")
+    suspend fun getFavorites(): List<com.gamesage.kotlin.data.remote.model.FavoriteApiModel>
+
+    @POST("api/favorites")
+    suspend fun addToFavorites(@Body body: Map<String, Int>) // Body: { "gameId": 1, "platformId": 1 }
+
+    @DELETE("api/favorites/{gameId}")
+    suspend fun removeFromFavorites(@Path("gameId") gameId: Int, @Query("platformId") platformId: Int = 0)
+
+    @GET("api/favorites/check/{gameId}")
+    suspend fun isFavorite(@Path("gameId") gameId: Int, @Query("platformId") platformId: Int = 0): Boolean
 }

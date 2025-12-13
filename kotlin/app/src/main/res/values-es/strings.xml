@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">GameSage</string>
+    <string name="menu_title">Menú</string>
+    <string name="menu_explore">Explorar</string>
+    <string name="menu_settings">Ajustes</string>
+    <string name="menu_help">Ayuda</string>
+    <string name="menu_contact">Contacto</string>
+    <string name="menu_privacy">Políticas de privacidad</string>
+    <string name="menu_terms">Términos y condiciones</string>
+    <string name="menu_cookies">Configuración de cookies</string>
+    <string name="menu_cart">Carrito</string>
+    <string name="menu_favorites">Favoritos</string>
+    <string name="menu_profile">Perfil</string>
+    <string name="menu_login">Iniciar Sesión</string>
+    <string name="menu_register">Registrarse</string>
+    <string name="home_best_sellers">Más vendidos</string>
+    <string name="home_offers">Ofertas</string>
+    <string name="home_top_rated">Mejor valorados</string>
 </resources>

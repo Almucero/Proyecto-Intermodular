@@ -41,6 +41,11 @@ class SearchViewModel @Inject constructor(
     val maxPrice: StateFlow<Int> = _maxPrice.asStateFlow()
 
     init {
+        // Read genre from navigation arguments
+        val genreArg = savedStateHandle.get<String>("genre")
+        if (!genreArg.isNullOrEmpty()) {
+            _selectedGenre.value = genreArg
+        }
         loadGames()
     }
 

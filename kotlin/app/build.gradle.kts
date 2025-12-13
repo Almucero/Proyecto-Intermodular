@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     // View Model
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
     // Navigation
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
