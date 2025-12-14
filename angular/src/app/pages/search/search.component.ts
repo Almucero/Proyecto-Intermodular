@@ -8,6 +8,14 @@ import { Game } from '../../core/models/game.model';
 import { GameCardComponent } from '../../shared/components/game-card/game-card.component';
 import { FormsModule } from '@angular/forms';
 
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate,
+} from '@angular/animations';
+
 interface FilterOption {
   value: string;
   label: string;
@@ -15,15 +23,33 @@ interface FilterOption {
 
 @Component({
   selector: 'app-search',
-  imports: [RouterModule, TranslatePipe, CommonModule, GameCardComponent, FormsModule],
+  imports: [
+    RouterModule,
+    TranslatePipe,
+    CommonModule,
+    GameCardComponent,
+    FormsModule,
+  ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
+  animations: [
+    trigger('expandCollapse', [
+      transition(':enter', [
+        style({ maxHeight: '0px', opacity: 0, overflow: 'hidden' }),
+        animate('300ms ease-out', style({ maxHeight: '1000px', opacity: 1 })),
+      ]),
+      transition(':leave', [
+        style({ maxHeight: '1000px', opacity: 1, overflow: 'hidden' }),
+        animate('200ms ease-out', style({ maxHeight: '0px', opacity: 0 })),
+      ]),
+    ]),
+  ],
 })
 export class SearchComponent implements OnInit {
   searchQuery = '';
   games: Game[] = [];
   filteredGames: Game[] = [];
-  
+
   activeFilters: { type: string; value: string; label: string }[] = [];
   selectedPrice = '';
   selectedGenre = '';
@@ -36,7 +62,7 @@ export class SearchComponent implements OnInit {
   filtersExpanded: { [key: string]: boolean } = {
     price: false,
     genre: false,
-    platform: false
+    platform: false,
   };
 
   priceOptions: FilterOption[] = [];
@@ -51,6 +77,8 @@ export class SearchComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.filteredGames = this.createPlaceholders();
+
     this.initializeFilterOptions();
     this.loadPlatforms();
 
@@ -63,6 +91,22 @@ export class SearchComponent implements OnInit {
       this.updateActiveFilters();
       this.loadGames();
     });
+  }
+
+  createPlaceholders(): Game[] {
+    return Array(40).fill({
+      id: -1,
+      title: '...',
+      price: 0,
+      description: '',
+      releaseDate: new Date(),
+      rating: 0,
+      numberOfSales: 0,
+      isOnSale: false,
+      isRefundable: false,
+      stock: 0,
+      media: [],
+    } as unknown as Game);
   }
 
   initializeFilterOptions(): void {
@@ -94,21 +138,21 @@ export class SearchComponent implements OnInit {
       { value: 'Exploración', label: 'genres.exploration' },
       { value: 'Supervivencia', label: 'genres.survival' },
       { value: 'Survival Horror', label: 'genres.survival-horror' },
-      { value: 'Educativo', label: 'genres.educational' }
+      { value: 'Educativo', label: 'genres.educational' },
     ];
-    
+
     this.platformOptions = [];
   }
 
   loadPlatforms(): void {
     this.platformService.getAll().subscribe({
       next: (platforms) => {
-        this.platformOptions = platforms.map(p => ({
+        this.platformOptions = platforms.map((p) => ({
           value: p.name,
-          label: p.name
+          label: p.name,
         }));
       },
-      error: (err) => console.error('Error loading platforms', err)
+      error: (err) => console.error('Error loading platforms', err),
     });
   }
 
@@ -116,15 +160,19 @@ export class SearchComponent implements OnInit {
     this.gameService.getAll({ include: 'genres,media,platforms' }).subscribe({
       next: (allGames) => {
         this.games = allGames as Game[];
-        const maxGamePrice = Math.max(...this.games.map(g => {
-          return (g.isOnSale && g.salePrice !== null && g.salePrice !== undefined) 
-            ? Number(g.salePrice) 
-            : (Number(g.price) || 0);
-        }));
+        const maxGamePrice = Math.max(
+          ...this.games.map((g) => {
+            return g.isOnSale &&
+              g.salePrice !== null &&
+              g.salePrice !== undefined
+              ? Number(g.salePrice)
+              : Number(g.price) || 0;
+          })
+        );
         this.maxPrice = Math.ceil(maxGamePrice / 10) * 10;
         if (this.maxPrice === 0) this.maxPrice = 100;
         this.priceValue = this.maxPrice;
-        
+
         this.applyFilters();
       },
       error: (err) => {
@@ -139,7 +187,7 @@ export class SearchComponent implements OnInit {
     this.updateActiveFilters();
     this.applyFilters();
   }
-  
+
   onPriceSliderChange(): void {
     this.selectedPrice = `0-${this.priceValue}`;
     this.updateActiveFilters();
@@ -164,11 +212,14 @@ export class SearchComponent implements OnInit {
     this.activeFilters = [];
 
     if (this.selectedPrice) {
-      if (this.selectedPrice.startsWith('0-') && !this.priceOptions.find(o => o.value === this.selectedPrice)) {
+      if (
+        this.selectedPrice.startsWith('0-') &&
+        !this.priceOptions.find((o) => o.value === this.selectedPrice)
+      ) {
         this.activeFilters.push({
           type: 'price',
           value: this.selectedPrice,
-          label: `Max: ${this.priceValue}€` 
+          label: `Max: ${this.priceValue}€`,
         });
       } else {
         const priceOption = this.priceOptions.find(
@@ -212,6 +263,11 @@ export class SearchComponent implements OnInit {
   }
 
   applyFilters(): void {
+    if (this.games.length === 0) {
+      this.filteredGames = this.createPlaceholders();
+      return;
+    }
+
     let filtered = [...this.games];
 
     if (this.searchQuery) {
@@ -246,24 +302,30 @@ export class SearchComponent implements OnInit {
 
     const [min, max] = priceRange.split('-').map(Number);
     console.log('Filtering by price:', { priceRange, min, max });
-    return games.filter(
-      (game) => {
-        const effectivePrice = (game.isOnSale && game.salePrice !== null && game.salePrice !== undefined) 
-          ? Number(game.salePrice) 
-          : (Number(game.price) || 0);
-          
-        const result = effectivePrice >= min && effectivePrice <= max;
-        if (!result && effectivePrice === 30) {
-            console.log('Game excluded:', { title: game.title, effectivePrice, min, max });
-        }
-        return result;
+    return games.filter((game) => {
+      const effectivePrice =
+        game.isOnSale && game.salePrice !== null && game.salePrice !== undefined
+          ? Number(game.salePrice)
+          : Number(game.price) || 0;
+
+      const result = effectivePrice >= min && effectivePrice <= max;
+      if (!result && effectivePrice === 30) {
+        console.log('Game excluded:', {
+          title: game.title,
+          effectivePrice,
+          min,
+          max,
+        });
       }
-    );
+      return result;
+    });
   }
 
   filterByGenre(games: Game[], genreKey: string): Game[] {
     return games.filter((game) =>
-      game?.genres?.some((g) => g.name?.toLowerCase() === genreKey.toLowerCase())
+      game?.genres?.some(
+        (g) => g.name?.toLowerCase() === genreKey.toLowerCase()
+      )
     );
   }
 

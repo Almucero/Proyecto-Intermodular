@@ -1,53 +1,69 @@
 <div
-  class="w-56 group cursor-pointer transition-all duration-150 active:scale-95"
+  [class.w-56]="!fullWidth"
+  [class.w-full]="fullWidth"
+  class="group cursor-pointer transition-all duration-150 active:scale-95"
   (click)="onClick()"
 >
   <div
     class="h-32 bg-gray-700 rounded-xl overflow-hidden shadow-md group-hover:scale-105 transition-transform duration-300 relative"
+    [class.animate-pulse]="game.id === -1"
   >
-    <img
-      *ngIf="game.isOnSale"
-      src="assets/images/sale.png"
-      class="absolute top-0 left-0 w-16 h-16 z-30 pointer-events-none"
-    />
-    <img
-      [src]="coverUrl"
-      [alt]="game.title"
-      class="w-full h-full object-cover pointer-events-none absolute inset-0 z-10"
-    />
+    <ng-container *ngIf="game.id !== -1">
+      <img
+        *ngIf="game.isOnSale"
+        src="assets/images/sale.png"
+        class="absolute top-0 left-0 w-16 h-16 z-30 pointer-events-none"
+      />
+      <img
+        [src]="coverUrl"
+        [alt]="game.title"
+        class="w-full h-full object-cover pointer-events-none absolute inset-0 z-10"
+      />
+    </ng-container>
   </div>
 
   <div
     class="mt-2 flex justify-between items-center text-sm font-medium text-gray-300 group-hover:text-white transition-colors overflow-hidden"
   >
-    <div class="flex-1 min-w-0 mr-2 title-container h-5">
+    <div class="flex-1 min-w-0 mr-2 title-container h-5 flex items-center">
+      <div
+        *ngIf="game.id === -1"
+        class="h-4 w-3/4 bg-gray-700 rounded animate-pulse"
+      ></div>
       <span
+        *ngIf="game.id !== -1"
         #gameTitle
-        class="block truncate text-left whitespace-nowrap"
+        class="block truncate text-left whitespace-nowrap w-full"
         [title]="game.title"
       >
-        {{ game.id === -1 ? (game.title | translate) : game.title }}
+        {{ game.title }}
       </span>
     </div>
-    <span class="whitespace-nowrap flex-shrink-0">
-      <span
-        *ngIf="
-          (game.isOnSale && game.salePrice !== null
-            ? game.salePrice
-            : game.price) === 0
-        "
-      >
-        {{ "product.free" | translate }}
-      </span>
-      <span
-        *ngIf="
-          (game.isOnSale && game.salePrice !== null
-            ? game.salePrice
-            : game.price) !== 0
-        "
-      >
-        {{ (game.isOnSale ? game.salePrice : game.price) | currency : "EUR" }}
-      </span>
+    <span class="whitespace-nowrap flex-shrink-0 flex items-center">
+      <div
+        *ngIf="game.id === -1"
+        class="h-4 w-12 bg-gray-700 rounded animate-pulse"
+      ></div>
+      <ng-container *ngIf="game.id !== -1">
+        <span
+          *ngIf="
+            (game.isOnSale && game.salePrice !== null
+              ? game.salePrice
+              : game.price) === 0
+          "
+        >
+          {{ "product.free" | translate }}
+        </span>
+        <span
+          *ngIf="
+            (game.isOnSale && game.salePrice !== null
+              ? game.salePrice
+              : game.price) !== 0
+          "
+        >
+          {{ (game.isOnSale ? game.salePrice : game.price) | currency : "EUR" }}
+        </span>
+      </ng-container>
     </span>
   </div>
 </div>

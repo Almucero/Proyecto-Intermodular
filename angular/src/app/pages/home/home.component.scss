@@ -39,7 +39,50 @@
 }
 
 .animate-slideUp {
-  animation: slideUp 0.2s ease-in;
+  animation: slideUp 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.15s ease-out;
+}
+
+.animate-fadeOut {
+  animation: fadeOut 0.15s ease-out;
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+.scrollbar-thumb-gray-600::-webkit-scrollbar-thumb {
+  background-color: #4b5563;
+  border-radius: 4px;
+}
+
+.scrollbar-track-gray-800::-webkit-scrollbar-track {
+  background-color: #1f2937;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
 }
 
 .title-container {
@@ -91,24 +134,63 @@
 .titulo {
   height: 40vh;
   z-index: 1;
-  filter: drop-shadow(0 0 15px #ffffff);
+  filter: drop-shadow(0 0 10px #ffffff);
 }
 
 .joker {
   left: 5vw;
   top: calc(8.7vh + 64px);
+  animation: electricPulseLeft 5s ease-in-out infinite;
 }
 
 .titulo {
   left: 50%;
   top: calc(23vh + 64px);
   transform: translate(-50%, -50%);
+  animation: electricPulseBlue 6s ease-in-out infinite;
 }
 
 .geralt {
   height: 50vh;
   right: 3vw;
   top: calc(5vh + 64px);
+  animation: electricPulseRight 5s ease-in-out infinite;
+}
+
+@keyframes electricPulseLeft {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 6px #ffffff) drop-shadow(-1px 0 4px #67e8f9)
+      drop-shadow(-2px 0 8px #06b6d4);
+  }
+  50% {
+    filter: drop-shadow(0 0 10px #ffffff) drop-shadow(-2px 0 6px #22d3ee)
+      drop-shadow(-3px 0 12px #0891b2);
+  }
+}
+
+@keyframes electricPulseRight {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 6px #ffffff) drop-shadow(1px 0 4px #67e8f9)
+      drop-shadow(2px 0 8px #06b6d4);
+  }
+  50% {
+    filter: drop-shadow(0 0 10px #ffffff) drop-shadow(2px 0 6px #22d3ee)
+      drop-shadow(3px 0 12px #0891b2);
+  }
+}
+
+@keyframes electricPulseBlue {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 6px #ffffff) drop-shadow(0 0 5px #0891b2)
+      drop-shadow(0 0 10px #0891b2);
+  }
+  50% {
+    filter: drop-shadow(0 0 10px #ffffff) drop-shadow(0 0 8px #0891b2)
+      drop-shadow(0 0 15px #0891b2);
+  }
 }
 
 .bottom {
@@ -116,7 +198,7 @@
   height: 80vh;
   bottom: 0;
   z-index: 2;
-  filter: drop-shadow(0 0 20px #67e8f9);
+  filter: drop-shadow(0 0 20px #ffffff);
 }
 
 .difuminadoTexto {
