@@ -1,12 +1,13 @@
 {
   "common": {
-    "searchPlaceholder": "Buscar",
+    "searchPlaceholder": "Buscar...",
     "loading": "Cargando..."
   },
   "header": {
     "menu": "Menú"
   },
   "menu": {
+    "home": "Inicio",
     "explore": "Explorar",
     "settings": "Ajustes",
     "help": "Ayuda",

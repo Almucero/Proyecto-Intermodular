@@ -17,33 +17,16 @@ header.menu-active {
 .search-wrapper {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.35rem 0.75rem;
   height: 40px;
   transition: all 0.2s ease;
   border: 1px solid transparent;
-  background-color: #111827;
-  border-radius: 9999px;
+  background-color: #1f2937;
 }
 
-.search-icon-wrapper {
-  width: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 28px;
-  transition: all 0.2s ease;
-}
-.search-icon {
-  width: 22px;
-  height: auto;
-  display: block;
-}
 .search-input {
-  flex: 1 1 auto;
   font-size: 0.95rem;
-  padding-left: 0.6rem;
-  height: 28px;
+  padding-left: 0.5rem;
+  height: 100%;
   color: #fff !important;
   background-color: transparent !important;
   outline: none !important;
@@ -53,29 +36,52 @@ header.menu-active {
 }
 
 .search-input::placeholder {
-  color: #fff !important;
+  color: #9ca3af;
   opacity: 1;
 }
 
-header.search-active .search-icon-wrapper,
-header .search-wrapper:focus-within .search-icon-wrapper {
-  width: 0;
-  opacity: 0;
-  margin-right: 0;
+.search-wrapper > a {
+  max-width: 140px;
+  opacity: 1;
+  margin-right: 0.5rem;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: max-width 0.5s ease-out, opacity 0.2s ease, margin 0.5s ease-out,
+    padding 0.5s ease-out;
 }
 
-header.search-active .search-wrapper,
-header .search-wrapper:focus-within {
-  padding-left: 0 !important;
-  border-color: transparent;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+header.search-active .search-wrapper > a,
+header.search-page .search-wrapper > a {
+  max-width: 0;
+  opacity: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+  pointer-events: none;
+  transition: opacity 0s linear, max-width 0.5s ease-out, margin 0.5s ease-out,
+    padding 0.5s ease-out;
+}
+
+.search-input {
+  min-width: 0;
+  transition: padding 0.5s ease-out;
 }
 
 header.search-active .search-input,
-header .search-wrapper:focus-within .search-input {
-  padding-left: 0 !important;
+header.search-page .search-input {
+  padding-left: 1rem;
+}
+
+header.search-active .search-input {
   color: #fff !important;
   font-weight: 700 !important;
+}
+
+header.search-active .search-wrapper,
+.search-wrapper:focus-within,
+header.search-page .search-wrapper {
+  border-color: transparent;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
 }
 
 .header-overlay {
@@ -102,4 +108,59 @@ header.menu-active .header-overlay {
 app-language-selector {
   position: relative;
   z-index: 1001;
+}
+
+@keyframes glitch-hover {
+  0% {
+    transform: translate(0);
+  }
+  2% {
+    transform: translate(-1px, 1px);
+  }
+  4% {
+    transform: translate(0);
+  }
+  6% {
+    transform: translate(0);
+  }
+  8% {
+    transform: translate(1px, -1px);
+  }
+  10% {
+    transform: translate(0);
+  }
+  /* Long pause */
+  40% {
+    transform: translate(0);
+  }
+  42% {
+    transform: translate(-1px, 0);
+  }
+  44% {
+    transform: translate(0);
+  }
+  /* Another pause */
+  100% {
+    transform: translate(0);
+  }
+}
+
+.logo-glitch {
+  &:hover {
+    img,
+    span {
+      /* Increased duration to 2s to make the glitches more sparse (flicker effect) */
+      animation: glitch-hover 2s infinite;
+    }
+
+    /* Reduced opacity from 0.7 to 0.4 for subtlety */
+    span {
+      text-shadow: 2px 0 rgba(0, 255, 255, 0.4), -2px 0 rgba(255, 0, 0, 0.4);
+    }
+
+    img {
+      filter: drop-shadow(2px 0 rgba(0, 255, 255, 0.4))
+        drop-shadow(-2px 0 rgba(255, 0, 0, 0.4));
+    }
+  }
 }

@@ -22,7 +22,7 @@ export async function processChatStream(input: ChatInput) {
     Si la búsqueda no da resultados, dilo honestamente.
   `;
 
-  const result = await streamText({
+  const result = streamText({
     model: google("gemini-2.5-flash"),
     system: systemPrompt,
     messages: input.messages.slice(-5),
