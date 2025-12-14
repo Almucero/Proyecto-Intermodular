@@ -45,15 +45,46 @@ export class CartItemService
     });
   }
 
-  override add(entity: CartItem): Observable<CartItem> {
+  private getAuthHeaders(): any {
     const headers: any = {};
     const token = this.auth.getToken();
     if (token) headers['Authorization'] = `Bearer ${token}`;
+    return headers;
+  }
+
+  override add(entity: CartItem): Observable<CartItem> {
     return this.http
       .post<CartItem>(
-        `${this.apiUrl}/${this.resource}/${entity.gameId}`,
-        { quantity: entity.quantity },
-        { headers }
+        `${this.apiUrl}/${this.resource}`,
+        {
+          gameId: entity.gameId,
+          platformId: entity.platformId,
+          quantity: entity.quantity,
+        },
+        { headers: this.getAuthHeaders() }
+      )
+      .pipe(tap(() => this.refreshCount()));
+  }
+
+  deleteWithPlatform(gameId: number, platformId: number): Observable<any> {
+    return this.http
+      .delete<any>(
+        `${this.apiUrl}/${this.resource}/${gameId}?platformId=${platformId}`,
+        { headers: this.getAuthHeaders() }
+      )
+      .pipe(tap(() => this.refreshCount()));
+  }
+
+  updateWithPlatform(
+    gameId: number,
+    platformId: number,
+    quantity: number
+  ): Observable<CartItem> {
+    return this.http
+      .patch<CartItem>(
+        `${this.apiUrl}/${this.resource}/${gameId}`,
+        { platformId, quantity },
+        { headers: this.getAuthHeaders() }
       )
       .pipe(tap(() => this.refreshCount()));
   }

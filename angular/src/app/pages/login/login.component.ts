@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
@@ -11,9 +11,6 @@ import { HttpClient } from '@angular/common/http';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageService } from '../../core/services/language.service';
 import { BaseAuthenticationService } from '../../core/services/impl/base-authentication.service';
-import { SignInPayload } from '../../core/models/user.model';
-import { HeaderComponent } from '../../shared/components/header/header.component';
-import { FooterComponent } from '../../shared/components/footer/footer.component';
 
 @Component({
   selector: 'app-login',
@@ -34,6 +31,7 @@ export class LoginComponent {
   private auth = inject(BaseAuthenticationService);
   private languageService = inject(LanguageService);
   private fb = inject(FormBuilder);
+  private location = inject(Location);
 
   constructor(private http: HttpClient) {
     this.formLogin = this.fb.group({
@@ -71,11 +69,13 @@ export class LoginComponent {
   }
 
   goToRegister() {
-    this.router.navigate(['/register']);
+    this.router.navigate(['/register'], {
+      state: { navigateTo: this.navigateTo },
+    });
   }
 
   goBack() {
-    this.router.navigate(['/']);
+    this.location.back();
   }
 
   getError(control: string) {

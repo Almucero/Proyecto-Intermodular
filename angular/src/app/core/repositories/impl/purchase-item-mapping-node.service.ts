@@ -16,13 +16,20 @@ export class PurchaseItemMappingNodeService
 
   getOne(data: any): PurchaseItem {
     return {
-      id: data.id,
+      id: data.itemId || data.id,
       purchaseId: data.purchaseId,
-      gameId: data.gameId,
-      price: data.price,
-      quantity: data.quantity,
+      gameId: data.gameId || data.id,
+      platformId: data.platform?.id || data.platformId || 0,
+      price: data.purchasePrice || data.price,
+      quantity: data.quantity || 1,
       purchase: data.purchase,
-      game: data.game,
+      game: data.game || {
+        id: data.id,
+        title: data.title,
+        price: data.price,
+        rating: data.rating,
+      },
+      platform: data.platform,
     };
   }
 
@@ -42,6 +49,7 @@ export class PurchaseItemMappingNodeService
     return {
       purchaseId: data.purchaseId,
       gameId: data.gameId,
+      platformId: data.platformId,
       price: data.price,
       quantity: data.quantity,
     };

@@ -100,6 +100,8 @@ async function cleanAllData() {
       }
     }
 
+    console.log("  - Eliminando ChatSessions...");
+    await prisma.chatSession.deleteMany({});
     console.log("  - Eliminando Favorites...");
     await prisma.favorite.deleteMany({});
     console.log("  - Eliminando CartItems...");
@@ -164,6 +166,12 @@ async function cleanAllData() {
       );
       await prisma.$executeRawUnsafe(
         'ALTER SEQUENCE "PurchaseItem_id_seq" RESTART WITH 1'
+      );
+      await prisma.$executeRawUnsafe(
+        'ALTER SEQUENCE "ChatSession_id_seq" RESTART WITH 1'
+      );
+      await prisma.$executeRawUnsafe(
+        'ALTER SEQUENCE "ChatMessage_id_seq" RESTART WITH 1'
       );
     } catch (e) {
       console.warn(

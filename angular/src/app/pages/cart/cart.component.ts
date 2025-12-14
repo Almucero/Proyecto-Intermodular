@@ -1,5 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { CartItemService } from '../../core/services/impl/cart-item.service';
@@ -11,7 +12,7 @@ import { Media } from '../../core/models/media.model';
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, RouterLink],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss',
 })
@@ -71,51 +72,65 @@ export class CartComponent implements OnInit {
   }
 
   async incrementQuantity(item: CartItem) {
-    if (!item.gameId) return;
+    if (!item.gameId || !item.platformId) return;
     try {
       await this.cartItemService
-        .update(String(item.gameId), {
-          ...item,
-          quantity: item.quantity + 1,
-        } as any)
+        .updateWithPlatform(item.gameId, item.platformId, item.quantity + 1)
         .toPromise();
       this.cartItems.update((items) =>
         items.map((i) =>
-          i.gameId === item.gameId ? { ...i, quantity: i.quantity + 1 } : i
+          i.gameId === item.gameId && i.platformId === item.platformId
+            ? { ...i, quantity: i.quantity + 1 }
+            : i
         )
       );
     } catch (error) {}
   }
 
   async decrementQuantity(item: CartItem) {
-    if (!item.gameId) return;
+    if (!item.gameId || !item.platformId) return;
     if (item.quantity > 1) {
       try {
         await this.cartItemService
-          .update(String(item.gameId), {
-            ...item,
-            quantity: item.quantity - 1,
-          } as any)
+          .updateWithPlatform(item.gameId, item.platformId, item.quantity - 1)
           .toPromise();
         this.cartItems.update((items) =>
           items.map((i) =>
-            i.gameId === item.gameId ? { ...i, quantity: i.quantity - 1 } : i
+            i.gameId === item.gameId && i.platformId === item.platformId
+              ? { ...i, quantity: i.quantity - 1 }
+              : i
           )
         );
       } catch (error) {}
     } else {
-      await this.removeFromCart(item.gameId);
+      await this.removeFromCart(item);
     }
   }
 
-  async removeFromCart(gameId: number) {
-    if (!gameId) return;
+  async removeFromCart(item: CartItem) {
+    if (!item.gameId || !item.platformId) return;
     try {
-      await this.cartItemService.delete(String(gameId)).toPromise();
+      await this.cartItemService
+        .deleteWithPlatform(item.gameId, item.platformId)
+        .toPromise();
       this.cartItems.update((items) =>
-        items.filter((i) => i.gameId !== gameId)
+        items.filter(
+          (i) => !(i.gameId === item.gameId && i.platformId === item.platformId)
+        )
       );
     } catch (error) {}
+  }
+
+  async clearCart() {
+    const items = this.cartItems();
+    for (const item of items) {
+      if (item.gameId && item.platformId) {
+        await this.cartItemService
+          .deleteWithPlatform(item.gameId, item.platformId)
+          .toPromise();
+      }
+    }
+    this.cartItems.set([]);
   }
 
   getItemTotal(item: CartItem): number {
@@ -146,6 +161,8 @@ export class CartComponent implements OnInit {
   checkout() {}
 
   goToLogin() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login'], {
+      state: { navigateTo: this.router.url },
+    });
   }
 }

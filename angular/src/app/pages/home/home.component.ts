@@ -200,7 +200,12 @@ export class HomeComponent implements OnInit {
       numberOfSales: 0,
       isOnSale: false,
       isRefundable: false,
-      stock: 0,
+      stockPc: 0,
+      stockPs5: 0,
+      stockXboxX: 0,
+      stockSwitch: 0,
+      stockPs4: 0,
+      stockXboxOne: 0,
       media: [],
     } as unknown as Game);
   }

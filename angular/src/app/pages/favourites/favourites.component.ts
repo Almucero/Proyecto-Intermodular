@@ -1,5 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { FavoriteService } from '../../core/services/impl/favorite.service';
@@ -13,7 +14,7 @@ import { Media } from '../../core/models/media.model';
 @Component({
   selector: 'app-favourites',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, RouterLink],
   templateUrl: './favourites.component.html',
   styleUrl: './favourites.component.scss',
 })
@@ -71,28 +72,38 @@ export class FavouritesComponent implements OnInit {
     });
   }
 
-  async addToCart(gameId: number) {
-    if (!gameId) return;
+  async addToCart(fav: Favorite) {
+    if (!fav.gameId || !fav.platformId) return;
     try {
       await this.cartItemService
-        .add({ gameId, quantity: 1 } as unknown as CartItem)
+        .add({
+          gameId: fav.gameId,
+          platformId: fav.platformId,
+          quantity: 1,
+        } as CartItem)
         .toPromise();
-      await this.removeFromFavorites(gameId);
+      await this.removeFromFavorites(fav);
     } catch (error) {}
   }
 
-  async removeFromFavorites(gameId: number) {
-    if (!gameId) return;
+  async removeFromFavorites(fav: Favorite) {
+    if (!fav.gameId || !fav.platformId) return;
     try {
-      await this.favoriteService.delete(String(gameId)).toPromise();
-      this.favorites.update((favs) => favs.filter((f) => f.gameId !== gameId));
+      await this.favoriteService
+        .deleteWithPlatform(fav.gameId, fav.platformId)
+        .toPromise();
+      this.favorites.update((favs) =>
+        favs.filter(
+          (f) => !(f.gameId === fav.gameId && f.platformId === fav.platformId)
+        )
+      );
     } catch (error) {}
   }
 
   async transferAllToCart() {
     for (const favorite of this.favorites()) {
-      if (favorite.gameId) {
-        await this.addToCart(favorite.gameId);
+      if (favorite.gameId && favorite.platformId) {
+        await this.addToCart(favorite);
       }
     }
   }
@@ -105,11 +116,9 @@ export class FavouritesComponent implements OnInit {
     return fav.game?.Developer?.name || fav.game?.Publisher?.name || 'Unknown';
   }
 
-  getGamePlatform(fav: Favorite): string {
-    return fav.game?.platforms?.map((p) => p.name).join(' | ') || '';
-  }
-
   goToLogin() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login'], {
+      state: { navigateTo: this.router.url },
+    });
   }
 }

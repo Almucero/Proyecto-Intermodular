@@ -12,23 +12,25 @@ export class CartItemMappingNodeService implements IBaseMapping<CartItem> {
 
   getOne(data: any): CartItem {
     return {
-      id: data.cartItemId,
+      id: data.cartItemId || data.id,
       userId: data.userId || 0,
-      gameId: data.id,
-      quantity: data.quantity,
+      gameId: data.id || data.gameId,
+      platformId: data.platform?.id || data.platformId || 0,
+      quantity: data.quantity || 1,
       user: data.user,
       game: {
-        id: data.id,
-        title: data.title,
-        price: data.price,
-        isOnSale: data.isOnSale,
-        salePrice: data.salePrice,
-        rating: data.rating,
-        Developer: data.Developer,
-        Publisher: data.Publisher,
-        media: [],
-        platforms: [],
+        id: data.id || data.game?.id,
+        title: data.title || data.game?.title,
+        price: data.price ?? data.game?.price,
+        isOnSale: data.isOnSale ?? data.game?.isOnSale,
+        salePrice: data.salePrice ?? data.game?.salePrice,
+        rating: data.rating ?? data.game?.rating,
+        Developer: data.Developer || data.game?.Developer,
+        Publisher: data.Publisher || data.game?.Publisher,
+        media: data.media || data.game?.media || [],
+        platforms: data.platforms || data.game?.platforms || [],
       } as any,
+      platform: data.platform,
     };
   }
 
@@ -48,6 +50,7 @@ export class CartItemMappingNodeService implements IBaseMapping<CartItem> {
     return {
       userId: data.userId,
       gameId: data.gameId,
+      platformId: data.platformId,
       quantity: data.quantity,
     };
   }
@@ -55,6 +58,7 @@ export class CartItemMappingNodeService implements IBaseMapping<CartItem> {
   setUpdate(data: any): any {
     const payload: any = {};
     if (data.quantity !== undefined) payload.quantity = data.quantity;
+    if (data.platformId !== undefined) payload.platformId = data.platformId;
     return payload;
   }
 }

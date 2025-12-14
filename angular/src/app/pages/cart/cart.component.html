@@ -5,20 +5,37 @@
     </h1>
 
     @if (!isAuthenticated()) {
-    <div class="flex flex-col items-center justify-center py-20">
-      <h2 class="text-2xl font-semibold text-white mb-6">
-        {{ "authGuard.featureLoginRequired" | translate }}
-      </h2>
-      <button
+    <div class="text-center text-gray-400 py-12">
+      <a
         (click)="goToLogin()"
-        class="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg hover:from-cyan-400 hover:to-blue-400 transition-all font-medium shadow-lg"
+        class="text-cyan-400 hover:text-cyan-300 cursor-pointer transition-colors"
+        >{{ "authGuard.login" | translate }}</a
       >
-        {{ "authGuard.login" | translate }}
-      </button>
+      {{ "authGuard.toSeeContent" | translate }}
     </div>
     } @else { @if (loading()) {
-    <div class="text-center text-gray-400 py-12">
-      {{ "common.loading" | translate }}
+    <div class="space-y-6">
+      @for (i of [1, 2, 3]; track i) {
+      <div
+        class="flex gap-4 bg-gray-800 rounded-lg p-4 items-start animate-pulse pointer-events-none"
+      >
+        <div class="w-32 h-32 bg-gray-700 rounded-lg flex-shrink-0"></div>
+        <div class="flex-1">
+          <div class="h-6 bg-gray-700 rounded w-3/4 mb-2"></div>
+          <div class="h-4 bg-gray-700 rounded w-1/2 mb-2"></div>
+          <div class="h-4 bg-gray-700 rounded w-1/4"></div>
+        </div>
+        <div class="flex flex-col items-end justify-between h-32 flex-shrink-0">
+          <div class="h-8 bg-gray-700 rounded w-28"></div>
+          <div class="flex gap-2 items-center">
+            <div class="w-10 h-10 bg-gray-700 rounded-lg"></div>
+            <div class="w-12 h-10 bg-gray-700 rounded-lg"></div>
+            <div class="w-10 h-10 bg-gray-700 rounded-lg"></div>
+            <div class="w-10 h-10 bg-gray-700 rounded-lg"></div>
+          </div>
+        </div>
+      </div>
+      }
     </div>
     } @if (error()) {
     <div class="text-center text-red-400 py-12">
@@ -32,89 +49,96 @@
 
     <div class="space-y-6">
       @for (item of cartItems(); track item.id) {
-      <div class="flex gap-4 bg-gray-800 rounded-lg p-4 items-center">
-        <img
-          [src]="getGameImage(item)"
-          [alt]="item.game?.title || 'Game'"
-          class="w-32 h-32 object-cover rounded-lg flex-shrink-0"
-        />
+      <div class="flex gap-4 bg-gray-800 rounded-lg p-4">
+        <a
+          [routerLink]="['/product', item.game?.id]"
+          class="flex-shrink-0 self-start"
+          style="text-decoration: none"
+        >
+          <img
+            [src]="getGameImage(item)"
+            [alt]="item.game?.title || 'Game'"
+            class="w-32 h-32 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
+          />
+        </a>
 
-        <div class="flex-1">
-          <h3 class="text-xl font-semibold text-white mb-1">
-            {{ item.game?.title || "Untitled" }}
-          </h3>
-          <p class="text-gray-400 text-sm">
+        <div class="flex-1 self-start">
+          <a
+            [routerLink]="['/product', item.game?.id]"
+            class="hover:text-cyan-400 transition-colors"
+            style="text-decoration: none"
+          >
+            <h3 class="text-xl font-semibold text-white mb-1">
+              {{ item.game?.title || "Untitled" }}
+            </h3>
+          </a>
+          <p class="text-gray-400 text-sm mb-1">
             {{ getGameDeveloper(item) }}
+          </p>
+          <p class="text-cyan-400 text-sm">
+            {{ item.platform?.name || "" }}
           </p>
         </div>
 
-        <div class="flex gap-2 items-center">
-          <button
-            (click)="decrementQuantity(item)"
-            class="w-10 h-10 flex items-center justify-center border-2 border-gray-600 rounded text-white hover:border-cyan-500 transition-colors"
-          >
-            −
-          </button>
-          <div
-            class="w-12 h-10 flex items-center justify-center border-2 border-gray-600 rounded text-white"
-          >
-            {{ item.quantity }}
-          </div>
-          <button
-            (click)="incrementQuantity(item)"
-            class="w-10 h-10 flex items-center justify-center border-2 border-gray-600 rounded text-white hover:border-cyan-500 transition-colors"
-          >
-            +
-          </button>
-        </div>
-
-        <div class="flex gap-8 flex-shrink-0">
-          <div class="text-right">
-            <p class="text-gray-400 text-sm mb-1">
-              {{ "cart.unitPrice" | translate }}
-            </p>
+        <div class="flex flex-col items-end justify-between h-32 flex-shrink-0">
+          <div class="flex items-baseline gap-2">
             @if (item.game?.isOnSale && item.game?.salePrice !== null) {
-            <div class="flex flex-col items-end">
-              <span class="text-gray-500 line-through text-sm"
-                >{{ item.game?.price }}€</span
-              >
-              <p class="text-lg font-bold text-cyan-400">
-                {{ item.game?.salePrice }}€
-              </p>
-            </div>
+            <p class="text-3xl font-bold text-cyan-400">
+              {{
+                (item.game?.salePrice || 0) * item.quantity | number : "1.2-2"
+              }}€
+            </p>
+            <span class="text-white line-through text-lg"
+              >{{
+                (item.game?.price || 0) * item.quantity | number : "1.2-2"
+              }}€</span
+            >
             } @else {
-            <p class="text-lg font-bold text-white">{{ item.game?.price }}€</p>
+            <p class="text-3xl font-bold text-cyan-400">
+              {{ (item.game?.price || 0) * item.quantity | number : "1.2-2" }}€
+            </p>
             }
           </div>
-          <div class="text-right">
-            <p class="text-gray-400 text-sm mb-1">
-              {{ "cart.total" | translate }}
-            </p>
-            <p class="text-lg font-bold text-white">
-              {{ getItemTotal(item) | number : "1.2-2" }}€
-            </p>
+
+          <div class="flex gap-2 items-center">
+            <button
+              (click)="decrementQuantity(item)"
+              class="w-10 h-10 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg text-white transition-colors border-0 outline-none"
+            >
+              −
+            </button>
+            <div
+              class="w-12 h-10 flex items-center justify-center bg-gray-700 rounded-lg text-white font-medium"
+            >
+              {{ item.quantity }}
+            </div>
+            <button
+              (click)="incrementQuantity(item)"
+              class="w-10 h-10 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg text-white transition-colors border-0 outline-none"
+            >
+              +
+            </button>
+            <button
+              (click)="removeFromCart(item)"
+              class="w-10 h-10 flex items-center justify-center bg-red-600 hover:bg-red-500 text-white rounded-lg transition-all border-0 outline-none"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
           </div>
         </div>
-
-        <button
-          (click)="removeFromCart(item.gameId)"
-          class="text-red-400 hover:text-red-300 transition-colors"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
       </div>
       }
     </div>
@@ -125,12 +149,20 @@
         <span class="text-gray-400">Total: </span>
         <span class="text-cyan-300">{{ getTotal() | number : "1.2-2" }}€</span>
       </div>
-      <button
-        (click)="checkout()"
-        class="px-8 py-3 bg-transparent border-2 border-cyan-500 text-cyan-500 rounded-lg hover:bg-cyan-500 hover:text-white transition-colors text-base font-medium"
-      >
-        {{ "cart.buy" | translate }}
-      </button>
+      <div class="flex gap-4">
+        <button
+          (click)="clearCart()"
+          class="px-8 py-3 bg-red-600 hover:bg-red-500 text-white rounded-lg transition-all text-base font-medium border-0 outline-none"
+        >
+          {{ "cart.clearAll" | translate }}
+        </button>
+        <button
+          (click)="checkout()"
+          class="px-8 py-3 bg-cyan-400 hover:bg-cyan-300 text-white rounded-lg transition-all text-base font-medium border-0 outline-none"
+        >
+          {{ "cart.buy" | translate }}
+        </button>
+      </div>
     </div>
     } }
   </div>

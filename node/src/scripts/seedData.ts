@@ -2511,6 +2511,85 @@ async function seedData() {
       }
     }
 
+    console.log("  - Creando sesiones de chat...");
+    let chatsAdded = 0;
+    let messagesAdded = 0;
+
+    const chatTemplates = [
+      {
+        title: "Busco juegos de terror",
+        messages: [
+          {
+            role: "user",
+            content: "Hola, me gustaría encontrar juegos de terror para jugar",
+          },
+          {
+            role: "assistant",
+            content:
+              "¡Hola! Te recomiendo Resident Evil 4 Remake, un juego de survival horror con acción intensa. También está Dead Space Remake y Amnesia: The Dark Descent si buscas terror psicológico.",
+          },
+          { role: "user", content: "¿Cuál me recomiendas para PS5?" },
+          {
+            role: "assistant",
+            content:
+              "Para PS5 te recomiendo Resident Evil 4 Remake (39.99€) o Dead Space Remake (39.99€). Ambos tienen gráficos de última generación y aprovechan las funciones del DualSense.",
+          },
+        ],
+      },
+      {
+        title: "Recomendaciones de RPG",
+        messages: [
+          { role: "user", content: "¿Qué juegos RPG me recomiendas?" },
+          {
+            role: "assistant",
+            content:
+              "¡Excelente elección! Te recomiendo Elden Ring, un RPG de mundo abierto desafiante. También The Witcher 3: Wild Hunt si prefieres una narrativa profunda, o Persona 5 Royal para un JRPG con estilo único.",
+          },
+        ],
+      },
+      {
+        title: "Juegos de carreras",
+        messages: [
+          { role: "user", content: "Busco un juego de carreras para PC" },
+          {
+            role: "assistant",
+            content:
+              "Para PC tienes excelentes opciones: Forza Horizon 5 (59.99€) para carreras arcade en mundo abierto, o Assetto Corsa para simulación realista. Need for Speed Unbound también es genial si te gusta el estilo urbano.",
+          },
+          { role: "user", content: "¿Y para jugar con amigos?" },
+          {
+            role: "assistant",
+            content:
+              "Forza Horizon 5 tiene un modo multijugador fantástico con carreras cooperativas y competitivas. Rocket League también es muy divertido en grupo y es más accesible.",
+          },
+        ],
+      },
+    ];
+
+    for (let i = 0; i < Math.min(createdUsers.length, 3); i++) {
+      const user = createdUsers[i]!;
+      const template = chatTemplates[i % chatTemplates.length]!;
+
+      const session = await prisma.chatSession.create({
+        data: {
+          userId: user.id,
+          title: template.title,
+        },
+      });
+      chatsAdded++;
+
+      for (const msg of template.messages) {
+        await prisma.chatMessage.create({
+          data: {
+            sessionId: session.id,
+            role: msg.role,
+            content: msg.content,
+          },
+        });
+        messagesAdded++;
+      }
+    }
+
     const mediaCounts = await uploadAllMedia();
 
     console.log("   ✅ Seed completado:");
@@ -2526,6 +2605,8 @@ async function seedData() {
     console.log(`   - ${refundsAdded} Compras en estado refunded`);
     console.log(`   - ${mediaCounts.gameImages} Imágenes de juegos subidas`);
     console.log(`   - ${mediaCounts.userAvatars} Avatares de usuarios subidos`);
+    console.log(`   - ${chatsAdded} Sesiones de chat creadas`);
+    console.log(`   - ${messagesAdded} Mensajes de chat creados`);
   } catch (err) {
     console.error("❌ Error durante el seed: ", err);
     process.exit(1);

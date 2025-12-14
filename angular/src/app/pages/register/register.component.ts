@@ -48,6 +48,7 @@ export class RegisterComponent {
   registerError = '';
   showPassword = false;
   submitted = false;
+  navigateTo: string = '';
 
   private router = inject(Router);
   private auth = inject(BaseAuthenticationService);
@@ -72,6 +73,10 @@ export class RegisterComponent {
         validators: passwordMatches,
       }
     );
+
+    this.navigateTo =
+      this.router.getCurrentNavigation()?.extras.state?.['navigateTo'] ||
+      '/dashboard';
   }
 
   onSubmit() {
@@ -85,7 +90,9 @@ export class RegisterComponent {
       this.auth.signUp(payload).subscribe({
         next: () => {
           sessionStorage.setItem('registrationSuccess', 'true');
-          this.router.navigate(['/login']);
+          this.router.navigate(['/login'], {
+            state: { navigateTo: this.navigateTo },
+          });
         },
         error: (err) => {
           this.registerError =
@@ -98,11 +105,15 @@ export class RegisterComponent {
   }
 
   goToLogin() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login'], {
+      state: { navigateTo: this.navigateTo },
+    });
   }
 
   goBack() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login'], {
+      state: { navigateTo: this.navigateTo },
+    });
   }
 
   getError(control: string) {
