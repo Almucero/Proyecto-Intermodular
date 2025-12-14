@@ -47,7 +47,7 @@ android {
 }
 
 dependencies {
-    implementation("androidx.compose.material:material-icons-extended:1.4.3")
+    implementation(libs.androidx.compose.material.icons.extended)
 
     implementation(libs.androidx.compose.foundation.layout)
     implementation(libs.androidx.material3)
@@ -55,7 +55,7 @@ dependencies {
     implementation(libs.androidx.room.common.jvm)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
     //Coil
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
@@ -68,7 +68,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     // View Model
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation(libs.androidx.datastore.preferences)
     // Navigation
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)

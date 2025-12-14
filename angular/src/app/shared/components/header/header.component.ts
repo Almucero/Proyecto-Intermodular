@@ -13,6 +13,7 @@ import { BaseAuthenticationService } from '../../../core/services/impl/base-auth
 import { CartItemService } from '../../../core/services/impl/cart-item.service';
 import { FavoriteService } from '../../../core/services/impl/favorite.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { slideMenuAnimation } from '../../../animations/slide-menu.animation';
 
 @Component({
   selector: 'app-header',
@@ -25,6 +26,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
+  animations: [slideMenuAnimation],
 })
 export class HeaderComponent {
   isMenuOpen = false;
@@ -42,6 +44,16 @@ export class HeaderComponent {
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  isSearchPage = false;
+
+  constructor() {
+    this.router.events.subscribe((event) => {
+      if (typeof event === 'object' && 'url' in event) {
+        this.isSearchPage = this.router.url.includes('/search');
+      }
+    });
   }
 
   onSearchFocus(): void {

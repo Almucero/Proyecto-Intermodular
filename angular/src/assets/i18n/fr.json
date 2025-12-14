@@ -1,6 +1,6 @@
 {
   "common": {
-    "searchPlaceholder": "Rechercher",
+    "searchPlaceholder": "Rechercher...",
     "loading": "Chargement..."
   },
   "header": {

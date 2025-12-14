@@ -193,7 +193,7 @@ export class HomeComponent implements OnInit {
   createPlaceholders(): Game[] {
     return Array(20).fill({
       id: -1,
-      title: 'Loading...',
+      title: 'common.loading',
       price: 0,
       description: '',
       releaseDate: new Date(),

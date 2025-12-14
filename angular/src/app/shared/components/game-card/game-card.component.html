@@ -26,7 +26,7 @@
         class="block truncate text-left whitespace-nowrap"
         [title]="game.title"
       >
-        {{ game.title }}
+        {{ game.id === -1 ? (game.title | translate) : game.title }}
       </span>
     </div>
     <span class="whitespace-nowrap flex-shrink-0">
