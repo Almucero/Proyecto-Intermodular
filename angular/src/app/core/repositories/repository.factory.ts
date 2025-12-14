@@ -21,6 +21,7 @@ import { CartItem } from '../models/cart-item.model';
 import { Purchase } from '../models/purchase.model';
 import { PurchaseItem } from '../models/purchase-item.model';
 import { Favorite } from '../models/favorite.model';
+import { ChatSession } from '../models/chat.model';
 
 // Tokens
 import {
@@ -74,6 +75,10 @@ import {
   FAVORITE_REPOSITORY_MAPPING_TOKEN,
   FAVORITE_REPOSITORY_TOKEN,
   FAVORITE_RESOURCE_NAME_TOKEN,
+  CHAT_API_URL_TOKEN,
+  CHAT_REPOSITORY_MAPPING_TOKEN,
+  CHAT_REPOSITORY_TOKEN,
+  CHAT_RESOURCE_NAME_TOKEN,
 } from './repository.tokens';
 
 // Mapping Services
@@ -88,6 +93,7 @@ import { CartItemMappingNodeService } from './impl/cart-item-mapping-node.servic
 import { PurchaseMappingNodeService } from './impl/purchase-mapping-node.service';
 import { PurchaseItemMappingNodeService } from './impl/purchase-item-mapping-node.service';
 import { FavoriteMappingNodeService } from './impl/favorite-mapping-node.service';
+import { ChatMappingNodeService } from './impl/chat-mapping-node.service';
 import { NodeAuthenticationService } from '../services/impl/node-authentication.service';
 import { NodeAuthMappingService } from '../services/impl/node-auth-mapping.service';
 import { BaseMediaService } from '../services/impl/base-media.service';
@@ -141,6 +147,7 @@ export function createBaseMappingFactory<T extends Model>(
     | 'purchase'
     | 'purchase-item'
     | 'favorite'
+    | 'chat'
 ): FactoryProvider {
   return {
     provide: token,
@@ -170,6 +177,8 @@ export function createBaseMappingFactory<T extends Model>(
               return new PurchaseItemMappingNodeService();
             case 'favorite':
               return new FavoriteMappingNodeService();
+            case 'chat':
+              return new ChatMappingNodeService();
             default:
               throw new Error('MODEL MAPPING NOT IMPLEMENTED');
           }
@@ -473,4 +482,20 @@ export const FavoriteRepositoryFactory: FactoryProvider =
     FAVORITE_API_URL_TOKEN,
     FAVORITE_RESOURCE_NAME_TOKEN,
     FAVORITE_REPOSITORY_MAPPING_TOKEN,
+  ]);
+
+export const ChatMappingFactory = createBaseMappingFactory<ChatSession>(
+  CHAT_REPOSITORY_MAPPING_TOKEN,
+  [BACKEND_TOKEN],
+  'chat'
+);
+
+export const ChatRepositoryFactory: FactoryProvider =
+  createBaseRepositoryFactory<ChatSession>(CHAT_REPOSITORY_TOKEN, [
+    BACKEND_TOKEN,
+    HttpClient,
+    BaseAuthenticationService,
+    CHAT_API_URL_TOKEN,
+    CHAT_RESOURCE_NAME_TOKEN,
+    CHAT_REPOSITORY_MAPPING_TOKEN,
   ]);

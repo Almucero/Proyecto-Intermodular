@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe, TranslateModule } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -33,17 +33,44 @@ export class ProductComponent implements OnInit {
   mediaItems: MediaItem[] = [];
   showAuthModal = signal(false);
   isAuthenticated = signal(false);
+  addedToCartSuccess = signal(false);
+  addedToFavoritesSuccess = signal(false);
+  buySuccess = signal(false);
+  quantityIncreased = signal(false);
+  alreadyInCart = signal(false);
+  alreadyInFavorites = signal(false);
 
   allPlatforms = [
-    { name: 'PC', image: 'assets/images/platforms/pc.png' },
-    { name: 'PS5', image: 'assets/images/platforms/ps5.png' },
+    {
+      name: 'PC',
+      image: 'assets/images/platforms/pc.png',
+      stockKey: 'stockPc' as const,
+    },
+    {
+      name: 'PS5',
+      image: 'assets/images/platforms/ps5.png',
+      stockKey: 'stockPs5' as const,
+    },
     {
       name: 'Xbox Series X',
       image: 'assets/images/platforms/xbox-series-x.png',
+      stockKey: 'stockXboxX' as const,
     },
-    { name: 'Switch', image: 'assets/images/platforms/switch.png' },
-    { name: 'PS4', image: 'assets/images/platforms/ps4.png' },
-    { name: 'Xbox One', image: 'assets/images/platforms/xbox-one.png' },
+    {
+      name: 'Switch',
+      image: 'assets/images/platforms/switch.png',
+      stockKey: 'stockSwitch' as const,
+    },
+    {
+      name: 'PS4',
+      image: 'assets/images/platforms/ps4.png',
+      stockKey: 'stockPs4' as const,
+    },
+    {
+      name: 'Xbox One',
+      image: 'assets/images/platforms/xbox-one.png',
+      stockKey: 'stockXboxOne' as const,
+    },
   ];
 
   get sortedPlatforms() {
@@ -78,18 +105,17 @@ export class ProductComponent implements OnInit {
   }
 
   constructor(
-    private route: ActivatedRoute,
+    @Inject(ActivatedRoute) private route: ActivatedRoute,
     private gameService: GameService,
     private mediaService: MediaService,
     private sanitizer: DomSanitizer,
     private cartItemService: CartItemService,
     private favoriteService: FavoriteService,
     private authService: BaseAuthenticationService,
-    private router: Router
+    @Inject(Router) private router: Router
   ) {}
 
   ngOnInit(): void {
-    // Initialize with placeholder immediately
     this.game = this.createPlaceholder();
     this.buildMediaItems();
 
@@ -111,7 +137,12 @@ export class ProductComponent implements OnInit {
       price: 0,
       rating: 0,
       releaseDate: new Date(),
-      stock: 0,
+      stockPc: 0,
+      stockPs5: 0,
+      stockXboxX: 0,
+      stockSwitch: 0,
+      stockPs4: 0,
+      stockXboxOne: 0,
       numberOfSales: 0,
       isOnSale: false,
       isRefundable: false,
@@ -145,12 +176,11 @@ export class ProductComponent implements OnInit {
 
     this.mediaItems = [];
 
-    // If placeholder, add a placeholder image
     if (this.game.id === -1) {
       this.mediaItems.push({
         type: 'image',
         label: 'Loading...',
-        url: 'assets/images/placeholder.jpg', // Assuming this or similar exists, or use a colored div in template
+        url: 'assets/images/placeholder.jpg',
       });
       return;
     }
@@ -179,6 +209,21 @@ export class ProductComponent implements OnInit {
     }
   }
 
+  getStockForPlatform(platformName: string | null): number {
+    if (!this.game || !platformName) return 0;
+    const platform = this.allPlatforms.find((p) => p.name === platformName);
+    if (!platform) return 0;
+    return (this.game as any)[platform.stockKey] || 0;
+  }
+
+  getSelectedPlatformId(): number | null {
+    if (!this.selectedPlatform || !this.game?.platforms) return null;
+    const platform = this.game.platforms.find(
+      (p) => p.name === this.selectedPlatform
+    );
+    return platform?.id || null;
+  }
+
   checkAuth(): boolean {
     if (!this.isAuthenticated()) {
       this.showAuthModal.set(true);
@@ -189,48 +234,89 @@ export class ProductComponent implements OnInit {
 
   confirmLogin() {
     this.showAuthModal.set(false);
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login'], {
+      state: { navigateTo: this.router.url },
+    });
   }
 
   cancelLogin() {
     this.showAuthModal.set(false);
   }
 
-  addedToCartSuccess = signal(false);
-  addedToFavoritesSuccess = signal(false);
-
   addToCart() {
-    if (!this.game || !this.checkAuth()) return;
+    if (!this.game || !this.checkAuth() || !this.selectedPlatform) return;
 
-    this.cartItemService
-      .add({ gameId: Number(this.game.id), quantity: 1 } as unknown as CartItem)
-      .subscribe({
-        next: () => {
-          this.addedToCartSuccess.set(true);
-          setTimeout(() => this.addedToCartSuccess.set(false), 2000);
-        },
-        error: (err) => {
-          if (err.status === 401) {
-            this.router.navigate(['/login']);
-          }
-        },
-      });
+    const platformId = this.getSelectedPlatformId();
+    if (!platformId) return;
+
+    this.cartItemService.getAll().subscribe({
+      next: (items) => {
+        const existingItem = items.find(
+          (item) =>
+            Number(item.gameId) === Number(this.game!.id) &&
+            Number(item.platformId) === platformId
+        );
+
+        this.cartItemService
+          .add({
+            gameId: Number(this.game!.id),
+            platformId,
+            quantity: 1,
+          } as CartItem)
+          .subscribe({
+            next: () => {
+              if (existingItem) {
+                this.quantityIncreased.set(true);
+                setTimeout(() => this.quantityIncreased.set(false), 2000);
+              } else {
+                this.addedToCartSuccess.set(true);
+                setTimeout(() => this.addedToCartSuccess.set(false), 2000);
+              }
+            },
+            error: (err) => {
+              if (err.status === 401) {
+                this.router.navigate(['/login']);
+              }
+            },
+          });
+      },
+    });
+  }
+
+  private increaseQuantity(platformId: number) {
+    if (!this.game) return;
+    this.cartItemService.getAll().subscribe({
+      next: (items) => {
+        const existingItem = items.find(
+          (item) =>
+            item.gameId === this.game!.id && item.platformId === platformId
+        );
+        if (existingItem) {
+          this.cartItemService
+            .updateWithPlatform(
+              this.game!.id,
+              platformId,
+              existingItem.quantity + 1
+            )
+            .subscribe({
+              next: () => {
+                this.quantityIncreased.set(true);
+                setTimeout(() => this.quantityIncreased.set(false), 2000);
+              },
+            });
+        }
+      },
+    });
   }
 
   addToFavorites() {
-    if (!this.game || !this.checkAuth()) return;
+    if (!this.game || !this.checkAuth() || !this.selectedPlatform) return;
 
-    if (this.selectedPlatform) {
-      try {
-        const saved = localStorage.getItem('favorites_platforms');
-        const platforms = saved ? JSON.parse(saved) : {};
-        platforms[this.game.id] = this.selectedPlatform;
-        localStorage.setItem('favorites_platforms', JSON.stringify(platforms));
-      } catch (e) {}
-    }
+    const platformId = this.getSelectedPlatformId();
+    if (!platformId) return;
 
     this.favoriteService
-      .add({ gameId: Number(this.game.id) } as unknown as Favorite)
+      .add({ gameId: Number(this.game.id), platformId } as Favorite)
       .subscribe({
         next: () => {
           this.addedToFavoritesSuccess.set(true);
@@ -239,14 +325,46 @@ export class ProductComponent implements OnInit {
         error: (err) => {
           if (err.status === 401) {
             this.router.navigate(['/login']);
+          } else if (err.status === 409) {
+            this.alreadyInFavorites.set(true);
+            setTimeout(() => this.alreadyInFavorites.set(false), 3000);
           }
         },
       });
   }
 
   buyNow() {
-    if (!this.game) return;
-    this.addToCart(); // addToCart already checks auth
+    if (!this.game || !this.checkAuth() || !this.selectedPlatform) return;
+
+    const platformId = this.getSelectedPlatformId();
+    if (!platformId) return;
+
+    this.cartItemService
+      .add({
+        gameId: Number(this.game.id),
+        platformId,
+        quantity: 1,
+      } as CartItem)
+      .subscribe({
+        next: () => {
+          this.buySuccess.set(true);
+          setTimeout(() => {
+            this.buySuccess.set(false);
+            this.router.navigate(['/cart']);
+          }, 500);
+        },
+        error: (err) => {
+          if (err.status === 401) {
+            this.router.navigate(['/login']);
+          } else if (err.status === 409) {
+            this.buySuccess.set(true);
+            setTimeout(() => {
+              this.buySuccess.set(false);
+              this.router.navigate(['/cart']);
+            }, 500);
+          }
+        },
+      });
   }
 
   isPlatformAvailable(platformName: string): boolean {

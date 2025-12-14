@@ -16,7 +16,12 @@ export interface Game extends Model {
   salePrice?: number | null;
   isRefundable: boolean;
   numberOfSales: number;
-  stock: number;
+  stockPc: number;
+  stockPs5: number;
+  stockXboxX: number;
+  stockSwitch: number;
+  stockPs4: number;
+  stockXboxOne: number;
   videoUrl?: string | null;
   rating?: number | null;
   releaseDate?: string | null;

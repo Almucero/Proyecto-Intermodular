@@ -3,6 +3,14 @@
     "searchPlaceholder": "Buscar...",
     "loading": "Cargando..."
   },
+  "authGuard": {
+    "loginRequiredTitle": "Inicio de sesión requerido",
+    "loginRequiredMessage": "Debes iniciar sesión para realizar esta acción. ¿Deseas ir a la página de inicio de sesión?",
+    "cancel": "Cancelar",
+    "login": "Iniciar sesión",
+    "toSeeContent": "para ver tu contenido",
+    "featureLoginRequired": "Inicia sesión para ver tu contenido"
+  },
   "header": {
     "menu": "Menú"
   },
@@ -21,7 +29,16 @@
     "title": "Admin"
   },
   "aichat": {
-    "title": "Chat IA"
+    "title": "Chat IA",
+    "new_chat": "Nuevo Chat",
+    "untitled_chat": "Chat sin título",
+    "no_sessions": "No hay conversaciones anteriores",
+    "welcome_title": "¿En qué puedo ayudarte hoy?",
+    "welcome_subtitle": "Soy Sage, tu asistente de videojuegos. Pregúntame sobre recomendaciones, detalles de juegos o cualquier otra cosa.",
+    "you": "Tú",
+    "thinking": "Pensando...",
+    "placeholder": "Escribe un mensaje...",
+    "disclaimer": "La IA puede cometer errores. Por favor verifica la información importante."
   },
   "favourites": {
     "title": "Favoritos",
@@ -38,6 +55,7 @@
     "total": "Total",
     "quantity": "Cantidad",
     "buy": "Comprar",
+    "clearAll": "Vaciar cesta",
     "empty": "Tu cesta está vacía"
   },
   "settings": {
@@ -207,6 +225,12 @@
     "buy": "Comprar",
     "addToFavorites": "Añadir a favoritos",
     "addToCart": "Añadir a la cesta",
+    "addedToCart": "¡Añadido!",
+    "addedToFavorites": "¡Añadido!",
+    "goingToCart": "Yendo a la cesta...",
+    "quantityIncreased": "Cantidad aumentada",
+    "alreadyInCart": "Ya está en la cesta para esta plataforma",
+    "alreadyInFavorites": "Ya está en favoritos para esta plataforma",
     "free": "Gratis",
     "inStock": "En stock",
     "fewLeft": "Quedan pocos",
@@ -277,13 +301,6 @@
     "uploadFile": "Subir archivo",
     "deleteFile": "Eliminar archivo",
     "closeNotification": "Cerrar notificación"
-  },
-  "authGuard": {
-    "loginRequiredTitle": "Inicio de sesión requerido",
-    "loginRequiredMessage": "Debes iniciar sesión para realizar esta acción. ¿Deseas ir a la página de inicio de sesión?",
-    "login": "Iniciar sesión",
-    "cancel": "Cancelar",
-    "featureLoginRequired": "Inicia sesión para ver tu contenido"
   },
   "footer": {
     "text": "GameSage. Todos los derechos reservados."

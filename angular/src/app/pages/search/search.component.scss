@@ -25,21 +25,39 @@
 }
 
 input[type="range"] {
-  @apply bg-gray-700 rounded-lg appearance-none cursor-pointer;
+  background-color: #374151;
+  border-radius: 0.5rem;
+  appearance: none;
+  cursor: pointer;
+  height: 0.5rem;
+  width: 100%;
 
   &::-webkit-slider-thumb {
-    @apply appearance-none w-4 h-4 bg-cyan-500 rounded-full cursor-pointer transition-transform duration-150;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    background-color: #06b6d4;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: transform 150ms;
 
     &:hover {
-      @apply scale-110;
+      transform: scale(1.1);
     }
   }
 
   &::-moz-range-thumb {
-    @apply w-4 h-4 bg-cyan-500 rounded-full cursor-pointer border-none transition-transform duration-150;
+    width: 1rem;
+    height: 1rem;
+    background-color: #06b6d4;
+    border-radius: 9999px;
+    cursor: pointer;
+    border: none;
+    transition: transform 150ms;
 
     &:hover {
-      @apply scale-110;
+      transform: scale(1.1);
     }
   }
 }

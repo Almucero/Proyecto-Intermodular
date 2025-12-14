@@ -3,6 +3,14 @@
     "searchPlaceholder": "Suchen...",
     "loading": "Laden..."
   },
+  "authGuard": {
+    "loginRequiredTitle": "Anmeldung erforderlich",
+    "loginRequiredMessage": "Du musst dich anmelden, um diese Aktion auszuführen. Möchtest du zur Anmeldeseite gehen?",
+    "cancel": "Abbrechen",
+    "login": "Anmelden",
+    "toSeeContent": "um deine Inhalte zu sehen",
+    "featureLoginRequired": "Melde dich an, um deine Inhalte zu sehen"
+  },
   "header": {
     "menu": "Menü"
   },
@@ -38,6 +46,7 @@
     "total": "Gesamt",
     "quantity": "Menge",
     "buy": "Kaufen",
+    "clearAll": "Warenkorb leeren",
     "empty": "Ihr Warenkorb ist leer"
   },
   "settings": {
@@ -206,6 +215,12 @@
     "buy": "Kaufen",
     "addToFavorites": "Zu Favoriten hinzufügen",
     "addToCart": "In den Warenkorb",
+    "addedToCart": "Hinzugefügt!",
+    "addedToFavorites": "Hinzugefügt!",
+    "goingToCart": "Zum Warenkorb...",
+    "quantityIncreased": "Menge erhöht",
+    "alreadyInCart": "Bereits im Warenkorb für diese Plattform",
+    "alreadyInFavorites": "Bereits in Favoriten für diese Plattform",
     "free": "Kostenlos",
     "inStock": "Auf Lager",
     "fewLeft": "Nur noch wenige",

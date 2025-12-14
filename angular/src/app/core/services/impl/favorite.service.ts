@@ -45,15 +45,28 @@ export class FavoriteService
     });
   }
 
-  override add(entity: Favorite): Observable<Favorite> {
+  private getAuthHeaders(): any {
     const headers: any = {};
     const token = this.auth.getToken();
     if (token) headers['Authorization'] = `Bearer ${token}`;
+    return headers;
+  }
+
+  override add(entity: Favorite): Observable<Favorite> {
     return this.http
       .post<Favorite>(
-        `${this.apiUrl}/${this.resource}/${entity.gameId}`,
-        {},
-        { headers }
+        `${this.apiUrl}/${this.resource}`,
+        { gameId: entity.gameId, platformId: entity.platformId },
+        { headers: this.getAuthHeaders() }
+      )
+      .pipe(tap(() => this.refreshCount()));
+  }
+
+  deleteWithPlatform(gameId: number, platformId: number): Observable<any> {
+    return this.http
+      .delete<any>(
+        `${this.apiUrl}/${this.resource}/${gameId}?platformId=${platformId}`,
+        { headers: this.getAuthHeaders() }
       )
       .pipe(tap(() => this.refreshCount()));
   }

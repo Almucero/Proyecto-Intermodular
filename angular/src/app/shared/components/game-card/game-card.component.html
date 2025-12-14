@@ -2,6 +2,7 @@
   [class.w-56]="!fullWidth"
   [class.w-full]="fullWidth"
   class="group cursor-pointer transition-all duration-150 active:scale-95"
+  [class.pointer-events-none]="game.id === -1"
   (click)="onClick()"
 >
   <div
