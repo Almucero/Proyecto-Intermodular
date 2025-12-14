@@ -21,6 +21,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 export class GameCardComponent implements AfterViewInit {
   @Input() game!: Game;
   @Input() coverUrl!: string;
+  @Input() fullWidth: boolean = false;
   @Output() cardClick = new EventEmitter<number>();
 
   @ViewChild('gameTitle') gameTitleElement!: ElementRef;
