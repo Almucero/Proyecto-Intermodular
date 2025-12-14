@@ -4,7 +4,6 @@ import { ErrorToastComponent } from './shared/components/error-toast/error-toast
 import { LanguageService } from './core/services/language.service';
 import { BaseAuthenticationService } from './core/services/impl/base-authentication.service';
 import { routeFadeAnimation } from './animations/route-fade.animation';
-import { trigger } from '@angular/animations';
 import { forkJoin, timer } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { LoadingComponent } from './shared/components/loading/loading.component';
@@ -69,6 +68,12 @@ export class AppComponent {
       window.scrollTo(0, 0);
       this.isLoading = false;
     });
+
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        window.scrollTo(0, 0);
+      });
   }
 
   prepareRoute(outlet: RouterOutlet) {

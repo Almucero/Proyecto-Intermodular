@@ -135,7 +135,6 @@ export class HomeComponent implements OnInit {
     }
     if (this.bottomLayer) {
       this.bottomLayer.nativeElement.style.transform = `translateY(${bottomParallaxOffset}px)`;
-      // Eliminada la linea que forzaba filter = 'none' para respetar el drop-shadow del CSS
     }
     if (this.mainContent) {
       this.mainContent.nativeElement.style.transform = `translateY(${mainContentOffset}px)`;
@@ -156,7 +155,7 @@ export class HomeComponent implements OnInit {
     setTimeout(() => {
       this.showAllGenres = false;
       this.isClosingGenreDropdown = false;
-    }, 200);
+    }, 150);
   }
 
   loadGames() {

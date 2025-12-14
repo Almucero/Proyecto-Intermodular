@@ -27,7 +27,7 @@ interface MediaItem {
   styleUrls: ['./product.component.scss'],
 })
 export class ProductComponent implements OnInit {
-  game: Game | null = null;
+  game: Game | null = this.createPlaceholder();
   selectedPlatform: string | null = null;
   currentMediaIndex: number = 0;
   mediaItems: MediaItem[] = [];
@@ -89,6 +89,10 @@ export class ProductComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Initialize with placeholder immediately
+    this.game = this.createPlaceholder();
+    this.buildMediaItems();
+
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.loadGame(id);
@@ -97,6 +101,23 @@ export class ProductComponent implements OnInit {
     this.authService.authenticated$.subscribe((isAuth) => {
       this.isAuthenticated.set(isAuth);
     });
+  }
+
+  createPlaceholder(): Game {
+    return {
+      id: -1,
+      title: 'common.loading',
+      description: '...',
+      price: 0,
+      rating: 0,
+      releaseDate: new Date(),
+      stock: 0,
+      numberOfSales: 0,
+      isOnSale: false,
+      isRefundable: false,
+      media: [],
+      platforms: [],
+    } as unknown as Game;
   }
 
   loadGame(id: string): void {
@@ -123,6 +144,16 @@ export class ProductComponent implements OnInit {
     if (!this.game) return;
 
     this.mediaItems = [];
+
+    // If placeholder, add a placeholder image
+    if (this.game.id === -1) {
+      this.mediaItems.push({
+        type: 'image',
+        label: 'Loading...',
+        url: 'assets/images/placeholder.jpg', // Assuming this or similar exists, or use a colored div in template
+      });
+      return;
+    }
 
     if (this.game.videoUrl) {
       const videoId = this.getVideoId(this.game.videoUrl);
