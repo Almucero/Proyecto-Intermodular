@@ -88,6 +88,7 @@ export const AUTH_SIGN_UP_API_URL_TOKEN = new InjectionToken<string>(
 );
 export const AUTH_ME_API_URL_TOKEN = new InjectionToken<string>('AuthMeApiUrl');
 export const UPLOAD_API_URL_TOKEN = new InjectionToken<string>('UploadApiUrl');
+export const CHAT_API_URL_TOKEN = new InjectionToken<string>('ChatApiUrl');
 
 //Repository mappings
 export const REPOSITORY_MAPPING_TOKEN = new InjectionToken<IBaseMapping<any>>(
@@ -172,6 +173,7 @@ import { CartItem } from '../models/cart-item.model';
 import { Purchase } from '../models/purchase.model';
 import { PurchaseItem } from '../models/purchase-item.model';
 import { Favorite } from '../models/favorite.model';
+import { ChatSession } from '../models/chat.model';
 
 export const CART_ITEM_REPOSITORY_MAPPING_TOKEN = new InjectionToken<
   IBaseMapping<CartItem>
@@ -185,3 +187,16 @@ export const PURCHASE_ITEM_REPOSITORY_MAPPING_TOKEN = new InjectionToken<
 export const FAVORITE_REPOSITORY_MAPPING_TOKEN = new InjectionToken<
   IBaseMapping<Favorite>
 >('IFavoriteRepositoryMapping');
+export const CHAT_REPOSITORY_MAPPING_TOKEN = new InjectionToken<
+  IBaseMapping<ChatSession>
+>('IChatRepositoryMapping');
+
+// Chat Tokens
+import { IChatRepository } from './interfaces/chat-repository.interface';
+
+export const CHAT_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
+  'ChatResourceName'
+);
+export const CHAT_REPOSITORY_TOKEN = new InjectionToken<IChatRepository>(
+  'IChatRepository'
+);

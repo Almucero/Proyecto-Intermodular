@@ -43,6 +43,8 @@ import {
   PURCHASE_API_URL_TOKEN,
   PURCHASE_ITEM_API_URL_TOKEN,
   FAVORITE_API_URL_TOKEN,
+  CHAT_API_URL_TOKEN,
+  CHAT_RESOURCE_NAME_TOKEN,
 } from './core/repositories/repository.tokens';
 
 // Factories
@@ -71,6 +73,8 @@ import {
   PurchaseItemRepositoryFactory,
   FavoriteMappingFactory,
   FavoriteRepositoryFactory,
+  ChatMappingFactory,
+  ChatRepositoryFactory,
 } from './core/repositories/repository.factory';
 
 // Services
@@ -85,6 +89,7 @@ import { CartItemService } from './core/services/impl/cart-item.service';
 import { PurchaseService } from './core/services/impl/purchase.service';
 import { PurchaseItemService } from './core/services/impl/purchase-item.service';
 import { FavoriteService } from './core/services/impl/favorite.service';
+import { ChatService } from './core/services/impl/chat.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -119,6 +124,7 @@ export const appConfig: ApplicationConfig = {
       useValue: 'purchase-items',
     },
     { provide: FAVORITE_RESOURCE_NAME_TOKEN, useValue: 'favorites' },
+    { provide: CHAT_RESOURCE_NAME_TOKEN, useValue: 'sessions' },
 
     // API URLs
     { provide: API_URL_TOKEN, useValue: `${environment.apiUrl}/api` },
@@ -166,6 +172,10 @@ export const appConfig: ApplicationConfig = {
       provide: FAVORITE_API_URL_TOKEN,
       useValue: `${environment.apiUrl}/api`,
     },
+    {
+      provide: CHAT_API_URL_TOKEN,
+      useValue: `${environment.apiUrl}/api/chat`,
+    },
 
     // Auth URLs
     {
@@ -197,6 +207,7 @@ export const appConfig: ApplicationConfig = {
     PurchaseMappingFactory,
     PurchaseItemMappingFactory,
     FavoriteMappingFactory,
+    ChatMappingFactory,
     AuthMappingFactory,
 
     // Repositories
@@ -211,6 +222,7 @@ export const appConfig: ApplicationConfig = {
     PurchaseRepositoryFactory,
     PurchaseItemRepositoryFactory,
     FavoriteRepositoryFactory,
+    ChatRepositoryFactory,
 
     // Services
     { provide: DeveloperService, useClass: DeveloperService },
@@ -224,6 +236,7 @@ export const appConfig: ApplicationConfig = {
     { provide: PurchaseService, useClass: PurchaseService },
     { provide: PurchaseItemService, useClass: PurchaseItemService },
     { provide: FavoriteService, useClass: FavoriteService },
+    { provide: ChatService, useClass: ChatService },
 
     AuthenticationServiceFactory,
   ],

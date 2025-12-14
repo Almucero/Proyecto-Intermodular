@@ -21,6 +21,7 @@
     "types": ["node"]
   },
   "include": ["src/**/*.ts", "src/typings.d.ts"],
+  "exclude": ["temp/**/*"],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,

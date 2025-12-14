@@ -92,7 +92,7 @@
         />
         @if ((favoritesCount() || 0) > 0) {
         <span
-          class="absolute -bottom-1 -left-1 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[1.1rem] text-center border-2 border-gray-950"
+          class="absolute -bottom-1 right-0 text-red-500 text-sm font-black"
         >
           {{ favoritesCount() }}
         </span>
@@ -111,7 +111,7 @@
         />
         @if ((cartCount() || 0) > 0) {
         <span
-          class="absolute -bottom-1 -left-1 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[1.1rem] text-center border-2 border-gray-950"
+          class="absolute -bottom-1 right-0 text-red-500 text-sm font-black"
         >
           {{ cartCount() }}
         </span>

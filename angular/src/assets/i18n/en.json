@@ -3,6 +3,14 @@
     "searchPlaceholder": "Search...",
     "loading": "Loading..."
   },
+  "authGuard": {
+    "loginRequiredTitle": "Login Required",
+    "loginRequiredMessage": "You must log in to perform this action. Would you like to go to the login page?",
+    "cancel": "Cancel",
+    "login": "Log In",
+    "toSeeContent": "to see your content",
+    "featureLoginRequired": "Log in to view your content"
+  },
   "header": {
     "menu": "Menu"
   },
@@ -21,7 +29,16 @@
     "title": "Admin"
   },
   "aichat": {
-    "title": "AI Chat"
+    "title": "AI Chat",
+    "new_chat": "New Chat",
+    "untitled_chat": "Untitled Chat",
+    "no_sessions": "No previous conversations",
+    "welcome_title": "How can I help you today?",
+    "welcome_subtitle": "I am your gaming assistant. Ask me about recommendations, game details, or anything else.",
+    "you": "You",
+    "thinking": "Thinking...",
+    "placeholder": "Type a message...",
+    "disclaimer": "AI may make mistakes. Please verify important information."
   },
   "favourites": {
     "title": "Favorites",
@@ -38,6 +55,7 @@
     "total": "Total",
     "quantity": "Quantity",
     "buy": "Buy",
+    "clearAll": "Clear Cart",
     "empty": "Your cart is empty"
   },
   "settings": {
@@ -206,6 +224,12 @@
     "buy": "Buy",
     "addToFavorites": "Add to favorites",
     "addToCart": "Add to cart",
+    "addedToCart": "Added!",
+    "addedToFavorites": "Added!",
+    "goingToCart": "Going to cart...",
+    "quantityIncreased": "Quantity increased",
+    "alreadyInCart": "Already in cart for this platform",
+    "alreadyInFavorites": "Already in favorites for this platform",
     "free": "Free",
     "inStock": "In Stock",
     "fewLeft": "Few Left",
@@ -276,13 +300,6 @@
     "uploadFile": "Upload file",
     "deleteFile": "Delete file",
     "closeNotification": "Close notification"
-  },
-  "authGuard": {
-    "loginRequiredTitle": "Login Required",
-    "loginRequiredMessage": "You must be logged in to perform this action. Do you want to go to the login page?",
-    "login": "Log in",
-    "cancel": "Cancel",
-    "featureLoginRequired": "Log in to view your content"
   },
   "footer": {
     "text": "GameSage. All rights reserved."

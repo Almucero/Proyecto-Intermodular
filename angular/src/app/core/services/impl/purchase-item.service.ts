@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { BaseService } from './base-service.service';
 import { PURCHASE_ITEM_REPOSITORY_TOKEN } from '../../repositories/repository.tokens';
-import { IBaseRepository } from '../../repositories/interfaces/base-repository.interface';
+import type { IBaseRepository } from '../../repositories/interfaces/base-repository.interface';
 import { PurchaseItem } from '../../models/purchase-item.model';
 import { IPurchaseItemService } from '../interfaces/purchase-item-service.interface';
 

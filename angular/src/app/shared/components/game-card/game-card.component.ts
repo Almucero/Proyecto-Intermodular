@@ -8,7 +8,7 @@ import {
   AfterViewInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Game } from '../../../core/models/game.model';
+import type { Game } from '../../../core/models/game.model';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
