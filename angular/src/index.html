@@ -7,25 +7,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="dark only" />
     <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/styles/loading-critical.css" />
   </head>
   <body>
     <app-root>
-      <style>
-        html,
-        body {
-          height: 100%;
-        }
-        body {
-          color: #64e7f9;
-          display: grid;
-          place-items: center;
-          text-align: center;
-        }
-      </style>
-      <section>
-        <img src="assets/branding/game_sage_logo.png" />
-        <h1>GameSage</h1>
-      </section>
+      <div class="app-loading-screen">
+        <div class="glitch-container">
+          <div class="glitch-logo" data-text="GameSage">
+            <img
+              src="assets/branding/game_sage_logo.png"
+              alt="GameSage Logo"
+              class="logo-image"
+            />
+          </div>
+          <h1 class="glitch-text" data-text="GameSage">GameSage</h1>
+          <div class="loading-bar">
+            <div class="loading-progress"></div>
+          </div>
+        </div>
+      </div>
     </app-root>
   </body>
 </html>

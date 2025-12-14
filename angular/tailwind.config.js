@@ -2,7 +2,12 @@
 module.exports = {
   content: ["./src/**/*.{html,ts}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["Montserrat", "sans-serif"],
+        cinzel: ["Cinzel", "serif"],
+      },
+    },
   },
   plugins: [],
   corePlugins: {

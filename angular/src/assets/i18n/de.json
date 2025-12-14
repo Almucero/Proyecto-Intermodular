@@ -1,12 +1,13 @@
 {
   "common": {
-    "searchPlaceholder": "Suchen",
+    "searchPlaceholder": "Suchen...",
     "loading": "Laden..."
   },
   "header": {
     "menu": "Menü"
   },
   "menu": {
+    "home": "Startseite",
     "explore": "Entdecken",
     "settings": "Einstellungen",
     "help": "Hilfe",

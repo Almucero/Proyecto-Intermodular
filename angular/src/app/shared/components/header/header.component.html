@@ -1,6 +1,7 @@
 <header
   [class.search-active]="searchActive"
   [class.menu-active]="isMenuOpen"
+  [class.search-page]="isSearchPage"
   class="flex-none relative flex items-center justify-between px-6 py-1 border-b border-gray-800 bg-gray-950 select-none"
 >
   <button
@@ -22,25 +23,38 @@
     [style.transform]="isMenuOpen ? 'translateX(11.75rem)' : 'translateX(0)'"
   >
     <div
-      class="flex items-center gap-2 cursor-pointer transition-transform duration-150 active:scale-95"
+      class="logo-glitch flex items-center gap-2 cursor-pointer transition-transform duration-150 active:scale-95"
     >
       <img
         src="assets/branding/game_sage_logo.png"
         alt="GameSage Logo"
-        class="w-14 h-14 object-cover rounded-xl"
+        class="w-14 h-14 object-cover rounded-xl relative top-[2px]"
       />
       <span>GameSage</span>
     </div>
   </a>
   <div class="absolute left-1/2 transform -translate-x-1/2 w-1/3">
-    <div class="search-wrapper bg-gray-800 rounded-full flex items-center">
-      <span class="search-icon-wrapper" [title]="'tooltips.search' | translate">
-        <img src="assets/icons/search.png" alt="Search" class="search-icon" />
-      </span>
+    <div
+      class="search-wrapper bg-gray-800 rounded-full flex items-center p-1 pl-1"
+    >
+      <a
+        routerLink="/search"
+        class="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-cyan-200 px-3 py-1.5 rounded-full no-underline duration-200 cursor-pointer transition-transform active:scale-95"
+        [title]="'menu.explore' | translate"
+      >
+        <img
+          src="assets/icons/search.png"
+          alt="Search"
+          class="w-4 h-4 object-contain"
+        />
+        <span class="text-sm font-semibold whitespace-nowrap">{{
+          "menu.explore" | translate
+        }}</span>
+      </a>
       <input
         type="text"
         [placeholder]="'common.searchPlaceholder' | translate"
-        class="search-input bg-transparent outline-none text-gray-300 border-none"
+        class="search-input bg-transparent outline-none text-gray-300 border-none flex-1 min-w-0"
         (focus)="onSearchFocus()"
         (blur)="onSearchBlur()"
         (keydown)="onSearch($event)"
@@ -121,15 +135,20 @@
 <div
   *ngIf="isMenuOpen"
   #menu
-  class="fixed top-0 left-0 h-full w-64 border-gray-800 bg-gray-950 text-white transform transition-transform duration-300 z-[2000] -translate-x-full select-none"
-  [class.translate-x-0]="isMenuOpen"
+  [@slideMenuAnimation]
+  class="fixed top-0 left-0 h-full w-64 border-gray-800 bg-gray-950 text-white z-[2000] select-none"
 >
-  <div class="p-6">
+  <div class="h-16 flex items-center justify-between px-6 shrink-0">
     <h2
+      class="text-2xl font-bold text-cyan-200 cursor-pointer hover:text-cyan-100 transition-transform duration-150 active:scale-95 m-0"
       (click)="toggleMenu()"
-      class="flex justify-between items-center text-2xl font-bold text-cyan-300 mb-6 pb-3 border-b border-gray-700 cursor-pointer hover:text-cyan-400 pt-0 -mt-2.5 transition-transform duration-150 active:scale-95"
     >
-      <span>Menú</span>
+      {{ "header.menu" | translate }}
+    </h2>
+    <button
+      (click)="toggleMenu()"
+      class="bg-transparent border-none p-0 text-cyan-200 hover:text-cyan-100 transition-transform duration-150 active:scale-95 focus:outline-none cursor-pointer"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         class="h-6 w-6"
@@ -144,11 +163,40 @@
           d="M6 18L18 6M6 6l12 12"
         />
       </svg>
-    </h2>
+    </button>
+  </div>
+
+  <div class="h-px bg-white mx-6 opacity-30 shrink-0"></div>
+
+  <div class="p-6 pt-4 overflow-y-auto flex-1">
+    <a
+      routerLink="/"
+      (click)="toggleMenu()"
+      [routerLinkActiveOptions]="{ exact: true }"
+      routerLinkActive="bg-white/10 text-cyan-300"
+      class="flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-2 p-2 rounded-xl transition-transform duration-150 active:scale-95"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+        />
+      </svg>
+      {{ "menu.home" | translate }}
+    </a>
     <a
       routerLink="/search"
       (click)="toggleMenu()"
-      class="flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-3 transition-transform duration-150 active:scale-95"
+      routerLinkActive="bg-white/10 text-cyan-300"
+      class="flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-2 p-2 rounded-xl transition-transform duration-150 active:scale-95"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -169,7 +217,8 @@
     <a
       routerLink="/settings"
       (click)="toggleMenu()"
-      class="flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-3 transition-transform duration-150 active:scale-95"
+      routerLinkActive="bg-white/10 text-cyan-300"
+      class="flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-2 p-2 rounded-xl transition-transform duration-150 active:scale-95"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -196,7 +245,8 @@
     <a
       routerLink="/help"
       (click)="toggleMenu()"
-      class="flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-3 transition-transform duration-150 active:scale-95"
+      routerLinkActive="bg-white/10 text-cyan-300"
+      class="flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-2 p-2 rounded-xl transition-transform duration-150 active:scale-95"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -217,7 +267,8 @@
     <a
       routerLink="/contact"
       (click)="toggleMenu()"
-      class="flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-3 transition-transform duration-150 active:scale-95"
+      routerLinkActive="bg-white/10 text-cyan-300"
+      class="flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-2 p-2 rounded-xl transition-transform duration-150 active:scale-95"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -238,7 +289,8 @@
     <a
       routerLink="/privacy"
       (click)="toggleMenu()"
-      class="flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-3 transition-transform duration-150 active:scale-95"
+      routerLinkActive="bg-white/10 text-cyan-300"
+      class="flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-2 p-2 rounded-xl transition-transform duration-150 active:scale-95"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -259,7 +311,8 @@
     <a
       routerLink="/conditions"
       (click)="toggleMenu()"
-      class="flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-3 transition-transform duration-150 active:scale-95"
+      routerLinkActive="bg-white/10 text-cyan-300"
+      class="flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-2 p-2 rounded-xl transition-transform duration-150 active:scale-95"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -280,7 +333,8 @@
     <a
       routerLink="/cookies"
       (click)="toggleMenu()"
-      class="flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base transition-transform duration-150 active:scale-95"
+      routerLinkActive="bg-white/10 text-cyan-300"
+      class="flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-2 p-2 rounded-xl transition-transform duration-150 active:scale-95"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
