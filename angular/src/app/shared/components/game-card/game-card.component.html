@@ -26,20 +26,26 @@
   <div
     class="mt-2 flex justify-between items-center text-sm font-medium text-gray-300 group-hover:text-white transition-colors overflow-hidden"
   >
-    <div class="flex-1 min-w-0 mr-2 title-container h-5 flex items-center">
+    <div
+      class="flex-1 min-w-0 mr-2 title-container h-5 flex items-center"
+      [class.mask-active]="isMoving && hasOverflow"
+    >
       <div
         *ngIf="game.id === -1"
         class="h-4 w-3/4 bg-gray-700 rounded animate-pulse"
       ></div>
+
       <span
         *ngIf="game.id !== -1"
         #gameTitle
-        class="block truncate text-left whitespace-nowrap w-full"
+        class="inline-block text-left whitespace-nowrap long-text-animate"
+        [class.animate-running]="isMoving && hasOverflow"
         [title]="game.title"
       >
         {{ game.title }}
       </span>
     </div>
+
     <span class="whitespace-nowrap flex-shrink-0 flex items-center">
       <div
         *ngIf="game.id === -1"

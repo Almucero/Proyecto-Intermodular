@@ -1,42 +1,46 @@
 .title-container {
   overflow: hidden;
   position: relative;
-  &.fade-mask {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    black 0%,
+    black 90%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(to right, black 0%, black 90%, transparent 100%);
+  transition: mask-image 0.1s ease-in-out, -webkit-mask-image 0.1s ease-in-out;
+  &.mask-active {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 10%,
+      black 90%,
+      transparent 100%
+    );
     mask-image: linear-gradient(
       to right,
       transparent 0%,
-      black 5%,
-      black 95%,
+      black 10%,
+      black 90%,
       transparent 100%
     );
   }
 }
 
-@keyframes scroll-wait-cycle {
-  0%,
-  30% {
+@keyframes scroll-linear {
+  0% {
     transform: translateX(0);
   }
-
-  70%,
-  85% {
+  100% {
     transform: translateX(var(--scroll-distance));
   }
-
-  85.1% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(0);
-  }
-}
-
-.title-container span {
-  display: inline-block;
-  padding-right: 1rem;
 }
 
 .long-text-animate {
-  animation: scroll-wait-cycle 8s linear infinite;
+  display: inline-block;
+  padding-right: 0.5rem;
+  will-change: transform;
+  &.animate-running {
+    animation: scroll-linear var(--scroll-duration) linear forwards;
+  }
 }
