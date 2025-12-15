@@ -124,84 +124,111 @@ export async function processChat(
     - Si saluda, responde amablemente sin usar herramientas.
 
     IMPORTANTE:
-    - Cuando encuentres juegos, menciona el nombre, una descripción breve, precio y plataformas.
-    - Si la búsqueda no da resultados, dilo honestamente.
-    - Responde de forma concisa y amigable.
+    - SIEMPRE empieza tu respuesta con una frase amable o conversacional antes de listar los juegos (ej: "¡Claro! Aquí tienes algunas opciones interesantes:", "¡Por supuesto! He encontrado estos títulos para ti:").
+    - SOLO puedes recomendar juegos que la herramienta 'searchGames' te haya devuelto. NO inventes juegos ni recomiendes títulos que no estén en la respuesta de la herramienta.
+    - Si la herramienta devuelve una lista vacía, di honestamente que no tenemos juegos de ese tipo en este momento.
+    - Cuando encuentres juegos, menciona el nombre, una descripción breve, precio y plataformas. Usa un formato limpio (viñetas o negritas).
+    - En tus respuestas no hagas referencia textual a la herramienta "searchGames".
+    - Mantén un tono entusiasta y servicial, como un vendedor experto y gamer.
+    - Te pueden llegar a hablar en cualquiera de es estos idiomas, por lo que responde acorde: Español, Ingles, Frances, Italiano, Aleman.
   `;
 
-  const result = await generateText({
-    model: google("gemini-2.5-flash"),
-    system: systemPrompt,
-    messages: previousMessages.map((m: { role: string; content: string }) => ({
+  const messages = previousMessages.map(
+    (m: { role: string; content: string }) => ({
       role: m.role as "user" | "assistant",
       content: m.content,
-    })),
-    stopWhen: stepCountIs(5),
-    tools: {
-      searchGames: tool({
-        description:
-          "Busca videojuegos en la base de datos por nombre, género o descripción.",
-        inputSchema: searchGamesInputSchema,
-        execute: async ({ query }) => {
-          const cleanQuery =
-            query === "undefined" || !query ? "" : query.trim();
-          try {
-            const whereClause: any =
-              cleanQuery === ""
-                ? {}
-                : {
-                    OR: [
-                      { title: { contains: cleanQuery, mode: "insensitive" } },
-                      {
-                        description: {
-                          contains: cleanQuery,
-                          mode: "insensitive",
+    })
+  );
+
+  const tools = {
+    searchGames: tool({
+      description:
+        "Busca videojuegos en la base de datos por nombre, género o descripción.",
+      inputSchema: searchGamesInputSchema,
+      execute: async ({ query }) => {
+        const cleanQuery = query === "undefined" || !query ? "" : query.trim();
+        try {
+          const whereClause: any =
+            cleanQuery === ""
+              ? {}
+              : {
+                  OR: [
+                    { title: { contains: cleanQuery, mode: "insensitive" } },
+                    {
+                      description: {
+                        contains: cleanQuery,
+                        mode: "insensitive",
+                      },
+                    },
+                    {
+                      genres: {
+                        some: {
+                          name: { contains: cleanQuery, mode: "insensitive" },
                         },
                       },
-                      {
-                        genres: {
-                          some: {
-                            name: { contains: cleanQuery, mode: "insensitive" },
-                          },
-                        },
-                      },
-                    ],
-                  };
-            const games = await prisma.game.findMany({
-              where: whereClause,
-              take: 5,
-              orderBy: { id: "desc" },
-              select: {
-                id: true,
-                title: true,
-                price: true,
-                genres: { select: { name: true } },
-                platforms: { select: { name: true } },
-              },
-            });
-            if (games.length === 0) {
-              return "No se encontraron juegos con ese criterio.";
-            }
-            const gamesList = games.map((g: any) => ({
-              id: g.id,
-              title: g.title,
-              price: g.price ? g.price.toString() : "N/A",
-              genres: g.genres
-                .map((gen: { name: string }) => gen.name)
-                .join(", "),
-              platforms: g.platforms
-                .map((p: { name: string }) => p.name)
-                .join(", "),
-            }));
-            foundGames.push(...gamesList);
-            return JSON.stringify(gamesList);
-          } catch {
-            return "Error técnico al buscar en la base de datos.";
+                    },
+                  ],
+                };
+          const games = await prisma.game.findMany({
+            where: whereClause,
+            take: 5,
+            orderBy: { id: "desc" },
+            select: {
+              id: true,
+              title: true,
+              price: true,
+              genres: { select: { name: true } },
+              platforms: { select: { name: true } },
+            },
+          });
+          if (games.length === 0) {
+            return "No se encontraron juegos con ese criterio.";
           }
-        },
-      }),
-    },
-  });
+          const gamesList = games.map((g: any) => ({
+            id: g.id,
+            title: g.title,
+            price: g.price ? g.price.toString() : "N/A",
+            genres: g.genres
+              .map((gen: { name: string }) => gen.name)
+              .join(", "),
+            platforms: g.platforms
+              .map((p: { name: string }) => p.name)
+              .join(", "),
+          }));
+          foundGames.push(...gamesList);
+          return JSON.stringify(gamesList);
+        } catch {
+          return "Error técnico al buscar en la base de datos.";
+        }
+      },
+    }),
+  };
+
+  let result;
+
+  try {
+    result = await generateText({
+      model: google("gemini-2.5-flash"),
+      system: systemPrompt,
+      messages,
+      stopWhen: stepCountIs(5),
+      tools,
+    });
+  } catch (error) {
+    try {
+      result = await generateText({
+        model: google("gemini-2.5-flash-lite"),
+        system: systemPrompt,
+        messages,
+        stopWhen: stepCountIs(5),
+        tools,
+      });
+    } catch (error2) {
+      result = {
+        text: "Lo siento, he alcanzado mi límite diario de consultas. Por favor, inténtalo de nuevo mañana.",
+      };
+    }
+  }
 
   await prisma.chatMessage.create({
     data: {
@@ -211,14 +238,6 @@ export async function processChat(
       games: foundGames.length > 0 ? (foundGames as any) : undefined,
     },
   });
-
-  if (!sessionId && result.text) {
-    const autoTitle = result.text.slice(0, 50).replace(/\n/g, " ");
-    await prisma.chatSession.update({
-      where: { id: session.id },
-      data: { title: autoTitle },
-    });
-  }
 
   return {
     sessionId: session.id,

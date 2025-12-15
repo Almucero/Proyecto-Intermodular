@@ -21,3 +21,22 @@ body {
   width: 0px;
   height: 0px;
 }
+
+body.chat-mode {
+  overflow: hidden;
+
+  .app-container {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .main-content {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .route-container {
+    overflow: hidden;
+    min-height: 0;
+  }
+}

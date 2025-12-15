@@ -29,7 +29,20 @@
     "title": "Admin"
   },
   "aichat": {
-    "title": "KI-Chat"
+    "title": "KI-Chat",
+    "new_chat": "Neuer Chat",
+    "untitled_chat": "Unbenannter Chat",
+    "no_sessions": "Keine früheren Unterhaltungen",
+    "welcome_title": "Wie kann ich dir heute helfen{{name}}?",
+    "welcome_subtitle": "Ich bin Sage, dein Gaming-Assistent. Frag mich nach Empfehlungen, Spieldetails oder anderem.",
+    "you": "Du",
+    "thinking": "Nachdenken...",
+    "placeholder": "Schreibe eine Nachricht...",
+    "disclaimer": "KI kann Fehler machen. Bitte überprüfe wichtige Informationen.",
+    "suggestion_terror": "Empfiehl mir Horrorspiele",
+    "suggestion_rpg": "Suche RPG mit guter Story",
+    "suggestion_coop": "Koop-Spiele",
+    "suggestion_ps5": "Was gibt es Neues auf PS5?"
   },
   "favourites": {
     "title": "Favoriten",

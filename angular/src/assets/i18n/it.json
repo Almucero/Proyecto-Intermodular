@@ -28,7 +28,20 @@
     "title": "Admin"
   },
   "aichat": {
-    "title": "Chat AI"
+    "title": "Chat AI",
+    "new_chat": "Nuova Chat",
+    "untitled_chat": "Chat senza titolo",
+    "no_sessions": "Nessuna conversazione precedente",
+    "welcome_title": "Come posso aiutarti oggi{{name}}?",
+    "welcome_subtitle": "Sono Sage, il tuo assistente di gioco. Chiedimi consigli, dettagli sui giochi o altro.",
+    "you": "Tu",
+    "thinking": "Pensando...",
+    "placeholder": "Scrivi un messaggio...",
+    "disclaimer": "L'IA può commettere errori. Verifica le informazioni importanti.",
+    "suggestion_terror": "Consigliami giochi horror",
+    "suggestion_rpg": "Cerco un RPG con una bella storia",
+    "suggestion_coop": "Giochi cooperativi",
+    "suggestion_ps5": "Cosa c'è di nuovo su PS5?"
   },
   "favourites": {
     "title": "Preferiti",

@@ -33,12 +33,16 @@
     "new_chat": "New Chat",
     "untitled_chat": "Untitled Chat",
     "no_sessions": "No previous conversations",
-    "welcome_title": "How can I help you today?",
-    "welcome_subtitle": "I am your gaming assistant. Ask me about recommendations, game details, or anything else.",
+    "welcome_title": "How can I help you today{{name}}?",
+    "welcome_subtitle": "I am Sage, your gaming assistant. Ask me about recommendations, game details, or anything else.",
     "you": "You",
     "thinking": "Thinking...",
     "placeholder": "Type a message...",
-    "disclaimer": "AI may make mistakes. Please verify important information."
+    "disclaimer": "AI may make mistakes. Please verify important information.",
+    "suggestion_terror": "Recommend horror games",
+    "suggestion_rpg": "I'm looking for a story-rich RPG",
+    "suggestion_coop": "Cooperative games",
+    "suggestion_ps5": "What's new on PS5?"
   },
   "favourites": {
     "title": "Favorites",
