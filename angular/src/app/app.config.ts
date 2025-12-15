@@ -7,6 +7,7 @@ import {
   withFetch,
   withInterceptors,
 } from '@angular/common/http';
+import { serverConnectionInterceptor } from './core/interceptors/server-connection.interceptor';
 
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { provideTranslateService } from '@ngx-translate/core';
@@ -95,7 +96,10 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withFetch()),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([serverConnectionInterceptor])
+    ),
     provideAnimations(),
     provideTranslateService({
       loader: provideTranslateHttpLoader({

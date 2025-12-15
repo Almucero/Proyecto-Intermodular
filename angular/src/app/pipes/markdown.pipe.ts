@@ -19,6 +19,11 @@ export class MarkdownPipe implements PipeTransform {
       .replace(/>/g, '&gt;');
 
     html = html.replace(
+      /\[(.*?)\]\((.*?)\)/g,
+      '<a href="$2" class="text-cyan-400 hover:text-cyan-300 underline font-bold cursor-pointer">$1</a>'
+    );
+
+    html = html.replace(
       /\*\*(.*?)\*\*/g,
       '<strong class="text-cyan-300 font-bold">$1</strong>'
     );
