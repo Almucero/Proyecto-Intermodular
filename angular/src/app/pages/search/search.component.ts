@@ -80,7 +80,6 @@ export class SearchComponent implements OnInit {
     this.filteredGames = this.createPlaceholders();
 
     this.initializeFilterOptions();
-    this.loadPlatforms();
 
     this.route.queryParams.subscribe((params) => {
       this.searchQuery = params['q'] || '';
@@ -146,7 +145,14 @@ export class SearchComponent implements OnInit {
       { value: 'Educativo', label: 'genres.educational' },
     ];
 
-    this.platformOptions = [];
+    this.platformOptions = [
+      { value: 'PC', label: 'PC' },
+      { value: 'PS5', label: 'PS5' },
+      { value: 'Xbox Series X', label: 'Xbox Series X' },
+      { value: 'Switch', label: 'Switch' },
+      { value: 'PS4', label: 'PS4' },
+      { value: 'Xbox One', label: 'Xbox One' },
+    ];
   }
 
   loadPlatforms(): void {

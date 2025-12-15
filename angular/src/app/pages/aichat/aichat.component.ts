@@ -1,15 +1,19 @@
 import {
   Component,
   OnInit,
+  OnDestroy,
   ViewChild,
   ElementRef,
   AfterViewChecked,
+  Renderer2,
+  Inject,
 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { MarkdownPipe } from '../../pipes/markdown.pipe';
 import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ChatService } from '../../core/services/impl/chat.service';
 import {
   ChatSession,
@@ -31,7 +35,7 @@ import { BaseAuthenticationService } from '../../core/services/impl/base-authent
   templateUrl: './aichat.component.html',
   styleUrl: './aichat.component.scss',
 })
-export class AIChatComponent implements OnInit, AfterViewChecked {
+export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 
   sessions: ChatSession[] = [];
@@ -42,26 +46,46 @@ export class AIChatComponent implements OnInit, AfterViewChecked {
   userName: string = '';
   showAuthModal: boolean = false;
   isUserAuthenticated: boolean = false;
+  userAvatar: string | null = null;
   loadingSessions: boolean = true;
 
   constructor(
     private chatService: ChatService,
     private router: Router,
-    private authService: BaseAuthenticationService
+    private authService: BaseAuthenticationService,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
+    this.renderer.addClass(this.document.body, 'chat-mode');
     this.loadSessions();
     this.authService.user$.subscribe((user) => {
       this.userName = user?.nickname || user?.name || '';
+      if (user && user.media && user.media.length > 0) {
+        this.userAvatar = user.media[0].url;
+      } else {
+        this.userAvatar = null;
+      }
     });
     this.authService.authenticated$.subscribe((isAuth) => {
       this.isUserAuthenticated = isAuth;
     });
   }
 
+  ngOnDestroy(): void {
+    this.renderer.removeClass(this.document.body, 'chat-mode');
+  }
+
   ngAfterViewChecked(): void {
     this.scrollToBottom();
+  }
+
+  sendSuggestion(key: string) {
+    const text = this.translateService.instant(key);
+    this.userInput = text;
+    this.sendMessage();
   }
 
   scrollToBottom(): void {
@@ -98,6 +122,7 @@ export class AIChatComponent implements OnInit, AfterViewChecked {
     this.chatService.getSession(session.id!).subscribe({
       next: (fullSession) => {
         this.messages = fullSession.messages || [];
+        this.messages.forEach((msg) => this.processMessageLinks(msg));
       },
       error: (err) => console.error('Error loading session', err),
     });
@@ -132,6 +157,7 @@ export class AIChatComponent implements OnInit, AfterViewChecked {
     };
     this.messages.push(userMsg);
 
+    //' (IMPORTANTE: Usa la herramienta searchGames para verificar estos juegos y devolver sus IDs. Si no usas la herramienta, no podré mostrar los enlaces. Hazlo siempre.)',
     const payload = {
       message: this.userInput,
       sessionId: this.currentSession?.id,
@@ -152,6 +178,7 @@ export class AIChatComponent implements OnInit, AfterViewChecked {
           content: response.text,
           games: response.games,
         };
+        this.processMessageLinks(aiMsg);
         this.messages.push(aiMsg);
         this.isLoading = false;
       },
@@ -187,5 +214,38 @@ export class AIChatComponent implements OnInit, AfterViewChecked {
 
   cancelLogin() {
     this.showAuthModal = false;
+  }
+
+  handleContentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    const anchor = target.closest('a');
+    if (anchor && anchor.getAttribute('href')?.startsWith('/product/')) {
+      event.preventDefault();
+      const href = anchor.getAttribute('href');
+      if (href) {
+        const id = href.split('/').pop();
+        if (id) {
+          this.router.navigate(['/product', id]);
+        }
+      }
+    }
+  }
+
+  private processMessageLinks(message: ChatMessage) {
+    if (!message.games || message.games.length === 0) return;
+
+    const sortedGames = [...message.games].sort(
+      (a, b) => b.title.length - a.title.length
+    );
+
+    sortedGames.forEach((game) => {
+      const safeTitle = game.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+      const boldRegex = new RegExp(`\\*\\*${safeTitle}\\*\\*`, 'gi');
+      message.content = message.content.replace(
+        boldRegex,
+        `[${game.title}](/product/${game.id})`
+      );
+    });
   }
 }
