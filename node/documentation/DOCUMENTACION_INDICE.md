@@ -1,6 +1,6 @@
 # ÍNDICE MAESTRO DE DOCUMENTACIÓN TÉCNICA (v4)
 
-**Proyecto: Plataforma de Videojuegos (Backend Node.js/Express)**
+Proyecto: **Plataforma de Videojuegos (Backend Node.js/Express)**
 
 _Este índice define la estructura para la "Biblia del Proyecto". El objetivo es documentar cada aspecto del Backend con un nivel de detalle que permita a cualquier desarrollador entender, mantener y escalar el sistema. Se ha omitido la estructura interna del Frontend (Angular) para mantener el foco en el servidor y la lógica de negocio._
 
@@ -61,13 +61,13 @@ _Este índice define la estructura para la "Biblia del Proyecto". El objetivo es
 
 - **Bootstrapping**: Inicialización del servidor Express.
 - **Middleware Stack (Orden de Ejecución)**:
-  1.  `Helmet` (Seguridad).
-  2.  `Cors` (Acceso cruzado).
-  3.  `RequestLogger` (Traza de entrada).
-  4.  `ResponseSerializer` (Traza de salida).
-  5.  `RateLimiter` (Protección de tráfico).
-  6.  `Router` (Delegación a módulos).
-  7.  `ErrorHandler` (Captura de excepciones).
+  1. `Helmet` (Seguridad).
+  2. `Cors` (Acceso cruzado).
+  3. `RequestLogger` (Traza de entrada).
+  4. `ResponseSerializer` (Traza de salida).
+  5. `RateLimiter` (Protección de tráfico).
+  6. `Router` (Delegación a módulos).
+  7. `ErrorHandler` (Captura de excepciones).
 
 ### 3.3 Middleware Core (`src/middleware`)
 

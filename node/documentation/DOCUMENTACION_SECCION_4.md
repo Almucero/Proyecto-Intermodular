@@ -1,6 +1,6 @@
 # DOCUMENTACIÓN TÉCNICA - VOLUMEN II: CAPA DE DATOS
 
-**Proyecto: Plataforma de Videojuegos (Backend Node.js/Express)**
+Proyecto: **Plataforma de Videojuegos (Backend Node.js/Express)**
 
 > **Nota**: Este documento corresponde a la **Sección 4** del Índice Maestro. Se centra exclusivamente en el modelado de datos, las definiciones de esquema (Prisma) y las relaciones estructurales del sistema.
 
@@ -134,16 +134,16 @@ La tabla `Game` es el nodo central del grafo.
 
 #### 4.2.2 El Flujo de Compra (`User` -> `Cart` -> `Purchase`)
 
-1.  **Etapa de Selección (Carrito)**:
-    - Un `User` tiene múltiples `CartItem`.
-    - Cada `CartItem` apunta a un par específico `Game` + `Platform`.
-    - **Restricción**: La combinación `[userId, gameId, platformId]` es única. No puedes tener dos líneas separadas para "FIFA 24 en PS5" en el mismo carrito; se debe incrementar la `quantity`.
-2.  **Etapa de Conversión (Compra)**:
-    - Al confirmar, los datos se trasladan de `CartItem` a `Purchase` (Cabecera) y `PurchaseItem` (Detalle).
-    - Un `User` tiene múltiples `Purchase`.
-    - Una `Purchase` tiene múltiples `PurchaseItem`.
-    - **Integridad Histórica**: `PurchaseItem` guarda una copia del `price` en ese instante. Si el precio del juego cambia mañana, el historial no se ve afectado.
-    - La relación `PurchaseItem` -> `Game` usa `onDelete: Restrict`. **No se puede borrar un juego si alguien lo ha comprado**. Esto garantiza la integridad contable.
+1. **Etapa de Selección (Carrito)**:
+   - Un `User` tiene múltiples `CartItem`.
+   - Cada `CartItem` apunta a un par específico `Game` + `Platform`.
+   - **Restricción**: La combinación `[userId, gameId, platformId]` es única. No puedes tener dos líneas separadas para "FIFA 24 en PS5" en el mismo carrito; se debe incrementar la `quantity`.
+2. **Etapa de Conversión (Compra)**:
+   - Al confirmar, los datos se trasladan de `CartItem` a `Purchase` (Cabecera) y `PurchaseItem` (Detalle).
+   - Un `User` tiene múltiples `Purchase`.
+   - Una `Purchase` tiene múltiples `PurchaseItem`.
+   - **Integridad Histórica**: `PurchaseItem` guarda una copia del `price` en ese instante. Si el precio del juego cambia mañana, el historial no se ve afectado.
+   - La relación `PurchaseItem` -> `Game` usa `onDelete: Restrict`. **No se puede borrar un juego si alguien lo ha comprado**. Esto garantiza la integridad contable.
 
 #### 4.2.3 Preferencias de Usuario (`Favorite`)
 
@@ -157,14 +157,14 @@ La tabla `Game` es el nodo central del grafo.
 
 Para visualizar este esquema, considere la siguiente topología para un diagrama ER:
 
-1.  **Núcleo Central**: Coloque `Game` en el centro.
-2.  **Satélites Superiores**: `Developer` y `Publisher` conectan a `Game` (1:N opcional).
-3.  **Satélites Laterales**: `Genre` y `Platform` conectan a `Game` (N:M).
-4.  **Usuario**: `User` se sitúa separado, conectado indirectamente a `Game` a través de tres puentes transaccionales:
-    - `CartItem` (Deseo de compra actual).
-    - `Purchase` -> `PurchaseItem` (Historial de compras pasadas).
-    - `Favorite` (Lista de deseos).
-    - `Media` (Relacionado tanto con `User` para avatares como con `Game` para screenshots).
-5.  **Módulo IA**: `ChatSession` cuelga de `User`, y `ChatMessage` cuelga de `ChatSession`. No tienen conexión directa a nivel de FK con `Game` (la relación es lógica vía JSON).
+1. **Núcleo Central**: Coloque `Game` en el centro.
+2. **Satélites Superiores**: `Developer` y `Publisher` conectan a `Game` (1:N opcional).
+3. **Satélites Laterales**: `Genre` y `Platform` conectan a `Game` (N:M).
+4. **Usuario**: `User` se sitúa separado, conectado indirectamente a `Game` a través de tres puentes transaccionales:
+   - `CartItem` (Deseo de compra actual).
+   - `Purchase` -> `PurchaseItem` (Historial de compras pasadas).
+   - `Favorite` (Lista de deseos).
+   - `Media` (Relacionado tanto con `User` para avatares como con `Game` para screenshots).
+5. **Módulo IA**: `ChatSession` cuelga de `User`, y `ChatMessage` cuelga de `ChatSession`. No tienen conexión directa a nivel de FK con `Game` (la relación es lógica vía JSON).
 
 Esta estructura garantiza que las operaciones de catálogo (Juegos) estén desacopladas de las operaciones de transacción (Usuarios), uniéndose solo explícitamente mediante entidades de enlace (`CartItem`, `PurchaseItem`).

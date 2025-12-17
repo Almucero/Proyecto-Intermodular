@@ -1,6 +1,6 @@
 # DOCUMENTACIÓN TÉCNICA - VOLUMEN VI: TESTING, DESPLIEGUE Y OPERACIONES
 
-**Proyecto: Plataforma de Videojuegos (Backend Node.js/Express)**
+Proyecto: **Plataforma de Videojuegos (Backend Node.js/Express)**
 
 > **Nota**: Este documento corresponde a las **Secciones Finales (6, 7, 8 y 9)** del Índice Maestro. Cierra la documentación técnica cubriendo la estrategia de calidad, referencias, integración y despliegue.
 
@@ -38,10 +38,10 @@ Verifica la seguridad del registro y login.
 Prueba el flujo transaccional crítico del dinero.
 
 - **Flujo Completo**:
-  1.  Login (obtener Token).
-  2.  Añadir ítem al carrito (`POST /api/cart`).
-  3.  Checkout (`POST /api/purchases/checkout`).
-  4.  Verificar que la respuesta incluye `status: "completed"` y detalle de ítems.
+  1. Login (obtener Token).
+  2. Añadir ítem al carrito (`POST /api/cart`).
+  3. Checkout (`POST /api/purchases/checkout`).
+  4. Verificar que la respuesta incluye `status: "completed"` y detalle de ítems.
 - **Validaciones de Integridad**:
   - Checkout con array vacío -> `400`.
   - Checkout con IDs de carrito inexistentes o de otro usuario -> `404`.
@@ -68,13 +68,17 @@ El proyecto sigue la especificación **OpenAPI 3.0** (anteriormente Swagger). Es
 Todas las respuestas siguen un formato JSON predecible:
 
 - **Éxito (200/201)**: Devuelve el recurso o un objeto con mensaje.
+
   ```json
   { "id": 1, "title": "Juego", ... }
   ```
+
 - **Error (4xx/5xx)**: Siempre devuelve un objeto con `message`.
+
   ```json
   { "message": "Descripción del error human-readable" }
   ```
+
 - **Errores de Validación (Zod)**: Pueden incluir un array `errors` con el detalle por campo.
 
 ---
@@ -135,15 +139,15 @@ Este archivo orquesta el comportamiento del servidor en la infraestructura edge 
 
 Para un despliegue exitoso, se deben configurar las siguientes variables en el panel de Vercel:
 
-1.  `POSTGRES_PRISMA_URL`: URL con Pooling (ej: Supabase Transaction Pooler).
-2.  `POSTGRES_URL_NON_POOLING`: URL directa para migraciones.
-3.  `JWT_SECRET`: Llave fuerte de producción.
-4.  `CLOUDINARY_*`: Credenciales de producción.
-5.  `GOOGLE_GENERATIVE_AI_API_KEY`: API Key de Gemini.
+1. `POSTGRES_PRISMA_URL`: URL con Pooling (ej: Supabase Transaction Pooler).
+2. `POSTGRES_URL_NON_POOLING`: URL directa para migraciones.
+3. `JWT_SECRET`: Llave fuerte de producción.
+4. `CLOUDINARY_*`: Credenciales de producción.
+5. `GOOGLE_GENERATIVE_AI_API_KEY`: API Key de Gemini.
 
 ### 9.4 Base de Datos (Migraciones)
 
 Al desplegar, no se recomienda correr `prisma migrate dev`. En su lugar:
 
-1.  Usar `prisma migrate deploy` en el pipeline de CI/CD para aplicar cambios pendientes de SQL.
-2.  Si se utiliza **Supabase** o **Neon**, asegurarse de que el Pooler esté activo para manejar las conexiones efímeras de las funciones serverless.
+1. Usar `prisma migrate deploy` en el pipeline de CI/CD para aplicar cambios pendientes de SQL.
+2. Si se utiliza **Supabase** o **Neon**, asegurarse de que el Pooler esté activo para manejar las conexiones efímeras de las funciones serverless.

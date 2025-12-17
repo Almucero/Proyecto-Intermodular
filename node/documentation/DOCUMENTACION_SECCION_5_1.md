@@ -1,6 +1,6 @@
 # DOCUMENTACIÓN TÉCNICA - VOLUMEN III: MÓDULOS DEL SISTEMA (Parte 1)
 
-**Proyecto: Plataforma de Videojuegos (Backend Node.js/Express)**
+Proyecto: **Plataforma de Videojuegos (Backend Node.js/Express)**
 
 > **Nota**: Este documento corresponde a la primera parte de la **Sección 5** del Índice Maestro, cubriendo los submódulos fundamentales: **Autenticación** y **Gestión de Usuarios**.
 
@@ -10,10 +10,10 @@
 
 El backend sigue una arquitectura modular donde cada dominio funcional reside en su propia carpeta bajo `src/modules`. Cada módulo es autocontenido y expone:
 
-1.  **Rutas (`.routes.ts`)**: Definición de endpoints y unión con middleware.
-2.  **Controladores (`.controller.ts`)**: Manejo de Request/Response HTTP.
-3.  **Servicios (`.service.ts`)**: Lógica pura de negocio y acceso a datos.
-4.  **Esquemas (`.schema.ts`)**: Validaciones de entrada con Zod.
+1. **Rutas (`.routes.ts`)**: Definición de endpoints y unión con middleware.
+2. **Controladores (`.controller.ts`)**: Manejo de Request/Response HTTP.
+3. **Servicios (`.service.ts`)**: Lógica pura de negocio y acceso a datos.
+4. **Esquemas (`.schema.ts`)**: Validaciones de entrada con Zod.
 
 ---
 
@@ -37,6 +37,7 @@ Configuradas en `Router()` y prefijadas globalmente con `/api/auth`.
 Antes de llegar al controlador, los datos se sanean con Zod.
 
 - **Register Input**:
+
   ```typescript
   export const registerSchema = z.object({
     email: z.string().email(),
@@ -46,6 +47,7 @@ Antes de llegar al controlador, los datos se sanean con Zod.
     // Campos opcionales de perfil: nickname, address...
   });
   ```
+
 - **Login Input**: Requiere estrictamente `email` y `password`.
 
 #### 5.1.3 Lógica del Servicio (`auth.service.ts`)
@@ -54,27 +56,32 @@ Antes de llegar al controlador, los datos se sanean con Zod.
 
 Flujo de creación de cuenta:
 
-1.  **Verificación de Unicidad**: Consulta `findUserByEmail(email)`. Si existe, lanza error _("Email ya registrado")_.
-2.  **Hashing**: Genera un hash seguro de la contraseña usando Bcrypt y las `BCRYPT_SALT_ROUNDS` (env).
-    ```typescript
-    const hash = await bcrypt.hash(password, env.BCRYPT_SALT_ROUNDS);
-    ```
-3.  **Persistencia**: Llama a `createUser` (del módulo Users) con el hash y datos de perfil.
-4.  **Generación de Token**: Firma un JWT válido por 7 días conteniendo el `sub` (ID), `email` e `isAdmin`.
-5.  **Retorno**: Devuelve objeto compuesto `{ user, token }`.
+1. **Verificación de Unicidad**: Consulta `findUserByEmail(email)`. Si existe, lanza error _("Email ya registrado")_.
+2. **Hashing**: Genera un hash seguro de la contraseña usando Bcrypt y las `BCRYPT_SALT_ROUNDS` (env).
+
+   ```typescript
+   const hash = await bcrypt.hash(password, env.BCRYPT_SALT_ROUNDS);
+   ```
+
+3. **Persistencia**: Llama a `createUser` (del módulo Users) con el hash y datos de perfil.
+4. **Generación de Token**: Firma un JWT válido por 7 días conteniendo el `sub` (ID), `email` e `isAdmin`.
+5. **Retorno**: Devuelve objeto compuesto `{ user, token }`.
 
 ##### `B. login(email, password)`
 
 Flujo de inicio de sesión:
 
-1.  **Búsqueda**: Recupera el usuario por email (incluyendo el `passwordHash` oculto por defecto).
-    - _Si no existe_: Lanza error genérico "Credenciales inválidas" (para evitar enumeración de usuarios).
-2.  **Comparación**:
-    ```typescript
-    const ok = await bcrypt.compare(password, user.passwordHash);
-    ```
-    - _Si falla_: Lanza "Credenciales inválidas".
-3.  **Emisión**: Genera un nuevo JWT fresco con los datos actuales del usuario.
+1. **Búsqueda**: Recupera el usuario por email (incluyendo el `passwordHash` oculto por defecto).
+   - _Si no existe_: Lanza error genérico "Credenciales inválidas" (para evitar enumeración de usuarios).
+2. **Comparación**:
+
+   ```typescript
+   const ok = await bcrypt.compare(password, user.passwordHash);
+   ```
+
+   - _Si falla_: Lanza "Credenciales inválidas".
+
+3. **Emisión**: Genera un nuevo JWT fresco con los datos actuales del usuario.
 
 #### 5.1.4 Controlador (`auth.controller.ts`)
 
@@ -129,9 +136,9 @@ Motor de búsqueda para el panel de administración. Construye una query dinámi
 
 Permite al usuario cambiar su clave, pero requiere validación previa.
 
-1.  Busca usuario por ID.
-2.  **Verificación de Seguridad**: `bcrypt.compare(current, user.passwordHash)`. **Obligatorio** para evitar cambios no autorizados si se dejara una sesión abierta.
-3.  Si es válido, hashea la `newPassword` y actualiza la BD.
+1. **Busca usuario por ID**.
+2. **Verificación de Seguridad**: `bcrypt.compare(current, user.passwordHash)`. **Obligatorio** para evitar cambios no autorizados si se dejara una sesión abierta.
+3. Si es válido, hashea la `newPassword` y actualiza la BD.
 
 ##### `D. findUserById(id)`
 
