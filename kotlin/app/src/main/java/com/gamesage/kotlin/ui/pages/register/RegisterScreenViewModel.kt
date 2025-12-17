@@ -64,7 +64,6 @@ class RegisterScreenViewModel @Inject constructor(
             return
         }
 
-        // Password Regex: Min 8 chars, 1 uppercase, 1 lowercase, 1 number
         val passwordRegex = Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}\$")
         if (!passwordRegex.matches(state.password)) {
             _uiState.update { it.copy(error = "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número") }

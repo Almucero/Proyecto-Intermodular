@@ -46,6 +46,8 @@ import coil3.compose.AsyncImage
 import com.gamesage.kotlin.data.model.Game
 import com.gamesage.kotlin.ui.common.HomeBottomBar
 import com.gamesage.kotlin.ui.common.TopBar
+import androidx.compose.ui.res.stringResource
+import com.gamesage.kotlin.R
 
 
 
@@ -93,10 +95,10 @@ fun ErrorView(onRetry: () -> Unit) {
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text("Ocurrió un error al cargar los datos", color = Color.White)
+            Text(stringResource(R.string.home_error_loading), color = Color.White)
             Spacer(Modifier.height(16.dp))
             androidx.compose.material3.Button(onClick = onRetry) {
-                Text("Reintentar")
+                Text(stringResource(R.string.home_retry))
             }
         }
     }
@@ -115,9 +117,9 @@ fun GameStoreContent(state: UiState.Success, onGameClick: (Long) -> Unit, onGenr
         CategorySection(state.categories, onGenreClick)
         Spacer(Modifier.height(12.dp))
 
-        GameHorizontalList("Más vendidos", state.bestSellers, onGameClick)
-        GameHorizontalList("Ofertas", state.offers, onGameClick)
-        GameHorizontalList("Mejor valorados", state.topRated, onGameClick)
+        GameHorizontalList(stringResource(R.string.home_best_sellers), state.bestSellers, onGameClick)
+        GameHorizontalList(stringResource(R.string.home_offers), state.offers, onGameClick)
+        GameHorizontalList(stringResource(R.string.home_top_rated), state.topRated, onGameClick)
     }
 }
 
@@ -158,7 +160,7 @@ fun GameHorizontalList(title: String, games: List<Game>, onGameClick: (Long) -> 
 
         if (games.isEmpty()) {
             Text(
-                text = "No hay juegos disponibles en esta categoría.",
+                text = stringResource(R.string.home_no_games),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                 modifier = Modifier.padding(horizontal = 16.dp)

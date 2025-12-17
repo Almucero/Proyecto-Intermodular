@@ -241,7 +241,7 @@ fun PriceFilterContent(
         Divider(color = Color(0xFF374151))
         Spacer(modifier = Modifier.height(16.dp))
         
-        Text("Max: $priceValue€", color = Color(0xFF9CA3AF), fontSize = 14.sp)
+        Text("${stringResource(R.string.filter_max)} $priceValue€", color = Color(0xFF9CA3AF), fontSize = 14.sp)
         Slider(
             value = priceValue.toFloat(),
             onValueChange = { onPriceChange(it.toInt()) },

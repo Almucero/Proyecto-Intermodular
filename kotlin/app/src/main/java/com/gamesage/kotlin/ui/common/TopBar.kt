@@ -54,7 +54,6 @@ fun TopBar(
             .padding(horizontal = 16.dp, vertical = 12.dp)
             .height(56.dp)
     ) {
-        // Logo a la izquierda
         Image(
             painter = painterResource(id = R.drawable.game_sage_logo),
             contentDescription = "Logo GameSage",
@@ -64,11 +63,10 @@ fun TopBar(
                 .clickable { onLogoClick() }
         )
 
-        // Buscador centrado (TextField)
         Box(
             modifier = Modifier
                 .height(40.dp)
-                .width(200.dp) // Adjusted width to fit cart icon
+                .width(200.dp)
                 .clip(RoundedCornerShape(20.dp))
                 .background(Color(0xFF1F2937))
                 .align(Alignment.Center),
@@ -108,7 +106,7 @@ fun TopBar(
                     decorationBox = { innerTextField ->
                         if (searchQuery.isEmpty()) {
                             Text(
-                                text = "Buscar",
+                                text = androidx.compose.ui.res.stringResource(R.string.search_placeholder),
                                 color = Color.White,
                                 fontSize = 14.sp
                             )
