@@ -1,6 +1,6 @@
 # DOCUMENTACIÓN TÉCNICA - VOLUMEN I: FUNDAMENTOS
 
-**Proyecto: Plataforma de Videojuegos (Backend Node.js/Express)**
+Proyecto: **Plataforma de Videojuegos (Backend Node.js/Express)**
 
 > **Nota**: Este documento corresponde a las **Secciones 1, 2 y 3** del Índice Maestro. Cubre la visión general, la configuración del entorno y la arquitectura base del servidor.
 
@@ -14,9 +14,9 @@ El objetivo principal de este proyecto es proveer una **API REST robusta, escala
 
 La plataforma se divide en tres pilares funcionales:
 
-1.  **Tienda Pública (E-commerce)**: Permite a usuarios invitados y registrados explorar un catálogo, filtrar por múltiples criterios (género, precio, plataforma), gestionar un carrito de compras y realizar pedidos.
-2.  **Panel de Administración (Backoffice)**: Provee endpoints protegidos para que los administradores gestionen el ciclo de vida de los productos (Juegos, Desarrolladores, Publishers) y visualicen métricas.
-3.  **Asistente Virtual (IA)**: Un sistema de chat integrado que utiliza Modelos de Lenguaje (LLMs) para recomendar juegos basándose en el lenguaje natural del usuario y el inventario real de la base de datos.
+1. **Tienda Pública (E-commerce)**: Permite a usuarios invitados y registrados explorar un catálogo, filtrar por múltiples criterios (género, precio, plataforma), gestionar un carrito de compras y realizar pedidos.
+2. **Panel de Administración (Backoffice)**: Provee endpoints protegidos para que los administradores gestionen el ciclo de vida de los productos (Juegos, Desarrolladores, Publishers) y visualicen métricas.
+3. **Asistente Virtual (IA)**: Un sistema de chat integrado que utiliza Modelos de Lenguaje (LLMs) para recomendar juegos basándose en el lenguaje natural del usuario y el inventario real de la base de datos.
 
 ### 1.2 Integración Frontend
 
@@ -59,20 +59,32 @@ El núcleo del proyecto se basa en un ecosistema de librerías cuidadosamente se
 
 Estas librerías son esenciales para que la aplicación funcione en el servidor.
 
-| Librería                            | Versión   | Propósito y Justificación                                                                                                                                                                                                                            |
-| :---------------------------------- | :-------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`express`**                       | `^5.1.0`  | **El Framework Web.** Se ha optado por la versión 5 (actualmente en fase beta/estable reciente en algunos contextos) para aprovechar el manejo nativo de Promesas en los handlers, eliminando la necesidad de librerías como `express-async-errors`. |
-| **`prisma`** & **`@prisma/client`** | `^6.18.0` | **ORM Moderno.** A diferencia de TypeORM o Sequelize, Prisma ofrece seguridad de tipos generada automáticamente a partir del esquema de BD. Esto reduce drásticamente los errores de runtime al acceder a propiedades inexistentes.                  |
-| **`zod`**                           | `^3.24.1` | **Validación de Esquemas.** Se utiliza para validar tanto las variables de entorno como los `body` de las peticiones HTTP. Permite definir la estructura esperada de los datos y obtener tipos de TypeScript inferidos automáticamente.              |
-| **`jsonwebtoken`**                  | `^9.0.2`  | **Autenticación Stateless.** Estándar de la industria para manejar sesiones sin guardar estado en el servidor. Permite firmar (sign) y verificar (verify) payloads JSON de forma segura.                                                             |
-| **`bcrypt`**                        | `^6.0.0`  | **Seguridad de Contraseñas.** Implementa el algoritmo de hashing _bcrypt_, que es lento por diseño para resistir ataques de fuerza bruta. Es mandatorio para almacenar passwords de usuarios.                                                        |
-| **`helmet`**                        | `^8.1.0`  | **Seguridad HTTP.** Middleware que configura automáticamente cabeceras HTTP de seguridad (como `X-Content-Type-Options`, `Strict-Transport-Security`). Es la primera línea de defensa contra vulnerabilidades web comunes.                           |
-| **`cors`**                          | `^2.8.5`  | **Cross-Origin Resource Sharing.** Necesario porque nuestro Frontend (Angular) suele correr en un puerto/dominio distinto al Backend durante el desarrollo. Permite controlar qué dominios pueden consumir la API.                                   |
-| **`winston`**                       | `^3.18.3` | **Logging Profesional.** A diferencia de `console.log`, Winston permite niveles de log (INFO, WARN, ERROR), formatos estructurados (JSON para producción) y múltiples transportes (archivo, consola, servicios externos).                            |
-| **`express-rate-limit`**            | `^8.2.1`  | **Protección DDoS.** Limita el número de peticiones que una misma IP puede hacer en una ventana de tiempo. Crítico para proteger endpoints sensibles como `/api/auth/login`.                                                                         |
-| **`multer`**                        | `^2.0.2`  | **Carga de Archivos.** Middleware para manejar `multipart/form-data`. Es esencial para permitir a los usuarios subir imágenes de perfil o portadas de juegos.                                                                                        |
-| **`cloudinary`**                    | `^2.8.0`  | **Gestión de Assets.** SDK para interactuar con el servicio Cloudinary, donde se alojan las imágenes para optimizar el ancho de banda del servidor propio.                                                                                           |
-| **`ai`** & **`@ai-sdk/google`**     | `latest`  | **Integración IA.** SDKs modernos (Vercel AI SDK) para estandarizar la comunicación con LLMs como Gemini, facilitando el streaming y el uso de herramientas (Tool Calling).                                                                          |
+| Librería                            | Versión   | Propósito y Justificación                                                                             |
+| :---------------------------------- | :-------- | :---------------------------------------------------------------------------------------------------- |
+| **`express`**                       | `^5.1.0`  | **El Framework Web.** Se ha optado por la versión 5 para aprovechar mayor ergonomía                   |
+|                                     |           | y el manejo nativo de Promesas en los handlers, evitando la dependencia de `express-async-errors`.    |
+| **`prisma`** & **`@prisma/client`** | `^6.18.0` | **ORM Moderno.** Seguridad de tipos generada automáticamente desde el esquema de BD,                  |
+|                                     |           | lo que reduce errores de runtime frente a alternativas como TypeORM o Sequelize.                      |
+| **`zod`**                           | `^3.24.1` | **Validación de Esquemas.** Valida variables de entorno y `body` de peticiones HTTP,                  |
+|                                     |           | ofreciendo esquemas y tipos TypeScript inferidos para evitar errores en tiempo de ejecución.          |
+| **`jsonwebtoken`**                  | `^9.0.2`  | **Autenticación Stateless.** Estándar para firmar y verificar JWTs,                                   |
+|                                     |           | permitiendo sesiones sin estado con control de expiraciones y scopes.                                 |
+| **`bcrypt`**                        | `^6.0.0`  | **Seguridad de Contraseñas.** Hashing con _bcrypt_, deliberadamente lento para                        |
+|                                     |           | resistir ataques de fuerza bruta; obligatorio para almacenar contraseñas de forma segura.             |
+| **`helmet`**                        | `^8.1.0`  | **Seguridad HTTP.** Configura cabeceras (HSTS, X-Content-Type-Options, etc.)                          |
+|                                     |           | actuando como primera línea de defensa contra vulnerabilidades y ataques web comunes.                 |
+| **`cors`**                          | `^2.8.5`  | **Cross-Origin Resource Sharing.** Imprescindible cuando frontend y backend                           |
+|                                     |           | corren en orígenes distintos; permite restringir y controlar qué orígenes pueden acceder a la API.    |
+| **`winston`**                       | `^3.18.3` | **Logging Profesional.** Soporta niveles, formatos estructurados y múltiples transportes,             |
+|                                     |           | imprescindible en producción frente a `console.log` por auditoría y diagnóstico.                      |
+| **`express-rate-limit`**            | `^8.2.1`  | **Protección DDoS.** Limita peticiones por IP en ventanas temporales,                                 |
+|                                     |           | crítico en endpoints sensibles (p. ej. `/api/auth/login`) para mitigar abuso y ataques automatizados. |
+| **`multer`**                        | `^2.0.2`  | **Carga de Archivos.** Middleware para `multipart/form-data` y gestión de ficheros                    |
+|                                     |           | en POSTs, usado para subir imágenes de perfil, portadas y validarlas antes de enviar a un CDN.        |
+| **`cloudinary`**                    | `^2.8.0`  | **Gestión de Assets.** SDK para subir, transformar y servir imágenes desde Cloudinary,                |
+|                                     |           | reduciendo almacenamiento y consumo de ancho de banda del servidor además de optimizar entregas.      |
+| **`ai`** & **`@ai-sdk/google`**     | `latest`  | **Integración IA.** SDKs para integrar LLMs (p. ej. Gemini), gestionar streaming                      |
+|                                     |           | y facilitar Tool Calling, chaining y manejo de herramientas en entornos como Vercel.                  |
 
 #### Dependencias de Desarrollo (DevDependencies)
 
@@ -172,53 +184,55 @@ app.set("trust proxy", 1); // Necesario para que RateLimiter funcione detrás de
 
 El orden aquí es **crítico**. Express ejecuta los middleware secuencialmente.
 
-1.  **Seguridad (`helmet`)**:
+1. **Seguridad (`helmet`)**:
 
-    ```typescript
-    app.use(helmet({ contentSecurityPolicy: false }));
-    ```
+   ```typescript
+   app.use(helmet({ contentSecurityPolicy: false }));
+   ```
 
-    Bloquea cabeceras peligrosas antes de procesar nada más.
+   Bloquea cabeceras peligrosas antes de procesar nada más.
 
-2.  **CORS (`cors`)**:
+2. **CORS (`cors`)**:
 
-    ```typescript
-    app.use(cors());
-    ```
+   ```typescript
+   app.use(cors());
+   ```
 
-    Habilita peticiones desde cualquier origen (por defecto) o configurado. Debe ir antes de las rutas para manejar los _Preflight OPTIONS request_.
+   Habilita peticiones desde cualquier origen (por defecto) o configurado. Debe ir antes de las rutas para manejar los _Preflight OPTIONS request_.
 
-3.  **Parsing de Body (`express.json`)**:
+3. **Parsing de Body (`express.json`)**:
 
-    ```typescript
-    app.use(express.json({ limit: "10mb" }));
-    ```
+   ```typescript
+   app.use(express.json({ limit: "10mb" }));
+   ```
 
-    Transforma el cuerpo (raw bytes) de la petición en un objeto JSON accesible en `req.body`. Se aumenta el límite a 10mb para permitir subidas de JSON grandes si fuera necesario (aunque las imágenes van por multipart).
+   Transforma el cuerpo (raw bytes) de la petición en un objeto JSON accesible en `req.body`. Se aumenta el límite a 10mb para permitir subidas de JSON grandes si fuera necesario (aunque las imágenes van por multipart).
 
-4.  **Logging (`requestLogger`)**:
+4. **Logging (`requestLogger`)**:
 
-    ```typescript
-    app.use(requestLogger);
-    ```
+   ```typescript
+   app.use(requestLogger);
+   ```
 
-    Registra "Entró una petición". (Ver detalle en 3.3).
+   Registra "Entró una petición". (Ver detalle en 3.3).
 
-5.  **Serialización (`responseSerializer`)**:
+5. **Serialización (`responseSerializer`)**:
 
-    ```typescript
-    app.use(responseSerializer);
-    ```
+   ```typescript
+   app.use(responseSerializer);
+   ```
 
-    Interceptor inteligente que envuelve el método `res.json`. (Ver detalle en 3.3).
+   Interceptor inteligente que envuelve el método `res.json`. (Ver detalle en 3.3).
 
-6.  **Rate Limiting condicional**:
-    ```typescript
-    if (env.NODE_ENV === "production") {
-      app.use(generalLimiter);
-    }
-    ```
-    En producción, protegemos el servidor globalmente contra abusos. En desarrollo se desactiva para no molestar.
+6. **Rate Limiting condicional**:
+
+   ```typescript
+   if (env.NODE_ENV === "production") {
+     app.use(generalLimiter);
+   }
+   ```
+
+   En producción, protegemos el servidor globalmente contra abusos. En desarrollo se desactiva para no molestar.
 
 #### Fase 3: Rutas y Documentación
 
@@ -261,11 +275,11 @@ En `src/middleware/` residen las piezas clave de la "fontanería" del servidor.
 
 - **Función**: Valida el token JWT en la cabecera `Authorization: Bearer <token>`.
 - **Lógica**:
-  1.  Verifica que la cabecera exista y empiece por "Bearer".
-  2.  Extrae el token.
-  3.  Usa `jwt.verify(token, env.JWT_SECRET)` para decodificarlo.
-  4.  Si es válido, inyecta `req.user` con `{ sub, email, isAdmin }`.
-  5.  Si falla, devuelve `401 Unauthorized`.
+  1. Verifica que la cabecera exista y empiece por "Bearer".
+  2. Extrae el token.
+  3. Usa `jwt.verify(token, env.JWT_SECRET)` para decodificarlo.
+  4. Si es válido, inyecta `req.user` con `{ sub, email, isAdmin }`.
+  5. Si falla, devuelve `401 Unauthorized`.
 - **Uso**: Se aplica solo en rutas protegidas.
 
 #### `authorize.ts` (Control de Acceso / RBAC)
@@ -278,10 +292,12 @@ En `src/middleware/` residen las piezas clave de la "fontanería" del servidor.
 
 - **Función**: Middleware de orden superior (Higher Order Function) que acepta un esquema Zod.
 - **Lógica**:
+
   ```typescript
   const parsed = schema.safeParse(req.body);
   if (!parsed.success) return res.status(400).json(...)
   ```
+
   Si la validación falla, devuelve `400 Bad Request` con el detalle exacto de qué campo falló. Si pasa, `req.body` se sobrescribe con los datos "limpios" y tipados.
 
 #### `requestLogger.ts` (Observabilidad)
