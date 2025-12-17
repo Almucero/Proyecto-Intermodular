@@ -172,8 +172,6 @@ fun RegisterScreen(
                     ),
                     singleLine = true
                 )
-
-                // Error
                 if (uiState.error != null) {
                     Text(
                         text = uiState.error!!,

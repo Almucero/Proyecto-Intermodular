@@ -53,7 +53,6 @@ class FavoritesViewModel @Inject constructor(
         viewModelScope.launch {
             favoritesRepository.removeFromFavorites(gameId, platformId)
                 .onSuccess {
-                    // Optimistic update or reload
                     val currentState = _uiState.value
                     if (currentState is FavoritesUiState.Success) {
                         val updatedList = currentState.games.filter { it.id != gameId }
@@ -65,7 +64,6 @@ class FavoritesViewModel @Inject constructor(
                     }
                 }
                 .onFailure { e ->
-                    // Handle error (maybe show snackbar, but keeping it simple for now)
                 }
         }
     }
@@ -75,10 +73,8 @@ class FavoritesViewModel @Inject constructor(
         viewModelScope.launch {
             cartRepository.addToCart(game.id, platformId, 1)
                 .onSuccess {
-                    // Optionally show success feedback
                 }
                 .onFailure {
-                    // Handle error
                 }
         }
     }
@@ -91,7 +87,6 @@ class FavoritesViewModel @Inject constructor(
                     val platformId = game.platforms?.firstOrNull()?.id ?: 0
                     cartRepository.addToCart(game.id, platformId, 1)
                 }
-                // Clear favorites or navigate? Angular doesn't seem to clear, just adds.
             }
         }
     }

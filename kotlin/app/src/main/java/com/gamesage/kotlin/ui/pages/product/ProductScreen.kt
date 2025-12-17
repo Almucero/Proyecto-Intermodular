@@ -53,7 +53,6 @@ fun ProductScreen(
         viewModel.loadGame(gameId)
     }
 
-    // Observe error state
     if (uiState is ProductUiState.Success) {
         val state = uiState as ProductUiState.Success
         LaunchedEffect(state.error) {
@@ -804,7 +803,7 @@ fun AuthModal(
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancelar", color = Color(0xFF9CA3AF))
+                Text(stringResource(R.string.dashboard_cancel), color = Color(0xFF9CA3AF))
             }
         },
         containerColor = Color(0xFF111827)
