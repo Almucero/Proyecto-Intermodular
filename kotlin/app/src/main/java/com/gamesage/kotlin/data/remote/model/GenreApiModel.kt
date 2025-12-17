@@ -20,6 +20,6 @@ fun GenreApiModel.toDomain(): Genre {
         name = name,
         createdAt = createdAt?.let { Instant.parse(it).atZone(ZoneId.systemDefault()).toLocalDateTime() } ?: LocalDateTime.now(),
         updatedAt = updatedAt?.let { Instant.parse(it).atZone(ZoneId.systemDefault()).toLocalDateTime() } ?: LocalDateTime.now(),
-        games = null // Evitar referencia circular
+        games = null
     )
 }

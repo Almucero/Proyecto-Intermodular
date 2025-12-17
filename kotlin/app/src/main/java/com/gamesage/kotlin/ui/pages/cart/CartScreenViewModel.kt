@@ -46,7 +46,7 @@ class CartScreenViewModel @Inject constructor(
                 }
             } else {
                 _uiState.update {
-                    it.copy(isLoading = false, error = "Failed to load cart")
+                    it.copy(isLoading = false, error = "Error al cargar el carrito")
                 }
             }
         }
@@ -82,7 +82,6 @@ class CartScreenViewModel @Inject constructor(
     }
 
     private suspend fun updateItemQuantity(item: CartItem, newQuantity: Int) {
-        // Optimistic update
         _uiState.update { state ->
             val updatedItems = state.cartItems.map {
                 if (it.gameId == item.gameId && it.platformId == item.platformId) it.copy(quantity = newQuantity) else it
@@ -92,14 +91,12 @@ class CartScreenViewModel @Inject constructor(
 
         val result = cartRepository.updateCartItem(item.gameId, item.platformId, newQuantity)
         if (result.isFailure) {
-            // Revert on failure
             loadCart() 
         }
     }
 
     fun removeFromCart(gameId: Int, platformId: Int) {
         viewModelScope.launch {
-             // Optimistic update
             _uiState.update { state ->
                 val updatedItems = state.cartItems.filter { !(it.gameId == gameId && it.platformId == platformId) }
                 state.copy(cartItems = updatedItems, total = calculateTotal(updatedItems))

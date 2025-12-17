@@ -124,10 +124,10 @@ interface CartApi {
     suspend fun getCart(): List<com.gamesage.kotlin.data.remote.model.CartItemApiModel>
     
     @POST("api/cart")
-    suspend fun addToCart(@Body body: Map<String, Int>) // Body: { "gameId": 1, "platformId": 1, "quantity": 1 }
+    suspend fun addToCart(@Body body: Map<String, Int>)
     
     @PATCH("api/cart/{gameId}")
-    suspend fun updateCartItem(@Path("gameId") gameId: Int, @Body body: Map<String, Int>) // Body: { "quantity": 1 }
+    suspend fun updateCartItem(@Path("gameId") gameId: Int, @Body body: Map<String, Int>)
     
     @DELETE("api/cart/{gameId}")
     suspend fun removeFromCart(@Path("gameId") gameId: Int, @Query("platformId") platformId: Int)
@@ -138,7 +138,7 @@ interface FavoritesApi {
     suspend fun getFavorites(): List<com.gamesage.kotlin.data.remote.model.FavoriteApiModel>
 
     @POST("api/favorites")
-    suspend fun addToFavorites(@Body body: Map<String, Int>) // Body: { "gameId": 1, "platformId": 1 }
+    suspend fun addToFavorites(@Body body: Map<String, Int>)
 
     @DELETE("api/favorites/{gameId}")
     suspend fun removeFromFavorites(@Path("gameId") gameId: Int, @Query("platformId") platformId: Int = 0)

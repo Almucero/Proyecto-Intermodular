@@ -55,7 +55,7 @@ fun FavoritesScreen(
                     text = stringResource(R.string.favorites_title),
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF67E8F9), // Cyan-300 like
+                    color = Color(0xFF67E8F9),
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -157,7 +157,6 @@ fun FavoriteHorizontalCard(
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Game Image
         Box(
             modifier = Modifier
                 .size(128.dp)
@@ -177,8 +176,6 @@ fun FavoriteHorizontalCard(
         }
 
         Spacer(modifier = Modifier.width(16.dp))
-
-        // Game Info
         Column(
             modifier = Modifier.weight(1f)
         ) {
@@ -193,8 +190,7 @@ fun FavoriteHorizontalCard(
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = game.Developer?.name ?: stringResource(R.string.cart_unknown_developer), // Adjust if Developer object is not populated correctly
-                color = Color(0xFF9CA3AF),
+                text = game.Developer?.name ?: stringResource(R.string.cart_unknown_developer),
                 fontSize = 14.sp
             )
             Spacer(modifier = Modifier.height(2.dp))
@@ -206,14 +202,11 @@ fun FavoriteHorizontalCard(
         }
         
          Spacer(modifier = Modifier.width(16.dp))
-
-        // Price & Actions
         Column(
             horizontalAlignment = Alignment.End,
             verticalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxHeight()
         ) {
-            // Price Section
             Column(horizontalAlignment = Alignment.End) {
                  Text(
                     text = stringResource(R.string.cart_unit_price),
@@ -246,11 +239,7 @@ fun FavoriteHorizontalCard(
             }
             
             Spacer(modifier = Modifier.height(16.dp))
-
-            // Buttons
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                
-                // Add to Cart Button (Small)
                 OutlinedIconButton(
                      onClick = onAddToCart,
                      border = BorderStroke(1.dp, Color(0xFF22D3EE)),
@@ -265,8 +254,6 @@ fun FavoriteHorizontalCard(
                         modifier = Modifier.size(20.dp)
                     )
                 }
-                
-                // Remove Button (Small)
                  OutlinedIconButton(
                      onClick = onRemove,
                      border = BorderStroke(1.dp, Color(0xFF22D3EE)),

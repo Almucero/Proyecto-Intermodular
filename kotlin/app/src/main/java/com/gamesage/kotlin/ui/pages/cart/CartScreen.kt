@@ -99,7 +99,6 @@ fun CartScreen(
                     }
                 }
 
-                // Resumen del carrito
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -158,8 +157,6 @@ fun CartItemRow(
     onRemove: () -> Unit
 ) {
     val game = item.game
-    
-    // Same image loading as HomeScreen
     val imageUrl = game?.media?.firstOrNull()?.url
         ?: "https://via.placeholder.com/600x400"
     
@@ -170,7 +167,6 @@ fun CartItemRow(
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Game image - same as HomeScreen
         Box(
             modifier = Modifier
                 .size(70.dp)
@@ -212,8 +208,6 @@ fun CartItemRow(
         }
         
         Spacer(modifier = Modifier.width(8.dp))
-
-        // Controles de cantidad
         Row(verticalAlignment = Alignment.CenterVertically) {
              Box(
                 modifier = Modifier
@@ -246,8 +240,6 @@ fun CartItemRow(
         }
         
         Spacer(modifier = Modifier.width(16.dp))
-        
-        // Precios
         Column(horizontalAlignment = Alignment.End) {
              Text(
                 text = stringResource(R.string.cart_unit_price),
@@ -263,7 +255,7 @@ fun CartItemRow(
                 )
                 Text(
                     text = "${game.salePrice}€",
-                    color = Color(0xFF22D3EE), // cyan-400
+                    color = Color(0xFF22D3EE),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -277,8 +269,6 @@ fun CartItemRow(
             }
             
              Spacer(modifier = Modifier.height(4.dp))
-             
-             // Total Item
              val itemTotal = (if (game?.isOnSale == true && game.salePrice != null) game.salePrice else (game?.price ?: 0.0)) * item.quantity
              Text(
                 text = stringResource(R.string.cart_total), 
@@ -294,12 +284,10 @@ fun CartItemRow(
         }
         
         Spacer(modifier = Modifier.width(16.dp))
-
-         // Eliminar
         Icon(
             imageVector = Icons.Default.Delete,
             contentDescription = stringResource(R.string.cart_delete),
-            tint = Color(0xFFF87171), // red-400
+            tint = Color(0xFFF87171),
             modifier = Modifier
                 .clickable { onRemove() }
                 .size(24.dp)

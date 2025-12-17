@@ -33,13 +33,13 @@ data class UserEditableData(
     val region: String = "",
     val postalCode: String = "",
     val country: String = "",
-    val avatar: String? = null // Base64 string or URL
+    val avatar: String? = null
 )
 
 @HiltViewModel
 class DashboardScreenViewModel @Inject constructor(
     private val userRepository: UserRepository,
-    private val api: GameSageApi // Using API directly for update as repo update might not be ready
+    private val api: GameSageApi
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(DashboardUiState())
@@ -71,7 +71,6 @@ class DashboardScreenViewModel @Inject constructor(
     fun toggleEdit() {
         _uiState.update { 
             val newIsEditing = !it.isEditing
-            // Reset editable data if canceling edit
             if (!newIsEditing && it.user != null) {
                 it.copy(isEditing = newIsEditing, editableUser = it.user.toEditableData())
             } else {
@@ -91,7 +90,6 @@ class DashboardScreenViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
             try {
-                // Construct API model for update
                 val updateRequest = UserApiModel(
                     id = currentUser.id,
                     email = editable.email,
@@ -108,8 +106,6 @@ class DashboardScreenViewModel @Inject constructor(
                 )
                 
                 api.updateOwnUser(updateRequest)
-                
-                // Refresh user data
                 loadUser()
                 _uiState.update { it.copy(isEditing = false) }
             } catch (e: Exception) {
@@ -119,8 +115,6 @@ class DashboardScreenViewModel @Inject constructor(
     }
     
     fun logout() {
-        // Implement logout logic (clear token, etc.)
-        // For now just navigate away or clear state if needed
     }
 }
 

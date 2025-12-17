@@ -44,8 +44,21 @@ class HomeScreenViewModel @Inject constructor(
                 val finalTopRated = if (topRated.isEmpty()) allGames.take(10) else topRated
                 
                 
+                val genreMap = mapOf(
+                    "Action" to "Acción",
+                    "Adventure" to "Aventura",
+                    "RPG" to "RPG",
+                    "Sports" to "Deportes",
+                    "Strategy" to "Estrategia",
+                    "Simulation" to "Simulación",
+                    "Horror" to "Terror",
+                    "Racing" to "Carreras",
+                    "Sandbox" to "Sandbox",
+                    "Shooter" to "Shooter"
+                )
+
                 _uiState.value = UiState.Success(
-                    categories = genres.map { it.name },
+                    categories = genres.map { genreMap[it.name] ?: it.name },
                     bestSellers = finalBestSellers,
                     offers = finalOffers,
                     topRated = finalTopRated

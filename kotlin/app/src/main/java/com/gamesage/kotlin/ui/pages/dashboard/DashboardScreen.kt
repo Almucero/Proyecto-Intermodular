@@ -61,8 +61,6 @@ fun DashboardScreen(
                 inputStream?.close()
                 if (bytes != null) {
                     val base64 = Base64.encodeToString(bytes, Base64.DEFAULT)
-                    // Prepend data URI scheme assuming JPEG/PNG. 
-                    // ideally we should detect mime type but "image/*" generic is fine for now
                     val avatarString = "data:image/jpeg;base64,$base64"
                     viewModel.onEditableDataChange(uiState.editableUser.copy(avatar = avatarString))
                 }
@@ -80,7 +78,7 @@ fun DashboardScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFF111827)) // Gray-900 equivalent
+                .background(Color(0xFF111827))
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp, bottom = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -89,15 +87,12 @@ fun DashboardScreen(
                 text = stringResource(R.string.dashboard_user_section),
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFFA5F3FC), // Cyan-200
+                color = Color(0xFFA5F3FC),
                 modifier = Modifier.padding(vertical = 24.dp)
             )
 
-            // Layout split for larger screens? For mobile we stick to vertical stack
-            // User Image
-            // User Image
             Box(
-                modifier = Modifier.size(192.dp) // 48 * 4 = 192dp
+                modifier = Modifier.size(192.dp)
             ) {
                 val avatarModel = if (uiState.isEditing) {
                     val avatarUrl = uiState.editableUser.avatar
@@ -116,13 +111,12 @@ fun DashboardScreen(
                         .background(Color.Gray),
                     contentScale = ContentScale.Crop
                 )
-                // Camera Icon for edit (Visual only for now)
                 if (uiState.isEditing) {
                     Box(
                         modifier = Modifier
                             .align(Alignment.BottomEnd)
                             .size(48.dp)
-                            .background(Color(0xFF22D3EE), CircleShape) // Cyan-400
+                            .background(Color(0xFF22D3EE), CircleShape)
                             .clickable { 
                                 launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
                             }
@@ -132,7 +126,7 @@ fun DashboardScreen(
                         Icon(
                             imageVector = Icons.Filled.PhotoCamera,
                             contentDescription = "Change Picture",
-                            tint = Color.White, // Icon color
+                            tint = Color.White,
                             modifier = Modifier.size(24.dp)
                         )
                     }
@@ -140,8 +134,6 @@ fun DashboardScreen(
             }
 
             Spacer(modifier = Modifier.height(32.dp))
-
-            // User Info Header
             Text(
                 text = uiState.user?.nickname ?: stringResource(R.string.dashboard_user_placeholder),
                 fontSize = 30.sp,
@@ -153,12 +145,10 @@ fun DashboardScreen(
                 modifier = Modifier.padding(top = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "@${uiState.user?.nickname ?: ""}", color = Color(0xFF9CA3AF)) // Gray-400
+                Text(text = "@${uiState.user?.nickname ?: ""}", color = Color(0xFF9CA3AF))
                 Spacer(modifier = Modifier.width(8.dp))
-                // Copy Icon
-                // Copy Icon
                 Text(
-                    text = "📄", // Placeholder icon
+                    text = "📄",
                     modifier = Modifier.clickable {
                         clipboardManager.setText(AnnotatedString("@${uiState.user?.nickname}"))
                         Toast.makeText(context, copiedMessage, Toast.LENGTH_SHORT).show()
@@ -171,7 +161,7 @@ fun DashboardScreen(
                 modifier = Modifier.padding(top = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "ID: ${uiState.user?.id ?: ""}", color = Color(0xFF6B7280), fontSize = 14.sp) // Gray-500
+                Text(text = "ID: ${uiState.user?.id ?: ""}", color = Color(0xFF6B7280), fontSize = 14.sp)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = "📄",
@@ -185,8 +175,6 @@ fun DashboardScreen(
             }
 
             Spacer(modifier = Modifier.height(32.dp))
-
-            // Account Info Section
             SectionHeader(stringResource(R.string.dashboard_account_info))
             DashboardTextField(
                 label = stringResource(R.string.dashboard_username),
@@ -203,8 +191,6 @@ fun DashboardScreen(
             )
 
             Spacer(modifier = Modifier.height(32.dp))
-
-            // Personal Data Section
             SectionHeader(stringResource(R.string.dashboard_personal_data))
             Text(
                 text = stringResource(R.string.dashboard_privacy_notice),
@@ -228,8 +214,6 @@ fun DashboardScreen(
             )
 
             Spacer(modifier = Modifier.height(32.dp))
-
-            // Address Section
             SectionHeader(stringResource(R.string.dashboard_address_section))
             DashboardTextField(
                 label = stringResource(R.string.dashboard_address_line1),
@@ -274,13 +258,11 @@ fun DashboardScreen(
             )
 
             Spacer(modifier = Modifier.height(32.dp))
-
-            // Action Buttons
             Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
                 Button(
                     onClick = { viewModel.toggleEdit() },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF22D3EE) // Cyan-400
+                        containerColor = Color(0xFF22D3EE)
                     ),
                     shape = RoundedCornerShape(4.dp)
                 ) {
@@ -292,7 +274,7 @@ fun DashboardScreen(
                     Button(
                         onClick = { viewModel.saveChanges() },
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF16A34A) // Green-600
+                            containerColor = Color(0xFF16A34A)
                         ),
                         shape = RoundedCornerShape(4.dp)
                     ) {
@@ -302,15 +284,12 @@ fun DashboardScreen(
             }
             
             Spacer(modifier = Modifier.height(16.dp))
-
-            // Logout Button - Moved below Configure button
             Button(
                 onClick = onLogout,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFDC2626) // Red-600
+                    containerColor = Color(0xFFDC2626)
                 ),
                 shape = RoundedCornerShape(4.dp)
-                // Removed align(Start) to let it center (Column default is CenterHorizontally)
             ) {
                 Text(stringResource(R.string.dashboard_logout), color = Color.White)
             }
@@ -343,10 +322,6 @@ fun DashboardTextField(
 ) {
     Column {
         Box(modifier = Modifier.fillMaxWidth()) {
-            // Label mimics floating label or internal text
-            // For simplicity, we can use OutlinedTextField or BasicTextField with custom style
-            // The design shows input with label inside top or floating.
-            
             OutlinedTextField(
                 value = value,
                 onValueChange = if (isEditing) onValueChange else { _ -> },

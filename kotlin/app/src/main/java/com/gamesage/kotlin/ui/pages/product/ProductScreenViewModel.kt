@@ -292,7 +292,6 @@ class ProductScreenViewModel @Inject constructor(
     }
 
     fun buyNow() {
-        // For buy now we also add to cart then navigate (navigation handled in UI)
         addToCart()
     }
 

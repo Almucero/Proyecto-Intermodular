@@ -33,16 +33,9 @@ class MainActivity : ComponentActivity() {
         runBlocking {
             val token = tokenManager.token.firstOrNull()
             val rememberMe = tokenManager.rememberMe.firstOrNull() ?: false
-            
-            // if (token != null && rememberMe) {
-            //    startDestination = "dashboard"
-            // } else {
-                // If rememberMe is false, we should ideally clear the token if it exists
-                // to act like a session end.
                 if (token != null && !rememberMe) {
                     tokenManager.deleteToken()
                 }
-            // }
         }
 
         setContent {

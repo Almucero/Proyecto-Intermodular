@@ -5,8 +5,6 @@ import com.google.gson.annotations.SerializedName
 data class FavoriteApiModel(
     @SerializedName("favoriteId") val id: Int,
     @SerializedName("favoritedAt") val createdAt: String,
-    
-    // Game properties flattened
     @SerializedName("id") val gameId: Int,
     @SerializedName("title") val title: String,
     @SerializedName("description") val description: String? = null,
@@ -18,10 +16,7 @@ data class FavoriteApiModel(
     @SerializedName("videoUrl") val videoUrl: String? = null,
     @SerializedName("rating") val rating: Float? = null,
     @SerializedName("releaseDate") val releaseDate: String? = null,
-    
     @SerializedName("platform") val platform: PlatformApiModel? = null,
-    
-    // Additional fields that might be mapped
     @SerializedName("media") val media: List<MediaApiModel>? = null,
     @SerializedName("genres") val genres: List<GenreApiModel>? = null
 )

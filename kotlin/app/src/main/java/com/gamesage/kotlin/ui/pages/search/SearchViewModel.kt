@@ -41,7 +41,6 @@ class SearchViewModel @Inject constructor(
     val maxPrice: StateFlow<Int> = _maxPrice.asStateFlow()
 
     init {
-        // Read genre from navigation arguments
         val genreArg = savedStateHandle.get<String>("genre")
         if (!genreArg.isNullOrEmpty()) {
             _selectedGenre.value = genreArg
@@ -175,7 +174,20 @@ class SearchViewModel @Inject constructor(
         }
         
         if (_selectedGenre.value.isNotEmpty()) {
-            filters.add(ActiveFilter("genre", _selectedGenre.value))
+            val genreMap = mapOf(
+                "Action" to "Acción",
+                "Adventure" to "Aventura",
+                "RPG" to "RPG",
+                "Sports" to "Deportes",
+                "Strategy" to "Estrategia",
+                "Simulation" to "Simulación",
+                "Horror" to "Terror",
+                "Racing" to "Carreras",
+                "Sandbox" to "Sandbox",
+                "Shooter" to "Shooter"
+            )
+            val translatedGenre = genreMap[_selectedGenre.value] ?: _selectedGenre.value
+            filters.add(ActiveFilter("genre", translatedGenre))
         }
         
         if (_selectedPlatform.value.isNotEmpty()) {
