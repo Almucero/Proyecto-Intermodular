@@ -131,6 +131,9 @@ interface CartApi {
     
     @DELETE("api/cart/{gameId}")
     suspend fun removeFromCart(@Path("gameId") gameId: Int, @Query("platformId") platformId: Int)
+
+    @DELETE("api/cart")
+    suspend fun clearCart()
 }
 
 interface FavoritesApi {

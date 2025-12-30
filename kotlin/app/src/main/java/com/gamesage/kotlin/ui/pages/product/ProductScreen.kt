@@ -192,15 +192,7 @@ fun ProductContent(
             onAddToCart = { viewModel.addToCart() },
             onAddToFavorites = { viewModel.addToFavorites() }
         )
-        
-        Spacer(modifier = Modifier.height(24.dp))
-        Text(
-            text = stringResource(R.string.product_description),
-            color = Color.White,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(18.dp))
         Text(
             text = state.game.description ?: stringResource(R.string.product_no_description),
             color = Color(0xFFD1D5DB),
@@ -692,13 +684,6 @@ fun ActionButtons(
 @Composable
 fun ScreenshotsSection(screenshot1: String?, screenshot2: String?) {
     if (screenshot1 != null || screenshot2 != null) {
-        Text(
-            text = stringResource(R.string.product_screenshots),
-            color = Color.White,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold
-        )
-        
         Spacer(modifier = Modifier.height(12.dp))
         
         Row(

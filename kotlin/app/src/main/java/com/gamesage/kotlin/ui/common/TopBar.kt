@@ -4,6 +4,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import com.gamesage.kotlin.R
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -38,7 +42,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
 import java.util.Locale
 
 @Composable
@@ -121,7 +124,7 @@ fun TopBar(
 
 
     // Language Dropdown implementation
-    val languages = remember {
+    val languages = remember<List<Language>> {
         listOf(
             Language("es", "Español", R.drawable.espana),
             Language("en", "English", R.drawable.estados_unidos),

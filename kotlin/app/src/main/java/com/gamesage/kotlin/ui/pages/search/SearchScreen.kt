@@ -3,13 +3,14 @@ package com.gamesage.kotlin.ui.pages.search
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -54,120 +55,121 @@ fun SearchScreen(
             .fillMaxSize()
             .background(Color(0xFF111827))
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color(0xFF1F2937))
-                    .verticalScroll(rememberScrollState())
-                    .padding(16.dp)
-            ) {
-                val activeFilters = viewModel.getActiveFilters()
-                if (activeFilters.isNotEmpty()) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(stringResource(R.string.search_filters) + " (${activeFilters.size})", color = Color.White, fontWeight = FontWeight.Bold)
-                        TextButton(onClick = { viewModel.resetFilters() }) {
-                            Text(stringResource(R.string.search_reset), color = Color(0xFF93E3FE))
-                        }
-                    }
-
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        activeFilters.forEach { filter ->
-                            FilterChip(
-                                label = filter.label,
-                                onRemove = { viewModel.removeFilter(filter.type) }
-                            )
-                        }
-                    }
-                }
-                
-                Spacer(modifier = Modifier.height(16.dp))
-                FilterSection(
-                    title = stringResource(R.string.filter_price),
-                    expanded = priceExpanded,
-                    onToggle = { priceExpanded = !priceExpanded }
-                ) {
-                    PriceFilterContent(
-                        selectedPrice = selectedPrice,
-                        priceValue = priceValue,
-                        maxPrice = maxPrice,
-                        onSelectPrice = { viewModel.selectPrice(it) },
-                        onPriceChange = { viewModel.updatePriceSlider(it) }
-                    )
-                }
-                
-                Spacer(modifier = Modifier.height(8.dp))
-                FilterSection(
-                    title = stringResource(R.string.filter_genre),
-                    expanded = genreExpanded,
-                    onToggle = { genreExpanded = !genreExpanded }
-                ) {
-                    GenreFilterContent(
-                        selectedGenre = selectedGenre,
-                        onSelectGenre = { viewModel.selectGenre(it) }
-                    )
-                }
-                
-                Spacer(modifier = Modifier.height(8.dp))
-                FilterSection(
-                    title = stringResource(R.string.filter_platform),
-                    expanded = platformExpanded,
-                    onToggle = { platformExpanded = !platformExpanded }
-                ) {
-                    PlatformFilterContent(
-                        selectedPlatform = selectedPlatform,
-                        onSelectPlatform = { viewModel.selectPlatform(it) }
-                    )
+        when (uiState) {
+            is SearchUiState.Loading -> {
+                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator(color = Color(0xFF93E3FE))
                 }
             }
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-            ) {
-                when (uiState) {
-                is SearchUiState.Loading -> {
-                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator(color = Color(0xFF93E3FE))
-                    }
+            is SearchUiState.Error -> {
+                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Text(stringResource(R.string.search_error), color = Color.White)
                 }
-                is SearchUiState.Error -> {
-                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text(stringResource(R.string.search_error), color = Color.White)
-                    }
-                }
-                is SearchUiState.Success -> {
-                    val games = (uiState as SearchUiState.Success).games
-                    if (games.isEmpty()) {
-                        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                            Text(stringResource(R.string.search_no_results), color = Color(0xFF9CA3AF), fontSize = 18.sp)
-                        }
-                    } else {
-                        LazyVerticalGrid(
-                            columns = GridCells.Fixed(2),
-                            contentPadding = PaddingValues(16.dp),
-                            horizontalArrangement = Arrangement.spacedBy(12.dp),
-                            verticalArrangement = Arrangement.spacedBy(12.dp)
+            }
+            is SearchUiState.Success -> {
+                val games = (uiState as SearchUiState.Success).games
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    contentPadding = PaddingValues(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    // Filters Section as first item spanning full width
+                    item(span = { GridItemSpan(2) }) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(Color(0xFF1F2937), RoundedCornerShape(8.dp))
+                                .padding(16.dp)
                         ) {
-                            items(games) { game ->
-                                GameCard(game = game, onClick = { onGameClick(game.id.toLong()) })
+                            val activeFilters = viewModel.getActiveFilters()
+                            if (activeFilters.isNotEmpty()) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(stringResource(R.string.search_filters) + " (${activeFilters.size})", color = Color.White, fontWeight = FontWeight.Bold)
+                                    TextButton(onClick = { viewModel.resetFilters() }) {
+                                        Text(stringResource(R.string.search_reset), color = Color(0xFF93E3FE))
+                                    }
+                                }
+
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 8.dp)
+                                        .horizontalScroll(rememberScrollState()),
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                ) {
+                                    activeFilters.forEach { filter ->
+                                        FilterChip(
+                                            label = filter.label,
+                                            onRemove = { viewModel.removeFilter(filter.type) }
+                                        )
+                                    }
+                                }
+                            }
+                            
+                            Spacer(modifier = Modifier.height(16.dp))
+                            FilterSection(
+                                title = stringResource(R.string.filter_price),
+                                expanded = priceExpanded,
+                                onToggle = { priceExpanded = !priceExpanded }
+                            ) {
+                                PriceFilterContent(
+                                    selectedPrice = selectedPrice,
+                                    priceValue = priceValue,
+                                    maxPrice = maxPrice,
+                                    onSelectPrice = { viewModel.selectPrice(it) },
+                                    onPriceChange = { viewModel.updatePriceSlider(it) }
+                                )
+                            }
+                            
+                            Spacer(modifier = Modifier.height(8.dp))
+                            FilterSection(
+                                title = stringResource(R.string.filter_genre),
+                                expanded = genreExpanded,
+                                onToggle = { genreExpanded = !genreExpanded }
+                            ) {
+                                GenreFilterContent(
+                                    selectedGenre = selectedGenre,
+                                    onSelectGenre = { viewModel.selectGenre(it) }
+                                )
+                            }
+                            
+                            Spacer(modifier = Modifier.height(8.dp))
+                            FilterSection(
+                                title = stringResource(R.string.filter_platform),
+                                expanded = platformExpanded,
+                                onToggle = { platformExpanded = !platformExpanded }
+                            ) {
+                                PlatformFilterContent(
+                                    selectedPlatform = selectedPlatform,
+                                    onSelectPlatform = { viewModel.selectPlatform(it) }
+                                )
                             }
                         }
                     }
+
+                    if (games.isEmpty()) {
+                        item(span = { GridItemSpan(2) }) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(200.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(stringResource(R.string.search_no_results), color = Color(0xFF9CA3AF), fontSize = 18.sp)
+                            }
+                        }
+                    } else {
+                        items(games) { game ->
+                            GameCard(game = game, onClick = { onGameClick(game.id.toLong()) })
+                        }
+                    }
                 }
             }
-        }
         }
     }
 }
@@ -264,26 +266,26 @@ fun PriceFilterContent(
 
 @Composable
 fun GenreFilterContent(
-    selectedGenre: String,
+    selectedGenre: Set<String>,
     onSelectGenre: (String) -> Unit
 ) {
     Column {
         val genres = listOf(
-             "Accion" to stringResource(R.string.genre_action),
-             "Aventura" to stringResource(R.string.genre_adventure),
+             "Action" to stringResource(R.string.genre_action),
+             "Adventure" to stringResource(R.string.genre_adventure),
              "RPG" to stringResource(R.string.genre_rpg),
-             "Deportes" to stringResource(R.string.genre_sports),
-             "Estrategia" to stringResource(R.string.genre_strategy),
-             "Simulacion" to stringResource(R.string.genre_simulation),
-             "Terror" to stringResource(R.string.genre_horror),
-             "Carreras" to stringResource(R.string.genre_racing),
+             "Sports" to stringResource(R.string.genre_sports),
+             "Strategy" to stringResource(R.string.genre_strategy),
+             "Simulation" to stringResource(R.string.genre_simulation),
+             "Horror" to stringResource(R.string.genre_horror),
+             "Racing" to stringResource(R.string.genre_racing),
              "Sandbox" to stringResource(R.string.genre_sandbox),
              "Shooter" to stringResource(R.string.genre_shooter)
         )
         genres.forEach { (key, label) ->
             FilterOption(
                 label = label,
-                selected = selectedGenre == key,
+                selected = selectedGenre.contains(key),
                 onClick = { onSelectGenre(key) }
             )
         }

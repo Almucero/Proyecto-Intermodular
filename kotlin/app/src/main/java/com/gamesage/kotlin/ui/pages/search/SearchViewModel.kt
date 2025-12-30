@@ -26,8 +26,8 @@ class SearchViewModel @Inject constructor(
     private val _selectedPrice = MutableStateFlow<String>("")
     val selectedPrice: StateFlow<String> = _selectedPrice.asStateFlow()
     
-    private val _selectedGenre = MutableStateFlow<String>("")
-    val selectedGenre: StateFlow<String> = _selectedGenre.asStateFlow()
+    private val _selectedGenre = MutableStateFlow<Set<String>>(emptySet())
+    val selectedGenre: StateFlow<Set<String>> = _selectedGenre.asStateFlow()
     
     private val _selectedPlatform = MutableStateFlow<String>("")
     val selectedPlatform: StateFlow<String> = _selectedPlatform.asStateFlow()
@@ -43,7 +43,9 @@ class SearchViewModel @Inject constructor(
     init {
         val genreArg = savedStateHandle.get<String>("genre")
         if (!genreArg.isNullOrEmpty()) {
-            _selectedGenre.value = genreArg
+        if (!genreArg.isNullOrEmpty()) {
+            _selectedGenre.value = setOf(genreArg)
+        }
         }
         loadGames()
     }
@@ -74,7 +76,13 @@ class SearchViewModel @Inject constructor(
     }
 
     fun selectGenre(genre: String) {
-        _selectedGenre.value = if (_selectedGenre.value == genre) "" else genre
+        val current = _selectedGenre.value.toMutableSet()
+        if (current.contains(genre)) {
+            current.remove(genre)
+        } else {
+            current.add(genre)
+        }
+        _selectedGenre.value = current
         applyFilters()
     }
 
@@ -96,7 +104,7 @@ class SearchViewModel @Inject constructor(
 
     fun resetFilters() {
         _selectedPrice.value = ""
-        _selectedGenre.value = ""
+        _selectedGenre.value = emptySet()
         _selectedPlatform.value = ""
         _searchQuery.value = ""
         _priceValue.value = _maxPrice.value
@@ -104,13 +112,19 @@ class SearchViewModel @Inject constructor(
     }
 
     fun removeFilter(type: String) {
-        when (type) {
-            "price" -> {
+        when {
+            type == "price" -> {
                 _selectedPrice.value = ""
                 _priceValue.value = _maxPrice.value
             }
-            "genre" -> _selectedGenre.value = ""
-            "platform" -> _selectedPlatform.value = ""
+            type.startsWith("genre:") -> {
+                val genreToRemove = type.removePrefix("genre:")
+                val current = _selectedGenre.value.toMutableSet()
+                current.remove(genreToRemove)
+                _selectedGenre.value = current
+            }
+            type == "genre" -> _selectedGenre.value = emptySet()
+            type == "platform" -> _selectedPlatform.value = ""
         }
         applyFilters()
     }
@@ -130,7 +144,9 @@ class SearchViewModel @Inject constructor(
 
         if (_selectedGenre.value.isNotEmpty()) {
             filtered = filtered.filter { game ->
-                game.genres?.any { it.name.equals(_selectedGenre.value, ignoreCase = true) } == true
+                game.genres?.any { genre -> 
+                    _selectedGenre.value.any { selected -> genre.name.equals(selected, ignoreCase = true) }
+                } == true
             }
         }
 
@@ -186,8 +202,13 @@ class SearchViewModel @Inject constructor(
                 "Sandbox" to "Sandbox",
                 "Shooter" to "Shooter"
             )
-            val translatedGenre = genreMap[_selectedGenre.value] ?: _selectedGenre.value
-            filters.add(ActiveFilter("genre", translatedGenre))
+            _selectedGenre.value.forEach { genre ->
+                val translatedGenre = genreMap[genre] ?: genre
+                // We need unique types to support individual removal.
+                // Currently removeFilter takes type. 
+                // If we pass "genre:$genre" as type, we need to update removeFilter to handle it.
+                filters.add(ActiveFilter("genre:$genre", translatedGenre))
+            }
         }
         
         if (_selectedPlatform.value.isNotEmpty()) {
