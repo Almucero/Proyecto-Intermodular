@@ -37,6 +37,7 @@ fun NavGraph(
     tokenManager: com.gamesage.kotlin.data.local.TokenManager
 ) {
     val navController: NavHostController = rememberNavController()
+    val context = androidx.compose.ui.platform.LocalContext.current
     val token by tokenManager.token.collectAsState(initial = null)
     
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -68,7 +69,10 @@ fun NavGraph(
                                  popUpTo(Destinations.Home.route) { inclusive = true }
                              }
                         },
-                        onLanguageClick = { /* TODO */ }
+                        onLanguageClick = { langCode ->
+                            com.gamesage.kotlin.utils.LanguageUtils.setLocale(context, langCode)
+                            (context as? android.app.Activity)?.recreate()
+                        }
                     )
                 },
                 scrollBehavior = scrollBehavior,
