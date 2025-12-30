@@ -49,21 +49,29 @@ class FavoritesViewModel @Inject constructor(
         }
     }
 
-    fun removeFromFavorites(gameId: Int, platformId: Int = 0) {
+    fun removeFromFavorites(gameId: Int) {
+        val currentState = _uiState.value
+        val game = (currentState as? FavoritesUiState.Success)?.games?.find { it.id == gameId }
+        val platformId = game?.platforms?.firstOrNull()?.id ?: 0
+
         viewModelScope.launch {
+            // Optimistic update: Remove immediately from UI
+            if (currentState is FavoritesUiState.Success) {
+                val updatedList = currentState.games.filter { it.id != gameId }
+                if (updatedList.isEmpty()) {
+                    _uiState.value = FavoritesUiState.Empty
+                } else {
+                    _uiState.value = FavoritesUiState.Success(updatedList)
+                }
+            }
+
             favoritesRepository.removeFromFavorites(gameId, platformId)
                 .onSuccess {
-                    val currentState = _uiState.value
-                    if (currentState is FavoritesUiState.Success) {
-                        val updatedList = currentState.games.filter { it.id != gameId }
-                        if (updatedList.isEmpty()) {
-                            _uiState.value = FavoritesUiState.Empty
-                        } else {
-                            _uiState.value = FavoritesUiState.Success(updatedList)
-                        }
-                    }
+                    // Already removed from UI, ensuring consistency
                 }
-                .onFailure { e ->
+                .onFailure {
+                    // Revert if failed (optional, but good practice. For now just reloading to sync)
+                    loadFavorites()
                 }
         }
     }
@@ -73,6 +81,7 @@ class FavoritesViewModel @Inject constructor(
         viewModelScope.launch {
             cartRepository.addToCart(game.id, platformId, 1)
                 .onSuccess {
+                    removeFromFavorites(game.id)
                 }
                 .onFailure {
                 }

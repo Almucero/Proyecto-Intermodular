@@ -19,6 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -36,6 +37,7 @@ import com.gamesage.kotlin.R
 
 @Composable
 fun DashboardScreen(
+    onPrivacyClick: () -> Unit,
     onLogout: () -> Unit,
     viewModel: DashboardScreenViewModel = hiltViewModel()
 ) {
@@ -117,7 +119,7 @@ fun DashboardScreen(
                             .align(Alignment.BottomEnd)
                             .size(48.dp)
                             .background(Color(0xFF22D3EE), CircleShape)
-                            .clickable { 
+                            .clickable {
                                 launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
                             }
                             .padding(12.dp),
@@ -140,7 +142,7 @@ fun DashboardScreen(
                 fontWeight = FontWeight.Bold,
                 color = Color.White
             )
-            
+
             Row(
                 modifier = Modifier.padding(top = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -156,7 +158,7 @@ fun DashboardScreen(
                     color = Color.Gray
                 )
             }
-            
+
             Row(
                 modifier = Modifier.padding(top = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -192,10 +194,30 @@ fun DashboardScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
             SectionHeader(stringResource(R.string.dashboard_personal_data))
-            Text(
-                text = stringResource(R.string.dashboard_privacy_notice),
-                color = Color(0xFF6B7280),
-                fontSize = 14.sp,
+
+            val privacyText = stringResource(R.string.dashboard_privacy_text)
+            val privacyLink = stringResource(R.string.dashboard_privacy_link)
+            val annotatedPrivacyString = androidx.compose.ui.text.buildAnnotatedString {
+                append(privacyText)
+                pushStringAnnotation(tag = "PRIVACY", annotation = "privacy")
+                withStyle(style = androidx.compose.ui.text.SpanStyle(color = Color(0xFF22D3EE), fontWeight = FontWeight.Bold)) {
+                    append(privacyLink)
+                }
+                pop()
+            }
+
+            androidx.compose.foundation.text.ClickableText(
+                text = annotatedPrivacyString,
+                style = androidx.compose.ui.text.TextStyle(
+                    color = Color(0xFF6B7280),
+                    fontSize = 14.sp
+                ),
+                onClick = { offset ->
+                    annotatedPrivacyString.getStringAnnotations(tag = "PRIVACY", start = offset, end = offset)
+                        .firstOrNull()?.let {
+                            onPrivacyClick()
+                        }
+                },
                 modifier = Modifier.padding(bottom = 16.dp)
             )
             

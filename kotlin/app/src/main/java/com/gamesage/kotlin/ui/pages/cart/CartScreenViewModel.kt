@@ -109,6 +109,16 @@ class CartScreenViewModel @Inject constructor(
         }
     }
 
+    fun clearCart() {
+        viewModelScope.launch {
+            _uiState.update { it.copy(cartItems = emptyList(), total = 0.0) }
+            val result = cartRepository.clearCart()
+            if (result.isFailure) {
+                loadCart()
+            }
+        }
+    }
+
     fun checkout() {
         // TODO: Implement checkout logic
     }

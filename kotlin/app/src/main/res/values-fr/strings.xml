@@ -118,7 +118,8 @@
     <string name="dashboard_username">Nom d\'utilisateur</string>
     <string name="dashboard_email">E-mail</string>
     <string name="dashboard_personal_data">Données personnelles</string>
-    <string name="dashboard_privacy_notice">Votre confidentialité est importante pour nous. Nous utilisons ces informations uniquement pour expédier vos commandes. Voir la politique de confidentialité</string>
+    <string name="dashboard_privacy_text">Votre confidentialité est importante pour nous. Nous utilisons ces informations uniquement pour expédier vos commandes. </string>
+    <string name="dashboard_privacy_link">Voir la politique de confidentialité</string>
     <string name="dashboard_name">Prénom</string>
     <string name="dashboard_surname">Noms</string>
     <string name="dashboard_address_section">Adresse</string>

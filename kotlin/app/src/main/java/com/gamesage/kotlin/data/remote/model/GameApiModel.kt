@@ -31,8 +31,8 @@ data class GameApiModel(
     @SerializedName("media") val media: List<MediaApiModel>?,
     @SerializedName("publisherId") val publisherId: Int?,
     @SerializedName("developerId") val developerId: Int?,
-    @SerializedName("Publisher") val publisher: PublisherApiModel?,
-    @SerializedName("Developer") val developer: DeveloperApiModel?
+    @SerializedName(value = "Publisher", alternate = ["publisher"]) val publisher: PublisherApiModel?,
+    @SerializedName(value = "Developer", alternate = ["developer"]) val developer: DeveloperApiModel?
 )
 
 fun GameApiModel.toDomain(): Game {

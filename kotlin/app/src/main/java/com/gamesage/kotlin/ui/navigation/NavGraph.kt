@@ -211,6 +211,7 @@ fun NavGraph(
 
             composable(Destinations.Dashboard.route) {
                 com.gamesage.kotlin.ui.pages.dashboard.DashboardScreen(
+                    onPrivacyClick = { navController.navigate(Destinations.Privacy.route) },
                     onLogout = {
                         navController.navigate(Destinations.Login.route) {
                             popUpTo(Destinations.Home.route) { inclusive = true }
