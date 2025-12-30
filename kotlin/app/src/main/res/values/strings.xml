@@ -80,6 +80,7 @@
     <string name="cart_empty">Tu carrito está vacío</string>
     <string name="cart_total">Total:</string>
     <string name="cart_checkout">Pagar</string>
+    <string name="cart_clear">Vaciar cesta</string>
     <string name="cart_unknown_game">Juego Desconocido</string>
     <string name="cart_unknown_developer">Desconocido</string>
     <string name="cart_unit_price">Precio:</string>
@@ -118,7 +119,8 @@
     <string name="dashboard_username">Nombre de usuario</string>
     <string name="dashboard_email">Email</string>
     <string name="dashboard_personal_data">Datos Personales</string>
-    <string name="dashboard_privacy_notice">Tu privacidad es importante para nosotros. Solo usaremos esta información para enviarte tus pedidos. Ver Política de Privacidad</string>
+    <string name="dashboard_privacy_text">Tu privacidad es importante para nosotros. Solo usaremos esta información para enviarte tus pedidos. </string>
+    <string name="dashboard_privacy_link">Ver Política de Privacidad</string>
     <string name="dashboard_name">Nombre</string>
     <string name="dashboard_surname">Apellidos</string>
     <string name="dashboard_address_section">Dirección</string>

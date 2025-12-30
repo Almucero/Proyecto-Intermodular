@@ -125,6 +125,27 @@ fun CartScreen(
                         )
                     }
 
+                    OutlinedButton(
+                        onClick = { viewModel.clearCart() },
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            contentColor = Color(0xFFF87171)
+                        ),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFF87171)),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 12.dp)
+                            .height(50.dp),
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(text = stringResource(R.string.cart_clear))
+                    }
+
                     Button(
                         onClick = { viewModel.checkout() },
                         colors = ButtonDefaults.buttonColors(

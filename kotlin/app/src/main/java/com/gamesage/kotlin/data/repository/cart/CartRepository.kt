@@ -89,4 +89,13 @@ class CartRepository @Inject constructor(
             Result.failure(e)
         }
     }
+
+    suspend fun clearCart(): Result<Unit> {
+        return try {
+            api.clearCart()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }
