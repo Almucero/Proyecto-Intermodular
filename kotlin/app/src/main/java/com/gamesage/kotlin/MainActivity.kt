@@ -26,6 +26,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        com.gamesage.kotlin.utils.LanguageUtils.loadLocale(this)
         enableEdgeToEdge()
         
         var startDestination = "home"
