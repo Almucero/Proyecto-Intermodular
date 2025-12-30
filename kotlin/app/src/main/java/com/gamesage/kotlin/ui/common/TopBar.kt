@@ -39,13 +39,15 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+import java.util.Locale
+
 @Composable
 fun TopBar(
     searchQuery: String = "",
     onSearchQueryChange: (String) -> Unit = {},
     onSearchClick: () -> Unit = {},
     onLogoClick: () -> Unit = {},
-    onLanguageClick: () -> Unit = {}
+    onLanguageClick: (String) -> Unit = {}
 ) {
     Box(
         modifier = Modifier
@@ -116,5 +118,72 @@ fun TopBar(
                 )
             }
         }
+
+
+    // Language Dropdown implementation
+    val languages = remember {
+        listOf(
+            Language("es", "Español", R.drawable.espana),
+            Language("en", "English", R.drawable.estados_unidos),
+            Language("de", "Deutsch", R.drawable.alemania),
+            Language("fr", "Français", R.drawable.francia),
+            Language("it", "Italiano", R.drawable.italia)
+        )
+    }
+
+    var isLanguageMenuExpanded by remember { mutableStateOf(false) }
+    var currentLanguage by remember { 
+        mutableStateOf(
+            languages.find { it.code == Locale.getDefault().language } ?: languages.first()
+        ) 
+    }
+
+    Box(
+        modifier = Modifier.align(Alignment.CenterEnd)
+    ) {
+        Image(
+            painter = painterResource(id = currentLanguage.flagResId),
+            contentDescription = "Idioma ${currentLanguage.name}",
+            modifier = Modifier
+                .size(40.dp)
+                .padding(end = 8.dp)
+                .clip(RoundedCornerShape(4.dp))
+                .clickable { isLanguageMenuExpanded = true }
+        )
+
+        DropdownMenu(
+            expanded = isLanguageMenuExpanded,
+            onDismissRequest = { isLanguageMenuExpanded = false },
+            modifier = Modifier
+                .background(Color(0xFF030712))
+                .width(60.dp) // Little bit wider to fit standard touch targets if needed, or keep compact
+        ) {
+            languages.filter { it.code != currentLanguage.code }.forEach { language ->
+                DropdownMenuItem(
+                    text = {
+                        Image(
+                            painter = painterResource(id = language.flagResId),
+                            contentDescription = language.name,
+                            modifier = Modifier
+                                .size(30.dp)
+                                .clip(RoundedCornerShape(4.dp))
+                        )
+                    },
+                    onClick = {
+                        currentLanguage = language
+                        isLanguageMenuExpanded = false
+                        onLanguageClick(language.code) // You might want to pass the selected language code here if the callback supports it
+                    },
+                    modifier = Modifier.background(Color(0xFF030712))
+                )
+            }
+        }
     }
 }
+}
+
+data class Language(
+    val code: String,
+    val name: String,
+    val flagResId: Int
+)
