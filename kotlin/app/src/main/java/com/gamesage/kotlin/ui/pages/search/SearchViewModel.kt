@@ -190,24 +190,11 @@ class SearchViewModel @Inject constructor(
         }
         
         if (_selectedGenre.value.isNotEmpty()) {
-            val genreMap = mapOf(
-                "Action" to "Acción",
-                "Adventure" to "Aventura",
-                "RPG" to "RPG",
-                "Sports" to "Deportes",
-                "Strategy" to "Estrategia",
-                "Simulation" to "Simulación",
-                "Horror" to "Terror",
-                "Racing" to "Carreras",
-                "Sandbox" to "Sandbox",
-                "Shooter" to "Shooter"
-            )
             _selectedGenre.value.forEach { genre ->
-                val translatedGenre = genreMap[genre] ?: genre
                 // We need unique types to support individual removal.
                 // Currently removeFilter takes type. 
                 // If we pass "genre:$genre" as type, we need to update removeFilter to handle it.
-                filters.add(ActiveFilter("genre:$genre", translatedGenre))
+                filters.add(ActiveFilter("genre:$genre", genre))
             }
         }
         

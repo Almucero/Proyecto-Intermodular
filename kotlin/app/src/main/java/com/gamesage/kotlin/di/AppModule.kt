@@ -1,5 +1,6 @@
 package com.gamesage.kotlin.di
 
+import com.gamesage.kotlin.data.ChatDataSource
 import com.gamesage.kotlin.data.DeveloperDataSource
 import com.gamesage.kotlin.data.GameDataSource
 import com.gamesage.kotlin.data.GenreDataSource
@@ -14,6 +15,7 @@ import com.gamesage.kotlin.data.local.media.MediaLocalDataSource
 import com.gamesage.kotlin.data.local.platform.PlatformLocalDataSource
 import com.gamesage.kotlin.data.local.publisher.PublisherLocalDataSource
 import com.gamesage.kotlin.data.local.user.UserLocalDataSource
+import com.gamesage.kotlin.data.remote.ChatRemoteDataSource
 import com.gamesage.kotlin.data.remote.DeveloperRemoteDataSource
 import com.gamesage.kotlin.data.remote.GameRemoteDataSource
 import com.gamesage.kotlin.data.remote.GenreRemoteDataSource
@@ -33,6 +35,8 @@ import com.gamesage.kotlin.data.repository.platform.PlatformRepository
 import com.gamesage.kotlin.data.repository.platform.PlatformRepositoryImpl
 import com.gamesage.kotlin.data.repository.publisher.PublisherRepository
 import com.gamesage.kotlin.data.repository.publisher.PublisherRepositoryImpl
+import com.gamesage.kotlin.data.repository.chat.ChatRepository
+import com.gamesage.kotlin.data.repository.chat.ChatRepositoryImpl
 import com.gamesage.kotlin.data.repository.user.UserRepository
 import com.gamesage.kotlin.data.repository.user.UserRepositoryImpl
 import dagger.Binds
@@ -128,6 +132,15 @@ abstract class AppModule {
     @Binds
     @Singleton
     abstract fun bindUserRepository(repository: UserRepositoryImpl): UserRepository
+
+    @Singleton
+    @Binds
+    @RemoteDataSource
+    abstract fun bindsRemoteChatDataSource(ds: ChatRemoteDataSource): ChatDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindChatRepository(repository: ChatRepositoryImpl): ChatRepository
 }
 
 @Qualifier

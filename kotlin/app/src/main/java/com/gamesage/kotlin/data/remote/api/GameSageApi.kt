@@ -10,6 +10,9 @@ import com.gamesage.kotlin.data.remote.model.AuthResponse
 import com.gamesage.kotlin.data.remote.model.SignInRequest
 import com.gamesage.kotlin.data.remote.model.SignUpRequest
 import com.gamesage.kotlin.data.remote.model.CartItemApiModel
+import com.gamesage.kotlin.data.remote.model.ChatResponseApiModel
+import com.gamesage.kotlin.data.remote.model.ChatSessionApiModel
+import com.gamesage.kotlin.data.remote.model.SendMessageRequest
 import retrofit2.http.Body
 
 interface GameSageApi:
@@ -22,10 +25,11 @@ interface GameSageApi:
     PlatformsApi,
     MediaApi,
     CartApi,
-    FavoritesApi
+    FavoritesApi,
+    ChatApi
 
 interface AuthApi {
-    @POST("/api/auth/register")
+    @POST("api/auth/register")
     suspend fun register(@Body request: SignUpRequest): AuthResponse
     @POST("api/auth/login")
     suspend fun login(@Body request: SignInRequest): AuthResponse
@@ -148,4 +152,18 @@ interface FavoritesApi {
 
     @GET("api/favorites/check/{gameId}")
     suspend fun isFavorite(@Path("gameId") gameId: Int, @Query("platformId") platformId: Int = 0): Boolean
+}
+
+interface ChatApi {
+    @GET("/api/chat/sessions")
+    suspend fun getSessions(): List<ChatSessionApiModel>
+
+    @GET("/api/chat/sessions/{id}")
+    suspend fun getSession(@Path("id") id: Int): ChatSessionApiModel
+
+    @POST("/api/chat")
+    suspend fun sendMessage(@Body request: SendMessageRequest): ChatResponseApiModel
+
+    @DELETE("/api/chat/sessions/{id}")
+    suspend fun deleteSession(@Path("id") id: Int)
 }

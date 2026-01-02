@@ -24,6 +24,10 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var tokenManager: com.gamesage.kotlin.data.local.TokenManager
 
+    override fun attachBaseContext(newBase: android.content.Context) {
+        super.attachBaseContext(com.gamesage.kotlin.utils.LanguageUtils.onAttach(newBase))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         com.gamesage.kotlin.utils.LanguageUtils.loadLocale(this)

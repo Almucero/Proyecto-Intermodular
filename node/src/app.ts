@@ -40,6 +40,7 @@ if (env.NODE_ENV === "production") {
 }
 
 app.get("/api/health", (_req, res) => res.json({ ok: true }));
+app.get("/api/diagnostic", (_req, res) => res.json({ ok: true, msg: "Backend is alive" }));
 
 app.use("/api-docs", swaggerUi.serve);
 app.get("/api-docs", (req, res, next) => {
