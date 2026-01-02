@@ -139,7 +139,7 @@ fun CategorySection(categories: List<String>, onGenreClick: (String) -> Unit) {
                     .clickable { onGenreClick(cat) }
                     .padding(horizontal = 18.dp, vertical = 8.dp)
             ) {
-                Text(cat, color = Color.White)
+                Text(com.gamesage.kotlin.ui.common.PresentationUtils.getLocalizedGenreName(cat), color = Color.White)
             }
         }
     }

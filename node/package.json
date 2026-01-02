@@ -10,7 +10,7 @@
     "seed:data": "npm run clean:data && tsx src/scripts/seedData.ts",
     "clean:data": "tsx src/scripts/cleanData.ts",
     "build": "tsc -p .",
-    "build:full": "prisma generate && npm run seed:admin && npm run build",
+    "build:full": "npm exec prisma generate && npm run seed:admin && npm run build",
     "start": "node dist/src/index.js",
     "test": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest",
     "test:watch": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --watch",

@@ -103,8 +103,13 @@ fun SearchScreen(
                                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                                 ) {
                                     activeFilters.forEach { filter ->
+                                        val label = if (filter.type.startsWith("genre:")) {
+                                            com.gamesage.kotlin.ui.common.PresentationUtils.getLocalizedGenreName(filter.label)
+                                        } else {
+                                            filter.label
+                                        }
                                         FilterChip(
-                                            label = filter.label,
+                                            label = label,
                                             onRemove = { viewModel.removeFilter(filter.type) }
                                         )
                                     }
@@ -271,20 +276,12 @@ fun GenreFilterContent(
 ) {
     Column {
         val genres = listOf(
-             "Action" to stringResource(R.string.genre_action),
-             "Adventure" to stringResource(R.string.genre_adventure),
-             "RPG" to stringResource(R.string.genre_rpg),
-             "Sports" to stringResource(R.string.genre_sports),
-             "Strategy" to stringResource(R.string.genre_strategy),
-             "Simulation" to stringResource(R.string.genre_simulation),
-             "Horror" to stringResource(R.string.genre_horror),
-             "Racing" to stringResource(R.string.genre_racing),
-             "Sandbox" to stringResource(R.string.genre_sandbox),
-             "Shooter" to stringResource(R.string.genre_shooter)
+             "Action", "Adventure", "RPG", "Sports", "Strategy", 
+             "Simulation", "Horror", "Racing", "Sandbox", "Shooter"
         )
-        genres.forEach { (key, label) ->
+        genres.forEach { key ->
             FilterOption(
-                label = label,
+                label = com.gamesage.kotlin.ui.common.PresentationUtils.getLocalizedGenreName(key),
                 selected = selectedGenre.contains(key),
                 onClick = { onSelectGenre(key) }
             )
