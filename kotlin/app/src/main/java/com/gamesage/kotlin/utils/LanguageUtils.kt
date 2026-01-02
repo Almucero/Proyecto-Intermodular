@@ -36,6 +36,18 @@ object LanguageUtils {
         return prefs.getString(KEY_LANGUAGE, "es") ?: "es" // Default to Spanish
     }
 
+    fun onAttach(context: Context): Context {
+        val lang = getSavedLanguage(context)
+        val locale = Locale(lang)
+        Locale.setDefault(locale)
+
+        val config = context.resources.configuration
+        config.setLocale(locale)
+        config.setLayoutDirection(locale)
+
+        return context.createConfigurationContext(config)
+    }
+
     private fun saveLanguage(context: Context, languageCode: String) {
         val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         prefs.edit().putString(KEY_LANGUAGE, languageCode).apply()

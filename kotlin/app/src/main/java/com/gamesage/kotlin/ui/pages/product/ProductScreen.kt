@@ -194,7 +194,7 @@ fun ProductContent(
         )
         Spacer(modifier = Modifier.height(18.dp))
         Text(
-            text = state.game.description ?: stringResource(R.string.product_no_description),
+            text = com.gamesage.kotlin.ui.common.PresentationUtils.getLocalizedDescription(state.game.title, state.game.description),
             color = Color(0xFFD1D5DB),
             fontSize = 14.sp,
             lineHeight = 20.sp,

@@ -208,7 +208,7 @@ export async function processChat(
 
   try {
     result = await generateText({
-      model: google("gemini-2.5-flash"),
+      model: google("gemini-1.5-flash"),
       system: systemPrompt,
       messages,
       stopWhen: stepCountIs(5),
@@ -217,7 +217,7 @@ export async function processChat(
   } catch (error) {
     try {
       result = await generateText({
-        model: google("gemini-2.5-flash-lite"),
+        model: google("gemini-1.5-flash"),
         system: systemPrompt,
         messages,
         stopWhen: stepCountIs(5),

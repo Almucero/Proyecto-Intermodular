@@ -41,6 +41,9 @@ fun NavGraph(
     val token by tokenManager.token.collectAsState(initial = null)
     
     val backStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = backStackEntry?.destination?.route
+    val isAIChat = currentRoute == Destinations.AIChat.route
+    
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -52,54 +55,61 @@ fun NavGraph(
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    TopBar(
-                        searchQuery = searchQuery,
-                        onSearchQueryChange = { query ->
-                            searchQuery = query
-                        },
-                        onSearchClick = {
-                            if (searchQuery.isNotEmpty()) {
-                                navController.navigate(Destinations.Search.createRoute(searchQuery))
+            if (!isAIChat) {
+                CenterAlignedTopAppBar(
+                    title = {
+                        TopBar(
+                            searchQuery = searchQuery,
+                            onSearchQueryChange = { query ->
+                                searchQuery = query
+                            },
+                            onSearchClick = {
+                                if (searchQuery.isNotEmpty()) {
+                                    navController.navigate(Destinations.Search.createRoute(searchQuery))
+                                }
+                            },
+                            onLogoClick = {
+                                 navController.navigate(Destinations.Home.route) {
+                                     popUpTo(Destinations.Home.route) { inclusive = true }
+                                 }
+                            },
+                            onLanguageClick = { langCode ->
+                                com.gamesage.kotlin.utils.LanguageUtils.setLocale(context, langCode)
+                                (context as? android.app.Activity)?.recreate()
                             }
-                        },
-                        onLogoClick = {
-                             navController.navigate(Destinations.Home.route) {
-                                 popUpTo(Destinations.Home.route) { inclusive = true }
-                             }
-                        },
-                        onLanguageClick = { langCode ->
-                            com.gamesage.kotlin.utils.LanguageUtils.setLocale(context, langCode)
-                            (context as? android.app.Activity)?.recreate()
-                        }
+                        )
+                    },
+                    scrollBehavior = scrollBehavior,
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color(0xFF030712)
                     )
-                },
-                scrollBehavior = scrollBehavior,
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF030712)
                 )
-            )
+            }
         },
         bottomBar = {
-            HomeBottomBar(
-                onMenuClick = { showBottomSheet = true },
-                onCartClick = { navController.navigate(Destinations.Cart.route) },
-                onFavoritesClick = { 
-                     if (token != null) {
-                         navController.navigate(Destinations.Favorites.route) 
-                     } else {
-                         navController.navigate(Destinations.Login.route)
-                     }
-                },
-                onProfileClick = { 
-                    if (token != null) {
-                        navController.navigate(Destinations.Dashboard.route)
-                    } else {
-                        navController.navigate(Destinations.Login.route)
+            if (!isAIChat) {
+                HomeBottomBar(
+                    onMenuClick = { showBottomSheet = true },
+                    onCartClick = { navController.navigate(Destinations.Cart.route) },
+                    onFavoritesClick = { 
+                         if (token != null) {
+                             navController.navigate(Destinations.Favorites.route) 
+                         } else {
+                             navController.navigate(Destinations.Login.route)
+                         }
+                    },
+                    onProfileClick = { 
+                        if (token != null) {
+                            navController.navigate(Destinations.Dashboard.route)
+                        } else {
+                            navController.navigate(Destinations.Login.route)
+                        }
+                    },
+                    onAiChatClick = {
+                        navController.navigate(Destinations.AIChat.route)
                     }
-                }
-            )
+                )
+            }
         },
         containerColor = Color(0xFF111827)
     ) { innerPadding ->
@@ -231,6 +241,18 @@ fun NavGraph(
                     onNavigateBack = { navController.popBackStack() },
                     onGameClick = { gameId ->
                         navController.navigate("product/$gameId")
+                    }
+                )
+            }
+
+            composable(Destinations.AIChat.route) {
+                com.gamesage.kotlin.ui.pages.aichat.AIChatScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onNavigateToGame = { gameId ->
+                        navController.navigate("product/$gameId")
+                    },
+                    onNavigateToLogin = {
+                        navController.navigate(Destinations.Login.route)
                     }
                 )
             }

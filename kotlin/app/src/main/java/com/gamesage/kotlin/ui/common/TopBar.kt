@@ -123,7 +123,6 @@ fun TopBar(
         }
 
 
-    // Language Dropdown implementation
     val languages = remember<List<Language>> {
         listOf(
             Language("es", "Español", R.drawable.espana),
@@ -159,7 +158,7 @@ fun TopBar(
             onDismissRequest = { isLanguageMenuExpanded = false },
             modifier = Modifier
                 .background(Color(0xFF030712))
-                .width(60.dp) // Little bit wider to fit standard touch targets if needed, or keep compact
+                .width(60.dp)
         ) {
             languages.filter { it.code != currentLanguage.code }.forEach { language ->
                 DropdownMenuItem(
@@ -175,7 +174,7 @@ fun TopBar(
                     onClick = {
                         currentLanguage = language
                         isLanguageMenuExpanded = false
-                        onLanguageClick(language.code) // You might want to pass the selected language code here if the callback supports it
+                        onLanguageClick(language.code)
                     },
                     modifier = Modifier.background(Color(0xFF030712))
                 )

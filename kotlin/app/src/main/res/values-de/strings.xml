@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">GameSage</string>
-    
-    <!-- Menu -->
+
     <string name="menu_title">Menü</string>
     <string name="menu_explore">Entdecken</string>
     <string name="menu_settings">Einstellungen</string>
@@ -16,21 +15,19 @@
     <string name="menu_profile">Profil</string>
     <string name="menu_login">Anmelden</string>
     <string name="menu_register">Registrieren</string>
-    
-    <!-- Home -->
+    <string name="menu_aichat">KI-Chat</string>
+
     <string name="home_best_sellers">Bestseller</string>
     <string name="home_offers">Angebote</string>
     <string name="home_top_rated">Bestbewertet</string>
     <string name="home_no_games">Keine Spiele verfügbar</string>
     <string name="home_retry">Erneut versuchen</string>
     <string name="home_error_loading">Fehler beim Laden der Daten</string>
-    
-    <!-- Favorites -->
+
     <string name="favorites_title">Meine Favoriten</string>
     <string name="favorites_empty">Sie haben noch keine Favoriten</string>
     <string name="favorites_transfer_all">ALLES IN DEN WARENKORB LEGEN</string>
-    
-    <!-- Search -->
+
     <string name="search_placeholder">Suchen</string>
     <string name="search_filters">Filter</string>
     <string name="search_reset">Zurücksetzen</string>
@@ -42,8 +39,7 @@
     <string name="filter_remove">Entfernen</string>
     <string name="price_free">Kostenlos</string>
     <string name="filter_max">Max:</string>
-    
-    <!-- Genres -->
+
     <string name="genre_action">Action</string>
     <string name="genre_adventure">Abenteuer</string>
     <string name="genre_rpg">RPG</string>
@@ -54,8 +50,7 @@
     <string name="genre_racing">Rennen</string>
     <string name="genre_sandbox">Sandbox</string>
     <string name="genre_shooter">Shooter</string>
-    
-    <!-- Login & Register -->
+
     <string name="login_title">Anmelden</string>
     <string name="login_no_account">Haben Sie kein Konto? </string>
     <string name="login_create_account">Erstellen Sie hier eines</string>
@@ -74,8 +69,7 @@
     <string name="register_back">Zurück</string>
     <string name="common_hide">Verbergen</string>
     <string name="common_show">Anzeigen</string>
-    
-    <!-- Cart -->
+
     <string name="cart_title">Warenkorb</string>
     <string name="cart_empty">Ihr Warenkorb ist leer</string>
     <string name="cart_total">Gesamt:</string>
@@ -85,8 +79,7 @@
     <string name="cart_unit_price">Preis:</string>
     <string name="cart_delete">Löschen</string>
     <string name="cart_unknown_error">Unbekannter Fehler</string>
-    
-    <!-- Product -->
+
     <string name="product_loading_error">Fehler beim Laden des Produkts</string>
     <string name="product_retry">Erneut versuchen</string>
     <string name="product_stock_available">Auf Lager</string>
@@ -109,8 +102,7 @@
     <string name="product_login_message">Sie müssen sich anmelden, um diese Aktion auszuführen</string>
     <string name="product_login_button">Anmelden</string>
     <string name="product_platform">Plattform</string>
-    
-    <!-- Dashboard -->
+
     <string name="dashboard_image_error">Fehler bei der Bildverarbeitung</string>
     <string name="dashboard_user_section">Benutzer</string>
     <string name="dashboard_user_placeholder">Benutzer</string>
@@ -134,21 +126,21 @@
     <string name="dashboard_save">Speichern</string>
     <string name="dashboard_logout">Abmelden</string>
     <string name="dashboard_copied">Kopiert</string>
-    
-    <!-- Contact -->
+
+    <string name="aichat_title">KI-Chat</string>
+    <string name="aichat_loading">Chat wird geladen...</string>
+
     <string name="contact_title">Kontakt</string>
     <string name="contact_subtitle">Haben Sie Fragen oder benötigen Sie Hilfe? Wir sind für Sie da.</string>
     <string name="contact_email_title">E-Mail</string>
     <string name="contact_phone_title">Telefon</string>
     <string name="contact_address_title">Adresse</string>
     <string name="contact_address_content">Calle Ejemplo, 123\n28001 Madrid, Spanien</string>
-    
-    <!-- Cookies -->
+
     <string name="cookies_title">Cookie-Richtlinie</string>
     <string name="cookies_update">Zuletzt aktualisiert: Dezember 2024</string>
     <string name="cookies_intro">Bei GameSage verwenden wir Cookies, um Ihr Surferlebnis zu verbessern.</string>
-    
-    <!-- Privacy -->
+
     <string name="privacy_title">Datenschutzerklärung</string>
     <string name="privacy_update">Gültig ab: Dezember 2024</string>
     <string name="privacy_intro">Bei GameSage ist uns Ihre Privatsphäre wichtig.</string>
@@ -176,8 +168,7 @@
     <string name="conditions_section7_text">Wir behalten uns das Recht vor, diese Bedingungen jederzeit zu ändern.</string>
     <string name="conditions_section8_title">8. Kontakt</string>
     <string name="conditions_section8_text">Bei Fragen zu diesen Bedingungen kontaktieren Sie uns unter info.gamesage@gmail.com</string>
-    
-    <!-- Cookies Detailed -->
+
     <string name="cookies_section1_title">1. Was sind Cookies?</string>
     <string name="cookies_section1_text">Cookies sind kleine Textdateien, die auf Ihrem Gerät gespeichert werden, wenn Sie eine Website besuchen.</string>
     <string name="cookies_section2_title">2. Arten von Cookies, die wir verwenden</string>
@@ -193,8 +184,7 @@
     <string name="cookies_section3_text">Sie können Ihren Browser so konfigurieren, dass Cookies abgelehnt werden, dies kann jedoch die Funktionalität der Seite beeinträchtigen.</string>
     <string name="cookies_section4_title">4. Mehr Informationen</string>
     <string name="cookies_section4_text">Für weitere Informationen zu unserer Cookie-Richtlinie kontaktieren Sie uns unter info.gamesage@gmail.com</string>
-    
-    <!-- Privacy Detailed -->
+
     <string name="privacy_section1_title">1. Informationen, die wir sammeln</string>
     <string name="privacy_section1_text">Wir sammeln folgende Informationen:</string>
     <string name="privacy_section1_bp1">Name und E-Mail-Adresse</string>
@@ -229,4 +219,5 @@
     <string name="privacy_section7_text">Wir können diese Richtlinie gelegentlich aktualisieren. Wir werden Sie über wesentliche Änderungen informieren.</string>
     <string name="privacy_section8_title">8. Kontakt</string>
     <string name="privacy_section8_text">Um Ihre Rechte auszuüben oder Fragen zum Datenschutz zu stellen, kontaktieren Sie uns unter info.gamesage@gmail.com</string>
+    <string name="game_desc_the_elder_scrolls_v_skyrim">Als Dovahkiin, das prophezeite Drachenblut, bist du der Einzige, der Alduin, dem Weltenfresser, in einem vom Bürgerkrieg zerrissenen Land entgegentreten kann. Skyrim bietet unvergleichliche Freiheit in einer riesigen offenen Welt voller verschneiter Berge, antiker Städte und tiefer Verliese. Das Fortschrittssystem ermöglicht es dir, \\"das zu sein, was du spielst\\", indem du deine Fähigkeiten durch Gebrauch verbesserst, anstatt eine vordefinierte Klasse zu wählen, sodass du alles erschaffen kannst, vom heimlichen Magier bis zum schwer gepanzerten Krieger.\\n\\nDie Immersion ist absolut, mit Hunderten von Nebenquests, Gilden, denen man beitreten kann, und Geheimnissen, die in jeder Ecke der Karte zu entdecken sind. Mit der Möglichkeit, Häuser zu bauen, Kinder zu adoptieren und jederzeit gegen Drachen zu kämpfen, bietet das Spiel Hunderte von Stunden Inhalt, bei denen die Neugier des Spielers der einzige notwendige Kompass in dieser nordischen Provinz von Tamriel ist.</string>
 </resources>

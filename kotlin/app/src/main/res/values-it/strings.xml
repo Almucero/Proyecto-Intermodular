@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">GameSage</string>
-    
-    <!-- Menu -->
+
     <string name="menu_title">Menù</string>
     <string name="menu_explore">Esplora</string>
     <string name="menu_settings">Impostazioni</string>
@@ -16,21 +15,19 @@
     <string name="menu_profile">Profilo</string>
     <string name="menu_login">Accedi</string>
     <string name="menu_register">Registrati</string>
-    
-    <!-- Home -->
+    <string name="menu_aichat">Chat IA</string>
+
     <string name="home_best_sellers">Più Venduti</string>
     <string name="home_offers">Offerte</string>
     <string name="home_top_rated">Migliori Valutati</string>
     <string name="home_no_games">Nessun gioco disponibile</string>
     <string name="home_retry">Riprova</string>
     <string name="home_error_loading">Si è verificato un errore durante il caricamento dei dati</string>
-    
-    <!-- Favorites -->
+
     <string name="favorites_title">I miei preferiti</string>
     <string name="favorites_empty">Non hai ancora preferiti</string>
     <string name="favorites_transfer_all">SPOSTA TUTTO NEL CARRELLO</string>
-    
-    <!-- Search -->
+
     <string name="search_placeholder">Cerca</string>
     <string name="search_filters">Filtri</string>
     <string name="search_reset">Ripristina</string>
@@ -42,8 +39,7 @@
     <string name="filter_remove">Rimuovi</string>
     <string name="price_free">Gratis</string>
     <string name="filter_max">Max:</string>
-    
-    <!-- Genres -->
+
     <string name="genre_action">Azione</string>
     <string name="genre_adventure">Avventura</string>
     <string name="genre_rpg">RPG</string>
@@ -54,8 +50,7 @@
     <string name="genre_racing">Corse</string>
     <string name="genre_sandbox">Sandbox</string>
     <string name="genre_shooter">Shooter</string>
-    
-    <!-- Login & Register -->
+
     <string name="login_title">Accedi</string>
     <string name="login_no_account">Non hai un account? </string>
     <string name="login_create_account">Creane uno qui</string>
@@ -74,8 +69,7 @@
     <string name="register_back">Indietro</string>
     <string name="common_hide">Nascondi</string>
     <string name="common_show">Mostra</string>
-    
-    <!-- Cart -->
+
     <string name="cart_title">Carrello</string>
     <string name="cart_empty">Il tuo carrello è vuoto</string>
     <string name="cart_total">Totale:</string>
@@ -85,8 +79,7 @@
     <string name="cart_unit_price">Prezzo:</string>
     <string name="cart_delete">Elimina</string>
     <string name="cart_unknown_error">Errore sconosciuto</string>
-    
-    <!-- Product -->
+
     <string name="product_loading_error">Errore caricamento prodotto</string>
     <string name="product_retry">Riprova</string>
     <string name="product_stock_available">Disponibile</string>
@@ -109,8 +102,7 @@
     <string name="product_login_message">Devi accedere per eseguire questa azione</string>
     <string name="product_login_button">Accedi</string>
     <string name="product_platform">Piattaforma</string>
-    
-    <!-- Dashboard -->
+
     <string name="dashboard_image_error">Errore elaborazione immagine</string>
     <string name="dashboard_user_section">Utente</string>
     <string name="dashboard_user_placeholder">Utente</string>
@@ -134,21 +126,21 @@
     <string name="dashboard_save">Salva</string>
     <string name="dashboard_logout">Esci</string>
     <string name="dashboard_copied">Copiato</string>
-    
-    <!-- Contact -->
+
+    <string name="aichat_title">Chat IA</string>
+    <string name="aichat_loading">Caricamento chat...</string>
+
     <string name="contact_title">Contatto</string>
     <string name="contact_subtitle">Hai domande o bisogno di aiuto? Siamo qui per te.</string>
     <string name="contact_email_title">Email</string>
     <string name="contact_phone_title">Telefono</string>
     <string name="contact_address_title">Indirizzo</string>
     <string name="contact_address_content">Calle Ejemplo, 123\n28001 Madrid, Spagna</string>
-    
-    <!-- Cookies -->
+
     <string name="cookies_title">Politica sui Cookie</string>
     <string name="cookies_update">Ultimo aggiornamento: Dicembre 2024</string>
     <string name="cookies_intro">In GameSage utilizziamo i cookie per migliorare la tua esperienza di navigazione.</string>
-    
-    <!-- Privacy -->
+
     <string name="privacy_title">Politica sulla Privacy</string>
     <string name="privacy_update">Data di entrata in vigore: Dicembre 2024</string>
     <string name="privacy_intro">In GameSage, la tua privacy è importante per noi.</string>
@@ -176,8 +168,7 @@
     <string name="conditions_section7_text">Ci riserviamo il diritto di modificare questi termini in qualsiasi momento.</string>
     <string name="conditions_section8_title">8. Contatto</string>
     <string name="conditions_section8_text">Per domande su questi termini, contattaci a info.gamesage@gmail.com</string>
-    
-    <!-- Cookies Detailed -->
+
     <string name="cookies_section1_title">1. Cosa sono i cookie?</string>
     <string name="cookies_section1_text">I cookie sono piccoli file di testo memorizzati sul tuo dispositivo quando visiti un sito web.</string>
     <string name="cookies_section2_title">2. Tipi di cookie che utilizziamo</string>
@@ -193,8 +184,7 @@
     <string name="cookies_section3_text">Puoi configurare il tuo browser per rifiutare i cookie, ma ciò potrebbe influire sulla funzionalità del sito.</string>
     <string name="cookies_section4_title">4. Maggiori informazioni</string>
     <string name="cookies_section4_text">Per maggiori informazioni sulla nostra politica sui cookie, contattaci a info.gamesage@gmail.com</string>
-    
-    <!-- Privacy Detailed -->
+
     <string name="privacy_section1_title">1. Informazioni che Raccogliamo</string>
     <string name="privacy_section1_text">Raccogliamo le seguenti informazioni:</string>
     <string name="privacy_section1_bp1">Nome e indirizzo email</string>
