@@ -273,7 +273,18 @@
     "addPaymentMethod": "Ajouter une méthode de paiement",
     "creditCard": "Carte de crédit/débit",
     "changeImage": "Changer l'image",
-    "logout": "Se déconnecter"
+    "logout": "Se déconnecter",
+    "purchases": "Achats",
+    "returns": "Retours",
+    "return": "Retourner",
+    "refundReasonTitle": "Motif du retour",
+    "refundReasonPlaceholder": "Veuillez décrire pourquoi vous retournez cet article (minimum 10 caractères)...",
+    "refundAccept": "Confirmer le retour",
+    "refundCancel": "Annuler",
+    "refundError": "Une erreur s'est produite lors du traitement du retour.",
+    "reasonTooShort": "Le motif doit comporter au moins 10 caractères.",
+    "refundReason": "Motif",
+    "viewProduct": "Voir le produit"
   },
   "tooltips": {
     "menu": "Ouvrir le menu",

@@ -165,4 +165,11 @@ export class CartComponent implements OnInit {
       state: { navigateTo: this.router.url },
     });
   }
+
+  get cartItemsCount(): number[] {
+    const count = this.cartItemService.cartCount$.value;
+    return Array(count > 0 ? count : 1)
+      .fill(0)
+      .map((x, i) => i + 1);
+  }
 }

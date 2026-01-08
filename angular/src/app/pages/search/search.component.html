@@ -2,15 +2,9 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
     <div class="flex flex-col sm:flex-row gap-8">
       <div class="flex-1 order-2 sm:order-1">
-        <div class="mb-6 sm:hidden">
-          <h2 class="text-2xl font-bold text-white">
-            {{ "search.title" | translate }}
-          </h2>
-        </div>
-
         <div
           *ngIf="filteredGames.length > 0"
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-24"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-24 search-results-grid"
         >
           <app-game-card
             *ngFor="let game of filteredGames"

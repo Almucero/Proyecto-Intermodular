@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
@@ -8,6 +8,7 @@ import { CopyOnClickDirective } from '../../directives/copy-on-click.directive';
 import { BaseAuthenticationService } from '../../core/services/impl/base-authentication.service';
 import { UserService } from '../../core/services/impl/user.service';
 import { MediaService } from '../../core/services/impl/media.service';
+import { PurchaseService } from '../../core/services/impl/purchase.service';
 import { User } from '../../core/models/user.model';
 
 @Component({
@@ -27,9 +28,22 @@ export class DashboardComponent {
   private auth = inject(BaseAuthenticationService);
   private userService = inject(UserService);
   private mediaService = inject(MediaService);
+  private purchaseService = inject(PurchaseService);
   private router = inject(Router);
 
   user = toSignal(this.auth.user$);
+  purchases = toSignal(this.purchaseService.getAll({ status: 'completed' }), {
+    initialValue: [],
+  });
+  returns = toSignal(this.purchaseService.getAll({ status: 'refunded' }), {
+    initialValue: [],
+  });
+
+  // Refund Modal State
+  isRefundModalOpen = signal(false);
+  selectedPurchaseId = signal<number | null>(null);
+  refundReason = signal('');
+  refundError = signal<string | null>(null);
 
   userHandle = '';
   userId = '';
@@ -183,7 +197,48 @@ export class DashboardComponent {
 
   async onLogout() {
     this.auth.signOut().subscribe(() => {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/']);
+    });
+  }
+
+  openRefundModal(purchaseId: number) {
+    this.selectedPurchaseId.set(purchaseId);
+    this.refundReason.set('');
+    this.refundError.set(null);
+    this.isRefundModalOpen.set(true);
+  }
+
+  closeRefundModal() {
+    this.isRefundModalOpen.set(false);
+    this.selectedPurchaseId.set(null);
+    this.refundReason.set('');
+    this.refundError.set(null);
+  }
+
+  confirmRefund() {
+    const id = this.selectedPurchaseId();
+    const reason = this.refundReason();
+
+    if (!id) return;
+    if (!reason || reason.trim().length < 10) {
+      this.refundError.set('dashboard.reasonTooShort');
+      return;
+    }
+
+    this.purchaseService.refund(id, reason).subscribe({
+      next: () => {
+        // Refresh data (naive approach: reload window or refetch)
+        // For signals, we might need to manually trigger a refresh or just reload for now
+        // Assuming the service update might trigger a signal update if wired correctly,
+        // but since we used toSignal on an observable call, we need to re-run it.
+        // Simple way: reload page or better, re-assign signals if they were writable (they are strictly read-only from toSignal)
+        // Let's do a window reload for simplicity or just navigate to same route
+        window.location.reload();
+      },
+      error: (err) => {
+        console.error('Refund failed', err);
+        this.refundError.set('dashboard.refundError');
+      },
     });
   }
 }

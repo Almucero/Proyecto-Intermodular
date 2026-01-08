@@ -19,7 +19,9 @@ export class FavoriteService
   extends BaseService<Favorite>
   implements IFavoriteService
 {
-  public favoritesCount$ = new BehaviorSubject<number>(0);
+  public favoritesCount$ = new BehaviorSubject<number>(
+    parseInt(localStorage.getItem('favoritesCount') || '0', 10)
+  );
 
   constructor(
     @Inject(FAVORITE_REPOSITORY_TOKEN) repository: IBaseRepository<Favorite>,
@@ -34,14 +36,20 @@ export class FavoriteService
         this.refreshCount();
       } else {
         this.favoritesCount$.next(0);
+        localStorage.setItem('favoritesCount', '0');
       }
     });
   }
 
+  private updateLocalState(count: number) {
+    this.favoritesCount$.next(count);
+    localStorage.setItem('favoritesCount', count.toString());
+  }
+
   refreshCount() {
     this.getAll().subscribe({
-      next: (items) => this.favoritesCount$.next(items.length),
-      error: () => this.favoritesCount$.next(0),
+      next: (items) => this.updateLocalState(items.length),
+      error: () => this.updateLocalState(0),
     });
   }
 
@@ -59,7 +67,12 @@ export class FavoriteService
         { gameId: entity.gameId, platformId: entity.platformId },
         { headers: this.getAuthHeaders() }
       )
-      .pipe(tap(() => this.refreshCount()));
+      .pipe(
+        tap(() => {
+          this.updateLocalState(this.favoritesCount$.value + 1);
+          this.refreshCount();
+        })
+      );
   }
 
   deleteWithPlatform(gameId: number, platformId: number): Observable<any> {
@@ -68,10 +81,20 @@ export class FavoriteService
         `${this.apiUrl}/${this.resource}/${gameId}?platformId=${platformId}`,
         { headers: this.getAuthHeaders() }
       )
-      .pipe(tap(() => this.refreshCount()));
+      .pipe(
+        tap(() => {
+          this.updateLocalState(Math.max(0, this.favoritesCount$.value - 1));
+          this.refreshCount();
+        })
+      );
   }
 
   override delete(id: string): Observable<Favorite> {
-    return super.delete(id).pipe(tap(() => this.refreshCount()));
+    return super.delete(id).pipe(
+      tap(() => {
+        this.updateLocalState(Math.max(0, this.favoritesCount$.value - 1));
+        this.refreshCount();
+      })
+    );
   }
 }

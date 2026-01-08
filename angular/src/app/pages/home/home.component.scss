@@ -204,3 +204,85 @@
 .difuminadoTexto {
   filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
 }
+.genres-section {
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .mobile-hide {
+    display: none !important;
+  }
+
+  .contenedor-imagenes {
+    height: 35vh !important;
+  }
+
+  .mobile-title {
+    font-size: 1.5rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .mobile-pill {
+    min-width: 4.5rem !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+    font-size: 0.8rem !important;
+    padding-top: 0.35rem !important;
+    padding-bottom: 0.35rem !important;
+  }
+
+  .genres-section {
+    margin-bottom: 0.5rem !important;
+  }
+
+  .genres-section > div {
+    padding-bottom: 0 !important;
+  }
+
+  .mobile-divider {
+    margin-top: 0 !important;
+    margin-bottom: 1rem !important;
+  }
+
+  /* Make dropdown button part of the flow on mobile */
+  .genres-wrapper {
+    padding-right: 1rem !important; /* Reset the pr-10 (2.5rem) used for absolute positioning */
+  }
+
+  .genre-dropdown-container {
+    position: static !important;
+    transform: none !important;
+    margin-left: 0.75rem !important; /* Manual gap to match gap-3 */
+  }
+
+  /* Fix Dropdown Positioning on Mobile */
+  .genre-dropdown-menu {
+    left: auto !important;
+    right: -1rem !important; /* Align right edge to screen edge */
+    transform: none !important;
+    width: max-content !important;
+    max-width: 60vw !important; /* Prevent it from being too wide */
+
+    /* Reduce height and allow it to be narrower */
+    max-height: 45vh !important;
+    min-width: auto !important; /* Override inline 200px style */
+  }
+
+  /* Allow text wrapping for long genres */
+  .genre-dropdown-item {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    text-align: right !important; /* Align text to right looks better with right-aligned menu */
+    line-height: 1.2 !important;
+  }
+
+  .titulo {
+    width: 60% !important;
+    height: auto !important;
+    top: calc(8vh + 60px) !important; /* Kept tight to top as requested */
+  }
+
+  .bottom {
+    height: 70vh !important; /* Taller image to ensure the glow reaches up */
+  }
+}

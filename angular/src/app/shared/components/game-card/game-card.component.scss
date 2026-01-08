@@ -44,3 +44,31 @@
     animation: scroll-linear var(--scroll-duration) linear forwards;
   }
 }
+
+@media (max-width: 768px) {
+  .mobile-responsive-card {
+    width: 11rem !important; /* Increased from 9rem */
+
+    &.w-full {
+      width: 100% !important; /* Override fixed width if full width is requested */
+
+      .mobile-responsive-image {
+        height: 12rem !important; /* Taller image for full width cards to prevent deformation */
+      }
+
+      .mobile-responsive-info {
+        font-size: 1rem !important; /* Larger text (base) for full width cards, up from sm */
+        margin-top: 0.75rem !important; /* Increased margin between image and text */
+      }
+    }
+  }
+
+  .mobile-responsive-image {
+    height: 6.5rem !important; /* Increased from 5.5rem */
+  }
+
+  .mobile-responsive-info {
+    font-size: 0.8rem !important; /* Slightly larger text */
+    margin-top: 0.25rem !important;
+  }
+}

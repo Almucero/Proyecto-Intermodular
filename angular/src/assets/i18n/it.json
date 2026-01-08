@@ -19,6 +19,7 @@
     "settings": "Impostazioni",
     "help": "Aiuto",
     "contact": "Contatto",
+
     "privacy": "Privacy",
     "conditions": "Termini e condizioni",
     "cookies": "Impostazioni cookie",
@@ -273,7 +274,18 @@
     "addPaymentMethod": "Aggiungi un metodo di pagamento",
     "creditCard": "Carta di credito/debito",
     "changeImage": "Cambia immagine",
-    "logout": "Disconnettersi"
+    "logout": "Disconnettersi",
+    "return": "Restituire",
+    "refundReasonTitle": "Motivo della restituzione",
+    "refundReasonPlaceholder": "Descrivi il motivo della restituzione (minimo 10 caratteri)...",
+    "refundAccept": "Conferma restituzione",
+    "refundCancel": "Annulla",
+    "refundError": "Si è verificato un errore durante l'elaborazione della restituzione.",
+    "reasonTooShort": "Il motivo deve contenere almeno 10 caratteri.",
+    "purchases": "Acquisti",
+    "returns": "Resi",
+    "refundReason": "Motivo",
+    "viewProduct": "Vedi prodotto"
   },
   "tooltips": {
     "menu": "Apri menu",
