@@ -20,6 +20,7 @@
     "settings": "Einstellungen",
     "help": "Hilfe",
     "contact": "Kontakt",
+
     "privacy": "Datenschutz",
     "conditions": "AGB",
     "cookies": "Cookie-Einstellungen",
@@ -274,7 +275,18 @@
     "addPaymentMethod": "Zahlungsmethode hinzufügen",
     "creditCard": "Kredit-/Debitkarte",
     "changeImage": "Bild ändern",
-    "logout": "Abmelden"
+    "logout": "Abmelden",
+    "return": "Zurückgeben",
+    "refundReasonTitle": "Grund für die Rückgabe",
+    "refundReasonPlaceholder": "Bitte beschreiben Sie, warum Sie diesen Artikel zurückgeben (mindestens 10 Zeichen)...",
+    "refundAccept": "Rückgabe bestätigen",
+    "refundCancel": "Abbrechen",
+    "refundError": "Ein Fehler ist bei der Bearbeitung der Rückgabe aufgetreten.",
+    "reasonTooShort": "Der Grund muss mindestens 10 Zeichen lang sein.",
+    "purchases": "Einkäufe",
+    "returns": "Rücksendungen",
+    "refundReason": "Grund",
+    "viewProduct": "Produkt ansehen"
   },
   "tooltips": {
     "menu": "Menü öffnen",

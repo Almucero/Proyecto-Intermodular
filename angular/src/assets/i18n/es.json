@@ -275,7 +275,18 @@
     "addPaymentMethod": "Añadir un método de pago",
     "creditCard": "Tarjeta de crédito/debito",
     "changeImage": "Cambiar imagen",
-    "logout": "Cerrar sesión"
+    "logout": "Cerrar sesión",
+    "return": "Devolver",
+    "refundReasonTitle": "Motivo de la devolución",
+    "refundReasonPlaceholder": "Por favor, describe por qué devuelves este artículo (mínimo 10 caracteres)...",
+    "refundAccept": "Confirmar Devolución",
+    "refundCancel": "Cancelar",
+    "refundError": "Ocurrió un error al procesar la devolución.",
+    "reasonTooShort": "El motivo debe tener al menos 10 caracteres.",
+    "purchases": "Compras realizadas",
+    "returns": "Devoluciones",
+    "refundReason": "Motivo",
+    "viewProduct": "Ver página del producto"
   },
   "tooltips": {
     "menu": "Abrir menú",

@@ -1,9 +1,10 @@
-import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, ChangeDetectorRef, effect } from '@angular/core';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { ErrorToastComponent } from './shared/components/error-toast/error-toast.component';
 import { LanguageService } from './core/services/language.service';
 import { BaseAuthenticationService } from './core/services/impl/base-authentication.service';
 import { routeFadeAnimation } from './animations/route-fade.animation';
+import { UiStateService } from './core/services/impl/ui-state.service';
 import { forkJoin, timer } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { LoadingComponent } from './shared/components/loading/loading.component';
@@ -46,6 +47,7 @@ export class AppComponent {
   private languageService = inject(LanguageService);
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
+  private uiState = inject(UiStateService);
 
   constructor() {
     this.authService.autoLogin();
@@ -74,6 +76,14 @@ export class AppComponent {
       .subscribe(() => {
         window.scrollTo(0, 0);
       });
+
+    effect(() => {
+      if (this.uiState.isMenuOpen()) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    });
   }
 
   prepareRoute(outlet: RouterOutlet) {

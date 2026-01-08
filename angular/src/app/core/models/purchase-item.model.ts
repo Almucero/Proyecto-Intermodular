@@ -11,4 +11,7 @@ export interface PurchaseItem extends Model {
   purchase?: Purchase;
   game?: Game;
   platform?: { id: number; name: string };
+  title?: string;
+  purchasePrice?: number;
+  rating?: number;
 }

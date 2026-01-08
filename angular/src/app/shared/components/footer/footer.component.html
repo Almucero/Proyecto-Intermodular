@@ -1,7 +1,7 @@
 <footer
-  class="flex flex-col sm:flex-row items-center justify-between px-6 py-4 border-t border-gray-800 bg-gray-950 text-gray-400 select-none"
+  class="flex flex-col sm:flex-row items-center justify-between px-6 py-4 border-t border-gray-800 bg-gray-950 text-gray-400 select-none gap-4 relative z-[2001]"
 >
-  <div class="text-sm order-2 sm:order-1 mt-1 sm:mt-0 text-center sm:text-left">
+  <div class="text-sm order-2 sm:order-1 text-center sm:text-left">
     &copy; {{ currentYear }} {{ "footer.text" | translate }}
   </div>
   <div class="flex items-center gap-4 text-xl order-1 sm:order-2">
@@ -128,5 +128,16 @@
         />
       </svg>
     </a>
+  </div>
+  <div class="flex md:hidden items-center justify-center gap-6">
+    <button
+      *ngFor="let lang of languages"
+      (click)="changeLanguage(lang)"
+      class="text-sm font-semibold transition-colors duration-200 uppercase tracking-wider bg-transparent border-none p-0 cursor-pointer focus:outline-none"
+      [class.text-cyan-300]="currentLang === lang"
+      [class.text-gray-500]="currentLang !== lang"
+    >
+      {{ lang }}
+    </button>
   </div>
 </footer>

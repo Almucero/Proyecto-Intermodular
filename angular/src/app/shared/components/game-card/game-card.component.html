@@ -1,12 +1,12 @@
 <div
   [class.w-56]="!fullWidth"
   [class.w-full]="fullWidth"
-  class="group cursor-pointer transition-all duration-150 active:scale-95"
+  class="group cursor-pointer transition-all duration-150 active:scale-95 mobile-responsive-card"
   [class.pointer-events-none]="game.id === -1"
   (click)="onClick()"
 >
   <div
-    class="h-32 bg-gray-700 rounded-xl overflow-hidden shadow-md group-hover:scale-105 transition-transform duration-300 relative"
+    class="h-32 bg-gray-700 rounded-xl overflow-hidden shadow-md md:group-hover:scale-105 transition-transform duration-300 relative mobile-responsive-image"
     [class.animate-pulse]="game.id === -1"
   >
     <ng-container *ngIf="game.id !== -1">
@@ -24,7 +24,7 @@
   </div>
 
   <div
-    class="mt-2 flex justify-between items-center text-sm font-medium text-gray-300 group-hover:text-white transition-colors overflow-hidden"
+    class="mt-2 flex justify-between items-center text-sm font-medium text-gray-300 group-hover:text-white transition-colors overflow-hidden mobile-responsive-info"
   >
     <div
       class="flex-1 min-w-0 mr-2 title-container h-5 flex items-center"

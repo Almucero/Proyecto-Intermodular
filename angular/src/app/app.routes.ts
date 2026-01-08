@@ -4,7 +4,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { authGuard } from './core/guards/auth.guard';
 import { HomeComponent } from './pages/home/home.component';
-import { GenresComponent } from './pages/genres/genres.component';
+
 import { AIChatComponent } from './pages/aichat/aichat.component';
 import { FavouritesComponent } from './pages/favourites/favourites.component';
 import { SettingsComponent } from './pages/settings/settings.component';
@@ -49,11 +49,7 @@ export const routes: Routes = [
     component: ProductComponent,
     data: { animation: 'ProductPage' },
   },
-  {
-    path: 'genres/:nombre',
-    component: GenresComponent,
-    data: { animation: 'GenresPage' },
-  },
+
   {
     path: 'aichat',
     component: AIChatComponent,

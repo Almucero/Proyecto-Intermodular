@@ -49,6 +49,17 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   userAvatar: string | null = null;
   loadingSessions: boolean = true;
 
+  isMobileSidebarOpen = false;
+  private shouldScrollToBottomFlag = false;
+
+  toggleMobileSidebar() {
+    this.isMobileSidebarOpen = !this.isMobileSidebarOpen;
+  }
+
+  closeMobileSidebar() {
+    this.isMobileSidebarOpen = false;
+  }
+
   constructor(
     private chatService: ChatService,
     private router: Router,
@@ -59,8 +70,9 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   ) {}
 
   ngOnInit(): void {
+    window.scrollTo(0, 0);
     this.renderer.addClass(this.document.body, 'chat-mode');
-    this.loadSessions();
+
     this.authService.user$.subscribe((user) => {
       this.userName = user?.nickname || user?.name || '';
       if (user && user.media && user.media.length > 0) {
@@ -71,6 +83,12 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     });
     this.authService.authenticated$.subscribe((isAuth) => {
       this.isUserAuthenticated = isAuth;
+      if (isAuth) {
+        this.loadSessions();
+      } else {
+        this.sessions = [];
+        this.loadingSessions = false;
+      }
     });
   }
 
@@ -79,7 +97,10 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
-    this.scrollToBottom();
+    if (this.shouldScrollToBottomFlag) {
+      this.scrollToBottom();
+      this.shouldScrollToBottomFlag = false;
+    }
   }
 
   sendSuggestion(key: string) {
@@ -119,10 +140,12 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (this.currentSession?.id === session.id) return;
 
     this.currentSession = session;
+    this.closeMobileSidebar();
     this.chatService.getSession(session.id!).subscribe({
       next: (fullSession) => {
         this.messages = fullSession.messages || [];
         this.messages.forEach((msg) => this.processMessageLinks(msg));
+        this.shouldScrollToBottomFlag = true;
       },
       error: (err) => console.error('Error loading session', err),
     });
@@ -156,8 +179,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       content: this.userInput,
     };
     this.messages.push(userMsg);
-
-    //' (IMPORTANTE: Usa la herramienta searchGames para verificar estos juegos y devolver sus IDs. Si no usas la herramienta, no podré mostrar los enlaces. Hazlo siempre.)',
+    this.shouldScrollToBottomFlag = true;
     const payload = {
       message: this.userInput,
       sessionId: this.currentSession?.id,
@@ -180,6 +202,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         };
         this.processMessageLinks(aiMsg);
         this.messages.push(aiMsg);
+        this.shouldScrollToBottomFlag = true;
         this.isLoading = false;
       },
       error: (err) => {
@@ -189,6 +212,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
           role: 'assistant',
           content: 'Lo siento, ha ocurrido un error al procesar tu mensaje.',
         });
+        this.shouldScrollToBottomFlag = true;
       },
     });
   }

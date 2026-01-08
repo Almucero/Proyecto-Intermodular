@@ -1,17 +1,19 @@
 <div
-  class="contact-screen-wrapper flex-1 w-full bg-gray-900 text-white font-sans flex items-center justify-center relative overflow-hidden py-20"
+  class="contact-screen-wrapper flex-1 w-full bg-gray-900 text-white font-sans flex items-center justify-center relative overflow-hidden py-6 md:py-20"
 >
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+  <div class="max-w-7xl mx-auto px-8 sm:px-6 lg:px-8 relative z-10 w-full">
     <div
       class="bg-gray-800/60 backdrop-blur-md border border-gray-700/50 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto shadow-2xl"
     >
       <div class="text-center mb-12">
         <h2
-          class="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-cyan-300 mb-6 pb-2"
+          class="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-cyan-300 mb-6 pb-2"
         >
           {{ "contactScreen.title" | translate }}
         </h2>
-        <p class="text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">
+        <p
+          class="text-gray-300 text-sm md:text-lg max-w-2xl mx-auto leading-relaxed text-left md:text-justify"
+        >
           {{ "contactScreen.description" | translate }}
         </p>
       </div>
@@ -46,7 +48,7 @@
             {{ "contactScreen.email" | translate }}:
           </h3>
           <span
-            class="text-gray-400 text-sm break-all group-hover:text-white transition-colors"
+            class="text-gray-400 text-sm break-all group-hover:text-white transition-colors w-full px-2"
           >
             info.gamesage&#64;gmail.com
           </span>
