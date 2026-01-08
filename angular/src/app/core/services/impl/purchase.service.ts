@@ -17,4 +17,11 @@ export class PurchaseService
   ) {
     super(repository);
   }
+
+  refund(id: number, reason: string) {
+    return this.update(id.toString(), {
+      status: 'refunded',
+      refundReason: reason,
+    } as any);
+  }
 }

@@ -66,6 +66,7 @@ export class HomeComponent implements OnInit {
   otherGenres: { value: string; key: string }[] = [];
   showAllGenres = false;
   isClosingGenreDropdown = false;
+  isMobile = false;
 
   bestSellers: Game[] = this.createPlaceholders();
   onSaleGames: Game[] = this.createPlaceholders();
@@ -80,13 +81,40 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.checkScreenSize();
     this.otherGenres = this.allGenres.filter(
       (genre) => !this.genres.some((g) => g.value === genre.value)
     );
     this.loadGames();
   }
 
-  @HostListener('window:scroll', ['$event'])
+  @HostListener('window:resize', [])
+  onResize() {
+    this.checkScreenSize();
+  }
+
+  private checkScreenSize() {
+    this.isMobile = window.innerWidth <= 768; // Tailwind md breakpoint
+  }
+
+  get visibleGenres() {
+    if (this.isMobile) {
+      return this.genres.slice(0, 3);
+    }
+    return this.genres;
+  }
+
+  get dropdownItems() {
+    if (this.isMobile) {
+      // On mobile: hidden main genres + other genres
+      const hiddenMainGenres = this.genres.slice(3);
+      return [...hiddenMainGenres, ...this.otherGenres];
+    }
+    // On desktop: just other genres
+    return this.otherGenres;
+  }
+
+  @HostListener('window:scroll')
   onWindowScroll(): void {
     const scrollPosition = window.scrollY;
 

@@ -164,3 +164,134 @@ app-language-selector {
     }
   }
 }
+@media (max-width: 768px) {
+  /* Enforce header height and centering */
+  .mobile-responsive-header {
+    height: 60px !important;
+    padding-left: 0 !important;
+    padding-right: 0.5rem !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+  }
+
+  /* Adjust menu button position */
+  header.mobile-responsive-header > button.absolute {
+    left: 0.5rem !important; /* Uniform 0.5rem spacing */
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
+
+  /* Resize menu icon (Larger) */
+  header.mobile-responsive-header > button.absolute > img {
+    width: 2.25rem !important; /* 36px */
+    height: 2.25rem !important;
+  }
+
+  /* Hide Logo Completely */
+  .mobile-header-logo-container {
+    display: none !important;
+  }
+
+  .mobile-hide-text {
+    display: none !important;
+  }
+
+  .mobile-responsive-logo {
+    display: none !important;
+  }
+
+  .mobile-search-container {
+    position: static !important;
+    transform: none !important;
+
+    /* Fill available space */
+    flex: 1 !important;
+    width: auto !important;
+
+    /* Calculated Spacing: Ensure enough space for menu button (approx 44px total width) */
+    margin-left: 3.5rem !important;
+
+    /* Uniform gap to right icons */
+    margin-right: 0.25rem !important;
+
+    min-width: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  /* Search wrapper */
+  .mobile-search-container .search-wrapper {
+    width: 100% !important;
+    height: 36px !important; /* Slightly taller for easier tapping */
+    border-radius: 9999px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 0.25rem !important;
+    overflow: hidden; /* Prevent overflow */
+    transition: none !important; /* Prevent initial resize animation */
+  }
+
+  /* Search Button (Anchor) */
+  .mobile-search-container .search-wrapper > a {
+    padding: 0 !important;
+    width: 42px !important; /* Slightly larger */
+    height: 26px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 9999px !important;
+    margin-left: 3px !important;
+  }
+
+  /* Search Icon */
+  .mobile-search-container .search-wrapper > a > img {
+    width: 0.95rem !important;
+    height: 0.95rem !important;
+    margin: 0 !important;
+  }
+
+  /* Input */
+  .mobile-search-container .search-input {
+    font-size: 0.95rem !important;
+    height: 100% !important;
+    padding-left: 0.5rem !important;
+  }
+
+  /* Icons container alignment */
+  .mobile-header-icons {
+    gap: 0.5rem !important; /* Uniform gap */
+    flex-shrink: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    height: 100% !important;
+    margin-right: 0 !important;
+  }
+
+  .mobile-header-icons button,
+  .mobile-header-icons a {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+  }
+
+  .mobile-hide {
+    display: none !important;
+  }
+
+  /* Rescaled Icons - ALL UNIFIED TO 2.25rem (36px) */
+  .mobile-icon-size {
+    width: 2.25rem !important;
+    height: 2.25rem !important;
+  }
+
+  .mobile-icon-size-user {
+    width: 2.25rem !important;
+    height: 2.25rem !important;
+  }
+
+  /* Fix for overlay gap on mobile (60px header vs 64px default top) */
+  .header-overlay {
+    top: 60px !important;
+  }
+}

@@ -19,7 +19,9 @@ export class CartItemService
   extends BaseService<CartItem>
   implements ICartItemService
 {
-  public cartCount$ = new BehaviorSubject<number>(0);
+  public cartCount$ = new BehaviorSubject<number>(
+    parseInt(localStorage.getItem('cartCount') || '0', 10)
+  );
 
   constructor(
     @Inject(CART_ITEM_REPOSITORY_TOKEN) repository: IBaseRepository<CartItem>,
@@ -34,14 +36,20 @@ export class CartItemService
         this.refreshCount();
       } else {
         this.cartCount$.next(0);
+        localStorage.setItem('cartCount', '0');
       }
     });
   }
 
+  private updateLocalState(count: number) {
+    this.cartCount$.next(count);
+    localStorage.setItem('cartCount', count.toString());
+  }
+
   refreshCount() {
     this.getAll().subscribe({
-      next: (items) => this.cartCount$.next(items.length),
-      error: () => this.cartCount$.next(0),
+      next: (items) => this.updateLocalState(items.length),
+      error: () => this.updateLocalState(0),
     });
   }
 
@@ -63,7 +71,12 @@ export class CartItemService
         },
         { headers: this.getAuthHeaders() }
       )
-      .pipe(tap(() => this.refreshCount()));
+      .pipe(
+        tap(() => {
+          this.updateLocalState(this.cartCount$.value + 1);
+          this.refreshCount();
+        })
+      );
   }
 
   deleteWithPlatform(gameId: number, platformId: number): Observable<any> {
@@ -72,7 +85,12 @@ export class CartItemService
         `${this.apiUrl}/${this.resource}/${gameId}?platformId=${platformId}`,
         { headers: this.getAuthHeaders() }
       )
-      .pipe(tap(() => this.refreshCount()));
+      .pipe(
+        tap(() => {
+          this.updateLocalState(Math.max(0, this.cartCount$.value - 1));
+          this.refreshCount();
+        })
+      );
   }
 
   updateWithPlatform(
@@ -90,6 +108,11 @@ export class CartItemService
   }
 
   override delete(id: string): Observable<CartItem> {
-    return super.delete(id).pipe(tap(() => this.refreshCount()));
+    return super.delete(id).pipe(
+      tap(() => {
+        this.updateLocalState(Math.max(0, this.cartCount$.value - 1));
+        this.refreshCount();
+      })
+    );
   }
 }

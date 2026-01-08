@@ -14,6 +14,7 @@ import { CartItemService } from '../../../core/services/impl/cart-item.service';
 import { FavoriteService } from '../../../core/services/impl/favorite.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { slideMenuAnimation } from '../../../animations/slide-menu.animation';
+import { UiStateService } from '../../../core/services/impl/ui-state.service';
 
 @Component({
   selector: 'app-header',
@@ -29,7 +30,7 @@ import { slideMenuAnimation } from '../../../animations/slide-menu.animation';
   animations: [slideMenuAnimation],
 })
 export class HeaderComponent {
-  isMenuOpen = false;
+  // isMenuOpen = false; // Moved to UiStateService
   searchActive = false;
   @ViewChild('menu') menu!: ElementRef;
 
@@ -37,13 +38,15 @@ export class HeaderComponent {
   private cartService = inject(CartItemService);
   private favoriteService = inject(FavoriteService);
   private router = inject(Router);
+  public uiState = inject(UiStateService);
 
   user = toSignal(this.authService.user$);
   cartCount = toSignal(this.cartService.cartCount$);
   favoritesCount = toSignal(this.favoriteService.favoritesCount$);
 
   toggleMenu(): void {
-    this.isMenuOpen = !this.isMenuOpen;
+    // this.isMenuOpen = !this.isMenuOpen;
+    this.uiState.toggleMenu();
   }
 
   isSearchPage = false;
@@ -89,11 +92,11 @@ export class HeaderComponent {
   @HostListener('document:click', ['$event'])
   onClick(event: Event) {
     if (
-      this.isMenuOpen &&
+      this.uiState.isMenuOpen() &&
       this.menu &&
       !this.menu.nativeElement.contains(event.target)
     ) {
-      this.isMenuOpen = false;
+      this.uiState.setMenuOpen(false);
     }
   }
 }

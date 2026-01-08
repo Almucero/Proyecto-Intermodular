@@ -274,7 +274,18 @@
     "addPaymentMethod": "Add a payment method",
     "creditCard": "Credit/debit card",
     "changeImage": "Change image",
-    "logout": "Logout"
+    "logout": "Logout",
+    "return": "Return",
+    "refundReasonTitle": "Reason for return",
+    "refundReasonPlaceholder": "Please describe why you are returning this item (minimum 10 characters)...",
+    "refundAccept": "Confirm Return",
+    "refundCancel": "Cancel",
+    "refundError": "An error occurred while processing the refund.",
+    "reasonTooShort": "The reason must be at least 10 characters long.",
+    "purchases": "Purchases",
+    "returns": "Returns",
+    "refundReason": "Reason",
+    "viewProduct": "View product page"
   },
   "tooltips": {
     "menu": "Open menu",

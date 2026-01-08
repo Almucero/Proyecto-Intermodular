@@ -1,10 +1,48 @@
 <div
-  class="flex-1 flex bg-gray-900 text-white font-sans overflow-hidden rounded-xl border border-gray-800 shadow-2xl mx-4 my-4"
+  class="chat-container flex-1 flex bg-gray-900 text-white font-sans overflow-hidden relative mt-[60px] h-[calc(100dvh-60px)] md:mt-0"
 >
-  <div class="w-64 bg-gray-800 border-r border-gray-700 flex flex-col">
+  @if (isMobileSidebarOpen) {
+  <div
+    class="fixed inset-0 bg-black/50 z-40 md:hidden"
+    (click)="closeMobileSidebar()"
+  ></div>
+  }
+  <div
+    [class.translate-x-0]="isMobileSidebarOpen"
+    [class.-translate-x-full]="!isMobileSidebarOpen"
+    class="fixed top-[60px] bottom-0 left-0 z-50 w-64 bg-gray-950 border-r border-gray-800 flex flex-col transform transition-transform duration-300 ease-in-out md:relative md:inset-auto md:h-auto md:translate-x-0 md:bg-gray-800 md:z-auto -translate-x-full"
+  >
     <div class="p-2">
+      <div class="flex items-center justify-between mb-2 md:hidden">
+        <h3
+          (click)="closeMobileSidebar()"
+          class="text-lg font-bold px-2 text-cyan-400 cursor-pointer m-0 flex items-center"
+        >
+          Chats
+        </h3>
+        <button
+          (click)="closeMobileSidebar()"
+          class="p-2 text-gray-500 hover:text-white transition-colors border-none outline-none bg-transparent"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+
       <button
-        (click)="startNewChat()"
+        (click)="startNewChat(); closeMobileSidebar()"
         class="w-full flex items-center justify-center gap-2 bg-cyan-400 hover:bg-cyan-300 text-white py-2 px-4 rounded-lg transition-all border-none outline-none ring-0 focus:ring-0 focus:outline-none"
         style="border: none !important; box-shadow: none !important"
       >
@@ -78,9 +116,29 @@
     </div>
   </div>
   <div class="flex-1 flex flex-col relative w-full">
+    <button
+      (click)="toggleMobileSidebar()"
+      class="absolute top-4 left-2 z-10 p-2 text-gray-400 hover:text-white bg-transparent border-none outline-none md:hidden"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-7 w-7"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+        />
+      </svg>
+    </button>
+
     @if (currentSession) {
     <div
-      class="h-14 border-b border-gray-700 flex items-center px-6 bg-gray-900/50 backdrop-blur-sm w-full top-0"
+      class="hidden md:flex h-14 items-center px-4 md:px-6 bg-gray-900 md:bg-gray-900/50 md:border-b md:border-gray-700 backdrop-blur-sm w-full top-0"
     >
       <h2 class="text-lg font-medium text-gray-200 truncate flex-1 min-w-0">
         {{ currentSession.title || ("aichat.new_chat" | translate) }}...
@@ -89,14 +147,14 @@
     }
     <div
       #scrollContainer
-      class="flex-1 overflow-y-auto px-4 py-6 scroll-smooth custom-scrollbar w-full"
+      class="flex-1 overflow-y-auto px-4 py-2 md:py-6 scroll-smooth custom-scrollbar w-full"
     >
       @if (messages.length === 0) {
       <div
-        class="h-full flex flex-col items-center justify-center text-gray-400 space-y-4"
+        class="h-full flex flex-col items-center pt-6 md:pt-0 md:justify-center text-gray-400 space-y-2 md:space-y-4"
       >
         <div
-          class="p-2 bg-gray-800 rounded-full mb-4 shadow-lg shadow-cyan-900/20"
+          class="p-2 bg-gray-800 rounded-full mb-2 shadow-lg shadow-cyan-900/20"
         >
           <img
             src="assets/icons/aichat.png"
@@ -110,33 +168,33 @@
               | translate : { name: userName ? ", " + userName : "" }
           }}
         </h3>
-        <p class="max-w-md text-center text-gray-500">
+        <p class="hidden md:block max-w-md text-center text-gray-500">
           {{ "aichat.welcome_subtitle" | translate }}
         </p>
         <div
-          class="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-2xl mt-8"
+          class="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-2xl mt-4"
         >
           <button
             (click)="sendSuggestion('aichat.suggestion_terror')"
-            class="text-sm bg-gray-800 hover:bg-gray-700 p-3 rounded-lg text-left transition-colors shadow-md hover:shadow-lg border-none outline-none"
+            class="text-sm bg-gray-800 hover:bg-gray-700 p-4 md:p-3 rounded-lg text-left transition-colors shadow-md hover:shadow-lg border-none outline-none"
           >
             "{{ "aichat.suggestion_terror" | translate }}"
           </button>
           <button
             (click)="sendSuggestion('aichat.suggestion_rpg')"
-            class="text-sm bg-gray-800 hover:bg-gray-700 p-3 rounded-lg text-left transition-colors shadow-md hover:shadow-lg border-none outline-none"
+            class="text-sm bg-gray-800 hover:bg-gray-700 p-4 md:p-3 rounded-lg text-left transition-colors shadow-md hover:shadow-lg border-none outline-none"
           >
             "{{ "aichat.suggestion_rpg" | translate }}"
           </button>
           <button
             (click)="sendSuggestion('aichat.suggestion_coop')"
-            class="text-sm bg-gray-800 hover:bg-gray-700 p-3 rounded-lg text-left transition-colors shadow-md hover:shadow-lg border-none outline-none"
+            class="text-sm bg-gray-800 hover:bg-gray-700 p-4 md:p-3 rounded-lg text-left transition-colors shadow-md hover:shadow-lg border-none outline-none"
           >
             "{{ "aichat.suggestion_coop" | translate }}"
           </button>
           <button
             (click)="sendSuggestion('aichat.suggestion_ps5')"
-            class="text-sm bg-gray-800 hover:bg-gray-700 p-3 rounded-lg text-left transition-colors shadow-md hover:shadow-lg border-none outline-none"
+            class="text-sm bg-gray-800 hover:bg-gray-700 p-4 md:p-3 rounded-lg text-left transition-colors shadow-md hover:shadow-lg border-none outline-none"
           >
             "{{ "aichat.suggestion_ps5" | translate }}"
           </button>
@@ -276,7 +334,7 @@
       </div>
       }
     </div>
-    <div class="p-4 bg-gray-900 border-t border-gray-800 w-full">
+    <div class="px-4 py-2 md:p-4 bg-gray-900 border-t border-gray-800 w-full">
       <div class="max-w-3xl mx-auto relative flex items-center gap-2">
         <input
           [(ngModel)]="userInput"
@@ -309,7 +367,9 @@
         </button>
       </div>
       <div class="max-w-3xl mx-auto text-center mt-2">
-        <span class="text-xs text-gray-600">
+        <span
+          class="text-[9px] md:text-xs text-gray-600 tracking-tight whitespace-nowrap"
+        >
           {{ "aichat.disclaimer" | translate }}
         </span>
       </div>
@@ -321,7 +381,7 @@
     class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
   >
     <div
-      class="bg-gray-900 rounded-xl max-w-md w-full p-6 shadow-2xl border border-gray-700 transform transition-all"
+      class="bg-gray-900 rounded-xl max-w-md w-full p-6 shadow-2xl transform transition-all"
     >
       <h3 class="text-xl font-bold text-white mb-4">
         {{ "authGuard.loginRequiredTitle" | translate }}

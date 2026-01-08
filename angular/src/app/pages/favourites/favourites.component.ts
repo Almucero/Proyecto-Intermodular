@@ -121,4 +121,11 @@ export class FavouritesComponent implements OnInit {
       state: { navigateTo: this.router.url },
     });
   }
+
+  get favoritesCount(): number[] {
+    const count = this.favoriteService.favoritesCount$.value;
+    return Array(count > 0 ? count : 1)
+      .fill(0)
+      .map((x, i) => i + 1);
+  }
 }
