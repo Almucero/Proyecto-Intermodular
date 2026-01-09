@@ -1,4 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -15,16 +21,19 @@ import { PlatformFormComponent } from '../platform-form/platform-form.component'
 })
 export class PlatformListComponent implements OnInit {
   private platformService = inject(PlatformService);
+
+  @ViewChild('scrollContainer') scrollContainer!: ElementRef;
+
   platforms: Platform[] = [];
   filteredPlatforms: Platform[] = [];
   searchTerm: string = '';
-
   showModal = false;
   selectedPlatformId: number | null = null;
-
   showDeleteModal = false;
   platformToDeleteId: number | null = null;
   isLoading = true;
+  showTopShadow = false;
+  showBottomShadow = false;
 
   ngOnInit(): void {
     this.loadPlatforms();
@@ -36,6 +45,9 @@ export class PlatformListComponent implements OnInit {
       this.platforms = data;
       this.filterPlatforms();
       this.isLoading = false;
+      setTimeout(() => {
+        this.onScroll();
+      }, 0);
     });
   }
 
@@ -48,6 +60,20 @@ export class PlatformListComponent implements OnInit {
         p.name.toLowerCase().includes(lower)
       );
     }
+    setTimeout(() => {
+      this.onScroll();
+    }, 0);
+  }
+
+  onScroll() {
+    if (!this.scrollContainer) return;
+
+    const element = this.scrollContainer.nativeElement;
+    this.showTopShadow = element.scrollTop > 0;
+    const atBottom =
+      element.scrollHeight - element.scrollTop <= element.clientHeight + 1;
+    this.showBottomShadow =
+      !atBottom && element.scrollHeight > element.clientHeight;
   }
 
   openCreateModal() {

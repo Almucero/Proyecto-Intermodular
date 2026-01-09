@@ -7,6 +7,10 @@ import {
   inject,
   OnChanges,
   SimpleChanges,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -27,7 +31,7 @@ import { Developer } from '../../../../core/models/developer.model';
 import { Publisher } from '../../../../core/models/publisher.model';
 import { Genre } from '../../../../core/models/genre.model';
 import { Platform } from '../../../../core/models/platform.model';
-import { switchMap, of, forkJoin, map, tap, Observable } from 'rxjs';
+import { switchMap, of, forkJoin, Observable } from 'rxjs';
 import { FileUploadComponent } from '../../../../shared/components/file-upload/file-upload.component';
 import { IMediaRepository } from '../../../../core/repositories/interfaces/media-repository.interface';
 import { MEDIA_REPOSITORY_TOKEN } from '../../../../core/repositories/repository.tokens';
@@ -46,13 +50,16 @@ import { Inject } from '@angular/core';
   templateUrl: './game-form.component.html',
   styleUrl: './game-form.component.scss',
 })
-export class GameFormComponent implements OnInit, OnChanges {
+export class GameFormComponent implements OnInit, OnChanges, AfterViewInit {
   private fb = inject(FormBuilder);
   private gameService = inject(GameService);
   private developerService = inject(DeveloperService);
   private publisherService = inject(PublisherService);
   private genreService = inject(GenreService);
   private platformService = inject(PlatformService);
+  private cdRef = inject(ChangeDetectorRef);
+
+  @ViewChild('genreContainer') genreContainer!: ElementRef;
 
   constructor(
     @Inject(MEDIA_REPOSITORY_TOKEN) private mediaRepository: IMediaRepository
@@ -104,6 +111,9 @@ export class GameFormComponent implements OnInit, OnChanges {
   showPlatformModal = false;
   newPlatformName = '';
 
+  showGenreTopShadow = false;
+  showGenreBottomShadow = false;
+
   ngOnInit(): void {
     this.loadDependencies();
     if (this.id) {
@@ -111,18 +121,7 @@ export class GameFormComponent implements OnInit, OnChanges {
       this.loadGame(this.id);
     } else {
       this.isEditMode = false;
-      this.form.reset({
-        isRefundable: true,
-        numberOfSales: 0,
-        stockPc: 0,
-        stockPs5: 0,
-        stockXboxX: 0,
-        stockSwitch: 0,
-        stockPs4: 0,
-        stockXboxOne: 0,
-        price: 0,
-      });
-      this.currentImageUrl = null;
+      this.resetForm();
     }
   }
 
@@ -133,20 +132,28 @@ export class GameFormComponent implements OnInit, OnChanges {
         this.loadGame(this.id);
       } else {
         this.isEditMode = false;
-        this.form.reset({
-          isRefundable: true,
-          numberOfSales: 0,
-          stockPc: 0,
-          stockPs5: 0,
-          stockXboxX: 0,
-          stockSwitch: 0,
-          stockPs4: 0,
-          stockXboxOne: 0,
-          price: 0,
-        });
-        this.currentImageUrl = null;
+        this.resetForm();
       }
     }
+  }
+
+  ngAfterViewInit() {
+    this.checkScrolls();
+  }
+
+  resetForm() {
+    this.form.reset({
+      isRefundable: true,
+      numberOfSales: 0,
+      stockPc: 0,
+      stockPs5: 0,
+      stockXboxX: 0,
+      stockSwitch: 0,
+      stockPs4: 0,
+      stockXboxOne: 0,
+      price: 0,
+    });
+    this.currentImageUrl = null;
   }
 
   loadGame(id: number) {
@@ -189,6 +196,8 @@ export class GameFormComponent implements OnInit, OnChanges {
       this.publishers = data.pubs;
       this.genres = data.genres;
       this.platforms = data.platforms;
+
+      this.checkScrolls();
     });
   }
 
@@ -223,6 +232,7 @@ export class GameFormComponent implements OnInit, OnChanges {
       this.form.patchValue({ genreIds: [...currentIds, g.id] });
       this.showGenreModal = false;
       this.newGenreName = '';
+      this.checkScrolls();
     });
   }
 
@@ -310,5 +320,33 @@ export class GameFormComponent implements OnInit, OnChanges {
 
   onCancel() {
     this.cancel.emit();
+  }
+
+  checkScrolls() {
+    setTimeout(() => {
+      this.onGenreScroll();
+      this.cdRef.detectChanges();
+    }, 50);
+  }
+
+  onGenreScroll() {
+    if (!this.genreContainer) return;
+    const element = this.genreContainer.nativeElement;
+
+    this.showGenreTopShadow = element.scrollTop > 0;
+
+    const atBottom =
+      element.scrollHeight - element.scrollTop <= element.clientHeight + 1;
+    this.showGenreBottomShadow =
+      !atBottom && element.scrollHeight > element.clientHeight;
+  }
+
+  getGenreMaskStyle(): string {
+    const top = this.showGenreTopShadow ? 'transparent' : 'black';
+    const bottom = this.showGenreBottomShadow ? 'transparent' : 'black';
+    const gradient = `linear-gradient(to bottom, ${top} 0%, black 40%, black 60%, ${bottom} 100%)`;
+    // Capa 1: Gradiente (Contenido)
+    // Capa 2: Negro Sólido (Barra de Scroll)
+    return `${gradient}, linear-gradient(black, black)`;
   }
 }

@@ -40,71 +40,135 @@
     </div>
   </div>
 
-  <div class="overflow-y-auto flex-1 custom-scrollbar min-h-0">
-    <table class="w-full text-left border-collapse">
-      <thead class="sticky top-0 bg-gray-800 z-10">
-        <tr class="text-gray-400 border-b border-gray-700">
-          <th class="py-3 px-4">ID</th>
-          <th class="py-3 px-4">{{ "common.title" | translate }}</th>
-          <th class="py-3 px-4">{{ "common.price" | translate }}</th>
-          <th class="py-3 px-4 text-right">
-            {{ "admin.actions.title" | translate }}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-container *ngIf="isLoading">
-          <tr
-            *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]"
-            class="animate-pulse border-b border-gray-800"
-          >
-            <td class="py-3 px-4">
-              <div class="h-4 bg-gray-700 rounded w-8"></div>
-            </td>
-            <td class="py-3 px-4">
-              <div class="h-4 bg-gray-700 rounded w-48"></div>
-            </td>
-            <td class="py-3 px-4">
-              <div class="h-4 bg-gray-700 rounded w-20"></div>
-            </td>
-            <td class="py-3 px-4">
-              <div class="h-8 bg-gray-700 rounded w-24 ml-auto"></div>
+  <div class="relative flex-1 min-h-0 border-t border-gray-700/50">
+    <div
+      class="absolute top-12 left-0 right-2 h-32 bg-gradient-to-b from-gray-800 to-transparent z-20 pointer-events-none transition-opacity duration-300"
+      [class.opacity-0]="!showTopShadow"
+      [class.opacity-100]="showTopShadow"
+    ></div>
+
+    <div
+      #scrollContainer
+      (scroll)="onScroll()"
+      class="overflow-y-auto h-full custom-scrollbar pb-6"
+    >
+      <table class="w-full text-left border-separate border-spacing-0">
+        <thead>
+          <tr class="text-gray-400">
+            <th
+              class="sticky top-0 z-30 bg-gray-800 py-3 px-4 font-bold border-b border-gray-800 w-24"
+            >
+              ID
+            </th>
+
+            <th
+              class="sticky top-0 z-30 bg-gray-800 py-3 px-4 font-bold border-b border-gray-800 w-32"
+            >
+              {{ "common.price" | translate }}
+            </th>
+
+            <th
+              class="sticky top-0 z-30 bg-gray-800 py-3 px-4 font-bold border-b border-gray-800"
+            >
+              {{ "common.title" | translate }}
+            </th>
+
+            <th
+              class="sticky top-0 z-30 bg-gray-800 px-4 font-bold border-b border-gray-800 w-48"
+            >
+              <span class="pl-2">
+                {{ "admin.actions.title" | translate }}
+              </span>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <ng-container *ngIf="isLoading">
+            <tr
+              *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]"
+              class="animate-pulse"
+            >
+              <td class="py-3 px-4 rounded-l-lg border-t-4 border-gray-800">
+                <div class="h-4 bg-gray-700 rounded w-6"></div>
+              </td>
+
+              <td class="py-3 px-4 border-t-4 border-gray-800">
+                <div class="h-4 bg-gray-700 rounded w-12"></div>
+              </td>
+
+              <td class="py-3 px-4 border-t-4 border-gray-800">
+                <div class="h-4 bg-gray-700 rounded w-48"></div>
+              </td>
+
+              <td class="py-3 px-4 rounded-r-lg border-t-4 border-gray-800">
+                <div class="flex gap-2">
+                  <div class="p-2">
+                    <div class="h-4 w-10 bg-gray-700 rounded"></div>
+                  </div>
+                  <div class="p-2">
+                    <div class="h-4 w-10 bg-gray-700 rounded"></div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+
+          <ng-container *ngIf="!isLoading">
+            <tr
+              *ngFor="let game of filteredGames"
+              class="hover:bg-gray-700 transition-colors text-gray-300 group"
+            >
+              <td class="py-3 px-4 rounded-l-lg border-t-4 border-gray-800">
+                {{ game.id }}
+              </td>
+
+              <td class="py-3 px-4 border-t-4 border-gray-800">
+                {{ game.price | currency : "EUR" }}
+              </td>
+
+              <td
+                class="py-3 px-4 font-medium text-white border-t-4 border-gray-800"
+              >
+                {{ game.title }}
+              </td>
+
+              <td class="py-3 px-4 rounded-r-lg border-t-4 border-gray-800">
+                <div class="flex gap-2">
+                  <button
+                    (click)="openEditModal(game.id)"
+                    class="text-cyan-400 hover:text-cyan-300 cursor-pointer p-2 bg-transparent border-none font-medium"
+                  >
+                    {{ "admin.actions.edit" | translate }}
+                  </button>
+                  <button
+                    (click)="openDeleteModal(game.id)"
+                    class="text-red-400 hover:text-red-300 bg-transparent border-none cursor-pointer p-2 font-medium"
+                  >
+                    {{ "admin.actions.delete" | translate }}
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+
+          <tr *ngIf="!isLoading && filteredGames.length === 0">
+            <td
+              colspan="4"
+              class="py-8 text-center text-gray-500 italic border-t-4 border-gray-800"
+            >
+              {{ "search.noResults" | translate }}
             </td>
           </tr>
-        </ng-container>
+        </tbody>
+      </table>
+    </div>
 
-        <ng-container *ngIf="!isLoading">
-          <tr
-            *ngFor="let game of filteredGames"
-            class="hover:bg-gray-700 transition-colors border-b border-gray-800 last:border-0 text-gray-300"
-          >
-            <td class="py-3 px-4">{{ game.id }}</td>
-            <td class="py-3 px-4 font-medium text-white">{{ game.title }}</td>
-            <td class="py-3 px-4">{{ game.price | currency : "EUR" }}</td>
-            <td class="py-3 px-4 text-right flex justify-end gap-2">
-              <button
-                (click)="openEditModal(game.id)"
-                class="text-cyan-400 hover:text-cyan-300 cursor-pointer p-2 bg-transparent border-none font-medium"
-              >
-                {{ "admin.actions.edit" | translate }}
-              </button>
-              <button
-                (click)="openDeleteModal(game.id)"
-                class="text-red-400 hover:text-red-300 bg-transparent border-none cursor-pointer p-2 font-medium"
-              >
-                {{ "admin.actions.delete" | translate }}
-              </button>
-            </td>
-          </tr>
-        </ng-container>
-
-        <tr *ngIf="!isLoading && filteredGames.length === 0">
-          <td colspan="4" class="py-8 text-center text-gray-500 italic">
-            {{ "search.noResults" | translate }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div
+      class="absolute bottom-0 left-0 right-2 h-32 bg-gradient-to-t from-gray-800 to-transparent z-20 pointer-events-none transition-opacity duration-300"
+      [class.opacity-0]="!showBottomShadow"
+      [class.opacity-100]="showBottomShadow"
+    ></div>
   </div>
 </div>
 

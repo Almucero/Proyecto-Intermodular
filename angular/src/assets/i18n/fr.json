@@ -269,16 +269,15 @@
     "alreadyAccount": "Vous avez déjà un compte ?",
     "loginLink": "Se connecter",
     "nameLabel": "Prénom",
-      "password2Placeholder": "Répétez le mot de passe",
-      "createAccountButton": "Créer un compte",
-      "backButton": "Retour"
-    },
-    "upload": {
-      "maxSize": "Taille max:",
-      "acceptedTypes": "Types acceptés:",
-      "changeFile": "Changer de fichier",
-      "dragHere": "Glissez un fichier ici ou cliquez"
-    }
+    "password2Placeholder": "Répétez le mot de passe",
+    "createAccountButton": "Créer un compte",
+    "backButton": "Retour"
+  },
+  "upload": {
+    "maxSize": "Taille max:",
+    "acceptedTypes": "Types acceptés:",
+    "changeFile": "Changer de fichier",
+    "dragHere": "Glissez un fichier ici ou cliquez"
   },
   "errors": {
     "required": "Ce champ est obligatoire",
