@@ -34,10 +34,12 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
  *   avatar: [null, Validators.required]
  * });
  */
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-file-upload',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './file-upload.component.html',
   styleUrl: './file-upload.component.scss',
   providers: [
@@ -51,12 +53,18 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   @Input() acceptedMimeTypes: string[] = ['*/*'];
 
-  @Input() placeholder: string =
-    'Arrastra un archivo aquí o haz clic para seleccionar';
+  @Input() placeholder: string = 'common.upload.dragHere'; // Default key
 
   @Input() maxSizeInMB: number = 10;
+  @Input() set initialUrl(url: string | null | undefined) {
+    if (url) {
+      this.previewUrl.set(url);
+    }
+  }
 
   selectedFile = signal<File | null>(null);
+
+  private translate = inject(TranslateService);
 
   previewUrl = signal<string | null>(null);
 
@@ -208,16 +216,16 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
 
     if (!this.validateMimeType(file)) {
       this.error.set(
-        `Tipo de archivo no permitido. Tipos aceptados: ${this.acceptedMimeTypes.join(
-          ', ',
-        )}`,
+        `${this.translate.instant(
+          'errors.fileTypeNotAllowed'
+        )} ${this.acceptedMimeTypes.join(', ')}`
       );
       return;
     }
 
     if (!this.validateSize(file)) {
       this.error.set(
-        `El archivo es demasiado grande. Tamaño máximo: ${this.maxSizeInMB}MB`,
+        `${this.translate.instant('errors.fileTooLarge')} ${this.maxSizeInMB}MB`
       );
       return;
     }
@@ -276,7 +284,7 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
       this.blobUrl = URL.createObjectURL(file);
       // Sanitizar la URL para que Angular la acepte en el iframe
       this.safePdfUrl.set(
-        this.sanitizer.bypassSecurityTrustResourceUrl(this.blobUrl),
+        this.sanitizer.bypassSecurityTrustResourceUrl(this.blobUrl)
       );
       this.previewUrl.set(this.blobUrl);
     } else {

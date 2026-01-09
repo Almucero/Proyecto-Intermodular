@@ -87,51 +87,38 @@ input[type="range"] {
 }
 
 @media (max-width: 768px) {
-  /* 1. Full Width Results: Standardize container padding to 24px (1.5rem) */
   .max-w-7xl {
-    padding-left: 1.5rem !important; /* Increased from 0.75rem */
+    padding-left: 1.5rem !important;
     padding-right: 1.5rem !important;
-
-    /* Reduce vertical gap between Filters and Results (default was gap-8 = 2rem) */
     > .flex {
       gap: 1rem !important;
     }
   }
 
-  /* 2. Compact Filters Section */
   .w-full.sm\:w-80 {
-    width: 100% !important; /* Fill the container (minus padding) */
-    margin-bottom: 0 !important; /* Remove extra bottom margin, rely on flex gap */
-
-    /* Disable sticky behavior on mobile so it scrolls WITH the page */
+    width: 100% !important;
+    margin-bottom: 0 !important;
     position: static !important;
     top: auto !important;
   }
-
-  /* Reduce filter container padding */
   .bg-gray-900.rounded-lg.p-4 {
-    padding: 0.75rem !important; /* Match the global spacing */
+    padding: 0.75rem !important;
   }
-
-  /* Reduce filter button padding */
   button.w-full.p-4 {
-    height: 3rem !important; /* Force 48px height */
-    padding: 0 0.75rem !important; /* 12px horizontal padding, 0 vertical (centered by flex) */
+    height: 3rem !important;
+    padding: 0 0.75rem !important;
     display: flex !important;
     align-items: center !important;
   }
-
-  /* Make filter buttons text smaller maybe? */
   button.w-full span.font-medium {
     font-size: 0.95rem !important;
   }
 
-  /* 3. Align Search Results with Filters */
   .search-results-grid {
-    width: auto !important; /* Allow margins to dictate width */
-    margin-left: 0.75rem !important; /* Add extra indentation to match the inner filter buttons */
+    width: auto !important;
+    margin-left: 0.75rem !important;
     margin-right: 0.75rem !important;
     padding: 0 !important;
-    margin-top: 0 !important; /* Remove extra top margin, rely on flex gap */
+    margin-top: 0 !important;
   }
 }

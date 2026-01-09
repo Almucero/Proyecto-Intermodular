@@ -1,0 +1,53 @@
+<div class="bg-gray-800 p-8 rounded-2xl shadow-2xl">
+  <h3 class="text-xl font-bold text-cyan-300 mb-6">
+    {{
+      (isEditMode ? "admin.actions.edit" : "admin.actions.create") | translate
+    }}
+    {{ "admin.genres.title" | translate }}
+  </h3>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
+    <div class="flex flex-col gap-2">
+      <label for="name" class="text-gray-300 font-medium">{{
+        "common.name" | translate
+      }}</label>
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        class="bg-gray-700 text-white rounded-xl p-4 border-none focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all"
+        placeholder="e.g. Action"
+      />
+      <div
+        *ngIf="form.get('name')?.touched && form.get('name')?.invalid"
+        class="text-red-400 text-sm"
+      >
+        {{ "errors.required" | translate }}
+      </div>
+    </div>
+
+    <div
+      *ngIf="errorMessage"
+      class="text-red-400 bg-red-900/20 p-3 rounded border border-red-800"
+    >
+      {{ errorMessage }}
+    </div>
+
+    <div class="flex justify-end gap-3 mt-4">
+      <button
+        type="button"
+        (click)="onCancel()"
+        class="bg-gray-600 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-xl transition-colors cursor-pointer border-none outline-none focus:outline-none"
+      >
+        {{ "common.cancel" | translate }}
+      </button>
+      <button
+        type="submit"
+        [disabled]="form.invalid"
+        class="bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-2 px-6 rounded-xl transition-colors cursor-pointer border-none outline-none focus:outline-none shadow-lg shadow-cyan-900/50"
+      >
+        {{ "common.save" | translate }}
+      </button>
+    </div>
+  </form>
+</div>

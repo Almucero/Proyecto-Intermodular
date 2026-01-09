@@ -244,45 +244,39 @@
     margin-bottom: 1rem !important;
   }
 
-  /* Make dropdown button part of the flow on mobile */
   .genres-wrapper {
-    padding-right: 1rem !important; /* Reset the pr-10 (2.5rem) used for absolute positioning */
+    padding-right: 1rem !important;
   }
 
   .genre-dropdown-container {
     position: static !important;
     transform: none !important;
-    margin-left: 0.75rem !important; /* Manual gap to match gap-3 */
+    margin-left: 0.75rem !important;
   }
 
-  /* Fix Dropdown Positioning on Mobile */
   .genre-dropdown-menu {
     left: auto !important;
-    right: -1rem !important; /* Align right edge to screen edge */
+    right: -1rem !important;
     transform: none !important;
     width: max-content !important;
-    max-width: 60vw !important; /* Prevent it from being too wide */
-
-    /* Reduce height and allow it to be narrower */
+    max-width: 60vw !important;
     max-height: 45vh !important;
-    min-width: auto !important; /* Override inline 200px style */
+    min-width: auto !important;
   }
-
-  /* Allow text wrapping for long genres */
   .genre-dropdown-item {
     white-space: normal !important;
     word-wrap: break-word !important;
-    text-align: right !important; /* Align text to right looks better with right-aligned menu */
+    text-align: right !important;
     line-height: 1.2 !important;
   }
 
   .titulo {
     width: 60% !important;
     height: auto !important;
-    top: calc(8vh + 60px) !important; /* Kept tight to top as requested */
+    top: calc(8vh + 60px) !important;
   }
 
   .bottom {
-    height: 70vh !important; /* Taller image to ensure the glow reaches up */
+    height: 70vh !important;
   }
 }

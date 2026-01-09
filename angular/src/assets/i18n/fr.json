@@ -1,7 +1,20 @@
 {
   "common": {
     "searchPlaceholder": "Rechercher...",
-    "loading": "Chargement..."
+    "loading": "Chargement...",
+    "name": "Nom",
+    "title": "Titre",
+    "price": "Prix",
+    "slug": "Slug",
+    "save": "Sauvegarder",
+    "cancel": "Annuler",
+    "image": "Image",
+    "upload": {
+      "maxSize": "Taille max:",
+      "acceptedTypes": "Types acceptés:",
+      "changeFile": "Changer de fichier",
+      "dragHere": "Glissez un fichier ici ou cliquez"
+    }
   },
   "authGuard": {
     "loginRequiredTitle": "Connexion requise",
@@ -25,7 +38,62 @@
     "aichat": "Chat IA"
   },
   "admin": {
-    "title": "Admin"
+    "title": "Admin",
+    "menu": {
+      "genres": "Genres",
+      "developers": "Développeurs",
+      "platforms": "Plateformes",
+      "publishers": "Éditeurs",
+      "games": "Jeux"
+    },
+    "genres": {
+      "title": "Gestion des Genres"
+    },
+    "developers": {
+      "title": "Gestion des Développeurs"
+    },
+    "platforms": {
+      "title": "Gestion des Plateformes"
+    },
+    "publishers": {
+      "title": "Gestion des Éditeurs"
+    },
+    "games": {
+      "title": "Gestion des Jeux",
+      "videoUrl": "URL de la vidéo",
+      "releaseDate": "Date de sortie",
+      "stock": "Stock",
+      "isOnSale": "En solde",
+      "salePrice": "Prix soldé",
+      "isRefundable": "Remboursable",
+      "developer": "Développeur",
+      "publisher": "Éditeur",
+      "genre": "Genre",
+      "platform": "Plateforme",
+      "new": "Nouveau",
+      "selectDeveloper": "Sélectionner un développeur",
+      "selectPublisher": "Sélectionner un éditeur",
+      "newDeveloper": "Nouveau Développeur",
+      "newPublisher": "Nouvel Éditeur",
+      "newGenre": "Nouveau Genre",
+      "newPlatform": "Nouvelle Plateforme",
+      "enterName": "Entrer le nom...",
+      "enterTitle": "Saisir le titre du jeu...",
+      "enterVideoUrl": "https://www.youtube.com/watch?v=...",
+      "uploadPlaceholder": "Glissez l'image de couverture ici"
+    },
+    "actions": {
+      "create": "Créer",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "title": "Actions",
+      "confirmTitle": "Êtes-vous sûr ?",
+      "confirmDeleteGame": "Voulez-vous vraiment supprimer ce jeu ? Ce processus est irréversible.",
+      "confirmDeleteGenre": "Voulez-vous vraiment supprimer ce genre ? Ce processus est irréversible.",
+      "confirmDeletePlatform": "Voulez-vous vraiment supprimer cette plateforme ? Ce processus est irréversible.",
+      "confirmDeleteDeveloper": "Voulez-vous vraiment supprimer ce développeur ? Ce processus est irréversible.",
+      "confirmDeletePublisher": "Voulez-vous vraiment supprimer cet éditeur ? Ce processus est irréversible."
+    }
   },
   "aichat": {
     "title": "Chat IA",
@@ -201,17 +269,25 @@
     "alreadyAccount": "Vous avez déjà un compte ?",
     "loginLink": "Se connecter",
     "nameLabel": "Prénom",
-    "namePlaceholder": "Votre prénom",
-    "surnameLabel": "Nom",
-    "surnamePlaceholder": "Votre nom",
-    "password2Label": "Répétez le mot de passe",
-    "password2Placeholder": "Répétez le mot de passe",
-    "createAccountButton": "Créer un compte",
-    "backButton": "Retour"
+      "password2Placeholder": "Répétez le mot de passe",
+      "createAccountButton": "Créer un compte",
+      "backButton": "Retour"
+    },
+    "upload": {
+      "maxSize": "Taille max:",
+      "acceptedTypes": "Types acceptés:",
+      "changeFile": "Changer de fichier",
+      "dragHere": "Glissez un fichier ici ou cliquez"
+    }
   },
   "errors": {
+    "required": "Ce champ est obligatoire",
     "emailRequired": "Le champ e-mail est requis",
     "emailInvalid": "L'e-mail n'est pas valide",
+    "email": "Email invalide",
+    "min": "La valeur est trop basse",
+    "fileTypeNotAllowed": "Type de fichier non autorisé. Acceptés:",
+    "fileTooLarge": "Le fichier est trop volumineux. Max:",
     "passwordRequired": "Le champ mot de passe est requis",
     "passwordMinLength": "Le mot de passe doit contenir au moins 6 caractères",
     "passwordPattern": "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre",

@@ -30,7 +30,6 @@ import { UiStateService } from '../../../core/services/impl/ui-state.service';
   animations: [slideMenuAnimation],
 })
 export class HeaderComponent {
-  // isMenuOpen = false; // Moved to UiStateService
   searchActive = false;
   @ViewChild('menu') menu!: ElementRef;
 
@@ -45,7 +44,6 @@ export class HeaderComponent {
   favoritesCount = toSignal(this.favoriteService.favoritesCount$);
 
   toggleMenu(): void {
-    // this.isMenuOpen = !this.isMenuOpen;
     this.uiState.toggleMenu();
   }
 

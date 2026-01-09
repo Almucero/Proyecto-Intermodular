@@ -1,7 +1,20 @@
 {
   "common": {
     "searchPlaceholder": "Cerca...",
-    "loading": "Caricamento..."
+    "loading": "Caricamento...",
+    "name": "Nome",
+    "title": "Titolo",
+    "price": "Prezzo",
+    "slug": "Slug",
+    "save": "Salva",
+    "cancel": "Annulla",
+    "image": "Immagine",
+    "upload": {
+      "maxSize": "Dim. max:",
+      "acceptedTypes": "Tipi accettati:",
+      "changeFile": "Cambia file",
+      "dragHere": "Trascina qui un file o clicca"
+    }
   },
   "authGuard": {
     "loginRequiredTitle": "Accesso richiesto",
@@ -26,7 +39,62 @@
     "aichat": "Chat AI"
   },
   "admin": {
-    "title": "Admin"
+    "title": "Admin",
+    "menu": {
+      "genres": "Generi",
+      "developers": "Sviluppatori",
+      "platforms": "Piattaforme",
+      "publishers": "Editori",
+      "games": "Giochi"
+    },
+    "genres": {
+      "title": "Gestione Generi"
+    },
+    "developers": {
+      "title": "Gestione Sviluppatori"
+    },
+    "platforms": {
+      "title": "Gestione Piattaforme"
+    },
+    "publishers": {
+      "title": "Gestione Editori"
+    },
+    "games": {
+      "title": "Gestione Giochi",
+      "videoUrl": "URL Video",
+      "releaseDate": "Data di rilascio",
+      "stock": "Scorte",
+      "isOnSale": "In saldo",
+      "salePrice": "Prezzo in saldo",
+      "isRefundable": "Rimborsabile",
+      "developer": "Sviluppatore",
+      "publisher": "Editore",
+      "genre": "Genere",
+      "platform": "Piattaforma",
+      "new": "Nuovo",
+      "selectDeveloper": "Seleziona sviluppatore",
+      "selectPublisher": "Seleziona editore",
+      "newDeveloper": "Nuovo Sviluppatore",
+      "newPublisher": "Nuovo Editore",
+      "newGenre": "Nuovo Genere",
+      "newPlatform": "Nuova Piattaforma",
+      "enterName": "Inserisci il nome...",
+      "enterTitle": "Inserisci il titolo del gioco...",
+      "enterVideoUrl": "https://www.youtube.com/watch?v=...",
+      "uploadPlaceholder": "Trascina qui l'immagine di copertina"
+    },
+    "actions": {
+      "create": "Crea",
+      "edit": "Modifica",
+      "delete": "Elimina",
+      "title": "Azioni",
+      "confirmTitle": "Sei sicuro?",
+      "confirmDeleteGame": "Vuoi davvero eliminare questo gioco? Questa operazione non può essere annullata.",
+      "confirmDeleteGenre": "Vuoi davvero eliminare questo genere? Questa operazione non può essere annullata.",
+      "confirmDeletePlatform": "Vuoi davvero eliminare questa piattaforma? Questa operazione non può essere annullata.",
+      "confirmDeleteDeveloper": "Vuoi davvero eliminare questo sviluppatore? Questa operazione non può essere annullata.",
+      "confirmDeletePublisher": "Vuoi davvero eliminare questo editore? Questa operazione non può essere annullata."
+    }
   },
   "aichat": {
     "title": "Chat AI",
@@ -202,15 +270,16 @@
     "alreadyAccount": "Hai già un account?",
     "loginLink": "Accedi",
     "nameLabel": "Nome",
-    "namePlaceholder": "Il tuo nome",
-    "surnameLabel": "Cognome",
-    "surnamePlaceholder": "Il tuo cognome",
-    "password2Label": "Ripeti password",
-    "password2Placeholder": "Ripeti password",
     "createAccountButton": "Crea account",
     "backButton": "Indietro"
   },
+
   "errors": {
+    "required": "Questo campo è obbligatorio",
+    "email": "Email non valida",
+    "min": "Il valore è troppo basso",
+    "fileTypeNotAllowed": "Tipo di file non consentito. Accettati:",
+    "fileTooLarge": "Il file è troppo grande. Max:",
     "emailRequired": "Il campo email è obbligatorio",
     "emailInvalid": "L'email non è valida",
     "passwordRequired": "Il campo password è obbligatorio",

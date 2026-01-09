@@ -94,7 +94,7 @@ export class HomeComponent implements OnInit {
   }
 
   private checkScreenSize() {
-    this.isMobile = window.innerWidth <= 768; // Tailwind md breakpoint
+    this.isMobile = window.innerWidth <= 768;
   }
 
   get visibleGenres() {
@@ -106,11 +106,9 @@ export class HomeComponent implements OnInit {
 
   get dropdownItems() {
     if (this.isMobile) {
-      // On mobile: hidden main genres + other genres
       const hiddenMainGenres = this.genres.slice(3);
       return [...hiddenMainGenres, ...this.otherGenres];
     }
-    // On desktop: just other genres
     return this.otherGenres;
   }
 

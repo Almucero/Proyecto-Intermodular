@@ -13,7 +13,7 @@ export const routeFadeAnimation = trigger('routeFadeAnimation', [
       ':enter',
       [
         style({
-          // position: 'absolute', // Removed to keep flow
+          // position: 'absolute',
           // top: 0,
           // left: 0,
           width: '100%',

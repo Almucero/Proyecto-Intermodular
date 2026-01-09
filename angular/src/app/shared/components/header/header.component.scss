@@ -129,7 +129,6 @@ app-language-selector {
   10% {
     transform: translate(0);
   }
-  /* Long pause */
   40% {
     transform: translate(0);
   }
@@ -139,7 +138,6 @@ app-language-selector {
   44% {
     transform: translate(0);
   }
-  /* Another pause */
   100% {
     transform: translate(0);
   }
@@ -149,11 +147,8 @@ app-language-selector {
   &:hover {
     img,
     span {
-      /* Increased duration to 2s to make the glitches more sparse (flicker effect) */
       animation: glitch-hover 2s infinite;
     }
-
-    /* Reduced opacity from 0.7 to 0.4 for subtlety */
     span {
       text-shadow: 2px 0 rgba(0, 255, 255, 0.4), -2px 0 rgba(255, 0, 0, 0.4);
     }
@@ -165,7 +160,6 @@ app-language-selector {
   }
 }
 @media (max-width: 768px) {
-  /* Enforce header height and centering */
   .mobile-responsive-header {
     height: 60px !important;
     padding-left: 0 !important;
@@ -174,20 +168,16 @@ app-language-selector {
     align-items: center !important;
   }
 
-  /* Adjust menu button position */
   header.mobile-responsive-header > button.absolute {
-    left: 0.5rem !important; /* Uniform 0.5rem spacing */
+    left: 0.5rem !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
   }
 
-  /* Resize menu icon (Larger) */
   header.mobile-responsive-header > button.absolute > img {
-    width: 2.25rem !important; /* 36px */
+    width: 2.25rem !important;
     height: 2.25rem !important;
   }
-
-  /* Hide Logo Completely */
   .mobile-header-logo-container {
     display: none !important;
   }
@@ -203,15 +193,9 @@ app-language-selector {
   .mobile-search-container {
     position: static !important;
     transform: none !important;
-
-    /* Fill available space */
     flex: 1 !important;
     width: auto !important;
-
-    /* Calculated Spacing: Ensure enough space for menu button (approx 44px total width) */
     margin-left: 3.5rem !important;
-
-    /* Uniform gap to right icons */
     margin-right: 0.25rem !important;
 
     min-width: 0 !important;
@@ -219,22 +203,20 @@ app-language-selector {
     align-items: center !important;
   }
 
-  /* Search wrapper */
   .mobile-search-container .search-wrapper {
     width: 100% !important;
-    height: 36px !important; /* Slightly taller for easier tapping */
+    height: 36px !important;
     border-radius: 9999px !important;
     display: flex !important;
     align-items: center !important;
     padding: 0.25rem !important;
-    overflow: hidden; /* Prevent overflow */
-    transition: none !important; /* Prevent initial resize animation */
+    overflow: hidden;
+    transition: none !important;
   }
 
-  /* Search Button (Anchor) */
   .mobile-search-container .search-wrapper > a {
     padding: 0 !important;
-    width: 42px !important; /* Slightly larger */
+    width: 42px !important;
     height: 26px !important;
     display: flex !important;
     align-items: center !important;
@@ -243,23 +225,20 @@ app-language-selector {
     margin-left: 3px !important;
   }
 
-  /* Search Icon */
   .mobile-search-container .search-wrapper > a > img {
     width: 0.95rem !important;
     height: 0.95rem !important;
     margin: 0 !important;
   }
 
-  /* Input */
   .mobile-search-container .search-input {
     font-size: 0.95rem !important;
     height: 100% !important;
     padding-left: 0.5rem !important;
   }
 
-  /* Icons container alignment */
   .mobile-header-icons {
-    gap: 0.5rem !important; /* Uniform gap */
+    gap: 0.5rem !important;
     flex-shrink: 0 !important;
     display: flex !important;
     align-items: center !important;
@@ -279,7 +258,6 @@ app-language-selector {
     display: none !important;
   }
 
-  /* Rescaled Icons - ALL UNIFIED TO 2.25rem (36px) */
   .mobile-icon-size {
     width: 2.25rem !important;
     height: 2.25rem !important;
@@ -290,7 +268,6 @@ app-language-selector {
     height: 2.25rem !important;
   }
 
-  /* Fix for overlay gap on mobile (60px header vs 64px default top) */
   .header-overlay {
     top: 60px !important;
   }
