@@ -1,4 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -15,18 +21,19 @@ import { PublisherFormComponent } from '../publisher-form/publisher-form.compone
 })
 export class PublisherListComponent implements OnInit {
   private publisherService = inject(PublisherService);
+
+  @ViewChild('scrollContainer') scrollContainer!: ElementRef;
+
   publishers: Publisher[] = [];
   filteredPublishers: Publisher[] = [];
   searchTerm: string = '';
-
-  // Modal State
   showModal = false;
   selectedPublisherId: number | null = null;
-
-  // Delete Modal State
   showDeleteModal = false;
   publisherToDeleteId: number | null = null;
   isLoading = true;
+  showTopShadow = false;
+  showBottomShadow = false;
 
   ngOnInit(): void {
     this.loadPublishers();
@@ -38,6 +45,9 @@ export class PublisherListComponent implements OnInit {
       this.publishers = data;
       this.filterPublishers();
       this.isLoading = false;
+      setTimeout(() => {
+        this.onScroll();
+      }, 0);
     });
   }
 
@@ -50,6 +60,19 @@ export class PublisherListComponent implements OnInit {
         p.name.toLowerCase().includes(lower)
       );
     }
+    setTimeout(() => {
+      this.onScroll();
+    }, 0);
+  }
+
+  onScroll() {
+    if (!this.scrollContainer) return;
+    const element = this.scrollContainer.nativeElement;
+    this.showTopShadow = element.scrollTop > 0;
+    const atBottom =
+      element.scrollHeight - element.scrollTop <= element.clientHeight + 1;
+    this.showBottomShadow =
+      !atBottom && element.scrollHeight > element.clientHeight;
   }
 
   openCreateModal() {
