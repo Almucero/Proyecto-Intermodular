@@ -1,7 +1,20 @@
 {
   "common": {
     "searchPlaceholder": "Search...",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "name": "Name",
+    "title": "Title",
+    "price": "Price",
+    "slug": "Slug",
+    "save": "Save",
+    "cancel": "Cancel",
+    "image": "Image",
+    "upload": {
+      "maxSize": "Max size:",
+      "acceptedTypes": "Accepted types:",
+      "changeFile": "Change file",
+      "dragHere": "Drag file here or click to select"
+    }
   },
   "authGuard": {
     "loginRequiredTitle": "Login Required",
@@ -26,7 +39,62 @@
     "aichat": "AI Chat"
   },
   "admin": {
-    "title": "Admin"
+    "title": "Admin",
+    "menu": {
+      "genres": "Genres",
+      "developers": "Developers",
+      "platforms": "Platforms",
+      "publishers": "Publishers",
+      "games": "Games"
+    },
+    "genres": {
+      "title": "Genres Management"
+    },
+    "developers": {
+      "title": "Developers Management"
+    },
+    "platforms": {
+      "title": "Platforms Management"
+    },
+    "publishers": {
+      "title": "Publishers Management"
+    },
+    "games": {
+      "title": "Games Management",
+      "videoUrl": "Video URL",
+      "releaseDate": "Release Date",
+      "stock": "Stock",
+      "isOnSale": "On Sale",
+      "salePrice": "Sale Price",
+      "isRefundable": "Refundable",
+      "developer": "Developer",
+      "publisher": "Publisher",
+      "genre": "Genre",
+      "platform": "Platform",
+      "new": "New",
+      "selectDeveloper": "Select Developer",
+      "selectPublisher": "Select Publisher",
+      "newDeveloper": "New Developer",
+      "newPublisher": "New Publisher",
+      "newGenre": "New Genre",
+      "newPlatform": "New Platform",
+      "enterName": "Enter name...",
+      "enterTitle": "Enter game title...",
+      "enterVideoUrl": "https://www.youtube.com/watch?v=...",
+      "uploadPlaceholder": "Drag cover image here"
+    },
+    "actions": {
+      "create": "Create",
+      "edit": "Edit",
+      "delete": "Delete",
+      "title": "Actions",
+      "confirmTitle": "Are you sure?",
+      "confirmDeleteGame": "Do you really want to delete this game? This process cannot be undone.",
+      "confirmDeleteGenre": "Do you really want to delete this genre? This process cannot be undone.",
+      "confirmDeletePlatform": "Do you really want to delete this platform? This process cannot be undone.",
+      "confirmDeleteDeveloper": "Do you really want to delete this developer? This process cannot be undone.",
+      "confirmDeletePublisher": "Do you really want to delete this publisher? This process cannot be undone."
+    }
   },
   "aichat": {
     "title": "AI Chat",
@@ -207,10 +275,15 @@
     "surnamePlaceholder": "Your surname",
     "password2Label": "Repeat password",
     "password2Placeholder": "Repeat password",
-    "createAccountButton": "Create account",
-    "backButton": "Back"
+    "createAccountButton": "Create account"
   },
+
   "errors": {
+    "required": "This field is required",
+    "email": "Invalid email",
+    "min": "Value is too low",
+    "fileTypeNotAllowed": "File type not allowed. Allowed:",
+    "fileTooLarge": "File is too large. Max:",
     "emailRequired": "Email field is required",
     "emailInvalid": "Email is not valid",
     "passwordRequired": "Password field is required",

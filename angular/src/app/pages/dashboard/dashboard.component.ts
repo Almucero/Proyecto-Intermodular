@@ -39,7 +39,6 @@ export class DashboardComponent {
     initialValue: [],
   });
 
-  // Refund Modal State
   isRefundModalOpen = signal(false);
   selectedPurchaseId = signal<number | null>(null);
   refundReason = signal('');
