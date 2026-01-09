@@ -1,7 +1,20 @@
 {
   "common": {
     "searchPlaceholder": "Suchen...",
-    "loading": "Laden..."
+    "loading": "Laden...",
+    "name": "Name",
+    "title": "Titel",
+    "price": "Preis",
+    "slug": "Slug",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "image": "Bild",
+    "upload": {
+      "maxSize": "Max. Größe:",
+      "acceptedTypes": "Akzeptierte Typen:",
+      "changeFile": "Datei ändern",
+      "dragHere": "Datei hierher ziehen oder klicken"
+    }
   },
   "authGuard": {
     "loginRequiredTitle": "Anmeldung erforderlich",
@@ -27,7 +40,62 @@
     "aichat": "KI-Chat"
   },
   "admin": {
-    "title": "Admin"
+    "title": "Admin",
+    "menu": {
+      "genres": "Genres",
+      "developers": "Entwickler",
+      "platforms": "Plattformen",
+      "publishers": "Herausgeber",
+      "games": "Spiele"
+    },
+    "genres": {
+      "title": "Genre-Verwaltung"
+    },
+    "developers": {
+      "title": "Entwickler-Verwaltung"
+    },
+    "platforms": {
+      "title": "Plattform-Verwaltung"
+    },
+    "publishers": {
+      "title": "Herausgeber-Verwaltung"
+    },
+    "games": {
+      "title": "Spiel-Verwaltung",
+      "videoUrl": "Video-URL",
+      "releaseDate": "Veröffentlichungsdatum",
+      "stock": "Lagerbestand",
+      "isOnSale": "Im Angebot",
+      "salePrice": "Angebotspreis",
+      "isRefundable": "Erstattungsfähig",
+      "developer": "Entwickler",
+      "publisher": "Herausgeber",
+      "genre": "Genre",
+      "platform": "Plattform",
+      "new": "Neu",
+      "selectDeveloper": "Entwickler auswählen",
+      "selectPublisher": "Herausgeber auswählen",
+      "newDeveloper": "Neuer Entwickler",
+      "newPublisher": "Neuer Herausgeber",
+      "newGenre": "Neues Genre",
+      "newPlatform": "Neue Plattform",
+      "enterName": "Name eingeben...",
+      "enterTitle": "Spieltitel eingeben...",
+      "enterVideoUrl": "https://www.youtube.com/watch?v=...",
+      "uploadPlaceholder": "Coverbild hierher ziehen"
+    },
+    "actions": {
+      "create": "Erstellen",
+      "edit": "Bearbeiten",
+      "delete": "Löschen",
+      "title": "Aktionen",
+      "confirmTitle": "Bist du sicher?",
+      "confirmDeleteGame": "Möchten Sie dieses Spiel wirklich löschen? Dieser Vorgang kann nicht rückgängig gemacht werden.",
+      "confirmDeleteGenre": "Möchten Sie dieses Genre wirklich löschen? Dieser Vorgang kann nicht rückgängig gemacht werden.",
+      "confirmDeletePlatform": "Möchten Sie diese Plattform wirklich löschen? Dieser Vorgang kann nicht rückgängig gemacht werden.",
+      "confirmDeleteDeveloper": "Möchten Sie diesen Entwickler wirklich löschen? Dieser Vorgang kann nicht rückgängig gemacht werden.",
+      "confirmDeletePublisher": "Möchten Sie diesen Herausgeber wirklich löschen? Dieser Vorgang kann nicht rückgängig gemacht werden."
+    }
   },
   "aichat": {
     "title": "KI-Chat",
@@ -208,10 +276,14 @@
     "surnamePlaceholder": "Ihr Nachname",
     "password2Label": "Passwort wiederholen",
     "password2Placeholder": "Passwort wiederholen",
-    "createAccountButton": "Konto erstellen",
-    "backButton": "Zurück"
+    "createAccountButton": "Konto erstellen"
   },
   "errors": {
+    "required": "Dieses Feld ist erforderlich",
+    "email": "Ungültige E-Mail",
+    "min": "Wert ist zu niedrig",
+    "fileTypeNotAllowed": "Dateityp nicht erlaubt. Erlaubt:",
+    "fileTooLarge": "Datei ist zu groß. Max:",
     "emailRequired": "E-Mail-Feld ist erforderlich",
     "emailInvalid": "E-Mail ist nicht gültig",
     "passwordRequired": "Passwortfeld ist erforderlich",

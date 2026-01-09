@@ -105,5 +105,43 @@ export const routes: Routes = [
     component: AdminComponent,
     canActivate: [authGuard, adminGuard],
     data: { animation: 'AdminPage' },
+    children: [
+      { path: '', redirectTo: 'genres', pathMatch: 'full' },
+      {
+        path: 'genres',
+        loadComponent: () =>
+          import('./pages/admin/genres/genre-list/genre-list.component').then(
+            (m) => m.GenreListComponent
+          ),
+      },
+      {
+        path: 'developers',
+        loadComponent: () =>
+          import(
+            './pages/admin/developers/developer-list/developer-list.component'
+          ).then((m) => m.DeveloperListComponent),
+      },
+      {
+        path: 'platforms',
+        loadComponent: () =>
+          import(
+            './pages/admin/platforms/platform-list/platform-list.component'
+          ).then((m) => m.PlatformListComponent),
+      },
+      {
+        path: 'publishers',
+        loadComponent: () =>
+          import(
+            './pages/admin/publishers/publisher-list/publisher-list.component'
+          ).then((m) => m.PublisherListComponent),
+      },
+      {
+        path: 'games',
+        loadComponent: () =>
+          import('./pages/admin/games/game-list/game-list.component').then(
+            (m) => m.GameListComponent
+          ),
+      },
+    ],
   },
 ];

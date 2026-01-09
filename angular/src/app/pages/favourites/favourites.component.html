@@ -30,16 +30,12 @@
         <div
           class="flex flex-col justify-between w-full md:w-auto md:h-32 flex-shrink-0 mt-0 md:mt-0"
         >
-          <!-- Price Placeholder (Shared) -->
           <div class="h-8 bg-gray-700 rounded w-28 mb-1"></div>
 
-          <!-- Mobile Buttons Placeholder -->
           <div class="flex flex-col gap-2 w-full md:hidden">
             <div class="bg-gray-700 rounded h-12 w-full"></div>
             <div class="bg-gray-700 rounded h-12 w-full"></div>
-            <!-- Reduced height slightly to 10 if needed, but 12 matches py-3 better -->
           </div>
-          <!-- Desktop placeholder -->
           <div class="hidden md:flex gap-2 items-center">
             <div class="w-32 h-10 bg-gray-700 rounded-lg"></div>
             <div class="w-40 h-10 bg-gray-700 rounded-lg"></div>
@@ -93,9 +89,7 @@
           </p>
         </div>
 
-        <!-- Mobile Controls (Buttons Only - Bottom) -->
         <div class="flex flex-col gap-2 w-full mt-0 md:hidden">
-          <!-- Mobile Price (Left Aligned Above Buttons) -->
           <div class="flex flex-col items-start w-full mb-1">
             @if (fav.game?.isOnSale && fav.game?.salePrice !== null) {
             <span class="text-xs text-gray-400 line-through"
@@ -153,7 +147,6 @@
           </button>
         </div>
 
-        <!-- Desktop Controls (Original Column) -->
         <div
           class="hidden md:flex flex-col items-end justify-between h-32 flex-shrink-0"
         >
