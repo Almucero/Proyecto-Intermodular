@@ -1,4 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -15,16 +21,19 @@ import { GameFormComponent } from '../game-form/game-form.component';
 })
 export class GameListComponent implements OnInit {
   private gameService = inject(GameService);
+
+  @ViewChild('scrollContainer') scrollContainer!: ElementRef;
+
   games: Game[] = [];
   filteredGames: Game[] = [];
   searchTerm: string = '';
-
   showModal = false;
   selectedGameId: number | null = null;
-
   showDeleteModal = false;
   gameToDeleteId: number | null = null;
   isLoading = true;
+  showTopShadow = false;
+  showBottomShadow = false;
 
   ngOnInit(): void {
     this.loadGames();
@@ -36,6 +45,9 @@ export class GameListComponent implements OnInit {
       this.games = data;
       this.filterGames();
       this.isLoading = false;
+      setTimeout(() => {
+        this.onScroll();
+      }, 0);
     });
   }
 
@@ -48,6 +60,19 @@ export class GameListComponent implements OnInit {
         g.title.toLowerCase().includes(lower)
       );
     }
+    setTimeout(() => {
+      this.onScroll();
+    }, 0);
+  }
+
+  onScroll() {
+    if (!this.scrollContainer) return;
+    const element = this.scrollContainer.nativeElement;
+    this.showTopShadow = element.scrollTop > 0;
+    const atBottom =
+      element.scrollHeight - element.scrollTop <= element.clientHeight + 1;
+    this.showBottomShadow =
+      !atBottom && element.scrollHeight > element.clientHeight;
   }
 
   openCreateModal() {
