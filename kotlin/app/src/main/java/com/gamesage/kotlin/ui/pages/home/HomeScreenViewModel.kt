@@ -19,7 +19,6 @@ class HomeScreenViewModel @Inject constructor(
     private val gameRepository: GameRepository,
     private val genreRepository: GenreRepository
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow<UiState>(UiState.Initial)
     val uiState: StateFlow<UiState> get() = _uiState.asStateFlow()
 

@@ -1,5 +1,6 @@
 package com.gamesage.kotlin.ui.pages.cart
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -130,7 +131,7 @@ fun CartScreen(
                         colors = ButtonDefaults.outlinedButtonColors(
                             contentColor = Color(0xFFF87171)
                         ),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFF87171)),
+                        border = BorderStroke(1.dp, Color(0xFFF87171)),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 12.dp)

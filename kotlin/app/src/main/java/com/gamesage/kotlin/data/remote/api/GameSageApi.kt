@@ -12,7 +12,11 @@ import com.gamesage.kotlin.data.remote.model.SignUpRequest
 import com.gamesage.kotlin.data.remote.model.CartItemApiModel
 import com.gamesage.kotlin.data.remote.model.ChatResponseApiModel
 import com.gamesage.kotlin.data.remote.model.ChatSessionApiModel
+import com.gamesage.kotlin.data.remote.model.FavoriteApiModel
+import com.gamesage.kotlin.data.remote.model.GameApiModel
+import com.gamesage.kotlin.data.remote.model.GenreApiModel
 import com.gamesage.kotlin.data.remote.model.SendMessageRequest
+import com.gamesage.kotlin.data.remote.model.UserApiModel
 import retrofit2.http.Body
 
 interface GameSageApi:
@@ -38,9 +42,9 @@ interface UsersApi {
     @GET("api/users")
     suspend fun readAllUsers()
     @GET("api/users/me")
-    suspend fun me(): com.gamesage.kotlin.data.remote.model.UserApiModel
+    suspend fun me(): UserApiModel
     @PATCH("api/users/me")
-    suspend fun updateOwnUser(@Body user: com.gamesage.kotlin.data.remote.model.UserApiModel): com.gamesage.kotlin.data.remote.model.AuthResponse
+    suspend fun updateOwnUser(@Body user: UserApiModel): AuthResponse
     @PATCH("api/users/me/password")
     suspend fun updateOwnPassword()
     @GET("api/users/{id}")
@@ -52,11 +56,11 @@ interface UsersApi {
 }
 interface GamesApi {
     @GET("api/games")
-    suspend fun readAllGames(@Query("include") include: String = "media,genres,platforms"): List<com.gamesage.kotlin.data.remote.model.GameApiModel>
+    suspend fun readAllGames(@Query("include") include: String = "media,genres,platforms"): List<GameApiModel>
     @POST("api/games")
     suspend fun createGame()
     @GET("api/games/{id}")
-    suspend fun readOneGame(@Path("id") id: Int): com.gamesage.kotlin.data.remote.model.GameApiModel
+    suspend fun readOneGame(@Path("id") id: Int): GameApiModel
     @PATCH("api/games/{id}")
     suspend fun updateGame(@Path("id") id: Int)
     @DELETE("api/games/{id}")
@@ -88,11 +92,11 @@ interface PublishersApi {
 }
 interface GenresApi {
     @GET("api/genres")
-    suspend fun readAllGenres(): List<com.gamesage.kotlin.data.remote.model.GenreApiModel>
+    suspend fun readAllGenres(): List<GenreApiModel>
     @POST("api/genres")
     suspend fun createGenre()
     @GET("api/genres/{id}")
-    suspend fun readOneGenre(@Path("id") id: Int): com.gamesage.kotlin.data.remote.model.GenreApiModel
+    suspend fun readOneGenre(@Path("id") id: Int): GenreApiModel
     @PATCH("api/genres/{id}")
     suspend fun updateGenre(@Path("id") id: Int)
     @DELETE("api/genres/{id}")
@@ -125,31 +129,24 @@ interface MediaApi {
 
 interface CartApi {
     @GET("api/cart")
-    suspend fun getCart(): List<com.gamesage.kotlin.data.remote.model.CartItemApiModel>
-    
+    suspend fun getCart(): List<CartItemApiModel>
     @POST("api/cart")
     suspend fun addToCart(@Body body: Map<String, Int>)
-    
     @PATCH("api/cart/{gameId}")
     suspend fun updateCartItem(@Path("gameId") gameId: Int, @Body body: Map<String, Int>)
-    
     @DELETE("api/cart/{gameId}")
     suspend fun removeFromCart(@Path("gameId") gameId: Int, @Query("platformId") platformId: Int)
-
     @DELETE("api/cart")
     suspend fun clearCart()
 }
 
 interface FavoritesApi {
     @GET("api/favorites")
-    suspend fun getFavorites(): List<com.gamesage.kotlin.data.remote.model.FavoriteApiModel>
-
+    suspend fun getFavorites(): List<FavoriteApiModel>
     @POST("api/favorites")
     suspend fun addToFavorites(@Body body: Map<String, Int>)
-
     @DELETE("api/favorites/{gameId}")
     suspend fun removeFromFavorites(@Path("gameId") gameId: Int, @Query("platformId") platformId: Int = 0)
-
     @GET("api/favorites/check/{gameId}")
     suspend fun isFavorite(@Path("gameId") gameId: Int, @Query("platformId") platformId: Int = 0): Boolean
 }
@@ -157,13 +154,10 @@ interface FavoritesApi {
 interface ChatApi {
     @GET("/api/chat/sessions")
     suspend fun getSessions(): List<ChatSessionApiModel>
-
     @GET("/api/chat/sessions/{id}")
     suspend fun getSession(@Path("id") id: Int): ChatSessionApiModel
-
     @POST("/api/chat")
     suspend fun sendMessage(@Body request: SendMessageRequest): ChatResponseApiModel
-
     @DELETE("/api/chat/sessions/{id}")
     suspend fun deleteSession(@Path("id") id: Int)
 }
