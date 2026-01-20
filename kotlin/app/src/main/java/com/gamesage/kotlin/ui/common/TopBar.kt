@@ -62,12 +62,8 @@ fun TopBar(
         Image(
             painter = painterResource(id = R.drawable.game_sage_logo),
             contentDescription = "Logo GameSage",
-            modifier = Modifier
-                .size(45.dp)
-                .align(Alignment.CenterStart)
-                .clickable { onLogoClick() }
+            modifier = Modifier.size(45.dp).align(Alignment.CenterStart).clickable { onLogoClick() }
         )
-
         Box(
             modifier = Modifier
                 .height(40.dp)
@@ -79,9 +75,7 @@ fun TopBar(
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 12.dp)
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp)
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.search),
@@ -89,7 +83,6 @@ fun TopBar(
                     modifier = Modifier.size(20.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                
                 BasicTextField(
                     value = searchQuery,
                     onValueChange = { newValue ->
