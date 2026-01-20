@@ -47,6 +47,10 @@ android {
 }
 
 dependencies {
+    implementation("com.google.maps.android:maps-compose:7.0.0")
+    implementation("com.google.maps.android:maps-compose-utils:7.0.0")
+    implementation("com.google.maps.android:maps-compose-widgets:7.0.0")
+
     implementation(libs.androidx.compose.material.icons.extended)
 
     implementation(libs.androidx.compose.foundation.layout)
@@ -62,6 +66,7 @@ dependencies {
     //Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
     //Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

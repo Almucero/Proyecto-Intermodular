@@ -1,5 +1,6 @@
 package com.gamesage.kotlin.ui.pages.contact
 
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -23,11 +24,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.rememberCameraPositionState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContactScreen(
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
     
@@ -68,8 +74,8 @@ fun ContactScreen(
                 content = "info.gamesage@gmail.com",
                 onClick = {
                     try {
-                        val intent = android.content.Intent(android.content.Intent.ACTION_SENDTO).apply {
-                            data = android.net.Uri.parse("mailto:info.gamesage@gmail.com")
+                        val intent = Intent(Intent.ACTION_SENDTO).apply {
+                            data = "mailto:info.gamesage@gmail.com".toUri()
                         }
                         context.startActivity(intent)
                     } catch (e: Exception) {
@@ -93,7 +99,16 @@ fun ContactScreen(
                 icon = Icons.Default.LocationOn,
                 title = stringResource(R.string.contact_address_title),
                 content = stringResource(R.string.contact_address_content),
-                onClick = null
+                onClick = {
+                    val malaga = LatLng(36.747688, -4.0)
+                    val cameraPositionState = rememberCameraPositionState {
+                        position = CameraPosition.fromLatLngZoom(malaga, 10f)
+                    }
+                    GoogleMap(
+                        modifier = Modifier.fillMaxSize(),
+                        cameraPositionState = cameraPositionState
+                    )
+                }
             )
         }
     }
@@ -104,7 +119,7 @@ fun ContactCard(
     icon: ImageVector,
     title: String,
     content: String,
-    onClick: (() -> Unit)?
+    onClick: @Composable (() -> Unit)?,
 ) {
     Box(
         modifier = Modifier
@@ -113,7 +128,7 @@ fun ContactCard(
             .background(Color(0xFF1F2937))
             .border(1.dp, Color(0xFF374151), RoundedCornerShape(16.dp))
             .then(
-                if (onClick != null) Modifier.clickable(onClick = onClick)
+                if (onClick != null) Modifier.clickable(onClick = onClick as () -> Unit)
                 else Modifier
             )
             .padding(20.dp)
