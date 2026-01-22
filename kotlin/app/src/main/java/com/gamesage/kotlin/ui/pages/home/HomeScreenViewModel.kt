@@ -38,9 +38,9 @@ class HomeScreenViewModel @Inject constructor(
                 val bestSellers = allGames.sortedByDescending { it.numberOfSales }.take(10)
                 val offers = allGames.filter { it.isOnSale }.take(10)
                 val topRated = allGames.sortedByDescending { it.rating ?: 0f }.take(10)
-                val finalBestSellers = if (bestSellers.isEmpty()) allGames.take(10) else bestSellers
-                val finalOffers = if (offers.isEmpty()) allGames.take(10) else offers
-                val finalTopRated = if (topRated.isEmpty()) allGames.take(10) else topRated
+                val finalBestSellers = bestSellers.ifEmpty { allGames.take(10) }
+                val finalOffers = offers.ifEmpty { allGames.take(10) }
+                val finalTopRated = topRated.ifEmpty { allGames.take(10) }
                 
                 _uiState.value = UiState.Success(
                     categories = genres.map { it.name },

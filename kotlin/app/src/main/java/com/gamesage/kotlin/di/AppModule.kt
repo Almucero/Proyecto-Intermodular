@@ -137,6 +137,10 @@ abstract class AppModule {
     @Binds
     @RemoteDataSource
     abstract fun bindsRemoteChatDataSource(ds: ChatRemoteDataSource): ChatDataSource
+//    @Singleton
+//    @Binds
+//    @LocalDataSource
+//    abstract fun bindsLocalChatDataSource(ds: ChatLocalDataSource): ChatDataSource
     @Binds
     @Singleton
     abstract fun bindChatRepository(repository: ChatRepositoryImpl): ChatRepository

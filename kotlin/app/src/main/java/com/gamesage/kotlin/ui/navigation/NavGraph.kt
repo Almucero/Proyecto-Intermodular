@@ -29,6 +29,8 @@ import kotlinx.coroutines.launch
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import com.gamesage.kotlin.R
+import com.gamesage.kotlin.ui.map.MapScreen
+import com.gamesage.kotlin.ui.pages.contact.ContactScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -146,10 +148,16 @@ fun NavGraph(
                     }
                 )
             }
+            composable(Destinations.Map.route) {
+                MapScreen(
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
 
             composable(Destinations.Contact.route) {
-                com.gamesage.kotlin.ui.pages.contact.ContactScreen(
-                    onNavigateBack = { navController.popBackStack() }
+                ContactScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onNavigateToMap = { navController.navigate(Destinations.Map.route) }
                 )
             }
 

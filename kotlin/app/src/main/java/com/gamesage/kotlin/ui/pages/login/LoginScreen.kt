@@ -81,6 +81,7 @@ fun LoginScreen(
                         .clickable { onNavigateToRegister() }
                         .padding(bottom = 24.dp)
                 )
+
                 OutlinedTextField(
                     value = uiState.email,
                     onValueChange = viewModel::onEmailChange,
@@ -155,7 +156,7 @@ fun LoginScreen(
                         text = stringResource(R.string.login_forgot_password),
                         color = Color(0xFF93E3FE),
                         fontSize = 14.sp,
-                        modifier = Modifier.clickable { /* TODO: Forgot password */ }
+                        modifier = Modifier.clickable { }
                     )
                 }
 

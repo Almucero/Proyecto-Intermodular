@@ -33,7 +33,7 @@ object LanguageUtils {
 
     fun getSavedLanguage(context: Context): String {
         val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        return prefs.getString(KEY_LANGUAGE, "es") ?: "es" // Default to Spanish
+        return prefs.getString(KEY_LANGUAGE, "es") ?: "es"
     }
 
     fun onAttach(context: Context): Context {
