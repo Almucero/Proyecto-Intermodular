@@ -2,6 +2,7 @@ package com.gamesage.kotlin.ui.pages.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gamesage.kotlin.data.local.TokenManager
 import com.gamesage.kotlin.data.remote.api.GameSageApi
 import com.gamesage.kotlin.data.remote.model.SignInRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +25,7 @@ data class LoginUiState(
 @HiltViewModel
 class LoginScreenViewModel @Inject constructor(
     private val api: GameSageApi,
-    private val tokenManager: com.gamesage.kotlin.data.local.TokenManager
+    private val tokenManager: TokenManager
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LoginUiState())

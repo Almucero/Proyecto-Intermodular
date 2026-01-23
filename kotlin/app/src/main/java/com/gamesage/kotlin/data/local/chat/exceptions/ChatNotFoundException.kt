@@ -1,4 +1,4 @@
 package com.gamesage.kotlin.data.local.chat.exceptions
 
-class ChatNotFoundException {
+class ChatNotFoundException: RuntimeException()  {
 }

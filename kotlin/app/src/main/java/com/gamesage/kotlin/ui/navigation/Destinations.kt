@@ -6,6 +6,9 @@ import kotlinx.serialization.Serializable
 sealed class Destinations(val route: String) {
     @Serializable
     data object Home: Destinations("home")
+
+    @Serializable
+    data object Map: Destinations("map")
     
     @Serializable
     data class Product(val gameId: Long): Destinations("product/{gameId}") {
