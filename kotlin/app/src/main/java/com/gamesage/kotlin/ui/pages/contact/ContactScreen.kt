@@ -34,6 +34,7 @@ import com.google.maps.android.compose.rememberCameraPositionState
 @Composable
 fun ContactScreen(
     onNavigateBack: () -> Unit,
+    onNavigateToMap:()-> Unit,
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
     
@@ -100,14 +101,7 @@ fun ContactScreen(
                 title = stringResource(R.string.contact_address_title),
                 content = stringResource(R.string.contact_address_content),
                 onClick = {
-                    val malaga = LatLng(36.747688, -4.0)
-                    val cameraPositionState = rememberCameraPositionState {
-                        position = CameraPosition.fromLatLngZoom(malaga, 10f)
-                    }
-                    GoogleMap(
-                        modifier = Modifier.fillMaxSize(),
-                        cameraPositionState = cameraPositionState
-                    )
+                    onNavigateToMap()
                 }
             )
         }
@@ -119,7 +113,7 @@ fun ContactCard(
     icon: ImageVector,
     title: String,
     content: String,
-    onClick: @Composable (() -> Unit)?,
+    onClick: (() -> Unit)?,
 ) {
     Box(
         modifier = Modifier

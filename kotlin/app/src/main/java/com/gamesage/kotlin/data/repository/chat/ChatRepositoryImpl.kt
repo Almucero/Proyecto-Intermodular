@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class ChatRepositoryImpl @Inject constructor(
     @RemoteDataSource private val remoteDataSource: ChatDataSource,
-    @LocalDataSource private val localDataSource: ChatDataSource,
+    //@LocalDataSource private val localDataSource: ChatDataSource,
     private val scope: CoroutineScope
 ) : ChatRepository {
     override suspend fun getSessions(): List<ChatSessionApiModel> = remoteDataSource.getSessions()

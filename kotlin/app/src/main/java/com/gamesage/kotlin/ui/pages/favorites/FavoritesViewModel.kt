@@ -67,10 +67,8 @@ class FavoritesViewModel @Inject constructor(
 
             favoritesRepository.removeFromFavorites(gameId, platformId)
                 .onSuccess {
-                    // Already removed from UI, ensuring consistency
                 }
                 .onFailure {
-                    // Revert if failed (optional, but good practice. For now just reloading to sync)
                     loadFavorites()
                 }
         }
