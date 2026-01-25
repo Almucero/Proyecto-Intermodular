@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import com.gamesage.kotlin.R
-import com.gamesage.kotlin.ui.map.MapScreen
+import com.gamesage.kotlin.ui.pages.map.MapScreen
 import com.gamesage.kotlin.ui.pages.contact.ContactScreen
 
 @OptIn(ExperimentalMaterial3Api::class)

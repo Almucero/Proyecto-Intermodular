@@ -74,7 +74,6 @@ fun SearchScreen(
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    // Filters Section as first item spanning full width
                     item(span = { GridItemSpan(2) }) {
                         Column(
                             modifier = Modifier
@@ -104,7 +103,7 @@ fun SearchScreen(
                                 ) {
                                     activeFilters.forEach { filter ->
                                         val label = if (filter.type.startsWith("genre:")) {
-                                            com.gamesage.kotlin.ui.common.PresentationUtils.getLocalizedGenreName(filter.label)
+                                            filter.label
                                         } else {
                                             filter.label
                                         }
@@ -281,7 +280,7 @@ fun GenreFilterContent(
         )
         genres.forEach { key ->
             FilterOption(
-                label = com.gamesage.kotlin.ui.common.PresentationUtils.getLocalizedGenreName(key),
+                label = key,
                 selected = selectedGenre.contains(key),
                 onClick = { onSelectGenre(key) }
             )
