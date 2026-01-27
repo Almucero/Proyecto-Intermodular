@@ -31,6 +31,9 @@ import androidx.compose.ui.res.stringResource
 import com.gamesage.kotlin.R
 import com.gamesage.kotlin.ui.pages.map.MapScreen
 import com.gamesage.kotlin.ui.pages.contact.ContactScreen
+import com.gamesage.kotlin.ui.pages.dashboard.CaptureScreen
+import com.gamesage.kotlin.ui.pages.dashboard.DashboardScreen
+import com.gamesage.kotlin.ui.pages.register.RegisterScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -182,12 +185,12 @@ fun NavGraph(
             composable(
                 route = Destinations.Search.route,
                 arguments = listOf(
-                    navArgument("query") { 
+                    navArgument("query") {
                         type = NavType.StringType
                         defaultValue = ""
                         nullable = true
                     },
-                    navArgument("genre") { 
+                    navArgument("genre") {
                         type = NavType.StringType
                         defaultValue = ""
                         nullable = true
@@ -200,7 +203,7 @@ fun NavGraph(
                         searchQuery = queryArg
                     }
                 }
-                
+
                 com.gamesage.kotlin.ui.pages.search.SearchScreen(
                     onNavigateBack = { navController.popBackStack() },
                     onGameClick = { gameId ->
@@ -213,28 +216,44 @@ fun NavGraph(
                 com.gamesage.kotlin.ui.pages.login.LoginScreen(
                     onNavigateToRegister = { navController.navigate(Destinations.Register.route) },
                     onLoginSuccess = {
-                         navController.navigate(Destinations.Dashboard.route) {
-                             popUpTo(Destinations.Login.route) { inclusive = true }
-                         }
+                        navController.navigate(Destinations.Dashboard.route) {
+                            popUpTo(Destinations.Login.route) { inclusive = true }
+                        }
                     }
                 )
             }
 
             composable(Destinations.Register.route) {
-                com.gamesage.kotlin.ui.pages.register.RegisterScreen(
+                RegisterScreen(
                     onNavigateToLogin = { navController.navigate(Destinations.Login.route) },
                     onNavigateBack = { navController.popBackStack() }
                 )
             }
 
             composable(Destinations.Dashboard.route) {
-                com.gamesage.kotlin.ui.pages.dashboard.DashboardScreen(
+                DashboardScreen(
                     onPrivacyClick = { navController.navigate(Destinations.Privacy.route) },
                     onLogout = {
                         navController.navigate(Destinations.Login.route) {
                             popUpTo(Destinations.Home.route) { inclusive = true }
                         }
+                    }, onNavigateToCapture = { file ->
+                        navController.navigate(
+                            Destinations.Capture(file.absolutePath)
+                        )
                     }
+                )
+            }
+
+
+            composable<Destinations.Capture> { backStackEntry ->
+                val args = backStackEntry.arguments!!
+                val photoPath =
+                    args.getString("photoPath") ?: ""
+
+                CaptureScreen(
+                    photoPath = photoPath,
+                    onCancel = { navController.popBackStack() }
                 )
             }
 

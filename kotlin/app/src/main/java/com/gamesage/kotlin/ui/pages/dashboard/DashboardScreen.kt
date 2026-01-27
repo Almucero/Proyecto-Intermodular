@@ -1,5 +1,7 @@
 package com.gamesage.kotlin.ui.pages.dashboard
 
+import android.content.Context
+import android.graphics.BitmapFactory
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,19 +33,35 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import android.util.Base64
+import androidx.camera.compose.CameraXViewfinder
+import androidx.camera.core.SurfaceRequest
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.text.ClickableText
+import androidx.compose.ui.graphics.asImageBitmap
 import coil3.compose.AsyncImage
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gamesage.kotlin.R
+import java.io.File
 
 @Composable
 fun DashboardScreen(
     onPrivacyClick: () -> Unit,
     onLogout: () -> Unit,
-    viewModel: DashboardScreenViewModel = hiltViewModel()
+    viewModel: DashboardScreenViewModel = hiltViewModel(),
+    onNavigateToCapture: (File) -> Unit,
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
     val clipboardManager = LocalClipboardManager.current
+    var showCameraOptions by remember { mutableStateOf(false) }
+    val surfaceRequest by viewModel.surfaceRequest.collectAsStateWithLifecycle()
 
     LaunchedEffect(uiState.error) {
         uiState.error?.let {
@@ -114,13 +132,16 @@ fun DashboardScreen(
                     contentScale = ContentScale.Crop
                 )
                 if (uiState.isEditing) {
+
+
+
                     Box(
                         modifier = Modifier
                             .align(Alignment.BottomEnd)
                             .size(48.dp)
                             .background(Color(0xFF22D3EE), CircleShape)
                             .clickable {
-                                launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                                showCameraOptions = true
                             }
                             .padding(12.dp),
                         contentAlignment = Alignment.Center
@@ -132,6 +153,56 @@ fun DashboardScreen(
                             modifier = Modifier.size(24.dp)
                         )
                     }
+                }
+                if (showCameraOptions) {
+
+                    AlertDialog(
+                        onDismissRequest = { showCameraOptions = false },
+                        title = { Text("Foto de perfil") },
+                        text = {
+                            LaunchedEffect(lifecycleOwner) {
+                                viewModel.bindToCamera(
+                                    context = context.applicationContext,
+                                    lifecycleOwner = lifecycleOwner
+                                )
+                            }
+                            surfaceRequest?.let { request ->
+                                CameraXViewfinder(
+                                    surfaceRequest = request,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                )
+                            }
+
+                            Column(
+                                modifier = Modifier.padding(8.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Button(
+                                    onClick = {
+                                        showCameraOptions = false
+                                        viewModel.takePhoto(context) { file ->
+                                            onNavigateToCapture(file)
+                                        }
+                                    }
+                                ) {
+                                    Text("Tomar foto")
+                                }
+
+                                Spacer(modifier = Modifier.height(8.dp))
+
+                                Button(
+                                    onClick = {
+                                        launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                                    }
+                                ) {
+                                    Text("Elegir de galeria")
+                                }
+                            }
+                        },
+                        confirmButton = {},
+                        dismissButton = {}
+                    )
                 }
             }
 
@@ -197,18 +268,22 @@ fun DashboardScreen(
 
             val privacyText = stringResource(R.string.dashboard_privacy_text)
             val privacyLink = stringResource(R.string.dashboard_privacy_link)
-            val annotatedPrivacyString = androidx.compose.ui.text.buildAnnotatedString {
+            val annotatedPrivacyString = buildAnnotatedString {
                 append(privacyText)
                 pushStringAnnotation(tag = "PRIVACY", annotation = "privacy")
-                withStyle(style = androidx.compose.ui.text.SpanStyle(color = Color(0xFF22D3EE), fontWeight = FontWeight.Bold)) {
+                withStyle(style = SpanStyle(
+                    color = Color(0xFF22D3EE),
+                    fontWeight = FontWeight.Bold
+                )
+                ) {
                     append(privacyLink)
                 }
                 pop()
             }
 
-            androidx.compose.foundation.text.ClickableText(
+            ClickableText(
                 text = annotatedPrivacyString,
-                style = androidx.compose.ui.text.TextStyle(
+                style = TextStyle(
                     color = Color(0xFF6B7280),
                     fontSize = 14.sp
                 ),
