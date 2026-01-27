@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -29,6 +30,7 @@ fun HomeBottomBar(
         modifier = modifier
             .fillMaxWidth()
             .background(Color(0xFF030712))
+            .navigationBarsPadding()
             .padding(vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

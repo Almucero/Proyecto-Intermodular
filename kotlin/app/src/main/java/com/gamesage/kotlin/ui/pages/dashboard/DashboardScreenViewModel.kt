@@ -1,5 +1,16 @@
 package com.gamesage.kotlin.ui.pages.dashboard
 
+import android.content.Context
+import android.os.Handler
+import android.os.Looper
+import androidx.camera.core.CameraSelector.DEFAULT_FRONT_CAMERA
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCaptureException
+import androidx.camera.core.SurfaceRequest
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.lifecycle.awaitInstance
+import androidx.camera.core.Preview
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gamesage.kotlin.data.model.User
@@ -7,12 +18,16 @@ import com.gamesage.kotlin.data.remote.api.GameSageApi
 import com.gamesage.kotlin.data.remote.model.UserApiModel
 import com.gamesage.kotlin.data.repository.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.File
+import java.util.concurrent.Executors
 import javax.inject.Inject
+
 
 data class DashboardUiState(
     val isLoading: Boolean = false,
@@ -115,6 +130,14 @@ class DashboardScreenViewModel @Inject constructor(
     }
     
     fun logout() {
+        viewModelScope.launch {
+            try {
+                userRepository.logout()
+                _uiState.update { it.copy(user = null, editableUser = UserEditableData(), isEditing = false) }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(error = "Error al cerrar sesión") }
+            }
+        }
     }
 }
 

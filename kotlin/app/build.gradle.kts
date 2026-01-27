@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.serialize)
+    //mapa
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -45,7 +47,10 @@ android {
         compose = true
     }
 }
-
+//mapa
+secrets {
+    defaultPropertiesFileName = "local.properties"
+}
 dependencies {
     implementation("com.google.maps.android:maps-compose:7.0.0")
     implementation("com.google.maps.android:maps-compose-utils:7.0.0")
@@ -58,11 +63,21 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.room.common.jvm)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.compose.runtime)
     ksp(libs.androidx.room.compiler)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     //Coil
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
+    // PERMISOS EN COMPOSE
+    implementation("com.google.accompanist:accompanist-permissions:0.37.3")
+    // CAMARA
+    implementation("androidx.camera:camera-compose:1.5.2")
+    implementation("androidx.camera:camera-lifecycle:1.5.2")
+    implementation("androidx.camera:camera-camera2:1.5.2")
+    implementation("androidx.camera:camera-core:1.5.2")
+    implementation("androidx.camera.viewfinder:viewfinder-compose:1.5.2")
+
     //Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)

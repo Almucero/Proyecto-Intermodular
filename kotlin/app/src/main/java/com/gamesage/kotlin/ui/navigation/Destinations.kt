@@ -4,6 +4,15 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 sealed class Destinations(val route: String) {
+
+    @Serializable
+    data class Capture(
+        val photoPath: String
+    ) : Destinations("CaptureScreen/{photoPath}")
+
+    @Serializable
+    object Camera: Destinations("CameraScreen")
+
     @Serializable
     data object Home: Destinations("home")
 

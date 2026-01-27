@@ -1,5 +1,7 @@
 package com.gamesage.kotlin.ui.pages.dashboard
 
+import android.content.Context
+import android.graphics.BitmapFactory
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,23 +33,52 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import android.util.Base64
+import androidx.camera.compose.CameraXViewfinder
+import androidx.camera.core.SurfaceRequest
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.text.ClickableText
+import androidx.compose.ui.graphics.asImageBitmap
 import coil3.compose.AsyncImage
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.gamesage.kotlin.R
+import java.io.File
 
 @Composable
 fun DashboardScreen(
     onPrivacyClick: () -> Unit,
+    viewModel: DashboardScreenViewModel = hiltViewModel(),
     onLogout: () -> Unit,
-    viewModel: DashboardScreenViewModel = hiltViewModel()
+    onNavigateToCamera: () -> Unit,
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
+    capturedPhoto: String? = null,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
     val clipboardManager = LocalClipboardManager.current
+    var showCameraOptions by remember { mutableStateOf(false) }
+
 
     LaunchedEffect(uiState.error) {
         uiState.error?.let {
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+        }
+    }
+    LaunchedEffect(capturedPhoto) {
+        capturedPhoto?.let { path ->
+            if (path.isNotEmpty()) {
+                val file = File(path)
+                val avatarBase64 = imageFileToBase64(file)
+                viewModel.onEditableDataChange(
+                    uiState.editableUser.copy(avatar = avatarBase64)
+                )
+            }
         }
     }
 
@@ -114,13 +145,16 @@ fun DashboardScreen(
                     contentScale = ContentScale.Crop
                 )
                 if (uiState.isEditing) {
+
+
+
                     Box(
                         modifier = Modifier
                             .align(Alignment.BottomEnd)
                             .size(48.dp)
                             .background(Color(0xFF22D3EE), CircleShape)
                             .clickable {
-                                launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                                showCameraOptions = true
                             }
                             .padding(12.dp),
                         contentAlignment = Alignment.Center
@@ -132,6 +166,39 @@ fun DashboardScreen(
                             modifier = Modifier.size(24.dp)
                         )
                     }
+                }
+                if (showCameraOptions) {
+                    AlertDialog(
+                        onDismissRequest = { showCameraOptions = false },
+                        title = { Text("Foto de perfil") },
+                        text = {
+                            Column(
+                                modifier = Modifier.padding(8.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Button(
+                                    onClick = {
+                                        showCameraOptions = false
+                                        onNavigateToCamera()
+                                    }
+                                ) {
+                                    Text("Hacer foto")
+                                }
+
+                                Spacer(modifier = Modifier.height(8.dp))
+
+                                Button(
+                                    onClick = {
+                                        launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                                    }
+                                ) {
+                                    Text("Elegir de galeria")
+                                }
+                            }
+                        },
+                        confirmButton = {},
+                        dismissButton = {}
+                    )
                 }
             }
 
@@ -197,18 +264,22 @@ fun DashboardScreen(
 
             val privacyText = stringResource(R.string.dashboard_privacy_text)
             val privacyLink = stringResource(R.string.dashboard_privacy_link)
-            val annotatedPrivacyString = androidx.compose.ui.text.buildAnnotatedString {
+            val annotatedPrivacyString = buildAnnotatedString {
                 append(privacyText)
                 pushStringAnnotation(tag = "PRIVACY", annotation = "privacy")
-                withStyle(style = androidx.compose.ui.text.SpanStyle(color = Color(0xFF22D3EE), fontWeight = FontWeight.Bold)) {
+                withStyle(style = SpanStyle(
+                    color = Color(0xFF22D3EE),
+                    fontWeight = FontWeight.Bold
+                )
+                ) {
                     append(privacyLink)
                 }
                 pop()
             }
 
-            androidx.compose.foundation.text.ClickableText(
+            ClickableText(
                 text = annotatedPrivacyString,
-                style = androidx.compose.ui.text.TextStyle(
+                style = TextStyle(
                     color = Color(0xFF6B7280),
                     fontSize = 14.sp
                 ),
@@ -307,7 +378,7 @@ fun DashboardScreen(
             
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = onLogout,
+                onClick = { onLogout()},
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFFDC2626)
                 ),
@@ -365,4 +436,13 @@ fun DashboardTextField(
             )
         }
     }
+
+}
+
+
+//Convierte la imagen a Base64
+fun imageFileToBase64(file: File): String {
+    val bytes = file.readBytes()
+    val base64 = Base64.encodeToString(bytes, Base64.DEFAULT)
+    return "data:image/jpeg;base64,$base64"
 }
