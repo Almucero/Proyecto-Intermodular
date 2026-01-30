@@ -28,9 +28,11 @@ import com.gamesage.kotlin.ui.common.HomeBottomBar
 import kotlinx.coroutines.launch
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.gamesage.kotlin.R
 import com.gamesage.kotlin.ui.pages.map.MapScreen
 import com.gamesage.kotlin.ui.pages.contact.ContactScreen
+import com.gamesage.kotlin.ui.pages.dashboard.CameraScreen
 import com.gamesage.kotlin.ui.pages.dashboard.CaptureScreen
 import com.gamesage.kotlin.ui.pages.dashboard.DashboardScreen
 import com.gamesage.kotlin.ui.pages.register.RegisterScreen
@@ -232,20 +234,24 @@ fun NavGraph(
 
             composable(Destinations.Dashboard.route) {
                 DashboardScreen(
-                    onPrivacyClick = { navController.navigate(Destinations.Privacy.route) },
+                    onPrivacyClick = { navController.navigate(Destinations.Privacy) },
                     onLogout = {
-                        navController.navigate(Destinations.Login.route) {
+                        navController.navigate(Destinations.Login) {
                             popUpTo(Destinations.Home.route) { inclusive = true }
                         }
-                    }, onNavigateToCapture = { file ->
+                    }, onNavigateToCamera = {navController.navigate(Destinations.Camera.route)}
+                )
+            }
+            composable(Destinations.Camera.route) {
+                CameraScreen(
+                    viewModel = viewModel(),
+                    onNavigateToCapture = { file ->
                         navController.navigate(
                             Destinations.Capture(file.absolutePath)
                         )
                     }
                 )
             }
-
-
             composable<Destinations.Capture> { backStackEntry ->
                 val args = backStackEntry.arguments!!
                 val photoPath =

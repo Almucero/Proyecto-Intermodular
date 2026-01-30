@@ -54,14 +54,14 @@ fun DashboardScreen(
     onPrivacyClick: () -> Unit,
     onLogout: () -> Unit,
     viewModel: DashboardScreenViewModel = hiltViewModel(),
-    onNavigateToCapture: (File) -> Unit,
+        onNavigateToCamera: () -> Unit,
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
     val clipboardManager = LocalClipboardManager.current
     var showCameraOptions by remember { mutableStateOf(false) }
-    val surfaceRequest by viewModel.surfaceRequest.collectAsStateWithLifecycle()
+
 
     LaunchedEffect(uiState.error) {
         uiState.error?.let {
@@ -160,33 +160,16 @@ fun DashboardScreen(
                         onDismissRequest = { showCameraOptions = false },
                         title = { Text("Foto de perfil") },
                         text = {
-                            LaunchedEffect(lifecycleOwner) {
-                                viewModel.bindToCamera(
-                                    context = context.applicationContext,
-                                    lifecycleOwner = lifecycleOwner
-                                )
-                            }
-                            surfaceRequest?.let { request ->
-                                CameraXViewfinder(
-                                    surfaceRequest = request,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                )
-                            }
-
                             Column(
                                 modifier = Modifier.padding(8.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 Button(
                                     onClick = {
-                                        showCameraOptions = false
-                                        viewModel.takePhoto(context) { file ->
-                                            onNavigateToCapture(file)
-                                        }
+                                        onNavigateToCamera()
                                     }
                                 ) {
-                                    Text("Tomar foto")
+                                    Text("Hacer foto")
                                 }
 
                                 Spacer(modifier = Modifier.height(8.dp))

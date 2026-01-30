@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.room.common.jvm)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.compose.runtime)
     ksp(libs.androidx.room.compiler)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     //Coil

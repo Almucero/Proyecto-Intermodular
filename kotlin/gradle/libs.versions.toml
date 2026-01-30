@@ -32,6 +32,7 @@ roomKtx = "2.8.4"
 playServicesMaps = "20.0.0"
 cameraCore = "1.5.2"
 cameraLifecycle = "1.5.2"
+runtime = "1.10.1"
 
 [libraries]
 androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
@@ -72,6 +73,7 @@ androidx-room-compiler = { group = "androidx.room", name = "room-compiler", vers
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 androidx-camera-core = { group = "androidx.camera", name = "camera-core", version.ref = "cameraCore" }
 androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "cameraLifecycle" }
+androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtime" }
 
 [plugins]
 serialize = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "serialize" }
