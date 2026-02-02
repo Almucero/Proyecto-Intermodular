@@ -1,6 +1,7 @@
 package com.gamesage.kotlin.data.repository.user
 
 import com.gamesage.kotlin.data.UserDataSource
+import com.gamesage.kotlin.data.local.TokenManager
 import com.gamesage.kotlin.data.model.User
 import com.gamesage.kotlin.di.LocalDataSource
 import com.gamesage.kotlin.di.RemoteDataSource
@@ -12,7 +13,8 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     @RemoteDataSource private val remoteDataSource: UserDataSource,
     @LocalDataSource private val localDataSource: UserDataSource,
-    private val scope: CoroutineScope
+    private val scope: CoroutineScope,
+    private val tokenManager: TokenManager
 ): UserRepository {
     override suspend fun readOne(id: Long): Result<User> {
         return remoteDataSource.readOne(id)
@@ -33,5 +35,8 @@ class UserRepositoryImpl @Inject constructor(
             }
         }
         return localDataSource.observe()
+    }
+    override suspend fun logout() {
+        tokenManager.deleteToken()
     }
 }

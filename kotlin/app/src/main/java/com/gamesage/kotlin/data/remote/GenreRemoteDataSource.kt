@@ -14,11 +14,9 @@ class GenreRemoteDataSource @Inject constructor(
     private val scope: CoroutineScope
 ): GenreDataSource {
     override suspend fun addAll(genreList: List<Genre>) {
-        // Not needed for remote data source
     }
     
     override fun observe(): Flow<Result<List<Genre>>> {
-        // Not implemented for remote - use readAll instead
         throw UnsupportedOperationException("Use readAll() for remote data source")
     }
     

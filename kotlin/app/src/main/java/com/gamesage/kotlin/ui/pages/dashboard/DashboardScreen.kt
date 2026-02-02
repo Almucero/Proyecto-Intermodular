@@ -52,8 +52,8 @@ import java.io.File
 @Composable
 fun DashboardScreen(
     onPrivacyClick: () -> Unit,
-    onLogout: () -> Unit,
     viewModel: DashboardScreenViewModel = hiltViewModel(),
+    onLogout: () -> Unit,
         onNavigateToCamera: () -> Unit,
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
 ) {
@@ -365,7 +365,7 @@ fun DashboardScreen(
             
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = onLogout,
+                onClick = { onLogout()},
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFFDC2626)
                 ),
