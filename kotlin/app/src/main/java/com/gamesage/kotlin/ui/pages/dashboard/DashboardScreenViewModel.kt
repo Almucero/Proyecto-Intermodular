@@ -130,6 +130,14 @@ class DashboardScreenViewModel @Inject constructor(
     }
     
     fun logout() {
+        viewModelScope.launch {
+            try {
+                userRepository.logout()
+                _uiState.update { it.copy(user = null, editableUser = UserEditableData(), isEditing = false) }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(error = "Error al cerrar sesión") }
+            }
+        }
     }
 }
 
