@@ -109,11 +109,12 @@ El sistema se compone de:
 
 ### Figma Web: [https://www.figma.com/proto/...](https://www.figma.com/proto/8WRYpwCvkO9wDyGhu57rel/App-venta-de-videojuegos?node-id=0-1&t=04WaZdl2dDfJg0df-1)
 
-### Figma móvil: [(https://www.figma.com/proto/8WRYpwCvkO9wDyGhu57rel/App-venta-de-videojuegos?node-id=567-2837&p=f&t=a0jbOffYZnVYoZLL-0&scaling=scale-down&content-scaling=fixed&page-id=16%3A2973&starting-point-node-id=567%3A2837)
+### Figma móvil: [https://www.figma.com/proto/8WRYpwCvkO9wDyGhu57rel/App-venta-de-videojuegos?node-id=567-2837&p=f&t=a0jbOffYZnVYoZLL-0&scaling=scale-down&content-scaling=fixed&page-id=16%3A2973&starting-point-node-id=567%3A2837)
 
 ### API: [gamesage-backend.vercel.app](https://gamesage-backend.vercel.app)
 
 ### Web: [gamesage-frontend.vercel.app](https://gamesage-frontend.vercel.app)
+
 
 
 
