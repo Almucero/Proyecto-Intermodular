@@ -46,16 +46,18 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.gamesage.kotlin.R
 import java.io.File
 
 @Composable
 fun DashboardScreen(
     onPrivacyClick: () -> Unit,
-    onLogout: () -> Unit,
     viewModel: DashboardScreenViewModel = hiltViewModel(),
-        onNavigateToCamera: () -> Unit,
+    onLogout: () -> Unit,
+    onNavigateToCamera: () -> Unit,
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
+    capturedPhoto: String? = null,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -66,6 +68,17 @@ fun DashboardScreen(
     LaunchedEffect(uiState.error) {
         uiState.error?.let {
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+        }
+    }
+    LaunchedEffect(capturedPhoto) {
+        capturedPhoto?.let { path ->
+            if (path.isNotEmpty()) {
+                val file = File(path)
+                val avatarBase64 = imageFileToBase64(file)
+                viewModel.onEditableDataChange(
+                    uiState.editableUser.copy(avatar = avatarBase64)
+                )
+            }
         }
     }
 
@@ -155,7 +168,6 @@ fun DashboardScreen(
                     }
                 }
                 if (showCameraOptions) {
-
                     AlertDialog(
                         onDismissRequest = { showCameraOptions = false },
                         title = { Text("Foto de perfil") },
@@ -166,6 +178,7 @@ fun DashboardScreen(
                             ) {
                                 Button(
                                     onClick = {
+                                        showCameraOptions = false
                                         onNavigateToCamera()
                                     }
                                 ) {
@@ -365,7 +378,7 @@ fun DashboardScreen(
             
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = onLogout,
+                onClick = { onLogout()},
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFFDC2626)
                 ),
@@ -423,4 +436,13 @@ fun DashboardTextField(
             )
         }
     }
+
+}
+
+
+//Convierte la imagen a Base64
+fun imageFileToBase64(file: File): String {
+    val bytes = file.readBytes()
+    val base64 = Base64.encodeToString(bytes, Base64.DEFAULT)
+    return "data:image/jpeg;base64,$base64"
 }

@@ -1,5 +1,6 @@
 package com.gamesage.kotlin.ui.navigation
 
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -27,7 +28,9 @@ import com.gamesage.kotlin.ui.common.TopBar
 import com.gamesage.kotlin.ui.common.HomeBottomBar
 import kotlinx.coroutines.launch
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.gamesage.kotlin.R
 import com.gamesage.kotlin.ui.pages.map.MapScreen
@@ -35,7 +38,11 @@ import com.gamesage.kotlin.ui.pages.contact.ContactScreen
 import com.gamesage.kotlin.ui.pages.dashboard.CameraScreen
 import com.gamesage.kotlin.ui.pages.dashboard.CaptureScreen
 import com.gamesage.kotlin.ui.pages.dashboard.DashboardScreen
+import com.gamesage.kotlin.ui.pages.dashboard.DashboardScreenViewModel
+import com.gamesage.kotlin.ui.pages.dashboard.imageFileToBase64
+import com.gamesage.kotlin.ui.pages.login.LoginScreen
 import com.gamesage.kotlin.ui.pages.register.RegisterScreen
+import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,7 +51,7 @@ fun NavGraph(
     tokenManager: com.gamesage.kotlin.data.local.TokenManager
 ) {
     val navController: NavHostController = rememberNavController()
-    val context = androidx.compose.ui.platform.LocalContext.current
+    val context = LocalContext.current
     val token by tokenManager.token.collectAsState(initial = null)
     
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -82,7 +89,7 @@ fun NavGraph(
                             },
                             onLanguageClick = { langCode ->
                                 com.gamesage.kotlin.utils.LanguageUtils.setLocale(context, langCode)
-                                (context as? android.app.Activity)?.recreate()
+                                (context as? Activity)?.recreate()
                             }
                         )
                     },
@@ -215,7 +222,7 @@ fun NavGraph(
             }
 
             composable(Destinations.Login.route) {
-                com.gamesage.kotlin.ui.pages.login.LoginScreen(
+                LoginScreen(
                     onNavigateToRegister = { navController.navigate(Destinations.Register.route) },
                     onLoginSuccess = {
                         navController.navigate(Destinations.Dashboard.route) {
@@ -232,18 +239,32 @@ fun NavGraph(
                 )
             }
 
-            composable(Destinations.Dashboard.route) {
+            composable(Destinations.Dashboard.route) { backStackEntry ->
+                val viewModel: DashboardScreenViewModel = hiltViewModel(backStackEntry)
+                val capturedPhoto by backStackEntry.savedStateHandle.getStateFlow<String?>(key = "capturedPhoto", initialValue = null).collectAsState()
+
                 DashboardScreen(
                     onPrivacyClick = { navController.navigate(Destinations.Privacy) },
                     onLogout = {
-                        navController.navigate(Destinations.Login) {
-                            popUpTo(Destinations.Home.route) { inclusive = true }
+                        viewModel.logout()
+                        navController.navigate("login") {
+                            popUpTo("dashboard") { inclusive = true }
                         }
-                    }, onNavigateToCamera = {navController.navigate(Destinations.Camera.route)}
+                    },
+                    onNavigateToCamera = { navController.navigate(Destinations.Camera.route) },
+                    capturedPhoto = capturedPhoto,
+                    viewModel = viewModel
                 )
+                LaunchedEffect(capturedPhoto) {
+                    if (capturedPhoto != null) {
+                        backStackEntry.savedStateHandle["capturedPhoto"] = null
+                    }
+                }
             }
+
             composable(Destinations.Camera.route) {
                 CameraScreen(
+                    modifier = Modifier.fillMaxSize(),
                     viewModel = viewModel(),
                     onNavigateToCapture = { file ->
                         navController.navigate(
@@ -252,17 +273,25 @@ fun NavGraph(
                     }
                 )
             }
+
             composable<Destinations.Capture> { backStackEntry ->
                 val args = backStackEntry.arguments!!
-                val photoPath =
-                    args.getString("photoPath") ?: ""
+                val photoPath = args.getString("photoPath") ?: ""
 
                 CaptureScreen(
                     photoPath = photoPath,
-                    onCancel = { navController.popBackStack() }
+                    onCancel = { navController.popBackStack() },
+                    onSave = { path ->
+                        navController.previousBackStackEntry
+                            ?.savedStateHandle
+                            ?.set("capturedPhoto", path)
+                        navController.navigate(Destinations.Dashboard.route) {
+                            popUpTo(Destinations.Dashboard.route) { inclusive = false }
+                            launchSingleTop = true
+                        }
+                    }
                 )
             }
-
             composable(Destinations.Cart.route) {
                 com.gamesage.kotlin.ui.pages.cart.CartScreen(
                     onNavigateBack = { navController.popBackStack() }

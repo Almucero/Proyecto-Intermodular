@@ -69,6 +69,8 @@ dependencies {
     //Coil
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
+    // PERMISOS EN COMPOSE
+    implementation("com.google.accompanist:accompanist-permissions:0.37.3")
     // CAMARA
     implementation("androidx.camera:camera-compose:1.5.2")
     implementation("androidx.camera:camera-lifecycle:1.5.2")
