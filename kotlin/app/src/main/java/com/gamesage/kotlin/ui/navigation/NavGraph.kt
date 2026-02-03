@@ -268,7 +268,14 @@ fun NavGraph(
 
                 CaptureScreen(
                     photoPath = photoPath,
-                    onCancel = { navController.popBackStack() }
+                    onCancel = { navController.popBackStack() },
+                    onSave = { path ->
+                        navController.previousBackStackEntry
+                            ?.savedStateHandle
+                            ?.set("capturedPhoto", path)
+
+                        navController.popBackStack()
+                    }
                 )
             }
 

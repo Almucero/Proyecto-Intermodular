@@ -54,7 +54,7 @@ fun DashboardScreen(
     onPrivacyClick: () -> Unit,
     viewModel: DashboardScreenViewModel = hiltViewModel(),
     onLogout: () -> Unit,
-        onNavigateToCamera: () -> Unit,
+    onNavigateToCamera: () -> Unit,
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -155,7 +155,6 @@ fun DashboardScreen(
                     }
                 }
                 if (showCameraOptions) {
-
                     AlertDialog(
                         onDismissRequest = { showCameraOptions = false },
                         title = { Text("Foto de perfil") },
@@ -166,6 +165,7 @@ fun DashboardScreen(
                             ) {
                                 Button(
                                     onClick = {
+                                        showCameraOptions = false
                                         onNavigateToCamera()
                                     }
                                 ) {
@@ -423,4 +423,11 @@ fun DashboardTextField(
             )
         }
     }
+}
+
+//Convierte la imagen a Base64
+fun imageFileToBase64(file: File): String {
+    val bytes = file.readBytes()
+    val base64 = Base64.encodeToString(bytes, Base64.DEFAULT)
+    return "data:image/jpeg;base64,$base64"
 }
