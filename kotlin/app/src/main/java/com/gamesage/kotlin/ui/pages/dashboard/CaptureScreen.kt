@@ -14,12 +14,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import java.io.File
 
 @Composable
 fun CaptureScreen(
     photoPath: String,
     onCancel: () -> Unit,
-    onSave: (String) -> Unit,
+    onSave: (String) -> Unit
     ) {
     val bitmap = remember(photoPath) {
         BitmapFactory.decodeFile(photoPath)
@@ -41,7 +44,7 @@ fun CaptureScreen(
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
         Button(
-            onClick = { onSave(photoPath) },
+            onClick = { onSave(photoPath)},
             modifier = Modifier.padding(top = 16.dp)
         ) {
             Text("Guardar")

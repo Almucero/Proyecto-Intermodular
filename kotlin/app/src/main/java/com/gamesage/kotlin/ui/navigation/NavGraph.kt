@@ -39,8 +39,10 @@ import com.gamesage.kotlin.ui.pages.dashboard.CameraScreen
 import com.gamesage.kotlin.ui.pages.dashboard.CaptureScreen
 import com.gamesage.kotlin.ui.pages.dashboard.DashboardScreen
 import com.gamesage.kotlin.ui.pages.dashboard.DashboardScreenViewModel
+import com.gamesage.kotlin.ui.pages.dashboard.imageFileToBase64
 import com.gamesage.kotlin.ui.pages.login.LoginScreen
 import com.gamesage.kotlin.ui.pages.register.RegisterScreen
+import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -237,8 +239,10 @@ fun NavGraph(
                 )
             }
 
-            composable(Destinations.Dashboard.route) {backStackEntry ->
+            composable(Destinations.Dashboard.route) { backStackEntry ->
                 val viewModel: DashboardScreenViewModel = hiltViewModel(backStackEntry)
+                val capturedPhoto by backStackEntry.savedStateHandle.getStateFlow<String?>(key = "capturedPhoto", initialValue = null).collectAsState()
+
                 DashboardScreen(
                     onPrivacyClick = { navController.navigate(Destinations.Privacy) },
                     onLogout = {
@@ -247,9 +251,17 @@ fun NavGraph(
                             popUpTo("dashboard") { inclusive = true }
                         }
                     },
-                    onNavigateToCamera = {navController.navigate(Destinations.Camera.route)}
+                    onNavigateToCamera = { navController.navigate(Destinations.Camera.route) },
+                    capturedPhoto = capturedPhoto,
+                    viewModel = viewModel
                 )
+                LaunchedEffect(capturedPhoto) {
+                    if (capturedPhoto != null) {
+                        backStackEntry.savedStateHandle["capturedPhoto"] = null
+                    }
+                }
             }
+
             composable(Destinations.Camera.route) {
                 CameraScreen(
                     modifier = Modifier.fillMaxSize(),
@@ -261,10 +273,10 @@ fun NavGraph(
                     }
                 )
             }
+
             composable<Destinations.Capture> { backStackEntry ->
                 val args = backStackEntry.arguments!!
-                val photoPath =
-                    args.getString("photoPath") ?: ""
+                val photoPath = args.getString("photoPath") ?: ""
 
                 CaptureScreen(
                     photoPath = photoPath,
@@ -273,12 +285,13 @@ fun NavGraph(
                         navController.previousBackStackEntry
                             ?.savedStateHandle
                             ?.set("capturedPhoto", path)
-
-                        navController.popBackStack()
+                        navController.navigate(Destinations.Dashboard.route) {
+                            popUpTo(Destinations.Dashboard.route) { inclusive = false }
+                            launchSingleTop = true
+                        }
                     }
                 )
             }
-
             composable(Destinations.Cart.route) {
                 com.gamesage.kotlin.ui.pages.cart.CartScreen(
                     onNavigateBack = { navController.popBackStack() }

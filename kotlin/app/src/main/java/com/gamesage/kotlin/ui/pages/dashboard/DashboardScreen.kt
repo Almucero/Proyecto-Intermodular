@@ -46,6 +46,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.gamesage.kotlin.R
 import java.io.File
 
@@ -56,6 +57,7 @@ fun DashboardScreen(
     onLogout: () -> Unit,
     onNavigateToCamera: () -> Unit,
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
+    capturedPhoto: String? = null,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -66,6 +68,17 @@ fun DashboardScreen(
     LaunchedEffect(uiState.error) {
         uiState.error?.let {
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+        }
+    }
+    LaunchedEffect(capturedPhoto) {
+        capturedPhoto?.let { path ->
+            if (path.isNotEmpty()) {
+                val file = File(path)
+                val avatarBase64 = imageFileToBase64(file)
+                viewModel.onEditableDataChange(
+                    uiState.editableUser.copy(avatar = avatarBase64)
+                )
+            }
         }
     }
 
@@ -423,7 +436,9 @@ fun DashboardTextField(
             )
         }
     }
+
 }
+
 
 //Convierte la imagen a Base64
 fun imageFileToBase64(file: File): String {
