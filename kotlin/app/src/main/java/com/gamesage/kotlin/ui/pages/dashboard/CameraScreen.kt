@@ -25,6 +25,8 @@ import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -41,6 +43,7 @@ fun CameraScreen(
     viewModel: CameraViewModel,
     onNavigateToCapture: (File) -> Unit
 ) {
+    val askedPermission = remember { mutableStateOf(false) }
     val cameraPermissionState = rememberPermissionState(
         Manifest.permission.CAMERA
     )
@@ -54,8 +57,12 @@ fun CameraScreen(
     }
     // No tenemos permisos de usar la camara
     else {
+
         LaunchedEffect(Unit) {
-            cameraPermissionState.launchPermissionRequest()
+            if (!askedPermission.value) {
+                cameraPermissionState.launchPermissionRequest()
+                askedPermission.value = true
+            }
         }
     }
 }
