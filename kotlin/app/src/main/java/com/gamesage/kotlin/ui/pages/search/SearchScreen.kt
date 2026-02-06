@@ -29,6 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.gamesage.kotlin.data.model.Game
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gamesage.kotlin.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,7 +46,9 @@ fun SearchScreen(
     val priceValue by viewModel.priceValue.collectAsState()
     val maxPrice by viewModel.maxPrice.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
-    
+    val genres by viewModel.availableGenres.collectAsStateWithLifecycle()
+
+
     var priceExpanded by remember { mutableStateOf(false) }
     var genreExpanded by remember { mutableStateOf(false) }
     var platformExpanded by remember { mutableStateOf(false) }
@@ -137,6 +140,7 @@ fun SearchScreen(
                                 onToggle = { genreExpanded = !genreExpanded }
                             ) {
                                 GenreFilterContent(
+                                    genres=genres,
                                     selectedGenre = selectedGenre,
                                     onSelectGenre = { viewModel.selectGenre(it) }
                                 )
@@ -270,23 +274,21 @@ fun PriceFilterContent(
 
 @Composable
 fun GenreFilterContent(
+    genres: List<String>,
     selectedGenre: Set<String>,
     onSelectGenre: (String) -> Unit
 ) {
     Column {
-        val genres = listOf(
-             "Action", "Adventure", "RPG", "Sports", "Strategy", 
-             "Simulation", "Horror", "Racing", "Sandbox", "Shooter"
-        )
-        genres.forEach { key ->
+        genres.forEach { genre ->
             FilterOption(
-                label = key,
-                selected = selectedGenre.contains(key),
-                onClick = { onSelectGenre(key) }
+                label = genre,
+                selected = selectedGenre.contains(genre),
+                onClick = { onSelectGenre(genre) }
             )
         }
     }
 }
+
 
 @Composable
 fun PlatformFilterContent(

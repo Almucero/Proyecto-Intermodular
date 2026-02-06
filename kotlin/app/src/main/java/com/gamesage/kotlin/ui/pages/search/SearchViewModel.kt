@@ -11,6 +11,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import androidx.lifecycle.SavedStateHandle
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
@@ -39,13 +42,26 @@ class SearchViewModel @Inject constructor(
     
     private val _maxPrice = MutableStateFlow(100)
     val maxPrice: StateFlow<Int> = _maxPrice.asStateFlow()
+    val availableGenres: StateFlow<List<String>> =
+        _allGames
+            .map { games ->
+                games
+                    .flatMap { it.genres ?: emptyList() }
+                    .map { it.name }
+                    .distinct()
+                    .sorted()
+            }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = emptyList()
+            )
+
 
     init {
         val genreArg = savedStateHandle.get<String>("genre")
         if (!genreArg.isNullOrEmpty()) {
-        if (!genreArg.isNullOrEmpty()) {
             _selectedGenre.value = setOf(genreArg)
-        }
         }
         loadGames()
     }
