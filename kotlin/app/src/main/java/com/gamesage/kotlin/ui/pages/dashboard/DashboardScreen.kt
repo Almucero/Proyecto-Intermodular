@@ -145,9 +145,6 @@ fun DashboardScreen(
                     contentScale = ContentScale.Crop
                 )
                 if (uiState.isEditing) {
-
-
-
                     Box(
                         modifier = Modifier
                             .align(Alignment.BottomEnd)
