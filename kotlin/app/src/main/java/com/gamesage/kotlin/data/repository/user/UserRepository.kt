@@ -8,6 +8,5 @@ interface UserRepository {
     suspend fun me(): Result<User>
     suspend fun readAll(): Result<List<User>>
     fun observe(): Flow<Result<List<User>>>
-
     suspend fun logout()
 }

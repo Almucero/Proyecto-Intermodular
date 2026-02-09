@@ -7,6 +7,7 @@ import com.gamesage.kotlin.data.local.TokenManager
 import kotlinx.coroutines.flow.firstOrNull
 import com.gamesage.kotlin.data.model.Game
 import com.gamesage.kotlin.data.repository.cart.CartRepository
+import com.gamesage.kotlin.data.repository.favorites.FavoritesRepository
 import com.gamesage.kotlin.data.repository.game.GameRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,7 +46,7 @@ enum class MediaType {
 class ProductScreenViewModel @Inject constructor(
     private val gameRepository: GameRepository,
     private val cartRepository: CartRepository,
-    private val favoritesRepository: com.gamesage.kotlin.data.repository.favorites.FavoritesRepository,
+    private val favoritesRepository: FavoritesRepository,
     private val tokenManager: TokenManager
 ) : ViewModel() {
 

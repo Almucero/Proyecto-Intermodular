@@ -55,7 +55,6 @@ class FavoritesViewModel @Inject constructor(
         val platformId = game?.platforms?.firstOrNull()?.id ?: 0
 
         viewModelScope.launch {
-            // Optimistic update: Remove immediately from UI
             if (currentState is FavoritesUiState.Success) {
                 val updatedList = currentState.games.filter { it.id != gameId }
                 if (updatedList.isEmpty()) {
@@ -80,8 +79,6 @@ class FavoritesViewModel @Inject constructor(
             cartRepository.addToCart(game.id, platformId, 1)
                 .onSuccess {
                     removeFromFavorites(game.id)
-                }
-                .onFailure {
                 }
         }
     }

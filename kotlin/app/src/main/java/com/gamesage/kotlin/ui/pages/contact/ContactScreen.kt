@@ -33,7 +33,6 @@ import com.google.maps.android.compose.rememberCameraPositionState
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContactScreen(
-    onNavigateBack: () -> Unit,
     onNavigateToMap:()-> Unit,
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current

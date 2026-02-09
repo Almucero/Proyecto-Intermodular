@@ -61,7 +61,7 @@ fun SearchScreen(
         when (uiState) {
             is SearchUiState.Loading -> {
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator(color = Color(0xFF93E3FE))
+                    CircularProgressIndicator(color = Color(0xFF22D3EE))
                 }
             }
             is SearchUiState.Error -> {
