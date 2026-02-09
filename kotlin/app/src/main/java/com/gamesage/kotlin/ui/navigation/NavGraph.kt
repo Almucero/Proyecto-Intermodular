@@ -33,14 +33,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.gamesage.kotlin.R
+import com.gamesage.kotlin.ui.common.Menu
+import com.gamesage.kotlin.ui.pages.cart.CartScreen
+import com.gamesage.kotlin.ui.pages.conditions.ConditionsScreen
 import com.gamesage.kotlin.ui.pages.map.MapScreen
 import com.gamesage.kotlin.ui.pages.contact.ContactScreen
+import com.gamesage.kotlin.ui.pages.cookies.CookiesScreen
 import com.gamesage.kotlin.ui.pages.dashboard.CameraScreen
 import com.gamesage.kotlin.ui.pages.dashboard.CaptureScreen
 import com.gamesage.kotlin.ui.pages.dashboard.DashboardScreen
 import com.gamesage.kotlin.ui.pages.dashboard.DashboardScreenViewModel
 import com.gamesage.kotlin.ui.pages.dashboard.imageFileToBase64
 import com.gamesage.kotlin.ui.pages.login.LoginScreen
+import com.gamesage.kotlin.ui.pages.privacy.PrivacyScreen
 import com.gamesage.kotlin.ui.pages.register.RegisterScreen
 import java.io.File
 
@@ -53,16 +58,19 @@ fun NavGraph(
     val navController: NavHostController = rememberNavController()
     val context = LocalContext.current
     val token by tokenManager.token.collectAsState(initial = null)
-    
+    var showBottomSheet by remember { mutableStateOf(false) }
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
     val isAIChat = currentRoute == Destinations.AIChat.route
-    
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val scope = rememberCoroutineScope()
-    var showBottomSheet by remember { mutableStateOf(false) }
     var searchQuery by remember { mutableStateOf("") }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+
+    Menu(
+        navController = navController,
+        show = showBottomSheet,
+        onDismiss = { showBottomSheet = false },
+        onClearSearch = { searchQuery = "" }
+    )
 
     Scaffold(
         modifier = Modifier
@@ -104,7 +112,11 @@ fun NavGraph(
             if (!isAIChat) {
                 HomeBottomBar(
                     onMenuClick = { showBottomSheet = true },
-                    onCartClick = { navController.navigate(Destinations.Cart.route) },
+                    onCartClick = { if (token != null) {
+                        navController.navigate(Destinations.Cart.route)
+                    } else {
+                        navController.navigate(Destinations.Login.route)
+                    } },
                     onFavoritesClick = { 
                          if (token != null) {
                              navController.navigate(Destinations.Favorites.route) 
@@ -168,25 +180,23 @@ fun NavGraph(
 
             composable(Destinations.Contact.route) {
                 ContactScreen(
-                    onNavigateBack = { navController.popBackStack() },
                     onNavigateToMap = { navController.navigate(Destinations.Map.route) }
                 )
             }
 
             composable(Destinations.Cookies.route) {
-                com.gamesage.kotlin.ui.pages.cookies.CookiesScreen(
-                    onNavigateBack = { navController.popBackStack() }
+                CookiesScreen(
                 )
             }
 
             composable(Destinations.Terms.route) {
-                com.gamesage.kotlin.ui.pages.conditions.ConditionsScreen(
+                ConditionsScreen(
                     onNavigateBack = { navController.popBackStack() }
                 )
             }
 
             composable(Destinations.Privacy.route) {
-                com.gamesage.kotlin.ui.pages.privacy.PrivacyScreen(
+                PrivacyScreen(
                     onNavigateBack = { navController.popBackStack() }
                 )
             }
@@ -293,8 +303,7 @@ fun NavGraph(
                 )
             }
             composable(Destinations.Cart.route) {
-                com.gamesage.kotlin.ui.pages.cart.CartScreen(
-                    onNavigateBack = { navController.popBackStack() }
+                CartScreen(
                 )
             }
 
@@ -320,150 +329,5 @@ fun NavGraph(
             }
         }
     }
-    if (showBottomSheet) {
-        ModalBottomSheet(
-            onDismissRequest = { showBottomSheet = false },
-            sheetState = sheetState,
-            containerColor = Color(0xFF030712),
-            dragHandle = null
-        ) {
-            MenuBottomSheetContent(
-                navController = navController,
-                onCloseMenu = {
-                    scope.launch {
-                        sheetState.hide()
-                        showBottomSheet = false
-                    }
-                },
-                onClearSearch = { searchQuery = "" }
-            )
-        }
-    }
 }
 
-@Composable
-fun MenuBottomSheetContent(
-    navController: NavHostController,
-    onCloseMenu: () -> Unit,
-    onClearSearch: () -> Unit = {}
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color(0xFF030712))
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color(0xFF030712))
-                .padding(16.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = stringResource(R.string.menu_title),
-                color = Color(0xFF93E3FE),
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
-
-        Divider(color = Color(0xFF4A4A4A), thickness = 1.dp)
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color(0xFF111827))
-        ) {
-
-            MenuItemRow(
-                icon = Icons.Default.Search,
-                text = stringResource(R.string.menu_explore),
-                onClick = {
-                    onClearSearch()
-                    navController.navigate(Destinations.Search.createRoute())
-                    onCloseMenu()
-                }
-            )
-            MenuItemRow(
-                icon = Icons.Default.Settings,
-                text = stringResource(R.string.menu_settings),
-                onClick = { /* TODO */ }
-            )
-            MenuItemRow(
-                icon = Icons.Default.Info,
-                text = stringResource(R.string.menu_help),
-                onClick = { /* TODO */ }
-            )
-            MenuItemRow(
-                icon = Icons.Default.Person,
-                text = stringResource(R.string.menu_contact),
-                onClick = {
-                    navController.navigate(Destinations.Contact.route)
-                    onCloseMenu()
-                }
-            )
-            MenuItemRow(
-                icon = Icons.Default.Lock,
-                text = stringResource(R.string.menu_privacy),
-                onClick = {
-                    navController.navigate(Destinations.Privacy.route)
-                    onCloseMenu()
-                }
-            )
-            MenuItemRow(
-                icon = Icons.Default.List,
-                text = stringResource(R.string.menu_terms),
-                onClick = {
-                    navController.navigate(Destinations.Terms.route)
-                    onCloseMenu()
-                }
-            )
-            MenuItemRow(
-                icon = Icons.Default.Star,
-                text = stringResource(R.string.menu_cookies),
-                onClick = {
-                    navController.navigate(Destinations.Cookies.route)
-                    onCloseMenu()
-                }
-            )
-        }
-
-        Divider(color = Color(0xFF4A4A4A), thickness = 1.dp)
-        HomeBottomBar(
-            onMenuClick = onCloseMenu,
-            onCartClick = {
-                navController.navigate(Destinations.Cart.route)
-                onCloseMenu()
-            }
-        )
-    }
-}
-
-@Composable
-fun MenuItemRow(
-    icon: ImageVector,
-    text: String,
-    onClick: () -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .padding(horizontal = 16.dp, vertical = 16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = text,
-            tint = Color.White,
-            modifier = Modifier.size(24.dp)
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Text(
-            text = text,
-            color = Color.White,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Normal
-        )
-    }
-    Divider(color = Color(0xFF4A4A4A), thickness = 1.dp)
-}

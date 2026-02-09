@@ -34,7 +34,6 @@ import androidx.compose.ui.res.stringResource
 
 @Composable
 fun CartScreen(
-    onNavigateBack: () -> Unit = {},
     viewModel: CartScreenViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
