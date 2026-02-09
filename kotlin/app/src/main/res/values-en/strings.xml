@@ -135,7 +135,7 @@
     <string name="contact_email_title">Email</string>
     <string name="contact_phone_title">Phone</string>
     <string name="contact_address_title">Address</string>
-    <string name="contact_address_content">Calle Ejemplo, 123\n28001 Madrid, Spain</string>
+    <string name="contact_address_content">Sancha de Lara Street, s/n, Historic Center Neighborhood, Center District, Malaga, Malaga Region (Spain)</string>
 
     <string name="cookies_title">Cookie Policy</string>
     <string name="cookies_update">Last updated: December 2024</string>

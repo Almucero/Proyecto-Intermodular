@@ -3,10 +3,12 @@ package com.gamesage.kotlin.ui.pages.favorites
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons.Default
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
@@ -18,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -29,6 +32,7 @@ import coil3.compose.AsyncImage
 import com.gamesage.kotlin.data.model.Game
 import com.gamesage.kotlin.R
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextDecoration
 
 @Composable
 fun FavoritesScreen(
@@ -49,17 +53,18 @@ fun FavoritesScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 16.dp, vertical = 24.dp)
+                    .background(Color(0xFF111827))
+                    .padding(16.dp)
             ) {
                 Text(
                     text = stringResource(R.string.favorites_title),
-                    fontSize = 24.sp,
+                    color = Color(0xFF93E3FE),
+                    fontSize = 30.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF67E8F9),
-                    textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 32.dp)
+                        .padding(bottom = 32.dp),
+                    textAlign = TextAlign.Center
                 )
 
                 when (val state = uiState) {
@@ -170,8 +175,8 @@ fun FavoriteHorizontalCard(
                 contentDescription = game.title,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop,
-                error = androidx.compose.ui.graphics.painter.ColorPainter(Color(0xFF374151)),
-                placeholder = androidx.compose.ui.graphics.painter.ColorPainter(Color(0xFF1F2937))
+                error = ColorPainter(Color(0xFF374151)),
+                placeholder = ColorPainter(Color(0xFF1F2937))
             )
         }
 
@@ -219,7 +224,7 @@ fun FavoriteHorizontalCard(
                         color = Color(0xFF6B7280),
                         fontSize = 14.sp,
                          style = LocalTextStyle.current.copy(
-                            textDecoration = androidx.compose.ui.text.style.TextDecoration.LineThrough
+                            textDecoration = TextDecoration.LineThrough
                         )
                     )
                      Text(
@@ -249,7 +254,7 @@ fun FavoriteHorizontalCard(
                      modifier = Modifier.size(40.dp)
                 ) {
                     Icon(
-                        imageVector = androidx.compose.material.icons.Icons.Default.ShoppingCart,
+                        imageVector = Default.ShoppingCart,
                         contentDescription = "Añadir al carrito",
                         modifier = Modifier.size(20.dp)
                     )
@@ -263,7 +268,7 @@ fun FavoriteHorizontalCard(
                      modifier = Modifier.size(40.dp)
                 ) {
                       Icon(
-                        imageVector = androidx.compose.material.icons.Icons.Default.Delete,
+                        imageVector = Default.Delete,
                         contentDescription = "Eliminar de favoritos",
                         modifier = Modifier.size(20.dp)
                     )
@@ -281,10 +286,10 @@ fun OutlinedIconButton(
     shape: androidx.compose.ui.graphics.Shape = RoundedCornerShape(8.dp),
     colors: IconButtonColors = IconButtonDefaults.outlinedIconButtonColors(),
     border: BorderStroke? = null,
-    interactionSource: androidx.compose.foundation.interaction.MutableInteractionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() },
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable () -> Unit
 ) {
-    androidx.compose.material3.Surface(
+    Surface(
         onClick = onClick,
         modifier = modifier,
         enabled = enabled,

@@ -177,7 +177,7 @@ fun LoginScreen(
                     enabled = !uiState.isLoading
                 ) {
                     if (uiState.isLoading) {
-                        CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
+                        CircularProgressIndicator(color = Color(0xFF22D3EE), modifier = Modifier.size(24.dp))
                     } else {
                         Text(stringResource(R.string.login_button), color = Color.White, fontSize = 16.sp)
                     }
