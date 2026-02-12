@@ -25,5 +25,5 @@ interface DeveloperDao {
     fun observeAll(): Flow<List<DeveloperEntity>>
 
     @Query("SELECT * FROM developers WHERE id = :id")
-    suspend fun readDeveloperById(id: Int): DeveloperEntity?
+    suspend fun readDeveloperById(id: Long): DeveloperEntity?
 }
