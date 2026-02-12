@@ -35,7 +35,6 @@ import com.gamesage.kotlin.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
-    onNavigateBack: () -> Unit,
     onGameClick: (Long) -> Unit,
     viewModel: SearchViewModel = hiltViewModel()
 ) {

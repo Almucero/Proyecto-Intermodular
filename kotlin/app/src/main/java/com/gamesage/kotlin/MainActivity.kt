@@ -13,6 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.gamesage.kotlin.ui.navigation.NavGraph
 import com.gamesage.kotlin.ui.theme.AppTheme
+import com.gamesage.kotlin.utils.LanguageUtils.loadLocale
+import com.gamesage.kotlin.utils.LanguageUtils.onAttach
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
@@ -25,12 +27,12 @@ class MainActivity : ComponentActivity() {
     lateinit var tokenManager: com.gamesage.kotlin.data.local.TokenManager
 
     override fun attachBaseContext(newBase: android.content.Context) {
-        super.attachBaseContext(com.gamesage.kotlin.utils.LanguageUtils.onAttach(newBase))
+        super.attachBaseContext(onAttach(newBase))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        com.gamesage.kotlin.utils.LanguageUtils.loadLocale(this)
+        loadLocale(this)
         enableEdgeToEdge()
         
         var startDestination = "home"
