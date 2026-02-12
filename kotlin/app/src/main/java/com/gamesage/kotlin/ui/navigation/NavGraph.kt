@@ -33,7 +33,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.gamesage.kotlin.R
+import com.gamesage.kotlin.data.local.TokenManager
 import com.gamesage.kotlin.ui.common.Menu
+import com.gamesage.kotlin.ui.pages.aichat.AIChatScreen
 import com.gamesage.kotlin.ui.pages.cart.CartScreen
 import com.gamesage.kotlin.ui.pages.conditions.ConditionsScreen
 import com.gamesage.kotlin.ui.pages.map.MapScreen
@@ -53,7 +55,7 @@ import java.io.File
 @Composable
 fun NavGraph(
     startDestination: String = Destinations.Home.route,
-    tokenManager: com.gamesage.kotlin.data.local.TokenManager
+    tokenManager: TokenManager
 ) {
     val navController: NavHostController = rememberNavController()
     val context = LocalContext.current
@@ -224,7 +226,6 @@ fun NavGraph(
                 }
 
                 com.gamesage.kotlin.ui.pages.search.SearchScreen(
-                    onNavigateBack = { navController.popBackStack() },
                     onGameClick = { gameId ->
                         navController.navigate("product/$gameId")
                     }
@@ -317,7 +318,7 @@ fun NavGraph(
             }
 
             composable(Destinations.AIChat.route) {
-                com.gamesage.kotlin.ui.pages.aichat.AIChatScreen(
+               AIChatScreen(
                     onNavigateBack = { navController.popBackStack() },
                     onNavigateToGame = { gameId ->
                         navController.navigate("product/$gameId")

@@ -25,5 +25,5 @@ interface GenreDao {
     fun observeAll(): Flow<List<GenreEntity>>
 
     @Query("SELECT * FROM genres WHERE id = :id")
-    suspend fun readGenreById(id: Int): GenreEntity?
+    suspend fun readGenreById(id: Long): GenreEntity?
 }
