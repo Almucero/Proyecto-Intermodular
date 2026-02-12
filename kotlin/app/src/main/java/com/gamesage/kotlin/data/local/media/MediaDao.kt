@@ -25,5 +25,5 @@ interface MediaDao {
     fun observeAll(): Flow<List<MediaEntity>>
 
     @Query("SELECT * FROM media WHERE id = :id")
-    suspend fun readMediaById(id: Int): MediaEntity?
+    suspend fun readMediaById(id: Long): MediaEntity?
 }

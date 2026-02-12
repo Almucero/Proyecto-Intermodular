@@ -25,5 +25,5 @@ interface PlatformDao {
     fun observeAll(): Flow<List<PlatformEntity>>
 
     @Query("SELECT * FROM platforms WHERE id = :id")
-    suspend fun readPlatformById(id: Int): PlatformEntity?
+    suspend fun readPlatformById(id: Long): PlatformEntity?
 }

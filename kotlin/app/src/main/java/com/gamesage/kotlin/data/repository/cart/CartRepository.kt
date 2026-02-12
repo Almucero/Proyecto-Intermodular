@@ -15,7 +15,6 @@ class CartRepository @Inject constructor(
         return try {
             val apiItems = api.getCart()
             val items = apiItems.map { apiItem ->
-                // Fetch full game details to get media (since cart endpoint implies no media in this context)
                 val fullGame = try {
                     api.readOneGame(apiItem.id)
                 } catch (e: Exception) {
