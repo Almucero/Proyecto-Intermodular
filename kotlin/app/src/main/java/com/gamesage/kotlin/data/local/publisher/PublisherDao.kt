@@ -25,5 +25,5 @@ interface PublisherDao {
     fun observeAll(): Flow<List<PublisherEntity>>
 
     @Query("SELECT * FROM publishers WHERE id = :id")
-    suspend fun readPublisherById(id: Int): PublisherEntity?
+    suspend fun readPublisherById(id: Long): PublisherEntity?
 }
