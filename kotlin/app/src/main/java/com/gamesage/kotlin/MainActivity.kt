@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.gamesage.kotlin.ui.navigation.NavGraph
+import com.gamesage.kotlin.ui.navigation.Destinations
 import com.gamesage.kotlin.ui.theme.AppTheme
 import com.gamesage.kotlin.utils.LanguageUtils.loadLocale
 import com.gamesage.kotlin.utils.LanguageUtils.onAttach
@@ -35,7 +36,7 @@ class MainActivity : ComponentActivity() {
         loadLocale(this)
         enableEdgeToEdge()
         
-        var startDestination = "home"
+        var startDestination: Any = Destinations.Home
         
         runBlocking {
             val token = tokenManager.token.firstOrNull()

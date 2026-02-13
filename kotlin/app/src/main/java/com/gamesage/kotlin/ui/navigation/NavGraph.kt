@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,7 +22,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.toRoute
 import com.gamesage.kotlin.ui.pages.home.HomeScreen
 import com.gamesage.kotlin.ui.pages.product.ProductScreen
 import com.gamesage.kotlin.ui.common.TopBar
@@ -49,12 +51,13 @@ import com.gamesage.kotlin.ui.pages.dashboard.imageFileToBase64
 import com.gamesage.kotlin.ui.pages.login.LoginScreen
 import com.gamesage.kotlin.ui.pages.privacy.PrivacyScreen
 import com.gamesage.kotlin.ui.pages.register.RegisterScreen
+import com.gamesage.kotlin.ui.pages.search.SearchScreen
 import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavGraph(
-    startDestination: String = Destinations.Home.route,
+    startDestination: Any = Destinations.Home,
     tokenManager: TokenManager
 ) {
     val navController: NavHostController = rememberNavController()
@@ -62,8 +65,7 @@ fun NavGraph(
     val token by tokenManager.token.collectAsState(initial = null)
     var showBottomSheet by remember { mutableStateOf(false) }
     val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = backStackEntry?.destination?.route
-    val isAIChat = currentRoute == Destinations.AIChat.route
+    val isAIChat = backStackEntry?.destination?.hasRoute<Destinations.AIChat>() == true
     var searchQuery by remember { mutableStateOf("") }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
@@ -89,12 +91,12 @@ fun NavGraph(
                             },
                             onSearchClick = {
                                 if (searchQuery.isNotEmpty()) {
-                                    navController.navigate(Destinations.Search.createRoute(searchQuery))
+                                    navController.navigate(Destinations.Search(query = searchQuery))
                                 }
                             },
                             onLogoClick = {
-                                 navController.navigate(Destinations.Home.route) {
-                                     popUpTo(Destinations.Home.route) { inclusive = true }
+                                 navController.navigate(Destinations.Home) {
+                                     popUpTo(Destinations.Home) { inclusive = true }
                                  }
                             },
                             onLanguageClick = { langCode ->
@@ -115,26 +117,26 @@ fun NavGraph(
                 HomeBottomBar(
                     onMenuClick = { showBottomSheet = true },
                     onCartClick = { if (token != null) {
-                        navController.navigate(Destinations.Cart.route)
+                        navController.navigate(Destinations.Cart)
                     } else {
-                        navController.navigate(Destinations.Login.route)
+                        navController.navigate(Destinations.Login)
                     } },
                     onFavoritesClick = { 
                          if (token != null) {
-                             navController.navigate(Destinations.Favorites.route) 
+                             navController.navigate(Destinations.Favorites) 
                          } else {
-                             navController.navigate(Destinations.Login.route)
+                             navController.navigate(Destinations.Login)
                          }
                     },
                     onProfileClick = { 
                         if (token != null) {
-                            navController.navigate(Destinations.Dashboard.route)
+                            navController.navigate(Destinations.Dashboard)
                         } else {
-                            navController.navigate(Destinations.Login.route)
+                            navController.navigate(Destinations.Login)
                         }
                     },
                     onAiChatClick = {
-                        navController.navigate(Destinations.AIChat.route)
+                        navController.navigate(Destinations.AIChat)
                     }
                 )
             }
@@ -146,111 +148,92 @@ fun NavGraph(
             startDestination = startDestination,
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable(Destinations.Home.route) {
+            composable<Destinations.Home> {
                 HomeScreen(
                     onGameClick = { gameId ->
-                        navController.navigate("product/$gameId")
+                        navController.navigate(Destinations.Product(gameId))
                     },
                     onGenreClick = { genre ->
-                        navController.navigate(Destinations.Search.createRoute(genre = genre))
+                        navController.navigate(Destinations.Search(genre = genre))
                     }
                 )
             }
 
-            composable(
-                route = Destinations.Product.route,
-                arguments = listOf(
-                    navArgument("gameId") { type = NavType.LongType }
-                )
-            ) { backStackEntry ->
-                val gameId = backStackEntry.arguments?.getLong("gameId") ?: 0L
+            composable<Destinations.Product> { backStackEntry ->
+                val product = backStackEntry.toRoute<Destinations.Product>()
                 ProductScreen(
-                    gameId = gameId,
+                    gameId = product.gameId,
                     onNavigateBack = {
                         navController.popBackStack()
                     },
                     onNavigateToLogin = {
-                        navController.navigate(Destinations.Login.route)
+                        navController.navigate(Destinations.Login)
                     }
                 )
             }
-            composable(Destinations.Map.route) {
+            composable<Destinations.Map> {
                 MapScreen(
                     onNavigateBack = { navController.popBackStack() }
                 )
             }
 
-            composable(Destinations.Contact.route) {
+            composable<Destinations.Contact> {
                 ContactScreen(
-                    onNavigateToMap = { navController.navigate(Destinations.Map.route) }
+                    onNavigateToMap = { navController.navigate(Destinations.Map) }
                 )
             }
 
-            composable(Destinations.Cookies.route) {
+            composable<Destinations.Cookies> {
                 CookiesScreen(
                 )
             }
 
-            composable(Destinations.Terms.route) {
+            composable<Destinations.Terms> {
                 ConditionsScreen(
                     onNavigateBack = { navController.popBackStack() }
                 )
             }
 
-            composable(Destinations.Privacy.route) {
+            composable<Destinations.Privacy> {
                 PrivacyScreen(
                     onNavigateBack = { navController.popBackStack() }
                 )
             }
 
-            composable(
-                route = Destinations.Search.route,
-                arguments = listOf(
-                    navArgument("query") {
-                        type = NavType.StringType
-                        defaultValue = ""
-                        nullable = true
-                    },
-                    navArgument("genre") {
-                        type = NavType.StringType
-                        defaultValue = ""
-                        nullable = true
-                    }
-                )
-            ) { backStackEntry ->
-                val queryArg = backStackEntry.arguments?.getString("query")
-                LaunchedEffect(queryArg) {
-                    if (!queryArg.isNullOrEmpty()) {
-                        searchQuery = queryArg
+            composable<Destinations.Search> { backStackEntry ->
+                val searchArgs = backStackEntry.toRoute<Destinations.Search>()
+                LaunchedEffect(searchArgs.query) {
+                    if (!searchArgs.query.isNullOrEmpty()) {
+                        searchQuery = searchArgs.query
                     }
                 }
 
-                com.gamesage.kotlin.ui.pages.search.SearchScreen(
+                SearchScreen(
                     onGameClick = { gameId ->
-                        navController.navigate("product/$gameId")
+                        navController.navigate(Destinations.Product(gameId))
                     }
                 )
             }
 
-            composable(Destinations.Login.route) {
+            composable<Destinations.Login> {
                 LoginScreen(
-                    onNavigateToRegister = { navController.navigate(Destinations.Register.route) },
+                    onNavigateToRegister = { navController.navigate(Destinations.Register) },
                     onLoginSuccess = {
-                        navController.navigate(Destinations.Dashboard.route) {
-                            popUpTo(Destinations.Login.route) { inclusive = true }
+                        navController.navigate(Destinations.Dashboard) {
+                            popUpTo(Destinations.Login) { inclusive = true }
                         }
                     }
                 )
             }
 
-            composable(Destinations.Register.route) {
+            composable<Destinations.Register> {
                 RegisterScreen(
-                    onNavigateToLogin = { navController.navigate(Destinations.Login.route) },
+                    onNavigateToLogin = { navController.navigate(Destinations.Login) },
                     onNavigateBack = { navController.popBackStack() }
                 )
             }
 
-            composable(Destinations.Dashboard.route) { backStackEntry ->
+            composable<Destinations.Dashboard> { backStackEntry ->
                 val viewModel: DashboardScreenViewModel = hiltViewModel(backStackEntry)
                 val capturedPhoto by backStackEntry.savedStateHandle.getStateFlow<String?>(key = "capturedPhoto", initialValue = null).collectAsState()
 
@@ -258,11 +241,11 @@ fun NavGraph(
                     onPrivacyClick = { navController.navigate(Destinations.Privacy) },
                     onLogout = {
                         viewModel.logout()
-                        navController.navigate("login") {
-                            popUpTo("dashboard") { inclusive = true }
+                        navController.navigate(Destinations.Login) {
+                            popUpTo(Destinations.Dashboard) { inclusive = true }
                         }
                     },
-                    onNavigateToCamera = { navController.navigate(Destinations.Camera.route) },
+                    onNavigateToCamera = { navController.navigate(Destinations.Camera) },
                     capturedPhoto = capturedPhoto,
                     viewModel = viewModel
                 )
@@ -273,7 +256,7 @@ fun NavGraph(
                 }
             }
 
-            composable(Destinations.Camera.route) {
+            composable<Destinations.Camera> {
                 CameraScreen(
                     modifier = Modifier.fillMaxSize(),
                     viewModel = viewModel(),
@@ -286,8 +269,8 @@ fun NavGraph(
             }
 
             composable<Destinations.Capture> { backStackEntry ->
-                val args = backStackEntry.arguments!!
-                val photoPath = args.getString("photoPath") ?: ""
+                val captureArgs = backStackEntry.toRoute<Destinations.Capture>()
+                val photoPath = captureArgs.photoPath
 
                 CaptureScreen(
                     photoPath = photoPath,
@@ -296,35 +279,23 @@ fun NavGraph(
                         navController.previousBackStackEntry
                             ?.savedStateHandle
                             ?.set("capturedPhoto", path)
-                        navController.navigate(Destinations.Dashboard.route) {
-                            popUpTo(Destinations.Dashboard.route) { inclusive = false }
+                        navController.navigate(Destinations.Dashboard) {
+                            popUpTo(Destinations.Dashboard) { inclusive = false }
                             launchSingleTop = true
                         }
                     }
                 )
             }
-            composable(Destinations.Cart.route) {
+            composable<Destinations.Cart> {
                 CartScreen(
                 )
             }
 
-            composable(Destinations.Favorites.route) {
+            composable<Destinations.Favorites> {
                 com.gamesage.kotlin.ui.pages.favorites.FavoritesScreen(
                     onNavigateBack = { navController.popBackStack() },
                     onGameClick = { gameId ->
-                        navController.navigate("product/$gameId")
-                    }
-                )
-            }
-
-            composable(Destinations.AIChat.route) {
-               AIChatScreen(
-                    onNavigateBack = { navController.popBackStack() },
-                    onNavigateToGame = { gameId ->
-                        navController.navigate("product/$gameId")
-                    },
-                    onNavigateToLogin = {
-                        navController.navigate(Destinations.Login.route)
+                        navController.navigate(Destinations.Product(gameId))
                     }
                 )
             }
