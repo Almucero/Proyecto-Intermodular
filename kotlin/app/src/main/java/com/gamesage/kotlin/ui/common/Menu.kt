@@ -108,7 +108,8 @@ fun Menu(
                     text = stringResource(R.string.menu_explore),
                     onClick = {
                         onClearSearch()
-                        navController.navigate(Destinations.Search.createRoute())
+                        onClearSearch()
+                        navController.navigate(Destinations.Search())
                         onCloseMenu()
                     }
                 )
@@ -126,7 +127,7 @@ fun Menu(
                     icon = Icons.Default.Person,
                     text = stringResource(R.string.menu_contact),
                     onClick = {
-                        navController.navigate(Destinations.Contact.route)
+                        navController.navigate(Destinations.Contact)
                         onCloseMenu()
                     }
                 )
@@ -134,24 +135,27 @@ fun Menu(
                     icon = Icons.Default.Lock,
                     text = stringResource(R.string.menu_privacy),
                     onClick = {
-                        navController.navigate(Destinations.Privacy.route)
+                        navController.navigate(Destinations.Privacy)
                         onCloseMenu()
+
                     }
                 )
                 MenuItemRow(
                     icon = Icons.Default.List,
                     text = stringResource(R.string.menu_terms),
                     onClick = {
-                        navController.navigate(Destinations.Terms.route)
+                        navController.navigate(Destinations.Terms)
                         onCloseMenu()
+
                     }
                 )
                 MenuItemRow(
                     icon = Icons.Default.Star,
                     text = stringResource(R.string.menu_cookies),
                     onClick = {
-                        navController.navigate(Destinations.Cookies.route)
+                        navController.navigate(Destinations.Cookies)
                         onCloseMenu()
+
                     }
                 )
             }
@@ -160,8 +164,9 @@ fun Menu(
             HomeBottomBar(
                 onMenuClick = onCloseMenu,
                 onCartClick = {
-                    navController.navigate(Destinations.Cart.route)
+                    navController.navigate(Destinations.Cart)
                     onCloseMenu()
+
                 }
             )
         }
