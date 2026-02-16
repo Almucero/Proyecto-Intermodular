@@ -16,6 +16,10 @@ import com.gamesage.kotlin.data.local.publisher.PublisherDao
 import com.gamesage.kotlin.data.local.publisher.PublisherEntity
 import com.gamesage.kotlin.data.local.user.UserDao
 import com.gamesage.kotlin.data.local.user.UserEntity
+import com.gamesage.kotlin.data.local.cart.CartDao
+import com.gamesage.kotlin.data.local.cart.CartEntity
+import com.gamesage.kotlin.data.local.favorites.FavoriteDao
+import com.gamesage.kotlin.data.local.favorites.FavoriteEntity
 
 @Database(
     entities = [
@@ -25,7 +29,9 @@ import com.gamesage.kotlin.data.local.user.UserEntity
         MediaEntity::class,
         PlatformEntity::class,
         PublisherEntity::class,
-        UserEntity::class
+        UserEntity::class,
+        CartEntity::class,
+        FavoriteEntity::class
     ],
     version = 1,
 )
@@ -38,4 +44,6 @@ abstract class GameSageDatabase : RoomDatabase() {
     abstract fun getPlatformDao(): PlatformDao
     abstract fun getPublisherDao(): PublisherDao
     abstract fun getUserDao(): UserDao
+    abstract fun getCartDao(): CartDao
+    abstract fun getFavoriteDao(): FavoriteDao
 }

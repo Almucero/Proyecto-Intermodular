@@ -10,6 +10,8 @@ import com.gamesage.kotlin.data.local.media.MediaDao
 import com.gamesage.kotlin.data.local.platform.PlatformDao
 import com.gamesage.kotlin.data.local.publisher.PublisherDao
 import com.gamesage.kotlin.data.local.user.UserDao
+import com.gamesage.kotlin.data.local.cart.CartDao
+import com.gamesage.kotlin.data.local.favorites.FavoriteDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -58,5 +60,15 @@ class DatabaseModule {
     @Provides
     fun provideUserDao(database: GameSageDatabase): UserDao {
         return database.getUserDao()
+    }
+
+    @Provides
+    fun provideCartDao(database: GameSageDatabase): CartDao {
+        return database.getCartDao()
+    }
+
+    @Provides
+    fun provideFavoriteDao(database: GameSageDatabase): FavoriteDao {
+        return database.getFavoriteDao()
     }
 }

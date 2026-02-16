@@ -217,7 +217,7 @@ class ProductScreenViewModel @Inject constructor(
                     return@launch
                 }
 
-                cartRepository.addToCart(currentState.game.id, platformId, 1).fold(
+                cartRepository.add(currentState.game.id, platformId, 1).fold(
                     onSuccess = {
                         _uiState.value = currentState.copy(addedToCartSuccess = true, error = null)
                         kotlinx.coroutines.delay(2000)
@@ -270,7 +270,7 @@ class ProductScreenViewModel @Inject constructor(
                 val platform = currentState.game.platforms?.find { it.name == currentState.selectedPlatform }
                 val platformId = platform?.id ?: return@launch
 
-                favoritesRepository.addToFavorites(currentState.game.id, platformId).fold(
+                favoritesRepository.add(currentState.game.id, platformId).fold(
                     onSuccess = {
                         _uiState.value = currentState.copy(addedToFavoritesSuccess = true)
                         kotlinx.coroutines.delay(2000)

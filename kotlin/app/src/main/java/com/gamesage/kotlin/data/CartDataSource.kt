@@ -1,9 +1,9 @@
-package com.gamesage.kotlin.data.repository.cart
+package com.gamesage.kotlin.data
 
 import com.gamesage.kotlin.data.model.CartItem
 import kotlinx.coroutines.flow.Flow
 
-interface CartRepository {
+interface CartDataSource {
     suspend fun readAll(): Result<List<CartItem>>
     suspend fun readOne(gameId: Int, platformId: Int): Result<CartItem>
     fun observe(): Flow<Result<List<CartItem>>>

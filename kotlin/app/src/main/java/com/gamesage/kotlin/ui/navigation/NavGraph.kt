@@ -1,23 +1,13 @@
 package com.gamesage.kotlin.ui.navigation
 
 import android.app.Activity
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -28,31 +18,25 @@ import com.gamesage.kotlin.ui.pages.home.HomeScreen
 import com.gamesage.kotlin.ui.pages.product.ProductScreen
 import com.gamesage.kotlin.ui.common.TopBar
 import com.gamesage.kotlin.ui.common.HomeBottomBar
-import kotlinx.coroutines.launch
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.gamesage.kotlin.R
 import com.gamesage.kotlin.data.local.TokenManager
 import com.gamesage.kotlin.ui.common.Menu
-import com.gamesage.kotlin.ui.pages.aichat.AIChatScreen
 import com.gamesage.kotlin.ui.pages.cart.CartScreen
 import com.gamesage.kotlin.ui.pages.conditions.ConditionsScreen
-import com.gamesage.kotlin.ui.pages.map.MapScreen
+import com.gamesage.kotlin.ui.pages.contact.MapScreen
 import com.gamesage.kotlin.ui.pages.contact.ContactScreen
 import com.gamesage.kotlin.ui.pages.cookies.CookiesScreen
 import com.gamesage.kotlin.ui.pages.dashboard.CameraScreen
 import com.gamesage.kotlin.ui.pages.dashboard.CaptureScreen
 import com.gamesage.kotlin.ui.pages.dashboard.DashboardScreen
 import com.gamesage.kotlin.ui.pages.dashboard.DashboardScreenViewModel
-import com.gamesage.kotlin.ui.pages.dashboard.imageFileToBase64
 import com.gamesage.kotlin.ui.pages.login.LoginScreen
 import com.gamesage.kotlin.ui.pages.privacy.PrivacyScreen
 import com.gamesage.kotlin.ui.pages.register.RegisterScreen
 import com.gamesage.kotlin.ui.pages.search.SearchScreen
-import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -65,7 +49,6 @@ fun NavGraph(
     val token by tokenManager.token.collectAsState(initial = null)
     var showBottomSheet by remember { mutableStateOf(false) }
     val backStackEntry by navController.currentBackStackEntryAsState()
-    val isAIChat = backStackEntry?.destination?.hasRoute<Destinations.AIChat>() == true
     var searchQuery by remember { mutableStateOf("") }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
@@ -81,7 +64,6 @@ fun NavGraph(
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            if (!isAIChat) {
                 CenterAlignedTopAppBar(
                     title = {
                         TopBar(
@@ -110,10 +92,9 @@ fun NavGraph(
                         containerColor = Color(0xFF030712)
                     )
                 )
-            }
+
         },
         bottomBar = {
-            if (!isAIChat) {
                 HomeBottomBar(
                     onMenuClick = { showBottomSheet = true },
                     onCartClick = { if (token != null) {
@@ -135,11 +116,7 @@ fun NavGraph(
                             navController.navigate(Destinations.Login)
                         }
                     },
-                    onAiChatClick = {
-                        navController.navigate(Destinations.AIChat)
-                    }
                 )
-            }
         },
         containerColor = Color(0xFF111827)
     ) { innerPadding ->
@@ -190,7 +167,6 @@ fun NavGraph(
 
             composable<Destinations.Terms> {
                 ConditionsScreen(
-                    onNavigateBack = { navController.popBackStack() }
                 )
             }
 
