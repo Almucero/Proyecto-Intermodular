@@ -1,7 +1,6 @@
 package com.gamesage.kotlin.ui.pages.cart
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -10,7 +9,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -18,8 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -29,18 +27,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.gamesage.kotlin.R
 import com.gamesage.kotlin.data.model.CartItem
-import com.gamesage.kotlin.data.model.Game
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow.Companion.Ellipsis
 
 @Composable
 fun CartScreen(
     viewModel: CartScreenViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-
-    LaunchedEffect(Unit) {
-        viewModel.loadCart()
-    }
 
     Column(
         modifier = Modifier
@@ -113,7 +107,7 @@ fun CartScreen(
                     ) {
                         Text(
                             text = stringResource(R.string.cart_total),
-                            color = Color(0xFF9CA3AF),
+                            color = Color(0xFF93E3FE),
                             fontSize = 24.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -147,19 +141,19 @@ fun CartScreen(
                     }
 
                     Button(
-                        onClick = { viewModel.checkout() },
+                        onClick = {  },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color.Transparent
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(50.dp)
-                            .border(2.dp, Color(0xFF06B6D4), RoundedCornerShape(8.dp)),
+                            .border(2.dp, Color(0xFF93E3FE), RoundedCornerShape(8.dp)),
                         shape = RoundedCornerShape(8.dp)
                     ) {
                         Text(
                             text = stringResource(R.string.cart_checkout),
-                            color = Color(0xFF06B6D4),
+                            color = Color(0xFF93E3FE),
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Medium
                         )
@@ -200,8 +194,8 @@ fun CartItemRow(
                 contentDescription = game?.media?.firstOrNull()?.altText,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop,
-                error = androidx.compose.ui.graphics.painter.ColorPainter(Color(0xFF374151)),
-                placeholder = androidx.compose.ui.graphics.painter.ColorPainter(Color(0xFF1F2937))
+                error = ColorPainter(Color(0xFF374151)),
+                placeholder = ColorPainter(Color(0xFF1F2937))
             )
         }
 
@@ -216,7 +210,7 @@ fun CartItemRow(
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold,
                 maxLines = 2,
-                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+                overflow = Ellipsis
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
@@ -224,7 +218,7 @@ fun CartItemRow(
                 color = Color(0xFF9CA3AF),
                 fontSize = 12.sp,
                 maxLines = 1,
-                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+                overflow = Ellipsis
             )
         }
         
@@ -276,7 +270,7 @@ fun CartItemRow(
                 )
                 Text(
                     text = "${game.salePrice}€",
-                    color = Color(0xFF22D3EE),
+                    color = Color(0xFF93E3FE),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -298,7 +292,7 @@ fun CartItemRow(
             )
              Text(
                 text = String.format("%.2f€", itemTotal),
-                color = Color.White,
+                color = Color(0xFF93E3FE),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
             )

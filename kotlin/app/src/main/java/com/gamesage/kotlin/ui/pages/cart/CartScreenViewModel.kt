@@ -34,7 +34,7 @@ class CartScreenViewModel @Inject constructor(
     fun loadCart() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
-            val result = cartRepository.getCart()
+            val result = cartRepository.readAll()
             if (result.isSuccess) {
                 val items = result.getOrNull() ?: emptyList()
                 _uiState.update {
@@ -88,10 +88,9 @@ class CartScreenViewModel @Inject constructor(
             }
             state.copy(cartItems = updatedItems, total = calculateTotal(updatedItems))
         }
-
-        val result = cartRepository.updateCartItem(item.gameId, item.platformId, newQuantity)
+        val result = cartRepository.update(item.gameId, item.platformId, newQuantity)
         if (result.isFailure) {
-            loadCart() 
+            loadCart()
         }
     }
 
@@ -102,7 +101,7 @@ class CartScreenViewModel @Inject constructor(
                 state.copy(cartItems = updatedItems, total = calculateTotal(updatedItems))
             }
             
-            val result = cartRepository.removeFromCart(gameId, platformId)
+            val result = cartRepository.remove(gameId, platformId)
             if (result.isFailure) {
                 loadCart()
             }
@@ -112,14 +111,10 @@ class CartScreenViewModel @Inject constructor(
     fun clearCart() {
         viewModelScope.launch {
             _uiState.update { it.copy(cartItems = emptyList(), total = 0.0) }
-            val result = cartRepository.clearCart()
+            val result = cartRepository.clear()
             if (result.isFailure) {
                 loadCart()
             }
         }
-    }
-
-    fun checkout() {
-        // TODO: Implement checkout logic
     }
 }

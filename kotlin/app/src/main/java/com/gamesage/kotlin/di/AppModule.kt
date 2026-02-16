@@ -8,6 +8,8 @@ import com.gamesage.kotlin.data.MediaDataSource
 import com.gamesage.kotlin.data.PlatformDataSource
 import com.gamesage.kotlin.data.PublisherDataSource
 import com.gamesage.kotlin.data.UserDataSource
+import com.gamesage.kotlin.data.CartDataSource
+import com.gamesage.kotlin.data.FavoritesDataSource
 import com.gamesage.kotlin.data.local.developer.DeveloperLocalDataSource
 import com.gamesage.kotlin.data.local.game.GameLocalDataSource
 import com.gamesage.kotlin.data.local.genre.GenreLocalDataSource
@@ -23,6 +25,8 @@ import com.gamesage.kotlin.data.remote.MediaRemoteDataSource
 import com.gamesage.kotlin.data.remote.PlatformRemoteDataSource
 import com.gamesage.kotlin.data.remote.PublisherRemoteDataSource
 import com.gamesage.kotlin.data.remote.UserRemoteDataSource
+import com.gamesage.kotlin.data.remote.CartRemoteDataSource
+import com.gamesage.kotlin.data.remote.FavoritesRemoteDataSource
 import com.gamesage.kotlin.data.repository.developer.DeveloperRepository
 import com.gamesage.kotlin.data.repository.developer.DeveloperRepositoryImpl
 import com.gamesage.kotlin.data.repository.game.GameRepository
@@ -35,6 +39,12 @@ import com.gamesage.kotlin.data.repository.platform.PlatformRepository
 import com.gamesage.kotlin.data.repository.platform.PlatformRepositoryImpl
 import com.gamesage.kotlin.data.repository.publisher.PublisherRepository
 import com.gamesage.kotlin.data.repository.publisher.PublisherRepositoryImpl
+import com.gamesage.kotlin.data.local.cart.CartLocalDataSource
+import com.gamesage.kotlin.data.local.favorites.FavoritesLocalDataSource
+import com.gamesage.kotlin.data.repository.favorites.FavoritesRepository
+import com.gamesage.kotlin.data.repository.favorites.FavoritesRepositoryImpl
+import com.gamesage.kotlin.data.repository.cart.CartRepository
+import com.gamesage.kotlin.data.repository.cart.CartRepositoryImpl
 import com.gamesage.kotlin.data.repository.chat.ChatRepository
 import com.gamesage.kotlin.data.repository.chat.ChatRepositoryImpl
 import com.gamesage.kotlin.data.repository.user.UserRepository
@@ -49,6 +59,34 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class AppModule {
+    @Binds
+    @Singleton
+    @RemoteDataSource
+    abstract fun bindRemoteCartDataSource(ds: CartRemoteDataSource): CartDataSource
+
+    @Binds
+    @Singleton
+    @RemoteDataSource
+    abstract fun bindRemoteFavoritesDataSource(ds: FavoritesRemoteDataSource): FavoritesDataSource
+
+    @Binds
+    @Singleton
+    @LocalDataSource
+    abstract fun bindLocalCartDataSource(ds: CartLocalDataSource): CartDataSource
+
+    @Binds
+    @Singleton
+    @LocalDataSource
+    abstract fun bindLocalFavoritesDataSource(ds: FavoritesLocalDataSource): FavoritesDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindCartRepository(repository: CartRepositoryImpl): CartRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindFavoritesRepository(repository: FavoritesRepositoryImpl): FavoritesRepository
+
     @Singleton
     @Binds
     @RemoteDataSource
@@ -137,10 +175,6 @@ abstract class AppModule {
     @Binds
     @RemoteDataSource
     abstract fun bindsRemoteChatDataSource(ds: ChatRemoteDataSource): ChatDataSource
-//    @Singleton
-//    @Binds
-//    @LocalDataSource
-//    abstract fun bindsLocalChatDataSource(ds: ChatLocalDataSource): ChatDataSource
     @Binds
     @Singleton
     abstract fun bindChatRepository(repository: ChatRepositoryImpl): ChatRepository

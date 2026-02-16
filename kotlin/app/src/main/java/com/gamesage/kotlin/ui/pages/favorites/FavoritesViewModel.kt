@@ -35,7 +35,7 @@ class FavoritesViewModel @Inject constructor(
     fun loadFavorites() {
         viewModelScope.launch {
             _uiState.value = FavoritesUiState.Loading
-            favoritesRepository.getFavorites()
+            favoritesRepository.readAll()
                 .onSuccess { games ->
                     if (games.isEmpty()) {
                         _uiState.value = FavoritesUiState.Empty
@@ -64,7 +64,7 @@ class FavoritesViewModel @Inject constructor(
                 }
             }
 
-            favoritesRepository.removeFromFavorites(gameId, platformId)
+            favoritesRepository.remove(gameId, platformId)
                 .onSuccess {
                 }
                 .onFailure {
@@ -76,7 +76,7 @@ class FavoritesViewModel @Inject constructor(
     fun addToCart(game: Game) {
         val platformId = game.platforms?.firstOrNull()?.id ?: 0 // Default to first available platform or 0
         viewModelScope.launch {
-            cartRepository.addToCart(game.id, platformId, 1)
+            cartRepository.add(game.id, platformId, 1)
                 .onSuccess {
                     removeFromFavorites(game.id)
                 }
@@ -89,7 +89,7 @@ class FavoritesViewModel @Inject constructor(
             viewModelScope.launch {
                 currentState.games.forEach { game ->
                     val platformId = game.platforms?.firstOrNull()?.id ?: 0
-                    cartRepository.addToCart(game.id, platformId, 1)
+                    cartRepository.add(game.id, platformId, 1)
                 }
             }
         }

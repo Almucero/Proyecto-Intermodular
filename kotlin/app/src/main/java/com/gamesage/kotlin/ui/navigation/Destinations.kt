@@ -52,6 +52,4 @@ sealed class Destinations(val route: String) {
     @Serializable
     object Favorites : Destinations("favorites")
 
-    @Serializable
-    object AIChat : Destinations("aichat")
 }

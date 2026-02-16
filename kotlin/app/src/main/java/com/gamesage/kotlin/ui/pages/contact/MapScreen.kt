@@ -1,4 +1,4 @@
-package com.gamesage.kotlin.ui.pages.map
+package com.gamesage.kotlin.ui.pages.contact
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
