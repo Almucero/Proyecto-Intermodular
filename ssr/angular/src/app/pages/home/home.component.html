@@ -1,0 +1,121 @@
+<div class="flex-1 w-full bg-gray-900 text-white font-sans pb-20">
+  <div class="contenedor-imagenes">
+    <img
+      #backgroundLayer
+      src="assets/images/fondo.webp"
+      class="background mobile-hide"
+    />
+    <img #jokerLayer src="assets/images/joker.png" class="joker mobile-hide" />
+    <img #titleLayer src="assets/images/titulo.png" class="titulo" />
+    <img
+      #geraltLayer
+      src="assets/images/geralt.avif"
+      class="geralt mobile-hide"
+    />
+    <img #bottomLayer src="assets/images/bottom.png" class="bottom" />
+  </div>
+  <div
+    #mainContent
+    class="flex-1 flex flex-col justify-between pb-4 content-wrapper bg-gray-900"
+  >
+    <section class="mt-0 flex-none w-full">
+      <h2
+        class="text-4xl font-bold font-cinzel text-cyan-300 mb-4 text-center difuminadoTexto mobile-title"
+      >
+        -- {{ "genres.title" | translate }} --
+      </h2>
+      <section class="relative z-50 genres-section">
+        <div
+          class="flex flex-wrap justify-center items-center gap-3 py-1 px-4 pr-10 max-w-full genres-wrapper"
+        >
+          <div
+            *ngFor="let gen of visibleGenres; let isLast = last"
+            class="relative flex items-center"
+          >
+            <span
+              class="w-auto min-w-[8rem] px-6 py-2 bg-gray-800 hover:bg-cyan-500 hover:text-white transition rounded-full cursor-pointer text-sm sm:text-base text-center truncate duration-150 active:scale-95 mobile-pill"
+              (click)="goToGenres(gen.value)"
+              [title]="gen.key | translate"
+            >
+              {{ gen.key | translate }}
+            </span>
+
+            <div
+              *ngIf="isLast"
+              class="absolute left-full top-1/2 -translate-y-1/2 ml-3 z-10 genre-dropdown-container"
+            >
+              <div class="relative inline-flex items-center">
+                <button
+                  (click)="toggleAllGenres(); $event.stopPropagation()"
+                  class="flex items-center justify-center w-8 h-8 rounded-full text-cyan-300 hover:text-cyan-400 hover:bg-white/5 transition-all duration-150 active:scale-95 bg-transparent border-none cursor-pointer"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6 transition-transform duration-300"
+                    [class.rotate-180]="
+                      showAllGenres && !isClosingGenreDropdown
+                    "
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                <div
+                  *ngIf="showAllGenres"
+                  class="absolute top-full left-1/2 -translate-x-1/2 mt-4 bg-gray-800 rounded-lg shadow-xl border border-gray-700 max-h-80 overflow-y-auto z-[99999] scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800 genre-dropdown-menu"
+                  [class.animate-fadeIn]="!isClosingGenreDropdown"
+                  [class.animate-fadeOut]="isClosingGenreDropdown"
+                  style="min-width: 200px"
+                >
+                  <div class="flex flex-col py-1">
+                    <button
+                      *ngFor="let gen of dropdownItems"
+                      (click)="goToGenres(gen.value); closeGenreDropdown()"
+                      class="px-4 py-2 hover:bg-gray-800 text-left bg-transparent border-none transition-colors duration-150 active:scale-95 text-white cursor-pointer whitespace-nowrap genre-dropdown-item"
+                    >
+                      {{ gen.key | translate }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+    <hr class="w-11/12 mx-auto border-t-2 border-white/50" />
+    <div class="flex-col justify-evenly min-h-3">
+      <app-carousel
+        [title]="'home.bestSellers'"
+        [items]="bestSellers"
+        sectionId="masVendidos"
+        (itemClick)="goToProduct($event)"
+      ></app-carousel>
+
+      <hr class="w-11/12 mx-auto border-t-2 border-white/50 my-6" />
+
+      <app-carousel
+        [title]="'home.offers'"
+        [items]="onSaleGames"
+        sectionId="ofertas"
+        (itemClick)="goToProduct($event)"
+      ></app-carousel>
+
+      <hr class="w-11/12 mx-auto border-t-2 border-white/50 my-6" />
+
+      <app-carousel
+        [title]="'home.topRated'"
+        [items]="topRatedGames"
+        sectionId="mejorValorados"
+        (itemClick)="goToProduct($event)"
+      ></app-carousel>
+    </div>
+  </div>
+</div>

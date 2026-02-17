@@ -1,0 +1,28 @@
+# Dependencias
+node_modules/
+
+# Builds y compilados
+dist/
+coverage/
+*.tsbuildinfo
+
+# Entornos y variables
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+
+# Configs locales
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*.swo
+
+# Archivos generados automáticamente
+src/generated/prisma/
+
+.vercel/

@@ -1,0 +1,579 @@
+<div
+  class="relative flex flex-col bg-gray-800 rounded-xl shadow-2xl max-w-4xl mx-auto border-none max-h-[70vh] overflow-hidden"
+>
+  <div class="flex-1 overflow-y-auto p-8 custom-scrollbar relative">
+    <form
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+      class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start"
+    >
+      <div class="space-y-6">
+        <div class="group">
+          <label
+            for="title"
+            class="block text-gray-400 text-sm font-medium mb-2 uppercase tracking-wider"
+            >{{ "common.title" | translate }}</label
+          >
+          <input
+            type="text"
+            id="title"
+            formControlName="title"
+            class="w-full h-14 min-h-[3.5rem] max-h-[3.5rem] bg-gray-900/30 text-white rounded-lg px-4 border-none focus:ring-1 focus:ring-cyan-500 focus:outline-none"
+            [placeholder]="'admin.games.enterTitle' | translate"
+            [class.border-red-500]="
+              form.get('title')?.touched && form.get('title')?.invalid
+            "
+          />
+          <div
+            *ngIf="form.get('title')?.touched && form.get('title')?.invalid"
+            class="text-red-400 text-xs mt-1"
+          >
+            {{ "errors.required" | translate }}
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="group">
+            <label
+              for="price"
+              class="block text-gray-400 text-sm font-medium mb-2 uppercase tracking-wider"
+              >{{ "common.price" | translate }}</label
+            >
+            <div class="relative">
+              <span
+                class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"
+                >€</span
+              >
+              <input
+                type="number"
+                id="price"
+                formControlName="price"
+                class="w-full h-14 min-h-[3.5rem] max-h-[3.5rem] bg-gray-900/30 text-white rounded-lg pr-4 pl-10 border-none focus:ring-1 focus:ring-cyan-500 focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <div class="group">
+            <label
+              for="rating"
+              class="block text-gray-400 text-sm font-medium mb-2 uppercase tracking-wider"
+              >Rating</label
+            >
+            <div class="relative">
+              <span
+                class="absolute left-4 top-1/2 -translate-y-1/2 text-yellow-500 text-lg"
+                >★</span
+              >
+              <input
+                type="number"
+                id="rating"
+                formControlName="rating"
+                class="w-full h-14 min-h-[3.5rem] max-h-[3.5rem] bg-gray-900/30 text-white rounded-lg pr-4 pl-10 border-none focus:ring-1 focus:ring-cyan-500 focus:outline-none"
+                min="0"
+                max="100"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="group">
+          <label
+            for="developerId"
+            class="block text-gray-400 text-sm font-medium mb-2 uppercase tracking-wider"
+            >{{ "admin.games.developer" | translate }}</label
+          >
+          <div class="grid grid-cols-[1fr_auto] gap-2 h-14">
+            <div
+              class="bg-gray-900/30 rounded-lg px-4 flex items-center h-full focus-within:ring-1 focus-within:ring-cyan-500 transition-all"
+            >
+              <select
+                id="developerId"
+                formControlName="developerId"
+                class="w-full h-full bg-transparent text-white border-none focus:ring-0 focus:outline-none appearance-none cursor-pointer"
+              >
+                <option [ngValue]="null" class="text-gray-500">
+                  {{ "admin.games.selectDeveloper" | translate }}
+                </option>
+                <option *ngFor="let dev of developers" [ngValue]="dev.id">
+                  {{ dev.name }}
+                </option>
+              </select>
+            </div>
+            <button
+              type="button"
+              (click)="showDevModal = true"
+              class="h-full aspect-square bg-gray-700 hover:bg-gray-600 text-cyan-400 rounded-lg border-none flex items-center justify-center transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 4.5v15m7.5-7.5h-15"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="group">
+          <label
+            for="publisherId"
+            class="block text-gray-400 text-sm font-medium mb-2 uppercase tracking-wider"
+            >{{ "admin.games.publisher" | translate }}</label
+          >
+          <div class="grid grid-cols-[1fr_auto] gap-2 h-14">
+            <div
+              class="bg-gray-900/30 rounded-lg px-4 flex items-center h-full focus-within:ring-1 focus-within:ring-cyan-500 transition-all"
+            >
+              <select
+                id="publisherId"
+                formControlName="publisherId"
+                class="w-full h-full bg-transparent text-white border-none focus:ring-0 focus:outline-none appearance-none cursor-pointer"
+              >
+                <option [ngValue]="null" class="text-gray-500">
+                  {{ "admin.games.selectPublisher" | translate }}
+                </option>
+                <option *ngFor="let pub of publishers" [ngValue]="pub.id">
+                  {{ pub.name }}
+                </option>
+              </select>
+            </div>
+            <button
+              type="button"
+              (click)="showPubModal = true"
+              class="h-full aspect-square bg-gray-700 hover:bg-gray-600 text-cyan-400 rounded-lg border-none flex items-center justify-center transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 4.5v15m7.5-7.5h-15"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="group">
+          <label
+            class="block text-gray-400 text-sm font-medium mb-2 uppercase tracking-wider"
+            >{{ "admin.games.videoUrl" | translate }}</label
+          >
+          <input
+            type="text"
+            formControlName="videoUrl"
+            class="w-full h-14 min-h-[3.5rem] max-h-[3.5rem] bg-gray-900/30 text-white rounded-lg px-4 border-none focus:ring-1 focus:ring-cyan-500 focus:outline-none placeholder-gray-600"
+            [placeholder]="'admin.games.enterVideoUrl' | translate"
+          />
+        </div>
+
+        <div class="group">
+          <label
+            class="block text-gray-400 text-sm font-medium mb-2 uppercase tracking-wider"
+            >{{ "admin.games.releaseDate" | translate }}</label
+          >
+          <input
+            type="date"
+            formControlName="releaseDate"
+            class="w-full h-14 min-h-[3.5rem] max-h-[3.5rem] bg-gray-900/30 text-white rounded-lg px-4 border-none focus:ring-1 focus:ring-cyan-500 focus:outline-none"
+          />
+        </div>
+
+        <div class="group">
+          <label
+            class="block text-gray-400 text-sm font-medium mb-2 uppercase tracking-wider"
+          >
+            {{ "common.image" | translate }}
+          </label>
+          <app-file-upload
+            formControlName="image"
+            [acceptedMimeTypes]="['image/png', 'image/jpeg', 'image/webp']"
+            [initialUrl]="currentImageUrl"
+            [placeholder]="'admin.games.uploadPlaceholder' | translate"
+          ></app-file-upload>
+        </div>
+      </div>
+
+      <div class="space-y-6">
+        <div class="group">
+          <div class="flex justify-between items-center mb-2">
+            <label
+              class="block text-gray-400 text-sm font-medium uppercase tracking-wider"
+              >{{ "admin.games.genre" | translate }}</label
+            >
+            <button
+              type="button"
+              (click)="showGenreModal = true"
+              class="px-3 py-1 bg-gray-700 hover:bg-gray-600 text-cyan-400 rounded-lg border-none text-xs font-bold uppercase tracking-wide flex items-center gap-1 cursor-pointer"
+            >
+              + {{ "admin.games.new" | translate }}
+            </button>
+          </div>
+
+          <div
+            class="relative bg-gray-900/30 rounded-xl h-60 border-none overflow-hidden"
+          >
+            <div
+              #genreContainer
+              (scroll)="onGenreScroll()"
+              [style.mask-image]="getGenreMaskStyle()"
+              [style.-webkit-mask-image]="getGenreMaskStyle()"
+              [style.mask-size]="'calc(100% - 14px) 100%, 14px 100%'"
+              [style.-webkit-mask-size]="'calc(100% - 14px) 100%, 14px 100%'"
+              [style.mask-position]="'0 0, 100% 0'"
+              [style.-webkit-mask-position]="'0 0, 100% 0'"
+              [style.mask-repeat]="'no-repeat, no-repeat'"
+              [style.-webkit-mask-repeat]="'no-repeat, no-repeat'"
+              class="h-full overflow-y-auto p-4 custom-scrollbar grid grid-cols-2 gap-2 relative z-10"
+            >
+              <label
+                *ngFor="let genre of genres"
+                class="flex items-center gap-3 p-2 rounded hover:bg-gray-800/50 cursor-pointer group transition-colors"
+              >
+                <div class="relative flex items-center justify-center w-5 h-5">
+                  <input
+                    type="checkbox"
+                    [checked]="isGenreSelected(genre.id)"
+                    (change)="onGenreChange($event, genre.id)"
+                    class="peer appearance-none w-full h-full rounded border-none bg-gray-700 checked:bg-cyan-600 hover:bg-gray-600 checked:hover:bg-cyan-600 transition-colors cursor-pointer z-0"
+                  />
+                  <svg
+                    class="absolute w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity z-10"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <span
+                  class="text-gray-400 group-hover:text-cyan-100 text-sm select-none"
+                  >{{ genre.name }}</span
+                >
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="flex justify-between items-center mb-2">
+            <label
+              class="block text-gray-400 text-sm font-medium uppercase tracking-wider"
+              >{{ "admin.games.platform" | translate }}</label
+            >
+            <button
+              type="button"
+              (click)="showPlatformModal = true"
+              class="px-3 py-1 bg-gray-700 hover:bg-gray-600 text-cyan-400 rounded-lg border-none text-xs font-bold uppercase tracking-wide flex items-center gap-1 cursor-pointer"
+            >
+              + {{ "admin.games.new" | translate }}
+            </button>
+          </div>
+
+          <div
+            class="bg-gray-900/30 p-4 rounded-xl border-none grid grid-cols-2 gap-2"
+          >
+            <label
+              *ngFor="let platform of platforms"
+              class="flex items-center gap-3 p-2 rounded hover:bg-gray-800/50 cursor-pointer group transition-colors"
+            >
+              <div class="relative flex items-center justify-center w-5 h-5">
+                <input
+                  type="checkbox"
+                  [checked]="isPlatformSelected(platform.id)"
+                  (change)="onPlatformChange($event, platform.id)"
+                  class="peer appearance-none w-full h-full rounded border-none bg-gray-700 checked:bg-cyan-600 hover:bg-gray-600 checked:hover:bg-cyan-600 transition-colors cursor-pointer z-0"
+                />
+                <svg
+                  class="absolute w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity z-10"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <span
+                class="text-gray-400 group-hover:text-cyan-100 text-sm select-none"
+                >{{ platform.name }}</span
+              >
+            </label>
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="flex items-center mb-2">
+            <label
+              class="block text-gray-400 text-sm font-medium uppercase tracking-wider"
+              >{{ "admin.games.stock" | translate }}</label
+            >
+          </div>
+          <div
+            class="bg-gray-900/30 p-4 rounded-xl border-none grid grid-cols-3 gap-4"
+          >
+            <div
+              class="group"
+              *ngFor="
+                let platform of [
+                  'Pc',
+                  'Ps5',
+                  'XboxX',
+                  'Switch',
+                  'Ps4',
+                  'XboxOne'
+                ]
+              "
+            >
+              <label
+                class="text-gray-500 text-xs uppercase mb-1 block tracking-tight whitespace-nowrap overflow-hidden text-ellipsis"
+                >Stock {{ platform }}</label
+              >
+              <input
+                type="number"
+                formControlName="stock{{ platform }}"
+                class="w-full bg-gray-800 text-white text-center rounded p-2 border-none focus:outline-none text-sm"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="bg-gray-900/30 p-4 rounded-xl border-none flex flex-col gap-4"
+        >
+          <label class="flex items-center gap-3 cursor-pointer group">
+            <div class="relative flex items-center justify-center w-5 h-5">
+              <input
+                type="checkbox"
+                formControlName="isOnSale"
+                class="peer appearance-none w-full h-full rounded border-none bg-gray-700 checked:bg-green-500 hover:bg-gray-600 transition-colors cursor-pointer z-0"
+              />
+              <svg
+                class="absolute w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity z-10"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <span class="text-gray-300 font-medium group-hover:text-white">{{
+              "admin.games.isOnSale" | translate
+            }}</span>
+          </label>
+
+          <div *ngIf="form.get('isOnSale')?.value" class="animate-fadeIn">
+            <label
+              class="text-gray-400 text-sm font-medium uppercase tracking-wider mb-2 block"
+              >{{ "admin.games.salePrice" | translate }}</label
+            >
+            <div class="relative">
+              <span
+                class="absolute left-4 top-1/2 -translate-y-1/2 text-green-500 font-bold"
+                >€</span
+              >
+              <input
+                type="number"
+                formControlName="salePrice"
+                placeholder="0.00"
+                class="w-full h-14 min-h-[3.5rem] max-h-[3.5rem] bg-gray-800 text-green-400 font-bold rounded-lg pr-4 pl-10 border-none focus:outline-none"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="col-span-1 lg:col-span-2 flex justify-center gap-4 border-none"
+      >
+        <div
+          *ngIf="errorMessage"
+          class="flex-1 text-red-400 bg-red-900/20 px-4 py-2 rounded border border-red-800 flex items-center"
+        >
+          <span class="mr-2">⚠</span> {{ errorMessage }}
+        </div>
+
+        <button
+          type="button"
+          (click)="onCancel()"
+          class="px-6 py-3 rounded-lg bg-gray-700 hover:bg-gray-600 text-gray-200 font-medium transition-colors border-none cursor-pointer"
+        >
+          {{ "common.cancel" | translate }}
+        </button>
+        <button
+          type="submit"
+          [disabled]="form.invalid"
+          class="px-8 py-3 rounded-lg border-none bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold shadow-lg shadow-cyan-900/50 transition-all transform hover:-translate-y-0.5 cursor-pointer"
+        >
+          {{ "common.save" | translate }}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div
+    *ngIf="showDevModal"
+    class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn"
+  >
+    <div
+      class="bg-gray-800 p-8 rounded-2xl shadow-2xl w-96 border-none transform transition-all scale-100"
+    >
+      <h4
+        class="text-xl font-bold text-white mb-6 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"
+      >
+        {{ "admin.games.newDeveloper" | translate }}
+      </h4>
+      <input
+        type="text"
+        [(ngModel)]="newDevName"
+        [ngModelOptions]="{ standalone: true }"
+        class="w-full bg-gray-700 text-white rounded-xl p-4 border-none mb-6 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all"
+        [placeholder]="'admin.games.enterName' | translate"
+      />
+      <div class="flex justify-end gap-3">
+        <button
+          (click)="showDevModal = false"
+          class="text-gray-400 hover:text-white px-4 py-2 font-medium transition-colors rounded-xl border-none outline-none focus:outline-none"
+        >
+          {{ "common.cancel" | translate }}
+        </button>
+        <button
+          (click)="quickCreateDeveloper()"
+          class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded-xl font-bold shadow-lg shadow-cyan-900/50 transition-colors border-none outline-none focus:outline-none"
+        >
+          {{ "admin.actions.create" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="showPubModal"
+    class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn"
+  >
+    <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl w-96 border-none">
+      <h4
+        class="text-xl font-bold text-white mb-6 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"
+      >
+        {{ "admin.games.newPublisher" | translate }}
+      </h4>
+      <input
+        type="text"
+        [(ngModel)]="newPubName"
+        [ngModelOptions]="{ standalone: true }"
+        class="w-full bg-gray-700 text-white rounded-xl p-4 border-none mb-6 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all"
+        [placeholder]="'admin.games.enterName' | translate"
+      />
+      <div class="flex justify-end gap-3">
+        <button
+          (click)="showPubModal = false"
+          class="text-gray-400 hover:text-white px-4 py-2 font-medium transition-colors rounded-xl border-none outline-none focus:outline-none"
+        >
+          {{ "common.cancel" | translate }}
+        </button>
+        <button
+          (click)="quickCreatePublisher()"
+          class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded-xl font-bold shadow-lg shadow-cyan-900/50 transition-colors border-none outline-none focus:outline-none"
+        >
+          {{ "admin.actions.create" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="showGenreModal"
+    class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn"
+  >
+    <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl w-96 border-none">
+      <h4 class="text-xl font-bold text-white mb-6">
+        {{ "admin.games.newGenre" | translate }}
+      </h4>
+      <input
+        type="text"
+        [(ngModel)]="newGenreName"
+        [ngModelOptions]="{ standalone: true }"
+        class="w-full bg-gray-700 text-white rounded-xl p-4 border-none mb-6 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all"
+        [placeholder]="'admin.games.enterName' | translate"
+      />
+      <div class="flex justify-end gap-3">
+        <button
+          (click)="showGenreModal = false"
+          class="text-gray-400 hover:text-white px-4 py-2 font-medium rounded-xl border-none outline-none focus:outline-none"
+        >
+          {{ "common.cancel" | translate }}
+        </button>
+        <button
+          (click)="quickCreateGenre()"
+          class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded-xl font-bold shadow-lg transition-colors border-none outline-none focus:outline-none"
+        >
+          {{ "admin.actions.create" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="showPlatformModal"
+    class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn"
+  >
+    <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl w-96 border-none">
+      <h4 class="text-xl font-bold text-white mb-6">
+        {{ "admin.games.newPlatform" | translate }}
+      </h4>
+      <input
+        type="text"
+        [(ngModel)]="newPlatformName"
+        [ngModelOptions]="{ standalone: true }"
+        class="w-full bg-gray-700 text-white rounded-xl p-4 border-none mb-6 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all"
+        [placeholder]="'admin.games.enterName' | translate"
+      />
+      <div class="flex justify-end gap-3">
+        <button
+          (click)="showPlatformModal = false"
+          class="text-gray-400 hover:text-white px-4 py-2 font-medium rounded-xl border-none outline-none focus:outline-none"
+        >
+          {{ "common.cancel" | translate }}
+        </button>
+        <button
+          (click)="quickCreatePlatform()"
+          class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded-xl font-bold shadow-lg transition-colors border-none outline-none focus:outline-none"
+        >
+          {{ "admin.actions.create" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-gray-800 to-transparent pointer-events-none z-10"
+  ></div>
+  <div
+    class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-gray-800 to-transparent pointer-events-none z-10"
+  ></div>
+</div>

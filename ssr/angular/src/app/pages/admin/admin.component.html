@@ -1,0 +1,65 @@
+<div
+  class="flex flex-col md:flex-row h-[calc(100vh-140px)] bg-gray-900 text-white font-sans overflow-hidden"
+>
+  <aside
+    class="w-full md:w-64 bg-gray-800 flex flex-col border-r border-gray-700 overflow-y-auto"
+  >
+    <div class="p-6">
+      <h2 class="text-2xl font-bold text-cyan-300">
+        {{ "admin.title" | translate }}
+      </h2>
+    </div>
+
+    <nav class="flex-1 px-4 space-y-2">
+      <a
+        routerLink="genres"
+        routerLinkActive="bg-gray-700 text-cyan-300"
+        class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-cyan-300 no-underline text-gray-300"
+      >
+        {{ "admin.menu.genres" | translate }}
+      </a>
+      <a
+        routerLink="developers"
+        routerLinkActive="bg-gray-700 text-cyan-300"
+        class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-cyan-300 no-underline text-gray-300"
+      >
+        {{ "admin.menu.developers" | translate }}
+      </a>
+      <a
+        routerLink="platforms"
+        routerLinkActive="bg-gray-700 text-cyan-300"
+        class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-cyan-300 no-underline text-gray-300"
+      >
+        {{ "admin.menu.platforms" | translate }}
+      </a>
+      <a
+        routerLink="publishers"
+        routerLinkActive="bg-gray-700 text-cyan-300"
+        class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-cyan-300 no-underline text-gray-300"
+      >
+        {{ "admin.menu.publishers" | translate }}
+      </a>
+      <div class="border-t border-gray-700 my-2"></div>
+      <a
+        routerLink="games"
+        routerLinkActive="bg-gray-700 text-cyan-300"
+        class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-cyan-300 no-underline text-gray-300 font-bold"
+      >
+        {{ "admin.menu.games" | translate }}
+      </a>
+    </nav>
+
+    <div class="p-4 border-t border-gray-700">
+      <button
+        (click)="onLogout()"
+        class="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded transition-colors flex items-center justify-center gap-2 duration-150 active:scale-95 focus:outline-none cursor-pointer border-none"
+      >
+        <span>{{ "dashboard.logout" | translate }}</span>
+      </button>
+    </div>
+  </aside>
+
+  <main class="flex-1 p-8 relative overflow-hidden flex flex-col">
+    <router-outlet></router-outlet>
+  </main>
+</div>

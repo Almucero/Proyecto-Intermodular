@@ -1,0 +1,65 @@
+@use "bootstrap/scss/bootstrap";
+
+input:focus,
+textarea:focus,
+button:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+body.chat-mode {
+  overflow: hidden;
+
+  .app-container {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .main-content {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .route-container {
+    overflow: hidden;
+    min-height: 0;
+  }
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #4b5563 transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #4b5563;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #6b7280;
+  }
+}

@@ -1,0 +1,676 @@
+<div class="flex-1 w-full bg-gray-900 text-white font-sans pb-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+    <div class="mb-6">
+      <h1
+        class="text-4xl font-bold text-white mb-2"
+        [class.animate-pulse]="game?.id === -1"
+        [class.text-gray-500]="game?.id === -1"
+      >
+        {{ game?.id === -1 ? (game?.title | translate) : game?.title }}
+      </h1>
+      <div class="flex items-center gap-2 text-sm" *ngIf="game?.id === -1">
+        <!-- Skeleton Stars -->
+        <div class="flex gap-1 animate-pulse">
+          <div
+            class="w-4 h-4 bg-gray-800 rounded-full"
+            *ngFor="let i of [1, 2, 3, 4, 5]"
+          ></div>
+        </div>
+        <div class="w-8 h-4 bg-gray-800 rounded animate-pulse"></div>
+      </div>
+
+      <div
+        class="flex items-center gap-2 text-sm"
+        *ngIf="game && game.id !== -1"
+      >
+        <div class="flex text-white">
+          <svg
+            *ngFor="let star of getRatingStars()"
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4 fill-current"
+            viewBox="0 0 20 20"
+            [title]="'tooltips.rating' | translate"
+          >
+            <path
+              d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+            />
+          </svg>
+          <svg
+            *ngFor="let star of getEmptyStars()"
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4 fill-current text-gray-500"
+            viewBox="0 0 20 20"
+            [title]="'tooltips.rating' | translate"
+          >
+            <path
+              d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+            />
+          </svg>
+        </div>
+        <span class="text-gray-400">{{ game.rating }}</span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div class="lg:col-span-8 space-y-8">
+        <div class="relative">
+          <div
+            class="aspect-video bg-black rounded-lg overflow-hidden relative group"
+          >
+            <!-- Skeleton Main Player -->
+            <div
+              *ngIf="game?.id === -1"
+              class="w-full h-full bg-gray-700 animate-pulse absolute inset-0 z-20 pointer-events-none"
+            ></div>
+
+            <ng-container *ngIf="game && game.id !== -1">
+              <iframe
+                *ngIf="mediaItems[currentMediaIndex]?.type === 'video'"
+                [src]="mediaItems[currentMediaIndex].url"
+                class="w-full h-full transition-opacity duration-300"
+                frameborder="0"
+                scrolling="no"
+                allow="
+                accelerometer;
+                autoplay;
+                clipboard-write;
+                encrypted-media;
+                gyroscope;
+                picture-in-picture;
+                autoplay;
+              "
+                allowfullscreen
+              ></iframe>
+              <img
+                *ngIf="mediaItems[currentMediaIndex]?.type === 'image'"
+                [src]="mediaItems[currentMediaIndex].url"
+                [alt]="mediaItems[currentMediaIndex].label"
+                class="w-full h-full object-contain transition-opacity duration-300"
+              />
+            </ng-container>
+
+            <button
+              (click)="previousMedia()"
+              [disabled]="currentMediaIndex === 0"
+              [class.opacity-30]="currentMediaIndex === 0"
+              [class.cursor-not-allowed]="currentMediaIndex === 0"
+              [class.cursor-pointer]="currentMediaIndex !== 0"
+              [class.hover:scale-110]="currentMediaIndex !== 0"
+              [class.active:scale-95]="currentMediaIndex !== 0"
+              class="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all duration-150 **opacity-0 group-hover:opacity-100** z-50 pointer-events-auto"
+              [title]="'tooltips.previousMedia' | translate"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-8 w-8"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="3"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+
+            <button
+              (click)="nextMedia()"
+              [disabled]="currentMediaIndex === mediaItems.length - 1"
+              [class.opacity-30]="currentMediaIndex === mediaItems.length - 1"
+              [class.cursor-not-allowed]="
+                currentMediaIndex === mediaItems.length - 1
+              "
+              [class.cursor-pointer]="
+                currentMediaIndex !== mediaItems.length - 1
+              "
+              [class.hover:scale-110]="
+                currentMediaIndex !== mediaItems.length - 1
+              "
+              [class.active:scale-95]="
+                currentMediaIndex !== mediaItems.length - 1
+              "
+              class="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all duration-150 **opacity-0 group-hover:opacity-100** z-50 pointer-events-auto"
+              [title]="'tooltips.nextMedia' | translate"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-8 w-8"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="3"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <div class="flex justify-center gap-2 mt-4">
+            <div
+              *ngFor="let media of mediaItems; let i = index"
+              (click)="selectMedia(i)"
+              [class.border-cyan-400]="currentMediaIndex === i"
+              [class.border-4]="currentMediaIndex === i"
+              [class.scale-105]="currentMediaIndex === i"
+              [class.scale-90]="currentMediaIndex !== i"
+              [class.opacity-50]="currentMediaIndex !== i"
+              class="w-24 h-16 bg-black rounded-lg overflow-hidden border-2 border-gray-700 cursor-pointer hover:border-gray-500 transition-all flex items-center justify-center transform duration-150 relative active:scale-95"
+            >
+              <!-- Skeleton -->
+              <div
+                *ngIf="game?.id === -1"
+                class="w-full h-full bg-gray-700 animate-pulse pointer-events-none"
+              ></div>
+
+              <ng-container *ngIf="game && game.id !== -1">
+                <img
+                  *ngIf="media.type === 'image'"
+                  [src]="media.url"
+                  [alt]="media.label"
+                  class="w-full h-full object-cover"
+                />
+                <div
+                  *ngIf="media.type === 'video'"
+                  class="w-full h-full relative flex items-center justify-center"
+                >
+                  <img
+                    *ngIf="media.thumbnail"
+                    [src]="media.thumbnail"
+                    [alt]="media.label"
+                    class="w-full h-full object-cover opacity-75"
+                  />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6 text-white absolute"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  <span *ngIf="!media.thumbnail" class="text-gray-400 text-xs"
+                    >▶ {{ media.label }}</span
+                  >
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-gray-300 space-y-4 leading-relaxed text-sm">
+          <!-- Description Skeleton -->
+          <div *ngIf="game?.id === -1" class="space-y-2 animate-pulse">
+            <div class="h-4 bg-gray-800 rounded w-full"></div>
+            <div class="h-4 bg-gray-800 rounded w-full"></div>
+            <div class="h-4 bg-gray-800 rounded w-3/4"></div>
+          </div>
+          <!-- Real Description -->
+          <p
+            *ngIf="game && game.id !== -1"
+            class="whitespace-pre-line text-justify"
+          >
+            {{ game.description }}
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="aspect-video bg-[#1e1e1e] rounded-lg overflow-hidden">
+            <!-- Skeleton for Screenshot 1 -->
+            <div
+              *ngIf="game?.id === -1"
+              class="w-full h-full bg-gray-700 animate-pulse pointer-events-none"
+            ></div>
+            <img
+              *ngIf="game && game.id !== -1 && screenshot1"
+              [src]="screenshot1"
+              alt="Screenshot 1"
+              class="w-full h-full object-cover"
+            />
+            <div
+              *ngIf="game && game.id !== -1 && !screenshot1"
+              class="w-full h-full bg-gray-800 flex items-center justify-center text-gray-600"
+            >
+              No Screenshot 1
+            </div>
+          </div>
+          <div class="aspect-video bg-[#1e1e1e] rounded-lg overflow-hidden">
+            <!-- Skeleton for Screenshot 2 -->
+            <div
+              *ngIf="game?.id === -1"
+              class="w-full h-full bg-gray-700 animate-pulse pointer-events-none"
+            ></div>
+            <img
+              *ngIf="game && game.id !== -1 && screenshot2"
+              [src]="screenshot2"
+              alt="Screenshot 2"
+              class="w-full h-full object-cover"
+            />
+            <div
+              *ngIf="game && game.id !== -1 && !screenshot2"
+              class="w-full h-full bg-gray-800 flex items-center justify-center text-gray-600"
+            >
+              No Screenshot 2
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="lg:col-span-4 space-y-2">
+        <div class="bg-gray-900 p-6 rounded-lg -mt-7">
+          <!-- Price Skeleton -->
+          <div
+            *ngIf="game?.id === -1"
+            class="h-10 w-32 bg-gray-800 rounded animate-pulse mb-6"
+          ></div>
+
+          <!-- Real Price -->
+          <div *ngIf="game?.id !== -1" class="flex items-baseline gap-3 mb-6">
+            <span class="text-white text-4xl font-bold">
+              <span
+                *ngIf="
+                  (game?.isOnSale && game?.salePrice !== null
+                    ? game?.salePrice
+                    : game?.price) === 0
+                "
+              >
+                {{ "product.free" | translate }}
+              </span>
+              <span
+                *ngIf="
+                  (game?.isOnSale && game?.salePrice !== null
+                    ? game?.salePrice
+                    : game?.price) !== 0
+                "
+              >
+                {{
+                  (game?.isOnSale && game?.salePrice
+                    ? game?.salePrice
+                    : game?.price
+                  ) | currency : "EUR"
+                }}
+              </span>
+            </span>
+            <span
+              *ngIf="game?.isOnSale && game?.price && game?.price !== 0"
+              class="text-gray-500 line-through text-xl"
+              >{{ game?.price | currency : "EUR" }}</span
+            >
+          </div>
+
+          <div class="mb-6">
+            <span class="text-gray-400 text-sm mb-3 block">{{
+              "product.platform" | translate
+            }}</span>
+
+            <!-- Platforms Skeleton -->
+            <div *ngIf="game?.id === -1" class="grid grid-cols-3 gap-2">
+              <div
+                class="h-20 bg-gray-800 rounded-lg animate-pulse"
+                *ngFor="let i of [1, 2, 3, 4, 5, 6]"
+              ></div>
+            </div>
+
+            <!-- Real Platforms -->
+            <div *ngIf="game?.id !== -1" class="grid grid-cols-3 gap-2">
+              <div
+                *ngFor="let platform of sortedPlatforms"
+                (click)="
+                  isPlatformAvailable(platform.name) &&
+                    selectPlatform(platform.name)
+                "
+                [class.border-cyan-400]="
+                  selectedPlatform === platform.name &&
+                  isPlatformAvailable(platform.name)
+                "
+                [class.border-4]="
+                  selectedPlatform === platform.name &&
+                  isPlatformAvailable(platform.name)
+                "
+                [class.scale-105]="
+                  selectedPlatform === platform.name &&
+                  isPlatformAvailable(platform.name)
+                "
+                [class.opacity-30]="!isPlatformAvailable(platform.name)"
+                [class.cursor-not-allowed]="!isPlatformAvailable(platform.name)"
+                [class.cursor-pointer]="isPlatformAvailable(platform.name)"
+                [style.background-color]="
+                  selectedPlatform === platform.name &&
+                  isPlatformAvailable(platform.name)
+                    ? 'rgb(55, 65, 81)'
+                    : ''
+                "
+                class="bg-gray-800 hover:bg-gray-700 p-3 rounded-lg transition-all border-2 border-gray-700 flex items-center justify-center transform duration-150 active:scale-95"
+              >
+                <img
+                  [src]="platform.image"
+                  [alt]="platform.name"
+                  class="w-14 h-14 object-contain"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <!-- Stock Skeleton -->
+            <div
+              *ngIf="game?.id === -1"
+              class="h-5 w-24 bg-gray-800 rounded animate-pulse mb-6 mx-auto"
+            ></div>
+
+            <div
+              *ngIf="game && game.id !== -1 && selectedPlatform"
+              class="flex items-center justify-center gap-2 mb-6"
+            >
+              <svg
+                *ngIf="getStockForPlatform(selectedPlatform) > 20"
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-green-500"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              <span
+                [class.text-green-500]="
+                  getStockForPlatform(selectedPlatform) > 20
+                "
+                [class.text-yellow-500]="
+                  getStockForPlatform(selectedPlatform) > 0 &&
+                  getStockForPlatform(selectedPlatform) <= 20
+                "
+                [class.text-red-500]="
+                  getStockForPlatform(selectedPlatform) === 0
+                "
+                class="text-sm font-bold"
+              >
+                <span *ngIf="getStockForPlatform(selectedPlatform) > 20">{{
+                  "product.inStock" | translate
+                }}</span>
+                <span
+                  *ngIf="
+                    getStockForPlatform(selectedPlatform) > 0 &&
+                    getStockForPlatform(selectedPlatform) <= 20
+                  "
+                  >{{ "product.fewLeft" | translate }}</span
+                >
+                <span *ngIf="getStockForPlatform(selectedPlatform) === 0">{{
+                  "product.outOfStock" | translate
+                }}</span>
+              </span>
+            </div>
+
+            <!-- Buttons Skeleton -->
+            <ng-container *ngIf="game?.id === -1">
+              <div class="w-full h-12 bg-gray-800 rounded animate-pulse"></div>
+              <div class="w-full h-12 bg-gray-800 rounded animate-pulse"></div>
+              <div class="w-full h-12 bg-gray-800 rounded animate-pulse"></div>
+            </ng-container>
+
+            <ng-container *ngIf="game && game.id !== -1">
+              <button
+                (click)="buyNow()"
+                [disabled]="
+                  !selectedPlatform ||
+                  getStockForPlatform(selectedPlatform) === 0
+                "
+                [class.opacity-50]="
+                  !selectedPlatform ||
+                  getStockForPlatform(selectedPlatform) === 0
+                "
+                [class.cursor-not-allowed]="
+                  !selectedPlatform ||
+                  getStockForPlatform(selectedPlatform) === 0
+                "
+                [class.from-green-500]="buySuccess()"
+                [class.to-green-600]="buySuccess()"
+                [class.hover:from-green-400]="buySuccess()"
+                [class.hover:to-green-500]="buySuccess()"
+                class="w-full bg-gradient-to-r bg-cyan-400 hover:bg-cyan-300 hover:to-[#5a5a7a] text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"
+              >
+                @if (buySuccess()) {
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                {{ "product.goingToCart" | translate }}
+                } @else {
+                <svg
+                  *ngIf="!selectedPlatform"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  [title]="'tooltips.platformLocked' | translate"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                {{ "product.buy" | translate }}
+                }
+              </button>
+              <button
+                (click)="addToCart()"
+                [disabled]="
+                  !selectedPlatform ||
+                  getStockForPlatform(selectedPlatform) === 0
+                "
+                [class.opacity-50]="
+                  !selectedPlatform ||
+                  getStockForPlatform(selectedPlatform) === 0
+                "
+                [class.cursor-not-allowed]="
+                  !selectedPlatform ||
+                  getStockForPlatform(selectedPlatform) === 0
+                "
+                [class.bg-green-600]="addedToCartSuccess()"
+                [class.hover:bg-green-500]="addedToCartSuccess()"
+                [class.bg-yellow-600]="quantityIncreased()"
+                [class.hover:bg-yellow-500]="quantityIncreased()"
+                class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"
+              >
+                @if (addedToCartSuccess()) {
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                {{ "product.addedToCart" | translate }}
+                } @else if (quantityIncreased()) {
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                {{ "product.quantityIncreased" | translate }}
+                } @else {
+                {{ "product.addToCart" | translate }}
+                }
+              </button>
+              <button
+                (click)="addToFavorites()"
+                [disabled]="!selectedPlatform"
+                [class.opacity-50]="!selectedPlatform"
+                [class.cursor-not-allowed]="!selectedPlatform"
+                [class.bg-green-600]="addedToFavoritesSuccess()"
+                [class.hover:bg-green-500]="addedToFavoritesSuccess()"
+                [class.bg-red-600]="alreadyInFavorites()"
+                [class.hover:bg-red-500]="alreadyInFavorites()"
+                class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"
+              >
+                @if (addedToFavoritesSuccess()) {
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                {{ "product.addedToFavorites" | translate }}
+                } @else if (alreadyInFavorites()) {
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                {{ "product.alreadyInFavorites" | translate }}
+                } @else {
+                {{ "product.addToFavorites" | translate }}
+                }
+              </button>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="bg-gray-900 p-6 rounded-lg">
+          <div
+            class="text-sm border border-gray-500 divide-y divide-gray-500 info-list rounded-lg"
+          >
+            <div class="grid grid-cols-2 item">
+              <span
+                class="text-gray-400 p-4 border-r border-gray-500 rounded-tl-lg"
+              >
+                {{ "product.developer" | translate }}
+              </span>
+              <span class="text-right text-gray-300 p-4 rounded-tr-lg">
+                <span *ngIf="game?.id !== -1">{{
+                  game?.Developer?.name || "N/A"
+                }}</span>
+                <div
+                  *ngIf="game?.id === -1"
+                  class="h-4 w-20 bg-gray-800 rounded animate-pulse ml-auto"
+                ></div>
+              </span>
+            </div>
+            <div class="grid grid-cols-2 item">
+              <span class="text-gray-400 p-4 border-r border-gray-500">
+                {{ "product.publisher" | translate }}
+              </span>
+              <span class="text-right text-gray-300 p-4">
+                <span *ngIf="game?.id !== -1">{{
+                  game?.Publisher?.name || "N/A"
+                }}</span>
+                <div
+                  *ngIf="game?.id === -1"
+                  class="h-4 w-20 bg-gray-800 rounded animate-pulse ml-auto"
+                ></div>
+              </span>
+            </div>
+            <div class="grid grid-cols-2 item">
+              <span class="text-gray-400 p-4 border-r border-gray-500">
+                {{ "product.releaseDate" | translate }}
+              </span>
+              <span class="text-right text-gray-300 p-4">
+                <span *ngIf="game?.id !== -1">{{
+                  game?.releaseDate
+                    ? (game?.releaseDate | date : "dd/MM/yyyy")
+                    : "N/A"
+                }}</span>
+                <div
+                  *ngIf="game?.id === -1"
+                  class="h-4 w-24 bg-gray-800 rounded animate-pulse ml-auto"
+                ></div>
+              </span>
+            </div>
+            <div class="grid grid-cols-2 item">
+              <span
+                class="text-gray-400 p-4 border-r border-gray-500 rounded-bl-lg"
+              >
+                {{ "product.refund" | translate }}
+              </span>
+              <span class="text-right text-gray-300 p-4 rounded-br-lg">
+                <span *ngIf="game?.id !== -1">{{
+                  game?.isRefundable ? "Si" : "No"
+                }}</span>
+                <div
+                  *ngIf="game?.id === -1"
+                  class="h-4 w-10 bg-gray-800 rounded animate-pulse ml-auto"
+                ></div>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if (showAuthModal()) {
+  <div
+    class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+  >
+    <div
+      class="bg-gray-900 rounded-xl max-w-md w-full p-6 shadow-2xl transform transition-all"
+    >
+      <h3 class="text-xl font-bold text-white mb-4">
+        {{ "authGuard.loginRequiredTitle" | translate }}
+      </h3>
+      <p class="text-gray-300 mb-8">
+        {{ "authGuard.loginRequiredMessage" | translate }}
+      </p>
+      <div class="flex gap-4 justify-end">
+        <button
+          (click)="cancelLogin()"
+          class="px-6 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg transition-all font-medium border-0 outline-none"
+        >
+          {{ "authGuard.cancel" | translate }}
+        </button>
+        <button
+          (click)="confirmLogin()"
+          class="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg hover:from-cyan-400 hover:to-blue-400 transition-all font-medium border-0 outline-none"
+        >
+          {{ "authGuard.login" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+  }
+</div>

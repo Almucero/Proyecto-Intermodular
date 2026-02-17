@@ -1,0 +1,295 @@
+<div class="flex-1 w-full bg-gray-900 text-white font-sans pb-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+    <div class="flex flex-col sm:flex-row gap-8">
+      <div class="flex-1 order-2 sm:order-1">
+        <div
+          *ngIf="filteredGames.length > 0"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-24 search-results-grid"
+        >
+          <app-game-card
+            *ngFor="let game of filteredGames"
+            [game]="game"
+            [coverUrl]="getCoverUrl(game)"
+            [fullWidth]="true"
+            (cardClick)="goToProduct($event)"
+          ></app-game-card>
+        </div>
+
+        <div
+          *ngIf="filteredGames.length === 0"
+          class="text-center text-gray-400 py-20"
+        >
+          <p class="text-xl">{{ "search.noResults" | translate }}</p>
+        </div>
+      </div>
+
+      <div class="w-full sm:w-80 order-1 sm:order-2 sticky top-24 h-fit">
+        <div class="bg-gray-900 rounded-lg p-4">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold text-white">
+              {{ "search.title" | translate }}
+              <span *ngIf="activeFilters.length > 0"
+                >({{ activeFilters.length }})</span
+              >
+            </h3>
+            <button
+              *ngIf="activeFilters.length > 0"
+              (click)="resetFilters()"
+              class="text-cyan-400 hover:text-cyan-300 text-base capitalize font-medium transition-colors !bg-transparent !border-0 !outline-none !shadow-none appearance-none cursor-pointer"
+              style="
+                background: transparent !important;
+                border: none !important;
+                outline: none !important;
+                box-shadow: none !important;
+              "
+            >
+              {{ "search.reset" | translate }}
+            </button>
+          </div>
+
+          <div
+            *ngIf="activeFilters.length > 0"
+            class="flex flex-wrap gap-2 mb-6"
+          >
+            <div
+              *ngFor="let filter of activeFilters"
+              class="bg-gray-800 border border-gray-700 text-gray-300 px-3 py-1 rounded-full text-sm flex items-center gap-2"
+            >
+              <span>{{ filter.label | translate }}</span>
+              <button
+                (click)="removeFilter(filter.type)"
+                class="hover:text-white transition-colors !bg-transparent !border-0 !outline-none !shadow-none appearance-none cursor-pointer flex items-center justify-center"
+                style="
+                  background: transparent !important;
+                  border: none !important;
+                  outline: none !important;
+                  box-shadow: none !important;
+                "
+                [title]="'search.removeFilter' | translate"
+              >
+                &times;
+              </button>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div class="border border-gray-800 rounded-lg overflow-hidden">
+              <button
+                (click)="toggleFilter('price')"
+                class="w-full flex items-center justify-between p-4 bg-gray-900 transition-colors focus:outline-none !outline-none !shadow-none !border-none ring-0"
+                [class.hover:bg-gray-800]="!filtersExpanded['price']"
+                style="
+                  outline: none !important;
+                  box-shadow: none !important;
+                  border: none !important;
+                "
+              >
+                <span class="font-medium text-gray-300">{{
+                  "search.filters.price.label" | translate
+                }}</span>
+                <span
+                  class="transform transition-transform duration-200"
+                  [class.rotate-180]="filtersExpanded['price']"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </span>
+              </button>
+
+              <div
+                *ngIf="filtersExpanded['price']"
+                [@expandCollapse]
+                class="px-4 pb-4 bg-gray-900"
+              >
+                <hr class="border-white mb-4" />
+                <div class="space-y-4">
+                  <div class="space-y-2">
+                    <div
+                      *ngFor="let option of priceOptions"
+                      (click)="
+                        selectedPrice = option.value;
+                        updateActiveFilters();
+                        applyFilters()
+                      "
+                      class="cursor-pointer flex items-center justify-between group"
+                      [class.text-cyan-400]="selectedPrice === option.value"
+                      [class.text-gray-400]="selectedPrice !== option.value"
+                    >
+                      <span
+                        class="group-hover:text-cyan-400 transition-colors"
+                        >{{ option.label | translate }}</span
+                      >
+                      <span
+                        *ngIf="selectedPrice === option.value"
+                        class="text-cyan-400"
+                        >&check;</span
+                      >
+                    </div>
+                  </div>
+
+                  <div class="pt-2 border-t border-gray-800">
+                    <label class="block text-sm text-gray-400 mb-2"
+                      >Max: {{ priceValue }}€</label
+                    >
+                    <input
+                      type="range"
+                      [min]="minPrice"
+                      [max]="maxPrice"
+                      [(ngModel)]="priceValue"
+                      (change)="onPriceSliderChange()"
+                      class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-cyan-500"
+                    />
+                    <div
+                      class="flex justify-between text-xs text-gray-500 mt-1"
+                    >
+                      <span>{{ minPrice }}€</span>
+                      <span>{{ maxPrice }}€</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="border border-gray-800 rounded-lg overflow-hidden">
+              <button
+                (click)="toggleFilter('genre')"
+                class="w-full flex items-center justify-between p-4 bg-gray-900 transition-colors focus:outline-none !outline-none !shadow-none !border-none ring-0"
+                [class.hover:bg-gray-800]="!filtersExpanded['genre']"
+                style="
+                  outline: none !important;
+                  box-shadow: none !important;
+                  border: none !important;
+                "
+              >
+                <span class="font-medium text-gray-300">{{
+                  "search.filters.genre.label" | translate
+                }}</span>
+                <span
+                  class="transform transition-transform duration-200"
+                  [class.rotate-180]="filtersExpanded['genre']"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </span>
+              </button>
+
+              <div
+                *ngIf="filtersExpanded['genre']"
+                [@expandCollapse]
+                class="px-4 pb-4 bg-gray-900"
+              >
+                <hr class="border-white mb-4" />
+                <div class="space-y-2">
+                  <div
+                    *ngFor="let option of genreOptions"
+                    (click)="
+                      selectedGenre = option.value;
+                      updateActiveFilters();
+                      applyFilters()
+                    "
+                    class="cursor-pointer flex items-center justify-between group"
+                    [class.text-cyan-400]="selectedGenre === option.value"
+                    [class.text-gray-400]="selectedGenre !== option.value"
+                  >
+                    <span class="group-hover:text-cyan-400 transition-colors">{{
+                      option.label | translate
+                    }}</span>
+                    <span
+                      *ngIf="selectedGenre === option.value"
+                      class="text-cyan-400"
+                      >&check;</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="border border-gray-800 rounded-lg overflow-hidden">
+              <button
+                (click)="toggleFilter('platform')"
+                class="w-full flex items-center justify-between p-4 bg-gray-900 transition-colors focus:outline-none !outline-none !shadow-none !border-none ring-0"
+                [class.hover:bg-gray-800]="!filtersExpanded['platform']"
+                style="
+                  outline: none !important;
+                  box-shadow: none !important;
+                  border: none !important;
+                "
+              >
+                <span class="font-medium text-gray-300">{{
+                  "search.filters.platform.label" | translate
+                }}</span>
+                <span
+                  class="transform transition-transform duration-200"
+                  [class.rotate-180]="filtersExpanded['platform']"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </span>
+              </button>
+
+              <div
+                *ngIf="filtersExpanded['platform']"
+                [@expandCollapse]
+                class="px-4 pb-4 bg-gray-900"
+              >
+                <hr class="border-white mb-4" />
+                <div class="space-y-2">
+                  <div
+                    *ngFor="let option of platformOptions"
+                    (click)="
+                      selectedPlatform = option.value;
+                      updateActiveFilters();
+                      applyFilters()
+                    "
+                    class="cursor-pointer flex items-center justify-between group"
+                    [class.text-cyan-400]="selectedPlatform === option.value"
+                    [class.text-gray-400]="selectedPlatform !== option.value"
+                  >
+                    <span class="group-hover:text-cyan-400 transition-colors">{{
+                      option.label
+                    }}</span>
+                    <span
+                      *ngIf="selectedPlatform === option.value"
+                      class="text-cyan-400"
+                      >&check;</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
