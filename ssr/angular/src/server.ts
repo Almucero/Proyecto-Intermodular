@@ -6,6 +6,7 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
+import { env } from './backend/config/env';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -48,7 +49,7 @@ export const reqHandler = createNodeRequestHandler(app);
 
 // Arrancar servidor HTTP cuando se ejecuta directamente con Node
 if (isMainModule(import.meta.url)) {
-  const port = Number(process.env['PORT'] ?? 4000);
+  const port = env.PORT;
   app.listen(port, (err?: Error) => {
     if (err) {
       console.error('Error al iniciar el servidor:', err);
