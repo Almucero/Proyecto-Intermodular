@@ -5,6 +5,7 @@ import com.gamesage.kotlin.data.model.Game
 import com.gamesage.kotlin.data.remote.api.GameSageApi
 import com.gamesage.kotlin.data.remote.model.toDomain
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 class FavoritesRemoteDataSource @Inject constructor(
@@ -34,8 +35,8 @@ class FavoritesRemoteDataSource @Inject constructor(
                         videoUrl = fullGame.videoUrl,
                         rating = fav.rating,
                         releaseDate = null,
-                        createdAt = java.time.LocalDateTime.now(),
-                        updatedAt = java.time.LocalDateTime.now(),
+                        createdAt = LocalDateTime.now(),
+                        updatedAt = LocalDateTime.now(),
                         genres = fullGame.genres?.map { it.toDomain() },
                         media = fullGame.media?.map { it.toDomain() },
                         platforms = fav.platform?.let { listOf(it.toDomain()) },
