@@ -17,7 +17,6 @@ import com.gamesage.kotlin.data.local.media.MediaLocalDataSource
 import com.gamesage.kotlin.data.local.platform.PlatformLocalDataSource
 import com.gamesage.kotlin.data.local.publisher.PublisherLocalDataSource
 import com.gamesage.kotlin.data.local.user.UserLocalDataSource
-import com.gamesage.kotlin.data.remote.ChatRemoteDataSource
 import com.gamesage.kotlin.data.remote.DeveloperRemoteDataSource
 import com.gamesage.kotlin.data.remote.GameRemoteDataSource
 import com.gamesage.kotlin.data.remote.GenreRemoteDataSource
@@ -170,14 +169,6 @@ abstract class AppModule {
     @Binds
     @Singleton
     abstract fun bindUserRepository(repository: UserRepositoryImpl): UserRepository
-
-    @Singleton
-    @Binds
-    @RemoteDataSource
-    abstract fun bindsRemoteChatDataSource(ds: ChatRemoteDataSource): ChatDataSource
-    @Binds
-    @Singleton
-    abstract fun bindChatRepository(repository: ChatRepositoryImpl): ChatRepository
 }
 
 @Qualifier

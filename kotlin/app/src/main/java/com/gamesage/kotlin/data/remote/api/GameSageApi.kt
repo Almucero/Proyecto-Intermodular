@@ -29,8 +29,7 @@ interface GameSageApi:
     PlatformsApi,
     MediaApi,
     CartApi,
-    FavoritesApi,
-    ChatApi
+    FavoritesApi
 
 interface AuthApi {
     @POST("api/auth/register")
@@ -149,15 +148,4 @@ interface FavoritesApi {
     suspend fun removeFromFavorites(@Path("gameId") gameId: Int, @Query("platformId") platformId: Int = 0)
     @GET("api/favorites/check/{gameId}")
     suspend fun isFavorite(@Path("gameId") gameId: Int, @Query("platformId") platformId: Int = 0): Boolean
-}
-
-interface ChatApi {
-    @GET("/api/chat/sessions")
-    suspend fun getSessions(): List<ChatSessionApiModel>
-    @GET("/api/chat/sessions/{id}")
-    suspend fun getSession(@Path("id") id: Int): ChatSessionApiModel
-    @POST("/api/chat")
-    suspend fun sendMessage(@Body request: SendMessageRequest): ChatResponseApiModel
-    @DELETE("/api/chat/sessions/{id}")
-    suspend fun deleteSession(@Path("id") id: Int)
 }
