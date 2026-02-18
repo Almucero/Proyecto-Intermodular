@@ -1,13 +1,13 @@
-import multer from "multer";
-import { Router } from "express";
+import multer from 'multer';
+import { Router } from 'express';
 import {
   listMediaCtrl,
   getMediaCtrl,
   updateMediaCtrl,
   deleteMediaCtrl,
   uploadMediaCtrl,
-} from "./media.controller";
-import { auth } from "../../middleware/auth";
+} from './media.controller';
+import { auth } from '../../middleware/auth';
 
 const router = Router();
 
@@ -18,20 +18,20 @@ const upload = multer({
   },
   fileFilter: (req, file, cb) => {
     const allowedMimes = [
-      "image/jpeg",
-      "image/jpg",
-      "image/png",
-      "image/gif",
-      "image/webp",
-      "image/bmp",
-      "image/x-ms-bmp",
-      "image/tiff",
-      "image/svg+xml",
+      'image/jpeg',
+      'image/jpg',
+      'image/png',
+      'image/gif',
+      'image/webp',
+      'image/bmp',
+      'image/x-ms-bmp',
+      'image/tiff',
+      'image/svg+xml',
     ];
     if (allowedMimes.includes(file.mimetype)) {
       cb(null, true);
     } else {
-      cb(new Error("Tipo de archivo no permitido"));
+      cb(new Error('Tipo de archivo no permitido'));
     }
   },
 });
@@ -121,7 +121,7 @@ const upload = multer({
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get("/", listMediaCtrl);
+router.get('/', listMediaCtrl);
 
 /**
  * @swagger
@@ -177,7 +177,7 @@ router.get("/", listMediaCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.post("/upload", auth, upload.single("file"), uploadMediaCtrl);
+router.post('/upload', auth, upload.single('file'), uploadMediaCtrl);
 
 /**
  * @swagger
@@ -213,7 +213,7 @@ router.post("/upload", auth, upload.single("file"), uploadMediaCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get("/:id", getMediaCtrl);
+router.get('/:id', getMediaCtrl);
 
 /**
  * @swagger
@@ -278,7 +278,7 @@ router.get("/:id", getMediaCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.put("/:id/upload", auth, upload.single("file"), updateMediaCtrl);
+router.put('/:id/upload', auth, upload.single('file'), updateMediaCtrl);
 
 /**
  * @swagger
@@ -322,6 +322,6 @@ router.put("/:id/upload", auth, upload.single("file"), updateMediaCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.delete("/:id", auth, deleteMediaCtrl);
+router.delete('/:id', auth, deleteMediaCtrl);
 
 export default router;

@@ -14,7 +14,7 @@ export class PurchaseItemService
 {
   constructor(
     @Inject(PURCHASE_ITEM_REPOSITORY_TOKEN)
-    repository: IBaseRepository<PurchaseItem>
+    repository: IBaseRepository<PurchaseItem>,
   ) {
     super(repository);
   }

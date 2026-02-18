@@ -1,5 +1,5 @@
-import type { Request, Response, NextFunction } from "express";
-import { logger } from "../utils/logger";
+import type { Request, Response, NextFunction } from 'express';
+import { logger } from '../utils/logger';
 
 export function errorHandler(
   err: any,
@@ -11,5 +11,5 @@ export function errorHandler(
   logger.error(err.stack);
 
   const status = err.status || 500;
-  res.status(status).json({ message: err.message || "Error interno" });
+  res.status(status).json({ message: err.message || 'Error interno' });
 }

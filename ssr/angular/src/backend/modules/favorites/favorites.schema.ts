@@ -1,11 +1,11 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const addToFavoritesSchema = z.object({
-  gameId: z.number().int().positive("gameId debe ser un número positivo"),
+  gameId: z.number().int().positive('gameId debe ser un número positivo'),
   platformId: z
     .number()
     .int()
-    .positive("platformId debe ser un número positivo"),
+    .positive('platformId debe ser un número positivo'),
 });
 
 export type AddToFavoritesInput = z.infer<typeof addToFavoritesSchema>;

@@ -1,26 +1,26 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const addToCartSchema = z.object({
-  gameId: z.number().int().positive("gameId debe ser un número positivo"),
+  gameId: z.number().int().positive('gameId debe ser un número positivo'),
   quantity: z
     .number()
     .int()
-    .positive("quantity debe ser al menos 1")
+    .positive('quantity debe ser al menos 1')
     .default(1),
   platformId: z
     .number()
     .int()
-    .positive("platformId debe ser un número positivo"),
+    .positive('platformId debe ser un número positivo'),
 });
 
 export type AddToCartInput = z.infer<typeof addToCartSchema>;
 
 export const updateCartQuantitySchema = z.object({
-  quantity: z.number().int().positive("quantity debe ser al menos 1"),
+  quantity: z.number().int().positive('quantity debe ser al menos 1'),
   platformId: z
     .number()
     .int()
-    .positive("platformId debe ser un número positivo"),
+    .positive('platformId debe ser un número positivo'),
 });
 
 export type UpdateCartQuantityInput = z.infer<typeof updateCartQuantitySchema>;

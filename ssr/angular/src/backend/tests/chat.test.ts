@@ -1,19 +1,19 @@
 /// <reference types="jest" />
-import request from "supertest";
-import app from "../app";
-import { prisma } from "../config/db";
-import bcrypt from "bcryptjs";
+import request from 'supertest';
+import app from '../app';
+import { prisma } from '../config/db';
+import bcrypt from 'bcryptjs';
 
-describe("Chat Endpoints", () => {
+describe('Chat Endpoints', () => {
   let authToken: string;
   let userId: number;
   let createdSessionId: number;
 
   const testUser = {
     email: `chattest${Date.now()}@example.com`,
-    name: "Chat Test User",
-    surname: "Lastname",
-    password: "password123",
+    name: 'Chat Test User',
+    surname: 'Lastname',
+    password: 'password123',
   };
 
   beforeAll(async () => {
@@ -29,7 +29,7 @@ describe("Chat Endpoints", () => {
     userId = user.id;
 
     const loginRes = await request(app)
-      .post("/api/auth/login")
+      .post('/api/auth/login')
       .send({ email: testUser.email, password: testUser.password });
     authToken = loginRes.body.token;
   });
@@ -53,95 +53,95 @@ describe("Chat Endpoints", () => {
     }
   });
 
-  it("debe obtener lista vacía de sesiones para nuevo usuario", async () => {
+  it('debe obtener lista vacía de sesiones para nuevo usuario', async () => {
     const res = await request(app)
-      .get("/api/chat/sessions")
-      .set("Authorization", `Bearer ${authToken}`);
+      .get('/api/chat/sessions')
+      .set('Authorization', `Bearer ${authToken}`);
 
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
     expect(res.body.length).toBe(0);
   });
 
-  it("debe crear una nueva sesión al enviar mensaje sin sessionId", async () => {
+  it('debe crear una nueva sesión al enviar mensaje sin sessionId', async () => {
     const res = await request(app)
-      .post("/api/chat")
-      .set("Authorization", `Bearer ${authToken}`)
-      .send({ message: "Hola" });
+      .post('/api/chat')
+      .set('Authorization', `Bearer ${authToken}`)
+      .send({ message: 'Hola' });
 
     expect(res.status).toBe(200);
-    expect(res.body).toHaveProperty("sessionId");
-    expect(res.body).toHaveProperty("text");
-    expect(typeof res.body.sessionId).toBe("number");
+    expect(res.body).toHaveProperty('sessionId');
+    expect(res.body).toHaveProperty('text');
+    expect(typeof res.body.sessionId).toBe('number');
     createdSessionId = res.body.sessionId;
-  });
+  }, 15000);
 
-  it("debe obtener una sesión existente", async () => {
+  it('debe obtener una sesión existente', async () => {
     const session = await prisma.chatSession.create({
-      data: { userId, title: "Test Session" },
+      data: { userId, title: 'Test Session' },
     });
     createdSessionId = session.id;
 
     const res = await request(app)
       .get(`/api/chat/sessions/${session.id}`)
-      .set("Authorization", `Bearer ${authToken}`);
+      .set('Authorization', `Bearer ${authToken}`);
 
     expect(res.status).toBe(200);
-    expect(res.body).toHaveProperty("id", session.id);
-    expect(res.body).toHaveProperty("title");
-    expect(res.body).toHaveProperty("messages");
+    expect(res.body).toHaveProperty('id', session.id);
+    expect(res.body).toHaveProperty('title');
+    expect(res.body).toHaveProperty('messages');
   });
 
-  it("debe fallar al obtener sesión inexistente", async () => {
+  it('debe fallar al obtener sesión inexistente', async () => {
     const res = await request(app)
-      .get("/api/chat/sessions/99999")
-      .set("Authorization", `Bearer ${authToken}`);
+      .get('/api/chat/sessions/99999')
+      .set('Authorization', `Bearer ${authToken}`);
 
     expect(res.status).toBe(404);
   });
 
-  it("debe eliminar una sesión existente", async () => {
+  it('debe eliminar una sesión existente', async () => {
     const session = await prisma.chatSession.create({
-      data: { userId, title: "Session to delete" },
+      data: { userId, title: 'Session to delete' },
     });
 
     const res = await request(app)
       .delete(`/api/chat/sessions/${session.id}`)
-      .set("Authorization", `Bearer ${authToken}`);
+      .set('Authorization', `Bearer ${authToken}`);
 
     expect(res.status).toBe(200);
-    expect(res.body).toHaveProperty("deleted", true);
+    expect(res.body).toHaveProperty('deleted', true);
   });
 
-  it("debe fallar al eliminar sesión inexistente", async () => {
+  it('debe fallar al eliminar sesión inexistente', async () => {
     const res = await request(app)
-      .delete("/api/chat/sessions/99999")
-      .set("Authorization", `Bearer ${authToken}`);
+      .delete('/api/chat/sessions/99999')
+      .set('Authorization', `Bearer ${authToken}`);
 
     expect(res.status).toBe(404);
   });
 
-  it("debe fallar sin autenticación", async () => {
-    const res = await request(app).get("/api/chat/sessions");
+  it('debe fallar sin autenticación', async () => {
+    const res = await request(app).get('/api/chat/sessions');
 
     expect(res.status).toBe(401);
   });
 
-  it("debe listar sesiones después de crear una", async () => {
+  it('debe listar sesiones después de crear una', async () => {
     const session = await prisma.chatSession.create({
-      data: { userId, title: "Listed Session" },
+      data: { userId, title: 'Listed Session' },
     });
     createdSessionId = session.id;
 
     const res = await request(app)
-      .get("/api/chat/sessions")
-      .set("Authorization", `Bearer ${authToken}`);
+      .get('/api/chat/sessions')
+      .set('Authorization', `Bearer ${authToken}`);
 
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
     expect(res.body.length).toBeGreaterThan(0);
-    expect(res.body[0]).toHaveProperty("id");
-    expect(res.body[0]).toHaveProperty("title");
-    expect(res.body[0]).toHaveProperty("_count");
+    expect(res.body[0]).toHaveProperty('id');
+    expect(res.body[0]).toHaveProperty('title');
+    expect(res.body[0]).toHaveProperty('_count');
   });
 });

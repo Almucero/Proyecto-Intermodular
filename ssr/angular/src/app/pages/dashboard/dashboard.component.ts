@@ -1,6 +1,13 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  signal,
+  PLATFORM_ID,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -30,6 +37,7 @@ export class DashboardComponent {
   private mediaService = inject(MediaService);
   private purchaseService = inject(PurchaseService);
   private router = inject(Router);
+  private platformId = inject(PLATFORM_ID);
 
   user = toSignal(this.auth.user$);
   purchases = toSignal(this.purchaseService.getAll({ status: 'completed' }), {
@@ -232,7 +240,9 @@ export class DashboardComponent {
         // but since we used toSignal on an observable call, we need to re-run it.
         // Simple way: reload page or better, re-assign signals if they were writable (they are strictly read-only from toSignal)
         // Let's do a window reload for simplicity or just navigate to same route
-        window.location.reload();
+        if (isPlatformBrowser(this.platformId)) {
+          window.location.reload();
+        }
       },
       error: (err) => {
         console.error('Refund failed', err);

@@ -91,7 +91,10 @@ import { PurchaseService } from './core/services/impl/purchase.service';
 import { PurchaseItemService } from './core/services/impl/purchase-item.service';
 import { FavoriteService } from './core/services/impl/favorite.service';
 import { ChatService } from './core/services/impl/chat.service';
-import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import {
+  provideClientHydration,
+  withEventReplay,
+} from '@angular/platform-browser';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -99,7 +102,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(
       withFetch(),
-      withInterceptors([serverConnectionInterceptor])
+      withInterceptors([serverConnectionInterceptor]),
     ),
     provideAnimations(),
     provideTranslateService({
@@ -243,6 +246,7 @@ export const appConfig: ApplicationConfig = {
     { provide: FavoriteService, useClass: FavoriteService },
     { provide: ChatService, useClass: ChatService },
 
-    AuthenticationServiceFactory, provideClientHydration(withEventReplay()),
+    AuthenticationServiceFactory,
+    provideClientHydration(withEventReplay()),
   ],
 };

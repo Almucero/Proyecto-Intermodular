@@ -1,6 +1,7 @@
-import { v2 as cloudinary } from "cloudinary";
-import { env } from "../../config/env";
-import { prisma } from "../../config/db";
+import { v2 as cloudinary } from 'cloudinary';
+import { env } from '../../config/env';
+import { prisma } from '../../config/db';
+import { logger } from '../../utils/logger';
 
 cloudinary.config({
   cloud_name: env.CLOUDINARY_CLOUD_NAME,
@@ -9,7 +10,7 @@ cloudinary.config({
 });
 
 export async function listMedia(filters?: {
-  type?: "user" | "game";
+  type?: 'user' | 'game';
   id?: number;
   folder?: string;
   format?: string;
@@ -18,9 +19,9 @@ export async function listMedia(filters?: {
   const where: any = {};
 
   if (filters?.type && filters?.id) {
-    if (filters.type === "game") {
+    if (filters.type === 'game') {
       where.gameId = filters.id;
-    } else if (filters.type === "user") {
+    } else if (filters.type === 'user') {
       where.userId = filters.id;
     }
   }
@@ -96,50 +97,50 @@ export async function findMediaById(id: number) {
 function sanitizeFolderName(name: string): string {
   return name
     .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 }
 
 export async function uploadMedia(
-  type: "user" | "game",
+  type: 'user' | 'game',
   id: number,
   file: Express.Multer.File,
   altText?: string,
 ) {
-  let folderName = "";
+  let folderName = '';
   let gameId: number | undefined;
   let userId: number | undefined;
 
-  if (type === "game") {
+  if (type === 'game') {
     const game = await prisma.game.findUnique({
       where: { id },
       select: { title: true },
     });
-    if (!game) throw new Error("Game not found");
+    if (!game) throw new Error('Game not found');
     folderName = `gameImages/${sanitizeFolderName(game.title)}`;
     gameId = id;
-  } else if (type === "user") {
+  } else if (type === 'user') {
     const user = await prisma.user.findUnique({
       where: { id },
       select: { name: true, accountId: true, accountAt: true },
     });
-    if (!user) throw new Error("User not found");
+    if (!user) throw new Error('User not found');
     const folderIdentifier =
       user.accountAt ||
       sanitizeFolderName(user.name || user.accountId || `user-${id}`);
     folderName = `userImages/${folderIdentifier}`;
     userId = id;
   } else {
-    throw new Error("Invalid media type");
+    throw new Error('Invalid media type');
   }
 
   const result = await new Promise<any>((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
         folder: folderName,
-        resource_type: "auto",
+        resource_type: 'auto',
       },
       (error, result) => {
         if (error) reject(error);
@@ -171,7 +172,7 @@ export async function updateMedia(
   id: number,
   file?: Express.Multer.File,
   altText?: string,
-  newType?: "user" | "game",
+  newType?: 'user' | 'game',
   newId?: number,
 ) {
   const existingMedia = await prisma.media.findUnique({
@@ -183,10 +184,10 @@ export async function updateMedia(
   });
 
   if (!existingMedia) {
-    throw new Error("Media not found");
+    throw new Error('Media not found');
   }
 
-  const currentType = existingMedia.gameId ? "game" : "user";
+  const currentType = existingMedia.gameId ? 'game' : 'user';
   const currentOwnerId = existingMedia.gameId || existingMedia.userId!;
 
   const targetType = newType || currentType;
@@ -196,12 +197,12 @@ export async function updateMedia(
   let targetFolderName = existingMedia.folder!;
 
   if (targetType !== currentType || targetId !== currentOwnerId) {
-    if (targetType === "game") {
+    if (targetType === 'game') {
       const game = await prisma.game.findUnique({
         where: { id: targetId },
         select: { title: true },
       });
-      if (!game) throw new Error("Target game not found");
+      if (!game) throw new Error('Target game not found');
       targetFolderName = `gameImages/${sanitizeFolderName(game.title)}`;
       updateData.gameId = targetId;
       updateData.userId = null;
@@ -210,7 +211,7 @@ export async function updateMedia(
         where: { id: targetId },
         select: { name: true, accountId: true, accountAt: true },
       });
-      if (!user) throw new Error("Target user not found");
+      if (!user) throw new Error('Target user not found');
       const folderIdentifier =
         user.accountAt ||
         sanitizeFolderName(user.name || user.accountId || `user-${targetId}`);
@@ -240,7 +241,7 @@ export async function updateMedia(
       const uploadStream = cloudinary.uploader.upload_stream(
         {
           folder: targetFolderName,
-          resource_type: "auto",
+          resource_type: 'auto',
         },
         (error, result) => {
           if (error) reject(error);
@@ -269,7 +270,7 @@ export async function updateMedia(
     targetFolderName !== existingMedia.folder &&
     existingMedia.publicId
   ) {
-    const filename = existingMedia.publicId.split("/").pop();
+    const filename = existingMedia.publicId.split('/').pop();
     const newPublicId = `${targetFolderName}/${filename}`;
 
     try {
@@ -285,7 +286,7 @@ export async function updateMedia(
       };
     } catch (error) {
       console.error(`Failed to move image in Cloudinary`, error);
-      throw new Error("Failed to move image to new folder");
+      throw new Error('Failed to move image to new folder');
     }
   }
 
@@ -303,7 +304,7 @@ export async function updateMedia(
 
 export async function deleteMedia(id: number) {
   const media = await prisma.media.findUnique({ where: { id } });
-  if (!media) throw new Error("Media not found");
+  if (!media) throw new Error('Media not found');
 
   if (media.publicId) {
     try {
@@ -333,10 +334,10 @@ async function cleanupFolderIfEmpty(folder: string) {
   if (remaining === 0) {
     try {
       await cloudinary.api.delete_folder(folder);
-      console.log(`Deleted empty folder: ${folder}`);
+      logger.info(`Deleted empty folder: ${folder}`);
     } catch (error: any) {
       if (error?.error?.http_code !== 404) {
-        console.warn(`Could not delete folder: ${folder}`, error);
+        logger.warn(`Could not delete folder: ${folder}`, error);
       }
     }
   }

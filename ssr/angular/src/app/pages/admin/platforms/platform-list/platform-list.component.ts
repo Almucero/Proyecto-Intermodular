@@ -57,7 +57,7 @@ export class PlatformListComponent implements OnInit {
     } else {
       const lower = this.searchTerm.toLowerCase();
       this.filteredPlatforms = this.platforms.filter((p) =>
-        p.name.toLowerCase().includes(lower)
+        p.name.toLowerCase().includes(lower),
       );
     }
     setTimeout(() => {

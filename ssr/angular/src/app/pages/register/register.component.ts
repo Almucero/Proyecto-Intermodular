@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import {
   AbstractControl,
   FormBuilder,
@@ -53,6 +53,7 @@ export class RegisterComponent {
   private router = inject(Router);
   private auth = inject(BaseAuthenticationService);
   private languageService = inject(LanguageService);
+  private platformId = inject(PLATFORM_ID);
 
   constructor(private formSvc: FormBuilder) {
     this.formRegister = this.formSvc.group(
@@ -71,7 +72,7 @@ export class RegisterComponent {
       },
       {
         validators: passwordMatches,
-      }
+      },
     );
 
     this.navigateTo =
@@ -89,7 +90,9 @@ export class RegisterComponent {
 
       this.auth.signUp(payload).subscribe({
         next: () => {
-          sessionStorage.setItem('registrationSuccess', 'true');
+          if (isPlatformBrowser(this.platformId)) {
+            sessionStorage.setItem('registrationSuccess', 'true');
+          }
           this.router.navigate(['/login'], {
             state: { navigateTo: this.navigateTo },
           });

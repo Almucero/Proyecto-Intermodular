@@ -10,7 +10,7 @@ import { IGameService } from '../interfaces/game-service.interface';
 })
 export class GameService extends BaseService<Game> implements IGameService {
   constructor(
-    @Inject(GAME_REPOSITORY_TOKEN) repository: IBaseRepository<Game>
+    @Inject(GAME_REPOSITORY_TOKEN) repository: IBaseRepository<Game>,
   ) {
     super(repository);
   }

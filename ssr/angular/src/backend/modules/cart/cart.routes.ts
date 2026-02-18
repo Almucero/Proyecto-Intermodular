@@ -1,12 +1,12 @@
-import { Router } from "express";
-import { auth } from "../../middleware/auth";
+import { Router } from 'express';
+import { auth } from '../../middleware/auth';
 import {
   getUserCartCtrl,
   addToCartCtrl,
   removeFromCartCtrl,
   updateCartQuantityCtrl,
   clearCartCtrl,
-} from "./cart.controller";
+} from './cart.controller';
 
 const router = Router();
 
@@ -34,7 +34,7 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get("/", auth, getUserCartCtrl);
+router.get('/', auth, getUserCartCtrl);
 
 /**
  * @swagger
@@ -83,7 +83,7 @@ router.get("/", auth, getUserCartCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.post("/", auth, addToCartCtrl);
+router.post('/', auth, addToCartCtrl);
 
 /**
  * @swagger
@@ -121,7 +121,7 @@ router.post("/", auth, addToCartCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.delete("/:gameId", auth, removeFromCartCtrl);
+router.delete('/:gameId', auth, removeFromCartCtrl);
 
 /**
  * @swagger
@@ -173,7 +173,7 @@ router.delete("/:gameId", auth, removeFromCartCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.patch("/:gameId", auth, updateCartQuantityCtrl);
+router.patch('/:gameId', auth, updateCartQuantityCtrl);
 
 /**
  * @swagger
@@ -193,6 +193,6 @@ router.patch("/:gameId", auth, updateCartQuantityCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.delete("/", auth, clearCartCtrl);
+router.delete('/', auth, clearCartCtrl);
 
 export default router;

@@ -1,24 +1,24 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const uploadMediaSchema = z.object({
-  type: z.enum(["user", "game"]),
+  type: z.enum(['user', 'game']),
   id: z
     .string()
     .transform((val) => Number(val))
     .refine((val) => !isNaN(val), {
-      message: "id debe ser un número válido",
+      message: 'id debe ser un número válido',
     }),
   altText: z.string().optional(),
 });
 
 export const updateMediaSchema = z.object({
-  type: z.enum(["user", "game"]).optional(),
+  type: z.enum(['user', 'game']).optional(),
   id: z
     .string()
     .optional()
     .transform((val) => (val ? Number(val) : undefined))
     .refine((val) => val === undefined || !isNaN(val), {
-      message: "id debe ser un número válido",
+      message: 'id debe ser un número válido',
     }),
   altText: z.string().optional(),
 });

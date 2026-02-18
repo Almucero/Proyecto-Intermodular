@@ -1,7 +1,7 @@
 export function serializePrisma(value: any): any {
   if (value === null || value === undefined) return value;
 
-  if (typeof value === "object" && typeof value.toNumber === "function") {
+  if (typeof value === 'object' && typeof value.toNumber === 'function') {
     try {
       return value.toNumber();
     } catch {
@@ -13,7 +13,7 @@ export function serializePrisma(value: any): any {
 
   if (Array.isArray(value)) return value.map((v) => serializePrisma(v));
 
-  if (typeof value === "object") {
+  if (typeof value === 'object') {
     const out: any = {};
     for (const k of Object.keys(value)) {
       out[k] = serializePrisma(value[k]);

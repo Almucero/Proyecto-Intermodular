@@ -5,9 +5,7 @@ import { PurchaseItem } from '../../models/purchase-item.model';
 @Injectable({
   providedIn: 'root',
 })
-export class PurchaseItemMappingNodeService
-  implements IBaseMapping<PurchaseItem>
-{
+export class PurchaseItemMappingNodeService implements IBaseMapping<PurchaseItem> {
   constructor() {}
 
   getAll(data: any): PurchaseItem[] {

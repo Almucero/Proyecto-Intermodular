@@ -5,7 +5,10 @@ import {
   Input,
   OnInit,
   Renderer2,
+  PLATFORM_ID,
+  Inject,
 } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Directive({
   selector: '[appHighlight]',
@@ -28,9 +31,14 @@ export class HighlightDirective implements OnInit {
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
+    @Inject(PLATFORM_ID) private platformId: Object,
   ) {}
 
   ngOnInit() {
+    if (!isPlatformBrowser(this.platformId)) {
+      this.originalBackground = this.highlightDefault || '';
+      return;
+    }
     const computedStyle = window.getComputedStyle(this.el.nativeElement);
     this.originalBackground =
       this.highlightDefault || computedStyle.backgroundColor;

@@ -29,7 +29,7 @@ export class FavouritesComponent implements OnInit {
     private cartItemService: CartItemService,
     private mediaService: MediaService,
     private authService: BaseAuthenticationService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -94,8 +94,8 @@ export class FavouritesComponent implements OnInit {
         .toPromise();
       this.favorites.update((favs) =>
         favs.filter(
-          (f) => !(f.gameId === fav.gameId && f.platformId === fav.platformId)
-        )
+          (f) => !(f.gameId === fav.gameId && f.platformId === fav.platformId),
+        ),
       );
     } catch (error) {}
   }

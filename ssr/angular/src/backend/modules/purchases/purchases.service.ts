@@ -1,9 +1,9 @@
-import { prisma } from "../../config/db";
-import type { Decimal } from "@prisma/client/runtime/library";
+import { prisma } from '../../config/db';
+import { Prisma } from '@prisma/client';
 
 export async function completePurchase(userId: number, cartItemIds: number[]) {
   if (cartItemIds.length === 0) {
-    throw new Error("Debe proporcionar al menos un artículo del carrito");
+    throw new Error('Debe proporcionar al menos un artículo del carrito');
   }
 
   const cartItems = await prisma.cartItem.findMany({
@@ -15,27 +15,27 @@ export async function completePurchase(userId: number, cartItemIds: number[]) {
   });
 
   if (cartItems.length !== cartItemIds.length) {
-    throw new Error("Algunos artículos del carrito no fueron encontrados");
+    throw new Error('Algunos artículos del carrito no fueron encontrados');
   }
 
   const totalPrice = cartItems.reduce(
-    (sum: Decimal, item: any) => {
-      const gamePrice = (item.game.price ?? 0) as Decimal;
-      return (sum as any).add((gamePrice as any).mul(item.quantity));
+    (sum: any, item: any) => {
+      const gamePrice = item.game.price || new (Prisma as any).Decimal(0);
+      return (sum as any).add(gamePrice.mul(item.quantity));
     },
-    0 as any as Decimal
+    new (Prisma as any).Decimal(0),
   );
 
   const purchase = await prisma.purchase.create({
     data: {
       userId,
       totalPrice,
-      status: "completed",
+      status: 'completed',
       items: {
         create: cartItems.map((item: any) => ({
           gameId: item.gameId,
           platformId: item.platformId,
-      price: item.game.price ?? 0,
+          price: item.game.price || new (Prisma as any).Decimal(0),
           quantity: item.quantity,
         })),
       },
@@ -91,7 +91,7 @@ export async function completePurchase(userId: number, cartItemIds: number[]) {
 
 export async function getUserPurchases(
   userId: number,
-  status?: "completed" | "refunded"
+  status?: 'completed' | 'refunded',
 ) {
   const purchases = await prisma.purchase.findMany({
     where: {
@@ -119,7 +119,7 @@ export async function getUserPurchases(
       },
     },
     orderBy: {
-      purchasedAt: "desc",
+      purchasedAt: 'desc',
     },
   });
 
@@ -171,7 +171,7 @@ export async function getPurchase(userId: number, purchaseId: number) {
   });
 
   if (!purchase) {
-    throw new Error("Compra no encontrada");
+    throw new Error('Compra no encontrada');
   }
 
   return {
@@ -196,7 +196,7 @@ export async function getPurchase(userId: number, purchaseId: number) {
 export async function refundPurchase(
   userId: number,
   purchaseId: number,
-  reason: string
+  reason: string,
 ) {
   const purchase = await prisma.purchase.findFirst({
     where: {
@@ -206,17 +206,17 @@ export async function refundPurchase(
   });
 
   if (!purchase) {
-    throw new Error("Compra no encontrada");
+    throw new Error('Compra no encontrada');
   }
 
-  if (purchase.status === "refunded") {
-    throw new Error("Esta compra ya ha sido reembolsada");
+  if (purchase.status === 'refunded') {
+    throw new Error('Esta compra ya ha sido reembolsada');
   }
 
   const updated = await prisma.purchase.update({
     where: { id: purchaseId },
     data: {
-      status: "refunded",
+      status: 'refunded',
       refundReason: reason,
     },
     include: {

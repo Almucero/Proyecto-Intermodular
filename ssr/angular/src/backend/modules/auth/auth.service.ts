@@ -1,11 +1,11 @@
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import { env } from "../../config/env";
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { env } from '../../config/env';
 import {
   createUser,
   findUserByEmail,
   findUserById,
-} from "../users/users.service";
+} from '../users/users.service';
 
 export async function register(
   email: string,
@@ -24,7 +24,7 @@ export async function register(
 ) {
   const existing = await findUserByEmail(email);
   if (existing) {
-    throw new Error("Email ya registrado");
+    throw new Error('Email ya registrado');
   }
 
   const hash = await bcrypt.hash(password, env.BCRYPT_SALT_ROUNDS);
@@ -52,7 +52,7 @@ export async function register(
     },
     env.JWT_SECRET,
     {
-      expiresIn: "7d",
+      expiresIn: '7d',
     },
   );
 
@@ -62,12 +62,12 @@ export async function register(
 export async function login(email: string, password: string) {
   const user = await findUserByEmail(email);
   if (!user) {
-    throw new Error("Credenciales inválidas");
+    throw new Error('Credenciales inválidas');
   }
 
   const ok = await bcrypt.compare(password, user.passwordHash);
   if (!ok) {
-    throw new Error("Credenciales inválidas");
+    throw new Error('Credenciales inválidas');
   }
   const fullUser = await findUserById((user as any).id);
 
@@ -79,7 +79,7 @@ export async function login(email: string, password: string) {
     },
     env.JWT_SECRET,
     {
-      expiresIn: "7d",
+      expiresIn: '7d',
     },
   );
 

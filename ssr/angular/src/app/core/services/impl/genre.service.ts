@@ -10,7 +10,7 @@ import { IGenreService } from '../interfaces/genre-service.interface';
 })
 export class GenreService extends BaseService<Genre> implements IGenreService {
   constructor(
-    @Inject(GENRE_REPOSITORY_TOKEN) repository: IBaseRepository<Genre>
+    @Inject(GENRE_REPOSITORY_TOKEN) repository: IBaseRepository<Genre>,
   ) {
     super(repository);
   }

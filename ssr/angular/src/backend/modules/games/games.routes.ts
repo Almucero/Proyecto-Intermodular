@@ -1,15 +1,15 @@
-import { Router } from "express";
-import { auth } from "../../middleware/auth";
-import { adminOnly } from "../../middleware/authorize";
-import { validate } from "../../middleware/validate";
-import { createGameSchema, updateGameSchema } from "./games.schema";
+import { Router } from 'express';
+import { auth } from '../../middleware/auth';
+import { adminOnly } from '../../middleware/authorize';
+import { validate } from '../../middleware/validate';
+import { createGameSchema, updateGameSchema } from './games.schema';
 import {
   listGamesCtrl,
   getGameCtrl,
   createGameCtrl,
   updateGameCtrl,
   deleteGameCtrl,
-} from "./games.controller";
+} from './games.controller';
 
 const router = Router();
 
@@ -136,7 +136,7 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get("/", listGamesCtrl);
+router.get('/', listGamesCtrl);
 
 /**
  * @swagger
@@ -223,7 +223,7 @@ router.get("/", listGamesCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get("/:id", getGameCtrl);
+router.get('/:id', getGameCtrl);
 
 /**
  * @swagger
@@ -305,7 +305,7 @@ router.get("/:id", getGameCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.post("/", auth, validate(createGameSchema), adminOnly, createGameCtrl);
+router.post('/', auth, validate(createGameSchema), adminOnly, createGameCtrl);
 
 /**
  * @swagger
@@ -367,11 +367,11 @@ router.post("/", auth, validate(createGameSchema), adminOnly, createGameCtrl);
  *               $ref: '#/components/schemas/Error'
  */
 router.patch(
-  "/:id",
+  '/:id',
   auth,
   validate(updateGameSchema),
   adminOnly,
-  updateGameCtrl
+  updateGameCtrl,
 );
 
 /**
@@ -423,6 +423,6 @@ router.patch(
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.delete("/:id", auth, adminOnly, deleteGameCtrl);
+router.delete('/:id', auth, adminOnly, deleteGameCtrl);
 
 export default router;

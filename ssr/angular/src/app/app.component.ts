@@ -1,4 +1,10 @@
-import { Component, inject, ChangeDetectorRef, effect } from '@angular/core';
+import {
+  Component,
+  inject,
+  ChangeDetectorRef,
+  effect,
+  PLATFORM_ID,
+} from '@angular/core';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { ErrorToastComponent } from './shared/components/error-toast/error-toast.component';
 import { LanguageService } from './core/services/language.service';
@@ -8,7 +14,7 @@ import { UiStateService } from './core/services/impl/ui-state.service';
 import { forkJoin, timer } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { LoadingComponent } from './shared/components/loading/loading.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser, DOCUMENT } from '@angular/common';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { loadingAnimation } from './animations/loading.animation';
@@ -48,6 +54,8 @@ export class AppComponent {
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
   private uiState = inject(UiStateService);
+  private platformId = inject(PLATFORM_ID);
+  private document = inject(DOCUMENT);
 
   constructor() {
     this.authService.autoLogin();
@@ -57,7 +65,7 @@ export class AppComponent {
     const minWait$ = timer(2000);
     const authCheck$ = this.authService.ready$.pipe(
       filter((isReady) => isReady),
-      take(1)
+      take(1),
     );
 
     forkJoin([minWait$, authCheck$]).subscribe(() => {
@@ -67,21 +75,28 @@ export class AppComponent {
         this.cdr.detectChanges();
       }
 
-      window.scrollTo(0, 0);
+      if (isPlatformBrowser(this.platformId)) {
+        window.scrollTo(0, 0);
+      }
       this.isLoading = false;
     });
 
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
-        window.scrollTo(0, 0);
+        if (isPlatformBrowser(this.platformId)) {
+          window.scrollTo(0, 0);
+        }
       });
 
     effect(() => {
+      if (!isPlatformBrowser(this.platformId)) {
+        return;
+      }
       if (this.uiState.isMenuOpen()) {
-        document.body.style.overflow = 'hidden';
+        this.document.body.style.overflow = 'hidden';
       } else {
-        document.body.style.overflow = '';
+        this.document.body.style.overflow = '';
       }
     });
   }

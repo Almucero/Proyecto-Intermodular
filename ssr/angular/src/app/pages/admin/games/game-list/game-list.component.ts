@@ -57,7 +57,7 @@ export class GameListComponent implements OnInit {
     } else {
       const lower = this.searchTerm.toLowerCase();
       this.filteredGames = this.games.filter((g) =>
-        g.title.toLowerCase().includes(lower)
+        g.title.toLowerCase().includes(lower),
       );
     }
     setTimeout(() => {

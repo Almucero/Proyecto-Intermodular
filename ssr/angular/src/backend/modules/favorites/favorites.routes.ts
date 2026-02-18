@@ -1,11 +1,11 @@
-import { Router } from "express";
-import { auth } from "../../middleware/auth";
+import { Router } from 'express';
+import { auth } from '../../middleware/auth';
 import {
   getUserFavoritesCtrl,
   addToFavoritesCtrl,
   removeFromFavoritesCtrl,
   isFavoriteCtrl,
-} from "./favorites.controller";
+} from './favorites.controller';
 
 const router = Router();
 
@@ -33,7 +33,7 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get("/", auth, getUserFavoritesCtrl);
+router.get('/', auth, getUserFavoritesCtrl);
 
 /**
  * @swagger
@@ -79,7 +79,7 @@ router.get("/", auth, getUserFavoritesCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.post("/", auth, addToFavoritesCtrl);
+router.post('/', auth, addToFavoritesCtrl);
 
 /**
  * @swagger
@@ -117,7 +117,7 @@ router.post("/", auth, addToFavoritesCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.delete("/:gameId", auth, removeFromFavoritesCtrl);
+router.delete('/:gameId', auth, removeFromFavoritesCtrl);
 
 /**
  * @swagger
@@ -155,6 +155,6 @@ router.delete("/:gameId", auth, removeFromFavoritesCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get("/check/:gameId", auth, isFavoriteCtrl);
+router.get('/check/:gameId', auth, isFavoriteCtrl);
 
 export default router;

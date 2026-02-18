@@ -1,26 +1,26 @@
-import type { Request, Response, NextFunction } from "express";
-import { z } from "zod";
-import { updateCartQuantitySchema, addToCartSchema } from "./cart.schema";
+import type { Request, Response, NextFunction } from 'express';
+import { z } from 'zod';
+import { updateCartQuantitySchema, addToCartSchema } from './cart.schema';
 import {
   addToCart,
   removeFromCart,
   updateQuantity,
   getUserCart,
   clearCart,
-} from "./cart.service";
-import { logger } from "../../utils/logger";
+} from './cart.service';
+import { logger } from '../../utils/logger';
 
 const gameIdSchema = z.object({
   gameId: z.coerce
     .number()
     .int()
-    .positive("gameId debe ser un número positivo"),
+    .positive('gameId debe ser un número positivo'),
 });
 
 export async function addToCartCtrl(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   try {
     const user = req.user!;
@@ -35,16 +35,16 @@ export async function addToCartCtrl(
     const cartItem = await addToCart(user.sub, gameId, platformId, quantity);
 
     logger.info(
-      `User ${user.sub} added game ${gameId} (platform ${platformId}) to cart (qty: ${quantity})`
+      `User ${user.sub} added game ${gameId} (platform ${platformId}) to cart (qty: ${quantity})`,
     );
     res.status(201).json(cartItem);
   } catch (error: any) {
-    if (error.message === "Juego no encontrado") {
+    if (error.message === 'Juego no encontrado') {
       return res.status(404).json({ message: error.message });
     }
     if (
-      error.message === "La cantidad debe ser al menos 1" ||
-      error.message === "El juego no tiene precio válido definido"
+      error.message === 'La cantidad debe ser al menos 1' ||
+      error.message === 'El juego no tiene precio válido definido'
     ) {
       return res.status(400).json({ message: error.message });
     }
@@ -55,7 +55,7 @@ export async function addToCartCtrl(
 export async function removeFromCartCtrl(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   try {
     const user = req.user!;
@@ -69,20 +69,20 @@ export async function removeFromCartCtrl(
     const platformId = Number(req.query.platformId);
 
     if (!platformId || isNaN(platformId)) {
-      return res.status(400).json({ message: "platformId es requerido" });
+      return res.status(400).json({ message: 'platformId es requerido' });
     }
 
     const result = await removeFromCart(user.sub, gameId, platformId);
 
     logger.info(
-      `User ${user.sub} removed game ${gameId} (platform ${platformId}) from cart`
+      `User ${user.sub} removed game ${gameId} (platform ${platformId}) from cart`,
     );
     res.status(200).json(result);
   } catch (error: any) {
-    if (error.code === "P2025") {
+    if (error.code === 'P2025') {
       return res
         .status(404)
-        .json({ message: "Artículo del carrito no encontrado" });
+        .json({ message: 'Artículo del carrito no encontrado' });
     }
     next(error);
   }
@@ -91,7 +91,7 @@ export async function removeFromCartCtrl(
 export async function updateCartQuantityCtrl(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   try {
     const user = req.user!;
@@ -113,20 +113,20 @@ export async function updateCartQuantityCtrl(
       user.sub,
       gameId,
       platformId,
-      quantity
+      quantity,
     );
 
     logger.info(
-      `User ${user.sub} updated cart item ${gameId} (platform ${platformId}) quantity to ${quantity}`
+      `User ${user.sub} updated cart item ${gameId} (platform ${platformId}) quantity to ${quantity}`,
     );
     res.status(200).json(cartItem);
   } catch (error: any) {
-    if (error.code === "P2025") {
+    if (error.code === 'P2025') {
       return res
         .status(404)
-        .json({ message: "Artículo del carrito no encontrado" });
+        .json({ message: 'Artículo del carrito no encontrado' });
     }
-    if (error.message === "La cantidad debe ser al menos 1") {
+    if (error.message === 'La cantidad debe ser al menos 1') {
       return res.status(400).json({ message: error.message });
     }
     next(error);
@@ -136,7 +136,7 @@ export async function updateCartQuantityCtrl(
 export async function getUserCartCtrl(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   try {
     const user = req.user!;
@@ -152,7 +152,7 @@ export async function getUserCartCtrl(
 export async function clearCartCtrl(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   try {
     const user = req.user!;
@@ -160,7 +160,7 @@ export async function clearCartCtrl(
     await clearCart(user.sub);
 
     logger.info(`User ${user.sub} cleared cart`);
-    res.status(200).json({ message: "Carrito vaciado" });
+    res.status(200).json({ message: 'Carrito vaciado' });
   } catch (error) {
     next(error);
   }

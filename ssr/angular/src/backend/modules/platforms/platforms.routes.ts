@@ -1,18 +1,15 @@
-import { Router } from "express";
-import { validate } from "../../middleware/validate";
-import {
-  createPlatformSchema,
-  updatePlatformSchema,
-} from "./platforms.schema";
+import { Router } from 'express';
+import { validate } from '../../middleware/validate';
+import { createPlatformSchema, updatePlatformSchema } from './platforms.schema';
 import {
   listPlatformsCtrl,
   getPlatformCtrl,
   createPlatformCtrl,
   updatePlatformCtrl,
   deletePlatformCtrl,
-} from "./platforms.controller";
-import { auth } from "../../middleware/auth";
-import { adminOnly } from "../../middleware/authorize";
+} from './platforms.controller';
+import { auth } from '../../middleware/auth';
+import { adminOnly } from '../../middleware/authorize';
 
 const router = Router();
 
@@ -51,7 +48,7 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get("/", listPlatformsCtrl);
+router.get('/', listPlatformsCtrl);
 
 /**
  * @swagger
@@ -110,7 +107,7 @@ router.get("/", listPlatformsCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get("/:id", getPlatformCtrl);
+router.get('/:id', getPlatformCtrl);
 
 /**
  * @swagger
@@ -147,11 +144,11 @@ router.get("/:id", getPlatformCtrl);
  *               $ref: '#/components/schemas/Error'
  */
 router.post(
-  "/",
+  '/',
   auth,
   adminOnly,
   validate(createPlatformSchema),
-  createPlatformCtrl
+  createPlatformCtrl,
 );
 
 /**
@@ -196,11 +193,11 @@ router.post(
  *               $ref: '#/components/schemas/Error'
  */
 router.patch(
-  "/:id",
+  '/:id',
   auth,
   adminOnly,
   validate(updatePlatformSchema),
-  updatePlatformCtrl
+  updatePlatformCtrl,
 );
 
 /**
@@ -234,6 +231,6 @@ router.patch(
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.delete("/:id", auth, adminOnly, deletePlatformCtrl);
+router.delete('/:id', auth, adminOnly, deletePlatformCtrl);
 
 export default router;

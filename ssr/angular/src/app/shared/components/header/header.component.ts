@@ -4,8 +4,9 @@ import {
   HostListener,
   ElementRef,
   inject,
+  PLATFORM_ID,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageSelectorComponent } from '../language-selector/language-selector.component';
@@ -38,6 +39,7 @@ export class HeaderComponent {
   private favoriteService = inject(FavoriteService);
   private router = inject(Router);
   public uiState = inject(UiStateService);
+  private platformId = inject(PLATFORM_ID);
 
   user = toSignal(this.authService.user$);
   cartCount = toSignal(this.cartService.cartCount$);
@@ -62,6 +64,9 @@ export class HeaderComponent {
   }
 
   onSearchBlur(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
     setTimeout(() => {
       const active = document.activeElement as HTMLElement | null;
       if (!active || !active.closest('.search-wrapper')) {

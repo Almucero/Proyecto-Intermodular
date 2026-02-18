@@ -8,8 +8,10 @@ import {
   AfterViewInit,
   OnDestroy,
   ChangeDetectorRef,
+  PLATFORM_ID,
+  Inject,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import type { Game } from '../../../core/models/game.model';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -37,10 +39,15 @@ export class GameCardComponent implements AfterViewInit, OnDestroy {
   private loopInterval: any;
   private startTimeout: any;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    @Inject(PLATFORM_ID) private platformId: Object,
+  ) {}
 
   ngAfterViewInit(): void {
-    window.requestAnimationFrame(() => this.initAnimationLogic());
+    if (isPlatformBrowser(this.platformId)) {
+      window.requestAnimationFrame(() => this.initAnimationLogic());
+    }
   }
 
   ngOnDestroy(): void {

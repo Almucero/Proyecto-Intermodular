@@ -1,4 +1,4 @@
-import { FactoryProvider, InjectionToken } from '@angular/core';
+import { FactoryProvider, InjectionToken, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseRepositoryHttpService } from './impl/base-repository-http.service';
 import { IBaseRepository } from './interfaces/base-repository.interface';
@@ -101,7 +101,7 @@ import { MediaRepositoryHttpService } from './impl/media-repository-http.service
 
 export function createBaseRepositoryFactory<T extends Model>(
   token: InjectionToken<IBaseRepository<T>>,
-  dependencies: any[]
+  dependencies: any[],
 ): FactoryProvider {
   return {
     provide: token,
@@ -111,7 +111,7 @@ export function createBaseRepositoryFactory<T extends Model>(
       auth: IAuthentication,
       apiURL: string,
       resource: string,
-      mapping: IBaseMapping<T>
+      mapping: IBaseMapping<T>,
     ) => {
       switch (backend) {
         case 'http':
@@ -120,7 +120,7 @@ export function createBaseRepositoryFactory<T extends Model>(
             auth,
             apiURL,
             resource,
-            mapping
+            mapping,
           );
         case 'local-storage':
           return new BaseRepositoryLocalStorageService<T>(resource, mapping);
@@ -147,7 +147,7 @@ export function createBaseMappingFactory<T extends Model>(
     | 'purchase'
     | 'purchase-item'
     | 'favorite'
-    | 'chat'
+    | 'chat',
 ): FactoryProvider {
   return {
     provide: token,
@@ -194,7 +194,7 @@ export function createBaseMappingFactory<T extends Model>(
 
 export function createBaseAuthMappingFactory(
   token: InjectionToken<IAuthMapping>,
-  dependencies: any[]
+  dependencies: any[],
 ): FactoryProvider {
   return {
     provide: token,
@@ -216,48 +216,48 @@ export function createBaseAuthMappingFactory(
 export const DeveloperMappingFactory = createBaseMappingFactory<Developer>(
   DEVELOPER_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
-  'developer'
+  'developer',
 );
 
 export const GameMappingFactory = createBaseMappingFactory<Game>(
   GAME_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
-  'game'
+  'game',
 );
 
 export const GenreMappingFactory = createBaseMappingFactory<Genre>(
   GENRE_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
-  'genre'
+  'genre',
 );
 
 export const MediaMappingFactory = createBaseMappingFactory<Media>(
   MEDIA_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
-  'media'
+  'media',
 );
 
 export const PlatformMappingFactory = createBaseMappingFactory<Platform>(
   PLATFORM_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
-  'platform'
+  'platform',
 );
 
 export const PublisherMappingFactory = createBaseMappingFactory<Publisher>(
   PUBLISHER_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
-  'publisher'
+  'publisher',
 );
 
 export const UserMappingFactory = createBaseMappingFactory<User>(
   USER_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
-  'user'
+  'user',
 );
 
 export const AuthMappingFactory: FactoryProvider = createBaseAuthMappingFactory(
   AUTH_MAPPING_TOKEN,
-  [BACKEND_TOKEN]
+  [BACKEND_TOKEN],
 );
 
 export const AuthenticationServiceFactory: FactoryProvider = {
@@ -268,7 +268,8 @@ export const AuthenticationServiceFactory: FactoryProvider = {
     signUp: string,
     meUrl: string,
     mapping: IAuthMapping,
-    http: HttpClient
+    http: HttpClient,
+    platformId: Object,
   ) => {
     switch (backend) {
       case 'http':
@@ -277,7 +278,8 @@ export const AuthenticationServiceFactory: FactoryProvider = {
           mapping,
           signIn,
           signUp,
-          meUrl
+          meUrl,
+          platformId,
         );
       case 'local-storage':
         throw new Error('BACKEND NOT IMPLEMENTED');
@@ -292,6 +294,7 @@ export const AuthenticationServiceFactory: FactoryProvider = {
     AUTH_ME_API_URL_TOKEN,
     AUTH_MAPPING_TOKEN,
     HttpClient,
+    PLATFORM_ID,
   ],
 };
 
@@ -301,7 +304,7 @@ export const MediaServiceFactory: FactoryProvider = {
     backend: string,
     upload: string,
     auth: IAuthentication,
-    http: HttpClient
+    http: HttpClient,
   ) => {
     switch (backend) {
       case 'http':
@@ -360,7 +363,7 @@ export const MediaRepositoryFactory: FactoryProvider = {
     apiUrl: string,
     resource: string,
     mapping: IBaseMapping<Media>,
-    uploadUrl: string
+    uploadUrl: string,
   ) => {
     switch (backend) {
       case 'http':
@@ -370,7 +373,7 @@ export const MediaRepositoryFactory: FactoryProvider = {
           apiUrl,
           resource,
           mapping,
-          uploadUrl
+          uploadUrl,
         );
       case 'local-storage':
         throw new Error('Local storage not implemented for Media');
@@ -422,26 +425,26 @@ export const UserRepositoryFactory: FactoryProvider =
 export const CartItemMappingFactory = createBaseMappingFactory<CartItem>(
   CART_ITEM_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
-  'cart-item'
+  'cart-item',
 );
 
 export const PurchaseMappingFactory = createBaseMappingFactory<Purchase>(
   PURCHASE_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
-  'purchase'
+  'purchase',
 );
 
 export const PurchaseItemMappingFactory =
   createBaseMappingFactory<PurchaseItem>(
     PURCHASE_ITEM_REPOSITORY_MAPPING_TOKEN,
     [BACKEND_TOKEN],
-    'purchase-item'
+    'purchase-item',
   );
 
 export const FavoriteMappingFactory = createBaseMappingFactory<Favorite>(
   FAVORITE_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
-  'favorite'
+  'favorite',
 );
 
 export const CartItemRepositoryFactory: FactoryProvider =
@@ -487,7 +490,7 @@ export const FavoriteRepositoryFactory: FactoryProvider =
 export const ChatMappingFactory = createBaseMappingFactory<ChatSession>(
   CHAT_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
-  'chat'
+  'chat',
 );
 
 export const ChatRepositoryFactory: FactoryProvider =

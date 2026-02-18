@@ -1,11 +1,11 @@
-import { Router } from "express";
-import { auth } from "../../middleware/auth";
+import { Router } from 'express';
+import { auth } from '../../middleware/auth';
 import {
   checkoutCtrl,
   getUserPurchasesCtrl,
   getPurchaseCtrl,
   refundPurchaseCtrl,
-} from "./purchases.controller";
+} from './purchases.controller';
 
 const router = Router();
 
@@ -51,7 +51,7 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.post("/checkout", auth, checkoutCtrl);
+router.post('/checkout', auth, checkoutCtrl);
 
 /**
  * @swagger
@@ -85,7 +85,7 @@ router.post("/checkout", auth, checkoutCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get("/", auth, getUserPurchasesCtrl);
+router.get('/', auth, getUserPurchasesCtrl);
 
 /**
  * @swagger
@@ -127,7 +127,7 @@ router.get("/", auth, getUserPurchasesCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get("/:id", auth, getPurchaseCtrl);
+router.get('/:id', auth, getPurchaseCtrl);
 
 /**
  * @swagger
@@ -181,6 +181,6 @@ router.get("/:id", auth, getPurchaseCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.post("/:id/refund", auth, refundPurchaseCtrl);
+router.post('/:id/refund', auth, refundPurchaseCtrl);
 
 export default router;

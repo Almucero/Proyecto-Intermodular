@@ -13,14 +13,9 @@ export default {
       },
     ],
   },
-  roots: ["<rootDir>/src"],
+  roots: ["<rootDir>/src/backend"],
   testMatch: ["**/__tests__/**/*.test.ts", "**/?(*.)+(spec|test).ts"],
-  collectCoverageFrom: [
-    "src/**/*.ts",
-    "!src/**/*.d.ts",
-    "!src/tests/**",
-    "!src/index.ts",
-  ],
+  collectCoverageFrom: ["src/backend/**/*.ts", "!src/backend/tests/**"],
   coverageDirectory: "coverage",
   verbose: true,
 };

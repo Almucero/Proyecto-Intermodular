@@ -1,12 +1,12 @@
-import { Router } from "express";
-import { auth } from "../../middleware/auth";
-import { adminOnly } from "../../middleware/authorize";
-import { validate } from "../../middleware/validate";
+import { Router } from 'express';
+import { auth } from '../../middleware/auth';
+import { adminOnly } from '../../middleware/authorize';
+import { validate } from '../../middleware/validate';
 import {
   updateUserSchema,
   updateProfileSchema,
   changePasswordSchema,
-} from "./users.schema";
+} from './users.schema';
 import {
   listUsersCtrl,
   getUserCtrl,
@@ -15,7 +15,7 @@ import {
   deleteUserCtrl,
   updateProfileCtrl,
   changePasswordCtrl,
-} from "./users.controller";
+} from './users.controller';
 
 const router = Router();
 
@@ -123,7 +123,7 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get("/", auth, adminOnly, listUsersCtrl);
+router.get('/', auth, adminOnly, listUsersCtrl);
 
 /**
  * @swagger
@@ -195,8 +195,8 @@ router.get("/", auth, adminOnly, listUsersCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get("/me", auth, meCtrl);
-router.patch("/me", auth, validate(updateProfileSchema), updateProfileCtrl);
+router.get('/me', auth, meCtrl);
+router.patch('/me', auth, validate(updateProfileSchema), updateProfileCtrl);
 
 /**
  * @swagger
@@ -242,10 +242,10 @@ router.patch("/me", auth, validate(updateProfileSchema), updateProfileCtrl);
  *               $ref: '#/components/schemas/Error'
  */
 router.patch(
-  "/me/password",
+  '/me/password',
   auth,
   validate(changePasswordSchema),
-  changePasswordCtrl
+  changePasswordCtrl,
 );
 
 /**
@@ -438,14 +438,14 @@ router.patch(
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get("/:id", auth, adminOnly, getUserCtrl);
+router.get('/:id', auth, adminOnly, getUserCtrl);
 router.patch(
-  "/:id",
+  '/:id',
   auth,
   adminOnly,
   validate(updateUserSchema),
-  updateUserCtrl
+  updateUserCtrl,
 );
-router.delete("/:id", auth, adminOnly, deleteUserCtrl);
+router.delete('/:id', auth, adminOnly, deleteUserCtrl);
 
 export default router;

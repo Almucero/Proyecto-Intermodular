@@ -62,7 +62,7 @@ export class GameFormComponent implements OnInit, OnChanges, AfterViewInit {
   @ViewChild('genreContainer') genreContainer!: ElementRef;
 
   constructor(
-    @Inject(MEDIA_REPOSITORY_TOKEN) private mediaRepository: IMediaRepository
+    @Inject(MEDIA_REPOSITORY_TOKEN) private mediaRepository: IMediaRepository,
   ) {}
 
   @Input() id: number | null = null;
@@ -310,7 +310,7 @@ export class GameFormComponent implements OnInit, OnChanges, AfterViewInit {
           return this.isEditMode
             ? this.gameService.update(this.id!.toString(), gameData)
             : this.gameService.add(gameData);
-        })
+        }),
       )
       .subscribe({
         next: () => this.save.emit(),

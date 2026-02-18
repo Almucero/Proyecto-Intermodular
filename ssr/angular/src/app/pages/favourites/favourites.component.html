@@ -5,195 +5,198 @@
     </h1>
 
     @if (!isAuthenticated()) {
-    <div class="text-center text-gray-400 py-12">
-      <a
-        (click)="goToLogin()"
-        class="text-cyan-400 hover:text-cyan-300 cursor-pointer transition-colors"
-        >{{ "authGuard.login" | translate }}</a
-      >
-      {{ "authGuard.toSeeContent" | translate }}
-    </div>
-    } @else { @if (loading()) {
-    <div class="space-y-6">
-      @for (i of favoritesCount; track i) {
-      <div
-        class="flex flex-col md:flex-row gap-3 md:gap-4 bg-gray-800 rounded-lg p-3 md:p-4 items-start animate-pulse pointer-events-none"
-      >
-        <div
-          class="w-full h-48 md:w-32 md:h-32 bg-gray-700 rounded-lg flex-shrink-0"
-        ></div>
-        <div class="flex-1 w-full">
-          <div class="h-6 bg-gray-700 rounded w-3/4 mb-2"></div>
-          <div class="h-4 bg-gray-700 rounded w-1/2 mb-2"></div>
-          <div class="h-4 bg-gray-700 rounded w-1/4"></div>
-        </div>
-        <div
-          class="flex flex-col justify-between w-full md:w-auto md:h-32 flex-shrink-0 mt-0 md:mt-0"
-        >
-          <div class="h-8 bg-gray-700 rounded w-28 mb-1"></div>
-
-          <div class="flex flex-col gap-2 w-full md:hidden">
-            <div class="bg-gray-700 rounded h-12 w-full"></div>
-            <div class="bg-gray-700 rounded h-12 w-full"></div>
-          </div>
-          <div class="hidden md:flex gap-2 items-center">
-            <div class="w-32 h-10 bg-gray-700 rounded-lg"></div>
-            <div class="w-40 h-10 bg-gray-700 rounded-lg"></div>
-          </div>
-        </div>
-      </div>
-      }
-    </div>
-    } @if (error()) {
-    <div class="text-center text-red-400 py-12">
-      {{ error() }}
-    </div>
-    } @if (!loading() && favorites().length === 0) {
-    <div class="text-center text-gray-400 py-12">
-      {{ "favourites.empty" | translate }}
-    </div>
-    }
-
-    <div class="space-y-6">
-      @for (fav of favorites(); track fav.id) {
-      <div
-        class="relative flex flex-col md:flex-row gap-3 md:gap-4 bg-gray-800 rounded-lg p-3 md:p-4 items-start"
-      >
+      <div class="text-center text-gray-400 py-12">
         <a
-          [routerLink]="['/product', fav.game?.id]"
-          class="flex-shrink-0 w-full md:w-auto"
-          style="text-decoration: none"
+          (click)="goToLogin()"
+          class="text-cyan-400 hover:text-cyan-300 cursor-pointer transition-colors"
+          >{{ "authGuard.login" | translate }}</a
         >
-          <img
-            [src]="getGameImage(fav)"
-            [alt]="fav.game?.title || 'Game'"
-            class="w-full h-48 md:w-32 md:h-32 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
-          />
-        </a>
-
-        <div class="flex-1">
-          <a
-            [routerLink]="['/product', fav.game?.id]"
-            class="hover:text-cyan-400 transition-colors"
-            style="text-decoration: none"
-          >
-            <h3 class="text-xl font-semibold text-white mb-1">
-              {{ fav.game?.title || "Untitled" }}
-            </h3>
-          </a>
-          <p class="text-gray-400 text-sm mb-1">
-            {{ getGameDeveloper(fav) }}
-          </p>
-          <p class="text-cyan-400 text-sm">
-            {{ fav.platform?.name || "" }}
-          </p>
-        </div>
-
-        <div class="flex flex-col gap-2 w-full mt-0 md:hidden">
-          <div class="flex flex-col items-start w-full mb-1">
-            @if (fav.game?.isOnSale && fav.game?.salePrice !== null) {
-            <span class="text-xs text-gray-400 line-through"
-              >{{ fav.game?.price }}€</span
-            >
-            <p class="text-2xl font-bold text-cyan-400">
-              {{ fav.game?.salePrice }}€
-            </p>
-            } @else {
-            <p class="text-2xl font-bold text-cyan-400">
-              {{ fav.game?.price }}€
-            </p>
-            }
-          </div>
-
-          <button
-            (click)="addToCart(fav)"
-            class="w-full px-6 py-3 bg-cyan-400 hover:bg-cyan-300 text-white rounded-lg transition-all text-sm font-bold uppercase tracking-wide border-0 outline-none flex items-center justify-center gap-2"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-              />
-            </svg>
-            {{ "favourites.addToCart" | translate }}
-          </button>
-          <button
-            (click)="removeFromFavorites(fav)"
-            class="w-full px-6 py-3 bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white rounded-lg transition-all text-xs font-medium border-0 outline-none flex items-center justify-center gap-2"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-              />
-            </svg>
-            {{ "favourites.removeFromFavorites" | translate }}
-          </button>
-        </div>
-
-        <div
-          class="hidden md:flex flex-col items-end justify-between h-32 flex-shrink-0"
-        >
-          <div class="flex items-baseline gap-2">
-            @if (fav.game?.isOnSale && fav.game?.salePrice !== null) {
-            <p class="text-3xl font-bold text-cyan-400">
-              {{ fav.game?.salePrice }}€
-            </p>
-            <span class="text-white line-through text-lg"
-              >{{ fav.game?.price }}€</span
-            >
-            } @else {
-            <p class="text-3xl font-bold text-cyan-400">
-              {{ fav.game?.price }}€
-            </p>
-            }
-          </div>
-
-          <div class="flex gap-2">
-            <button
-              (click)="addToCart(fav)"
-              class="px-6 py-2 bg-cyan-400 hover:bg-cyan-300 text-white rounded-lg transition-all text-sm font-medium border-0 outline-none"
-            >
-              {{ "favourites.addToCart" | translate }}
-            </button>
-            <button
-              (click)="removeFromFavorites(fav)"
-              class="px-6 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg transition-all text-sm font-medium border-0 outline-none"
-            >
-              {{ "favourites.removeFromFavorites" | translate }}
-            </button>
-          </div>
-        </div>
+        {{ "authGuard.toSeeContent" | translate }}
       </div>
+    } @else {
+      @if (loading()) {
+        <div class="space-y-6">
+          @for (i of favoritesCount; track i) {
+            <div
+              class="flex flex-col md:flex-row gap-3 md:gap-4 bg-gray-800 rounded-lg p-3 md:p-4 items-start animate-pulse pointer-events-none"
+            >
+              <div
+                class="w-full h-48 md:w-32 md:h-32 bg-gray-700 rounded-lg flex-shrink-0"
+              ></div>
+              <div class="flex-1 w-full">
+                <div class="h-6 bg-gray-700 rounded w-3/4 mb-2"></div>
+                <div class="h-4 bg-gray-700 rounded w-1/2 mb-2"></div>
+                <div class="h-4 bg-gray-700 rounded w-1/4"></div>
+              </div>
+              <div
+                class="flex flex-col justify-between w-full md:w-auto md:h-32 flex-shrink-0 mt-0 md:mt-0"
+              >
+                <div class="h-8 bg-gray-700 rounded w-28 mb-1"></div>
+
+                <div class="flex flex-col gap-2 w-full md:hidden">
+                  <div class="bg-gray-700 rounded h-12 w-full"></div>
+                  <div class="bg-gray-700 rounded h-12 w-full"></div>
+                </div>
+                <div class="hidden md:flex gap-2 items-center">
+                  <div class="w-32 h-10 bg-gray-700 rounded-lg"></div>
+                  <div class="w-40 h-10 bg-gray-700 rounded-lg"></div>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
       }
-    </div>
+      @if (error()) {
+        <div class="text-center text-red-400 py-12">
+          {{ error() }}
+        </div>
+      }
+      @if (!loading() && favorites().length === 0) {
+        <div class="text-center text-gray-400 py-12">
+          {{ "favourites.empty" | translate }}
+        </div>
+      }
+
+      <div class="space-y-6">
+        @for (fav of favorites(); track fav.id) {
+          <div
+            class="relative flex flex-col md:flex-row gap-3 md:gap-4 bg-gray-800 rounded-lg p-3 md:p-4 items-start"
+          >
+            <a
+              [routerLink]="['/product', fav.game?.id]"
+              class="flex-shrink-0 w-full md:w-auto"
+              style="text-decoration: none"
+            >
+              <img
+                [src]="getGameImage(fav)"
+                [alt]="fav.game?.title || 'Game'"
+                class="w-full h-48 md:w-32 md:h-32 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
+              />
+            </a>
+
+            <div class="flex-1">
+              <a
+                [routerLink]="['/product', fav.game?.id]"
+                class="hover:text-cyan-400 transition-colors"
+                style="text-decoration: none"
+              >
+                <h3 class="text-xl font-semibold text-white mb-1">
+                  {{ fav.game?.title || "Untitled" }}
+                </h3>
+              </a>
+              <p class="text-gray-400 text-sm mb-1">
+                {{ getGameDeveloper(fav) }}
+              </p>
+              <p class="text-cyan-400 text-sm">
+                {{ fav.platform?.name || "" }}
+              </p>
+            </div>
+
+            <div class="flex flex-col gap-2 w-full mt-0 md:hidden">
+              <div class="flex flex-col items-start w-full mb-1">
+                @if (fav.game?.isOnSale && fav.game?.salePrice !== null) {
+                  <span class="text-xs text-gray-400 line-through"
+                    >{{ fav.game?.price }}€</span
+                  >
+                  <p class="text-2xl font-bold text-cyan-400">
+                    {{ fav.game?.salePrice }}€
+                  </p>
+                } @else {
+                  <p class="text-2xl font-bold text-cyan-400">
+                    {{ fav.game?.price }}€
+                  </p>
+                }
+              </div>
+
+              <button
+                (click)="addToCart(fav)"
+                class="w-full px-6 py-3 bg-cyan-400 hover:bg-cyan-300 text-white rounded-lg transition-all text-sm font-bold uppercase tracking-wide border-0 outline-none flex items-center justify-center gap-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+                {{ "favourites.addToCart" | translate }}
+              </button>
+              <button
+                (click)="removeFromFavorites(fav)"
+                class="w-full px-6 py-3 bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white rounded-lg transition-all text-xs font-medium border-0 outline-none flex items-center justify-center gap-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  />
+                </svg>
+                {{ "favourites.removeFromFavorites" | translate }}
+              </button>
+            </div>
+
+            <div
+              class="hidden md:flex flex-col items-end justify-between h-32 flex-shrink-0"
+            >
+              <div class="flex items-baseline gap-2">
+                @if (fav.game?.isOnSale && fav.game?.salePrice !== null) {
+                  <p class="text-3xl font-bold text-cyan-400">
+                    {{ fav.game?.salePrice }}€
+                  </p>
+                  <span class="text-white line-through text-lg"
+                    >{{ fav.game?.price }}€</span
+                  >
+                } @else {
+                  <p class="text-3xl font-bold text-cyan-400">
+                    {{ fav.game?.price }}€
+                  </p>
+                }
+              </div>
+
+              <div class="flex gap-2">
+                <button
+                  (click)="addToCart(fav)"
+                  class="px-6 py-2 bg-cyan-400 hover:bg-cyan-300 text-white rounded-lg transition-all text-sm font-medium border-0 outline-none"
+                >
+                  {{ "favourites.addToCart" | translate }}
+                </button>
+                <button
+                  (click)="removeFromFavorites(fav)"
+                  class="px-6 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg transition-all text-sm font-medium border-0 outline-none"
+                >
+                  {{ "favourites.removeFromFavorites" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
     }
   </div>
 
   @if (isAuthenticated() && favorites().length > 0) {
-  <div class="mt-8 text-center">
-    <button
-      (click)="transferAllToCart()"
-      class="px-8 py-3 bg-gray-950 border-gray-700 hover:border-cyan-400 hover:text-cyan-400 text-white rounded-lg transition-all text-base font-medium border-0 outline-none"
-    >
-      {{ "favourites.transferAll" | translate }}
-    </button>
-  </div>
+    <div class="mt-8 text-center">
+      <button
+        (click)="transferAllToCart()"
+        class="px-8 py-3 bg-gray-950 border-gray-700 hover:border-cyan-400 hover:text-cyan-400 text-white rounded-lg transition-all text-base font-medium border-0 outline-none"
+      >
+        {{ "favourites.transferAll" | translate }}
+      </button>
+    </div>
   }
 </div>

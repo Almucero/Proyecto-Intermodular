@@ -71,14 +71,14 @@
                 frameborder="0"
                 scrolling="no"
                 allow="
-                accelerometer;
-                autoplay;
-                clipboard-write;
-                encrypted-media;
-                gyroscope;
-                picture-in-picture;
-                autoplay;
-              "
+                  accelerometer;
+                  autoplay;
+                  clipboard-write;
+                  encrypted-media;
+                  gyroscope;
+                  picture-in-picture;
+                  autoplay;
+                "
                 allowfullscreen
               ></iframe>
               <img
@@ -295,14 +295,14 @@
                   (game?.isOnSale && game?.salePrice
                     ? game?.salePrice
                     : game?.price
-                  ) | currency : "EUR"
+                  ) | currency: "EUR"
                 }}
               </span>
             </span>
             <span
               *ngIf="game?.isOnSale && game?.price && game?.price !== 0"
               class="text-gray-500 line-through text-xl"
-              >{{ game?.price | currency : "EUR" }}</span
+              >{{ game?.price | currency: "EUR" }}</span
             >
           </div>
 
@@ -441,35 +441,35 @@
                 class="w-full bg-gradient-to-r bg-cyan-400 hover:bg-cyan-300 hover:to-[#5a5a7a] text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"
               >
                 @if (buySuccess()) {
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                {{ "product.goingToCart" | translate }}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  {{ "product.goingToCart" | translate }}
                 } @else {
-                <svg
-                  *ngIf="!selectedPlatform"
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  [title]="'tooltips.platformLocked' | translate"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                {{ "product.buy" | translate }}
+                  <svg
+                    *ngIf="!selectedPlatform"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    [title]="'tooltips.platformLocked' | translate"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  {{ "product.buy" | translate }}
                 }
               </button>
               <button
@@ -493,35 +493,35 @@
                 class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"
               >
                 @if (addedToCartSuccess()) {
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                {{ "product.addedToCart" | translate }}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  {{ "product.addedToCart" | translate }}
                 } @else if (quantityIncreased()) {
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                {{ "product.quantityIncreased" | translate }}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  {{ "product.quantityIncreased" | translate }}
                 } @else {
-                {{ "product.addToCart" | translate }}
+                  {{ "product.addToCart" | translate }}
                 }
               </button>
               <button
@@ -536,35 +536,35 @@
                 class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"
               >
                 @if (addedToFavoritesSuccess()) {
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                {{ "product.addedToFavorites" | translate }}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  {{ "product.addedToFavorites" | translate }}
                 } @else if (alreadyInFavorites()) {
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                {{ "product.alreadyInFavorites" | translate }}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  {{ "product.alreadyInFavorites" | translate }}
                 } @else {
-                {{ "product.addToFavorites" | translate }}
+                  {{ "product.addToFavorites" | translate }}
                 }
               </button>
             </ng-container>
@@ -612,7 +612,7 @@
               <span class="text-right text-gray-300 p-4">
                 <span *ngIf="game?.id !== -1">{{
                   game?.releaseDate
-                    ? (game?.releaseDate | date : "dd/MM/yyyy")
+                    ? (game?.releaseDate | date: "dd/MM/yyyy")
                     : "N/A"
                 }}</span>
                 <div
@@ -644,33 +644,33 @@
   </div>
 
   @if (showAuthModal()) {
-  <div
-    class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-  >
     <div
-      class="bg-gray-900 rounded-xl max-w-md w-full p-6 shadow-2xl transform transition-all"
+      class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
     >
-      <h3 class="text-xl font-bold text-white mb-4">
-        {{ "authGuard.loginRequiredTitle" | translate }}
-      </h3>
-      <p class="text-gray-300 mb-8">
-        {{ "authGuard.loginRequiredMessage" | translate }}
-      </p>
-      <div class="flex gap-4 justify-end">
-        <button
-          (click)="cancelLogin()"
-          class="px-6 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg transition-all font-medium border-0 outline-none"
-        >
-          {{ "authGuard.cancel" | translate }}
-        </button>
-        <button
-          (click)="confirmLogin()"
-          class="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg hover:from-cyan-400 hover:to-blue-400 transition-all font-medium border-0 outline-none"
-        >
-          {{ "authGuard.login" | translate }}
-        </button>
+      <div
+        class="bg-gray-900 rounded-xl max-w-md w-full p-6 shadow-2xl transform transition-all"
+      >
+        <h3 class="text-xl font-bold text-white mb-4">
+          {{ "authGuard.loginRequiredTitle" | translate }}
+        </h3>
+        <p class="text-gray-300 mb-8">
+          {{ "authGuard.loginRequiredMessage" | translate }}
+        </p>
+        <div class="flex gap-4 justify-end">
+          <button
+            (click)="cancelLogin()"
+            class="px-6 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg transition-all font-medium border-0 outline-none"
+          >
+            {{ "authGuard.cancel" | translate }}
+          </button>
+          <button
+            (click)="confirmLogin()"
+            class="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg hover:from-cyan-400 hover:to-blue-400 transition-all font-medium border-0 outline-none"
+          >
+            {{ "authGuard.login" | translate }}
+          </button>
+        </div>
       </div>
     </div>
-  </div>
   }
 </div>

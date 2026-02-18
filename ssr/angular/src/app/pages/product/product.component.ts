@@ -84,7 +84,7 @@ export class ProductComponent implements OnInit {
 
   get coverImage(): string | undefined {
     return this.game?.media?.find((m) =>
-      m.altText?.toLowerCase().includes('cover')
+      m.altText?.toLowerCase().includes('cover'),
     )?.url;
   }
 
@@ -92,7 +92,7 @@ export class ProductComponent implements OnInit {
     return this.game?.media?.find(
       (m) =>
         m.altText?.toLowerCase().includes('screenshot1') ||
-        m.altText?.toLowerCase().includes('screenshot 1')
+        m.altText?.toLowerCase().includes('screenshot 1'),
     )?.url;
   }
 
@@ -100,7 +100,7 @@ export class ProductComponent implements OnInit {
     return this.game?.media?.find(
       (m) =>
         m.altText?.toLowerCase().includes('screenshot2') ||
-        m.altText?.toLowerCase().includes('screenshot 2')
+        m.altText?.toLowerCase().includes('screenshot 2'),
     )?.url;
   }
 
@@ -112,7 +112,7 @@ export class ProductComponent implements OnInit {
     private cartItemService: CartItemService,
     private favoriteService: FavoriteService,
     private authService: BaseAuthenticationService,
-    @Inject(Router) private router: Router
+    @Inject(Router) private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -160,7 +160,7 @@ export class ProductComponent implements OnInit {
           this.buildMediaItems();
 
           const availablePlatforms = this.allPlatforms.filter((platform) =>
-            this.isPlatformAvailable(platform.name)
+            this.isPlatformAvailable(platform.name),
           );
 
           if (availablePlatforms.length === 1) {
@@ -219,7 +219,7 @@ export class ProductComponent implements OnInit {
   getSelectedPlatformId(): number | null {
     if (!this.selectedPlatform || !this.game?.platforms) return null;
     const platform = this.game.platforms.find(
-      (p) => p.name === this.selectedPlatform
+      (p) => p.name === this.selectedPlatform,
     );
     return platform?.id || null;
   }
@@ -254,7 +254,7 @@ export class ProductComponent implements OnInit {
         const existingItem = items.find(
           (item) =>
             Number(item.gameId) === Number(this.game!.id) &&
-            Number(item.platformId) === platformId
+            Number(item.platformId) === platformId,
         );
 
         this.cartItemService
@@ -289,14 +289,14 @@ export class ProductComponent implements OnInit {
       next: (items) => {
         const existingItem = items.find(
           (item) =>
-            item.gameId === this.game!.id && item.platformId === platformId
+            item.gameId === this.game!.id && item.platformId === platformId,
         );
         if (existingItem) {
           this.cartItemService
             .updateWithPlatform(
               this.game!.id,
               platformId,
-              existingItem.quantity + 1
+              existingItem.quantity + 1,
             )
             .subscribe({
               next: () => {

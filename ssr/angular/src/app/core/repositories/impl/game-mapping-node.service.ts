@@ -39,11 +39,11 @@ export class GameMappingNodeService implements IBaseMapping<Game> {
       publisherId: data.publisherId,
       developerId: data.developerId,
       genres:
-        data.genres?.map((g: any) => ({ id: g.id, name: g.name } as Genre)) ||
+        data.genres?.map((g: any) => ({ id: g.id, name: g.name }) as Genre) ||
         [],
       platforms:
         data.platforms?.map(
-          (p: any) => ({ id: p.id, name: p.name } as Platform)
+          (p: any) => ({ id: p.id, name: p.name }) as Platform,
         ) || [],
       media:
         data.media?.map(
@@ -53,18 +53,18 @@ export class GameMappingNodeService implements IBaseMapping<Game> {
               url: m.url,
               altText: m.altText,
               originalName: m.originalName,
-            } as Media)
+            }) as Media,
         ) || [],
       Publisher: data.Publisher
         ? ({ id: data.Publisher.id, name: data.Publisher.name } as Publisher)
         : data.publisher
-        ? ({ id: data.publisher.id, name: data.publisher.name } as Publisher)
-        : undefined,
+          ? ({ id: data.publisher.id, name: data.publisher.name } as Publisher)
+          : undefined,
       Developer: data.Developer
         ? ({ id: data.Developer.id, name: data.Developer.name } as Developer)
         : data.developer
-        ? ({ id: data.developer.id, name: data.developer.name } as Developer)
-        : undefined,
+          ? ({ id: data.developer.id, name: data.developer.name } as Developer)
+          : undefined,
     };
   }
 

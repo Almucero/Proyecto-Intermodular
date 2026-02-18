@@ -5,8 +5,9 @@ import {
   signal,
   inject,
   OnDestroy,
+  PLATFORM_ID,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
@@ -81,6 +82,7 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   private blobUrl: string | null = null;
 
   private sanitizer = inject(DomSanitizer);
+  private platformId = inject(PLATFORM_ID);
 
   private onChange: (file: File | null) => void = () => {};
   private onTouched: () => void = () => {};
@@ -123,7 +125,7 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
    * Abre el selector de archivos del sistema.
    */
   onAreaClick(): void {
-    if (this.disabled) return;
+    if (this.disabled || !isPlatformBrowser(this.platformId)) return;
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = this.acceptedMimeTypes.join(',');
@@ -217,15 +219,15 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
     if (!this.validateMimeType(file)) {
       this.error.set(
         `${this.translate.instant(
-          'errors.fileTypeNotAllowed'
-        )} ${this.acceptedMimeTypes.join(', ')}`
+          'errors.fileTypeNotAllowed',
+        )} ${this.acceptedMimeTypes.join(', ')}`,
       );
       return;
     }
 
     if (!this.validateSize(file)) {
       this.error.set(
-        `${this.translate.instant('errors.fileTooLarge')} ${this.maxSizeInMB}MB`
+        `${this.translate.instant('errors.fileTooLarge')} ${this.maxSizeInMB}MB`,
       );
       return;
     }
@@ -284,7 +286,7 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
       this.blobUrl = URL.createObjectURL(file);
       // Sanitizar la URL para que Angular la acepte en el iframe
       this.safePdfUrl.set(
-        this.sanitizer.bypassSecurityTrustResourceUrl(this.blobUrl)
+        this.sanitizer.bypassSecurityTrustResourceUrl(this.blobUrl),
       );
       this.previewUrl.set(this.blobUrl);
     } else {

@@ -1,4 +1,4 @@
-import { prisma } from "../../config/db";
+import { prisma } from '../../config/db';
 
 export async function listGames(filters?: {
   title?: string | undefined;
@@ -13,7 +13,7 @@ export async function listGames(filters?: {
   try {
     const where: any = {};
     if (filters?.title) {
-      where.title = { contains: filters.title, mode: "insensitive" };
+      where.title = { contains: filters.title, mode: 'insensitive' };
     }
     if (filters?.price !== undefined) {
       where.price = filters.price;
@@ -28,19 +28,19 @@ export async function listGames(filters?: {
     }
     if (filters?.genre) {
       where.genres = {
-        some: { name: { contains: filters.genre, mode: "insensitive" } },
+        some: { name: { contains: filters.genre, mode: 'insensitive' } },
       };
     }
     if (filters?.platform) {
       where.platforms = {
-        some: { name: { contains: filters.platform, mode: "insensitive" } },
+        some: { name: { contains: filters.platform, mode: 'insensitive' } },
       };
     }
 
     const includeSet = new Set(
       filters?.include
-        ? filters.include.split(",").map((s) => s.trim().toLowerCase())
-        : []
+        ? filters.include.split(',').map((s) => s.trim().toLowerCase())
+        : [],
     );
 
     const select: any = {
@@ -63,26 +63,26 @@ export async function listGames(filters?: {
       releaseDate: true,
     };
 
-    if (includeSet.has("genres")) {
+    if (includeSet.has('genres')) {
       select.genres = { select: { id: true, name: true } };
     }
-    if (includeSet.has("platforms")) {
+    if (includeSet.has('platforms')) {
       select.platforms = { select: { id: true, name: true } };
     }
-    if (includeSet.has("media")) {
+    if (includeSet.has('media')) {
       select.media = {
         select: { id: true, url: true, altText: true, gameId: true },
       };
     }
-    if (includeSet.has("developer")) {
+    if (includeSet.has('developer')) {
       select.Developer = { select: { id: true, name: true } };
       select.developerId = true;
     }
-    if (includeSet.has("publisher")) {
+    if (includeSet.has('publisher')) {
       select.Publisher = { select: { id: true, name: true } };
       select.publisherId = true;
     }
-    if (includeSet.has("favorites")) {
+    if (includeSet.has('favorites')) {
       select.favorites = {
         select: {
           id: true,
@@ -92,7 +92,7 @@ export async function listGames(filters?: {
         },
       };
     }
-    if (includeSet.has("cartitems")) {
+    if (includeSet.has('cartitems')) {
       select.cartItems = {
         select: {
           id: true,
@@ -103,7 +103,7 @@ export async function listGames(filters?: {
         },
       };
     }
-    if (includeSet.has("purchaseitems")) {
+    if (includeSet.has('purchaseitems')) {
       select.purchaseItems = {
         select: {
           id: true,
@@ -126,10 +126,10 @@ export async function listGames(filters?: {
     return await prisma.game.findMany({
       where,
       select,
-      orderBy: { id: "asc" } as any,
+      orderBy: { id: 'asc' } as any,
     });
   } catch (e: any) {
-    if (e?.message && e.message.includes("does not exist")) {
+    if (e?.message && e.message.includes('does not exist')) {
       return [];
     }
     throw e;
@@ -178,7 +178,7 @@ export async function findGameById(id: number) {
       },
     });
   } catch (e: any) {
-    if (e?.message && e.message.includes("does not exist")) {
+    if (e?.message && e.message.includes('does not exist')) {
       return null;
     }
     throw e;
@@ -190,14 +190,14 @@ export async function createGame(data: any) {
   if (data.genres) {
     payload.genres = {
       connect: data.genres.map((g: any) =>
-        typeof g === "number" ? { id: g } : { name: g }
+        typeof g === 'number' ? { id: g } : { name: g },
       ),
     };
   }
   if (data.platforms) {
     payload.platforms = {
       connect: data.platforms.map((p: any) =>
-        typeof p === "number" ? { id: p } : { name: p }
+        typeof p === 'number' ? { id: p } : { name: p },
       ),
     };
   }
@@ -237,7 +237,7 @@ export async function updateGame(id: number, data: any) {
     payload.genres = {
       set: [],
       connect: data.genres.map((g: any) =>
-        typeof g === "number" ? { id: g } : { name: g }
+        typeof g === 'number' ? { id: g } : { name: g },
       ),
     };
   }
@@ -245,7 +245,7 @@ export async function updateGame(id: number, data: any) {
     payload.platforms = {
       set: [],
       connect: data.platforms.map((p: any) =>
-        typeof p === "number" ? { id: p } : { name: p }
+        typeof p === 'number' ? { id: p } : { name: p },
       ),
     };
   }

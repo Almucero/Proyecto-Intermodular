@@ -1,5 +1,5 @@
-import { CommonModule, Location } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { CommonModule, Location, isPlatformBrowser } from '@angular/common';
+import { Component, inject, PLATFORM_ID } from '@angular/core';
 import {
   FormBuilder,
   ReactiveFormsModule,
@@ -32,6 +32,7 @@ export class LoginComponent {
   private languageService = inject(LanguageService);
   private fb = inject(FormBuilder);
   private location = inject(Location);
+  private platformId = inject(PLATFORM_ID);
 
   constructor(private http: HttpClient) {
     this.formLogin = this.fb.group({
@@ -39,7 +40,10 @@ export class LoginComponent {
       password: ['', [Validators.required]],
       rememberMe: [false],
     });
-    if (sessionStorage.getItem('registrationSuccess')) {
+    if (
+      isPlatformBrowser(this.platformId) &&
+      sessionStorage.getItem('registrationSuccess')
+    ) {
       this.registrationSuccess = true;
       sessionStorage.removeItem('registrationSuccess');
     }
@@ -85,7 +89,7 @@ export class LoginComponent {
         if (
           this.formLogin.controls['email'].errors != null &&
           Object.keys(this.formLogin.controls['email'].errors).includes(
-            'required'
+            'required',
           )
         )
           return 'errors.emailRequired';
@@ -99,7 +103,7 @@ export class LoginComponent {
         if (
           this.formLogin.controls['password'].errors != null &&
           Object.keys(this.formLogin.controls['password'].errors).includes(
-            'required'
+            'required',
           )
         )
           return 'errors.passwordRequired';

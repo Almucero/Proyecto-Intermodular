@@ -1,9 +1,9 @@
-import { prisma } from "../../config/db";
+import { prisma } from '../../config/db';
 
 export async function addToFavorites(
   userId: number,
   gameId: number,
-  platformId: number
+  platformId: number,
 ) {
   return await prisma.favorite.create({
     data: { userId, gameId, platformId },
@@ -50,14 +50,14 @@ export async function addToFavorites(
 export async function removeFromFavorites(
   userId: number,
   gameId: number,
-  platformId: number
+  platformId: number,
 ) {
   await prisma.favorite.delete({
     where: {
       userId_gameId_platformId: { userId, gameId, platformId },
     },
   });
-  return { message: "Juego removido de favoritos" };
+  return { message: 'Juego removido de favoritos' };
 }
 
 export async function getUserFavorites(userId: number) {
@@ -89,7 +89,7 @@ export async function getUserFavorites(userId: number) {
         },
       },
     },
-    orderBy: { createdAt: "desc" },
+    orderBy: { createdAt: 'desc' },
   });
 
   return favorites.map((fav: any) => ({
@@ -103,7 +103,7 @@ export async function getUserFavorites(userId: number) {
 export async function isFavorite(
   userId: number,
   gameId: number,
-  platformId: number
+  platformId: number,
 ) {
   const favorite = await prisma.favorite.findUnique({
     where: { userId_gameId_platformId: { userId, gameId, platformId } },

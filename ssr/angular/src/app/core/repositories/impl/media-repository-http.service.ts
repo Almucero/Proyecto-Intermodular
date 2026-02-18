@@ -28,7 +28,7 @@ export class MediaRepositoryHttpService
     @Inject(MEDIA_RESOURCE_NAME_TOKEN) protected override resource: string,
     @Inject(MEDIA_REPOSITORY_MAPPING_TOKEN)
     protected override mapping: IBaseMapping<Media>,
-    @Inject(UPLOAD_API_URL_TOKEN) protected uploadUrl: string
+    @Inject(UPLOAD_API_URL_TOKEN) protected uploadUrl: string,
   ) {
     super(http, auth, apiUrl, resource, mapping);
   }
@@ -48,9 +48,9 @@ export class MediaRepositoryHttpService
       switchMap((formData) =>
         this.http.post<Media>(this.uploadUrl, formData, {
           headers: this.getHeaders(),
-        })
+        }),
       ),
-      map((res) => this.mapping.getAdded(res))
+      map((res) => this.mapping.getAdded(res)),
     );
   }
 }

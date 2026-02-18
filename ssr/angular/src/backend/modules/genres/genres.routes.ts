@@ -1,15 +1,15 @@
-import { Router } from "express";
-import { validate } from "../../middleware/validate";
-import { createGenreSchema, updateGenreSchema } from "./genres.schema";
+import { Router } from 'express';
+import { validate } from '../../middleware/validate';
+import { createGenreSchema, updateGenreSchema } from './genres.schema';
 import {
   listGenresCtrl,
   getGenreCtrl,
   createGenreCtrl,
   updateGenreCtrl,
   deleteGenreCtrl,
-} from "./genres.controller";
-import { auth } from "../../middleware/auth";
-import { adminOnly } from "../../middleware/authorize";
+} from './genres.controller';
+import { auth } from '../../middleware/auth';
+import { adminOnly } from '../../middleware/authorize';
 
 const router = Router();
 
@@ -48,7 +48,7 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get("/", listGenresCtrl);
+router.get('/', listGenresCtrl);
 
 /**
  * @swagger
@@ -107,7 +107,7 @@ router.get("/", listGenresCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get("/:id", getGenreCtrl);
+router.get('/:id', getGenreCtrl);
 
 /**
  * @swagger
@@ -143,7 +143,7 @@ router.get("/:id", getGenreCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.post("/", auth, adminOnly, validate(createGenreSchema), createGenreCtrl);
+router.post('/', auth, adminOnly, validate(createGenreSchema), createGenreCtrl);
 
 /**
  * @swagger
@@ -187,11 +187,11 @@ router.post("/", auth, adminOnly, validate(createGenreSchema), createGenreCtrl);
  *               $ref: '#/components/schemas/Error'
  */
 router.patch(
-  "/:id",
+  '/:id',
   auth,
   adminOnly,
   validate(updateGenreSchema),
-  updateGenreCtrl
+  updateGenreCtrl,
 );
 
 /**
@@ -225,6 +225,6 @@ router.patch(
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.delete("/:id", auth, adminOnly, deleteGenreCtrl);
+router.delete('/:id', auth, adminOnly, deleteGenreCtrl);
 
 export default router;

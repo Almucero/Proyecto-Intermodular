@@ -66,12 +66,16 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     private authService: BaseAuthenticationService,
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document: Document,
-    private translateService: TranslateService
+    private translateService: TranslateService,
   ) {}
 
   ngOnInit(): void {
-    window.scrollTo(0, 0);
-    this.renderer.addClass(this.document.body, 'chat-mode');
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
+    if (this.document.body) {
+      this.renderer.addClass(this.document.body, 'chat-mode');
+    }
 
     this.authService.user$.subscribe((user) => {
       this.userName = user?.nickname || user?.name || '';
@@ -259,7 +263,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (!message.games || message.games.length === 0) return;
 
     const sortedGames = [...message.games].sort(
-      (a, b) => b.title.length - a.title.length
+      (a, b) => b.title.length - a.title.length,
     );
 
     sortedGames.forEach((game) => {
@@ -268,7 +272,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       const boldRegex = new RegExp(`\\*\\*${safeTitle}\\*\\*`, 'gi');
       message.content = message.content.replace(
         boldRegex,
-        `[${game.title}](/product/${game.id})`
+        `[${game.title}](/product/${game.id})`,
       );
     });
   }

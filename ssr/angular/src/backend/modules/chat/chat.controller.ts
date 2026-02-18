@@ -1,16 +1,16 @@
-import type { Request, Response, NextFunction } from "express";
+import type { Request, Response, NextFunction } from 'express';
 import {
   processChat,
   getUserSessions,
   getSession,
   deleteSession,
-} from "./chat.service";
-import { chatInputSchema, sessionIdParamSchema } from "./chat.schema";
+} from './chat.service';
+import { chatInputSchema, sessionIdParamSchema } from './chat.schema';
 
 export const chatCtrl = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const user = req.user!;
@@ -25,7 +25,7 @@ export const chatCtrl = async (
 export const listSessionsCtrl = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const user = req.user!;
@@ -39,7 +39,7 @@ export const listSessionsCtrl = async (
 export const getSessionCtrl = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const user = req.user!;
@@ -47,7 +47,7 @@ export const getSessionCtrl = async (
     const session = await getSession(id, user.sub);
     res.json(session);
   } catch (error: any) {
-    if (error.message === "Sesión no encontrada") {
+    if (error.message === 'Sesión no encontrada') {
       return res.status(404).json({ message: error.message });
     }
     next(error);
@@ -57,7 +57,7 @@ export const getSessionCtrl = async (
 export const deleteSessionCtrl = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const user = req.user!;
@@ -65,7 +65,7 @@ export const deleteSessionCtrl = async (
     const result = await deleteSession(id, user.sub);
     res.json(result);
   } catch (error: any) {
-    if (error.message === "Sesión no encontrada") {
+    if (error.message === 'Sesión no encontrada') {
       return res.status(404).json({ message: error.message });
     }
     next(error);

@@ -1,7 +1,7 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const createDeveloperSchema = z.object({
-  name: z.string().min(1, "El nombre es requerido"),
+  name: z.string().min(1, 'El nombre es requerido'),
 });
 
 export const updateDeveloperSchema = z.object({

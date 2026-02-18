@@ -18,11 +18,11 @@ export const loadingAnimation = trigger('leaveAnimation', [
         query('.glitch-container', [
           animate(
             '{{duration}} ease-in-out',
-            style({ transform: 'scale(0.5)' })
+            style({ transform: 'scale(0.5)' }),
           ),
         ]),
       ]),
     ],
-    { params: { duration: '800ms' } }
+    { params: { duration: '800ms' } },
   ),
 ]);

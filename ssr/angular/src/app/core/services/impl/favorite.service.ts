@@ -1,4 +1,5 @@
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
 import {
@@ -19,31 +20,43 @@ export class FavoriteService
   extends BaseService<Favorite>
   implements IFavoriteService
 {
-  public favoritesCount$ = new BehaviorSubject<number>(
-    parseInt(localStorage.getItem('favoritesCount') || '0', 10)
-  );
+  private isBrowser: boolean;
+  public favoritesCount$ = new BehaviorSubject<number>(this.getInitialCount());
 
   constructor(
     @Inject(FAVORITE_REPOSITORY_TOKEN) repository: IBaseRepository<Favorite>,
     private http: HttpClient,
     @Inject(API_URL_TOKEN) private apiUrl: string,
     @Inject(FAVORITE_RESOURCE_NAME_TOKEN) private resource: string,
-    private auth: BaseAuthenticationService
+    private auth: BaseAuthenticationService,
+    @Inject(PLATFORM_ID) private platformId: Object,
   ) {
     super(repository);
+    this.isBrowser = isPlatformBrowser(this.platformId);
     this.auth.authenticated$.subscribe((isAuth) => {
       if (isAuth) {
         this.refreshCount();
       } else {
         this.favoritesCount$.next(0);
-        localStorage.setItem('favoritesCount', '0');
+        if (this.isBrowser) {
+          localStorage.setItem('favoritesCount', '0');
+        }
       }
     });
   }
 
+  private getInitialCount(): number {
+    if (typeof localStorage === 'undefined') {
+      return 0;
+    }
+    return parseInt(localStorage.getItem('favoritesCount') || '0', 10);
+  }
+
   private updateLocalState(count: number) {
     this.favoritesCount$.next(count);
-    localStorage.setItem('favoritesCount', count.toString());
+    if (this.isBrowser) {
+      localStorage.setItem('favoritesCount', count.toString());
+    }
   }
 
   refreshCount() {
@@ -65,13 +78,13 @@ export class FavoriteService
       .post<Favorite>(
         `${this.apiUrl}/${this.resource}`,
         { gameId: entity.gameId, platformId: entity.platformId },
-        { headers: this.getAuthHeaders() }
+        { headers: this.getAuthHeaders() },
       )
       .pipe(
         tap(() => {
           this.updateLocalState(this.favoritesCount$.value + 1);
           this.refreshCount();
-        })
+        }),
       );
   }
 
@@ -79,13 +92,13 @@ export class FavoriteService
     return this.http
       .delete<any>(
         `${this.apiUrl}/${this.resource}/${gameId}?platformId=${platformId}`,
-        { headers: this.getAuthHeaders() }
+        { headers: this.getAuthHeaders() },
       )
       .pipe(
         tap(() => {
           this.updateLocalState(Math.max(0, this.favoritesCount$.value - 1));
           this.refreshCount();
-        })
+        }),
       );
   }
 
@@ -94,7 +107,7 @@ export class FavoriteService
       tap(() => {
         this.updateLocalState(Math.max(0, this.favoritesCount$.value - 1));
         this.refreshCount();
-      })
+      }),
     );
   }
 }

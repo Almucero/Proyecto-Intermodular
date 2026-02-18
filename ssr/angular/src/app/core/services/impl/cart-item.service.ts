@@ -1,4 +1,5 @@
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
 import {
@@ -19,31 +20,43 @@ export class CartItemService
   extends BaseService<CartItem>
   implements ICartItemService
 {
-  public cartCount$ = new BehaviorSubject<number>(
-    parseInt(localStorage.getItem('cartCount') || '0', 10)
-  );
+  private isBrowser: boolean;
+  public cartCount$ = new BehaviorSubject<number>(this.getInitialCount());
 
   constructor(
     @Inject(CART_ITEM_REPOSITORY_TOKEN) repository: IBaseRepository<CartItem>,
     private http: HttpClient,
     @Inject(API_URL_TOKEN) private apiUrl: string,
     @Inject(CART_ITEM_RESOURCE_NAME_TOKEN) private resource: string,
-    private auth: BaseAuthenticationService
+    private auth: BaseAuthenticationService,
+    @Inject(PLATFORM_ID) private platformId: Object,
   ) {
     super(repository);
+    this.isBrowser = isPlatformBrowser(this.platformId);
     this.auth.authenticated$.subscribe((isAuth) => {
       if (isAuth) {
         this.refreshCount();
       } else {
         this.cartCount$.next(0);
-        localStorage.setItem('cartCount', '0');
+        if (this.isBrowser) {
+          localStorage.setItem('cartCount', '0');
+        }
       }
     });
   }
 
+  private getInitialCount(): number {
+    if (typeof localStorage === 'undefined') {
+      return 0;
+    }
+    return parseInt(localStorage.getItem('cartCount') || '0', 10);
+  }
+
   private updateLocalState(count: number) {
     this.cartCount$.next(count);
-    localStorage.setItem('cartCount', count.toString());
+    if (this.isBrowser) {
+      localStorage.setItem('cartCount', count.toString());
+    }
   }
 
   refreshCount() {
@@ -69,13 +82,13 @@ export class CartItemService
           platformId: entity.platformId,
           quantity: entity.quantity,
         },
-        { headers: this.getAuthHeaders() }
+        { headers: this.getAuthHeaders() },
       )
       .pipe(
         tap(() => {
           this.updateLocalState(this.cartCount$.value + 1);
           this.refreshCount();
-        })
+        }),
       );
   }
 
@@ -83,26 +96,26 @@ export class CartItemService
     return this.http
       .delete<any>(
         `${this.apiUrl}/${this.resource}/${gameId}?platformId=${platformId}`,
-        { headers: this.getAuthHeaders() }
+        { headers: this.getAuthHeaders() },
       )
       .pipe(
         tap(() => {
           this.updateLocalState(Math.max(0, this.cartCount$.value - 1));
           this.refreshCount();
-        })
+        }),
       );
   }
 
   updateWithPlatform(
     gameId: number,
     platformId: number,
-    quantity: number
+    quantity: number,
   ): Observable<CartItem> {
     return this.http
       .patch<CartItem>(
         `${this.apiUrl}/${this.resource}/${gameId}`,
         { platformId, quantity },
-        { headers: this.getAuthHeaders() }
+        { headers: this.getAuthHeaders() },
       )
       .pipe(tap(() => this.refreshCount()));
   }
@@ -112,7 +125,7 @@ export class CartItemService
       tap(() => {
         this.updateLocalState(Math.max(0, this.cartCount$.value - 1));
         this.refreshCount();
-      })
+      }),
     );
   }
 }

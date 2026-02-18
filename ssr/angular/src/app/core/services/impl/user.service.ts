@@ -10,7 +10,7 @@ import { IUserService } from '../interfaces/user-service.interface';
 })
 export class UserService extends BaseService<User> implements IUserService {
   constructor(
-    @Inject(USER_REPOSITORY_TOKEN) repository: IBaseRepository<User>
+    @Inject(USER_REPOSITORY_TOKEN) repository: IBaseRepository<User>,
   ) {
     super(repository);
   }

@@ -1,13 +1,13 @@
-import { prisma } from "../../config/db";
+import { prisma } from '../../config/db';
 
 export async function addToCart(
   userId: number,
   gameId: number,
   platformId: number,
-  quantity = 1
+  quantity = 1,
 ) {
   if (quantity < 1) {
-    throw new Error("La cantidad debe ser al menos 1");
+    throw new Error('La cantidad debe ser al menos 1');
   }
 
   const game = await prisma.game.findUnique({
@@ -16,11 +16,11 @@ export async function addToCart(
   });
 
   if (!game) {
-    throw new Error("Juego no encontrado");
+    throw new Error('Juego no encontrado');
   }
 
   if (!game.price || game.price.toNumber() <= 0) {
-    throw new Error("El juego no tiene precio válido definido");
+    throw new Error('El juego no tiene precio válido definido');
   }
 
   return await prisma.cartItem.upsert({
@@ -74,14 +74,14 @@ export async function addToCart(
 export async function removeFromCart(
   userId: number,
   gameId: number,
-  platformId: number
+  platformId: number,
 ) {
   await prisma.cartItem.delete({
     where: {
       userId_gameId_platformId: { userId, gameId, platformId },
     },
   });
-  return { message: "Juego removido del carrito" };
+  return { message: 'Juego removido del carrito' };
 }
 
 export async function getUserCart(userId: number) {
@@ -115,7 +115,7 @@ export async function getUserCart(userId: number) {
         },
       },
     },
-    orderBy: { createdAt: "desc" },
+    orderBy: { createdAt: 'desc' },
   });
 
   return cartItems.map((item: any) => ({
@@ -131,10 +131,10 @@ export async function updateQuantity(
   userId: number,
   gameId: number,
   platformId: number,
-  quantity: number
+  quantity: number,
 ) {
   if (quantity < 1) {
-    throw new Error("La cantidad debe ser al menos 1");
+    throw new Error('La cantidad debe ser al menos 1');
   }
 
   return await prisma.cartItem.update({

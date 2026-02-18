@@ -1,5 +1,5 @@
-import { PrismaClient } from "@prisma/client";
-import { serializePrisma } from "../utils/serialize";
+import { PrismaClient } from '@prisma/client';
+import { serializePrisma } from '../utils/serialize';
 
 export const prisma = new PrismaClient();
 

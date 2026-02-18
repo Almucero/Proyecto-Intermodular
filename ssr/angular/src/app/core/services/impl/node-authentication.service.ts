@@ -1,4 +1,5 @@
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { BaseAuthenticationService } from './base-authentication.service';
 import { IAuthMapping } from '../interfaces/auth-mapping.interface';
 import { HttpClient } from '@angular/common/http';
@@ -16,18 +17,25 @@ import {
 export class NodeAuthenticationService extends BaseAuthenticationService {
   private readonly AUTH_KEY = 'AUTH_TOKEN';
   private rememberMeActive = false;
+  private isBrowser: boolean;
 
   constructor(
     protected http: HttpClient,
     @Inject(AUTH_MAPPING_TOKEN) protected override authMapping: IAuthMapping,
     @Inject(AUTH_SIGN_IN_API_URL_TOKEN) protected signInUrl: string,
     @Inject(AUTH_SIGN_UP_API_URL_TOKEN) protected signUpUrl: string,
-    @Inject(AUTH_ME_API_URL_TOKEN) protected meUrl: string
+    @Inject(AUTH_ME_API_URL_TOKEN) protected meUrl: string,
+    @Inject(PLATFORM_ID) private platformId: Object,
   ) {
     super(authMapping);
+    this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
   public autoLogin() {
+    if (!this.isBrowser) {
+      this._ready.next(true);
+      return;
+    }
     const token = localStorage.getItem(this.AUTH_KEY);
 
     if (token) {
@@ -46,6 +54,9 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
   }
 
   public getToken(): string | null {
+    if (!this.isBrowser) {
+      return null;
+    }
     return (
       localStorage.getItem(this.AUTH_KEY) ||
       sessionStorage.getItem(this.AUTH_KEY)
@@ -59,7 +70,7 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
         this.saveToken(response.token, rememberMe);
         this._authenticated.next(true);
         this._user.next(this.authMapping.signIn(response));
-      })
+      }),
     );
   }
 
@@ -70,13 +81,15 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
         this.saveToken(response.token, false);
         this._authenticated.next(true);
         this._user.next(this.authMapping.signUp(response));
-      })
+      }),
     );
   }
 
   signOut(): Observable<any> {
-    localStorage.removeItem(this.AUTH_KEY);
-    sessionStorage.removeItem(this.AUTH_KEY);
+    if (this.isBrowser) {
+      localStorage.removeItem(this.AUTH_KEY);
+      sessionStorage.removeItem(this.AUTH_KEY);
+    }
     this._authenticated.next(false);
     this._user.next(undefined);
     return new Observable((observer) => {
@@ -93,7 +106,7 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
       tap((user) => {
         this._authenticated.next(true);
         this._user.next(user);
-      })
+      }),
     );
   }
 
@@ -112,6 +125,9 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
   }
 
   private saveToken(token: string, rememberMe: boolean) {
+    if (!this.isBrowser) {
+      return;
+    }
     this.rememberMeActive = rememberMe;
     if (rememberMe) {
       localStorage.setItem(this.AUTH_KEY, token);

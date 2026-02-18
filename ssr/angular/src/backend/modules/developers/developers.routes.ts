@@ -1,18 +1,18 @@
-import { Router } from "express";
-import { auth } from "../../middleware/auth";
-import { adminOnly } from "../../middleware/authorize";
-import { validate } from "../../middleware/validate";
+import { Router } from 'express';
+import { auth } from '../../middleware/auth';
+import { adminOnly } from '../../middleware/authorize';
+import { validate } from '../../middleware/validate';
 import {
   createDeveloperSchema,
   updateDeveloperSchema,
-} from "./developers.schema";
+} from './developers.schema';
 import {
   listDevelopersCtrl,
   getDeveloperCtrl,
   createDeveloperCtrl,
   updateDeveloperCtrl,
   deleteDeveloperCtrl,
-} from "./developers.controller";
+} from './developers.controller';
 
 const router = Router();
 
@@ -49,7 +49,7 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get("/", listDevelopersCtrl);
+router.get('/', listDevelopersCtrl);
 
 /**
  * @swagger
@@ -114,7 +114,7 @@ router.get("/", listDevelopersCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get("/:id", getDeveloperCtrl);
+router.get('/:id', getDeveloperCtrl);
 
 /**
  * @swagger
@@ -169,11 +169,11 @@ router.get("/:id", getDeveloperCtrl);
  *               $ref: '#/components/schemas/Error'
  */
 router.post(
-  "/",
+  '/',
   auth,
   validate(createDeveloperSchema),
   adminOnly,
-  createDeveloperCtrl
+  createDeveloperCtrl,
 );
 
 /**
@@ -236,11 +236,11 @@ router.post(
  *               $ref: '#/components/schemas/Error'
  */
 router.patch(
-  "/:id",
+  '/:id',
   auth,
   validate(updateDeveloperSchema),
   adminOnly,
-  updateDeveloperCtrl
+  updateDeveloperCtrl,
 );
 
 /**
@@ -292,6 +292,6 @@ router.patch(
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.delete("/:id", auth, adminOnly, deleteDeveloperCtrl);
+router.delete('/:id', auth, adminOnly, deleteDeveloperCtrl);
 
 export default router;

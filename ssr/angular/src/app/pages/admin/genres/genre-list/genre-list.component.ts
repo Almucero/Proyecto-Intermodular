@@ -57,7 +57,7 @@ export class GenreListComponent implements OnInit {
     } else {
       const lower = this.searchTerm.toLowerCase();
       this.filteredGenres = this.genres.filter((g) =>
-        g.name.toLowerCase().includes(lower)
+        g.name.toLowerCase().includes(lower),
       );
     }
     setTimeout(() => {

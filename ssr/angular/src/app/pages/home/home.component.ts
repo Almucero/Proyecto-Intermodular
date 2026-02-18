@@ -5,9 +5,10 @@ import {
   ViewChild,
   ElementRef,
   inject,
+  PLATFORM_ID,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { GameService } from '../../core/services/impl/game.service';
@@ -74,16 +75,17 @@ export class HomeComponent implements OnInit {
 
   private router = inject(Router);
   private http = inject(HttpClient);
+  private platformId = inject(PLATFORM_ID);
 
   constructor(
     private gameService: GameService,
-    private mediaService: MediaService
+    private mediaService: MediaService,
   ) {}
 
   ngOnInit(): void {
     this.checkScreenSize();
     this.otherGenres = this.allGenres.filter(
-      (genre) => !this.genres.some((g) => g.value === genre.value)
+      (genre) => !this.genres.some((g) => g.value === genre.value),
     );
     this.loadGames();
   }
@@ -94,6 +96,9 @@ export class HomeComponent implements OnInit {
   }
 
   private checkScreenSize() {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
     this.isMobile = window.innerWidth <= 768;
   }
 
@@ -114,6 +119,9 @@ export class HomeComponent implements OnInit {
 
   @HostListener('window:scroll')
   onWindowScroll(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
     const scrollPosition = window.scrollY;
 
     const backgroundSpeed = 0.8;
@@ -124,12 +132,12 @@ export class HomeComponent implements OnInit {
     const maxBlurBackground = 5;
     const blurBackgroundAmount = Math.min(
       scrollPosition * 0.005,
-      maxBlurBackground
+      maxBlurBackground,
     );
     const maxBlurCharacters = 2;
     const blurCharactersAmount = Math.min(
       scrollPosition * 0.003,
-      maxBlurCharacters
+      maxBlurCharacters,
     );
     const horizontalMovement = Math.sin(scrollPosition * 0.0005) * 50;
 

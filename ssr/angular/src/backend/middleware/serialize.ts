@@ -1,5 +1,5 @@
-import type { Request, Response, NextFunction } from "express";
-import { serializePrisma } from "../utils/serialize";
+import type { Request, Response, NextFunction } from 'express';
+import { serializePrisma } from '../utils/serialize';
 
 export function responseSerializer(
   req: Request,

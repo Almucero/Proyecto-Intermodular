@@ -1,13 +1,13 @@
-import { prisma } from "../../config/db";
+import { prisma } from '../../config/db';
 
 export async function listPlatforms(filters?: { name?: string }) {
   const where: any = {};
   if (filters?.name)
-    where.name = { contains: filters.name, mode: "insensitive" };
+    where.name = { contains: filters.name, mode: 'insensitive' };
   return await prisma.platform.findMany({
     where,
     select: { id: true, name: true },
-    orderBy: { id: "asc" } as any,
+    orderBy: { id: 'asc' } as any,
   });
 }
 

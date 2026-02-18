@@ -1,7 +1,7 @@
-import { prisma } from "../../config/db";
-import bcrypt from "bcryptjs";
-import { env } from "../../config/env";
-import type { Decimal } from "@prisma/client/runtime/library";
+import { prisma } from '../../config/db';
+import bcrypt from 'bcryptjs';
+import { env } from '../../config/env';
+import type { Decimal } from '@prisma/client/runtime/library';
 
 export async function createUser(
   email: string,
@@ -16,7 +16,7 @@ export async function createUser(
   city?: string | null,
   region?: string | null,
   postalCode?: string | null,
-  country?: string | null
+  country?: string | null,
 ) {
   return prisma.user.create({
     data: {
@@ -29,8 +29,8 @@ export async function createUser(
       nickname:
         (
           nickname ??
-          name.split(" ")[0] ??
-          email.split("@")[0] ??
+          name.split(' ')[0] ??
+          email.split('@')[0] ??
           null
         )?.trim() ?? null,
       addressLine1: addressLine1?.trim() ?? null,
@@ -117,13 +117,13 @@ export async function listUsers(filters?: {
 }) {
   const where: any = {};
   if (filters?.email) {
-    where.email = { contains: filters.email, mode: "insensitive" };
+    where.email = { contains: filters.email, mode: 'insensitive' };
   }
   if (filters?.name) {
-    where.name = { contains: filters.name, mode: "insensitive" };
+    where.name = { contains: filters.name, mode: 'insensitive' };
   }
   if (filters?.nickname) {
-    where.nickname = { contains: filters.nickname, mode: "insensitive" };
+    where.nickname = { contains: filters.nickname, mode: 'insensitive' };
   }
   if (filters?.isAdmin !== undefined) {
     where.isAdmin = filters.isAdmin;
@@ -161,13 +161,13 @@ export async function listUsers(filters?: {
       postalCode: true,
       country: true,
     },
-    orderBy: { id: "asc" },
+    orderBy: { id: 'asc' },
   });
 }
 
 export async function updateUser(
   id: number,
-  data: { name?: string; email?: string }
+  data: { name?: string; email?: string },
 ) {
   return prisma.user.update({ where: { id }, data });
 }
@@ -178,7 +178,7 @@ export async function deleteUser(id: number) {
 
 export async function updateProfile(
   userId: number,
-  data: { name?: string; email?: string }
+  data: { name?: string; email?: string },
 ) {
   return prisma.user.update({
     where: { id: userId },
@@ -189,18 +189,18 @@ export async function updateProfile(
 export async function changePassword(
   userId: number,
   currentPassword: string,
-  newPassword: string
+  newPassword: string,
 ) {
   const user = await prisma.user.findUnique({ where: { id: userId } });
 
   if (!user) {
-    throw new Error("Usuario no encontrado");
+    throw new Error('Usuario no encontrado');
   }
 
   const isValid = await bcrypt.compare(currentPassword, user.passwordHash);
 
   if (!isValid) {
-    throw new Error("Contraseña actual incorrecta");
+    throw new Error('Contraseña actual incorrecta');
   }
 
   const newHash = await bcrypt.hash(newPassword, env.BCRYPT_SALT_ROUNDS);
@@ -210,5 +210,5 @@ export async function changePassword(
     data: { passwordHash: newHash },
   });
 
-  return { message: "Contraseña actualizada correctamente" };
+  return { message: 'Contraseña actualizada correctamente' };
 }

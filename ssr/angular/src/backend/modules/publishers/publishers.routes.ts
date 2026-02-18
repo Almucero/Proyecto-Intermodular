@@ -1,18 +1,18 @@
-import { Router } from "express";
-import { auth } from "../../middleware/auth";
-import { adminOnly } from "../../middleware/authorize";
-import { validate } from "../../middleware/validate";
+import { Router } from 'express';
+import { auth } from '../../middleware/auth';
+import { adminOnly } from '../../middleware/authorize';
+import { validate } from '../../middleware/validate';
 import {
   createPublisherSchema,
   updatePublisherSchema,
-} from "./publishers.schema";
+} from './publishers.schema';
 import {
   listPublishersCtrl,
   getPublisherCtrl,
   createPublisherCtrl,
   updatePublisherCtrl,
   deletePublisherCtrl,
-} from "./publishers.controller";
+} from './publishers.controller';
 
 const router = Router();
 
@@ -49,7 +49,7 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get("/", listPublishersCtrl);
+router.get('/', listPublishersCtrl);
 
 /**
  * @swagger
@@ -114,7 +114,7 @@ router.get("/", listPublishersCtrl);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get("/:id", getPublisherCtrl);
+router.get('/:id', getPublisherCtrl);
 
 /**
  * @swagger
@@ -169,11 +169,11 @@ router.get("/:id", getPublisherCtrl);
  *               $ref: '#/components/schemas/Error'
  */
 router.post(
-  "/",
+  '/',
   auth,
   validate(createPublisherSchema),
   adminOnly,
-  createPublisherCtrl
+  createPublisherCtrl,
 );
 
 /**
@@ -236,11 +236,11 @@ router.post(
  *               $ref: '#/components/schemas/Error'
  */
 router.patch(
-  "/:id",
+  '/:id',
   auth,
   validate(updatePublisherSchema),
   adminOnly,
-  updatePublisherCtrl
+  updatePublisherCtrl,
 );
 
 /**
@@ -292,6 +292,6 @@ router.patch(
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.delete("/:id", auth, adminOnly, deletePublisherCtrl);
+router.delete('/:id', auth, adminOnly, deletePublisherCtrl);
 
 export default router;

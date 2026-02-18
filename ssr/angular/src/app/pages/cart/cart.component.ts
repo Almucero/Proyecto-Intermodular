@@ -26,7 +26,7 @@ export class CartComponent implements OnInit {
     private cartItemService: CartItemService,
     private mediaService: MediaService,
     private authService: BaseAuthenticationService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -51,7 +51,7 @@ export class CartComponent implements OnInit {
             cartItems.forEach((item) => {
               if (item.game) {
                 item.game.media = allMedia.filter(
-                  (m) => m.gameId == item.gameId
+                  (m) => m.gameId == item.gameId,
                 );
               }
             });
@@ -81,8 +81,8 @@ export class CartComponent implements OnInit {
         items.map((i) =>
           i.gameId === item.gameId && i.platformId === item.platformId
             ? { ...i, quantity: i.quantity + 1 }
-            : i
-        )
+            : i,
+        ),
       );
     } catch (error) {}
   }
@@ -98,8 +98,8 @@ export class CartComponent implements OnInit {
           items.map((i) =>
             i.gameId === item.gameId && i.platformId === item.platformId
               ? { ...i, quantity: i.quantity - 1 }
-              : i
-          )
+              : i,
+          ),
         );
       } catch (error) {}
     } else {
@@ -115,8 +115,9 @@ export class CartComponent implements OnInit {
         .toPromise();
       this.cartItems.update((items) =>
         items.filter(
-          (i) => !(i.gameId === item.gameId && i.platformId === item.platformId)
-        )
+          (i) =>
+            !(i.gameId === item.gameId && i.platformId === item.platformId),
+        ),
       );
     } catch (error) {}
   }
@@ -136,15 +137,15 @@ export class CartComponent implements OnInit {
   getItemTotal(item: CartItem): number {
     const price =
       item.game?.isOnSale && item.game?.salePrice !== null
-        ? item.game.salePrice ?? 0
-        : item.game?.price ?? 0;
+        ? (item.game.salePrice ?? 0)
+        : (item.game?.price ?? 0);
     return price * item.quantity;
   }
 
   getTotal(): number {
     return this.cartItems().reduce(
       (sum, item) => sum + this.getItemTotal(item),
-      0
+      0,
     );
   }
 

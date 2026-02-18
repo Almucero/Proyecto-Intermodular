@@ -1,13 +1,13 @@
-import { prisma } from "../../config/db";
+import { prisma } from '../../config/db';
 
 export async function listGenres(filters?: { name?: string }) {
   const where: any = {};
   if (filters?.name)
-    where.name = { contains: filters.name, mode: "insensitive" };
+    where.name = { contains: filters.name, mode: 'insensitive' };
   return await prisma.genre.findMany({
     where,
     select: { id: true, name: true },
-    orderBy: { id: "asc" } as any,
+    orderBy: { id: 'asc' } as any,
   });
 }
 

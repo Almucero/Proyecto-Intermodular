@@ -13,7 +13,7 @@ export class PlatformService
   implements IPlatformService
 {
   constructor(
-    @Inject(PLATFORM_REPOSITORY_TOKEN) repository: IBaseRepository<Platform>
+    @Inject(PLATFORM_REPOSITORY_TOKEN) repository: IBaseRepository<Platform>,
   ) {
     super(repository);
   }

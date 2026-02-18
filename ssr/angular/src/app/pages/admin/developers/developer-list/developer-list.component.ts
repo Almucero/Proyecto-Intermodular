@@ -57,7 +57,7 @@ export class DeveloperListComponent implements OnInit {
     } else {
       const lower = this.searchTerm.toLowerCase();
       this.filteredDevelopers = this.developers.filter((d) =>
-        d.name.toLowerCase().includes(lower)
+        d.name.toLowerCase().includes(lower),
       );
     }
     setTimeout(() => {

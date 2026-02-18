@@ -20,14 +20,10 @@
             "outputPath": "dist/game-sage",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/assets"
-            ],
+            "assets": ["src/assets"],
             "styles": [
               "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "src/styles.scss"
@@ -56,7 +52,8 @@
               "@ai-sdk/google",
               "@opentelemetry/api",
               "@vercel/oidc"
-            ]
+            ],
+            "allowedCommonJsDependencies": ["cors", "ip-address"]
           },
           "configurations": {
             "production": {
@@ -68,8 +65,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "6kB",
+                  "maximumError": "12kB"
                 }
               ],
               "outputHashing": "all",

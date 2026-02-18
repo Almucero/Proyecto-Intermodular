@@ -1,13 +1,13 @@
-import { google } from "@ai-sdk/google";
-import { generateText, tool, stepCountIs } from "ai";
-import { z } from "zod";
-import { prisma } from "../../config/db";
+import { google } from '@ai-sdk/google';
+import { generateText, tool, stepCountIs } from 'ai';
+import { z } from 'zod';
+import { prisma } from '../../config/db';
 
 const searchGamesInputSchema = z.object({
   query: z
     .string()
     .describe(
-      'El término de búsqueda. Si es genérico usa "accion" o "aventura" por ejemplo'
+      'El término de búsqueda. Si es genérico usa "accion" o "aventura" por ejemplo',
     ),
 });
 
@@ -29,7 +29,7 @@ export async function getUserSessions(userId: number) {
       updatedAt: true,
       _count: { select: { messages: true } },
     },
-    orderBy: { updatedAt: "desc" },
+    orderBy: { updatedAt: 'desc' },
   });
 }
 
@@ -49,12 +49,12 @@ export async function getSession(sessionId: number, userId: number) {
           games: true,
           createdAt: true,
         },
-        orderBy: { createdAt: "asc" },
+        orderBy: { createdAt: 'asc' },
       },
     },
   });
   if (!session) {
-    throw new Error("Sesión no encontrada");
+    throw new Error('Sesión no encontrada');
   }
   return session;
 }
@@ -64,7 +64,7 @@ export async function deleteSession(sessionId: number, userId: number) {
     where: { id: sessionId, userId },
   });
   if (!session) {
-    throw new Error("Sesión no encontrada");
+    throw new Error('Sesión no encontrada');
   }
   await prisma.chatSession.delete({ where: { id: sessionId } });
   return { deleted: true };
@@ -73,7 +73,7 @@ export async function deleteSession(sessionId: number, userId: number) {
 export async function processChat(
   userId: number,
   message: string,
-  sessionId?: number
+  sessionId?: number,
 ) {
   const foundGames: GameResult[] = [];
 
@@ -85,7 +85,7 @@ export async function processChat(
       select: { id: true, title: true },
     });
     if (!existing) {
-      throw new Error("Sesión no encontrada");
+      throw new Error('Sesión no encontrada');
     }
     session = existing;
   } else {
@@ -101,14 +101,14 @@ export async function processChat(
   await prisma.chatMessage.create({
     data: {
       sessionId: session.id,
-      role: "user",
+      role: 'user',
       content: message,
     },
   });
 
   const previousMessages = await prisma.chatMessage.findMany({
     where: { sessionId: session.id },
-    orderBy: { createdAt: "asc" },
+    orderBy: { createdAt: 'asc' },
     take: 10,
     select: { role: true, content: true },
   });
@@ -135,35 +135,35 @@ export async function processChat(
 
   const messages = previousMessages.map(
     (m: { role: string; content: string }) => ({
-      role: m.role as "user" | "assistant",
+      role: m.role as 'user' | 'assistant',
       content: m.content,
-    })
+    }),
   );
 
   const tools = {
     searchGames: tool({
       description:
-        "Busca videojuegos en la base de datos por nombre, género o descripción.",
+        'Busca videojuegos en la base de datos por nombre, género o descripción.',
       inputSchema: searchGamesInputSchema,
       execute: async ({ query }) => {
-        const cleanQuery = query === "undefined" || !query ? "" : query.trim();
+        const cleanQuery = query === 'undefined' || !query ? '' : query.trim();
         try {
           const whereClause: any =
-            cleanQuery === ""
+            cleanQuery === ''
               ? {}
               : {
                   OR: [
-                    { title: { contains: cleanQuery, mode: "insensitive" } },
+                    { title: { contains: cleanQuery, mode: 'insensitive' } },
                     {
                       description: {
                         contains: cleanQuery,
-                        mode: "insensitive",
+                        mode: 'insensitive',
                       },
                     },
                     {
                       genres: {
                         some: {
-                          name: { contains: cleanQuery, mode: "insensitive" },
+                          name: { contains: cleanQuery, mode: 'insensitive' },
                         },
                       },
                     },
@@ -172,7 +172,7 @@ export async function processChat(
           const games = await prisma.game.findMany({
             where: whereClause,
             take: 5,
-            orderBy: { id: "desc" },
+            orderBy: { id: 'desc' },
             select: {
               id: true,
               title: true,
@@ -182,23 +182,23 @@ export async function processChat(
             },
           });
           if (games.length === 0) {
-            return "No se encontraron juegos con ese criterio.";
+            return 'No se encontraron juegos con ese criterio.';
           }
           const gamesList = games.map((g: any) => ({
             id: g.id,
             title: g.title,
-            price: g.price ? g.price.toString() : "N/A",
+            price: g.price ? g.price.toString() : 'N/A',
             genres: g.genres
               .map((gen: { name: string }) => gen.name)
-              .join(", "),
+              .join(', '),
             platforms: g.platforms
               .map((p: { name: string }) => p.name)
-              .join(", "),
+              .join(', '),
           }));
           foundGames.push(...gamesList);
           return JSON.stringify(gamesList);
         } catch {
-          return "Error técnico al buscar en la base de datos.";
+          return 'Error técnico al buscar en la base de datos.';
         }
       },
     }),
@@ -208,7 +208,7 @@ export async function processChat(
 
   try {
     result = await generateText({
-      model: google("gemini-1.5-flash"),
+      model: google('gemini-1.5-flash'),
       system: systemPrompt,
       messages,
       stopWhen: stepCountIs(5),
@@ -217,7 +217,7 @@ export async function processChat(
   } catch (error) {
     try {
       result = await generateText({
-        model: google("gemini-1.5-flash"),
+        model: google('gemini-1.5-flash'),
         system: systemPrompt,
         messages,
         stopWhen: stepCountIs(5),
@@ -225,7 +225,7 @@ export async function processChat(
       });
     } catch (error2) {
       result = {
-        text: "Lo siento, he alcanzado mi límite diario de consultas. Por favor, inténtalo de nuevo mañana.",
+        text: 'Lo siento, he alcanzado mi límite diario de consultas. Por favor, inténtalo de nuevo mañana.',
       };
     }
   }
@@ -233,7 +233,7 @@ export async function processChat(
   await prisma.chatMessage.create({
     data: {
       sessionId: session.id,
-      role: "assistant",
+      role: 'assistant',
       content: result.text,
       games: foundGames.length > 0 ? (foundGames as any) : undefined,
     },

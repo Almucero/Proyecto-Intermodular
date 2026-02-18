@@ -13,7 +13,7 @@ export class PurchaseService
   implements IPurchaseService
 {
   constructor(
-    @Inject(PURCHASE_REPOSITORY_TOKEN) repository: IBaseRepository<Purchase>
+    @Inject(PURCHASE_REPOSITORY_TOKEN) repository: IBaseRepository<Purchase>,
   ) {
     super(repository);
   }

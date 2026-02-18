@@ -13,7 +13,7 @@ export class PublisherService
   implements IPublisherService
 {
   constructor(
-    @Inject(PUBLISHER_REPOSITORY_TOKEN) repository: IBaseRepository<Publisher>
+    @Inject(PUBLISHER_REPOSITORY_TOKEN) repository: IBaseRepository<Publisher>,
   ) {
     super(repository);
   }

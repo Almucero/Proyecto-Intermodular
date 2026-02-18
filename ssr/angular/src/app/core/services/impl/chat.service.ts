@@ -28,7 +28,7 @@ export class ChatService
     private http: HttpClient,
     @Inject(CHAT_API_URL_TOKEN) private chatApiUrl: string,
     @Inject(API_URL_TOKEN) private apiUrl: string,
-    private auth: BaseAuthenticationService
+    private auth: BaseAuthenticationService,
   ) {
     super(repository);
   }

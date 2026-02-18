@@ -1,6 +1,6 @@
-import "dotenv/config";
-import bcrypt from "bcryptjs";
-import { prisma } from "../config/db";
+import 'dotenv/config';
+import bcrypt from 'bcryptjs';
+import { prisma } from '../config/db';
 
 /**
  * Genera administradores usando las variables de entorno:
@@ -13,9 +13,9 @@ import { prisma } from "../config/db";
  * Esto asegura que los administradores estén siempre sincronizados con las variables de entorno.
  */
 async function crearAdmin() {
-  const adminEmailsCsv = process.env.ADMIN_EMAILS ?? "";
-  const adminPasswordsCsv = process.env.ADMIN_PASSWORDS ?? "";
-  const adminNamesCsv = process.env.ADMIN_NAMES ?? "";
+  const adminEmailsCsv = process.env.ADMIN_EMAILS ?? '';
+  const adminPasswordsCsv = process.env.ADMIN_PASSWORDS ?? '';
+  const adminNamesCsv = process.env.ADMIN_NAMES ?? '';
   const saltRounds = Number(process.env.BCRYPT_SALT_ROUNDS ?? 10);
 
   const emails = adminEmailsCsv
@@ -25,7 +25,7 @@ async function crearAdmin() {
 
   if (emails.length === 0) {
     throw new Error(
-      "No admin emails provided. Set ADMIN_EMAILS in your environment.",
+      'No admin emails provided. Set ADMIN_EMAILS in your environment.',
     );
   }
 
@@ -63,8 +63,8 @@ async function crearAdmin() {
 
   for (let i = 0; i < emails.length; i++) {
     const email = emails[i];
-    const password = passwords[i] || "ChangeMe123!";
-    const name = names[i] || "Admin";
+    const password = passwords[i] || 'ChangeMe123!';
+    const name = names[i] || 'Admin';
     const passwordHash = await bcrypt.hash(password, saltRounds);
     const createPayload: any = {
       email,
@@ -85,14 +85,14 @@ async function crearAdmin() {
       create: createPayload,
     } as any);
 
-    console.log("Admin creado/actualizado:", {
+    console.log('Admin creado/actualizado:', {
       id: user.id,
       email: user.email,
     });
   }
 
   console.log(
-    "Seed completado. Admins sincronizados con ADMIN_EMAILS en el environment.",
+    'Seed completado. Admins sincronizados con ADMIN_EMAILS en el environment.',
   );
 }
 

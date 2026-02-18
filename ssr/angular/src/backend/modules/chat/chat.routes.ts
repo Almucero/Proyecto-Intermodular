@@ -1,11 +1,11 @@
-import { Router } from "express";
-import { auth } from "../../middleware/auth";
+import { Router } from 'express';
+import { auth } from '../../middleware/auth';
 import {
   chatCtrl,
   listSessionsCtrl,
   getSessionCtrl,
   deleteSessionCtrl,
-} from "./chat.controller";
+} from './chat.controller';
 
 const router = Router();
 
@@ -63,7 +63,7 @@ const router = Router();
  *       401:
  *         description: No autorizado
  */
-router.get("/sessions", auth, listSessionsCtrl);
+router.get('/sessions', auth, listSessionsCtrl);
 
 /**
  * @swagger
@@ -109,7 +109,7 @@ router.get("/sessions", auth, listSessionsCtrl);
  *       401:
  *         description: No autorizado
  */
-router.get("/sessions/:id", auth, getSessionCtrl);
+router.get('/sessions/:id', auth, getSessionCtrl);
 
 /**
  * @swagger
@@ -144,7 +144,7 @@ router.get("/sessions/:id", auth, getSessionCtrl);
  *       401:
  *         description: No autorizado
  */
-router.delete("/sessions/:id", auth, deleteSessionCtrl);
+router.delete('/sessions/:id', auth, deleteSessionCtrl);
 
 /**
  * @swagger
@@ -217,6 +217,6 @@ router.delete("/sessions/:id", auth, deleteSessionCtrl);
  *             example:
  *               message: "Sesión no encontrada"
  */
-router.post("/", auth, chatCtrl);
+router.post('/', auth, chatCtrl);
 
 export default router;

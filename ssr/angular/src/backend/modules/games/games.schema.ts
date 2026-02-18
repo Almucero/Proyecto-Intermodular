@@ -1,12 +1,12 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const createGameSchema = z.object({
-  title: z.string().min(1, "El título es requerido"),
+  title: z.string().min(1, 'El título es requerido'),
   description: z.string().optional(),
-  price: z.number().nonnegative("El precio debe ser >= 0").optional(),
+  price: z.number().nonnegative('El precio debe ser >= 0').optional(),
   salePrice: z
     .number()
-    .nonnegative("El precio de venta debe ser >= 0")
+    .nonnegative('El precio de venta debe ser >= 0')
     .optional(),
   isOnSale: z.boolean().optional(),
   isRefundable: z.boolean().optional(),

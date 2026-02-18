@@ -1,11 +1,11 @@
-import type { Request, Response } from "express";
+import type { Request, Response } from 'express';
 import {
   listPlatforms,
   findPlatformById,
   createPlatform,
   updatePlatform,
   deletePlatform,
-} from "./platforms.service";
+} from './platforms.service';
 
 export async function listPlatformsCtrl(_req: Request, res: Response) {
   try {
@@ -21,10 +21,10 @@ export async function listPlatformsCtrl(_req: Request, res: Response) {
 export async function getPlatformCtrl(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);
-    if (isNaN(id)) return res.status(400).json({ message: "ID inválido" });
+    if (isNaN(id)) return res.status(400).json({ message: 'ID inválido' });
     const item = await findPlatformById(id);
     if (!item)
-      return res.status(404).json({ message: "Platform no encontrado" });
+      return res.status(404).json({ message: 'Platform no encontrado' });
     const response: any = { ...item };
     if (item.games) {
       response.games = item.games;
@@ -41,8 +41,8 @@ export async function createPlatformCtrl(req: Request, res: Response) {
     const created = await createPlatform(payload);
     res.status(201).json(created);
   } catch (err: any) {
-    if (err.code === "P2002")
-      return res.status(409).json({ message: "Platform duplicado" });
+    if (err.code === 'P2002')
+      return res.status(409).json({ message: 'Platform duplicado' });
     res.status(500).json({ message: err.message });
   }
 }
@@ -50,14 +50,14 @@ export async function createPlatformCtrl(req: Request, res: Response) {
 export async function updatePlatformCtrl(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);
-    if (isNaN(id)) return res.status(400).json({ message: "ID inválido" });
+    if (isNaN(id)) return res.status(400).json({ message: 'ID inválido' });
     const payload: any = {};
     if (req.body.name) payload.name = req.body.name;
     const updated = await updatePlatform(id, payload);
     res.json(updated);
   } catch (err: any) {
-    if (err.code === "P2025")
-      return res.status(404).json({ message: "Platform no encontrado" });
+    if (err.code === 'P2025')
+      return res.status(404).json({ message: 'Platform no encontrado' });
     res.status(500).json({ message: err.message });
   }
 }
@@ -65,12 +65,12 @@ export async function updatePlatformCtrl(req: Request, res: Response) {
 export async function deletePlatformCtrl(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);
-    if (isNaN(id)) return res.status(400).json({ message: "ID inválido" });
+    if (isNaN(id)) return res.status(400).json({ message: 'ID inválido' });
     await deletePlatform(id);
     res.status(204).send();
   } catch (err: any) {
-    if (err.code === "P2025")
-      return res.status(404).json({ message: "Platform no encontrado" });
+    if (err.code === 'P2025')
+      return res.status(404).json({ message: 'Platform no encontrado' });
     res.status(500).json({ message: err.message });
   }
 }

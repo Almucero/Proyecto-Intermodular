@@ -13,7 +13,7 @@ export class DeveloperService
   implements IDeveloperService
 {
   constructor(
-    @Inject(DEVELOPER_REPOSITORY_TOKEN) repository: IBaseRepository<Developer>
+    @Inject(DEVELOPER_REPOSITORY_TOKEN) repository: IBaseRepository<Developer>,
   ) {
     super(repository);
   }

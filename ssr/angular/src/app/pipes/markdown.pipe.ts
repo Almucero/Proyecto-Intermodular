@@ -20,17 +20,17 @@ export class MarkdownPipe implements PipeTransform {
 
     html = html.replace(
       /\[(.*?)\]\((.*?)\)/g,
-      '<a href="$2" class="text-cyan-400 hover:text-cyan-300 underline font-bold cursor-pointer">$1</a>'
+      '<a href="$2" class="text-cyan-400 hover:text-cyan-300 underline font-bold cursor-pointer">$1</a>',
     );
 
     html = html.replace(
       /\*\*(.*?)\*\*/g,
-      '<strong class="text-cyan-300 font-bold">$1</strong>'
+      '<strong class="text-cyan-300 font-bold">$1</strong>',
     );
 
     html = html.replace(
       /__(.*?)__/g,
-      '<strong class="text-cyan-300 font-bold">$1</strong>'
+      '<strong class="text-cyan-300 font-bold">$1</strong>',
     );
 
     html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');

@@ -18,15 +18,15 @@ import { IAuthentication } from '../../services/interfaces/authentication.interf
 @Injectable({
   providedIn: 'root',
 })
-export class BaseRepositoryHttpService<T extends Model>
-  implements IBaseRepository<T>
-{
+export class BaseRepositoryHttpService<
+  T extends Model,
+> implements IBaseRepository<T> {
   constructor(
     protected http: HttpClient,
     @Inject(AUTH_TOKEN) protected auth: IAuthentication,
     @Inject(API_URL_TOKEN) protected apiUrl: string,
     @Inject(RESOURCE_NAME_TOKEN) protected resource: string,
-    @Inject(REPOSITORY_MAPPING_TOKEN) protected mapping: IBaseMapping<T>
+    @Inject(REPOSITORY_MAPPING_TOKEN) protected mapping: IBaseMapping<T>,
   ) {
     this.apiUrl = apiUrl;
   }

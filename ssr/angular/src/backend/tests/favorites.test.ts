@@ -1,11 +1,11 @@
 /// <reference types="jest" />
-import request from "supertest";
-import app from "../app";
-import { prisma } from "../config/db";
+import request from 'supertest';
+import app from '../app';
+import { prisma } from '../config/db';
 
-import bcrypt from "bcryptjs";
+import bcrypt from 'bcryptjs';
 
-describe("Favorites Endpoints", () => {
+describe('Favorites Endpoints', () => {
   let authToken: string;
   let userId: number;
   let testGameId: number;
@@ -13,9 +13,9 @@ describe("Favorites Endpoints", () => {
 
   const testUser = {
     email: `favtest${Date.now()}@example.com`,
-    name: "Favorite Test User",
-    surname: "Lastname",
-    password: "password123",
+    name: 'Favorite Test User',
+    surname: 'Lastname',
+    password: 'password123',
   };
 
   beforeAll(async () => {
@@ -31,21 +31,21 @@ describe("Favorites Endpoints", () => {
     userId = user.id;
 
     const loginRes = await request(app)
-      .post("/api/auth/login")
+      .post('/api/auth/login')
       .send({ email: testUser.email, password: testUser.password });
     authToken = loginRes.body.token;
-    const gamesRes = await request(app).get("/api/games?include=platforms");
+    const gamesRes = await request(app).get('/api/games?include=platforms');
     if (gamesRes.body && gamesRes.body.length > 0) {
       // Find a game that has platforms
       const gameWithPlatform = gamesRes.body.find(
-        (g: any) => g.platforms && g.platforms.length > 0
+        (g: any) => g.platforms && g.platforms.length > 0,
       );
 
       if (gameWithPlatform) {
         testGameId = gameWithPlatform.id;
         testPlatformId = gameWithPlatform.platforms[0].id;
       } else {
-        console.warn("No game with platforms found in seed data");
+        console.warn('No game with platforms found in seed data');
       }
     }
   });
@@ -66,153 +66,153 @@ describe("Favorites Endpoints", () => {
     }
   });
 
-  it("debe obtener favoritos vacíos para nuevo usuario", async () => {
+  it('debe obtener favoritos vacíos para nuevo usuario', async () => {
     if (!authToken) {
-      console.warn("No auth token available");
+      console.warn('No auth token available');
       return;
     }
 
     const res = await request(app)
-      .get("/api/favorites")
-      .set("Authorization", `Bearer ${authToken}`);
+      .get('/api/favorites')
+      .set('Authorization', `Bearer ${authToken}`);
 
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
     expect(res.body.length).toBe(0);
   });
 
-  it("debe agregar un juego a favoritos", async () => {
+  it('debe agregar un juego a favoritos', async () => {
     if (!testGameId || !authToken) {
-      console.warn("No test game or auth token available");
+      console.warn('No test game or auth token available');
       return;
     }
 
     const res = await request(app)
       .post(`/api/favorites`)
-      .set("Authorization", `Bearer ${authToken}`)
+      .set('Authorization', `Bearer ${authToken}`)
       .send({ gameId: testGameId, platformId: testPlatformId });
 
     expect(res.status).toBe(201);
-    expect(res.body).toHaveProperty("id");
+    expect(res.body).toHaveProperty('id');
     expect(res.body.userId).toBe(userId);
     expect(res.body.gameId).toBe(testGameId);
     expect(res.body.platformId).toBe(testPlatformId);
   });
 
-  it("debe fallar al agregar un juego inválido a favoritos", async () => {
+  it('debe fallar al agregar un juego inválido a favoritos', async () => {
     const res = await request(app)
       .post(`/api/favorites`)
-      .set("Authorization", `Bearer ${authToken}`)
-      .send({ gameId: "invalid", platformId: testPlatformId });
+      .set('Authorization', `Bearer ${authToken}`)
+      .send({ gameId: 'invalid', platformId: testPlatformId });
 
     expect(res.status).toBe(400);
-    expect(res.body).toHaveProperty("errors");
+    expect(res.body).toHaveProperty('errors');
   });
 
-  it("debe fallar al agregar un juego inexistente a favoritos", async () => {
+  it('debe fallar al agregar un juego inexistente a favoritos', async () => {
     const res = await request(app)
       .post(`/api/favorites`)
-      .set("Authorization", `Bearer ${authToken}`)
+      .set('Authorization', `Bearer ${authToken}`)
       .send({ gameId: 99999, platformId: testPlatformId });
 
     expect(res.status).toBe(404);
   });
 
-  it("debe fallar al agregar duplicado a favoritos", async () => {
+  it('debe fallar al agregar duplicado a favoritos', async () => {
     if (!testGameId) {
-      console.warn("No test game available");
+      console.warn('No test game available');
       return;
     }
 
     await request(app)
       .post(`/api/favorites`)
-      .set("Authorization", `Bearer ${authToken}`)
+      .set('Authorization', `Bearer ${authToken}`)
       .send({ gameId: testGameId, platformId: testPlatformId });
     const res = await request(app)
       .post(`/api/favorites`)
-      .set("Authorization", `Bearer ${authToken}`)
+      .set('Authorization', `Bearer ${authToken}`)
       .send({ gameId: testGameId, platformId: testPlatformId });
 
     expect(res.status).toBe(409);
   });
 
-  it("debe verificar si un juego está en favoritos", async () => {
+  it('debe verificar si un juego está en favoritos', async () => {
     if (!testGameId) {
-      console.warn("No test game available");
+      console.warn('No test game available');
       return;
     }
 
     await request(app)
       .post(`/api/favorites`)
-      .set("Authorization", `Bearer ${authToken}`)
+      .set('Authorization', `Bearer ${authToken}`)
       .send({ gameId: testGameId, platformId: testPlatformId })
       .catch(() => {});
     const res = await request(app)
       .get(`/api/favorites/check/${testGameId}?platformId=${testPlatformId}`)
-      .set("Authorization", `Bearer ${authToken}`);
+      .set('Authorization', `Bearer ${authToken}`);
 
     expect(res.status).toBe(200);
-    expect(res.body).toHaveProperty("isFavorite");
-    expect(typeof res.body.isFavorite).toBe("boolean");
+    expect(res.body).toHaveProperty('isFavorite');
+    expect(typeof res.body.isFavorite).toBe('boolean');
   });
 
-  it("debe verificar que no está en favoritos un juego no agregado", async () => {
+  it('debe verificar que no está en favoritos un juego no agregado', async () => {
     const res = await request(app)
       .get(`/api/favorites/check/99999?platformId=${testPlatformId}`)
-      .set("Authorization", `Bearer ${authToken}`);
+      .set('Authorization', `Bearer ${authToken}`);
 
     expect(res.status).toBe(200);
     expect(res.body.isFavorite).toBe(false);
   });
 
-  it("debe obtener lista de favoritos", async () => {
+  it('debe obtener lista de favoritos', async () => {
     if (!testGameId) {
-      console.warn("No test game available");
+      console.warn('No test game available');
       return;
     }
 
     const res = await request(app)
-      .get("/api/favorites")
-      .set("Authorization", `Bearer ${authToken}`);
+      .get('/api/favorites')
+      .set('Authorization', `Bearer ${authToken}`);
 
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
     if (res.body.length > 0) {
-      expect(res.body[0]).toHaveProperty("game");
-      expect(res.body[0].game).toHaveProperty("id");
-      expect(res.body[0].game).toHaveProperty("title");
+      expect(res.body[0]).toHaveProperty('game');
+      expect(res.body[0].game).toHaveProperty('id');
+      expect(res.body[0].game).toHaveProperty('title');
     }
   });
 
-  it("debe remover un juego de favoritos", async () => {
+  it('debe remover un juego de favoritos', async () => {
     if (!testGameId) {
-      console.warn("No test game available");
+      console.warn('No test game available');
       return;
     }
 
     await request(app)
       .post(`/api/favorites`)
-      .set("Authorization", `Bearer ${authToken}`)
+      .set('Authorization', `Bearer ${authToken}`)
       .send({ gameId: testGameId, platformId: testPlatformId })
       .catch(() => {});
     const res = await request(app)
       .delete(`/api/favorites/${testGameId}?platformId=${testPlatformId}`)
-      .set("Authorization", `Bearer ${authToken}`);
+      .set('Authorization', `Bearer ${authToken}`);
 
     expect(res.status).toBe(200);
-    expect(res.body).toHaveProperty("message");
+    expect(res.body).toHaveProperty('message');
   });
 
-  it("debe fallar al remover un favorito inexistente", async () => {
+  it('debe fallar al remover un favorito inexistente', async () => {
     const res = await request(app)
       .delete(`/api/favorites/99999?platformId=${testPlatformId}`)
-      .set("Authorization", `Bearer ${authToken}`);
+      .set('Authorization', `Bearer ${authToken}`);
 
     expect(res.status).toBe(404);
   });
 
-  it("debe fallar si no hay autenticación", async () => {
-    const res = await request(app).get("/api/favorites");
+  it('debe fallar si no hay autenticación', async () => {
+    const res = await request(app).get('/api/favorites');
 
     expect(res.status).toBe(401);
   });

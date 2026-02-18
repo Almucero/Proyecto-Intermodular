@@ -97,11 +97,11 @@
           class="w-9 h-9 cursor-pointer transition-transform duration-150 active:scale-95 mobile-icon-size"
         />
         @if ((favoritesCount() || 0) > 0) {
-        <span
-          class="absolute -bottom-1 right-0 text-red-500 text-sm font-black"
-        >
-          {{ favoritesCount() }}
-        </span>
+          <span
+            class="absolute -bottom-1 right-0 text-red-500 text-sm font-black"
+          >
+            {{ favoritesCount() }}
+          </span>
         }
       </a>
     </button>
@@ -116,11 +116,11 @@
           class="w-9 h-9 cursor-pointer transition-transform duration-150 active:scale-95 mobile-icon-size"
         />
         @if ((cartCount() || 0) > 0) {
-        <span
-          class="absolute -bottom-1 right-0 text-red-500 text-sm font-black"
-        >
-          {{ cartCount() }}
-        </span>
+          <span
+            class="absolute -bottom-1 right-0 text-red-500 text-sm font-black"
+          >
+            {{ cartCount() }}
+          </span>
         }
       </a>
     </button>
@@ -130,7 +130,11 @@
     >
       <a [routerLink]="user() ? '/dashboard' : '/login'">
         <img
-          [src]="user()?.isAdmin ? 'assets/icons/admin_user.png' : (user()?.media?.[0]?.url || 'assets/icons/user.png')"
+          [src]="
+            user()?.isAdmin
+              ? 'assets/icons/admin_user.png'
+              : user()?.media?.[0]?.url || 'assets/icons/user.png'
+          "
           [alt]="user()?.nickname || 'User'"
           class="w-10 h-10 rounded-full object-cover transition-transform duration-150 active:scale-95 mobile-icon-size-user"
         />

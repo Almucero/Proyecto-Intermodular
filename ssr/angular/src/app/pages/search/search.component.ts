@@ -73,7 +73,7 @@ export class SearchComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private gameService: GameService,
-    private platformService: PlatformService
+    private platformService: PlatformService,
   ) {}
 
   ngOnInit(): void {
@@ -178,7 +178,7 @@ export class SearchComponent implements OnInit {
               g.salePrice !== undefined
               ? Number(g.salePrice)
               : Number(g.price) || 0;
-          })
+          }),
         );
         this.maxPrice = Math.ceil(maxGamePrice / 10) * 10;
         if (this.maxPrice === 0) this.maxPrice = 100;
@@ -234,7 +234,7 @@ export class SearchComponent implements OnInit {
         });
       } else {
         const priceOption = this.priceOptions.find(
-          (opt) => opt.value === this.selectedPrice
+          (opt) => opt.value === this.selectedPrice,
         );
         if (priceOption) {
           this.activeFilters.push({
@@ -248,7 +248,7 @@ export class SearchComponent implements OnInit {
 
     if (this.selectedGenre) {
       const genreOption = this.genreOptions.find(
-        (opt) => opt.value === this.selectedGenre
+        (opt) => opt.value === this.selectedGenre,
       );
       if (genreOption) {
         this.activeFilters.push({
@@ -261,7 +261,7 @@ export class SearchComponent implements OnInit {
 
     if (this.selectedPlatform) {
       const platformOption = this.platformOptions.find(
-        (opt) => opt.value === this.selectedPlatform
+        (opt) => opt.value === this.selectedPlatform,
       );
       if (platformOption) {
         this.activeFilters.push({
@@ -283,7 +283,7 @@ export class SearchComponent implements OnInit {
 
     if (this.searchQuery) {
       filtered = filtered.filter((game) =>
-        game.title?.toLowerCase().includes(this.searchQuery.toLowerCase())
+        game.title?.toLowerCase().includes(this.searchQuery.toLowerCase()),
       );
     }
 
@@ -335,16 +335,16 @@ export class SearchComponent implements OnInit {
   filterByGenre(games: Game[], genreKey: string): Game[] {
     return games.filter((game) =>
       game?.genres?.some(
-        (g) => g.name?.toLowerCase() === genreKey.toLowerCase()
-      )
+        (g) => g.name?.toLowerCase() === genreKey.toLowerCase(),
+      ),
     );
   }
 
   filterByPlatform(games: Game[], platformKey: string): Game[] {
     return games.filter((game) =>
       game?.platforms?.some((p) =>
-        p.name?.toLowerCase().includes(platformKey.toLowerCase())
-      )
+        p.name?.toLowerCase().includes(platformKey.toLowerCase()),
+      ),
     );
   }
 
@@ -378,7 +378,7 @@ export class SearchComponent implements OnInit {
 
   getCoverUrl(game: Game): string {
     const coverImage = game.media?.find((m) =>
-      m.altText?.toLowerCase().includes('cover')
+      m.altText?.toLowerCase().includes('cover'),
     );
     return coverImage?.url || 'assets/images/placeholder.png';
   }

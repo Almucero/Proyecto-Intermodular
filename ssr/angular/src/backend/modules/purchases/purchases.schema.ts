@@ -1,9 +1,9 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const checkoutSchema = z.object({
   cartItemIds: z
     .array(z.number().int().positive())
-    .min(1, "Al menos un artículo del carrito es requerido"),
+    .min(1, 'Al menos un artículo del carrito es requerido'),
 });
 
 export type CheckoutInput = z.infer<typeof checkoutSchema>;
@@ -11,7 +11,7 @@ export type CheckoutInput = z.infer<typeof checkoutSchema>;
 export const refundSchema = z.object({
   reason: z
     .string()
-    .min(5, "La razón debe tener al menos 5 caracteres")
+    .min(5, 'La razón debe tener al menos 5 caracteres')
     .max(500),
 });
 

@@ -19,6 +19,6 @@ export const customerGuard: CanActivateFn = (route, state) => {
         return false;
       }
       return true;
-    })
+    }),
   );
 };

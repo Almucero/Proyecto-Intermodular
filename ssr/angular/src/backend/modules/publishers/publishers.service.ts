@@ -1,18 +1,18 @@
-import { prisma } from "../../config/db";
+import { prisma } from '../../config/db';
 
 export async function listPublishers(filters?: { name?: string | undefined }) {
   try {
     const where: any = {};
     if (filters?.name) {
-      where.name = { contains: filters.name, mode: "insensitive" };
+      where.name = { contains: filters.name, mode: 'insensitive' };
     }
     return await prisma.publisher.findMany({
       where,
       select: { id: true, name: true },
-      orderBy: { id: "asc" } as any,
+      orderBy: { id: 'asc' } as any,
     });
   } catch (e: any) {
-    if (e?.message && e.message.includes("does not exist")) {
+    if (e?.message && e.message.includes('does not exist')) {
       return [];
     }
     throw e;
@@ -50,7 +50,7 @@ export async function findPublisherById(id: number) {
       },
     });
   } catch (e: any) {
-    if (e?.message && e.message.includes("does not exist")) {
+    if (e?.message && e.message.includes('does not exist')) {
       return null;
     }
     throw e;
