@@ -103,7 +103,8 @@ El sistema se compone de:
 
 ### Figma Móvil: [https://www.figma.com/proto/...](https://www.figma.com/proto/8WRYpwCvkO9wDyGhu57rel/App-venta-de-videojuegos?node-id=567-2837&p=f&t=a0jbOffYZnVYoZLL-0&scaling=scale-down&content-scaling=fixed&page-id=16%3A2973&starting-point-node-id=567%3A2837)
 
-### URL del proyecto unificado (Angular SSR + API): `[PON_AQUI_LA_URL_DE_TU_PROYECTO_EN_VERCEL]`
+### URL del proyecto unificado (Angular SSR + API): [https://gamingsage.vercel.app/](https://gamingsage.vercel.app/)
+
 
 
 
