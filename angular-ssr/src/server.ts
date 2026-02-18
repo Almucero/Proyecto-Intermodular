@@ -1,3 +1,4 @@
+import './suppress-warnings';
 import {
   AngularNodeAppEngine,
   createNodeRequestHandler,
@@ -6,23 +7,62 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
-import { env } from './backend/config/env';
+
+const isSetupError = (err: unknown): boolean => {
+  const msg = err instanceof Error ? err.message : String(err);
+  return (
+    msg.startsWith('No se encontró') ||
+    msg.startsWith('Faltan variables') ||
+    msg.startsWith('Variables con valor inválido') ||
+    /^Falta variable de entorno:/.test(msg) ||
+    /prisma.*did not initialize|run ["']prisma generate["']/i.test(msg)
+  );
+};
+
+const getSetupMessage = (err: unknown): string | null => {
+  if (!isSetupError(err)) return null;
+  const msg = err instanceof Error ? err.message : String(err);
+  if (/prisma|prisma generate/i.test(msg)) {
+    return 'No se ha generado el cliente Prisma. Ejecuta antes: npx prisma generate';
+  }
+  return msg;
+};
+
+const handleSetupError = (err: unknown): void => {
+  const short = getSetupMessage(err);
+  if (short) {
+    console.error(short);
+    process.exit(1);
+  }
+};
+
+process.on('uncaughtException', (err) => {
+  handleSetupError(err);
+  throw err;
+});
+process.on('unhandledRejection', (reason) => {
+  handleSetupError(reason);
+});
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
-// Montamos la API solo cuando no estamos en modo de extracción de rutas
-if (!process.env['SSR_DISABLE_BACKEND']) {
-  import('./backend/app')
-    .then(({ default: backendApp }) => {
-      app.use(backendApp);
-    })
-    .catch((err) => {
-      // Evitar romper el servidor si falla el backend; se loguea el error.
-      console.error('Error al cargar el backend de Express:', err);
-    });
+const mountBackend = () =>
+  import('./backend/app').then(({ default: backendApp }) => {
+    app.use(backendApp);
+  });
+
+if (!process.env['SSR_DISABLE_BACKEND'] && !isMainModule(import.meta.url)) {
+  mountBackend().catch((err) => {
+    const short = getSetupMessage(err);
+    if (short) {
+      console.error(short);
+      process.exit(1);
+    }
+    console.error('Error al cargar el backend:', err instanceof Error ? err.message : err);
+  });
 }
 
 // Servir estáticos del build de Angular
@@ -34,14 +74,10 @@ app.use(
   }),
 );
 
-// SSR para el resto de rutas
 app.use((req, res, next) => {
-  angularApp
-    .handle(req)
-    .then((response) =>
-      response ? writeResponseToNodeResponse(response, res) : next(),
-    )
-    .catch(next);
+  return Promise.resolve(angularApp.handle(req)).then((response) =>
+    response ? writeResponseToNodeResponse(response, res) : next(),
+  ).catch(next);
 });
 
 // Exportar el handler que usa Angular CLI / Vercel / etc.
@@ -49,12 +85,25 @@ export const reqHandler = createNodeRequestHandler(app);
 
 // Arrancar servidor HTTP cuando se ejecuta directamente con Node
 if (isMainModule(import.meta.url)) {
-  const port = env.PORT;
-  app.listen(port, (err?: Error) => {
-    if (err) {
-      console.error('Error al iniciar el servidor:', err);
-      throw err;
+  try {
+    const { env } = await import('./backend/config/env');
+    const port = env.PORT;
+    if (!process.env['SSR_DISABLE_BACKEND']) {
+      await mountBackend();
     }
-    console.log(`Servidor SSR + API escuchando en http://localhost:${port}`);
-  });
+    app.listen(port, (err?: Error) => {
+      if (err) {
+        console.error('Error al iniciar el servidor:', err.message);
+        process.exit(1);
+      }
+      console.log(`Servidor SSR + API escuchando en http://localhost:${port}`);
+      if (!process.env['SSR_DISABLE_BACKEND']) {
+        console.log(`Swagger: http://localhost:${port}/api-docs`);
+      }
+    });
+  } catch (err) {
+    const short = getSetupMessage(err);
+    console.error(short ?? (err instanceof Error ? err.message : String(err)));
+    process.exit(1);
+  }
 }

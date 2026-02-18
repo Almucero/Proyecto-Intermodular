@@ -8,7 +8,7 @@
     "build": "ng build",
     "build:ssr": "cross-env SSR_DISABLE_BACKEND=1 ng build",
     "build:full": "npx prisma generate && npm run seed:admin && npm run build:ssr",
-    "serve:ssr": "node dist/game-sage/server/server.mjs",
+    "serve:ssr": "node scripts/serve-ssr.mjs",
     "dev": "npm run dev:backend",
     "dev:backend": "nodemon --config nodemon.backend.json",
     "watch": "ng build --watch --configuration development",
