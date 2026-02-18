@@ -3,7 +3,7 @@
 Proyecto intermodular desarrollado en el segundo curso del CFGS en Desarrollo de Aplicaciones Multiplataforma.  
 Participantes: **[Rosario González](#rosario-gonzález)** y **[Álvaro Jiménez](#álvaro-jiménez)**
 
-GameSage reúne en un solo proyecto todo lo aprendido durante el curso, integrando una arquitectura moderna basada en la nube, backend serverless, frontend SPA, desarrollo móvil nativo y diseño UI/UX.
+GameSage reúne en un solo proyecto todo lo aprendido durante el curso, integrando una arquitectura moderna basada en la nube, aplicación web con renderizado en servidor (SSR), backend HTTP unificado, desarrollo móvil nativo y diseño UI/UX.
 
 ---
 
@@ -46,8 +46,7 @@ El proyecto representa la culminación del ciclo formativo, evolucionando hacia 
 El sistema se compone de:
 
 - Una **base de datos PostgreSQL Serverless** gestionada por Neon.
-- Un **backend Node.js** desplegado como Serverless Functions en Vercel.
-- Una **aplicación web en Angular**, alojada en Vercel Edge Network.
+- Una **aplicación web Angular SSR + API REST** unificadas en un solo proyecto desplegado en Vercel.
 - Una **aplicación móvil nativa en Kotlin** que consume la API REST.
 - Un **prototipo de diseño UI/UX en Figma**.
 
@@ -60,13 +59,12 @@ El sistema se compone de:
                   (PostgreSQL)
                        ↑
                        |
-        [API Backend - Vercel Functions]
-               (Node.js / Express)
+   [Angular SSR + API REST unificados en Vercel]
                        ↑
            ┌───────────┴───────────┐
            |                       |
-    [Web Angular]         [App Móvil Kotlin]
-  (Vercel Hosting)             (Android)
+    [Web Angular SSR]      [App Móvil Kotlin]
+         (Vercel)                (Android)
 ```
 
 ---
@@ -79,18 +77,12 @@ El sistema se compone de:
 - **Integración:** Conectada nativamente a Vercel.
 - **Características:** Escalado automático a cero (Scale-to-Zero) y pool de conexiones optimizado para entornos serverless.
 
-### API Serverless (Vercel)
+### Aplicación Web + API (Angular SSR en Vercel)
 
-- **Tecnología:** Node.js + Express adaptado a Serverless.
-- **Despliegue:** Vercel Functions.
-- **Funcionalidad:** Centraliza la lógica de negocio, autenticación y gestión de datos.
-- **Documentación:** Interfaz interactiva disponible mediante **Swagger UI**.
-
-### Aplicación Web (Angular)
-
-- **Framework:** Angular (SPA).
-- **Despliegue:** Vercel (Edge Network).
-- **Características:** Conexión optimizada con el backend bajo el mismo ecosistema de despliegue, asegurando baja latencia.
+- **Framework:** Angular con renderizado en servidor (**SSR**) y backend HTTP basado en Express.
+- **Despliegue:** Proyecto unificado desplegado en Vercel (SSR + API REST en el mismo runtime).
+- **Funcionalidad:** Centraliza la lógica de negocio, autenticación, gestión de datos y renderizado de la interfaz web.
+- **Documentación:** Interfaz interactiva disponible mediante **Swagger UI** expuesta desde el propio backend.
 
 ### Aplicación Móvil (Kotlin)
 
@@ -111,9 +103,7 @@ El sistema se compone de:
 
 ### Figma Móvil: [https://www.figma.com/proto/...](https://www.figma.com/proto/8WRYpwCvkO9wDyGhu57rel/App-venta-de-videojuegos?node-id=567-2837&p=f&t=a0jbOffYZnVYoZLL-0&scaling=scale-down&content-scaling=fixed&page-id=16%3A2973&starting-point-node-id=567%3A2837)
 
-### API: [gamesage-backend.vercel.app](https://gamesage-backend.vercel.app)
-
-### Web: [gamesage-frontend.vercel.app](https://gamesage-frontend.vercel.app)
+### URL del proyecto unificado (Angular SSR + API): `[PON_AQUI_LA_URL_DE_TU_PROYECTO_EN_VERCEL]`
 
 
 
