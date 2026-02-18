@@ -58,8 +58,9 @@ coverage/
 logs/
 *.log
 
-# Configs locales
-.vscode/
+# Configs locales (se versiona .vscode/settings.json para Tailwind/IDE)
+.vscode/*
+!.vscode/settings.json
 .idea/
 .DS_Store
 *.swp
