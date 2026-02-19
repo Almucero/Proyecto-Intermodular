@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import hpp from 'hpp';
 import swaggerUi from 'swagger-ui-express';
 import { errorHandler } from './middleware/error';
 import { generalLimiter, authLimiter } from './middleware/rateLimiter';
@@ -40,15 +41,46 @@ console.warn = (...args: unknown[]) => {
 };
 
 const app = express();
+app.disable('x-powered-by');
 
 app.set('trust proxy', 1);
+
+app.use((req, res, next) => {
+  if (env.NODE_ENV === 'production') {
+    const proto = req.get('x-forwarded-proto') || (req.secure ? 'https' : 'http');
+    if (proto !== 'https') {
+      return res.redirect(301, `https://${req.get('host')}${req.originalUrl}`);
+    }
+  }
+  next();
+});
 
 app.use(
   helmet({
     contentSecurityPolicy: false,
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
   }),
 );
-app.use(cors());
+const corsOriginsFromEnv = env.CORS_ORIGIN
+  ? env.CORS_ORIGIN.split(',').map((o) => o.trim()).filter(Boolean)
+  : [];
+const localhostOrigins = [
+  `http://localhost:${env.PORT}`,
+  'http://localhost:4200',
+];
+const allowedOrigins =
+  env.NODE_ENV === 'production'
+    ? corsOriginsFromEnv
+    : [...new Set([...localhostOrigins, ...corsOriginsFromEnv])];
+
+const corsOptions: cors.CorsOptions = {
+  origin: allowedOrigins.length > 0 ? allowedOrigins : true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+};
+app.use(cors(corsOptions));
+app.use(hpp());
 app.use(express.json({ limit: '10mb' }));
 app.use(requestLogger);
 app.use(responseSerializer);

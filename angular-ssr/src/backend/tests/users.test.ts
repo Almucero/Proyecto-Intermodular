@@ -115,25 +115,6 @@ describe('Users Endpoints', () => {
   });
 
   describe('PATCH /api/users/me/password', () => {
-    it('debe cambiar contraseña correctamente', async () => {
-      const res = await request(app)
-        .patch('/api/users/me/password')
-        .set('Authorization', `Bearer ${authToken}`)
-        .send({
-          currentPassword: 'password123',
-          newPassword: 'newpassword456',
-        });
-
-      expect(res.status).toBe(200);
-      expect(res.body.message).toBe('Contraseña actualizada correctamente');
-
-      const loginRes = await request(app)
-        .post('/api/auth/login')
-        .send({ email: testUser.email, password: 'newpassword456' });
-
-      expect(loginRes.status).toBe(200);
-    });
-
     it('debe fallar con contraseña actual incorrecta', async () => {
       const res = await request(app)
         .patch('/api/users/me/password')
@@ -154,6 +135,25 @@ describe('Users Endpoints', () => {
       });
 
       expect(res.status).toBe(401);
+    });
+
+    it('debe cambiar contraseña correctamente', async () => {
+      const res = await request(app)
+        .patch('/api/users/me/password')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send({
+          currentPassword: 'password123',
+          newPassword: 'newpassword456',
+        });
+
+      expect(res.status).toBe(200);
+      expect(res.body.message).toBe('Contraseña actualizada correctamente');
+
+      const loginRes = await request(app)
+        .post('/api/auth/login')
+        .send({ email: testUser.email, password: 'newpassword456' });
+
+      expect(loginRes.status).toBe(200);
     });
   });
 

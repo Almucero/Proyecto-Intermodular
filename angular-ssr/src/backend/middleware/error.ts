@@ -1,4 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
+import { env } from '../config/env';
 import { logger } from '../utils/logger';
 
 export function errorHandler(
@@ -8,8 +9,20 @@ export function errorHandler(
   _next: NextFunction,
 ) {
   logger.error(`${req.method} ${req.path} - ${err.message}`);
-  logger.error(err.stack);
+  if (env.NODE_ENV !== 'production') {
+    logger.error(err.stack);
+  }
 
   const status = err.status || 500;
-  res.status(status).json({ message: err.message || 'Error interno' });
+  const isProduction = env.NODE_ENV === 'production';
+  const safeMessage =
+    isProduction
+      ? status === 400
+        ? 'Datos inválidos'
+        : status === 404
+          ? 'Recurso no encontrado'
+          : 'Error interno del servidor'
+      : err.message || 'Error interno';
+
+  res.status(status).json({ message: safeMessage });
 }

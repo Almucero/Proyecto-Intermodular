@@ -67,12 +67,15 @@ El chat con IA utiliza **Google Generative AI** (y dependencias como `@google/ge
 ### Otras dependencias
 
 - **Zod**: validación de cuerpos de petición en los endpoints (schemas por módulo, middleware `validate`).
-- **jsonwebtoken** y **bcryptjs**: autenticación (JWT en cabecera `Authorization: Bearer ...`, hash de contraseñas).
-- **Helmet**: cabeceras de seguridad (CSP desactivado para no interferir con la SPA).
-- **express-rate-limit**: límite de peticiones por IP (general y específico para auth).
+- **jsonwebtoken** y **bcryptjs**: autenticación (JWT con issuer/audience, cabecera `Authorization: Bearer ...`, hash de contraseñas).
+- **Helmet**: cabeceras de seguridad (CSP desactivado para Swagger; crossOriginResourcePolicy).
+- **hpp**: protección frente a HTTP Parameter Pollution.
+- **express-rate-limit**: límite de peticiones por IP (general 100/15 min; auth 5 intentos/hora).
 - **Swagger (swagger-jsdoc, swagger-ui-express)**: documentación de la API en `/api-docs`.
 - **Winston**: logging estructurado en el backend.
 - **dotenv**: carga de variables desde `.env` al arrancar el backend.
+
+El proyecto aplica buenas prácticas OWASP: headers de seguridad (X-Frame-Options, X-Content-Type-Options, Referrer-Policy) en el servidor; CORS restringido en producción mediante `CORS_ORIGIN`; en desarrollo se permiten automáticamente `http://localhost:PORT` y `http://localhost:4200`; redirección a HTTPS en producción; errores sin detalles sensibles en producción; control de acceso (IDOR) en usuarios; sanitización de enlaces en contenido (markdown); script `npm run audit` para revisar dependencias.
 
 ---
 
@@ -82,12 +85,13 @@ El chat con IA utiliza **Google Generative AI** (y dependencias como `@google/ge
 
 Es el punto de entrada del servidor cuando se ejecuta el build SSR (por ejemplo `node dist/game-sage/server/server.mjs`). Realiza lo siguiente:
 
-1. Crea una aplicación Express y una instancia de `AngularNodeAppEngine`.
-2. Si la variable de entorno `SSR_DISABLE_BACKEND` no está definida, importa dinámicamente `./backend/app` y monta la aplicación Express del backend con `app.use(backendApp)`. Así, en tiempo de build (cuando Angular analiza las rutas para SSR), se puede definir `SSR_DISABLE_BACKEND=1` para no cargar Prisma, Cloudinary ni el resto del backend y evitar errores de entorno o de conexión a BD durante la fase de extracción de rutas.
-3. Monta `express.static` sobre la carpeta del build del navegador (`dist/.../browser`) para servir assets con caché larga y sin redirección de índice.
-4. Registra un middleware que, para cualquier ruta no atendida antes, llama a `angularApp.handle(req)` y escribe la respuesta devuelta por Angular en el objeto `res` de Node. Si Angular no devuelve respuesta, se llama a `next()`.
-5. Exporta `reqHandler` creado con `createNodeRequestHandler(app)` para integración con Angular CLI o entornos como Vercel.
-6. Si el módulo se ejecuta como principal (`isMainModule(import.meta.url)`), inicia el servidor HTTP en el puerto definido en `env.PORT`.
+1. Registra middlewares que añaden cabeceras de seguridad (X-Frame-Options, X-Content-Type-Options, X-XSS-Protection, Referrer-Policy) a todas las respuestas.
+2. Crea una aplicación Express y una instancia de `AngularNodeAppEngine`.
+3. Si la variable de entorno `SSR_DISABLE_BACKEND` no está definida, importa dinámicamente `./backend/app` y monta la aplicación Express del backend con `app.use(backendApp)`. Así, en tiempo de build (cuando Angular analiza las rutas para SSR), se puede definir `SSR_DISABLE_BACKEND=1` para no cargar Prisma, Cloudinary ni el resto del backend y evitar errores de entorno o de conexión a BD durante la fase de extracción de rutas.
+4. Monta `express.static` sobre la carpeta del build del navegador (`dist/.../browser`) para servir assets con caché larga y sin redirección de índice.
+5. Registra un middleware que, para cualquier ruta no atendida antes, llama a `angularApp.handle(req)` y escribe la respuesta devuelta por Angular en el objeto `res` de Node. Si Angular no devuelve respuesta, se llama a `next()`.
+6. Exporta `reqHandler` creado con `createNodeRequestHandler(app)` para integración con Angular CLI o entornos como Vercel.
+7. Si el módulo se ejecuta como principal (`isMainModule(import.meta.url)`), inicia el servidor HTTP en el puerto definido en `env.PORT`.
 
 El orden de montaje es importante: primero el backend (que atiende `/api/*`), luego estáticos, y por último el handler de Angular para el resto de rutas.
 
@@ -96,14 +100,17 @@ El orden de montaje es importante: primero el backend (que atiende `/api/*`), lu
 Construye la aplicación Express del backend. No inicia un servidor propio; se exporta por defecto y se monta en `server.ts`. Contiene:
 
 - Configuración de `trust proxy` para correcto uso de IP detrás de proxies.
-- Helmet con CSP desactivado.
-- CORS, `express.json` con límite 10MB, middleware de logging de peticiones, middleware de serialización de respuestas (conversión de tipos Prisma como `Decimal` y `Date` a valores JSON serializables).
-- En producción, rate limiter general (por ejemplo 100 peticiones por 15 minutos por IP).
+- En producción, redirección HTTP → HTTPS (según `x-forwarded-proto` o `req.secure`).
+- Helmet con CSP desactivado y `crossOriginResourcePolicy: 'cross-origin'`.
+- CORS: en desarrollo se permiten automáticamente `http://localhost:PORT` y `http://localhost:4200`; en producción solo los orígenes definidos en `CORS_ORIGIN` (separados por coma). Si no se define `CORS_ORIGIN` en producción, se acepta cualquier origen.
+- **hpp** para evitar HTTP Parameter Pollution.
+- `express.json` con límite 10MB, middleware de logging de peticiones, middleware de serialización de respuestas (conversión de tipos Prisma como `Decimal` y `Date` a valores JSON serializables).
+- En producción, rate limiter general (100 peticiones por 15 minutos por IP).
 - Rutas de salud `/api/health` y `/api/diagnostic`.
 - Montaje de Swagger UI en `/api-docs` con especificación dinámica según entorno y host.
-- Rutas de auth con rate limiter específico (en entornos no test): `/api/auth` con `authLimiter` y `authRoutes`.
+- Rutas de auth con rate limiter específico (en entornos no test): `/api/auth` con `authLimiter` (5 intentos por hora por IP, sin contar exitosos) y `authRoutes`.
 - Montaje del resto de rutas de dominio: `/api/users`, `/api/games`, `/api/developers`, `/api/publishers`, `/api/genres`, `/api/platforms`, `/api/media`, `/api/favorites`, `/api/cart`, `/api/purchases`, `/api/chat`.
-- Middleware de manejo de errores al final.
+- Middleware de manejo de errores al final (en producción devuelve mensajes genéricos sin detalles internos).
 
 Además, se reemplaza `console.warn` para silenciar mensajes deprecados o de limpieza que no aportan en runtime.
 
@@ -139,19 +146,19 @@ Punto de entrada del bundle del servidor para Angular. Exporta una función `boo
 
 ### `src/backend/config/`
 
-- **env.ts**: Carga `dotenv` desde `.env` y exporta un objeto `env` con las variables necesarias (PORT, NODE_ENV, JWT_SECRET, POSTGRES_PRISMA_URL, BCRYPT_SALT_ROUNDS, Cloudinary, GOOGLE_GENERATIVE_AI_API_KEY, ADMIN_EMAILS). Usa una función `required` que lanza si falta alguna variable, de modo que el servidor no arranque con configuración incompleta.
+- **env.ts**: Carga `dotenv` desde `.env` y exporta un objeto `env` con las variables necesarias (PORT, NODE_ENV, JWT_SECRET, JWT_EXPIRES_IN, JWT_ISSUER, JWT_AUDIENCE, CORS_ORIGIN opcional, POSTGRES_PRISMA_URL, BCRYPT_SALT_ROUNDS, Cloudinary, GOOGLE_GENERATIVE_AI_API_KEY, ADMIN_EMAILS, ADMIN_PASSWORDS, ADMIN_NAMES). Valida la presencia de las obligatorias y lanza si falta alguna; las opcionales (JWT_*, CORS_ORIGIN) tienen valores por defecto o quedan undefined.
 - **db.ts**: Instancia única de `PrismaClient` para reutilizar la conexión.
 - **swagger.ts**: Definición de la especificación OpenAPI (servidores, componentes, seguridad) usada por Swagger UI. Los JSDoc en las rutas (por ejemplo en `auth.routes.ts`, `games.routes.ts`) documentan los endpoints y se integran con swagger-jsdoc.
 
 ### `src/backend/middleware/`
 
-- **auth.ts**: Middleware que lee la cabecera `Authorization: Bearer <token>`, verifica el JWT con `JWT_SECRET` y, si es válido, asigna `req.user` con `{ sub, email, isAdmin }`. Si falta o es inválido, responde 401.
+- **auth.ts**: Middleware que lee la cabecera `Authorization: Bearer <token>`, verifica el JWT con `JWT_SECRET` y opciones `issuer` y `audience` (desde env), y si es válido asigna `req.user` con `{ sub, email, isAdmin }`. Si falta o es inválido, responde 401.
 - **authorize.ts**: `adminOnly` comprueba que `req.user` exista y que o bien `req.user.isAdmin` sea true o bien el email esté en la lista `ADMIN_EMAILS`. Si no, responde 403.
 - **validate.ts**: Factory que recibe un esquema Zod y devuelve un middleware que hace `schema.safeParse(req.body)`; si falla, responde 400 con los errores aplanados; si tiene éxito, reemplaza `req.body` por el resultado tipado y llama a `next()`.
-- **rateLimiter.ts**: `generalLimiter` (100 peticiones / 15 min por IP) y `authLimiter` (5 intentos / 15 min por IP para rutas de auth, sin contar las exitosas). Se aplican en `app.ts` según el entorno.
+- **rateLimiter.ts**: `generalLimiter` (100 peticiones / 15 min por IP) y `authLimiter` (5 intentos / hora por IP para rutas de auth, sin contar las exitosas). Se aplican en `app.ts` según el entorno.
 - **requestLogger.ts**: Registra cada petición al finalizar la respuesta (método, path, código de estado, duración) usando el logger de la aplicación (nivel error/warn/http según el código).
 - **serialize.ts**: Middleware que reemplaza `res.json` para que, antes de enviar, pase el payload por `serializePrisma`. Así se convierten tipos no serializables de Prisma (Decimal, BigInt, Date) a tipos JSON válidos.
-- **error.ts**: Manejador de errores de Express (cuatro argumentos). Registra el error y responde con un JSON `{ message }` y el código de estado `err.status` o 500.
+- **error.ts**: Manejador de errores de Express (cuatro argumentos). Registra el error; en producción responde con mensajes genéricos (por ejemplo "Error interno del servidor", "Datos inválidos") sin exponer detalles ni stack. En desarrollo incluye el mensaje del error.
 
 ### `src/backend/utils/`
 
@@ -308,10 +315,12 @@ En la raíz del proyecto debe existir un archivo `.env`. No está versionado por
   - **POSTGRES_PRISMA_URL**: URL de conexión a PostgreSQL (ej. `postgresql://user:pass@host:5432/dbname`).
   - **POSTGRES_URL_NON_POOLING**: Si se usa Neon u otro pooler, la URL directa sin pooler; si la BD es local, puede ser la misma que `POSTGRES_PRISMA_URL`.
   - **PORT**: Puerto del servidor (ej. 3000).
-  - **NODE_ENV**: `development` para desarrollo.
+  - **NODE_ENV**: `development` para desarrollo; en Vercel u otro hosting de producción usar `production`.
   - **JWT_SECRET**: Cadena secreta larga y aleatoria para firmar los JWT.
+  - **JWT_EXPIRES_IN**, **JWT_ISSUER**, **JWT_AUDIENCE**: Opcionales; por defecto `7d`, `game-sage` y `game-sage-users`. Útiles para endurecer la emisión/verificación de tokens.
+  - **CORS_ORIGIN**: Solo en producción. Orígenes permitidos para la API, separados por coma (ej. `https://tu-app.vercel.app`). En desarrollo se permiten automáticamente `http://localhost:PORT` y `http://localhost:4200`.
   - **BCRYPT_SALT_ROUNDS**: Número de rondas de bcrypt (ej. 10).
-  - **CLOUDINARY_***: Credenciales de Cloudinary (cloud name, API key, API secret) para subida de imágenes.
+  - **CLOUDINARY_*** (CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET): credenciales para subida de imágenes.
   - **GOOGLE_GENERATIVE_AI_API_KEY**: API key de Google Generative AI para el chat.
   - **ADMIN_EMAILS**: Lista de correos de administradores separados por comas (ej. `admin@example.com`).
   - Opcionales: **ADMIN_PASSWORDS**, **ADMIN_NAMES** (mismo orden que los emails) para el script de seed de admins.
@@ -415,7 +424,8 @@ Las variables de entorno se definen en `.env` (ver plantilla en `.env.example`) 
 Variables habituales:
 
 - **Servidor**: `PORT`, `NODE_ENV`
-- **Auth**: `JWT_SECRET`, `BCRYPT_SALT_ROUNDS`
+- **Auth**: `JWT_SECRET`, `BCRYPT_SALT_ROUNDS`; opcionales `JWT_EXPIRES_IN`, `JWT_ISSUER`, `JWT_AUDIENCE`
+- **CORS**: `CORS_ORIGIN` (solo en producción; orígenes permitidos separados por coma). En desarrollo se permiten `http://localhost:PORT` y `http://localhost:4200` sin configurarlo.
 - **Base de datos**: `POSTGRES_PRISMA_URL`
 - **Media**: `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`
 - **IA**: `GOOGLE_GENERATIVE_AI_API_KEY`
@@ -502,6 +512,7 @@ Tras instalar dependencias (`npm install`) conviene ejecutar **`npm audit fix`**
 
 ### Utilidades
 
+- **`npm run audit`**: ejecuta `npm audit --audit-level=high` para revisar vulnerabilidades en dependencias (OWASP A06).
 - **`npm audit fix`**: corrige vulnerabilidades en dependencias (recomendado tras `npm install`).
 - **`npm run watch`**: build en watch (config development).
 - **`npm run format`**: formateo con Prettier.

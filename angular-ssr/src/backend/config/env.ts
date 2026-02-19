@@ -56,10 +56,18 @@ function validate(): void {
 
 validate();
 
+const defaultJwtExpiresIn = '7d';
+const defaultJwtIssuer = 'game-sage';
+const defaultJwtAudience = 'game-sage-users';
+
 export const env = {
   PORT: Number(process.env.PORT),
   NODE_ENV: process.env.NODE_ENV!,
   JWT_SECRET: process.env.JWT_SECRET!,
+  JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN ?? defaultJwtExpiresIn,
+  JWT_ISSUER: process.env.JWT_ISSUER ?? defaultJwtIssuer,
+  JWT_AUDIENCE: process.env.JWT_AUDIENCE ?? defaultJwtAudience,
+  CORS_ORIGIN: process.env.CORS_ORIGIN,
   POSTGRES_PRISMA_URL: process.env.POSTGRES_PRISMA_URL!,
   BCRYPT_SALT_ROUNDS: Number(process.env.BCRYPT_SALT_ROUNDS),
   CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME!,

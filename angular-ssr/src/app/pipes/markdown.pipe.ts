@@ -1,5 +1,6 @@
+import { SecurityContext } from '@angular/core';
 import { Pipe, PipeTransform } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Pipe({
   name: 'markdown',
@@ -8,7 +9,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 export class MarkdownPipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) {}
 
-  transform(value: string): SafeHtml {
+  transform(value: string): string {
     if (!value) return '';
 
     let html = value;
@@ -20,7 +21,13 @@ export class MarkdownPipe implements PipeTransform {
 
     html = html.replace(
       /\[(.*?)\]\((.*?)\)/g,
-      '<a href="$2" class="text-cyan-400 hover:text-cyan-300 underline font-bold cursor-pointer">$1</a>',
+      (_: string, text: string, url: string) => {
+        const u = url.trim().replace(/"/g, '&quot;');
+        const allowed =
+          u.startsWith('http://') || u.startsWith('https://') || u.startsWith('/');
+        const href = allowed ? u : '#';
+        return `<a href="${href}" class="text-cyan-400 hover:text-cyan-300 underline font-bold cursor-pointer" rel="noopener noreferrer" target="_blank">${text}</a>`;
+      },
     );
 
     html = html.replace(
@@ -67,6 +74,6 @@ export class MarkdownPipe implements PipeTransform {
 
     if (inList) newHtml += '</ul>';
 
-    return this.sanitizer.bypassSecurityTrustHtml(newHtml);
+    return this.sanitizer.sanitize(SecurityContext.HTML, newHtml) ?? '';
   }
 }

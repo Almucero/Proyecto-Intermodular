@@ -49,6 +49,9 @@ export async function loginCtrl(req: Request, res: Response) {
     const data = await login(email, password);
     res.json(data);
   } catch (e: any) {
+    if (e.status === 423) {
+      return res.status(423).json({ message: e.message });
+    }
     if (e.message === 'Credenciales inválidas') {
       return res.status(401).json({ message: e.message });
     }

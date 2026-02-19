@@ -47,6 +47,14 @@ process.on('unhandledRejection', (reason) => {
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
+app.use((_req, res, next) => {
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
+  next();
+});
 const angularApp = new AngularNodeAppEngine();
 
 const mountBackend = () =>

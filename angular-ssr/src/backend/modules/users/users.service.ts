@@ -66,6 +66,51 @@ export async function findUserByEmail(email: string) {
   return prisma.user.findUnique({ where: { email } });
 }
 
+export async function findUserByEmailForLogin(email: string) {
+  return prisma.user.findUnique({
+    where: { email },
+    select: {
+      id: true,
+      email: true,
+      passwordHash: true,
+      isAdmin: true,
+      loginAttempts: true,
+      lockUntil: true,
+    },
+  });
+}
+
+const MAX_LOGIN_ATTEMPTS = 5;
+const LOCK_TIME_MS = 15 * 60 * 1000;
+
+export async function recordLoginSuccess(userId: number) {
+  await prisma.user.update({
+    where: { id: userId },
+    data: { loginAttempts: 0, lockUntil: null },
+  });
+}
+
+export async function recordLoginFailure(userId: number) {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { loginAttempts: true },
+  });
+  if (!user) return;
+  const attempts = (user.loginAttempts ?? 0) + 1;
+  const lockUntil = attempts >= MAX_LOGIN_ATTEMPTS ? new Date(Date.now() + LOCK_TIME_MS) : null;
+  await prisma.user.update({
+    where: { id: userId },
+    data: { loginAttempts: attempts >= MAX_LOGIN_ATTEMPTS ? 0 : attempts, lockUntil },
+  });
+}
+
+export async function findUserAuthInfo(id: number) {
+  return prisma.user.findUnique({
+    where: { id },
+    select: { passwordChangedAt: true },
+  });
+}
+
 export async function findUserById(id: number) {
   return prisma.user.findUnique({
     where: { id },
@@ -207,7 +252,7 @@ export async function changePassword(
 
   await prisma.user.update({
     where: { id: userId },
-    data: { passwordHash: newHash },
+    data: { passwordHash: newHash, passwordChangedAt: new Date() },
   });
 
   return { message: 'Contraseña actualizada correctamente' };

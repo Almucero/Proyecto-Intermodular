@@ -12,11 +12,11 @@ export const generalLimiter = rateLimit({
 });
 
 export const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
+  windowMs: 60 * 60 * 1000,
   max: 5,
   message: {
     message:
-      'Demasiados intentos de autenticación, intenta de nuevo en 15 minutos',
+      'Demasiados intentos de autenticación, intenta de nuevo en 1 hora',
   },
   skipSuccessfulRequests: true,
   standardHeaders: true,
