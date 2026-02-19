@@ -56,17 +56,23 @@ app.use((_req, res, next) => {
   next();
 });
 if (process.env['VERCEL']) {
-  const apiSegments = new Set([
-    'health', 'diagnostic', 'auth', 'users', 'games', 'developers',
-    'publishers', 'genres', 'platforms', 'media', 'favorites', 'cart',
-    'purchases', 'chat',
-  ]);
   app.use((req, _res, next) => {
-    if (req.url?.startsWith('/api/')) {
+    if (req.url?.startsWith('/api/api/')) {
+      const q = req.url.includes('?') ? '?' + req.url.split('?')[1] : '';
+      req.url = '/api/' + req.url.slice(9).split('?')[0] + q;
+    } else if (req.url === '/api/api') {
+      req.url = '/api';
+    } else if (req.url?.startsWith('/api/')) {
+      const apiSegments = new Set([
+        'health', 'diagnostic', 'auth', 'users', 'games', 'developers',
+        'publishers', 'genres', 'platforms', 'media', 'favorites', 'cart',
+        'purchases', 'chat',
+      ]);
       const after = req.url.slice(5).replace(/^\//, '');
       const first = after.split('/')[0]?.split('?')[0] ?? '';
       if (!apiSegments.has(first)) {
-        req.url = (after ? '/' + after : '/') + (req.url.includes('?') ? '?' + req.url.split('?')[1] : '');
+        const q = req.url.includes('?') ? '?' + req.url.split('?')[1] : '';
+        req.url = (after ? '/' + after : '/') + q;
       }
     } else if (req.url === '/api') {
       req.url = '/';
@@ -84,34 +90,49 @@ const mountBackend = () =>
 const backendReady =
   process.env['SSR_DISABLE_BACKEND'] || isMainModule(import.meta.url)
     ? Promise.resolve()
-    : mountBackend().catch((err) => {
-        const short = getSetupMessage(err);
-        if (short) {
-          console.error(short);
-          process.exit(1);
-        }
-        console.error('Error al cargar el backend:', err instanceof Error ? err.message : err);
-        throw err;
-      });
+    : mountBackend()
+        .then(() => {
+          app.use(
+            express.static(browserDistFolder, {
+              maxAge: '1y',
+              index: false,
+              redirect: false,
+            }),
+          );
+          app.use((req, res, next) => {
+            return Promise.resolve(angularApp.handle(req)).then((response) =>
+              response ? writeResponseToNodeResponse(response, res) : next(),
+            ).catch(next);
+          });
+        })
+        .catch((err) => {
+          const short = getSetupMessage(err);
+          if (short) {
+            console.error(short);
+            process.exit(1);
+          }
+          console.error('Error al cargar el backend:', err instanceof Error ? err.message : err);
+          throw err;
+        });
 
 if (!process.env['SSR_DISABLE_BACKEND'] && !isMainModule(import.meta.url)) {
   backendReady.catch(() => {});
 }
 
-// Servir estáticos del build de Angular
-app.use(
-  express.static(browserDistFolder, {
-    maxAge: '1y',
-    index: false,
-    redirect: false,
-  }),
-);
-
-app.use((req, res, next) => {
-  return Promise.resolve(angularApp.handle(req)).then((response) =>
-    response ? writeResponseToNodeResponse(response, res) : next(),
-  ).catch(next);
-});
+if (process.env['SSR_DISABLE_BACKEND'] || isMainModule(import.meta.url)) {
+  app.use(
+    express.static(browserDistFolder, {
+      maxAge: '1y',
+      index: false,
+      redirect: false,
+    }),
+  );
+  app.use((req, res, next) => {
+    return Promise.resolve(angularApp.handle(req)).then((response) =>
+      response ? writeResponseToNodeResponse(response, res) : next(),
+    ).catch(next);
+  });
+}
 
 export const reqHandler = createNodeRequestHandler(app);
 export { backendReady };
