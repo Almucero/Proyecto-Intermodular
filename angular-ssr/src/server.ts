@@ -57,24 +57,15 @@ app.use((_req, res, next) => {
 });
 if (process.env['VERCEL']) {
   app.use((req, _res, next) => {
-    if (req.url?.startsWith('/api/api/')) {
-      const q = req.url.includes('?') ? '?' + req.url.split('?')[1] : '';
-      req.url = '/api/' + req.url.slice(9).split('?')[0] + q;
-    } else if (req.url === '/api/api') {
-      req.url = '/api';
-    } else if (req.url?.startsWith('/api/')) {
-      const apiSegments = new Set([
-        'health', 'diagnostic', 'auth', 'users', 'games', 'developers',
-        'publishers', 'genres', 'platforms', 'media', 'favorites', 'cart',
-        'purchases', 'chat',
-      ]);
-      const after = req.url.slice(5).replace(/^\//, '');
-      const first = after.split('/')[0]?.split('?')[0] ?? '';
-      if (!apiSegments.has(first)) {
-        const q = req.url.includes('?') ? '?' + req.url.split('?')[1] : '';
-        req.url = (after ? '/' + after : '/') + q;
-      }
-    } else if (req.url === '/api') {
+    const pathParam = req.query?.__path;
+    if (typeof pathParam === 'string' && pathParam.length > 0) {
+      const rest = { ...req.query };
+      delete rest.__path;
+      const qs = Object.keys(rest).length
+        ? '?' + new URLSearchParams(rest as Record<string, string>).toString()
+        : '';
+      req.url = '/' + pathParam.replace(/^\//, '') + qs;
+    } else if (req.url === '/api' || req.url?.startsWith('/api?')) {
       req.url = '/';
     }
     next();
