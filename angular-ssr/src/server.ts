@@ -57,9 +57,14 @@ app.use((_req, res, next) => {
 });
 if (process.env['VERCEL']) {
   app.use((req, _res, next) => {
-    const pathParam = req.query?.__path;
+    let pathParam = req.query?.__path;
+    if (typeof pathParam !== 'string' && req.url?.includes('?')) {
+      const q = req.url.indexOf('?');
+      const params = new URLSearchParams(req.url.slice(q + 1));
+      pathParam = params.get('__path') ?? '';
+    }
     if (typeof pathParam === 'string' && pathParam.length > 0) {
-      const rest = { ...req.query };
+      const rest = req.query ? { ...req.query } : {};
       delete rest.__path;
       const qs = Object.keys(rest).length
         ? '?' + new URLSearchParams(rest as Record<string, string>).toString()

@@ -5,7 +5,7 @@ import { join } from 'node:path';
 const envPath = join(process.cwd(), '.env');
 config({ path: envPath, quiet: true });
 
-if (!existsSync(envPath)) {
+if (!process.env['VERCEL'] && !existsSync(envPath)) {
   throw new Error(
     'No se encontró .env. Cópialo desde .env.example y configura las variables necesarias.',
   );
