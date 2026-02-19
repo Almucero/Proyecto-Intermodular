@@ -5,6 +5,9 @@ import {
   createUser,
   findUserByEmail,
   findUserById,
+  findUserByEmailForLogin,
+  recordLoginSuccess,
+  recordLoginFailure,
 } from '../users/users.service';
 
 export async function register(
@@ -52,7 +55,9 @@ export async function register(
     },
     env.JWT_SECRET,
     {
-      expiresIn: '7d',
+      expiresIn: env.JWT_EXPIRES_IN as jwt.SignOptions['expiresIn'],
+      issuer: env.JWT_ISSUER,
+      audience: env.JWT_AUDIENCE,
     },
   );
 
@@ -60,16 +65,27 @@ export async function register(
 }
 
 export async function login(email: string, password: string) {
-  const user = await findUserByEmail(email);
+  const user = await findUserByEmailForLogin(email);
   if (!user) {
     throw new Error('Credenciales inválidas');
   }
 
+  const lockUntil = user.lockUntil ? new Date(user.lockUntil) : null;
+  if (lockUntil && lockUntil > new Date()) {
+    const mins = Math.ceil((lockUntil.getTime() - Date.now()) / 60000);
+    const err = new Error(`Cuenta bloqueada. Intenta en ${mins} minutos`) as Error & { status?: number };
+    err.status = 423;
+    throw err;
+  }
+
   const ok = await bcrypt.compare(password, user.passwordHash);
   if (!ok) {
+    await recordLoginFailure(user.id);
     throw new Error('Credenciales inválidas');
   }
-  const fullUser = await findUserById((user as any).id);
+
+  await recordLoginSuccess(user.id);
+  const fullUser = await findUserById(user.id);
 
   const token = jwt.sign(
     {
@@ -79,7 +95,9 @@ export async function login(email: string, password: string) {
     },
     env.JWT_SECRET,
     {
-      expiresIn: '7d',
+      expiresIn: env.JWT_EXPIRES_IN as jwt.SignOptions['expiresIn'],
+      issuer: env.JWT_ISSUER,
+      audience: env.JWT_AUDIENCE,
     },
   );
 

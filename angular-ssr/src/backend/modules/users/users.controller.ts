@@ -42,6 +42,9 @@ export async function getUserCtrl(req: Request, res: Response) {
     if (isNaN(id)) {
       return res.status(400).json({ message: 'ID inválido' });
     }
+    if (req.user && req.user.sub !== id && !(req.user as any).isAdmin) {
+      return res.status(403).json({ message: 'Acceso denegado' });
+    }
 
     const user = await findUserById(id);
     if (!user) {
@@ -85,6 +88,9 @@ export async function updateUserCtrl(req: Request, res: Response) {
     const id = Number(req.params.id);
     if (isNaN(id)) {
       return res.status(400).json({ message: 'ID inválido' });
+    }
+    if (req.user && req.user.sub !== id && !(req.user as any).isAdmin) {
+      return res.status(403).json({ message: 'Acceso denegado' });
     }
 
     const user = await updateUser(id, req.body);

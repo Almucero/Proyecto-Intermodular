@@ -53,7 +53,7 @@
               "@opentelemetry/api",
               "@vercel/oidc"
             ],
-            "allowedCommonJsDependencies": ["cors", "ip-address"]
+            "allowedCommonJsDependencies": ["cors", "ip-address", "hpp"]
           },
           "configurations": {
             "production": {

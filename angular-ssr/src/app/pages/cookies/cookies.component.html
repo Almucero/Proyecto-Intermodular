@@ -23,7 +23,7 @@
       >
         <p
           class="text-lg border-l-4 border-cyan-500 pl-4 italic bg-gray-900/30 p-4 rounded-r-lg"
-          [innerHTML]="'cookiesPage.intro' | translate"
+          [innerHTML]="('cookiesPage.intro' | translate) | sanitizeHtml"
         ></p>
 
         <section>

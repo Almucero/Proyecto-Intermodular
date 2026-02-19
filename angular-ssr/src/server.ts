@@ -47,6 +47,29 @@ process.on('unhandledRejection', (reason) => {
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
+app.use((_req, res, next) => {
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
+  next();
+});
+if (process.env['VERCEL']) {
+  app.use((req, _res, next) => {
+    if (req.url?.startsWith('/api?')) {
+      const q = req.url.indexOf('?');
+      const params = new URLSearchParams(req.url.slice(q + 1));
+      const pathParam = params.get('__path') ?? '';
+      params.delete('__path');
+      const qs = params.toString() ? '?' + params.toString() : '';
+      req.url = pathParam.length > 0 ? '/' + pathParam.replace(/^\//, '') + qs : '/';
+    } else if (req.url === '/api') {
+      req.url = '/';
+    }
+    next();
+  });
+}
 const angularApp = new AngularNodeAppEngine();
 
 const mountBackend = () =>
@@ -54,34 +77,55 @@ const mountBackend = () =>
     app.use(backendApp);
   });
 
+const backendReady =
+  process.env['SSR_DISABLE_BACKEND'] || isMainModule(import.meta.url)
+    ? Promise.resolve()
+    : mountBackend()
+        .then(() => {
+          app.use(
+            express.static(browserDistFolder, {
+              maxAge: '1y',
+              index: false,
+              redirect: false,
+            }),
+          );
+          app.use((req, res, next) => {
+            return Promise.resolve(angularApp.handle(req)).then((response) =>
+              response ? writeResponseToNodeResponse(response, res) : next(),
+            ).catch(next);
+          });
+        })
+        .catch((err) => {
+          const short = getSetupMessage(err);
+          if (short) {
+            console.error(short);
+            process.exit(1);
+          }
+          console.error('Error al cargar el backend:', err instanceof Error ? err.message : err);
+          throw err;
+        });
+
 if (!process.env['SSR_DISABLE_BACKEND'] && !isMainModule(import.meta.url)) {
-  mountBackend().catch((err) => {
-    const short = getSetupMessage(err);
-    if (short) {
-      console.error(short);
-      process.exit(1);
-    }
-    console.error('Error al cargar el backend:', err instanceof Error ? err.message : err);
+  backendReady.catch(() => {});
+}
+
+if (process.env['SSR_DISABLE_BACKEND'] || isMainModule(import.meta.url)) {
+  app.use(
+    express.static(browserDistFolder, {
+      maxAge: '1y',
+      index: false,
+      redirect: false,
+    }),
+  );
+  app.use((req, res, next) => {
+    return Promise.resolve(angularApp.handle(req)).then((response) =>
+      response ? writeResponseToNodeResponse(response, res) : next(),
+    ).catch(next);
   });
 }
 
-// Servir estáticos del build de Angular
-app.use(
-  express.static(browserDistFolder, {
-    maxAge: '1y',
-    index: false,
-    redirect: false,
-  }),
-);
-
-app.use((req, res, next) => {
-  return Promise.resolve(angularApp.handle(req)).then((response) =>
-    response ? writeResponseToNodeResponse(response, res) : next(),
-  ).catch(next);
-});
-
-// Exportar el handler que usa Angular CLI / Vercel / etc.
 export const reqHandler = createNodeRequestHandler(app);
+export { backendReady };
 
 // Arrancar servidor HTTP cuando se ejecuta directamente con Node
 if (isMainModule(import.meta.url)) {
