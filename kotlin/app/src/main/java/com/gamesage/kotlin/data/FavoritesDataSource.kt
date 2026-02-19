@@ -9,5 +9,4 @@ interface FavoritesDataSource {
     fun observe(): Flow<Result<List<Game>>>
     suspend fun add(gameId: Int, platformId: Int): Result<Unit>
     suspend fun remove(gameId: Int, platformId: Int): Result<Unit>
-    suspend fun isFavorite(gameId: Int, platformId: Int): Result<Boolean>
 }

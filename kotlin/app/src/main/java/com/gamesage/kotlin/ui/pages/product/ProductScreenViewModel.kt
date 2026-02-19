@@ -280,7 +280,12 @@ class ProductScreenViewModel @Inject constructor(
                         }
                     },
                     onFailure = { e ->
-                        _uiState.value = currentState.copy(error = "Error al añadir a favoritos: ${e.message}")
+                        val errorMsg = if (e is retrofit2.HttpException && e.code() == 409) {
+                            "Este juego ya está en favoritos para esta plataforma"
+                        } else {
+                            "Error al añadir a favoritos: ${e.message}"
+                        }
+                        _uiState.value = currentState.copy(error = errorMsg)
                          kotlinx.coroutines.delay(2000)
                          val state = _uiState.value
                          if (state is ProductUiState.Success) {

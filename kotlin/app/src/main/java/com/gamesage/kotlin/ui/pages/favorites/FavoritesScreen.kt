@@ -36,7 +36,6 @@ import androidx.compose.ui.text.style.TextDecoration
 
 @Composable
 fun FavoritesScreen(
-    onNavigateBack: () -> Unit,
     onGameClick: (Long) -> Unit,
     viewModel: FavoritesViewModel = hiltViewModel()
 ) {

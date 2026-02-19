@@ -65,8 +65,6 @@ class FavoritesViewModel @Inject constructor(
             }
 
             favoritesRepository.remove(gameId, platformId)
-                .onSuccess {
-                }
                 .onFailure {
                     loadFavorites()
                 }
@@ -74,7 +72,7 @@ class FavoritesViewModel @Inject constructor(
     }
 
     fun addToCart(game: Game) {
-        val platformId = game.platforms?.firstOrNull()?.id ?: 0 // Default to first available platform or 0
+        val platformId = game.platforms?.firstOrNull()?.id ?: 0
         viewModelScope.launch {
             cartRepository.add(game.id, platformId, 1)
                 .onSuccess {

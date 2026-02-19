@@ -58,6 +58,7 @@ fun DashboardScreen(
     onNavigateToCamera: () -> Unit,
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
     capturedPhoto: String? = null,
+    onPhotoProcessed: () -> Unit = {},
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -78,6 +79,7 @@ fun DashboardScreen(
                 viewModel.onEditableDataChange(
                     uiState.editableUser.copy(avatar = avatarBase64)
                 )
+                onPhotoProcessed()
             }
         }
     }
@@ -127,23 +129,41 @@ fun DashboardScreen(
             Box(
                 modifier = Modifier.size(192.dp)
             ) {
-                val avatarModel = if (uiState.isEditing) {
-                    val avatarUrl = uiState.editableUser.avatar
-                    if (!avatarUrl.isNullOrEmpty()) avatarUrl else "https://via.placeholder.com/200"
+                val avatarData = if (uiState.isEditing) {
+                    uiState.editableUser.avatar
                 } else {
-                    val avatarUrl = uiState.user?.avatar
-                    if (!avatarUrl.isNullOrEmpty()) avatarUrl else "https://via.placeholder.com/200"
+                    uiState.user?.avatar
                 }
 
-                AsyncImage(
-                    model = avatarModel,
-                    contentDescription = "User",
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(CircleShape)
-                        .background(Color.Gray),
-                    contentScale = ContentScale.Crop
-                )
+                if (!avatarData.isNullOrEmpty() && avatarData.startsWith("data:image")) {
+                    // Avatar es base64 (foto capturada o galería)
+                    val base64String = avatarData.substringAfter("base64,")
+                    val bytes = Base64.decode(base64String, Base64.DEFAULT)
+                    val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                    if (bitmap != null) {
+                        Image(
+                            bitmap = bitmap.asImageBitmap(),
+                            contentDescription = "User",
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .clip(CircleShape)
+                                .background(Color.Gray),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+                } else if (!avatarData.isNullOrEmpty()) {
+                    // Avatar es una URL del servidor
+                    AsyncImage(
+                        model = avatarData,
+                        contentDescription = "User",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(CircleShape)
+                            .background(Color.Gray),
+                        contentScale = ContentScale.Crop
+                    )
+                }
+
                 if (uiState.isEditing) {
                     Box(
                         modifier = Modifier

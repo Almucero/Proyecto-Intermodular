@@ -89,6 +89,7 @@
     <string name="product_add_to_cart">Add to Cart</string>
     <string name="product_added_to_cart">Added!</string>
     <string name="product_add_to_favorites">Add to Favorites</string>
+    <string name="product_already_in_favorites">This game is already in favorites for this platform</string>
     <string name="product_description">Description</string>
     <string name="product_no_description">No description</string>
     <string name="product_screenshots">Screenshots</string>

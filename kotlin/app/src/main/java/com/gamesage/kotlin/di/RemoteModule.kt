@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 const val developmentUrl = "http://10.0.2.2:3000"
-const val productionUrl = "https://gamesage-backend.vercel.app"
+const val productionUrl = "https://gamingsage.vercel.app/"
 
 @Module
 @InstallIn(SingletonComponent::class)

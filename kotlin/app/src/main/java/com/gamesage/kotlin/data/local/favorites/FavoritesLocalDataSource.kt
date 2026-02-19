@@ -27,7 +27,6 @@ class FavoritesLocalDataSource @Inject constructor(
         return Result.success(Unit)
     }
     
-    // Add helper for repository
     suspend fun addAll(games: List<Game>) {
         favoriteDao.insert(games.toFavoriteEntity())
     }
@@ -35,9 +34,5 @@ class FavoritesLocalDataSource @Inject constructor(
     override suspend fun remove(gameId: Int, platformId: Int): Result<Unit> {
         favoriteDao.delete(gameId)
         return Result.success(Unit)
-    }
-
-    override suspend fun isFavorite(gameId: Int, platformId: Int): Result<Boolean> {
-        return Result.success(favoriteDao.isFavorite(gameId))
     }
 }
