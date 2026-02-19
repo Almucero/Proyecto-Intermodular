@@ -55,6 +55,25 @@ app.use((_req, res, next) => {
   res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
   next();
 });
+if (process.env['VERCEL']) {
+  const apiSegments = new Set([
+    'health', 'diagnostic', 'auth', 'users', 'games', 'developers',
+    'publishers', 'genres', 'platforms', 'media', 'favorites', 'cart',
+    'purchases', 'chat',
+  ]);
+  app.use((req, _res, next) => {
+    if (req.url?.startsWith('/api/')) {
+      const after = req.url.slice(5).replace(/^\//, '');
+      const first = after.split('/')[0]?.split('?')[0] ?? '';
+      if (!apiSegments.has(first)) {
+        req.url = (after ? '/' + after : '/') + (req.url.includes('?') ? '?' + req.url.split('?')[1] : '');
+      }
+    } else if (req.url === '/api') {
+      req.url = '/';
+    }
+    next();
+  });
+}
 const angularApp = new AngularNodeAppEngine();
 
 const mountBackend = () =>
@@ -62,15 +81,21 @@ const mountBackend = () =>
     app.use(backendApp);
   });
 
+const backendReady =
+  process.env['SSR_DISABLE_BACKEND'] || isMainModule(import.meta.url)
+    ? Promise.resolve()
+    : mountBackend().catch((err) => {
+        const short = getSetupMessage(err);
+        if (short) {
+          console.error(short);
+          process.exit(1);
+        }
+        console.error('Error al cargar el backend:', err instanceof Error ? err.message : err);
+        throw err;
+      });
+
 if (!process.env['SSR_DISABLE_BACKEND'] && !isMainModule(import.meta.url)) {
-  mountBackend().catch((err) => {
-    const short = getSetupMessage(err);
-    if (short) {
-      console.error(short);
-      process.exit(1);
-    }
-    console.error('Error al cargar el backend:', err instanceof Error ? err.message : err);
-  });
+  backendReady.catch(() => {});
 }
 
 // Servir estáticos del build de Angular
@@ -88,8 +113,8 @@ app.use((req, res, next) => {
   ).catch(next);
 });
 
-// Exportar el handler que usa Angular CLI / Vercel / etc.
 export const reqHandler = createNodeRequestHandler(app);
+export { backendReady };
 
 // Arrancar servidor HTTP cuando se ejecuta directamente con Node
 if (isMainModule(import.meta.url)) {

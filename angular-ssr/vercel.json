@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "buildCommand": "npm run vercel-build",
   "headers": [
     {
       "source": "/(.*)",
@@ -18,7 +19,7 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/api"
+      "destination": "/api/$1"
     }
   ],
   "functions": {

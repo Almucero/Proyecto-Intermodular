@@ -327,6 +327,8 @@ En la raíz del proyecto debe existir un archivo `.env`. No está versionado por
 
 Guardar el archivo. Sin estas variables, el backend no arrancará (env.ts lanza si falta alguna obligatoria).
 
+**En Vercel:** configurar las mismas variables en el proyecto (Settings → Environment Variables). El build usa `vercel-build` (prisma generate + build:ssr) definido en `vercel.json`.
+
 ### 6. Instalar dependencias
 
 En la raíz del proyecto ejecutar:

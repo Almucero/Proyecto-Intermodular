@@ -22,7 +22,9 @@
     "clean": "npx rimraf dist logs coverage",
     "clean:full": "npx rimraf dist node_modules logs coverage",
     "reinstall": "npm run clean:full && npm install",
-    "audit": "npm audit --audit-level=high"
+    "audit": "npm audit --audit-level=high",
+    "vercel-build": "npx prisma generate && npm run build:ssr",
+    "postinstall": "npx prisma generate"
   },
   "private": true,
   "dependencies": {
