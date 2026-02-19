@@ -33,6 +33,7 @@ import com.gamesage.kotlin.ui.pages.dashboard.CameraScreen
 import com.gamesage.kotlin.ui.pages.dashboard.CaptureScreen
 import com.gamesage.kotlin.ui.pages.dashboard.DashboardScreen
 import com.gamesage.kotlin.ui.pages.dashboard.DashboardScreenViewModel
+import com.gamesage.kotlin.ui.pages.favorites.FavoritesScreen
 import com.gamesage.kotlin.ui.pages.login.LoginScreen
 import com.gamesage.kotlin.ui.pages.privacy.PrivacyScreen
 import com.gamesage.kotlin.ui.pages.register.RegisterScreen
@@ -97,21 +98,35 @@ fun NavGraph(
         bottomBar = {
                 HomeBottomBar(
                     onMenuClick = { showBottomSheet = true },
-                    onCartClick = { if (token != null) {
-                        navController.navigate(Destinations.Cart)
-                    } else {
-                        navController.navigate(Destinations.Login)
-                    } },
-                    onFavoritesClick = { 
-                         if (token != null) {
-                             navController.navigate(Destinations.Favorites) 
-                         } else {
-                             navController.navigate(Destinations.Login)
-                         }
-                    },
-                    onProfileClick = { 
+                    onCartClick = {
                         if (token != null) {
-                            navController.navigate(Destinations.Dashboard)
+                            navController.navigate(Destinations.Cart) {
+                                popUpTo(Destinations.Home) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        } else {
+                            navController.navigate(Destinations.Login)
+                        }
+                    },
+                    onFavoritesClick = {
+                        if (token != null) {
+                            navController.navigate(Destinations.Favorites) {
+                                popUpTo(Destinations.Home) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        } else {
+                            navController.navigate(Destinations.Login)
+                        }
+                    },
+                    onProfileClick = {
+                        if (token != null) {
+                            navController.navigate(Destinations.Dashboard) {
+                                popUpTo(Destinations.Home) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
                         } else {
                             navController.navigate(Destinations.Login)
                         }
@@ -223,13 +238,11 @@ fun NavGraph(
                     },
                     onNavigateToCamera = { navController.navigate(Destinations.Camera) },
                     capturedPhoto = capturedPhoto,
-                    viewModel = viewModel
-                )
-                LaunchedEffect(capturedPhoto) {
-                    if (capturedPhoto != null) {
+                    viewModel = viewModel,
+                    onPhotoProcessed = {
                         backStackEntry.savedStateHandle["capturedPhoto"] = null
                     }
-                }
+                )
             }
 
             composable<Destinations.Camera> {
@@ -252,13 +265,10 @@ fun NavGraph(
                     photoPath = photoPath,
                     onCancel = { navController.popBackStack() },
                     onSave = { path ->
-                        navController.previousBackStackEntry
-                            ?.savedStateHandle
-                            ?.set("capturedPhoto", path)
-                        navController.navigate(Destinations.Dashboard) {
-                            popUpTo(Destinations.Dashboard) { inclusive = false }
-                            launchSingleTop = true
-                        }
+                        navController.getBackStackEntry<Destinations.Dashboard>()
+                            .savedStateHandle
+                            .set("capturedPhoto", path)
+                        navController.popBackStack<Destinations.Dashboard>(inclusive = false)
                     }
                 )
             }
@@ -268,8 +278,7 @@ fun NavGraph(
             }
 
             composable<Destinations.Favorites> {
-                com.gamesage.kotlin.ui.pages.favorites.FavoritesScreen(
-                    onNavigateBack = { navController.popBackStack() },
+                FavoritesScreen(
                     onGameClick = { gameId ->
                         navController.navigate(Destinations.Product(gameId))
                     }

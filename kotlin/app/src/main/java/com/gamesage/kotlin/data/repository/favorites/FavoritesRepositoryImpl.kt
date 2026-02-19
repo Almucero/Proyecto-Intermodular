@@ -51,7 +51,4 @@ class FavoritesRepositoryImpl @Inject constructor(
         return result
     }
 
-    override suspend fun isFavorite(gameId: Int, platformId: Int): Result<Boolean> {
-        return remoteDataSource.isFavorite(gameId, platformId)
-    }
 }

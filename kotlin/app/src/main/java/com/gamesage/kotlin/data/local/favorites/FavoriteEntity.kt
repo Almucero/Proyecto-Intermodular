@@ -3,6 +3,7 @@ package com.gamesage.kotlin.data.local.favorites
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.gamesage.kotlin.data.model.Game
+import java.time.LocalDateTime
 
 @Entity(tableName = "favorites")
 data class FavoriteEntity(
@@ -13,7 +14,6 @@ data class FavoriteEntity(
     val isOnSale: Boolean,
     val salePrice: Double?,
     val rating: Float?
-    // We can add more fields if needed, but these are the minimum for the UI
 )
 
 fun Game.toFavoriteEntity(): FavoriteEntity {
@@ -48,8 +48,8 @@ fun FavoriteEntity.toModel(): Game {
         videoUrl = null,
         rating = this.rating,
         releaseDate = null,
-        createdAt = java.time.LocalDateTime.now(),
-        updatedAt = java.time.LocalDateTime.now(),
+        createdAt = LocalDateTime.now(),
+        updatedAt = LocalDateTime.now(),
         genres = null,
         platforms = null,
         media = null,

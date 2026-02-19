@@ -40,6 +40,10 @@ class UserLocalDataSource @Inject constructor(
             Result.success(entity.toModel())    }
 
     override suspend fun me(): Result<User> {
-         TODO("Not yet implemented")
+        val entity = userDao.getMe()
+        return if (entity == null)
+            Result.failure(Exception("No hay usuario guardado localmente"))
+        else
+            Result.success(entity.toModel())
     }
 }

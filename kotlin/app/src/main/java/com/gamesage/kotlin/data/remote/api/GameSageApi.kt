@@ -146,6 +146,4 @@ interface FavoritesApi {
     suspend fun addToFavorites(@Body body: Map<String, Int>)
     @DELETE("api/favorites/{gameId}")
     suspend fun removeFromFavorites(@Path("gameId") gameId: Int, @Query("platformId") platformId: Int = 0)
-    @GET("api/favorites/check/{gameId}")
-    suspend fun isFavorite(@Path("gameId") gameId: Int, @Query("platformId") platformId: Int = 0): Boolean
 }

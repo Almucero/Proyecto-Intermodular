@@ -89,6 +89,7 @@
     <string name="product_add_to_cart">In den Warenkorb</string>
     <string name="product_added_to_cart">Hinzugefügt!</string>
     <string name="product_add_to_favorites">Zu Favoriten hinzufügen</string>
+    <string name="product_already_in_favorites">Dieses Spiel ist bereits in den Favoriten für diese Plattform</string>
     <string name="product_description">Beschreibung</string>
     <string name="product_no_description">Keine Beschreibung</string>
     <string name="product_screenshots">Screenshots</string>

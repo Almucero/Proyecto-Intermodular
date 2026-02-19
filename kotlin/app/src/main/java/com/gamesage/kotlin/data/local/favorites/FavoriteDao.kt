@@ -22,7 +22,4 @@ interface FavoriteDao {
 
     @Query("DELETE FROM favorites WHERE gameId = :gameId")
     suspend fun delete(gameId: Int)
-
-    @Query("SELECT EXISTS(SELECT * FROM favorites WHERE gameId = :gameId)")
-    suspend fun isFavorite(gameId: Int): Boolean
 }
