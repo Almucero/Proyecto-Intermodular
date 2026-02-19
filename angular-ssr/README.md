@@ -26,6 +26,7 @@ El proyecto está pensado para ofrecer una experiencia completa de principio a f
 - [Frontend: configuración y flujo](#frontend-configuración-y-flujo)
 - [Build SSR y variable SSR_DISABLE_BACKEND](#build-ssr-y-variable-ssr_disable_backend)
 - [Rutas y endpoints relevantes](#rutas-y-endpoints-relevantes)
+- [Verificaciones de requisitos](#verificaciones-de-requisitos)
 - [Arrancar el proyecto desde cero](#arrancar-el-proyecto-desde-cero)
 - [Configuración (variables de entorno)](#configuración-variables-de-entorno)
 - [Environments de Angular](#environments-de-angular-srcenvironments)
@@ -256,6 +257,20 @@ Durante `ng build` con configuración SSR, Angular puede ejecutar el servidor de
 - **Chat**: `/api/chat` (sesiones y mensajes con IA).
 
 La documentación detallada de parámetros, cuerpos y respuestas está en Swagger (`/api-docs`) y en los JSDoc de cada ruta.
+
+---
+
+## Verificaciones de requisitos
+
+Antes de ejecutar determinados comandos (build, serve, dev, tests, seeds, etc.), el proyecto ejecuta comprobaciones previas que evitan fallos confusos y muestran errores legibles.
+
+- **`scripts/check-npm-install.mjs`**: Comprueba que exista `node_modules` y binarios necesarios (Angular CLI, Prisma). Si no se ha ejecutado `npm install` o la carpeta está incompleta, se muestra un único error indicando que debe ejecutarse `npm install` antes de continuar.
+
+- **`scripts/check-prisma.mjs`**: Comprueba que el cliente de Prisma esté generado (existe `node_modules/@prisma/client/index.d.ts`). Si no se ha ejecutado `npx prisma generate`, se muestra un error claro antes de que el compilador de TypeScript falle con mensajes sobre campos o tipos faltantes.
+
+- **`scripts/serve-ssr.mjs`**: Antes de arrancar el servidor SSR compilado, valida que exista el build (`dist/game-sage/server/server.mjs`) y que exista un `.env` configurado. Si falta alguno, muestra un error directo indicando qué comando o paso previo ejecutar.
+
+Estas verificaciones se ejecutan automáticamente en los scripts de `package.json` que las requieren (build, serve:ssr, dev:backend, test, seed:admin, format, etc.). No aplican a `clean:full` ni a `reinstall`, ya que esos comandos borran o reinstalan dependencias por diseño.
 
 ---
 
