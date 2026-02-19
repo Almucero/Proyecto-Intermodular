@@ -57,20 +57,14 @@ app.use((_req, res, next) => {
 });
 if (process.env['VERCEL']) {
   app.use((req, _res, next) => {
-    let pathParam = req.query?.__path;
-    if (typeof pathParam !== 'string' && req.url?.includes('?')) {
+    if (req.url?.startsWith('/api?')) {
       const q = req.url.indexOf('?');
       const params = new URLSearchParams(req.url.slice(q + 1));
-      pathParam = params.get('__path') ?? '';
-    }
-    if (typeof pathParam === 'string' && pathParam.length > 0) {
-      const rest = req.query ? { ...req.query } : {};
-      delete rest.__path;
-      const qs = Object.keys(rest).length
-        ? '?' + new URLSearchParams(rest as Record<string, string>).toString()
-        : '';
-      req.url = '/' + pathParam.replace(/^\//, '') + qs;
-    } else if (req.url === '/api' || req.url?.startsWith('/api?')) {
+      const pathParam = params.get('__path') ?? '';
+      params.delete('__path');
+      const qs = params.toString() ? '?' + params.toString() : '';
+      req.url = pathParam.length > 0 ? '/' + pathParam.replace(/^\//, '') + qs : '/';
+    } else if (req.url === '/api') {
       req.url = '/';
     }
     next();
