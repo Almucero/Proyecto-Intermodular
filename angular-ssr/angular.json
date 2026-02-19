@@ -40,6 +40,7 @@
               "@prisma/client",
               "@prisma/client/runtime/library",
               "cloudinary",
+              "hpp",
               "winston",
               "dotenv",
               "dotenv/config",
