@@ -62,24 +62,24 @@ export class AppComponent {
 
     this.authService.autoLogin();
 
-    const minWait$ = timer(2000);
-    const authCheck$ = this.authService.ready$.pipe(
-      filter((isReady) => isReady),
-      take(1),
-    );
+    if (isPlatformBrowser(this.platformId)) {
+      const minWait$ = timer(2000);
+      const authCheck$ = this.authService.ready$.pipe(
+        filter((isReady) => isReady),
+        take(1),
+      );
 
-    forkJoin([minWait$, authCheck$]).subscribe(() => {
-      const elapsedTime = Date.now() - this.startTime;
-      if (elapsedTime < 200) {
-        this.exitAnimationDuration = '0ms';
-        this.cdr.detectChanges();
-      }
+      forkJoin([minWait$, authCheck$]).subscribe(() => {
+        const elapsedTime = Date.now() - this.startTime;
+        if (elapsedTime < 200) {
+          this.exitAnimationDuration = '0ms';
+          this.cdr.detectChanges();
+        }
 
-      if (isPlatformBrowser(this.platformId)) {
         window.scrollTo(0, 0);
-      }
-      this.isLoading = false;
-    });
+        this.isLoading = false;
+      });
+    }
 
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))

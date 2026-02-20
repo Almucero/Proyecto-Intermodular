@@ -1,0 +1,22 @@
+# robots.txt para GameSage
+# Permitir todos los bots
+User-agent: *
+Allow: /
+
+# Ubicación del sitemap
+Sitemap: https://game-sage.vercel.app/sitemap.xml
+
+# Bloquear rutas privadas/administrativas
+Disallow: /admin
+Disallow: /api/
+Disallow: /dashboard
+
+# Permitir assets
+Allow: /*.js$
+Allow: /*.css$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.webp$
+Allow: /*.avif$
+Allow: /*.svg$

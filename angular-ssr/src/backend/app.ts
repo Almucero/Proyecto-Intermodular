@@ -3,6 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import hpp from 'hpp';
 import swaggerUi from 'swagger-ui-express';
+import { applySecurityHeaders, applyNoCacheHeaders } from '../security-headers';
 import { errorHandler } from './middleware/error';
 import { generalLimiter, authLimiter } from './middleware/rateLimiter';
 import { requestLogger } from './middleware/requestLogger';
@@ -21,6 +22,7 @@ import favoritesRoutes from './modules/favorites/favorites.routes';
 import cartRoutes from './modules/cart/cart.routes';
 import purchasesRoutes from './modules/purchases/purchases.routes';
 import chatRoutes from './modules/chat/chat.routes';
+import { prisma } from './config/db';
 
 const originalConsoleWarn = console.warn.bind(console);
 console.warn = (...args: unknown[]) => {
@@ -45,13 +47,7 @@ app.disable('x-powered-by');
 app.set('trust proxy', 1);
 
 app.use((req, res, next) => {
-  res.setHeader('X-Frame-Options', 'DENY');
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-XSS-Protection', '1; mode=block');
-  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-  res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()');
-  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
-  res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://www.gstatic.com https://generativelanguage.googleapis.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com; img-src 'self' data: https://res.cloudinary.com https://img.youtube.com blob:; font-src 'self' data: https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.gstatic.com; connect-src 'self' https://res.cloudinary.com https://generativelanguage.googleapis.com; frame-src 'self' https://www.youtube-nocookie.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; media-src 'self' https://res.cloudinary.com blob:; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests;");
+  applySecurityHeaders(req, res);
   if (env.NODE_ENV === 'production') {
     const proto = req.get('x-forwarded-proto') || (req.secure ? 'https' : 'http');
     if (proto !== 'https') {
@@ -73,14 +69,8 @@ app.use(
   }),
 );
 
-app.use((_req, res, next) => {
-  res.setHeader('X-Frame-Options', 'DENY');
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-XSS-Protection', '1; mode=block');
-  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-  res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()');
-  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
-  res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://www.gstatic.com https://generativelanguage.googleapis.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com; img-src 'self' data: https://res.cloudinary.com https://img.youtube.com blob:; font-src 'self' data: https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.gstatic.com; connect-src 'self' https://res.cloudinary.com https://generativelanguage.googleapis.com; frame-src 'self' https://www.youtube-nocookie.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; media-src 'self' https://res.cloudinary.com blob:; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests;");
+app.use((req, res, next) => {
+  applySecurityHeaders(req, res);
   next();
 });
 const corsOriginsFromEnv = env.CORS_ORIGIN
@@ -121,6 +111,24 @@ app.use(cors(corsOptions));
 app.use(hpp());
 app.use(express.json({ limit: '10mb' }));
 
+app.use((req, res, next) => {
+  const hasNullByte = (obj: any): boolean => {
+    if (typeof obj === 'string') return obj.includes('\0');
+    if (Array.isArray(obj)) return obj.some(hasNullByte);
+    if (obj !== null && typeof obj === 'object') {
+      return Object.values(obj).some(hasNullByte);
+    }
+    return false;
+  };
+
+  if (hasNullByte(req.query) || hasNullByte(req.params) || hasNullByte(req.body)) {
+    // eslint-disable-next-line security/detect-possible-timing-attacks
+    res.status(400).json({ message: 'Caracteres no válidos detectados' });
+    return;
+  }
+  next();
+});
+
 // Ignorar llamadas de Chrome DevTools para evitar warnings 404
 app.get('/.well-known/appspecific/com.chrome.devtools.json', (_req, res) => {
   res.status(200).json({});
@@ -129,17 +137,9 @@ app.get('/.well-known/appspecific/com.chrome.devtools.json', (_req, res) => {
 app.use(requestLogger);
 app.use(responseSerializer);
 
-app.use('/api', (_req, res, next) => {
-  res.setHeader('X-Frame-Options', 'DENY');
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-XSS-Protection', '1; mode=block');
-  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-  res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()');
-  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
-  res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://www.gstatic.com https://generativelanguage.googleapis.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com; img-src 'self' data: https://res.cloudinary.com https://img.youtube.com blob:; font-src 'self' data: https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.gstatic.com; connect-src 'self' https://res.cloudinary.com https://generativelanguage.googleapis.com; frame-src 'self' https://www.youtube-nocookie.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; media-src 'self' https://res.cloudinary.com blob:; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests;");
-  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0');
-  res.setHeader('Pragma', 'no-cache');
-  res.setHeader('Expires', '0');
+app.use('/api', (req, res, next) => {
+  applySecurityHeaders(req, res);
+  applyNoCacheHeaders(res);
   next();
 });
 
@@ -152,32 +152,43 @@ app.get('/api/diagnostic', (_req, res) =>
   res.json({ ok: true, msg: 'Backend is alive' }),
 );
 
+app.get('/sitemap-products.xml', async (req, res) => {
+  try {
+    const games = await prisma.game.findMany({
+      select: { id: true, releaseDate: true },
+      orderBy: { id: 'desc' }
+    });
+
+    let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+    for (const game of games) {
+      const lastMod = game.releaseDate ? new Date(game.releaseDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0];
+      xml += `
+  <url>
+    <loc>https://game-sage.vercel.app/product/${game.id}</loc>
+    <lastmod>${lastMod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>`;
+    }
+    xml += `\n</urlset>`;
+
+    res.header('Content-Type', 'application/xml');
+    res.send(xml);
+  } catch (error) {
+    res.status(500).end();
+  }
+});
+
 const swaggerSecurityHeaders = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-  res.setHeader('X-Frame-Options', 'DENY');
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-XSS-Protection', '1; mode=block');
-  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-  res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()');
-  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
-  res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://www.gstatic.com https://generativelanguage.googleapis.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com; img-src 'self' data: https://res.cloudinary.com https://img.youtube.com blob:; font-src 'self' data: https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.gstatic.com; connect-src 'self' https://res.cloudinary.com https://generativelanguage.googleapis.com; frame-src 'self' https://www.youtube-nocookie.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; media-src 'self' https://res.cloudinary.com blob:; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests;");
-  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0');
-  res.setHeader('Pragma', 'no-cache');
-  res.setHeader('Expires', '0');
+  applySecurityHeaders(req, res);
+  applyNoCacheHeaders(res);
   next();
 };
 
 app.use('/api-docs', swaggerSecurityHeaders, swaggerUi.serve);
 app.get('/api-docs', swaggerSecurityHeaders, (req, res, next) => {
-  res.setHeader('X-Frame-Options', 'DENY');
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-XSS-Protection', '1; mode=block');
-  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-  res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()');
-  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
-  res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://www.gstatic.com https://generativelanguage.googleapis.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com; img-src 'self' data: https://res.cloudinary.com https://img.youtube.com blob:; font-src 'self' data: https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.gstatic.com; connect-src 'self' https://res.cloudinary.com https://generativelanguage.googleapis.com; frame-src 'self' https://www.youtube-nocookie.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; media-src 'self' https://res.cloudinary.com blob:; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests;");
-  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0');
-  res.setHeader('Pragma', 'no-cache');
-  res.setHeader('Expires', '0');
+  applySecurityHeaders(req, res);
+  applyNoCacheHeaders(res);
   
   const host = req.get('host') || '';
   const protocol =

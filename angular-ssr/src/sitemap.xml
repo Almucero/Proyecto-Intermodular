@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Sitemap de páginas estáticas -->
+  <sitemap>
+    <loc>https://game-sage.vercel.app/sitemap-static.xml</loc>
+    <lastmod>2026-02-20</lastmod>
+  </sitemap>
+  <!-- Sitemap de productos (Generado dinámicamente) -->
+  <sitemap>
+    <loc>https://game-sage.vercel.app/sitemap-products.xml</loc>
+    <lastmod>2026-02-20</lastmod>
+  </sitemap>
+</sitemapindex>
