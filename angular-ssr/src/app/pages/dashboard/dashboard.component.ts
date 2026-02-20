@@ -150,7 +150,7 @@ export class DashboardComponent {
         this.isEditing = false;
         this.clearImagePreview();
       },
-      error: (err) => console.error('Error updating user', err),
+      error: () => {},
     });
   }
 
@@ -159,20 +159,11 @@ export class DashboardComponent {
 
     if (currentUser?.media && currentUser.media.length > 0) {
       const oldMediaId = currentUser.media[0].id;
-      console.log('Deleting old profile image, ID:', oldMediaId);
-
       this.mediaService.delete(oldMediaId.toString()).subscribe({
-        next: () => {
-          console.log('Old image deleted successfully');
-          this.uploadNewImageThenSaveUser();
-        },
-        error: (err) => {
-          console.error('Error deleting old image:', err);
-          this.uploadNewImageThenSaveUser();
-        },
+        next: () => this.uploadNewImageThenSaveUser(),
+        error: () => this.uploadNewImageThenSaveUser(),
       });
     } else {
-      console.log('No previous image, uploading new one');
       this.uploadNewImageThenSaveUser();
     }
   }
@@ -181,14 +172,8 @@ export class DashboardComponent {
     if (!this.selectedImageFile) return;
 
     this.mediaService.upload(this.selectedImageFile).subscribe({
-      next: (media) => {
-        console.log('Media uploaded successfully:', media);
-        this.saveUserData();
-      },
-      error: (err) => {
-        console.error('Error uploading file', err);
-        this.saveUserData();
-      },
+      next: () => this.saveUserData(),
+      error: () => this.saveUserData(),
     });
   }
 
@@ -244,8 +229,7 @@ export class DashboardComponent {
           window.location.reload();
         }
       },
-      error: (err) => {
-        console.error('Refund failed', err);
+      error: () => {
         this.refundError.set('dashboard.refundError');
       },
     });

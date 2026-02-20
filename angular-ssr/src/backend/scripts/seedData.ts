@@ -464,7 +464,6 @@ async function seedData() {
       createdGames.push(await createGame(g));
     }
 
-    // ----- USUARIOS NO ADMINISTRADORES -----
     console.log('  - Creando usuarios no administradores...');
     const saltRounds = 10;
     const usersPath = getJsonPath('users.json');

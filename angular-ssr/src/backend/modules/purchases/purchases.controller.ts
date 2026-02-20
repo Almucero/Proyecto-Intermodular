@@ -7,7 +7,7 @@ import {
   refundPurchase,
 } from './purchases.service';
 import { logger } from '../../utils/logger';
-import { error } from 'console';
+import { env } from '../../config/env';
 
 const checkoutSchema = z.object({
   cartItemIds: z
@@ -59,7 +59,11 @@ export async function checkoutCtrl(
     ) {
       return res.status(404).json({ message: error.message });
     }
-    logger.error('Error in checkoutCtrl:', error);
+    if (env.NODE_ENV !== 'production') {
+      logger.error('Error in checkoutCtrl:', error);
+    } else {
+      logger.error('Error in checkoutCtrl');
+    }
     return res.status(400).json({ message: error.message });
   }
 }
@@ -83,7 +87,11 @@ export async function getUserPurchasesCtrl(
     const purchases = await getUserPurchases(user.sub, queryParsed.data.status);
     res.json(purchases);
   } catch (error: any) {
-    logger.error('Error in getUserPurchasesCtrl:', error);
+    if (env.NODE_ENV !== 'production') {
+      logger.error('Error in getUserPurchasesCtrl:', error);
+    } else {
+      logger.error('Error in getUserPurchasesCtrl');
+    }
     res.status(500).json({ message: 'Error al obtener compras' });
   }
 }
@@ -110,7 +118,11 @@ export async function getPurchaseCtrl(
     if (error.message === 'Compra no encontrada') {
       return res.status(404).json({ message: error.message });
     }
-    logger.error('Error in getPurchaseCtrl:', error);
+    if (env.NODE_ENV !== 'production') {
+      logger.error('Error in getPurchaseCtrl:', error);
+    } else {
+      logger.error('Error in getPurchaseCtrl');
+    }
     res.status(500).json({ message: 'Error al obtener la compra' });
   }
 }
@@ -152,7 +164,11 @@ export async function refundPurchaseCtrl(
     if (error.message === 'Esta compra ya ha sido reembolsada') {
       return res.status(400).json({ message: error.message });
     }
-    logger.error('Error in refundPurchaseCtrl:', error);
+    if (env.NODE_ENV !== 'production') {
+      logger.error('Error in refundPurchaseCtrl:', error);
+    } else {
+      logger.error('Error in refundPurchaseCtrl');
+    }
     res.status(500).json({ message: 'Error al procesar el reembolso' });
   }
 }

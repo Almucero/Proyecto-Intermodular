@@ -314,7 +314,7 @@ describe('Media API', () => {
       const res = await request(app)
         .put(`/api/media/${uploadedGameMediaId}/upload`)
         .set('Authorization', `Bearer ${regularUserToken}`)
-        .field('altText', 'Hacked alt text');
+        .field('altText', 'Test malicious alt text');
 
       expect(res.status).toBe(403);
       expect(res.body.message).toContain('Solo administradores');
@@ -354,7 +354,7 @@ describe('Media API', () => {
       const res = await request(app)
         .put(`/api/media/${uploadedUserMediaId}/upload`)
         .set('Authorization', `Bearer ${regularUserToken}`)
-        .field('altText', 'Hacked user media');
+        .field('altText', 'Test malicious user media');
 
       expect(res.status).toBe(403);
       expect(res.body.message).toContain('Solo puedes editar tu propia media');

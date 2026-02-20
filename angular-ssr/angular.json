@@ -26,7 +26,8 @@
             "assets": ["src/assets"],
             "styles": [
               "node_modules/bootstrap-icons/font/bootstrap-icons.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/assets/loading-screen.css"
             ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"

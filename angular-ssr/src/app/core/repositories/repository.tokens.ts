@@ -18,7 +18,6 @@ import { User } from '../models/user.model';
 import { IAuthMapping } from '../services/interfaces/auth-mapping.interface';
 import { IMediaRepository } from './interfaces/media-repository.interface';
 
-//Resouce name tokens
 export const RESOURCE_NAME_TOKEN = new InjectionToken<string>('ResourceName');
 export const DEVELOPER_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
   'DeveloperResourceName',
@@ -42,7 +41,6 @@ export const USER_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
   'UserResourceName',
 );
 
-//Repository tokens
 export const REPOSITORY_TOKEN = new InjectionToken<IBaseRepository<any>>(
   'REPOSITORY_TOKEN',
 );
@@ -65,7 +63,6 @@ export const USER_REPOSITORY_TOKEN = new InjectionToken<IUserRepository>(
   'IUserRepository',
 );
 
-//Api url tokens
 export const API_URL_TOKEN = new InjectionToken<string>('ApiUrl');
 export const DEVELOPER_API_URL_TOKEN = new InjectionToken<string>(
   'DeveloperApiUrl',
@@ -90,7 +87,6 @@ export const AUTH_ME_API_URL_TOKEN = new InjectionToken<string>('AuthMeApiUrl');
 export const UPLOAD_API_URL_TOKEN = new InjectionToken<string>('UploadApiUrl');
 export const CHAT_API_URL_TOKEN = new InjectionToken<string>('ChatApiUrl');
 
-//Repository mappings
 export const REPOSITORY_MAPPING_TOKEN = new InjectionToken<IBaseMapping<any>>(
   'IBaseRepositoryMapping',
 );
@@ -116,7 +112,6 @@ export const USER_REPOSITORY_MAPPING_TOKEN = new InjectionToken<
   IBaseMapping<User>
 >('IUserRepositoryMapping');
 
-//Auth tokens
 export const AUTH_TOKEN = new InjectionToken<IAuthentication>(
   'IAuthentication',
 );
@@ -125,7 +120,6 @@ export const AUTH_MAPPING_TOKEN = new InjectionToken<IAuthMapping>(
 );
 export const BACKEND_TOKEN = new InjectionToken<string>('Backend');
 
-// New Resource Names
 export const CART_ITEM_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
   'CartItemResourceName',
 );
@@ -139,7 +133,6 @@ export const FAVORITE_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
   'FavoriteResourceName',
 );
 
-// New Repository Tokens
 import { ICartItemRepository } from './interfaces/cart-item-repository.interface';
 import { IPurchaseRepository } from './interfaces/purchase-repository.interface';
 import { IPurchaseItemRepository } from './interfaces/purchase-item-repository.interface';
@@ -154,7 +147,6 @@ export const PURCHASE_ITEM_REPOSITORY_TOKEN =
 export const FAVORITE_REPOSITORY_TOKEN =
   new InjectionToken<IFavoriteRepository>('IFavoriteRepository');
 
-// New API URL Tokens
 export const CART_ITEM_API_URL_TOKEN = new InjectionToken<string>(
   'CartItemApiUrl',
 );
@@ -168,7 +160,6 @@ export const FAVORITE_API_URL_TOKEN = new InjectionToken<string>(
   'FavoriteApiUrl',
 );
 
-// New Repository Mappings
 import { CartItem } from '../models/cart-item.model';
 import { Purchase } from '../models/purchase.model';
 import { PurchaseItem } from '../models/purchase-item.model';
@@ -191,7 +182,6 @@ export const CHAT_REPOSITORY_MAPPING_TOKEN = new InjectionToken<
   IBaseMapping<ChatSession>
 >('IChatRepositoryMapping');
 
-// Chat Tokens
 import { IChatRepository } from './interfaces/chat-repository.interface';
 
 export const CHAT_RESOURCE_NAME_TOKEN = new InjectionToken<string>(

@@ -127,8 +127,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.sessions = sessions;
         this.loadingSessions = false;
       },
-      error: (err) => {
-        console.error('Error loading sessions', err);
+      error: () => {
         this.loadingSessions = false;
       },
     });
@@ -151,7 +150,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.messages.forEach((msg) => this.processMessageLinks(msg));
         this.shouldScrollToBottomFlag = true;
       },
-      error: (err) => console.error('Error loading session', err),
+      error: () => {},
     });
   }
 
@@ -166,7 +165,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
           this.startNewChat();
         }
       },
-      error: (err) => console.error('Error deleting session', err),
+      error: () => {},
     });
   }
 
@@ -209,8 +208,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.shouldScrollToBottomFlag = true;
         this.isLoading = false;
       },
-      error: (err) => {
-        console.error('Error sending message', err);
+      error: () => {
         this.isLoading = false;
         this.messages.push({
           role: 'assistant',

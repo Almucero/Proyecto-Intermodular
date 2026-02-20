@@ -345,8 +345,6 @@ export class GameFormComponent implements OnInit, OnChanges, AfterViewInit {
     const top = this.showGenreTopShadow ? 'transparent' : 'black';
     const bottom = this.showGenreBottomShadow ? 'transparent' : 'black';
     const gradient = `linear-gradient(to bottom, ${top} 0%, black 40%, black 60%, ${bottom} 100%)`;
-    // Capa 1: Gradiente (Contenido)
-    // Capa 2: Negro Sólido (Barra de Scroll)
     return `${gradient}, linear-gradient(black, black)`;
   }
 }
