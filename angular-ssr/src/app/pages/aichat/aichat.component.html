@@ -43,12 +43,11 @@
 
       <button
         (click)="startNewChat(); closeMobileSidebar()"
-        class="w-full flex items-center justify-center gap-2 bg-cyan-400 hover:bg-cyan-300 text-white py-2 px-4 rounded-lg transition-all border-none outline-none ring-0 focus:ring-0 focus:outline-none"
-        class="no-border-shadow"
+        class="group relative w-full text-left py-2 px-4 rounded-lg transition-colors cursor-pointer text-sm text-white hover:text-white mb-2 bg-cyan-400 hover:bg-cyan-300 flex items-center gap-2 border-none outline-none focus:outline-none ring-0 focus:ring-0 no-border-shadow"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5"
+          class="h-4 w-4"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -60,7 +59,7 @@
             d="M12 4v16m8-8H4"
           />
         </svg>
-        <span>{{ "aichat.new_chat" | translate }}</span>
+        <span class="truncate">{{ "aichat.new_chat" | translate }}</span>
       </button>
     </div>
     <hr class="border-t border-white my-1 mx-2" />
@@ -342,7 +341,10 @@
         </div>
       }
     </div>
-    <div class="px-4 py-2 md:p-4 bg-gray-900 border-t border-gray-800 w-full">
+    <div class="relative w-full h-0 pointer-events-none z-10">
+      <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-gray-900 to-transparent"></div>
+    </div>
+    <div class="px-4 py-2 md:p-4 bg-gray-900 border-t border-gray-800 w-full relative z-20">
       <div class="max-w-3xl mx-auto relative flex items-center gap-2">
         <input
           [(ngModel)]="userInput"

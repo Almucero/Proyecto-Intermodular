@@ -25,9 +25,11 @@
 }
 
 .animate-slideUp {
-  animation: slideUp 0.2s ease-out;
+  animation: slideUp 0.2s ease-out forwards;
 }
 
 .lang-menu-background {
   background-color: #030712;
+  border: none !important;
+  outline: none !important;
 }

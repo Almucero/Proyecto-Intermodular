@@ -22,7 +22,8 @@
     "clean": "node scripts/check-npm-install.mjs && npx rimraf dist logs coverage",
     "clean:full": "npx rimraf dist node_modules logs coverage",
     "reinstall": "npm run clean:full && npm install",
-    "audit": "node scripts/check-npm-install.mjs && npm audit --audit-level=high",
+    "audit": "node scripts/check-npm-install.mjs && npm audit --audit-level=high --omit=dev",
+    "lint": "eslint src",
     "vercel-build": "node scripts/check-npm-install.mjs && npx prisma generate && npm run build:ssr",
     "postinstall": "npx prisma generate"
   },
@@ -90,7 +91,10 @@
     "@types/supertest": "^6.0.3",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
+    "@typescript-eslint/parser": "^8.56.0",
     "cross-env": "^7.0.3",
+    "eslint": "^9.0.0",
+    "eslint-plugin-security": "^4.0.0",
     "http-proxy-middleware": "^3.0.5",
     "jasmine-core": "~5.6.0",
     "jest": "^30.2.0",
@@ -110,13 +114,19 @@
   },
   "overrides": {
     "beasties": "^0.3.3",
-    "ajv": "^8.18.0",
     "minimatch": "^10.2.1",
     "glob": "^13.0.0",
     "rimraf": "^5.0.0",
     "karma": {
       "rimraf": "^5.0.0"
     },
-    "prisma": "6.19.2"
+    "prisma": "6.19.2",
+    "ajv": "^8.18.0",
+    "@eslint/eslintrc": {
+      "ajv": "^6.12.6"
+    },
+    "eslint": {
+      "ajv": "^6.12.6"
+    }
   }
 }

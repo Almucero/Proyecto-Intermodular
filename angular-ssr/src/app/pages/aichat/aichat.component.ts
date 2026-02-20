@@ -267,6 +267,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     sortedGames.forEach((game) => {
       const safeTitle = game.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
+      // eslint-disable-next-line security/detect-non-literal-regexp
       const boldRegex = new RegExp(`\\*\\*${safeTitle}\\*\\*`, 'gi');
       message.content = message.content.replace(
         boldRegex,

@@ -108,6 +108,7 @@ header.menu-active .header-overlay {
 app-language-selector {
   position: relative;
   z-index: 1001;
+  display: flex;
 }
 
 @keyframes glitch-hover {
@@ -159,6 +160,15 @@ app-language-selector {
     }
   }
 }
+@media (max-width: 1024px) {
+  .tablet-hide {
+    display: none !important;
+  }
+  .tablet-show {
+    display: flex !important;
+  }
+}
+
 @media (max-width: 768px) {
   .mobile-responsive-header {
     height: 60px !important;
@@ -252,6 +262,10 @@ app-language-selector {
     align-items: center !important;
     justify-content: center !important;
     padding: 0 !important;
+  }
+
+  .mobile-show {
+    display: flex !important;
   }
 
   .mobile-hide {

@@ -1,18 +1,20 @@
 <div class="flex-1 w-full bg-gray-900 text-white font-sans pb-20">
-  <div class="contenedor-imagenes">
+  <div class="contenedor-imagenes pointer-events-none select-none">
     <img
       #backgroundLayer
       src="assets/images/fondo.webp"
-      class="background mobile-hide"
+      class="background mobile-hide tablet-hide pointer-events-none select-none"
+      draggable="false"
     />
-    <img #jokerLayer src="assets/images/joker.png" class="joker mobile-hide" />
-    <img #titleLayer src="assets/images/titulo.png" class="titulo" />
+    <img #jokerLayer src="assets/images/joker.png" class="joker mobile-hide tablet-hide pointer-events-none select-none" draggable="false" />
+    <img #titleLayer src="assets/images/titulo.png" class="titulo pointer-events-none select-none" draggable="false" />
     <img
       #geraltLayer
       src="assets/images/geralt.avif"
-      class="geralt mobile-hide"
+      class="geralt mobile-hide tablet-hide pointer-events-none select-none"
+      draggable="false"
     />
-    <img #bottomLayer src="assets/images/bottom.png" class="bottom" />
+    <img #bottomLayer src="assets/images/bottom.png" class="bottom pointer-events-none select-none" draggable="false" />
   </div>
   <div
     #mainContent
