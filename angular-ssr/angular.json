@@ -23,7 +23,12 @@
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["src/assets"],
+            "assets": [
+              "src/assets",
+              "src/robots.txt",
+              "src/sitemap.xml",
+              "src/sitemap-static.xml"
+            ],
             "styles": [
               "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "src/styles.scss",
@@ -108,7 +113,12 @@
             "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["src/assets"],
+            "assets": [
+              "src/assets",
+              "src/robots.txt",
+              "src/sitemap.xml",
+              "src/sitemap-static.xml"
+            ],
             "styles": ["src/styles.scss"],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
