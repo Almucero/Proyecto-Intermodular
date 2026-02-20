@@ -14,6 +14,7 @@ El proyecto está pensado para ofrecer una experiencia completa de principio a f
 - El **frontend** consume la API exclusivamente mediante rutas **relativas** (`/api/...`), evitando dependencias de URLs absolutas.
 - La **persistencia** se gestiona con PostgreSQL y Prisma.
 - El backend incorpora seguridad, validación y utilidades de operación (rate limit, serialización, logging).
+- La aplicación ha sido **testeada con OWASP ZAP**; se han corregido la mayoría de vulnerabilidades detectadas, salvo aquellas cuya mitigación rompería el funcionamiento de la página (por ejemplo limitaciones propias de Angular o de recursos externos).
 
 ### Índice
 
@@ -77,6 +78,8 @@ El chat con IA utiliza **Google Generative AI** (y dependencias como `@google/ge
 - **dotenv**: carga de variables desde `.env` al arrancar el backend.
 
 El proyecto aplica buenas prácticas OWASP: headers de seguridad (X-Frame-Options, X-Content-Type-Options, Referrer-Policy) en el servidor; CORS restringido en producción mediante `CORS_ORIGIN`; en desarrollo se permiten automáticamente `http://localhost:PORT` y `http://localhost:4200`; redirección a HTTPS en producción; errores sin detalles sensibles en producción; control de acceso (IDOR) en usuarios; sanitización de enlaces en contenido (markdown); script `npm run audit` para revisar dependencias.
+
+La aplicación ha sido auditada con **OWASP ZAP** (Zed Attack Proxy). Se han corregido la mayoría de las vulnerabilidades y alertas reportadas (cabeceras de seguridad, CSP, información sensible en respuestas, comentarios sospechosos, etc.). Las que permanecen sin corregir lo hacen de forma deliberada porque su mitigación implicaría romper la funcionalidad o el diseño actual (por ejemplo, restricciones de `script-src`/`style-src` en CSP incompatibles con Angular, o dependencias de dominios externos como fuentes o CDN).
 
 ---
 

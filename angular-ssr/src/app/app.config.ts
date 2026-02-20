@@ -13,7 +13,6 @@ import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { provideTranslateService } from '@ngx-translate/core';
 import { environment } from '../environments/environment';
 
-// Tokens
 import {
   API_URL_TOKEN,
   AUTH_MAPPING_TOKEN,
@@ -134,7 +133,6 @@ export const appConfig: ApplicationConfig = {
     { provide: FAVORITE_RESOURCE_NAME_TOKEN, useValue: 'favorites' },
     { provide: CHAT_RESOURCE_NAME_TOKEN, useValue: 'sessions' },
 
-    // API URLs
     { provide: API_URL_TOKEN, useValue: `${environment.apiUrl}/api` },
     {
       provide: DEVELOPER_API_URL_TOKEN,
@@ -185,7 +183,6 @@ export const appConfig: ApplicationConfig = {
       useValue: `${environment.apiUrl}/api/chat`,
     },
 
-    // Auth URLs
     {
       provide: AUTH_SIGN_IN_API_URL_TOKEN,
       useValue: `${environment.apiUrl}/api/auth/login`,

@@ -33,8 +33,7 @@ export class LanguageSelectorComponent implements OnInit {
     try {
       const current = this.languageService.getCurrentLang();
       this.displayedFlag = this.getFlagFor(current);
-    } catch (e) {
-      console.error('Error inicializando bandera:', e);
+    } catch {
       this.displayedFlag = 'assets/flags/espana.png';
     }
   }

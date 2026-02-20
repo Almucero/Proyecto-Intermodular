@@ -39,3 +39,26 @@
     width: calc(100% - 2rem);
   }
 }
+
+.no-border-shadow {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.delete-button-style {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.typing-indicator-delay-0 {
+  animation-delay: 0ms;
+}
+
+.typing-indicator-delay-150 {
+  animation-delay: 150ms;
+}
+
+.typing-indicator-delay-300 {
+  animation-delay: 300ms;
+}

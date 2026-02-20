@@ -22,8 +22,9 @@ export async function addToCartCtrl(
   res: Response,
   next: NextFunction,
 ) {
+  const user = req.user!;
+  
   try {
-    const user = req.user!;
     const bodyParsed = addToCartSchema.safeParse(req.body);
 
     if (!bodyParsed.success) {
@@ -39,6 +40,21 @@ export async function addToCartCtrl(
     );
     res.status(201).json(cartItem);
   } catch (error: any) {
+    if (error.code === 'P2002') {
+      try {
+        const bodyParsed = addToCartSchema.safeParse(req.body);
+        if (bodyParsed.success) {
+          const { gameId, quantity, platformId } = bodyParsed.data;
+          const cartItem = await addToCart(user.sub, gameId, platformId, quantity);
+          logger.info(
+            `User ${user.sub} added game ${gameId} (platform ${platformId}) to cart (qty: ${quantity}) - retry after conflict`,
+          );
+          return res.status(201).json(cartItem);
+        }
+      } catch (retryError: any) {
+        return next(retryError);
+      }
+    }
     if (error.message === 'Juego no encontrado') {
       return res.status(404).json({ message: error.message });
     }

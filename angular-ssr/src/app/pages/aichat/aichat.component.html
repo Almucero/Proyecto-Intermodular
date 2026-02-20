@@ -44,7 +44,7 @@
       <button
         (click)="startNewChat(); closeMobileSidebar()"
         class="w-full flex items-center justify-center gap-2 bg-cyan-400 hover:bg-cyan-300 text-white py-2 px-4 rounded-lg transition-all border-none outline-none ring-0 focus:ring-0 focus:outline-none"
-        style="border: none !important; box-shadow: none !important"
+        class="no-border-shadow"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -87,12 +87,7 @@
             </div>
             <button
               (click)="deleteSession(session, $event)"
-              class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-400 transition-colors p-1 bg-transparent border-none shadow-none outline-none focus:outline-none ring-0 hover:bg-transparent"
-              style="
-                background: transparent !important;
-                border: none !important;
-                box-shadow: none !important;
-              "
+              class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-400 transition-colors p-1 delete-button-style outline-none focus:outline-none ring-0 hover:bg-transparent"
               title="{{ 'aichat.delete_chat' | translate }}"
             >
               <svg
@@ -330,15 +325,15 @@
                 <div class="flex space-x-2">
                   <div
                     class="w-2 h-2 bg-gray-500 rounded-full animate-bounce"
-                    style="animation-delay: 0ms"
+                    class="typing-indicator-delay-0"
                   ></div>
                   <div
                     class="w-2 h-2 bg-gray-500 rounded-full animate-bounce"
-                    style="animation-delay: 150ms"
+                    class="typing-indicator-delay-150"
                   ></div>
                   <div
                     class="w-2 h-2 bg-gray-500 rounded-full animate-bounce"
-                    style="animation-delay: 300ms"
+                    class="typing-indicator-delay-300"
                   ></div>
                 </div>
               </div>

@@ -23,7 +23,6 @@ import { PurchaseItem } from '../models/purchase-item.model';
 import { Favorite } from '../models/favorite.model';
 import { ChatSession } from '../models/chat.model';
 
-// Tokens
 import {
   AUTH_MAPPING_TOKEN,
   AUTH_ME_API_URL_TOKEN,

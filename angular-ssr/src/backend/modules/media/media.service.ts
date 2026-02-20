@@ -230,10 +230,6 @@ export async function updateMedia(
       try {
         await cloudinary.uploader.destroy(existingMedia.publicId);
       } catch (error) {
-        console.error(
-          `Failed to delete old image: ${existingMedia.publicId}`,
-          error,
-        );
       }
     }
 
@@ -285,7 +281,6 @@ export async function updateMedia(
         folder: targetFolderName,
       };
     } catch (error) {
-      console.error(`Failed to move image in Cloudinary`, error);
       throw new Error('Failed to move image to new folder');
     }
   }
@@ -310,10 +305,6 @@ export async function deleteMedia(id: number) {
     try {
       await cloudinary.uploader.destroy(media.publicId);
     } catch (error) {
-      console.error(
-        `Failed to delete image from Cloudinary: ${media.publicId}`,
-        error,
-      );
     }
   }
 
@@ -337,7 +328,11 @@ async function cleanupFolderIfEmpty(folder: string) {
       logger.info(`Deleted empty folder: ${folder}`);
     } catch (error: any) {
       if (error?.error?.http_code !== 404) {
-        logger.warn(`Could not delete folder: ${folder}`, error);
+        if (env.NODE_ENV !== 'production') {
+          logger.warn(`Could not delete folder: ${folder}`, error);
+        } else {
+          logger.warn(`Could not delete folder: ${folder}`);
+        }
       }
     }
   }

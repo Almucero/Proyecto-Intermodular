@@ -163,7 +163,7 @@ export class SearchComponent implements OnInit {
           label: p.name,
         }));
       },
-      error: (err) => console.error('Error loading platforms', err),
+      error: () => {},
     });
   }
 
@@ -187,7 +187,6 @@ export class SearchComponent implements OnInit {
         this.applyFilters();
       },
       error: (err) => {
-        console.error('Error loading games:', err);
       },
     });
   }
@@ -312,7 +311,6 @@ export class SearchComponent implements OnInit {
     }
 
     const [min, max] = priceRange.split('-').map(Number);
-    console.log('Filtering by price:', { priceRange, min, max });
     return games.filter((game) => {
       const effectivePrice =
         game.isOnSale && game.salePrice !== null && game.salePrice !== undefined
@@ -320,14 +318,6 @@ export class SearchComponent implements OnInit {
           : Number(game.price) || 0;
 
       const result = effectivePrice >= min && effectivePrice <= max;
-      if (!result && effectivePrice === 30) {
-        console.log('Game excluded:', {
-          title: game.title,
-          effectivePrice,
-          min,
-          max,
-        });
-      }
       return result;
     });
   }

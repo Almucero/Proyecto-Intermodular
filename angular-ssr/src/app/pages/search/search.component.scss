@@ -122,3 +122,23 @@ input[type="range"] {
     margin-top: 0 !important;
   }
 }
+
+.reset-button-style {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.filter-button-style {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.filter-toggle-button {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}

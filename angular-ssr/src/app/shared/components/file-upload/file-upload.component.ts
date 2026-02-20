@@ -54,7 +54,7 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
 export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   @Input() acceptedMimeTypes: string[] = ['*/*'];
 
-  @Input() placeholder: string = 'common.upload.dragHere'; // Default key
+  @Input() placeholder: string = 'common.upload.dragHere';
 
   @Input() maxSizeInMB: number = 10;
   @Input() set initialUrl(url: string | null | undefined) {
@@ -142,12 +142,6 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
    * Maneja el evento dragover.
    */
   onDragOver(event: DragEvent): void {
-    // Los métodos `event.preventDefault()` y `event.stopPropagation()` se utilizan en los manejadores de eventos de drag & drop para:
-    //
-    // - `event.preventDefault()`: Previene el comportamiento por defecto del navegador, que normalmente abriría el archivo arrastrado en vez de permitir que el componente lo gestione.
-    // - `event.stopPropagation()`: Detiene la propagación del evento hacia otros elementos padres. Esto asegura que solo el componente maneje el evento y evita efectos no deseados en elementos contenedores en la jerarquía del DOM.
-    //
-    // Ambas llamadas son necesarias para proporcionar una experiencia de usuario consistente y controlar totalmente el flujo de arrastrar y soltar archivos en el componente.
     event.preventDefault();
     event.stopPropagation();
     if (!this.disabled) {
@@ -159,12 +153,6 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
    * Maneja el evento dragleave.
    */
   onDragLeave(event: DragEvent): void {
-    // Los métodos `event.preventDefault()` y `event.stopPropagation()` se utilizan en los manejadores de eventos de drag & drop para:
-    //
-    // - `event.preventDefault()`: Previene el comportamiento por defecto del navegador, que normalmente abriría el archivo arrastrado en vez de permitir que el componente lo gestione.
-    // - `event.stopPropagation()`: Detiene la propagación del evento hacia otros elementos padres. Esto asegura que solo el componente maneje el evento y evita efectos no deseados en elementos contenedores en la jerarquía del DOM.
-    //
-    // Ambas llamadas son necesarias para proporcionar una experiencia de usuario consistente y controlar totalmente el flujo de arrastrar y soltar archivos en el componente.
     event.preventDefault();
     event.stopPropagation();
     this.isDragging.set(false);
@@ -174,7 +162,6 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
    * Maneja el evento drop de archivos.
    */
   onDrop(event: DragEvent): void {
-    // Los métodos `event.preventDefault()` y `event.stopPropagation()` se utilizan en los manejadores de eventos de drag & drop para:
     //
     // - `event.preventDefault()`: Previene el comportamiento por defecto del navegador, que normalmente abriría el archivo arrastrado en vez de permitir que el componente lo gestione.
     // - `event.stopPropagation()`: Detiene la propagación del evento hacia otros elementos padres. Esto asegura que solo el componente maneje el evento y evita efectos no deseados en elementos contenedores en la jerarquía del DOM.
@@ -186,23 +173,6 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
 
     if (this.disabled) return;
 
-    /**
-     * Sobre dataTransfer:
-     *
-     * El objeto `dataTransfer` es una propiedad del evento de tipo DragEvent en JavaScript/TypeScript.
-     * Representa la información asociada con la operación de arrastrar y soltar (drag & drop).
-     * Este objeto contiene los archivos, datos, o tipos MIME que están siendo arrastrados por el usuario.
-     *
-     * En el contexto de carga de archivos, `event.dataTransfer.files` proporciona una lista (FileList)
-     * de los archivos que el usuario ha soltado sobre el área de drop.
-     *
-     * Por ejemplo:
-     *    const files = event.dataTransfer?.files;
-     *    // Aquí `files` contiene los archivos soltados.
-     *
-     * Además de archivos, `dataTransfer` puede contener otros tipos de datos en operaciones drag & drop
-     * personalizadas, como texto o imágenes desde otros elementos.
-     */
     const files = event.dataTransfer?.files;
     if (files && files.length > 0) {
       this.handleFile(files[0]);
@@ -271,7 +241,6 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
    * que pueden tener las data URLs en iframes.
    */
   private generatePreview(file: File): void {
-    // Liberar URL blob previa si existe
     this.revokeBlobUrl();
 
     if (file.type.startsWith('image/')) {
@@ -282,9 +251,7 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
       };
       reader.readAsDataURL(file);
     } else if (file.type === 'application/pdf') {
-      // Para PDFs, usar createObjectURL es más eficiente y funciona mejor con iframes
       this.blobUrl = URL.createObjectURL(file);
-      // Sanitizar la URL para que Angular la acepte en el iframe
       this.safePdfUrl.set(
         this.sanitizer.bypassSecurityTrustResourceUrl(this.blobUrl),
       );

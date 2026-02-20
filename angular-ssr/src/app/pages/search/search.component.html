@@ -35,13 +35,7 @@
             <button
               *ngIf="activeFilters.length > 0"
               (click)="resetFilters()"
-              class="text-cyan-400 hover:text-cyan-300 text-base capitalize font-medium transition-colors !bg-transparent !border-0 !outline-none !shadow-none appearance-none cursor-pointer"
-              style="
-                background: transparent !important;
-                border: none !important;
-                outline: none !important;
-                box-shadow: none !important;
-              "
+              class="text-cyan-400 hover:text-cyan-300 text-base capitalize font-medium transition-colors reset-button-style appearance-none cursor-pointer"
             >
               {{ "search.reset" | translate }}
             </button>
@@ -58,13 +52,7 @@
               <span>{{ filter.label | translate }}</span>
               <button
                 (click)="removeFilter(filter.type)"
-                class="hover:text-white transition-colors !bg-transparent !border-0 !outline-none !shadow-none appearance-none cursor-pointer flex items-center justify-center"
-                style="
-                  background: transparent !important;
-                  border: none !important;
-                  outline: none !important;
-                  box-shadow: none !important;
-                "
+                class="hover:text-white transition-colors filter-button-style appearance-none cursor-pointer flex items-center justify-center"
                 [title]="'search.removeFilter' | translate"
               >
                 &times;
@@ -76,13 +64,8 @@
             <div class="border border-gray-800 rounded-lg overflow-hidden">
               <button
                 (click)="toggleFilter('price')"
-                class="w-full flex items-center justify-between p-4 bg-gray-900 transition-colors focus:outline-none !outline-none !shadow-none !border-none ring-0"
+                class="w-full flex items-center justify-between p-4 bg-gray-900 transition-colors focus:outline-none filter-toggle-button ring-0"
                 [class.hover:bg-gray-800]="!filtersExpanded['price']"
-                style="
-                  outline: none !important;
-                  box-shadow: none !important;
-                  border: none !important;
-                "
               >
                 <span class="font-medium text-gray-300">{{
                   "search.filters.price.label" | translate
@@ -163,13 +146,8 @@
             <div class="border border-gray-800 rounded-lg overflow-hidden">
               <button
                 (click)="toggleFilter('genre')"
-                class="w-full flex items-center justify-between p-4 bg-gray-900 transition-colors focus:outline-none !outline-none !shadow-none !border-none ring-0"
+                class="w-full flex items-center justify-between p-4 bg-gray-900 transition-colors focus:outline-none filter-toggle-button ring-0"
                 [class.hover:bg-gray-800]="!filtersExpanded['genre']"
-                style="
-                  outline: none !important;
-                  box-shadow: none !important;
-                  border: none !important;
-                "
               >
                 <span class="font-medium text-gray-300">{{
                   "search.filters.genre.label" | translate
@@ -227,13 +205,8 @@
             <div class="border border-gray-800 rounded-lg overflow-hidden">
               <button
                 (click)="toggleFilter('platform')"
-                class="w-full flex items-center justify-between p-4 bg-gray-900 transition-colors focus:outline-none !outline-none !shadow-none !border-none ring-0"
+                class="w-full flex items-center justify-between p-4 bg-gray-900 transition-colors focus:outline-none filter-toggle-button ring-0"
                 [class.hover:bg-gray-800]="!filtersExpanded['platform']"
-                style="
-                  outline: none !important;
-                  box-shadow: none !important;
-                  border: none !important;
-                "
               >
                 <span class="font-medium text-gray-300">{{
                   "search.filters.platform.label" | translate
