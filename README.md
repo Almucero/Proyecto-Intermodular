@@ -105,6 +105,7 @@ El sistema se compone de:
 
 ### URL del proyecto unificado (Angular SSR + API): [https://gamingsage.vercel.app/](https://gamingsage.vercel.app/)
 
+ 
 
 
 
