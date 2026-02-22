@@ -20,9 +20,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Cached
 import androidx.compose.material.icons.filled.PhotoCamera
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,11 +40,14 @@ import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 
 
+
+
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun CameraScreen(
     modifier: Modifier = Modifier,
     viewModel: CameraViewModel,
+    onNavigateBack: () -> Unit,
     onNavigateToCapture: (File) -> Unit
 ) {
     val askedPermission = remember { mutableStateOf(false) }
@@ -52,6 +59,7 @@ fun CameraScreen(
         CameraPreview(
             modifier = modifier,
             viewModel = viewModel,
+            onNavigateBack = onNavigateBack,
             onNavigateToCapture = onNavigateToCapture
         )
     }
@@ -70,6 +78,7 @@ fun CameraScreen(
 fun CameraPreview(
     modifier: Modifier = Modifier,
     viewModel: CameraViewModel,
+    onNavigateBack: () -> Unit,
     onNavigateToCapture: (File) -> Unit,
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
     ) {
@@ -89,6 +98,24 @@ fun CameraPreview(
             surfaceRequest = request,
             modifier = Modifier.fillMaxSize()
         )
+            
+            IconButton(
+                onClick = onNavigateBack,
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .padding(16.dp)
+                    .size(48.dp),
+                colors = IconButtonDefaults.iconButtonColors(
+                    containerColor = Color(0xFF22D3EE)
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Back",
+                    tint = Color.White
+                )
+            }
+
             Row(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
@@ -100,7 +127,10 @@ fun CameraPreview(
                 viewModel.takePhoto(context) { file ->
                     onNavigateToCapture(file)
                 }
-            }
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF22D3EE)
+            )
         ) {
             Icon(
                 imageVector = Icons.Filled.PhotoCamera,
@@ -112,7 +142,10 @@ fun CameraPreview(
             Button(
                 onClick = {
                     viewModel.switchCamera(lifecycleOwner)
-                }
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF22D3EE)
+                )
             ) {
                 Icon(
                     imageVector = Icons.Default.Cached,

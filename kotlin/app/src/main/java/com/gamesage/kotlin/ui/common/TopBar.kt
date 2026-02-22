@@ -52,129 +52,140 @@ fun TopBar(
     onLogoClick: () -> Unit = {},
     onLanguageClick: (String) -> Unit = {}
 ) {
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color(0xFF030712))
-            .padding(horizontal = 16.dp, vertical = 12.dp)
-            .height(56.dp)
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.game_sage_logo),
-            contentDescription = "Logo GameSage",
-            modifier = Modifier.size(45.dp).align(Alignment.CenterStart).clickable { onLogoClick() }
-        )
+        Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
+
         Box(
             modifier = Modifier
-                .height(40.dp)
-                .width(200.dp)
-                .clip(RoundedCornerShape(20.dp))
-                .background(Color(0xFF1F2937))
-                .align(Alignment.Center),
-            contentAlignment = Alignment.CenterStart
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 12.dp)
+                .height(56.dp)
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp)
+            Image(
+                painter = painterResource(id = R.drawable.game_sage_logo),
+                contentDescription = "Logo GameSage",
+                modifier = Modifier
+                    .size(45.dp)
+                    .align(Alignment.CenterStart)
+                    .clickable { onLogoClick() }
+            )
+            Box(
+                modifier = Modifier
+                    .height(40.dp)
+                    .width(200.dp)
+                    .clip(RoundedCornerShape(20.dp))
+                    .background(Color(0xFF1F2937))
+                    .align(Alignment.Center),
+                contentAlignment = Alignment.CenterStart
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 12.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.search),
+                        contentDescription = "Buscador",
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    BasicTextField(
+                        value = searchQuery,
+                        onValueChange = { newValue ->
+                            onSearchQueryChange(newValue)
+                        },
+                        modifier = Modifier.weight(1f),
+                        textStyle = TextStyle(
+                            color = Color.White,
+                            fontSize = 14.sp
+                        ),
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                        keyboardActions = KeyboardActions(
+                            onSearch = {
+                                onSearchClick()
+                            }
+                        ),
+                        cursorBrush = SolidColor(Color(0xFF93E3FE)),
+                        singleLine = true,
+                        decorationBox = { innerTextField ->
+                            if (searchQuery.isEmpty()) {
+                                Text(
+                                    text = androidx.compose.ui.res.stringResource(R.string.search_placeholder),
+                                    color = Color.White,
+                                    fontSize = 14.sp
+                                )
+                            }
+                            innerTextField()
+                        }
+                    )
+                }
+            }
+
+            val languages = remember<List<Language>> {
+                listOf(
+                    Language("es", "Español", R.drawable.espana),
+                    Language("en", "English", R.drawable.estados_unidos),
+                    Language("de", "Deutsch", R.drawable.alemania),
+                    Language("fr", "Français", R.drawable.francia),
+                    Language("it", "Italiano", R.drawable.italia)
+                )
+            }
+
+            var isLanguageMenuExpanded by remember { mutableStateOf(false) }
+            var currentLanguage by remember {
+                mutableStateOf(
+                    languages.find { it.code == Locale.getDefault().language } ?: languages.first()
+                )
+            }
+
+            Box(
+                modifier = Modifier.align(Alignment.CenterEnd)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.search),
-                    contentDescription = "Buscador",
-                    modifier = Modifier.size(20.dp)
+                    painter = painterResource(id = currentLanguage.flagResId),
+                    contentDescription = "Idioma ${currentLanguage.name}",
+                    modifier = Modifier
+                        .size(40.dp)
+                        .padding(end = 8.dp)
+                        .clip(RoundedCornerShape(4.dp))
+                        .clickable { isLanguageMenuExpanded = true }
                 )
-                Spacer(modifier = Modifier.width(8.dp))
-                BasicTextField(
-                    value = searchQuery,
-                    onValueChange = { newValue ->
-                        onSearchQueryChange(newValue)
-                    },
-                    modifier = Modifier.weight(1f),
-                    textStyle = TextStyle(
-                        color = Color.White,
-                        fontSize = 14.sp
-                    ),
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                    keyboardActions = KeyboardActions(
-                        onSearch = {
-                            onSearchClick()
-                        }
-                    ),
-                    cursorBrush = SolidColor(Color(0xFF93E3FE)),
-                    singleLine = true,
-                    decorationBox = { innerTextField ->
-                        if (searchQuery.isEmpty()) {
-                            Text(
-                                text = androidx.compose.ui.res.stringResource(R.string.search_placeholder),
-                                color = Color.White,
-                                fontSize = 14.sp
-                            )
-                        }
-                        innerTextField()
-                    }
-                )
-            }
-        }
 
-
-    val languages = remember<List<Language>> {
-        listOf(
-            Language("es", "Español", R.drawable.espana),
-            Language("en", "English", R.drawable.estados_unidos),
-            Language("de", "Deutsch", R.drawable.alemania),
-            Language("fr", "Français", R.drawable.francia),
-            Language("it", "Italiano", R.drawable.italia)
-        )
-    }
-
-    var isLanguageMenuExpanded by remember { mutableStateOf(false) }
-    var currentLanguage by remember { 
-        mutableStateOf(
-            languages.find { it.code == Locale.getDefault().language } ?: languages.first()
-        ) 
-    }
-
-    Box(
-        modifier = Modifier.align(Alignment.CenterEnd)
-    ) {
-        Image(
-            painter = painterResource(id = currentLanguage.flagResId),
-            contentDescription = "Idioma ${currentLanguage.name}",
-            modifier = Modifier
-                .size(40.dp)
-                .padding(end = 8.dp)
-                .clip(RoundedCornerShape(4.dp))
-                .clickable { isLanguageMenuExpanded = true }
-        )
-
-        DropdownMenu(
-            expanded = isLanguageMenuExpanded,
-            onDismissRequest = { isLanguageMenuExpanded = false },
-            modifier = Modifier
-                .background(Color(0xFF030712))
-                .width(60.dp)
-        ) {
-            languages.filter { it.code != currentLanguage.code }.forEach { language ->
-                DropdownMenuItem(
-                    text = {
-                        Image(
-                            painter = painterResource(id = language.flagResId),
-                            contentDescription = language.name,
-                            modifier = Modifier
-                                .size(30.dp)
-                                .clip(RoundedCornerShape(4.dp))
+                DropdownMenu(
+                    expanded = isLanguageMenuExpanded,
+                    onDismissRequest = { isLanguageMenuExpanded = false },
+                    modifier = Modifier
+                        .background(Color(0xFF030712))
+                        .width(60.dp)
+                ) {
+                    languages.filter { it.code != currentLanguage.code }.forEach { language ->
+                        DropdownMenuItem(
+                            text = {
+                                Image(
+                                    painter = painterResource(id = language.flagResId),
+                                    contentDescription = language.name,
+                                    modifier = Modifier
+                                        .size(30.dp)
+                                        .clip(RoundedCornerShape(4.dp))
+                                )
+                            },
+                            onClick = {
+                                currentLanguage = language
+                                isLanguageMenuExpanded = false
+                                onLanguageClick(language.code)
+                            },
+                            modifier = Modifier.background(Color(0xFF030712))
                         )
-                    },
-                    onClick = {
-                        currentLanguage = language
-                        isLanguageMenuExpanded = false
-                        onLanguageClick(language.code)
-                    },
-                    modifier = Modifier.background(Color(0xFF030712))
-                )
+                    }
+                }
             }
         }
     }
-}
 }
 
 data class Language(

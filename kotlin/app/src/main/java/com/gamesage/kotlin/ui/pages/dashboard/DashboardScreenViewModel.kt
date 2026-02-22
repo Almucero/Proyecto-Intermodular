@@ -16,6 +16,7 @@ import androidx.lifecycle.viewModelScope
 import com.gamesage.kotlin.data.model.User
 import com.gamesage.kotlin.data.remote.api.GameSageApi
 import com.gamesage.kotlin.data.remote.model.UserApiModel
+import com.gamesage.kotlin.data.remote.model.UpdateProfileRequest
 import com.gamesage.kotlin.data.repository.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.awaitCancellation
@@ -27,6 +28,8 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.util.concurrent.Executors
 import javax.inject.Inject
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 
 
 data class DashboardUiState(
@@ -48,7 +51,8 @@ data class UserEditableData(
     val region: String = "",
     val postalCode: String = "",
     val country: String = "",
-    val avatar: String? = null
+    val avatar: String? = null,
+    val selectedFile: File? = null
 )
 
 @HiltViewModel
@@ -105,24 +109,34 @@ class DashboardScreenViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
             try {
-                val updateRequest = UserApiModel(
-                    id = currentUser.id,
-                    email = editable.email,
+                editable.selectedFile?.let { file ->
+                    val requestFile = okhttp3.RequestBody.create(
+                        "image/jpeg".toMediaTypeOrNull(),
+                        file
+                    )
+                    val body = okhttp3.MultipartBody.Part.createFormData("file", file.name, requestFile)
+                    val typePart = okhttp3.MultipartBody.Part.createFormData("type", "user")
+                    val idPart = okhttp3.MultipartBody.Part.createFormData("id", currentUser.id.toString())
+                    
+                    api.createMedia(body, typePart, idPart)
+                }
+
+                val updateRequest = UpdateProfileRequest(
                     name = editable.name,
                     surname = editable.surname,
+                    email = editable.email,
                     nickname = editable.nickname,
                     addressLine1 = editable.addressLine1,
                     addressLine2 = editable.addressLine2,
                     city = editable.city,
                     region = editable.region,
                     postalCode = editable.postalCode,
-                    country = editable.country,
-                    avatar = editable.avatar
+                    country = editable.country
                 )
-                
+
                 api.updateOwnUser(updateRequest)
                 loadUser()
-                _uiState.update { it.copy(isEditing = false) }
+                _uiState.update { it.copy(isEditing = false, isLoading = false) }
             } catch (e: Exception) {
                 _uiState.update { it.copy(isLoading = false, error = "Error al guardar los cambios") }
             }

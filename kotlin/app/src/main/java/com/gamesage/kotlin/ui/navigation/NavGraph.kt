@@ -65,35 +65,26 @@ fun NavGraph(
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-                CenterAlignedTopAppBar(
-                    title = {
-                        TopBar(
-                            searchQuery = searchQuery,
-                            onSearchQueryChange = { query ->
-                                searchQuery = query
-                            },
-                            onSearchClick = {
-                                if (searchQuery.isNotEmpty()) {
-                                    navController.navigate(Destinations.Search(query = searchQuery))
-                                }
-                            },
-                            onLogoClick = {
-                                 navController.navigate(Destinations.Home) {
-                                     popUpTo(Destinations.Home) { inclusive = true }
-                                 }
-                            },
-                            onLanguageClick = { langCode ->
-                                com.gamesage.kotlin.utils.LanguageUtils.setLocale(context, langCode)
-                                (context as? Activity)?.recreate()
-                            }
-                        )
-                    },
-                    scrollBehavior = scrollBehavior,
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = Color(0xFF030712)
-                    )
-                )
-
+            TopBar(
+                searchQuery = searchQuery,
+                onSearchQueryChange = { query ->
+                    searchQuery = query
+                },
+                onSearchClick = {
+                    if (searchQuery.isNotEmpty()) {
+                        navController.navigate(Destinations.Search(query = searchQuery))
+                    }
+                },
+                onLogoClick = {
+                    navController.navigate(Destinations.Home) {
+                        popUpTo(Destinations.Home) { inclusive = true }
+                    }
+                },
+                onLanguageClick = { langCode ->
+                    com.gamesage.kotlin.utils.LanguageUtils.setLocale(context, langCode)
+                    (context as? Activity)?.recreate()
+                }
+            )
         },
         bottomBar = {
                 HomeBottomBar(
@@ -249,6 +240,7 @@ fun NavGraph(
                 CameraScreen(
                     modifier = Modifier.fillMaxSize(),
                     viewModel = viewModel(),
+                    onNavigateBack = { navController.popBackStack() },
                     onNavigateToCapture = { file ->
                         navController.navigate(
                             Destinations.Capture(file.absolutePath)

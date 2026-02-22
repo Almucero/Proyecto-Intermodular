@@ -5,7 +5,9 @@ import com.google.gson.annotations.SerializedName
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class MediaApiModel(
     @SerializedName("id") val id: Int,
     @SerializedName("url") val url: String,

@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PhotoCamera
+import androidx.compose.material.icons.filled.PhotoLibrary
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -43,11 +44,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextAlign.Companion.Center
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.gamesage.kotlin.R
+import com.gamesage.kotlin.ui.theme.bodyFontFamily
 import java.io.File
 
 @Composable
@@ -77,7 +80,10 @@ fun DashboardScreen(
                 val file = File(path)
                 val avatarBase64 = imageFileToBase64(file)
                 viewModel.onEditableDataChange(
-                    uiState.editableUser.copy(avatar = avatarBase64)
+                    uiState.editableUser.copy(
+                        avatar = avatarBase64,
+                        selectedFile = file
+                    )
                 )
                 onPhotoProcessed()
             }
@@ -95,9 +101,18 @@ fun DashboardScreen(
                 val bytes = inputStream?.readBytes()
                 inputStream?.close()
                 if (bytes != null) {
-                    val base64 = Base64.encodeToString(bytes, Base64.DEFAULT)
+                    val base64 = Base64.encodeToString(bytes, Base64.NO_WRAP)
                     val avatarString = "data:image/jpeg;base64,$base64"
-                    viewModel.onEditableDataChange(uiState.editableUser.copy(avatar = avatarString))
+                    
+                    val tempFile = File(context.cacheDir, "picked_image_${System.currentTimeMillis()}.jpg")
+                    tempFile.writeBytes(bytes)
+                    
+                    viewModel.onEditableDataChange(
+                        uiState.editableUser.copy(
+                            avatar = avatarString,
+                            selectedFile = tempFile
+                        )
+                    )
                 }
             } catch (e: Exception) {
                 Toast.makeText(context, imageErrorMessage, Toast.LENGTH_SHORT).show()
@@ -135,9 +150,12 @@ fun DashboardScreen(
                     uiState.user?.avatar
                 }
 
-                if (!avatarData.isNullOrEmpty() && avatarData.startsWith("data:image")) {
-                    // Avatar es base64 (foto capturada o galería)
-                    val base64String = avatarData.substringAfter("base64,")
+                if (!avatarData.isNullOrEmpty() && (avatarData.startsWith("data:image") || avatarData.length > 200)) {
+                    val base64String = if (avatarData.contains("base64,")) {
+                        avatarData.substringAfter("base64,")
+                    } else {
+                        avatarData
+                    }.trim()
                     val bytes = Base64.decode(base64String, Base64.DEFAULT)
                     val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
                     if (bitmap != null) {
@@ -152,7 +170,6 @@ fun DashboardScreen(
                         )
                     }
                 } else if (!avatarData.isNullOrEmpty()) {
-                    // Avatar es una URL del servidor
                     AsyncImage(
                         model = avatarData,
                         contentDescription = "User",
@@ -187,29 +204,65 @@ fun DashboardScreen(
                 if (showCameraOptions) {
                     AlertDialog(
                         onDismissRequest = { showCameraOptions = false },
-                        title = { Text("Foto de perfil") },
+                        containerColor = Color(0xFF1F2937),
+                        title = { 
+                            Text(
+                                "Foto de perfil", 
+                                color = Color(0xFFA5F3FC),
+                                fontSize = 30.sp,
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = bodyFontFamily,
+                                textAlign = Center,
+                                modifier = Modifier.fillMaxWidth()
+                            ) 
+                        },
                         text = {
                             Column(
-                                modifier = Modifier.padding(8.dp),
+                                modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 Button(
+                                    modifier = Modifier.fillMaxWidth(),
                                     onClick = {
                                         showCameraOptions = false
                                         onNavigateToCamera()
-                                    }
+                                    },
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = Color(0xFF22D3EE)
+                                    ),
+                                    shape = RoundedCornerShape(8.dp)
                                 ) {
-                                    Text("Hacer foto")
+                                    Icon(
+                                        imageVector = Icons.Filled.PhotoCamera,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text("Hacer foto", color = Color.White)
                                 }
-
-                                Spacer(modifier = Modifier.height(8.dp))
-
+                                
+                                Spacer(modifier = Modifier.height(12.dp))
+                                
                                 Button(
+                                    modifier = Modifier.fillMaxWidth(),
                                     onClick = {
+                                        showCameraOptions = false
                                         launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-                                    }
+                                    },
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = Color(0xFF374151)
+                                    ),
+                                    shape = RoundedCornerShape(8.dp),
+                                    border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF4B5563))
                                 ) {
-                                    Text("Elegir de galeria")
+                                    Icon(
+                                        imageVector = Icons.Filled.PhotoLibrary,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(20.dp),
+                                        tint = Color(0xFF22D3EE)
+                                    )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text("Elegir de galeria", color = Color.White)
                                 }
                             }
                         },
@@ -460,6 +513,6 @@ fun DashboardTextField(
 //Convierte la imagen a Base64
 fun imageFileToBase64(file: File): String {
     val bytes = file.readBytes()
-    val base64 = Base64.encodeToString(bytes, Base64.DEFAULT)
+    val base64 = Base64.encodeToString(bytes, Base64.NO_WRAP)
     return "data:image/jpeg;base64,$base64"
 }

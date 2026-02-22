@@ -4,8 +4,10 @@ import com.gamesage.kotlin.data.UserDataSource
 import com.gamesage.kotlin.data.model.User
 import com.gamesage.kotlin.data.remote.api.GamesApi
 import com.gamesage.kotlin.data.remote.api.UsersApi
+import com.gamesage.kotlin.data.remote.model.toDomain
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 class UserRemoteDataSource @Inject constructor(
@@ -28,7 +30,6 @@ class UserRemoteDataSource @Inject constructor(
     override suspend fun me(): Result<User> {
         return try {
             val apiModel = api.me()
-            // Manual mapping from UserApiModel to User
             val user = User(
                 id = apiModel.id,
                 accountId = apiModel.accountId,
@@ -37,11 +38,11 @@ class UserRemoteDataSource @Inject constructor(
                 nickname = apiModel.nickname,
                 name = apiModel.name,
                 surname = apiModel.surname,
-                passwordHash = "", // Not returned by API
+                passwordHash = "",
                 balance = apiModel.balance,
                 points = apiModel.points ?: 0,
-                createdAt = java.time.LocalDateTime.now(), // Not returned by API
-                updatedAt = java.time.LocalDateTime.now(), // Not returned by API
+                createdAt = LocalDateTime.now(),
+                updatedAt = LocalDateTime.now(),
                 isAdmin = apiModel.isAdmin,
                 addressLine1 = apiModel.addressLine1,
                 addressLine2 = apiModel.addressLine2,
@@ -49,8 +50,8 @@ class UserRemoteDataSource @Inject constructor(
                 region = apiModel.region,
                 postalCode = apiModel.postalCode,
                 country = apiModel.country,
-                avatar = apiModel.avatar,
-                media = null // Process if needed
+                avatar = apiModel.avatar ?: apiModel.media?.lastOrNull()?.url,
+                media = apiModel.media?.map { it.toDomain() }
             )
             Result.success(user)
         } catch (e: Exception) {

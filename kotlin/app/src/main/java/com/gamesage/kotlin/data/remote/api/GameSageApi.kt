@@ -15,8 +15,10 @@ import com.gamesage.kotlin.data.remote.model.ChatSessionApiModel
 import com.gamesage.kotlin.data.remote.model.FavoriteApiModel
 import com.gamesage.kotlin.data.remote.model.GameApiModel
 import com.gamesage.kotlin.data.remote.model.GenreApiModel
+import com.gamesage.kotlin.data.remote.model.MediaApiModel
 import com.gamesage.kotlin.data.remote.model.SendMessageRequest
 import com.gamesage.kotlin.data.remote.model.UserApiModel
+import com.gamesage.kotlin.data.remote.model.UpdateProfileRequest
 import retrofit2.http.Body
 
 interface GameSageApi:
@@ -43,7 +45,7 @@ interface UsersApi {
     @GET("api/users/me")
     suspend fun me(): UserApiModel
     @PATCH("api/users/me")
-    suspend fun updateOwnUser(@Body user: UserApiModel): AuthResponse
+    suspend fun updateOwnUser(@Body user: UpdateProfileRequest): UserApiModel
     @PATCH("api/users/me/password")
     suspend fun updateOwnPassword()
     @GET("api/users/{id}")
@@ -116,12 +118,18 @@ interface PlatformsApi {
 interface MediaApi {
     @GET("api/media")
     suspend fun readAllMedia()
+    @retrofit2.http.Multipart
     @POST("api/media/upload")
-    suspend fun createMedia()
+    suspend fun createMedia(
+        @retrofit2.http.Part file: okhttp3.MultipartBody.Part,
+        @retrofit2.http.Part type: okhttp3.MultipartBody.Part,
+        @retrofit2.http.Part id: okhttp3.MultipartBody.Part
+    ): MediaApiModel
     @GET("api/media/{id}")
     suspend fun readOneMedia(@Path("id") id: Int)
     @DELETE("api/media/{id}")
     suspend fun deleteMedia(@Path("id") id: Int)
+    @retrofit2.http.Multipart
     @PATCH("api/media/{id}/upload")
     suspend fun updateMedia(@Path("id") id: Int)
 }
