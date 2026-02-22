@@ -2,6 +2,7 @@ package com.gamesage.kotlin.data.remote.model
 
 import kotlinx.serialization.Serializable
 
+//Lo que el servidor nos da (información completa)
 @Serializable
 data class UserApiModel(
     val id: Int,
@@ -21,5 +22,6 @@ data class UserApiModel(
     val city: String? = null,
     val region: String? = null,
     val postalCode: String? = null,
-    val country: String? = null
+    val country: String? = null,
+    val media: List<MediaApiModel>? = null
 )
