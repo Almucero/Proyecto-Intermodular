@@ -3,14 +3,14 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "node scripts/check-npm-install.mjs && ng",
-    "start": "node scripts/check-npm-install.mjs && ng serve",
+    "start": "node scripts/free-port.mjs 4200 && node scripts/check-npm-install.mjs && ng serve",
     "start:ssr": "npm run serve:ssr",
-    "build": "node scripts/check-npm-install.mjs && ng build",
-    "build:ssr": "node scripts/check-npm-install.mjs && node scripts/check-prisma.mjs && cross-env SSR_DISABLE_BACKEND=1 ng build",
+    "build": "node scripts/check-npm-install.mjs && cross-env NODE_OPTIONS=--max-old-space-size=8192 ng build",
+    "build:ssr": "node scripts/check-npm-install.mjs && node scripts/check-prisma.mjs && cross-env SSR_DISABLE_BACKEND=1 NODE_OPTIONS=--max-old-space-size=8192 ng build",
     "build:full": "node scripts/check-npm-install.mjs && npx prisma generate && npm run seed:admin && npm run build:ssr",
-    "serve:ssr": "node scripts/check-npm-install.mjs && node scripts/serve-ssr.mjs",
-    "dev": "npm run dev:backend",
-    "dev:backend": "node scripts/check-npm-install.mjs && nodemon --config nodemon.backend.json",
+    "serve:ssr": "node scripts/free-port.mjs 3000 && node scripts/check-npm-install.mjs && node scripts/serve-ssr.mjs",
+    "dev": "node scripts/free-port.mjs 3000 && npm run dev:backend",
+    "dev:backend": "node scripts/free-port.mjs 3000 && node scripts/check-npm-install.mjs && nodemon --config nodemon.backend.json",
     "watch": "node scripts/check-npm-install.mjs && ng build --watch --configuration development",
     "test": "npm run test:backend",
     "test:frontend": "node scripts/check-npm-install.mjs && ng test",
@@ -103,6 +103,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "kill-port": "^2.0.1",
     "nodemon": "^3.1.11",
     "prisma": "6.19.2",
     "supertest": "^7.1.4",
@@ -122,11 +123,7 @@
     },
     "prisma": "6.19.2",
     "ajv": "^8.18.0",
-    "@eslint/eslintrc": {
-      "ajv": "^6.12.6"
-    },
-    "eslint": {
-      "ajv": "^6.12.6"
-    }
+    "lodash.get": "npm:lodash@^4.17.21",
+    "lodash.isequal": "npm:lodash@^4.17.21"
   }
 }

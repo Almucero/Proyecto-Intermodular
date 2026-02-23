@@ -37,6 +37,7 @@ import { BaseAuthenticationService } from '../../core/services/impl/base-authent
 })
 export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
+  @ViewChild('sidebarScrollContainer') private sidebarScrollContainer!: ElementRef;
 
   sessions: ChatSession[] = [];
   currentSession: ChatSession | null = null;
@@ -51,6 +52,16 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   isMobileSidebarOpen = false;
   private shouldScrollToBottomFlag = false;
+
+  showMainTopFade = false;
+  showMainBottomFade = false;
+  showSidebarTopFade = false;
+  showSidebarBottomFade = false;
+
+  showSidebarScrollbar = false;
+  showMainScrollbar = false;
+  private sidebarActivityTimer: any;
+  private mainActivityTimer: any;
 
   toggleMobileSidebar() {
     this.isMobileSidebarOpen = !this.isMobileSidebarOpen;
@@ -105,6 +116,80 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.scrollToBottom();
       this.shouldScrollToBottomFlag = false;
     }
+    this.checkMainScroll();
+    this.checkSidebarScroll();
+  }
+
+  onSidebarMouseEnter() {
+    this.showSidebarScrollbar = true;
+    this.resetSidebarActivityTimer();
+  }
+
+  onSidebarMouseLeave() {
+    this.showSidebarScrollbar = false;
+    if (this.sidebarActivityTimer) {
+      clearTimeout(this.sidebarActivityTimer);
+    }
+  }
+
+  onSidebarMouseMove() {
+    if (!this.showSidebarScrollbar) {
+      this.showSidebarScrollbar = true;
+    }
+    this.resetSidebarActivityTimer();
+  }
+
+  onMainMouseEnter() {
+    this.showMainScrollbar = true;
+    this.resetMainActivityTimer();
+  }
+
+  onMainMouseLeave() {
+    this.showMainScrollbar = false;
+    if (this.mainActivityTimer) {
+      clearTimeout(this.mainActivityTimer);
+    }
+  }
+
+  onMainMouseMove() {
+    if (!this.showMainScrollbar) {
+      this.showMainScrollbar = true;
+    }
+    this.resetMainActivityTimer();
+  }
+
+  private resetSidebarActivityTimer() {
+    if (this.sidebarActivityTimer) {
+      clearTimeout(this.sidebarActivityTimer);
+    }
+    this.sidebarActivityTimer = setTimeout(() => {
+      this.showSidebarScrollbar = false;
+    }, 2000);
+  }
+
+  private resetMainActivityTimer() {
+    if (this.mainActivityTimer) {
+      clearTimeout(this.mainActivityTimer);
+    }
+    this.mainActivityTimer = setTimeout(() => {
+      this.showMainScrollbar = false;
+    }, 2000);
+  }
+
+  checkMainScroll() {
+    const el = this.scrollContainer?.nativeElement;
+    if (!el) return;
+    this.showMainTopFade = el.scrollTop > 10;
+    this.showMainBottomFade =
+      el.scrollHeight - el.scrollTop - el.clientHeight > 10;
+  }
+
+  checkSidebarScroll() {
+    const el = this.sidebarScrollContainer?.nativeElement;
+    if (!el) return;
+    this.showSidebarTopFade = el.scrollTop > 10;
+    this.showSidebarBottomFade =
+      el.scrollHeight - el.scrollTop - el.clientHeight > 10;
   }
 
   sendSuggestion(key: string) {
