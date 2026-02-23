@@ -38,8 +38,12 @@ import com.gamesage.kotlin.ui.pages.login.LoginScreen
 import com.gamesage.kotlin.ui.pages.privacy.PrivacyScreen
 import com.gamesage.kotlin.ui.pages.register.RegisterScreen
 import com.gamesage.kotlin.ui.pages.search.SearchScreen
+import android.os.Build
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
 fun NavGraph(
     startDestination: Any = Destinations.Home,
@@ -52,6 +56,23 @@ fun NavGraph(
     val backStackEntry by navController.currentBackStackEntryAsState()
     var searchQuery by remember { mutableStateOf("") }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+
+    // Solicitar permiso de notificaciones
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        val askedPermission = remember { mutableStateOf(false) }
+        val notificationPermissionState = rememberPermissionState(
+            android.Manifest.permission.POST_NOTIFICATIONS
+        )
+        
+        if (!notificationPermissionState.status.isGranted) {
+            LaunchedEffect(Unit) {
+                if (!askedPermission.value) {
+                    notificationPermissionState.launchPermissionRequest()
+                    askedPermission.value = true
+                }
+            }
+        }
+    }
 
     Menu(
         navController = navController,
