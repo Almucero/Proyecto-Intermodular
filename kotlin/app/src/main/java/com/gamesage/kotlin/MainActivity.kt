@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.gamesage.kotlin.data.local.TokenManager
 import com.gamesage.kotlin.ui.navigation.NavGraph
 import com.gamesage.kotlin.ui.navigation.Destinations
 import com.gamesage.kotlin.ui.theme.AppTheme
@@ -25,7 +26,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject
-    lateinit var tokenManager: com.gamesage.kotlin.data.local.TokenManager
+    lateinit var tokenManager: TokenManager
 
     override fun attachBaseContext(newBase: android.content.Context) {
         super.attachBaseContext(onAttach(newBase))
@@ -37,6 +38,12 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         
         var startDestination: Any = Destinations.Home
+        
+        // Navegación desde notificación
+        val gameIdFromNotification = intent.getLongExtra("gameId", -1L)
+        if (gameIdFromNotification != -1L) {
+            startDestination = Destinations.Product(gameIdFromNotification)
+        }
         
         runBlocking {
             val token = tokenManager.token.firstOrNull()
