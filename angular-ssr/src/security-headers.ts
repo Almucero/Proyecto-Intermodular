@@ -28,12 +28,12 @@ export function applySecurityHeaders(req: Request, res: Response, next?: NextFun
     "manifest-src 'self'; ";
 
   if (isProduction) {
-    // Producción: script-src más estricto, upgrade-insecure-requests
-    csp += "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://www.gstatic.com https://generativelanguage.googleapis.com; ";
+    // Producción: script-src más estricto sin unsafe-inline/eval, upgrade-insecure-requests
+    csp += "script-src 'self' https://cdnjs.cloudflare.com https://www.gstatic.com https://generativelanguage.googleapis.com; ";
     csp += "connect-src 'self' https://res.cloudinary.com https://generativelanguage.googleapis.com; ";
     csp += "upgrade-insecure-requests;";
   } else {
-    // Desarrollo: permite WebSocket para HMR (Hot Module Replacement)
+    // Desarrollo: permite WebSocket para HMR (Hot Module Replacement) e unsafe-inline/eval para debug
     csp += "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://www.gstatic.com https://generativelanguage.googleapis.com; ";
     csp += "connect-src 'self' ws://localhost:* http://localhost:* https://res.cloudinary.com https://generativelanguage.googleapis.com; ";
   }

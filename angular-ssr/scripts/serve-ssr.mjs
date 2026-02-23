@@ -19,7 +19,7 @@ if (!existsSync(envPath)) {
 const isPromiseLikeDeprecation = (line) =>
   line.includes('router deprecated') && line.includes('Promise-like');
 
-const child = spawn(process.execPath, ['--disable-warning=DEP0169', serverPath], {
+const child = spawn(process.execPath, ['--max-old-space-size=8192', '--disable-warning=DEP0169', serverPath], {
   stdio: ['inherit', 'pipe', 'pipe'],
   cwd,
   env: { ...process.env },

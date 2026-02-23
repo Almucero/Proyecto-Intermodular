@@ -100,6 +100,8 @@ export class RegisterComponent {
         error: (err) => {
           this.registerError =
             err.error?.message || 'Error al registrar la cuenta';
+          this.formRegister.controls['password'].reset();
+          this.formRegister.controls['password2'].reset();
         },
       });
     } else {

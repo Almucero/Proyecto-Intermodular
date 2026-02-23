@@ -60,8 +60,6 @@ export class AppComponent {
   constructor() {
     this.authService.autoLogin();
 
-    this.authService.autoLogin();
-
     if (isPlatformBrowser(this.platformId)) {
       const minWait$ = timer(2000);
       const authCheck$ = this.authService.ready$.pipe(

@@ -1,3 +1,39 @@
+/* Default (Mobile/Tablet - Native/Visible) */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #4b5563 transparent;
+}
+
+.sidebar-list-padding {
+  padding-right: 0.5rem;
+
+  @media (hover: none) {
+    padding-right: calc(0.5rem + 11px);
+  }
+}
+
+/* Desktop (Hover supported) */
+@media (hover: hover) {
+  .custom-scrollbar {
+    /* Hidden by default */
+    scrollbar-color: transparent transparent;
+    transition: scrollbar-color 0.3s ease;
+
+    &::-webkit-scrollbar-thumb {
+      background: transparent;
+    }
+
+    /* Visible class managed by JS */
+    &.scrollbar-visible {
+      scrollbar-color: #4b5563 transparent;
+
+      &::-webkit-scrollbar-thumb {
+        background: #4b5563;
+      }
+    }
+  }
+}
+
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
 }
@@ -59,6 +95,6 @@
   animation-delay: 150ms;
 }
 
-.typing-indicator-delay-300 {
-  animation-delay: 300ms;
+.stable-scrollbar-gutter {
+  scrollbar-gutter: stable;
 }
