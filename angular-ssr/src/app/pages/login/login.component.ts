@@ -64,7 +64,9 @@ export class LoginComponent {
           this.router.navigate([this.navigateTo]);
         },
         error: () => {
+          this.submitted = false;
           this.loginError = 'Usuario no registrado o credenciales incorrectas';
+          this.formLogin.controls['password'].reset();
         },
       });
     } else {

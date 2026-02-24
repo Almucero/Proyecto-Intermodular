@@ -92,41 +92,120 @@ const rejectSensitiveOrNumericOnlyPath = (req: express.Request, res: express.Res
   next();
 };
 
+const processAngularResponse = async (req: express.Request, res: express.Response, next: express.NextFunction, response: Response | null) => {
+  if (!response) {
+    return next();
+  }
+  const contentType = response.headers.get('Content-Type') || '';
+  if (contentType.includes('text/html')) {
+    let html = await response.text();
+    
+    let lang = 'es';
+    const cookies = req.headers.cookie;
+    if (cookies) {
+      const match = cookies.match(/app-language=([^;]+)/);
+      if (match && ['es', 'en', 'fr', 'de', 'it'].includes(match[1])) {
+        lang = match[1];
+      }
+    } else if (req.headers['accept-language']) {
+      const acceptLang = req.headers['accept-language'].split(',')[0].split('-')[0];
+      if (['es', 'en', 'fr', 'de', 'it'].includes(acceptLang)) {
+        lang = acceptLang;
+      }
+    }
+
+    const seoTranslations: Record<string, { desc: string; keys: string; ogTitle: string; ogDesc: string }> = {
+      es: {
+        desc: 'Descubre, analiza y chatea sobre tus videojuegos favoritos con IA en GameSage.',
+        keys: 'videojuegos, ia, recomendador de juegos, tienda de juegos, game sage',
+        ogTitle: 'GameSage - Tu tienda de videojuegos inteligente',
+        ogDesc: 'Descubre y compra los mejores videojuegos asistido por IA.',
+      },
+      en: {
+        desc: 'Discover, analyze, and chat about your favorite video games with AI on GameSage.',
+        keys: 'video games, ai, game recommender, game store, game sage',
+        ogTitle: 'GameSage - Your smart video game store',
+        ogDesc: 'Discover and buy the best video games assisted by AI.',
+      },
+      fr: {
+        desc: 'Découvrez, analysez et discutez de vos jeux vidéo préférés avec l\'IA sur GameSage.',
+        keys: 'jeux vidéo, ia, recommandation de jeux, magasin de jeux, game sage',
+        ogTitle: 'GameSage - Votre magasin de jeux vidéo intelligent',
+        ogDesc: 'Découvrez et achetez les meilleurs jeux vidéo assistés par l\'IA.',
+      },
+      de: {
+        desc: 'Entdecken, analysieren und chatten Sie über Ihre Lieblingsvideospiele mit KI auf GameSage.',
+        keys: 'videospiele, ki, spieleempfehlung, spieleladen, game sage',
+        ogTitle: 'GameSage - Ihr intelligenter Videospiele-Shop',
+        ogDesc: 'Entdecken und kaufen Sie die besten Videospiele mit KI-Unterstützung.',
+      },
+      it: {
+        desc: 'Scopri, analizza e chatta sui tuoi videogiochi preferiti con l\'IA su GameSage.',
+        keys: 'videogiochi, ia, raccomandatore di giochi, negozio di giochi, game sage',
+        ogTitle: 'GameSage - Il tuo negozio di videogiochi intelligente',
+        ogDesc: 'Scopri e acquista i migliori videogiochi assistito dall\'IA.',
+      }
+    };
+
+    const t = seoTranslations[lang] || seoTranslations['es'];
+
+    html = html.replace(/<html lang="[^"]*"/, `<html lang="${lang}"`);
+    html = html.replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${t.desc}">`);
+    html = html.replace(/<meta name="keywords" content="[^"]*">/, `<meta name="keywords" content="${t.keys}">`);
+    html = html.replace(/<meta property="og:title" content="[^"]*">/, `<meta property="og:title" content="${t.ogTitle}">`);
+    html = html.replace(/<meta name="twitter:title" content="[^"]*">/, `<meta name="twitter:title" content="${t.ogTitle}">`);
+    html = html.replace(/<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${t.ogDesc}">`);
+    html = html.replace(/<meta name="twitter:description" content="[^"]*">/, `<meta name="twitter:description" content="${t.ogDesc}">`);
+
+    res.status(response.status);
+    response.headers.forEach((value, key) => {
+      res.setHeader(key, value);
+    });
+    res.send(html);
+  } else {
+    writeResponseToNodeResponse(response, res);
+  }
+};
+
 const mountBackend = () =>
   import('./backend/app').then(({ default: backendApp }) => {
     app.use(backendApp);
   });
 
+const setupAngularMiddleware = () => {
+  app.use((req, res, next) => {
+    applySecurityHeaders(req, res, next);
+  });
+
+  app.use(rejectSensitiveOrNumericOnlyPath);
+  app.use(
+    express.static(browserDistFolder, {
+      maxAge: '1y',
+      etag: true,
+      lastModified: true,
+      index: false,
+      redirect: false,
+      setHeaders: (res, path) => {
+        if (path.match(/\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$/)) {
+          res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        } else {
+          applyNoCacheHeaders(res);
+        }
+      },
+    }),
+  );
+  app.use((req, res, next) => {
+    return Promise.resolve(angularApp.handle(req))
+      .then((response) => processAngularResponse(req, res, next, response))
+      .catch(next);
+  });
+};
+
 const backendReady =
   process.env['SSR_DISABLE_BACKEND'] || isMainModule(import.meta.url)
     ? Promise.resolve()
     : mountBackend()
-        .then(() => {
-          app.use(rejectSensitiveOrNumericOnlyPath);
-          app.use(
-            express.static(browserDistFolder, {
-              maxAge: '1y',
-              etag: true,
-              lastModified: true,
-              index: false,
-              redirect: false,
-              setHeaders: (res, path) => {
-                applySecurityHeaders({} as any, res);
-                if (path.match(/\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$/)) {
-                  res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-                } else {
-                  applyNoCacheHeaders(res);
-                }
-              },
-            }),
-          );
-          app.use((req, res, next) => {
-            applySecurityHeaders(req as any, res);
-            return Promise.resolve(angularApp.handle(req)).then((response) =>
-              response ? writeResponseToNodeResponse(response, res) : next(),
-            ).catch(next);
-          });
-        })
+        .then(setupAngularMiddleware)
         .catch((err) => {
           const short = getSetupMessage(err);
           if (short) {
@@ -141,37 +220,8 @@ if (!process.env['SSR_DISABLE_BACKEND'] && !isMainModule(import.meta.url)) {
   backendReady.catch(() => {});
 }
 
-if (process.env['SSR_DISABLE_BACKEND'] || isMainModule(import.meta.url)) {
-  app.use(rejectSensitiveOrNumericOnlyPath);
-  app.use(
-    express.static(browserDistFolder, {
-      maxAge: '1y',
-      etag: true,
-      lastModified: true,
-      index: false,
-      redirect: false,
-      setHeaders: (res, path) => {
-        applySecurityHeaders({} as any, res);
-        if (path.match(/\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$/)) {
-          res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-        } else {
-          applyNoCacheHeaders(res);
-        }
-      },
-    }),
-  );
-  app.use((req, res, next) => {
-    res.setHeader('X-Frame-Options', 'DENY');
-    res.setHeader('X-Content-Type-Options', 'nosniff');
-    res.setHeader('X-XSS-Protection', '1; mode=block');
-    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-    res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()');
-    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
-    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://www.gstatic.com https://generativelanguage.googleapis.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com; img-src 'self' data: https://res.cloudinary.com https://img.youtube.com blob:; font-src 'self' data: https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.gstatic.com; connect-src 'self' https://res.cloudinary.com https://generativelanguage.googleapis.com; frame-src 'self' https://www.youtube-nocookie.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; media-src 'self' https://res.cloudinary.com blob:; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests;");
-    return Promise.resolve(angularApp.handle(req)).then((response) =>
-      response ? writeResponseToNodeResponse(response, res) : next(),
-    ).catch(next);
-  });
+if (process.env['SSR_DISABLE_BACKEND']) {
+  setupAngularMiddleware();
 }
 
 export const reqHandler = createNodeRequestHandler(app);
@@ -185,6 +235,9 @@ if (isMainModule(import.meta.url)) {
     if (!process.env['SSR_DISABLE_BACKEND']) {
       await mountBackend();
     }
+    
+    setupAngularMiddleware();
+
     app.listen(port, (err?: Error) => {
       if (err) {
         console.error('Error al iniciar el servidor:', err.message);

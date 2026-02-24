@@ -12,6 +12,8 @@ El proyecto está pensado para ofrecer una experiencia completa de principio a f
   - El **frontend SSR** (HTML renderizado en servidor y assets estáticos).
   - La **API REST** bajo `/api/*` (misma URL base y mismo puerto).
 - El **frontend** consume la API exclusivamente mediante rutas **relativas** (`/api/...`), evitando dependencias de URLs absolutas.
+- **Traducción y SEO Dinámico**: El servidor Node.js (SSR) detecta el idioma del usuario (vía cabecera `Accept-Language` o cookie) e inyecta al vuelo las meta-etiquetas SEO traducidas (`description`, `keywords`, `OpenGraph`, `Twitter Cards`, etc.) y el atributo `lang` en el `index.html` antes de enviarlo al cliente. Esto permite tener una única SPA que se comporta como múltiples sitios localizados para los motores de búsqueda.
+- **Gestión de Puertos**: Los scripts de arranque (`start`, `dev`, `serve:ssr`) incluyen limpieza automática de puertos (3000 y 4200) para evitar errores `EADDRINUSE`.
 - La **persistencia** se gestiona con PostgreSQL y Prisma.
 - El backend incorpora seguridad, validación y utilidades de operación (rate limit, serialización, logging).
 - La aplicación ha sido **testeada con OWASP ZAP**; se han corregido la mayoría de vulnerabilidades detectadas, salvo aquellas cuya mitigación rompería el funcionamiento de la página (por ejemplo limitaciones propias de Angular o de recursos externos).
@@ -40,7 +42,7 @@ El proyecto está pensado para ofrecer una experiencia completa de principio a f
 
 La aplicación sigue un modelo monolítico en el que un único proceso Node.js atiende tanto las peticiones de la aplicación web (incluyendo el renderizado en servidor de las páginas Angular) como las peticiones a la API REST. No hay separación de dominios por puerto: todo se expone en el mismo host y puerto configurado (por defecto 3000). Esta decisión simplifica el despliegue y evita problemas de CORS y de configuración de URLs entre frontend y backend.
 
-El flujo típico de una petición es el siguiente: la petición llega al servidor Express; si la ruta comienza por `/api`, la maneja el backend montado en Express (controladores, servicios, base de datos); en caso contrario, se sirven primero los archivos estáticos del build de Angular y, si no hay coincidencia, se delega en el motor de Angular SSR para generar la respuesta HTML. Así, la SPA y la API coexisten en el mismo origen.
+El flujo típico de una petición es el siguiente: la petición llega al servidor Express. Primero se inyectan las **cabeceras de seguridad unificadas** (CSP, HSTS, X-Frame-Options, etc.). Luego, si la ruta comienza por `/api`, la maneja el backend montado en Express (controladores, servicios, base de datos); en caso contrario, se sirven primero los archivos estáticos del build de Angular (incluyendo el `sitemap.xml` dinámico y estático). Si no hay coincidencia, se delega en el motor de Angular SSR para generar la respuesta HTML, en cuyo proceso **se intercepta la respuesta para traducir dinámicamente el `index.html`** (metadatos SEO) al idioma del usuario antes de enviarla. Así, la SPA y la API coexisten en el mismo origen de forma segura y optimizada.
 
 ---
 
@@ -77,10 +79,12 @@ El chat con IA utiliza **Google Generative AI** (y dependencias como `@google/ge
 - **Winston**: logging estructurado en el backend.
 - **dotenv**: carga de variables desde `.env` al arrancar el backend.
 - **ESLint**: análisis estático de código mediante `eslint-plugin-security` para prevenir inyección de objetos, expresiones regulares inseguras y ejecución de comandos no seguros.
+- **@angular/ssr**: renderizado universal en servidor (Node.js) para mejorar el SEO y el rendimiento de carga inicial (LCP).
+- **ngx-translate**: internacionalización (i18n) en cliente y servidor.
 
-El proyecto aplica buenas prácticas OWASP: headers de seguridad (X-Frame-Options, X-Content-Type-Options, Referrer-Policy) en el servidor; CORS restringido en producción mediante `CORS_ORIGIN`; en desarrollo se permiten automáticamente `http://localhost:PORT` y `http://localhost:4200`; redirección a HTTPS en producción; errores sin detalles sensibles en producción; control de acceso (IDOR) en usuarios; sanitización de enlaces en contenido (markdown); script `npm run audit` para revisar dependencias.
+El proyecto aplica buenas prácticas OWASP: unificación de la inyección de **cabeceras de seguridad centralizadas** (`security-headers.ts`) en todo el proyecto Node.js, `Content-Security-Policy` estricto generado en vuelo dependiendo del entorno (`unsafe-inline` denegado en eval), X-Frame-Options (`SAMEORIGIN`), X-Content-Type-Options (`nosniff`) y Referrer-Policy en el servidor. CORS restringido en producción mediante `CORS_ORIGIN`; en desarrollo se permiten automáticamente las URL de origen seguro; redirección a HTTPS en producción; validación Zod de tipos; y bloqueo contra ejecución de objetos/comandos detectado con ESLint.
 
-La aplicación ha sido auditada con **OWASP ZAP** (Zed Attack Proxy). Se han corregido la mayoría de las vulnerabilidades y alertas reportadas (cabeceras de seguridad, CSP, información sensible en respuestas, comentarios sospechosos, etc.). Las que permanecen sin corregir lo hacen de forma deliberada porque su mitigación implicaría romper la funcionalidad o el diseño actual (por ejemplo, restricciones de `script-src`/`style-src` en CSP incompatibles con Angular, o dependencias de dominios externos como fuentes o CDN).
+La aplicación ha sido auditada con **OWASP ZAP** (Zed Attack Proxy). Tras una profunda revisión, se mitigaron exitosamente errores de enrutamiento con *wildcards* en SSR, vulnerabilidades de secuencias de bytes (Null Byte Injection mitigados recursivamente), falsos positivos en las validaciones de Zod (mapados correctamente a Bad Request), y problemas de memoria `Allocation failed - JavaScript heap out of memory` detectados en procesos pesados de compilación (`NODE_OPTIONS=--max-old-space-size=8192`). Actualmente, la aplicación cuenta con un *score* completamente limpio en ZAP.
 
 ---
 
@@ -90,15 +94,14 @@ La aplicación ha sido auditada con **OWASP ZAP** (Zed Attack Proxy). Se han cor
 
 Es el punto de entrada del servidor cuando se ejecuta el build SSR (por ejemplo `node dist/game-sage/server/server.mjs`). Realiza lo siguiente:
 
-1. Registra middlewares que añaden cabeceras de seguridad (X-Frame-Options, X-Content-Type-Options, X-XSS-Protection, Referrer-Policy) a todas las respuestas.
+1. Registra un middleware global que aplica **cabeceras de seguridad unificadas** (`applySecurityHeaders`) a todas las peticiones desde el principio.
 2. Crea una aplicación Express y una instancia de `AngularNodeAppEngine`.
-3. Si la variable de entorno `SSR_DISABLE_BACKEND` no está definida, importa dinámicamente `./backend/app` y monta la aplicación Express del backend con `app.use(backendApp)`. Así, en tiempo de build (cuando Angular analiza las rutas para SSR), se puede definir `SSR_DISABLE_BACKEND=1` para no cargar Prisma, Cloudinary ni el resto del backend y evitar errores de entorno o de conexión a BD durante la fase de extracción de rutas.
-4. Monta `express.static` sobre la carpeta del build del navegador (`dist/.../browser`) para servir assets con caché larga y sin redirección de índice.
-5. Registra un middleware que, para cualquier ruta no atendida antes, llama a `angularApp.handle(req)` y escribe la respuesta devuelta por Angular en el objeto `res` de Node. Si Angular no devuelve respuesta, se llama a `next()`.
-6. Exporta `reqHandler` creado con `createNodeRequestHandler(app)` para integración con Angular CLI o entornos como Vercel.
-7. Si el módulo se ejecuta como principal (`isMainModule(import.meta.url)`), inicia el servidor HTTP en el puerto definido en `env.PORT`.
+3. Si la variable de entorno `SSR_DISABLE_BACKEND` no está definida, importa dinámicamente `./backend/app` y monta la aplicación Express del backend **antes** que los estáticos y el SSR. Esto asegura que las rutas de API (`/api/*`) tengan prioridad y no sean interceptadas por el router de Angular.
+4. Monta `express.static` sobre la carpeta del build del navegador (`dist/.../browser`) configurando caché a largo plazo.
+5. Registra un middleware final (`processAngularResponse`) que delega en `angularApp.handle(req)`. Tras recibir la respuesta HTML generada por Angular, **la intercepta para inyectar dinámicamente el idioma y los metadatos SEO** (traducción de `description`, `keywords`, `og:title`, etc.) basándose en la cookie `app-language` o la cabecera `Accept-Language`.
+6. Exporta `reqHandler` para integración con Vercel o para arrancar el servidor HTTP.
 
-El orden de montaje es importante: primero el backend (que atiende `/api/*`), luego estáticos, y por último el handler de Angular para el resto de rutas.
+El orden de montaje es crítico: Security Headers -> Backend (/api) -> Estáticos -> Angular SSR (con intercepción SEO).
 
 ### `src/backend/app.ts`
 
@@ -141,13 +144,16 @@ Punto de entrada del bundle del servidor para Angular. Exporta una función `boo
 
 3. **Archivos estáticos**: Si la URL no fue manejada por el backend, Express intenta servir un archivo desde la carpeta `browser` del build. Las peticiones a JS, CSS, imágenes, etc. se resuelven aquí.
 
-4. **SSR (resto de rutas)**: Si no hubo respuesta del backend ni archivo estático, el middleware de Angular llama a `angularApp.handle(req)`. Angular ejecuta el router de la aplicación, renderiza el componente correspondiente en servidor y devuelve una respuesta (HTML, redirección, etc.). Esa respuesta se escribe en el objeto `res` de Node mediante `writeResponseToNodeResponse`. Si Angular no devuelve respuesta, se llama a `next()` (en la configuración actual no hay más middlewares, por lo que en la práctica la cadena termina ahí).
-
-5. **Cliente**: El navegador recibe el HTML inicial, carga los scripts del bundle y Angular hidrata la aplicación (con `provideClientHydration(withEventReplay())`), reutilizando el DOM renderizado en servidor y asociando eventos.
+4. **SSR (resto de rutas)**: Si no hubo respuesta del backend ni archivo estático, el middleware de Angular llama a `angularApp.handle(req)`. Angular ejecuta el router de la aplicación, renderiza el componente en servidor y devuelve una respuesta HTTP que incluye un `index.html`. Esta respuesta **se intercepta en el middleware `processAngularResponse`**, que extrae el idioma (`lang`) de las cookies del usuario o de `Accept-Language`, e **inyecta metadatos SEO traducidos en tiempo real** (keywords, descriptions, title) junto con el `<html>` dinámico.
+5. **Cliente**: El navegador recibe este HTML localizado y totalmente adaptado. A partir de aquí, Angular carga los scripts del bundle, arranca `ngx-translate`, hidrata el DOM y permite cambiar el idioma al vuelo manipulando reactivamente el `document.documentElement.lang`.
 
 ---
 
 ## Estructura del backend
+
+### `src/security-headers.ts`
+
+Archivo centralizado que exporta las funciones `applySecurityHeaders` y `applyNoCacheHeaders`. Concentra toda la configuración de cabeceras estrictas de seguridad (HSTS, CSP, X-Frame-Options, Permissions-Policy, etc.). El servidor SSR de Angular y todos los middlewares de Express importan y usan estas funciones, lo que garantiza una política de seguridad uniforme, evita duplicidad de código y previene alertas de seguridad (por ejemplo, en OWASP ZAP) independientemente de si la petición la atiende la SPA, un archivo estático o la API.
 
 ### `src/backend/config/`
 
@@ -251,6 +257,11 @@ Durante `ng build` con configuración SSR, Angular puede ejecutar el servidor de
 - **Web**: `/` (y el resto de rutas de la SPA).
 - **Health**: `GET /api/health` (respuesta `{ ok: true }`).
 - **Diagnóstico**: `GET /api/diagnostic`.
+- **Sitemaps y Robots**:
+  - `GET /robots.txt`: Reglas para crawlers.
+  - `GET /sitemap.xml`: Índice de sitemaps.
+  - `GET /sitemap-static.xml`: Rutas estáticas de la web.
+  - `GET /sitemap-products.xml`: Sitemap dinámico generado desde la BD con los productos actuales.
 - **Swagger UI**: `GET /api-docs`.
 - **Auth**: `POST /api/auth/register`, `POST /api/auth/login`.
 - **Usuario actual**: `GET /api/users/me` (requiere JWT).
@@ -471,6 +482,8 @@ Los comandos están definidos en `package.json`. Para un arranque desde cero com
 
 ### Desarrollo
 
+*Nota: Los comandos `start`, `dev` y `serve:ssr` ejecutan automáticamente `npx kill-port <puerto>` antes de arrancar para liberar los puertos 3000 o 4200 y evitar conflictos.*
+
 - **`npm start`**  
   Ejecuta `ng serve` (desarrollo de frontend en modo SPA).
 
@@ -481,7 +494,7 @@ Los comandos están definidos en `package.json`. Para un arranque desde cero com
   Alias de `npm run dev:backend`.
 
 - **`npm run serve:ssr`**  
-  Ejecuta el servidor SSR compilado desde `dist/game-sage/server/server.mjs`.
+  Ejecuta el servidor SSR compilado desde `dist/game-sage/server/server.mjs` (con 8GB de memoria asignada).
 
 - **`npm run start:ssr`**  
   Alias de `npm run serve:ssr`.
@@ -489,10 +502,10 @@ Los comandos están definidos en `package.json`. Para un arranque desde cero com
 ### Build
 
 - **`npm run build`**  
-  Build estándar de Angular (browser).
+  Build estándar de Angular (browser) con 8GB de memoria.
 
 - **`npm run build:ssr`**  
-  Build SSR (browser + server). Durante el build se utiliza `SSR_DISABLE_BACKEND=1` para evitar que el backend se evalúe en la fase de extracción de rutas.
+  Build SSR (browser + server) con 8GB de memoria. Durante el build se utiliza `SSR_DISABLE_BACKEND=1` para evitar que el backend se evalúe en la fase de extracción de rutas.
 
 - **`npm run build:full`**  
   Pipeline completo:
