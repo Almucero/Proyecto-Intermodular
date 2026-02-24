@@ -135,14 +135,19 @@ interface MediaApi {
 }
 
 interface CartApi {
+    //Obtiene todos los items del carrito del usuario en el servidor
     @GET("api/cart")
     suspend fun getCart(): List<CartItemApiModel>
+    //Agrega un nuevo item al carrito en el servidor.
     @POST("api/cart")
     suspend fun addToCart(@Body body: Map<String, Int>)
+    //Actualiza un item del carrito
     @PATCH("api/cart/{gameId}")
     suspend fun updateCartItem(@Path("gameId") gameId: Int, @Body body: Map<String, Int>)
+    //Elimina un item del carrito en el servidor
     @DELETE("api/cart/{gameId}")
     suspend fun removeFromCart(@Path("gameId") gameId: Int, @Query("platformId") platformId: Int)
+    //Elimina todos los items del carrito en el servidor
     @DELETE("api/cart")
     suspend fun clearCart()
 }

@@ -3,7 +3,8 @@ package com.gamesage.kotlin.data.remote
 import com.gamesage.kotlin.data.CartDataSource
 import com.gamesage.kotlin.data.model.CartItem
 import com.gamesage.kotlin.data.model.Game
-import com.gamesage.kotlin.data.remote.api.GameSageApi
+import com.gamesage.kotlin.data.remote.api.CartApi
+import com.gamesage.kotlin.data.remote.api.GamesApi
 import com.gamesage.kotlin.data.remote.model.CartItemApiModel
 import com.gamesage.kotlin.data.remote.model.toDomain
 import kotlinx.coroutines.CoroutineScope
@@ -15,7 +16,8 @@ import java.time.LocalDateTime
 import javax.inject.Inject
 
 class CartRemoteDataSource @Inject constructor(
-    private val api: GameSageApi,
+    private val cartApi: CartApi,
+    private val gamesApi: GamesApi,
     private val scope: CoroutineScope
 ): CartDataSource {
 
@@ -33,7 +35,7 @@ class CartRemoteDataSource @Inject constructor(
 
     override suspend fun readAll(): Result<List<CartItem>> {
         return try {
-            val apiItems = api.getCart()
+            val apiItems = cartApi.getCart()
             val items = apiItems.map { fetchFullItem(it) }
             Result.success(items)
         } catch (e: Exception) {
@@ -43,7 +45,7 @@ class CartRemoteDataSource @Inject constructor(
 
     override suspend fun readOne(gameId: Int, platformId: Int): Result<CartItem> {
         return try {
-            val all = api.getCart()
+            val all = cartApi.getCart()
             val apiItem = all.find { it.id == gameId && it.platform?.id == platformId }
             if (apiItem != null) {
                 Result.success(fetchFullItem(apiItem))
@@ -57,7 +59,7 @@ class CartRemoteDataSource @Inject constructor(
 
     private suspend fun fetchFullItem(apiItem: CartItemApiModel): CartItem {
         val fullGame = try {
-            api.readOneGame(apiItem.id)
+            gamesApi.readOneGame(apiItem.id)
         } catch (e: Exception) {
             null
         }
@@ -90,16 +92,16 @@ class CartRemoteDataSource @Inject constructor(
                 platforms = apiItem.platform?.let { listOf(it.toDomain()) },
                 media = fullGame?.media?.map { it.toDomain() },
                 publisherId = fullGame?.publisherId,
-                developerId = apiItem.Developer?.id,
+                developerId = apiItem.developer?.id,
                 Publisher = null,
-                Developer = apiItem.Developer?.toDomain()
+                Developer = apiItem.developer?.toDomain()
             )
         )
     }
 
     override suspend fun add(gameId: Int, platformId: Int, quantity: Int): Result<Unit> {
         return try {
-            api.addToCart(mapOf("gameId" to gameId, "quantity" to quantity, "platformId" to platformId))
+            cartApi.addToCart(mapOf("gameId" to gameId, "platformId" to platformId, "quantity" to quantity))
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
@@ -108,7 +110,7 @@ class CartRemoteDataSource @Inject constructor(
 
     override suspend fun update(gameId: Int, platformId: Int, quantity: Int): Result<Unit> {
         return try {
-            api.updateCartItem(gameId, mapOf("quantity" to quantity, "platformId" to platformId))
+            cartApi.updateCartItem(gameId, mapOf("quantity" to quantity, "platformId" to platformId))
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
@@ -117,7 +119,7 @@ class CartRemoteDataSource @Inject constructor(
 
     override suspend fun remove(gameId: Int, platformId: Int): Result<Unit> {
         return try {
-            api.removeFromCart(gameId, platformId)
+            cartApi.removeFromCart(gameId, platformId)
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
@@ -126,7 +128,7 @@ class CartRemoteDataSource @Inject constructor(
 
     override suspend fun clear(): Result<Unit> {
         return try {
-            api.clearCart()
+            cartApi.clearCart()
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)

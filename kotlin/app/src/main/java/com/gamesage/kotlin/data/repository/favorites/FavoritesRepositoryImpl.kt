@@ -17,15 +17,23 @@ class FavoritesRepositoryImpl @Inject constructor(
 ): FavoritesRepository {
     override suspend fun readAll(): Result<List<Game>> {
         val remoteResult = remoteDataSource.readAll()
-        if (remoteResult.isSuccess) {
+        return if (remoteResult.isSuccess) {
             val games = remoteResult.getOrNull() ?: emptyList()
+            localDataSource.clear() // Sincronización limpia
             (localDataSource as FavoritesLocalDataSource).addAll(games)
+            remoteResult
+        } else {
+            localDataSource.readAll()
         }
-        return remoteResult
     }
 
     override suspend fun readOne(gameId: Int, platformId: Int): Result<Game> {
-        return remoteDataSource.readOne(gameId, platformId)
+        val remoteResult = remoteDataSource.readOne(gameId, platformId)
+        return if (remoteResult.isSuccess) {
+            remoteResult
+        } else {
+            localDataSource.readOne(gameId, platformId)
+        }
     }
 
     override fun observe(): Flow<Result<List<Game>>> {
@@ -47,6 +55,14 @@ class FavoritesRepositoryImpl @Inject constructor(
         val result = remoteDataSource.remove(gameId, platformId)
         if (result.isSuccess) {
             readAll()
+        }
+        return result
+    }
+
+    override suspend fun clear(): Result<Unit> {
+        val result = remoteDataSource.clear()
+        if (result.isSuccess) {
+            localDataSource.clear()
         }
         return result
     }

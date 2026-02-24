@@ -11,6 +11,8 @@ import com.gamesage.kotlin.data.remote.api.MediaApi
 import com.gamesage.kotlin.data.remote.api.PlatformsApi
 import com.gamesage.kotlin.data.remote.api.PublishersApi
 import com.gamesage.kotlin.data.remote.api.UsersApi
+import com.gamesage.kotlin.data.remote.api.CartApi
+import com.gamesage.kotlin.data.remote.api.FavoritesApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,8 +32,10 @@ const val productionUrl = "https://gamingsage.vercel.app/"
 class RemoteModule {
     @Provides
     @Singleton
-    fun provideGameSageApi(tokenManager: TokenManager): GameSageApi {
-        val authInterceptor = AuthInterceptor(tokenManager)
+    fun provideGameSageApi(
+        tokenManager: TokenManager,
+        authInterceptor: AuthInterceptor
+    ): GameSageApi {
         val client = okhttp3.OkHttpClient.Builder()
             .addInterceptor(authInterceptor)
             .build()
@@ -81,6 +85,17 @@ class RemoteModule {
     @Provides
     @Singleton
     fun provideMediaApi(gameSageApi: GameSageApi): MediaApi {
+        return gameSageApi
+    }
+    //Para que Hilt extraiga solo las funciones del carrito de la API global
+    @Provides
+    @Singleton
+    fun provideCartApi(gameSageApi: GameSageApi): CartApi {
+        return gameSageApi
+    }
+    @Provides
+    @Singleton
+    fun provideFavoritesApi(gameSageApi: GameSageApi): FavoritesApi {
         return gameSageApi
     }
     @Provides

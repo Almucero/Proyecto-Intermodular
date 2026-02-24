@@ -14,7 +14,7 @@ class FavoritesLocalDataSource @Inject constructor(
     }
 
     override suspend fun readOne(gameId: Int, platformId: Int): Result<Game> {
-        val entity = favoriteDao.getById(gameId)
+        val entity = favoriteDao.getById(gameId, platformId)
         return if (entity != null) Result.success(entity.toModel())
         else Result.failure(Exception("Favorite not found"))
     }
@@ -32,7 +32,12 @@ class FavoritesLocalDataSource @Inject constructor(
     }
 
     override suspend fun remove(gameId: Int, platformId: Int): Result<Unit> {
-        favoriteDao.delete(gameId)
+        favoriteDao.delete(gameId, platformId)
+        return Result.success(Unit)
+    }
+
+    override suspend fun clear(): Result<Unit> {
+        favoriteDao.deleteAll()
         return Result.success(Unit)
     }
 }

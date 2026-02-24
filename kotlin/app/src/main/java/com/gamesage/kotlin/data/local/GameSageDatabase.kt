@@ -33,7 +33,7 @@ import com.gamesage.kotlin.data.local.favorites.FavoriteEntity
         CartEntity::class,
         FavoriteEntity::class
     ],
-    version = 1,
+    version = 2,
 )
 abstract class GameSageDatabase : RoomDatabase() {
 

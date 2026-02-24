@@ -62,6 +62,7 @@ class DatabaseModule {
         return database.getUserDao()
     }
 
+    //Le dice a Hilt cómo crear el CartDao
     @Provides
     fun provideCartDao(database: GameSageDatabase): CartDao {
         return database.getCartDao()

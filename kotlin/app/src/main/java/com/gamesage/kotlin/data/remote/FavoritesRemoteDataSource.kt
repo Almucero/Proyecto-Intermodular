@@ -3,7 +3,8 @@ package com.gamesage.kotlin.data.remote
 import com.gamesage.kotlin.data.FavoritesDataSource
 import com.gamesage.kotlin.data.model.Game
 import com.gamesage.kotlin.data.model.Media
-import com.gamesage.kotlin.data.remote.api.GameSageApi
+import com.gamesage.kotlin.data.remote.api.FavoritesApi
+import com.gamesage.kotlin.data.remote.api.GamesApi
 import com.gamesage.kotlin.data.remote.model.FavoriteApiModel
 import com.gamesage.kotlin.data.remote.model.toDomain
 import kotlinx.coroutines.CoroutineScope
@@ -15,7 +16,8 @@ import java.time.LocalDateTime
 import javax.inject.Inject
 
 class FavoritesRemoteDataSource @Inject constructor(
-    private val api: GameSageApi,
+    private val favoritesApi: FavoritesApi,
+    private val gamesApi: GamesApi,
     private val scope: CoroutineScope
 ): FavoritesDataSource {
 
@@ -32,7 +34,7 @@ class FavoritesRemoteDataSource @Inject constructor(
     }
     override suspend fun readAll(): Result<List<Game>> {
         return try {
-            val apiItems = api.getFavorites()
+            val apiItems = favoritesApi.getFavorites()
             val items = apiItems.map { fetchFullFavorite(it) }
             Result.success(items)
         } catch (e: Exception) {
@@ -42,7 +44,7 @@ class FavoritesRemoteDataSource @Inject constructor(
 
     override suspend fun readOne(gameId: Int, platformId: Int): Result<Game> {
         return try {
-            val all = api.getFavorites()
+            val all = favoritesApi.getFavorites()
             val apiItem = all.find { it.gameId == gameId && it.platform?.id == platformId }
             if (apiItem != null) {
                 Result.success(fetchFullFavorite(apiItem))
@@ -56,7 +58,7 @@ class FavoritesRemoteDataSource @Inject constructor(
 
     private suspend fun fetchFullFavorite(apiItem: FavoriteApiModel): Game {
         val fullGame = try {
-            api.readOneGame(apiItem.gameId)
+            gamesApi.readOneGame(apiItem.gameId)
         } catch (e: Exception) {
             null
         }
@@ -92,7 +94,7 @@ class FavoritesRemoteDataSource @Inject constructor(
 
     override suspend fun add(gameId: Int, platformId: Int): Result<Unit> {
         return try {
-            api.addToFavorites(mapOf("gameId" to gameId, "platformId" to platformId))
+            favoritesApi.addToFavorites(mapOf("gameId" to gameId, "platformId" to platformId))
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
@@ -101,11 +103,17 @@ class FavoritesRemoteDataSource @Inject constructor(
 
     override suspend fun remove(gameId: Int, platformId: Int): Result<Unit> {
         return try {
-            api.removeFromFavorites(gameId, platformId)
+            favoritesApi.removeFromFavorites(gameId, platformId)
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
         }
+    }
+
+    override suspend fun clear(): Result<Unit> {
+        // En el backend no hay endpoint para vaciar favoritos de golpe
+        // Devolvemos success para que al menos limpie la base local
+        return Result.success(Unit)
     }
 
 }

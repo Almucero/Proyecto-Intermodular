@@ -2,6 +2,7 @@ package com.gamesage.kotlin.data.model
 
 import com.gamesage.kotlin.data.model.Game
 
+//Modelo de dominio para un producto en el carrito.
 data class CartItem(
     val userId: Int,
     val gameId: Int,
