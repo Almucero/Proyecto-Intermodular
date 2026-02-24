@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -40,8 +41,18 @@ fun FavoritesScreen(
     viewModel: FavoritesViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(errorMessage) {
+        errorMessage?.let {
+            snackbarHostState.showSnackbar(it)
+            viewModel.clearError()
+        }
+    }
 
     Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         containerColor = Color(0xFF111827)
     ) { paddingValues ->
         Box(
@@ -67,7 +78,7 @@ fun FavoritesScreen(
                 )
 
                 when (val state = uiState) {
-                    is FavoritesUiState.Loading -> {
+                    is FavoritesUiState.Initial, is FavoritesUiState.Loading -> {
                         Box(
                             modifier = Modifier.fillMaxSize(),
                             contentAlignment = Alignment.Center
@@ -107,9 +118,9 @@ fun FavoritesScreen(
                             items(state.games) { game ->
                                 FavoriteHorizontalCard(
                                     game = game,
-                                    onGameClick = { onGameClick(game.id.toLong()) },
+                                    onGameClick = { onGameClick(game.gameId.toLong()) },
                                     onAddToCart = { viewModel.addToCart(game) },
-                                    onRemove = { viewModel.removeFromFavorites(game.id) }
+                                    onRemove = { viewModel.removeFromFavorites(game.gameId, 0) } // PlatformId 0 por defecto por ahora
                                 )
                             }
                             
@@ -146,13 +157,12 @@ fun FavoritesScreen(
 
 @Composable
 fun FavoriteHorizontalCard(
-    game: Game,
+    game: FavoriteItemUiState,
     onGameClick: () -> Unit,
     onAddToCart: () -> Unit,
     onRemove: () -> Unit
 ) {
-    val imageUrl = game.media?.firstOrNull()?.url
-        ?: "https://via.placeholder.com/600x400"
+    val imageUrl = game.imageUrl
 
     Row(
         modifier = Modifier
@@ -194,12 +204,13 @@ fun FavoriteHorizontalCard(
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = game.Developer?.name ?: stringResource(R.string.cart_unknown_developer),
+                text = game.developerName,
+                color = Color.White,
                 fontSize = 14.sp
             )
             Spacer(modifier = Modifier.height(2.dp))
              Text(
-                text = game.platforms?.firstOrNull()?.name ?: stringResource(R.string.cart_unknown_developer),
+                text = game.platformName,
                 color = Color(0xFF9CA3AF),
                 fontSize = 14.sp
             )

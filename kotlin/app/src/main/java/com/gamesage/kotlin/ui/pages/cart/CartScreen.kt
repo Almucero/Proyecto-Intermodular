@@ -32,131 +32,163 @@ import androidx.compose.ui.text.style.TextOverflow.Companion.Ellipsis
 
 @Composable
 fun CartScreen(
+    //Obtiene el ViewModel usando Hilt.
     viewModel: CartScreenViewModel = hiltViewModel()
 ) {
+    //Observa el StateFlow del ViewModel.
+    //Cada vez que el estado cambia, la pantalla se recompone automáticamente.
     val uiState by viewModel.uiState.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF111827))
-            .padding(16.dp)
-    ) {
-        Text(
-            text = stringResource(R.string.cart_title),
-            color = Color(0xFF93E3FE),
-            fontSize = 30.sp,
-            fontWeight = FontWeight.Bold,
+    //Para mostrar el Snackbar
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    //Escucha cambios en el mensaje de error(cuando no hay internet) y dispara el snackbar
+    LaunchedEffect(errorMessage) {
+        errorMessage?.let {
+            snackbarHostState.showSnackbar(it)
+            //Limpia el error después de mostrarlo
+            viewModel.clearError()
+        }
+    }
+
+    Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        containerColor = Color(0xFF111827)
+    ) { paddingValues ->
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 32.dp),
-            textAlign = TextAlign.Center
-        )
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(16.dp)
+        ) {
+            //Título
+            Text(
+                text = stringResource(R.string.cart_title),
+                color = Color(0xFF93E3FE),
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 32.dp),
+                textAlign = TextAlign.Center
+            )
 
-        when {
-            uiState.isLoading -> {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator(color = Color(0xFF22D3EE))
+            //Estados de la pantalla
+            when (val state = uiState) {
+                //Si está cargando o en el inicio, muestra un CircularProgressIndicator
+                is CartUiState.Initial, is CartUiState.Loading -> {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator(color = Color(0xFF22D3EE))
+                    }
                 }
-            }
-            uiState.error != null -> {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text(
-                        text = uiState.error ?: stringResource(R.string.cart_unknown_error),
-                        color = Color(0xFFF87171),
-                        textAlign = TextAlign.Center
-                    )
-                }
-            }
-            uiState.cartItems.isEmpty() -> {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text(
-                        text = stringResource(R.string.cart_empty),
-                        color = Color(0xFF9CA3AF),
-                        fontSize = 18.sp,
-                        textAlign = TextAlign.Center
-                    )
-                }
-            }
-            else -> {
-                LazyColumn(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    items(uiState.cartItems) { item ->
-                        CartItemRow(
-                            item = item,
-                            onIncrement = { viewModel.incrementQuantity(item) },
-                            onDecrement = { viewModel.decrementQuantity(item) },
-                            onRemove = { viewModel.removeFromCart(item.gameId, item.platformId) }
+                //Si hay error muestra el mensaje en rojo
+                is CartUiState.Error -> {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = state.message,
+                            color = Color(0xFFF87171),
+                            textAlign = TextAlign.Center
                         )
                     }
                 }
+                //Si fue bien muestra el carrito.
+                is CartUiState.Success -> {
+                    //Si el carrito está vacío muestra el texto: "carrito vacío"
+                    if (state.items.isEmpty()) {
+                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                            Text(
+                                text = stringResource(R.string.cart_empty),
+                                color = Color(0xFF9CA3AF),
+                                fontSize = 18.sp,
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    } else {
+                        //Si hay productos
+                        LazyColumn(
+                            modifier = Modifier.weight(1f),
+                            verticalArrangement = Arrangement.spacedBy(16.dp)
+                        ) {
+                            //Por cada producto muestra un CartItemRow.
+                            //Le pasa: onIncrement, onDecrement,onRemove
+                            items(state.items) { item ->
+                                CartItemRow(
+                                    item = item,
+                                    onIncrement = { viewModel.incrementQuantity(item) },
+                                    onDecrement = { viewModel.decrementQuantity(item) },
+                                    onRemove = { viewModel.removeFromCart(item.gameId, item.platformId) }
+                                )
+                            }
+                        }
+                        //Total del carrito en la parte inferior
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 32.dp)
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 16.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.cart_total),
+                                    color = Color(0xFF93E3FE),
+                                    fontSize = 24.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                                Text(
+                                    text = String.format("%.2f€", state.total),
+                                    color = Color(0xFF93E3FE),
+                                    fontSize = 24.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                            //Botón Vaciar carrito
+                            OutlinedButton(
+                                onClick = { viewModel.clearCart() },
+                                colors = ButtonDefaults.outlinedButtonColors(
+                                    contentColor = Color(0xFFF87171)
+                                ),
+                                border = BorderStroke(1.dp, Color(0xFFF87171)),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 12.dp)
+                                    .height(50.dp),
+                                shape = RoundedCornerShape(8.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Delete,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(18.dp)
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text(text = stringResource(R.string.cart_clear))
+                            }
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 32.dp)
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 16.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = stringResource(R.string.cart_total),
-                            color = Color(0xFF93E3FE),
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Text(
-                            text = String.format("%.2f€", uiState.total),
-                            color = Color(0xFF93E3FE),
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-
-                    OutlinedButton(
-                        onClick = { viewModel.clearCart() },
-                        colors = ButtonDefaults.outlinedButtonColors(
-                            contentColor = Color(0xFFF87171)
-                        ),
-                        border = BorderStroke(1.dp, Color(0xFFF87171)),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 12.dp)
-                            .height(50.dp),
-                        shape = RoundedCornerShape(8.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = null,
-                            modifier = Modifier.size(18.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(text = stringResource(R.string.cart_clear))
-                    }
-
-                    Button(
-                        onClick = {  },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Transparent
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(50.dp)
-                            .border(2.dp, Color(0xFF93E3FE), RoundedCornerShape(8.dp)),
-                        shape = RoundedCornerShape(8.dp)
-                    ) {
-                        Text(
-                            text = stringResource(R.string.cart_checkout),
-                            color = Color(0xFF93E3FE),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Medium
-                        )
+                            //Botón para pagar
+                            Button(
+                                onClick = {  },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Color.Transparent
+                                ),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(50.dp)
+                                    .border(2.dp, Color(0xFF93E3FE), RoundedCornerShape(8.dp)),
+                                shape = RoundedCornerShape(8.dp)
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.cart_checkout),
+                                    color = Color(0xFF93E3FE),
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.Medium
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -164,16 +196,14 @@ fun CartScreen(
     }
 }
 
+//Cada producto del carrito
 @Composable
 fun CartItemRow(
-    item: CartItem,
+    item: CartItemUiState,
     onIncrement: () -> Unit,
     onDecrement: () -> Unit,
     onRemove: () -> Unit
 ) {
-    val game = item.game
-    val imageUrl = game?.media?.firstOrNull()?.url
-        ?: "https://via.placeholder.com/600x400"
     
     Row(
         modifier = Modifier
@@ -190,8 +220,8 @@ fun CartItemRow(
             contentAlignment = Alignment.Center
         ) {
             AsyncImage(
-                model = imageUrl,
-                contentDescription = game?.media?.firstOrNull()?.altText,
+                model = item.imageUrl,
+                contentDescription = null,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop,
                 error = ColorPainter(Color(0xFF374151)),
@@ -201,11 +231,12 @@ fun CartItemRow(
 
         Spacer(modifier = Modifier.width(12.dp))
 
+        //Muestra:Título y nombre del desarrollador
         Column(
             modifier = Modifier.weight(1f)
         ) {
             Text(
-                text = game?.title ?: stringResource(R.string.cart_unknown_game),
+                text = item.title,
                 color = Color.White,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold,
@@ -214,7 +245,7 @@ fun CartItemRow(
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = game?.Developer?.name ?: stringResource(R.string.cart_unknown_developer),
+                text = item.developerName,
                 color = Color(0xFF9CA3AF),
                 fontSize = 12.sp,
                 maxLines = 1,
@@ -223,6 +254,7 @@ fun CartItemRow(
         }
         
         Spacer(modifier = Modifier.width(8.dp))
+        //Control de cantidad
         Row(verticalAlignment = Alignment.CenterVertically) {
              Box(
                 modifier = Modifier
@@ -233,7 +265,7 @@ fun CartItemRow(
             ) {
                  Text("-", color = Color.White, fontSize = 20.sp)
             }
-            
+            //Cantidad actual
             Box(
                 modifier = Modifier
                     .size(40.dp, 32.dp)
@@ -255,43 +287,45 @@ fun CartItemRow(
         }
         
         Spacer(modifier = Modifier.width(16.dp))
+        //Precio
         Column(horizontalAlignment = Alignment.End) {
              Text(
                 text = stringResource(R.string.cart_unit_price),
                 color = Color(0xFF9CA3AF),
                 fontSize = 12.sp
             )
-            if (game?.isOnSale == true && game.salePrice != null) {
+            //Si está en oferta
+            if (item.isOnSale && item.salePrice != null) {
                 Text(
-                    text = "${game.price}€",
+                    text = "${item.price}€",
                     color = Color(0xFF6B7280),
                     fontSize = 12.sp,
                     textDecoration = TextDecoration.LineThrough
                 )
                 Text(
-                    text = "${game.salePrice}€",
+                    text = "${item.salePrice}€",
                     color = Color(0xFF93E3FE),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
             } else {
+                //Si no está en oferta
                  Text(
-                    text = "${game?.price ?: 0.0}€",
+                    text = "${item.price}€",
                     color = Color.White,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
-            
+            //Total
              Spacer(modifier = Modifier.height(4.dp))
-             val itemTotal = (if (game?.isOnSale == true && game.salePrice != null) game.salePrice else (game?.price ?: 0.0)) * item.quantity
              Text(
                 text = stringResource(R.string.cart_total), 
-                color = Color(0xFF9CA3AF),
+                color = Color(0xFF93E3FE),
                 fontSize = 12.sp
             )
              Text(
-                text = String.format("%.2f€", itemTotal),
+                text = String.format("%.2f€", item.itemTotal),
                 color = Color(0xFF93E3FE),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
@@ -299,6 +333,7 @@ fun CartItemRow(
         }
         
         Spacer(modifier = Modifier.width(16.dp))
+        //Botón eliminar
         Icon(
             imageVector = Icons.Default.Delete,
             contentDescription = stringResource(R.string.cart_delete),

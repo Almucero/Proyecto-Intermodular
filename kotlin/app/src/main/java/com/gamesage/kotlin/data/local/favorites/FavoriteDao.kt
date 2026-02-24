@@ -17,9 +17,12 @@ interface FavoriteDao {
     @Query("SELECT * FROM favorites")
     fun observeAll(): Flow<List<FavoriteEntity>>
 
-    @Query("SELECT * FROM favorites WHERE gameId = :gameId")
-    suspend fun getById(gameId: Int): FavoriteEntity?
+    @Query("SELECT * FROM favorites WHERE gameId = :gameId AND platformId = :platformId")
+    suspend fun getById(gameId: Int, platformId: Int): FavoriteEntity?
 
-    @Query("DELETE FROM favorites WHERE gameId = :gameId")
-    suspend fun delete(gameId: Int)
+    @Query("DELETE FROM favorites WHERE gameId = :gameId AND platformId = :platformId")
+    suspend fun delete(gameId: Int, platformId: Int)
+
+    @Query("DELETE FROM favorites")
+    suspend fun deleteAll()
 }

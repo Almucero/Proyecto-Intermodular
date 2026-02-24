@@ -1,13 +1,17 @@
 package com.gamesage.kotlin.data.local.cart
 
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.gamesage.kotlin.data.model.CartItem
+import com.gamesage.kotlin.data.model.Developer
 import com.gamesage.kotlin.data.model.Game
+import com.gamesage.kotlin.data.model.Media
+import java.time.LocalDateTime
 
-@Entity(tableName = "cart_items")
+@Entity(
+    tableName = "cart_items",
+    primaryKeys = ["gameId", "platformId"]
+)
 data class CartEntity(
-    @PrimaryKey
     val gameId: Int,
     val platformId: Int,
     val userId: Int,
@@ -16,7 +20,9 @@ data class CartEntity(
     val price: Double?,
     val isOnSale: Boolean,
     val salePrice: Double?,
-    val rating: Float?
+    val rating: Float?,
+    val imageUrl: String?,
+    val developerName: String?
 )
 
 fun CartItem.toEntity(): CartEntity {
@@ -29,7 +35,9 @@ fun CartItem.toEntity(): CartEntity {
         price = this.game?.price,
         isOnSale = this.game?.isOnSale ?: false,
         salePrice = this.game?.salePrice,
-        rating = this.game?.rating
+        rating = this.game?.rating,
+        imageUrl = this.game?.media?.firstOrNull()?.url,
+        developerName = this.game?.Developer?.name
     )
 }
 
@@ -59,15 +67,39 @@ fun CartEntity.toModel(): CartItem {
             videoUrl = null,
             rating = this.rating,
             releaseDate = null,
-            createdAt = java.time.LocalDateTime.now(),
-            updatedAt = java.time.LocalDateTime.now(),
+            createdAt = LocalDateTime.now(),
+            updatedAt = LocalDateTime.now(),
             genres = null,
             platforms = null,
-            media = null,
+            media = this.imageUrl?.let { 
+                listOf(
+                    Media(
+                        id = 0,
+                        url = it,
+                        publicId = null,
+                        format = null,
+                        resourceType = "cover",
+                        bytes = null,
+                        width = null,
+                        height = null,
+                        originalName = null,
+                        folder = null,
+                        altText = null,
+                        createdAt = LocalDateTime.now(),
+                        updatedAt = LocalDateTime.now(),
+                        gameId = this.gameId,
+                        Game = null,
+                        userId = null,
+                        User = null
+                    )
+                )
+            },
             publisherId = null,
             developerId = null,
             Publisher = null,
-            Developer = null
+            Developer = this.developerName?.let {
+                Developer(0, it, LocalDateTime.now(), LocalDateTime.now(), null)
+            }
         )
     )
 }

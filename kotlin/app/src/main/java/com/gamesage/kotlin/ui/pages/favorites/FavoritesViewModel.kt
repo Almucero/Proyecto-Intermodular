@@ -12,84 +12,125 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+// Modelo que usa la UI para mostrar cada favorito
+// No es el modelo de base de datos, es una versión adaptada para mostrar en pantalla
+data class FavoriteItemUiState(
+    val gameId: Int,
+    val title: String,
+    val developerName: String,
+    val platformName: String,
+    val price: Double?,
+    val isOnSale: Boolean,
+    val salePrice: Double?,
+    val imageUrl: String
+)
+
 sealed class FavoritesUiState {
+    object Initial : FavoritesUiState()
     object Loading : FavoritesUiState()
-    data class Success(val games: List<Game>) : FavoritesUiState()
+    data class Success(val games: List<FavoriteItemUiState>) : FavoritesUiState()
     data class Error(val message: String) : FavoritesUiState()
     object Empty : FavoritesUiState()
 }
 
+// Se comunica con FavoritesRepository y CartRepository
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(
     private val favoritesRepository: FavoritesRepository,
     private val cartRepository: CartRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<FavoritesUiState>(FavoritesUiState.Loading)
+    private val _uiState = MutableStateFlow<FavoritesUiState>(FavoritesUiState.Initial)
     val uiState: StateFlow<FavoritesUiState> = _uiState.asStateFlow()
 
+    // Para mostrar mensajes de error temporales (tipo Snackbar)
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage: StateFlow<String?> = _errorMessage.asStateFlow()
+
+    // Cuando se crea el ViewModel, automáticamente observa los favoritos.
     init {
-        loadFavorites()
+        observeFavorites()
     }
 
-    fun loadFavorites() {
+    // Observa los favoritos y actualiza el estado de la UI
+    private fun observeFavorites() {
         viewModelScope.launch {
             _uiState.value = FavoritesUiState.Loading
-            favoritesRepository.readAll()
-                .onSuccess { games ->
-                    if (games.isEmpty()) {
-                        _uiState.value = FavoritesUiState.Empty
-                    } else {
-                        _uiState.value = FavoritesUiState.Success(games)
-                    }
-                }
-                .onFailure { e ->
-                    _uiState.value = FavoritesUiState.Error(e.message ?: "Error desconocido")
-                }
-        }
-    }
-
-    fun removeFromFavorites(gameId: Int) {
-        val currentState = _uiState.value
-        val game = (currentState as? FavoritesUiState.Success)?.games?.find { it.id == gameId }
-        val platformId = game?.platforms?.firstOrNull()?.id ?: 0
-
-        viewModelScope.launch {
-            if (currentState is FavoritesUiState.Success) {
-                val updatedList = currentState.games.filter { it.id != gameId }
-                if (updatedList.isEmpty()) {
-                    _uiState.value = FavoritesUiState.Empty
-                } else {
-                    _uiState.value = FavoritesUiState.Success(updatedList)
+            favoritesRepository.observe().collect { result ->
+                result.onSuccess { games ->
+                    _uiState.value = games.asFavoritesUiStateSuccess()
+                }.onFailure { e ->
+                    _uiState.value = FavoritesUiState.Error(e.message ?: "Error al cargar favoritos")
                 }
             }
+        }
+    }
 
+    // Limpia el mensaje de error después de mostrarlo
+    fun clearError() {
+        _errorMessage.value = null
+    }
+
+    // Elimina un juego de la lista de favoritos.
+    fun removeFromFavorites(gameId: Int, platformId: Int = 0) {
+        viewModelScope.launch {
             favoritesRepository.remove(gameId, platformId)
                 .onFailure {
-                    loadFavorites()
+                    _errorMessage.value = "Error al eliminar: se necesita conexión a internet"
                 }
         }
     }
 
-    fun addToCart(game: Game) {
-        val platformId = game.platforms?.firstOrNull()?.id ?: 0
+    // Añade un juego al carrito y lo elimina de favoritos.
+    fun addToCart(game: FavoriteItemUiState) {
         viewModelScope.launch {
-            cartRepository.add(game.id, platformId, 1)
+            cartRepository.add(game.gameId, 0, 1) 
                 .onSuccess {
-                    removeFromFavorites(game.id)
+                    favoritesRepository.remove(game.gameId, 0)
+                }
+                .onFailure {
+                    _errorMessage.value = "Error al añadir al carrito: se necesita conexión a internet"
                 }
         }
     }
-    
+
+    // Transfiere todos los favoritos al carrito.
     fun transferAllToCart() {
         val currentState = _uiState.value
         if (currentState is FavoritesUiState.Success) {
             viewModelScope.launch {
                 currentState.games.forEach { game ->
-                    val platformId = game.platforms?.firstOrNull()?.id ?: 0
-                    cartRepository.add(game.id, platformId, 1)
+                    cartRepository.add(game.gameId, 0, 1)
+                        .onSuccess {
+                            favoritesRepository.remove(game.gameId, 0)
+                        }
+                        .onFailure {
+                            _errorMessage.value = "Error al transferir productos: se necesita conexión a internet"
+                        }
                 }
             }
         }
+    }
+}
+
+// Convierte el modelo de base de datos en modelo para UI.
+private fun Game.asFavoriteItemUiState(): FavoriteItemUiState {
+    return FavoriteItemUiState(
+        gameId = this.id,
+        title = this.title,
+        developerName = this.Developer?.name ?: "Desconocido",
+        platformName = this.platforms?.firstOrNull()?.name ?: "Múltiple",
+        price = this.price,
+        isOnSale = this.isOnSale,
+        salePrice = this.salePrice,
+        imageUrl = this.media?.firstOrNull()?.url ?: "https://via.placeholder.com/600x400"
+    )
+}
+
+private fun List<Game>.asFavoritesUiStateSuccess(): FavoritesUiState {
+    return if (this.isEmpty()) {
+        FavoritesUiState.Empty
+    } else {
+        FavoritesUiState.Success(this.map { it.asFavoriteItemUiState() })
     }
 }
