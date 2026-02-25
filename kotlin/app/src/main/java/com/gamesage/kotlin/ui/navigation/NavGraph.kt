@@ -53,7 +53,6 @@ fun NavGraph(
     val context = LocalContext.current
     val token by tokenManager.token.collectAsState(initial = null)
     var showBottomSheet by remember { mutableStateOf(false) }
-    val backStackEntry by navController.currentBackStackEntryAsState()
     var searchQuery by remember { mutableStateOf("") }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
@@ -243,7 +242,6 @@ fun NavGraph(
                 DashboardScreen(
                     onPrivacyClick = { navController.navigate(Destinations.Privacy) },
                     onLogout = {
-                        viewModel.logout()
                         navController.navigate(Destinations.Login) {
                             popUpTo(Destinations.Dashboard) { inclusive = true }
                         }

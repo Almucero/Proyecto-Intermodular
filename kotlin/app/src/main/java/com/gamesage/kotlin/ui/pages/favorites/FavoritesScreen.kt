@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -30,7 +31,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
-import com.gamesage.kotlin.data.model.Game
 import com.gamesage.kotlin.R
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
@@ -38,15 +38,22 @@ import androidx.compose.ui.text.style.TextDecoration
 @Composable
 fun FavoritesScreen(
     onGameClick: (Long) -> Unit,
+    // Obtiene el ViewModel usando Hilt.
     viewModel: FavoritesViewModel = hiltViewModel()
 ) {
+    // Observa el StateFlow del ViewModel.
+    // Cada vez que el estado cambia, la pantalla se recompone automáticamente.
     val uiState by viewModel.uiState.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
+
+    // Para mostrar el Snackbar
     val snackbarHostState = remember { SnackbarHostState() }
 
+    // Escucha cambios en el mensaje de error (cuando no hay internet) y dispara el snackbar
     LaunchedEffect(errorMessage) {
         errorMessage?.let {
             snackbarHostState.showSnackbar(it)
+            // Limpia el error después de mostrarlo
             viewModel.clearError()
         }
     }
@@ -77,7 +84,9 @@ fun FavoritesScreen(
                     textAlign = TextAlign.Center
                 )
 
+                // Estados de la pantalla
                 when (val state = uiState) {
+                    // Si está cargando o en el inicio, muestra un CircularProgressIndicator
                     is FavoritesUiState.Initial, is FavoritesUiState.Loading -> {
                         Box(
                             modifier = Modifier.fillMaxSize(),
@@ -86,67 +95,74 @@ fun FavoritesScreen(
                              CircularProgressIndicator(color = Color(0xFF22D3EE))
                         }
                     }
-                    is FavoritesUiState.Empty -> {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = stringResource(R.string.favorites_empty),
-                                color = Color(0xFF9CA3AF),
-                                fontSize = 18.sp
-                            )
+                    // Si fue bien muestra los favoritos.
+                    is FavoritesUiState.Success -> {
+                        // Si la lista está vacía muestra el texto: "No tienes favoritos"
+                        if (state.games.isEmpty()) {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.favorites_empty),
+                                    color = Color(0xFF9CA3AF),
+                                    fontSize = 18.sp
+                                )
+                            }
+                        } else {
+                            // Si hay productos
+                            LazyColumn(
+                                verticalArrangement = Arrangement.spacedBy(16.dp),
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                // Por cada favorito muestra un FavoriteHorizontalCard.
+                                items(state.games) { game ->
+                                    FavoriteHorizontalCard(
+                                        game = game,
+                                        onGameClick = { onGameClick(game.gameId.toLong()) },
+                                        onAddToCart = { viewModel.addToCart(game) },
+                                        onRemove = { viewModel.removeFromFavorites(game.gameId, game.platformId) }
+                                    )
+                                }
+
+                                // Botón para transferir todo al carrito
+                                item {
+                                    Spacer(modifier = Modifier.height(32.dp))
+                                    Button(
+                                        onClick = { viewModel.transferAllToCart() },
+                                        colors = ButtonDefaults.buttonColors(
+                                            containerColor = Color.Transparent,
+                                            contentColor = Color(0xFF22D3EE)
+                                        ),
+                                        border = BorderStroke(2.dp, Color(0xFF22D3EE)),
+                                        shape = RoundedCornerShape(8.dp),
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(48.dp)
+                                            .padding(horizontal = 32.dp)
+                                    ) {
+                                        Text(
+                                            text = stringResource(R.string.favorites_transfer_all),
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = 16.sp
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.height(32.dp))
+                                }
+                            }
                         }
                     }
+                    // Si hay error muestra el mensaje en rojo
                     is FavoritesUiState.Error -> {
                         Box(
                             modifier = Modifier.fillMaxSize(),
                             contentAlignment = Alignment.Center
                         ) {
-                             Text(
+                            Text(
                                 text = state.message,
                                 color = Color(0xFFF87171),
                                 textAlign = TextAlign.Center
                             )
-                        }
-                    }
-                    is FavoritesUiState.Success -> {
-                        LazyColumn(
-                            verticalArrangement = Arrangement.spacedBy(16.dp),
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            items(state.games) { game ->
-                                FavoriteHorizontalCard(
-                                    game = game,
-                                    onGameClick = { onGameClick(game.gameId.toLong()) },
-                                    onAddToCart = { viewModel.addToCart(game) },
-                                    onRemove = { viewModel.removeFromFavorites(game.gameId, 0) } // PlatformId 0 por defecto por ahora
-                                )
-                            }
-                            
-                             item {
-                                Spacer(modifier = Modifier.height(32.dp))
-                                Button(
-                                    onClick = { viewModel.transferAllToCart() },
-                                    colors = ButtonDefaults.buttonColors(
-                                        containerColor = Color.Transparent,
-                                        contentColor = Color(0xFF22D3EE)
-                                    ),
-                                    border = BorderStroke(2.dp, Color(0xFF22D3EE)),
-                                    shape = RoundedCornerShape(8.dp),
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(48.dp)
-                                        .padding(horizontal = 32.dp) 
-                                ) {
-                                    Text(
-                                        text = stringResource(R.string.favorites_transfer_all),
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 16.sp
-                                    )
-                                }
-                                Spacer(modifier = Modifier.height(32.dp))
-                            }
                         }
                     }
                 }
@@ -155,6 +171,7 @@ fun FavoritesScreen(
     }
 }
 
+// Cada producto de la lista de favoritos
 @Composable
 fun FavoriteHorizontalCard(
     game: FavoriteItemUiState,
@@ -190,6 +207,7 @@ fun FavoriteHorizontalCard(
         }
 
         Spacer(modifier = Modifier.width(16.dp))
+        // Muestra: Título, nombre del desarrollador y plataforma
         Column(
             modifier = Modifier.weight(1f)
         ) {
@@ -216,7 +234,8 @@ fun FavoriteHorizontalCard(
             )
         }
         
-         Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.width(16.dp))
+        // Precio y acciones
         Column(
             horizontalAlignment = Alignment.End,
             verticalArrangement = Arrangement.SpaceBetween,
@@ -228,6 +247,7 @@ fun FavoriteHorizontalCard(
                     color = Color(0xFF9CA3AF),
                     fontSize = 14.sp
                 )
+                 // Si está en oferta
                  if (game.isOnSale && game.salePrice != null) {
                     Text(
                         text = "${game.price}€",
@@ -244,7 +264,8 @@ fun FavoriteHorizontalCard(
                         fontWeight = FontWeight.Bold
                     )
                  } else {
-                      Text(
+                      // Si no está en oferta
+                       Text(
                         text = "${game.price}€",
                         color = Color.White,
                         fontSize = 20.sp,
@@ -254,6 +275,7 @@ fun FavoriteHorizontalCard(
             }
             
             Spacer(modifier = Modifier.height(16.dp))
+            // Botones de acción: Carrito y Eliminar
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedIconButton(
                      onClick = onAddToCart,
@@ -288,12 +310,14 @@ fun FavoriteHorizontalCard(
     }
 }
 
+// Botón de icono personalizado con borde.
+// Se utiliza para las acciones de eliminar y añadir al carrito en las tarjetas.
 @Composable
 fun OutlinedIconButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    shape: androidx.compose.ui.graphics.Shape = RoundedCornerShape(8.dp),
+    shape: Shape = RoundedCornerShape(8.dp),
     colors: IconButtonColors = IconButtonDefaults.outlinedIconButtonColors(),
     border: BorderStroke? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },

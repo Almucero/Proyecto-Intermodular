@@ -16,12 +16,10 @@ class UserLocalDataSource @Inject constructor(
     private val userDao: UserDao
 ): UserDataSource {
     override suspend fun addAll(userList: List<User>) {
-        val mutex = Mutex()
-        userList.forEach { user ->
-            withContext(Dispatchers.IO) {
-                userDao.insert(user.toEntity())
-            }
-        }    }
+        withContext(Dispatchers.IO) {
+            userDao.insert(userList.toEntity())
+        }
+    }
     override fun observe(): Flow<Result<List<User>>> {
         val databaseFlow = userDao.observeAll()
         return databaseFlow.map { entities ->
@@ -33,7 +31,7 @@ class UserLocalDataSource @Inject constructor(
         return result
     }
     override suspend fun readOne(id: Long): Result<User> {
-        val entity = userDao.readUserById(id)
+        val entity = userDao.readUserById(id.toInt())
         return if (entity == null)
             Result.failure(UserNotFoundException())
         else
@@ -45,5 +43,11 @@ class UserLocalDataSource @Inject constructor(
             Result.failure(Exception("No hay usuario guardado localmente"))
         else
             Result.success(entity.toModel())
+    }
+
+    override suspend fun clear() {
+        withContext(Dispatchers.IO) {
+            userDao.deleteAll()
+        }
     }
 }

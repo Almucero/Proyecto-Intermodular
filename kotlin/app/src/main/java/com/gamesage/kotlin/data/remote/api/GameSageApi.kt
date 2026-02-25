@@ -40,20 +40,10 @@ interface AuthApi {
     suspend fun login(@Body request: SignInRequest): AuthResponse
 }
 interface UsersApi {
-    @GET("api/users")
-    suspend fun readAllUsers()
     @GET("api/users/me")
     suspend fun me(): UserApiModel
     @PATCH("api/users/me")
     suspend fun updateOwnUser(@Body user: UpdateProfileRequest): UserApiModel
-    @PATCH("api/users/me/password")
-    suspend fun updateOwnPassword()
-    @GET("api/users/{id}")
-    suspend fun readOneUser(@Path("id") id: Int)
-    @PATCH("api/users/{id}")
-    suspend fun updateUser(@Path("id") id: Int)
-    @DELETE("api/users/{id}")
-    suspend fun deleteUser(@Path("id") id: Int)
 }
 interface GamesApi {
     @GET("api/games")
@@ -119,6 +109,7 @@ interface MediaApi {
     @GET("api/media")
     suspend fun readAllMedia()
     @retrofit2.http.Multipart
+    //Para subir la imagen al servidor
     @POST("api/media/upload")
     suspend fun createMedia(
         @retrofit2.http.Part file: okhttp3.MultipartBody.Part,

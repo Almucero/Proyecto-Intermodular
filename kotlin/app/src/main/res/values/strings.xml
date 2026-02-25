@@ -69,6 +69,8 @@
     <string name="register_back">Volver</string>
     <string name="common_hide">Ocultar</string>
     <string name="common_show">Mostrar</string>
+    <string name="confirm">Confirmar</string>
+    <string name="cancel">Cancelar</string>
 
     <string name="cart_title">Carrito de Compras</string>
     <string name="cart_empty">Tu carrito está vacío</string>
@@ -128,6 +130,8 @@
     <string name="dashboard_save">Guardar</string>
     <string name="dashboard_logout">Cerrar Sesión</string>
     <string name="dashboard_copied">Copiado</string>
+    <string name="logout_title">Cerrar Sesión</string>
+    <string name="logout_message">¿Estás seguro de que deseas cerrar la sesión?</string>
 
     <string name="aichat_title">Chat IA</string>
     <string name="aichat_loading">Cargando chat...</string>

@@ -18,6 +18,7 @@ data class FavoriteItemUiState(
     val gameId: Int,
     val title: String,
     val developerName: String,
+    val platformId: Int,
     val platformName: String,
     val price: Double?,
     val isOnSale: Boolean,
@@ -30,7 +31,6 @@ sealed class FavoritesUiState {
     object Loading : FavoritesUiState()
     data class Success(val games: List<FavoriteItemUiState>) : FavoritesUiState()
     data class Error(val message: String) : FavoritesUiState()
-    object Empty : FavoritesUiState()
 }
 
 // Se comunica con FavoritesRepository y CartRepository
@@ -58,7 +58,9 @@ class FavoritesViewModel @Inject constructor(
             _uiState.value = FavoritesUiState.Loading
             favoritesRepository.observe().collect { result ->
                 result.onSuccess { games ->
-                    _uiState.value = games.asFavoritesUiStateSuccess()
+                    _uiState.value = FavoritesUiState.Success(
+                        games = games.map { it.asFavoriteItemUiState() }
+                    )
                 }.onFailure { e ->
                     _uiState.value = FavoritesUiState.Error(e.message ?: "Error al cargar favoritos")
                 }
@@ -72,7 +74,7 @@ class FavoritesViewModel @Inject constructor(
     }
 
     // Elimina un juego de la lista de favoritos.
-    fun removeFromFavorites(gameId: Int, platformId: Int = 0) {
+    fun removeFromFavorites(gameId: Int, platformId: Int) {
         viewModelScope.launch {
             favoritesRepository.remove(gameId, platformId)
                 .onFailure {
@@ -84,9 +86,9 @@ class FavoritesViewModel @Inject constructor(
     // Añade un juego al carrito y lo elimina de favoritos.
     fun addToCart(game: FavoriteItemUiState) {
         viewModelScope.launch {
-            cartRepository.add(game.gameId, 0, 1) 
+            cartRepository.add(game.gameId, game.platformId, 1) 
                 .onSuccess {
-                    favoritesRepository.remove(game.gameId, 0)
+                    favoritesRepository.remove(game.gameId, game.platformId)
                 }
                 .onFailure {
                     _errorMessage.value = "Error al añadir al carrito: se necesita conexión a internet"
@@ -100,9 +102,9 @@ class FavoritesViewModel @Inject constructor(
         if (currentState is FavoritesUiState.Success) {
             viewModelScope.launch {
                 currentState.games.forEach { game ->
-                    cartRepository.add(game.gameId, 0, 1)
+                    cartRepository.add(game.gameId, game.platformId, 1)
                         .onSuccess {
-                            favoritesRepository.remove(game.gameId, 0)
+                            favoritesRepository.remove(game.gameId, game.platformId)
                         }
                         .onFailure {
                             _errorMessage.value = "Error al transferir productos: se necesita conexión a internet"
@@ -114,23 +116,16 @@ class FavoritesViewModel @Inject constructor(
 }
 
 // Convierte el modelo de base de datos en modelo para UI.
-private fun Game.asFavoriteItemUiState(): FavoriteItemUiState {
+fun Game.asFavoriteItemUiState(): FavoriteItemUiState {
     return FavoriteItemUiState(
         gameId = this.id,
         title = this.title,
         developerName = this.Developer?.name ?: "Desconocido",
+        platformId = this.platforms?.firstOrNull()?.id ?: 0,
         platformName = this.platforms?.firstOrNull()?.name ?: "Múltiple",
         price = this.price,
         isOnSale = this.isOnSale,
         salePrice = this.salePrice,
         imageUrl = this.media?.firstOrNull()?.url ?: "https://via.placeholder.com/600x400"
     )
-}
-
-private fun List<Game>.asFavoritesUiStateSuccess(): FavoritesUiState {
-    return if (this.isEmpty()) {
-        FavoritesUiState.Empty
-    } else {
-        FavoritesUiState.Success(this.map { it.asFavoriteItemUiState() })
-    }
 }

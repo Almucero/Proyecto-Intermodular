@@ -30,12 +30,14 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material.icons.filled.PhotoLibrary
+import androidx.compose.material.icons.filled.*
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import android.util.Base64
 import androidx.camera.compose.CameraXViewfinder
 import androidx.camera.core.SurfaceRequest
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.ui.graphics.asImageBitmap
@@ -53,34 +55,51 @@ import com.gamesage.kotlin.R
 import com.gamesage.kotlin.ui.theme.bodyFontFamily
 import java.io.File
 
+//Pantalla principal del perfil de usuario.
+//Permite observar, editar el perfil, cambiar fotos y cerrar sesión.
 @Composable
 fun DashboardScreen(
     onPrivacyClick: () -> Unit,
     viewModel: DashboardScreenViewModel = hiltViewModel(),
     onLogout: () -> Unit,
     onNavigateToCamera: () -> Unit,
-    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
     capturedPhoto: String? = null,
     onPhotoProcessed: () -> Unit = {},
 ) {
+    //Observa el estado y mensajes de error desde el ViewModel.
     val uiState by viewModel.uiState.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
     val context = LocalContext.current
     val clipboardManager = LocalClipboardManager.current
     var showCameraOptions by remember { mutableStateOf(false) }
 
+    // Para mostrar el Snackbar
+    val snackbarHostState = remember { SnackbarHostState() }
 
-    LaunchedEffect(uiState.error) {
-        uiState.error?.let {
-            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+    // Escucha cambios en el mensaje de error y dispara el snackbar
+    LaunchedEffect(errorMessage) {
+        errorMessage?.let {
+            snackbarHostState.showSnackbar(it)
+            viewModel.clearError()
         }
     }
+
+    // Navega fuera cuando la sesión se ha cerrado con éxito
+    LaunchedEffect(uiState) {
+        if (uiState is DashboardUiState.Initial) {
+            onLogout()
+        }
+    }
+
+    //Recibe la foto capturada desde la cámara y la procesa para el perfil.
     LaunchedEffect(capturedPhoto) {
         capturedPhoto?.let { path ->
             if (path.isNotEmpty()) {
                 val file = File(path)
                 val avatarBase64 = imageFileToBase64(file)
+                val currentEditable = (uiState as? DashboardUiState.Success)?.editableUser ?: UserEditableData()
                 viewModel.onEditableDataChange(
-                    uiState.editableUser.copy(
+                    currentEditable.copy(
                         avatar = avatarBase64,
                         selectedFile = file
                     )
@@ -90,6 +109,7 @@ fun DashboardScreen(
         }
     }
 
+    //Logica para elegir una imagen de la galería.
     val imageErrorMessage = stringResource(R.string.dashboard_image_error)
     val copiedMessage = stringResource(R.string.dashboard_copied)
     val launcher = rememberLauncherForActivityResult(
@@ -97,6 +117,7 @@ fun DashboardScreen(
     ) { uri ->
         uri?.let {
             try {
+                //Lee los bytes del URI seleccionado y los convierte a Base64.
                 val inputStream = context.contentResolver.openInputStream(it)
                 val bytes = inputStream?.readBytes()
                 inputStream?.close()
@@ -104,11 +125,13 @@ fun DashboardScreen(
                     val base64 = Base64.encodeToString(bytes, Base64.NO_WRAP)
                     val avatarString = "data:image/jpeg;base64,$base64"
                     
+                    //Crea un archivo temporal para el ViewModel.
                     val tempFile = File(context.cacheDir, "picked_image_${System.currentTimeMillis()}.jpg")
                     tempFile.writeBytes(bytes)
                     
+                    val currentEditable = (uiState as? DashboardUiState.Success)?.editableUser ?: UserEditableData()
                     viewModel.onEditableDataChange(
-                        uiState.editableUser.copy(
+                        currentEditable.copy(
                             avatar = avatarString,
                             selectedFile = tempFile
                         )
@@ -120,34 +143,57 @@ fun DashboardScreen(
         }
     }
 
-    if (uiState.isLoading) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            CircularProgressIndicator(color = Color(0xFF22D3EE))
-        }
-    } else {
-        Column(
+    Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        containerColor = Color(0xFF111827)
+    ) { paddingValues ->
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFF111827))
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp, bottom = 32.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(paddingValues)
         ) {
-            Text(
-                text = stringResource(R.string.dashboard_user_section),
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFFA5F3FC),
-                modifier = Modifier.padding(vertical = 24.dp)
-            )
+            //Manejo de estados de la UI (Cargando, Error o Éxito).
+            when (val state = uiState) {
+                is DashboardUiState.Initial, DashboardUiState.Loading -> {
+                    //Estado inicial y carga de datos.
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator(color = Color(0xFF22D3EE))
+                    }
+                }
+                is DashboardUiState.Error -> {
+                    //Muestra el mensaje de error si algo falla.
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        Text(text = state.message, color = Color.Red, textAlign = Center)
+                    }
+                }
+                is DashboardUiState.Success -> {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color(0xFF111827))
+                            .verticalScroll(rememberScrollState())
+                            .padding(16.dp, bottom = 32.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        //Título de la sección.
+                        Text(
+                            text = stringResource(R.string.dashboard_user_section),
+                            fontSize = 30.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFFA5F3FC),
+                            modifier = Modifier.padding(vertical = 24.dp)
+                        )
+                        
+                         Spacer(modifier = Modifier.height(8.dp))
 
+             //Contenedor para la Imagen de perfil.
             Box(
                 modifier = Modifier.size(192.dp)
             ) {
-                val avatarData = if (uiState.isEditing) {
-                    uiState.editableUser.avatar
+                val avatarData = if (state.isEditing) {
+                    state.editableUser.avatar
                 } else {
-                    uiState.user?.avatar
+                    state.user.avatar
                 }
 
                 if (!avatarData.isNullOrEmpty() && (avatarData.startsWith("data:image") || avatarData.length > 200)) {
@@ -179,9 +225,25 @@ fun DashboardScreen(
                             .background(Color.Gray),
                         contentScale = ContentScale.Crop
                     )
+                } else {
+                    // Círculo gris por defecto si no hay foto
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(CircleShape)
+                            .background(Color(0xFF374151)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.PhotoCamera,
+                            contentDescription = null,
+                            tint = Color(0xFF6B7280),
+                            modifier = Modifier.size(64.dp)
+                        )
+                    }
                 }
-
-                if (uiState.isEditing) {
+                
+                if (state.isEditing) {
                     Box(
                         modifier = Modifier
                             .align(Alignment.BottomEnd)
@@ -201,6 +263,8 @@ fun DashboardScreen(
                         )
                     }
                 }
+
+                //Muestra el diálogo para elegir el origen de la foto (Cámara o Galería).
                 if (showCameraOptions) {
                     AlertDialog(
                         onDismissRequest = { showCameraOptions = false },
@@ -253,7 +317,7 @@ fun DashboardScreen(
                                         containerColor = Color(0xFF374151)
                                     ),
                                     shape = RoundedCornerShape(8.dp),
-                                    border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF4B5563))
+                                    border = BorderStroke(1.dp, Color(0xFF4B5563))
                                 ) {
                                     Icon(
                                         imageVector = Icons.Filled.PhotoLibrary,
@@ -274,7 +338,7 @@ fun DashboardScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
             Text(
-                text = uiState.user?.nickname ?: stringResource(R.string.dashboard_user_placeholder),
+                text = state.user.nickname ?: stringResource(R.string.dashboard_user_placeholder),
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
@@ -284,12 +348,12 @@ fun DashboardScreen(
                 modifier = Modifier.padding(top = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "@${uiState.user?.nickname ?: ""}", color = Color(0xFF9CA3AF))
+                Text(text = "@${state.user.nickname ?: ""}", color = Color(0xFF9CA3AF))
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = "📄",
                     modifier = Modifier.clickable {
-                        clipboardManager.setText(AnnotatedString("@${uiState.user?.nickname}"))
+                        clipboardManager.setText(AnnotatedString("@${state.user.nickname}"))
                         Toast.makeText(context, copiedMessage, Toast.LENGTH_SHORT).show()
                     },
                     color = Color.Gray
@@ -300,12 +364,12 @@ fun DashboardScreen(
                 modifier = Modifier.padding(top = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "ID: ${uiState.user?.id ?: ""}", color = Color(0xFF6B7280), fontSize = 14.sp)
+                Text(text = "ID: ${state.user.id ?: ""}", color = Color(0xFF6B7280), fontSize = 14.sp)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = "📄",
                     modifier = Modifier.clickable {
-                        clipboardManager.setText(AnnotatedString(uiState.user?.id?.toString() ?: ""))
+                        clipboardManager.setText(AnnotatedString(state.user.id.toString()))
                         Toast.makeText(context, copiedMessage, Toast.LENGTH_SHORT).show()
                     },
                     color = Color.Gray,
@@ -314,22 +378,26 @@ fun DashboardScreen(
             }
 
             Spacer(modifier = Modifier.height(32.dp))
+            //Encabezado: Información de la cuenta
             SectionHeader(stringResource(R.string.dashboard_account_info))
+            //Campo para el nombre de usuario
             DashboardTextField(
                 label = stringResource(R.string.dashboard_username),
-                value = uiState.editableUser.nickname,
-                onValueChange = { viewModel.onEditableDataChange(uiState.editableUser.copy(nickname = it)) },
-                isEditing = uiState.isEditing
+                value = state.editableUser.nickname,
+                onValueChange = { viewModel.onEditableDataChange(state.editableUser.copy(nickname = it)) },
+                isEditing = state.isEditing
             )
             Spacer(modifier = Modifier.height(16.dp))
+            //Campo para ver/editar el email de la cuenta.
             DashboardTextField(
                 label = stringResource(R.string.dashboard_email),
-                value = uiState.editableUser.email,
-                onValueChange = { viewModel.onEditableDataChange(uiState.editableUser.copy(email = it)) },
-                isEditing = uiState.isEditing
+                value = state.editableUser.email,
+                onValueChange = { viewModel.onEditableDataChange(state.editableUser.copy(email = it)) },
+                isEditing = state.isEditing
             )
 
             Spacer(modifier = Modifier.height(32.dp))
+            //Encabezado: Datos Personales
             SectionHeader(stringResource(R.string.dashboard_personal_data))
 
             val privacyText = stringResource(R.string.dashboard_privacy_text)
@@ -347,6 +415,7 @@ fun DashboardScreen(
                 pop()
             }
 
+            //Enlace a la política de privacidad
             ClickableText(
                 text = annotatedPrivacyString,
                 style = TextStyle(
@@ -362,66 +431,71 @@ fun DashboardScreen(
                 modifier = Modifier.padding(bottom = 16.dp)
             )
             
+            //Campo para el nombre
             DashboardTextField(
                 label = stringResource(R.string.dashboard_name),
-                value = uiState.editableUser.name,
-                onValueChange = { viewModel.onEditableDataChange(uiState.editableUser.copy(name = it)) },
-                isEditing = uiState.isEditing
+                value = state.editableUser.name,
+                onValueChange = { viewModel.onEditableDataChange(state.editableUser.copy(name = it)) },
+                isEditing = state.isEditing
             )
             Spacer(modifier = Modifier.height(16.dp))
             DashboardTextField(
                 label = stringResource(R.string.dashboard_surname),
-                value = uiState.editableUser.surname,
-                onValueChange = { viewModel.onEditableDataChange(uiState.editableUser.copy(surname = it)) },
-                isEditing = uiState.isEditing
+                value = state.editableUser.surname,
+                onValueChange = { viewModel.onEditableDataChange(state.editableUser.copy(surname = it)) },
+                isEditing = state.isEditing
             )
 
             Spacer(modifier = Modifier.height(32.dp))
+            //Encabezado: Dirección
             SectionHeader(stringResource(R.string.dashboard_address_section))
+            //Campo para la dirección línea 1
             DashboardTextField(
                 label = stringResource(R.string.dashboard_address_line1),
-                value = uiState.editableUser.addressLine1,
-                onValueChange = { viewModel.onEditableDataChange(uiState.editableUser.copy(addressLine1 = it)) },
-                isEditing = uiState.isEditing
+                value = state.editableUser.addressLine1,
+                onValueChange = { viewModel.onEditableDataChange(state.editableUser.copy(addressLine1 = it)) },
+                isEditing = state.isEditing
             )
             Spacer(modifier = Modifier.height(16.dp))
             DashboardTextField(
                 label = stringResource(R.string.dashboard_address_line2),
-                value = uiState.editableUser.addressLine2,
-                onValueChange = { viewModel.onEditableDataChange(uiState.editableUser.copy(addressLine2 = it)) },
-                isEditing = uiState.isEditing
+                value = state.editableUser.addressLine2,
+                onValueChange = { viewModel.onEditableDataChange(state.editableUser.copy(addressLine2 = it)) },
+                isEditing = state.isEditing
             )
             Spacer(modifier = Modifier.height(16.dp))
             DashboardTextField(
                 label = stringResource(R.string.dashboard_city),
-                value = uiState.editableUser.city,
-                onValueChange = { viewModel.onEditableDataChange(uiState.editableUser.copy(city = it)) },
-                isEditing = uiState.isEditing
+                value = state.editableUser.city,
+                onValueChange = { viewModel.onEditableDataChange(state.editableUser.copy(city = it)) },
+                isEditing = state.isEditing
             )
             Spacer(modifier = Modifier.height(16.dp))
             DashboardTextField(
                 label = stringResource(R.string.dashboard_region),
-                value = uiState.editableUser.region,
-                onValueChange = { viewModel.onEditableDataChange(uiState.editableUser.copy(region = it)) },
-                isEditing = uiState.isEditing
+                value = state.editableUser.region,
+                onValueChange = { viewModel.onEditableDataChange(state.editableUser.copy(region = it)) },
+                isEditing = state.isEditing
             )
             Spacer(modifier = Modifier.height(16.dp))
             DashboardTextField(
                 label = stringResource(R.string.dashboard_postal_code),
-                value = uiState.editableUser.postalCode,
-                onValueChange = { viewModel.onEditableDataChange(uiState.editableUser.copy(postalCode = it)) },
-                isEditing = uiState.isEditing
+                value = state.editableUser.postalCode,
+                onValueChange = { viewModel.onEditableDataChange(state.editableUser.copy(postalCode = it)) },
+                isEditing = state.isEditing
             )
             Spacer(modifier = Modifier.height(16.dp))
             DashboardTextField(
                 label = stringResource(R.string.dashboard_country),
-                value = uiState.editableUser.country,
-                onValueChange = { viewModel.onEditableDataChange(uiState.editableUser.copy(country = it)) },
-                isEditing = uiState.isEditing
+                value = state.editableUser.country,
+                onValueChange = { viewModel.onEditableDataChange(state.editableUser.copy(country = it)) },
+                isEditing = state.isEditing
             )
 
             Spacer(modifier = Modifier.height(32.dp))
+            //Botones de acción (Editar, Guardar, Cancelar)
             Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
+                //Botón para entrar o salir del modo edición
                 Button(
                     onClick = { viewModel.toggleEdit() },
                     colors = ButtonDefaults.buttonColors(
@@ -429,11 +503,15 @@ fun DashboardScreen(
                     ),
                     shape = RoundedCornerShape(4.dp)
                 ) {
-                    Text(if (uiState.isEditing) stringResource(R.string.dashboard_cancel) else stringResource(R.string.dashboard_configure), color = Color.White)
+                    Text(
+                        text = if (state.isEditing) stringResource(R.string.dashboard_cancel) else stringResource(R.string.dashboard_configure),
+                        color = Color.White
+                    )
                 }
 
-                if (uiState.isEditing) {
+                if (state.isEditing) {
                     Spacer(modifier = Modifier.width(16.dp))
+                    //Botón para guardar los cambios en el perfil
                     Button(
                         onClick = { viewModel.saveChanges() },
                         colors = ButtonDefaults.buttonColors(
@@ -447,8 +525,9 @@ fun DashboardScreen(
             }
             
             Spacer(modifier = Modifier.height(16.dp))
+            //Botón para cerrar la sesión
             Button(
-                onClick = { onLogout()},
+                onClick = { viewModel.logout() },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFFDC2626)
                 ),
@@ -459,10 +538,15 @@ fun DashboardScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
+                        }
+                    }
+                }
+            }
         }
     }
-}
 
+
+//Cabecera de sección para los campos del perfil.
 @Composable
 fun SectionHeader(text: String) {
     Text(
@@ -476,6 +560,7 @@ fun SectionHeader(text: String) {
     )
 }
 
+//Campo de texto personalizado que alterna entre lectura y edición.
 @Composable
 fun DashboardTextField(
     label: String,
@@ -510,7 +595,7 @@ fun DashboardTextField(
 }
 
 
-//Convierte la imagen a Base64
+//Función auxiliar para convertir imagen a Base64 para el perfil.
 fun imageFileToBase64(file: File): String {
     val bytes = file.readBytes()
     val base64 = Base64.encodeToString(bytes, Base64.NO_WRAP)

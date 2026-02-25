@@ -7,6 +7,7 @@ import com.gamesage.kotlin.di.LocalDataSource
 import com.gamesage.kotlin.di.RemoteDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,7 +22,14 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun me(): Result<User> {
-        return remoteDataSource.me()
+        val remoteResult = remoteDataSource.me()
+        return if (remoteResult.isSuccess) {
+            val user = remoteResult.getOrNull()!!
+            localDataSource.addAll(listOf(user))
+            remoteResult
+        } else {
+            localDataSource.me()
+        }
     }
     override suspend fun readAll(): Result<List<User>> {
         return remoteDataSource.readAll()
@@ -36,7 +44,25 @@ class UserRepositoryImpl @Inject constructor(
         }
         return localDataSource.observe()
     }
-    override suspend fun logout() {
-        tokenManager.deleteToken()
+    override fun observeMe(): Flow<Result<User>> {
+        scope.launch {
+            remoteDataSource.me().onSuccess { user ->
+                localDataSource.addAll(listOf(user))
+            }
+        }
+        return localDataSource.observe().map { result ->
+            result.getOrNull()?.firstOrNull()?.let { 
+                Result.success(it) 
+            } ?: Result.failure(Exception("Usuario no encontrado localmente"))
+        }
+    }
+    override suspend fun logout(): Result<Unit> {
+        return try {
+            tokenManager.deleteToken()
+            localDataSource.clear()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 }

@@ -9,4 +9,5 @@ interface UserDataSource {
     suspend fun readAll(): Result<List<User>>
     suspend fun readOne(id: Long): Result<User>
     suspend fun me(): Result<User>
+    suspend fun clear()
 }
