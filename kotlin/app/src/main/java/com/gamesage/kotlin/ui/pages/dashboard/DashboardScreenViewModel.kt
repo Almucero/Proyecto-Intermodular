@@ -1,44 +1,35 @@
 package com.gamesage.kotlin.ui.pages.dashboard
 
-import android.content.Context
-import android.os.Handler
-import android.os.Looper
-import androidx.camera.core.CameraSelector.DEFAULT_FRONT_CAMERA
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.SurfaceRequest
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.lifecycle.awaitInstance
-import androidx.camera.core.Preview
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gamesage.kotlin.data.model.User
 import com.gamesage.kotlin.data.remote.api.GameSageApi
-import com.gamesage.kotlin.data.remote.model.UserApiModel
 import com.gamesage.kotlin.data.remote.model.UpdateProfileRequest
 import com.gamesage.kotlin.data.repository.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.io.File
-import java.util.concurrent.Executors
 import javax.inject.Inject
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import com.gamesage.kotlin.utils.NetworkUtils
+import dagger.hilt.android.qualifiers.ApplicationContext
+import android.content.Context
 
 
-data class DashboardUiState(
-    val isLoading: Boolean = false,
-    val user: User? = null,
-    val isEditing: Boolean = false,
-    val editableUser: UserEditableData = UserEditableData(),
-    val error: String? = null
-)
+sealed class DashboardUiState {
+    object Initial : DashboardUiState()
+    object Loading : DashboardUiState()
+    data class Success(
+        val user: User,
+        val isEditing: Boolean = false,
+        val editableUser: UserEditableData
+    ) : DashboardUiState()
+    data class Error(val message: String) : DashboardUiState()
+}
 
 data class UserEditableData(
     val nickname: String = "",
@@ -58,62 +49,90 @@ data class UserEditableData(
 @HiltViewModel
 class DashboardScreenViewModel @Inject constructor(
     private val userRepository: UserRepository,
-    private val api: GameSageApi
+    private val api: GameSageApi,
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
-
-    private val _uiState = MutableStateFlow(DashboardUiState())
+    private val _uiState = MutableStateFlow<DashboardUiState>(DashboardUiState.Initial)
     val uiState: StateFlow<DashboardUiState> = _uiState.asStateFlow()
 
+    // Para mostrar mensajes de error temporales (tipo Snackbar) sin ocultar el contenido
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage: StateFlow<String?> = _errorMessage.asStateFlow()
+
+    private var isLoggingOut = false
+
     init {
-        loadUser()
+        observeUser()
     }
 
-    fun loadUser() {
+    // Observa el perfil del usuario de forma reactiva
+    private fun observeUser() {
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, error = null) }
-            val result = userRepository.me()
-            if (result.isSuccess) {
-                val user = result.getOrNull()
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        user = user,
-                        editableUser = user?.toEditableData() ?: UserEditableData()
-                    )
+            _uiState.value = DashboardUiState.Loading
+            userRepository.observeMe().collect { result ->
+                result.onSuccess { user ->
+                    val currentState = _uiState.value
+                    if (currentState is DashboardUiState.Success) {
+                        // Si ya estábamos editando, mantenemos los datos que el usuario está escribiendo
+                        _uiState.value = currentState.copy(user = user)
+                    } else {
+                        _uiState.value = DashboardUiState.Success(
+                            user = user,
+                            editableUser = user.toEditableData()
+                        )
+                    }
+                }.onFailure {
+                    // Si no hay datos ni siquiera en local, mostramos error de carga
+                    // Pero lo ignoramos si estamos en proceso de cerrar sesión
+                    if (!isLoggingOut && _uiState.value !is DashboardUiState.Success) {
+                        _uiState.value = DashboardUiState.Error("No se ha podido cargar el perfil")
+                    }
                 }
-            } else {
-                _uiState.update { it.copy(isLoading = false, error = "Error al cargar el perfil") }
             }
         }
     }
 
+    // Activa o desactiva el modo edición
     fun toggleEdit() {
-        _uiState.update { 
-            val newIsEditing = !it.isEditing
-            if (!newIsEditing && it.user != null) {
-                it.copy(isEditing = newIsEditing, editableUser = it.user.toEditableData())
-            } else {
-                it.copy(isEditing = newIsEditing)
+        val state = _uiState.value
+        if (state is DashboardUiState.Success) {
+            val newIsEditing = !state.isEditing
+            
+            // Si el usuario intenta entrar en modo edición sin internet, lo bloqueamos con Snackbar
+            if (newIsEditing && !NetworkUtils.isOnline(context)) {
+                _errorMessage.value = "Error al configurar: se necesita conexión a internet"
+                return
             }
+            
+            _uiState.value = state.copy(
+                isEditing = newIsEditing,
+                // Si cancelamos, restauramos los datos del usuario (que son los que hay en local)
+                editableUser = if (!newIsEditing) state.user.toEditableData() else state.editableUser
+            )
         }
     }
 
+    // Actualiza los datos temporales del formulario
     fun onEditableDataChange(data: UserEditableData) {
-        _uiState.update { it.copy(editableUser = data) }
+        val state = _uiState.value
+        if (state is DashboardUiState.Success) {
+            _uiState.value = state.copy(editableUser = data)
+        }
     }
 
+    // Guarda los cambios en el servidor (foto y datos personales)
     fun saveChanges() {
-        val currentUser = _uiState.value.user ?: return
-        val editable = _uiState.value.editableUser
+        val state = _uiState.value
+        if (state !is DashboardUiState.Success) return
+
+        val currentUser = state.user
+        val editable = state.editableUser
 
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true) }
             try {
+                // Subir imagen si se ha seleccionado una nueva
                 editable.selectedFile?.let { file ->
-                    val requestFile = okhttp3.RequestBody.create(
-                        "image/jpeg".toMediaTypeOrNull(),
-                        file
-                    )
+                    val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
                     val body = okhttp3.MultipartBody.Part.createFormData("file", file.name, requestFile)
                     val typePart = okhttp3.MultipartBody.Part.createFormData("type", "user")
                     val idPart = okhttp3.MultipartBody.Part.createFormData("id", currentUser.id.toString())
@@ -121,6 +140,7 @@ class DashboardScreenViewModel @Inject constructor(
                     api.createMedia(body, typePart, idPart)
                 }
 
+                // Actualizar datos de texto
                 val updateRequest = UpdateProfileRequest(
                     name = editable.name,
                     surname = editable.surname,
@@ -135,23 +155,36 @@ class DashboardScreenViewModel @Inject constructor(
                 )
 
                 api.updateOwnUser(updateRequest)
-                loadUser()
-                _uiState.update { it.copy(isEditing = false, isLoading = false) }
+                
+                // Salir de modo edición. La recarga de datos vendrá sola por el observeMe()
+                _uiState.value = state.copy(isEditing = false)
             } catch (e: Exception) {
-                _uiState.update { it.copy(isLoading = false, error = "Error al guardar los cambios") }
+                // Si falla el guardado, se muestra el error por Snackbar y seguimos en modo edición con los datos guardados localmente
+                _errorMessage.value = "Error al guardar los cambios"
             }
         }
     }
     
+    // Cierra la sesión del usuario
     fun logout() {
         viewModelScope.launch {
-            try {
-                userRepository.logout()
-                _uiState.update { it.copy(user = null, editableUser = UserEditableData(), isEditing = false) }
-            } catch (e: Exception) {
-                _uiState.update { it.copy(error = "Error al cerrar sesión") }
+            if (!NetworkUtils.isOnline(context)) {
+                _errorMessage.value = "Error al cerrar sesión: se necesita conexión a internet"
+                return@launch
+            }
+
+            isLoggingOut = true
+            userRepository.logout().onSuccess {
+                _uiState.value = DashboardUiState.Initial
+            }.onFailure {
+                isLoggingOut = false
+                _errorMessage.value = "Error al cerrar sesión"
             }
         }
+    }
+    // Limpia el mensaje de error después de visualizarlo
+    fun clearError() {
+        _errorMessage.value = null
     }
 }
 

@@ -5,6 +5,7 @@ import com.gamesage.kotlin.data.model.CartItem
 import com.gamesage.kotlin.data.model.Developer
 import com.gamesage.kotlin.data.model.Game
 import com.gamesage.kotlin.data.model.Media
+import com.gamesage.kotlin.data.model.Platform
 import java.time.LocalDateTime
 
 @Entity(
@@ -22,7 +23,8 @@ data class CartEntity(
     val salePrice: Double?,
     val rating: Float?,
     val imageUrl: String?,
-    val developerName: String?
+    val developerName: String?,
+    val platformName: String?
 )
 
 fun CartItem.toEntity(): CartEntity {
@@ -37,7 +39,8 @@ fun CartItem.toEntity(): CartEntity {
         salePrice = this.game?.salePrice,
         rating = this.game?.rating,
         imageUrl = this.game?.media?.firstOrNull()?.url,
-        developerName = this.game?.Developer?.name
+        developerName = this.game?.Developer?.name,
+        platformName = this.game?.platforms?.find { it.id == this.platformId }?.name
     )
 }
 
@@ -70,7 +73,15 @@ fun CartEntity.toModel(): CartItem {
             createdAt = LocalDateTime.now(),
             updatedAt = LocalDateTime.now(),
             genres = null,
-            platforms = null,
+            platforms = listOf(
+                Platform(
+                    this.platformId,
+                    this.platformName ?: "Múltiple",
+                    LocalDateTime.now(),
+                    LocalDateTime.now(),
+                    null
+                )
+            ),
             media = this.imageUrl?.let { 
                 listOf(
                     Media(

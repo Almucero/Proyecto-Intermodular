@@ -2,7 +2,9 @@ package com.gamesage.kotlin.data.local.favorites
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.gamesage.kotlin.data.model.Developer
 import com.gamesage.kotlin.data.model.Game
+import com.gamesage.kotlin.data.model.Media
 import com.gamesage.kotlin.data.model.Platform
 import java.time.LocalDateTime
 
@@ -23,7 +25,7 @@ data class FavoriteEntity(
     val platformName: String?
 )
 
-fun Game.toFavoriteEntity(): FavoriteEntity {
+fun Game.toEntity(): FavoriteEntity {
     return FavoriteEntity(
         gameId = this.id,
         platformId = this.platforms?.firstOrNull()?.id ?: 0,
@@ -38,7 +40,7 @@ fun Game.toFavoriteEntity(): FavoriteEntity {
     )
 }
 
-fun List<Game>.toFavoriteEntity(): List<FavoriteEntity> = this.map(Game::toFavoriteEntity)
+fun List<Game>.toEntity(): List<FavoriteEntity> = this.map(Game::toEntity)
 
 fun FavoriteEntity.toModel(): Game {
     return Game(
@@ -73,7 +75,7 @@ fun FavoriteEntity.toModel(): Game {
         ),
         media = this.imageUrl?.let {
             listOf(
-                com.gamesage.kotlin.data.model.Media(
+                Media(
                     id = 0,
                     url = it,
                     publicId = null,
@@ -98,7 +100,7 @@ fun FavoriteEntity.toModel(): Game {
         developerId = null,
         Publisher = null,
         Developer = this.developerName?.let {
-            com.gamesage.kotlin.data.model.Developer(0, it, LocalDateTime.now(), LocalDateTime.now(), null)
+            Developer(0, it, LocalDateTime.now(), LocalDateTime.now(), null)
         }
     )
 }

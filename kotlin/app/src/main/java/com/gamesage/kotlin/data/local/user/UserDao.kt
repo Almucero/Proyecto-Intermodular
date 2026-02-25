@@ -25,8 +25,11 @@ interface UserDao {
     fun observeAll(): Flow<List<UserEntity>>
 
     @Query("SELECT * FROM users WHERE id = :id")
-    suspend fun readUserById(id: Long): UserEntity?
+    suspend fun readUserById(id: Int): UserEntity?
 
     @Query("SELECT * FROM users LIMIT 1")
     suspend fun getMe(): UserEntity?
+
+    @Query("DELETE FROM users")
+    suspend fun deleteAll()
 }

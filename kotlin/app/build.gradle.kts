@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.androidx.runtime)
     implementation(libs.ui.graphics)
     implementation(libs.androidx.hilt.common)
+    implementation(libs.androidx.compose.foundation)
     ksp(libs.androidx.room.compiler)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     //Coil

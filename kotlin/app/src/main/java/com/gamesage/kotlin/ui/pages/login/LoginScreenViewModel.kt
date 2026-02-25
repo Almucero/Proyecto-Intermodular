@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.gamesage.kotlin.data.local.TokenManager
 import com.gamesage.kotlin.data.remote.api.GameSageApi
 import com.gamesage.kotlin.data.remote.model.SignInRequest
+import com.gamesage.kotlin.data.repository.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,7 +26,8 @@ data class LoginUiState(
 @HiltViewModel
 class LoginScreenViewModel @Inject constructor(
     private val api: GameSageApi,
-    private val tokenManager: TokenManager
+    private val tokenManager: TokenManager,
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LoginUiState())
@@ -59,6 +61,10 @@ class LoginScreenViewModel @Inject constructor(
                 val response = api.login(SignInRequest(email, password))
                 tokenManager.saveToken(response.token)
                 tokenManager.saveRememberMe(rememberMe)
+                
+                // Pre-cargamos el perfil del usuario para que esté disponible offline desde el primer momento
+                userRepository.me()
+                
                 _uiState.update { it.copy(isLoading = false, isSuccess = true) }
             } catch (e: Exception) {
                 _uiState.update { it.copy(isLoading = false, error = "Usuario no registrado o credenciales incorrectas") }
