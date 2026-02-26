@@ -6,38 +6,65 @@ import com.gamesage.kotlin.data.model.Game
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import com.gamesage.kotlin.data.local.media.MediaDao
+import com.gamesage.kotlin.data.local.media.toEntity
+import com.gamesage.kotlin.data.local.media.toModel
+import kotlinx.coroutines.flow.map
 
 class GameLocalDataSource @Inject constructor(
-    private val scope: CoroutineScope,
-    private val gameDao: GameDao
+    private val gameDao: GameDao,
+    private val mediaDao: MediaDao
 ): GameDataSource {
     override suspend fun addAll(gameList: List<Game>) {
-        val mutex = Mutex()
-        gameList.forEach { game ->
-            withContext(Dispatchers.IO) {
-                gameDao.insert(game.toEntity())
+        withContext(Dispatchers.IO) {
+            gameDao.insert(gameList.toEntity())
+            gameList.forEach { game ->
+                game.media?.let { mediaList ->
+                    val mediaEntities = mediaList.map { it.toEntity().copy(gameId = game.id) }
+                    mediaDao.insert(mediaEntities)
+                }
             }
         }
     }
+    
     override fun observe(): Flow<Result<List<Game>>> {
-        val databaseFlow = gameDao.observeAll()
-        return databaseFlow.map { entities ->
-            Result.success(entities.toModel())
+        return gameDao.observeAll().map { entities ->
+            val allMedia = mediaDao.getAll().toModel()
+            val mediaByGame = allMedia.groupBy { it.gameId }
+            
+            val games = entities.map { entity ->
+                entity.toModel().copy(media = mediaByGame[entity.id] ?: emptyList())
+            }
+            Result.success(games)
         }
     }
+    
     override suspend fun readAll(): Result<List<Game>> {
-        val result = Result.success(gameDao.getAll().toModel())
-        return result
+        return withContext(Dispatchers.IO) {
+            val entities = gameDao.getAll()
+            val allMedia = mediaDao.getAll().toModel()
+            val mediaByGame = allMedia.groupBy { it.gameId }
+            
+            val games = entities.map { entity ->
+                entity.toModel().copy(media = mediaByGame[entity.id] ?: emptyList())
+            }
+            Result.success(games)
+        }
     }
+    
     override suspend fun readOne(id: Long): Result<Game> {
-        val entity = gameDao.readGameById(id)
-        return if (entity == null)
-            Result.failure(GameNotFoundException())
-        else
-            Result.success(entity.toModel())
+        return withContext(Dispatchers.IO) {
+            val entity = gameDao.readGameById(id)
+            if (entity == null) {
+                Result.failure(GameNotFoundException())
+            } else {
+                val gameMedia = mediaDao.getAll()
+                    .filter { it.gameId == id.toInt() }
+                    .toModel()
+                Result.success(entity.toModel().copy(media = gameMedia))
+            }
+        }
     }
 }

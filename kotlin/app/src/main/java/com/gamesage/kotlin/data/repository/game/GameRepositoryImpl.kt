@@ -22,10 +22,9 @@ class GameRepositoryImpl @Inject constructor(
     }
     override fun observe(): Flow<Result<List<Game>>> {
         scope.launch {
-            remoteDataSource.observe().collect { result ->
-                if (result.isSuccess) {
-                    localDataSource.addAll(gameList = result.getOrNull()!!)
-                }
+            val result = remoteDataSource.readAll()
+            if (result.isSuccess) {
+                localDataSource.addAll(gameList = result.getOrNull()!!)
             }
         }
         return localDataSource.observe()

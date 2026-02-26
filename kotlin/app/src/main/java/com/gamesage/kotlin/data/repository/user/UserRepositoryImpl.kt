@@ -3,6 +3,8 @@ package com.gamesage.kotlin.data.repository.user
 import com.gamesage.kotlin.data.UserDataSource
 import com.gamesage.kotlin.data.local.TokenManager
 import com.gamesage.kotlin.data.model.User
+import com.gamesage.kotlin.data.remote.api.GameSageApi
+import com.gamesage.kotlin.data.remote.model.SignUpRequest
 import com.gamesage.kotlin.di.LocalDataSource
 import com.gamesage.kotlin.di.RemoteDataSource
 import kotlinx.coroutines.CoroutineScope
@@ -15,8 +17,17 @@ class UserRepositoryImpl @Inject constructor(
     @RemoteDataSource private val remoteDataSource: UserDataSource,
     @LocalDataSource private val localDataSource: UserDataSource,
     private val scope: CoroutineScope,
-    private val tokenManager: TokenManager
+    private val tokenManager: TokenManager,
+    private val api: GameSageApi
 ): UserRepository {
+    override suspend fun signUp(request: SignUpRequest): Result<Unit> {
+        return try {
+            api.register(request)
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
     override suspend fun readOne(id: Long): Result<User> {
         return remoteDataSource.readOne(id)
     }

@@ -15,7 +15,7 @@ class DeveloperRemoteDataSource @Inject constructor(
         TODO("Not yet implemented")
     }
     override fun observe(): Flow<Result<List<Developer>>> {
-        TODO("Not yet implemented")
+        throw UnsupportedOperationException("Use readAll() for remote data source")
     }
     override suspend fun readAll(): Result<List<Developer>> {
         TODO("Not yet implemented")
