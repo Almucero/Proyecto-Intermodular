@@ -22,10 +22,9 @@ class DeveloperRepositoryImpl @Inject constructor(
     }
     override fun observe(): Flow<Result<List<Developer>>> {
         scope.launch {
-            remoteDataSource.observe().collect { result ->
-                if (result.isSuccess) {
-                    localDataSource.addAll(developerList = result.getOrNull()!!)
-                }
+            val result = remoteDataSource.readAll()
+            if (result.isSuccess) {
+                localDataSource.addAll(developerList = result.getOrNull()!!)
             }
         }
         return localDataSource.observe()

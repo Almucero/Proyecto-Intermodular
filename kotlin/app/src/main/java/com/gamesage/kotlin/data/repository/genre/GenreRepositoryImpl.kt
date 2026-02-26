@@ -22,10 +22,9 @@ class GenreRepositoryImpl @Inject constructor(
     }
     override fun observe(): Flow<Result<List<Genre>>> {
         scope.launch {
-            remoteDataSource.observe().collect { result ->
-                if (result.isSuccess) {
-                    localDataSource.addAll(genreList = result.getOrNull()!!)
-                }
+            val result = remoteDataSource.readAll()
+            if (result.isSuccess) {
+                localDataSource.addAll(genreList = result.getOrNull()!!)
             }
         }
         return localDataSource.observe()

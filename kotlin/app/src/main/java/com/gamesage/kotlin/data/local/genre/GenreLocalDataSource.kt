@@ -12,11 +12,9 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class GenreLocalDataSource @Inject constructor(
-    private val scope: CoroutineScope,
     private val genreDao: GenreDao
 ): GenreDataSource {
     override suspend fun addAll(genreList: List<Genre>) {
-        val mutex = Mutex()
         genreList.forEach { genre ->
             withContext(Dispatchers.IO) {
                 genreDao.insert(genre.toEntity())

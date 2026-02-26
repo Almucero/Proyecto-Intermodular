@@ -48,14 +48,8 @@ interface UsersApi {
 interface GamesApi {
     @GET("api/games")
     suspend fun readAllGames(@Query("include") include: String = "media,genres,platforms"): List<GameApiModel>
-    @POST("api/games")
-    suspend fun createGame()
     @GET("api/games/{id}")
     suspend fun readOneGame(@Path("id") id: Int): GameApiModel
-    @PATCH("api/games/{id}")
-    suspend fun updateGame(@Path("id") id: Int)
-    @DELETE("api/games/{id}")
-    suspend fun deleteGame(@Path("id") id: Int)
 }
 interface DevelopersApi {
     @GET("api/developers")
@@ -84,14 +78,8 @@ interface PublishersApi {
 interface GenresApi {
     @GET("api/genres")
     suspend fun readAllGenres(): List<GenreApiModel>
-    @POST("api/genres")
-    suspend fun createGenre()
     @GET("api/genres/{id}")
     suspend fun readOneGenre(@Path("id") id: Int): GenreApiModel
-    @PATCH("api/genres/{id}")
-    suspend fun updateGenre(@Path("id") id: Int)
-    @DELETE("api/genres/{id}")
-    suspend fun deleteGenre(@Path("id") id: Int)
 }
 interface PlatformsApi {
     @GET("api/platforms")
