@@ -15,10 +15,31 @@ class GameRepositoryImpl @Inject constructor(
     private val scope: CoroutineScope
 ): GameRepository {
     override suspend fun readOne(id: Long): Result<Game> {
-        return remoteDataSource.readOne(id)
+        val remoteResult = remoteDataSource.readOne(id)
+        
+        if (remoteResult.isSuccess) {
+            val game = remoteResult.getOrNull()!!
+            // Actualizamos la caché local con los datos más recientes
+            localDataSource.addOne(game)
+            return remoteResult
+        }
+        
+        // Si falla la red, intentamos cargar de local
+        return localDataSource.readOne(id)
     }
     override suspend fun readAll(): Result<List<Game>> {
-        return remoteDataSource.readAll()
+        val remoteResult = remoteDataSource.readAll()
+        
+        if (remoteResult.isSuccess) {
+            val games = remoteResult.getOrNull() ?: emptyList()
+            if (games.isNotEmpty()) {
+                localDataSource.addAll(games)
+            }
+            return remoteResult
+        }
+        
+        // Si falla la red, devolvemos lo que tengamos en local
+        return localDataSource.readAll()
     }
     override fun observe(): Flow<Result<List<Game>>> {
         scope.launch {

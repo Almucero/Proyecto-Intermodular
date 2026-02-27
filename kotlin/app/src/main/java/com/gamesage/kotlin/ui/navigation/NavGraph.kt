@@ -166,9 +166,6 @@ fun NavGraph(
                 val product = backStackEntry.toRoute<Destinations.Product>()
                 ProductScreen(
                     gameId = product.gameId,
-                    onNavigateBack = {
-                        navController.popBackStack()
-                    },
                     onNavigateToLogin = {
                         navController.navigate(Destinations.Login)
                     }

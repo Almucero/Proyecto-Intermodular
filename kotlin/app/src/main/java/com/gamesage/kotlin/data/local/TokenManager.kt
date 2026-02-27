@@ -22,28 +22,33 @@ class TokenManager @Inject constructor(@ApplicationContext private val context: 
         private val REMEMBER_ME_KEY = booleanPreferencesKey("remember_me")
     }
 
+    // Proporciona un flujo que emite el token JWT actual guardado
     val token: Flow<String?> = context.dataStore.data
         .map { preferences ->
             preferences[TOKEN_KEY]
         }
         
+    // Proporciona un flujo con la preferencia de "Recuerdarme" (por defecto es falso)
     val rememberMe: Flow<Boolean> = context.dataStore.data
         .map { preferences ->
             preferences[REMEMBER_ME_KEY] ?: false
         }
 
-    suspend fun saveToken(token: String) {
-        context.dataStore.edit { preferences ->
-            preferences[TOKEN_KEY] = token
-        }
-    }
-    
+    // Guarda la preferencia de si el usuario quiere que se recuerde su sesión
     suspend fun saveRememberMe(remember: Boolean) {
         context.dataStore.edit { preferences ->
             preferences[REMEMBER_ME_KEY] = remember
         }
     }
 
+    // Guarda el token JWT recibido tras un login exitoso en el almacenamiento local
+    suspend fun saveToken(token: String) {
+        context.dataStore.edit { preferences ->
+            preferences[TOKEN_KEY] = token
+        }
+    }
+
+    // Elimina el token JWT guardado (se usa al cerrar sesión)
     suspend fun deleteToken() {
         context.dataStore.edit { preferences ->
             preferences.remove(TOKEN_KEY)

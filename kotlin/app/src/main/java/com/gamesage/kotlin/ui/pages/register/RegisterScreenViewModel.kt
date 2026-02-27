@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gamesage.kotlin.data.remote.model.SignUpRequest
 import com.gamesage.kotlin.data.repository.user.UserRepository
-import com.gamesage.kotlin.utils.NetworkUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -70,10 +69,6 @@ class RegisterScreenViewModel @Inject constructor(
     fun register() {
         val state = _formData.value
 
-        if (!NetworkUtils.isOnline(context)) {
-            _errorMessage.value = "Error: se necesita conexión a internet para registrarse"
-            return
-        }
 
         if (state.name.isBlank() || state.surname.isBlank() || state.email.isBlank() || state.password.isBlank() || state.confirmPassword.isBlank()) {
             _errorMessage.value = "Rellena todos los campos"
@@ -107,8 +102,19 @@ class RegisterScreenViewModel @Inject constructor(
             if (result.isSuccess) {
                 _uiState.value = RegisterUiState.Success
             } else {
-                _uiState.value = RegisterUiState.Error("Error al registrar la cuenta. Inténtalo de nuevo.")
-                _errorMessage.value = "Error en el registro"
+                val exception = result.exceptionOrNull()
+                val isNetworkError = exception is java.io.IOException || exception is java.net.UnknownHostException
+                
+                val userMessage = if (isNetworkError) {
+                    "No hay conexión a internet. Verifica tu red."
+                } else if (exception is retrofit2.HttpException && exception.code() == 409) {
+                    "Este email ya está registrado"
+                } else {
+                    "Error al registrar la cuenta. Inténtalo de nuevo."
+                }
+
+                _uiState.value = RegisterUiState.Error(userMessage)
+                _errorMessage.value = if (isNetworkError) "Error de conexión" else "Error en el registro"
             }
         }
     }

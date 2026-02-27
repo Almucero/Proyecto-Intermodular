@@ -15,7 +15,6 @@ import java.io.File
 import javax.inject.Inject
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
-import com.gamesage.kotlin.utils.NetworkUtils
 import dagger.hilt.android.qualifiers.ApplicationContext
 import android.content.Context
 
@@ -99,11 +98,6 @@ class DashboardScreenViewModel @Inject constructor(
             val newIsEditing = !state.isEditing
             
             // Si el usuario intenta entrar en modo edición sin internet, lo bloqueamos con Snackbar
-            if (newIsEditing && !NetworkUtils.isOnline(context)) {
-                _errorMessage.value = "Error al configurar: se necesita conexión a internet"
-                return
-            }
-            
             _uiState.value = state.copy(
                 isEditing = newIsEditing,
                 // Si cancelamos, restauramos los datos del usuario (que son los que hay en local)
@@ -160,7 +154,8 @@ class DashboardScreenViewModel @Inject constructor(
                 _uiState.value = state.copy(isEditing = false)
             } catch (e: Exception) {
                 // Si falla el guardado, se muestra el error por Snackbar y seguimos en modo edición con los datos guardados localmente
-                _errorMessage.value = "Error al guardar los cambios"
+                val isNetworkError = e is java.io.IOException || e is java.net.UnknownHostException
+                _errorMessage.value = if (isNetworkError) "Sin conexión a internet" else "Error al guardar los cambios"
             }
         }
     }
@@ -168,17 +163,14 @@ class DashboardScreenViewModel @Inject constructor(
     // Cierra la sesión del usuario
     fun logout() {
         viewModelScope.launch {
-            if (!NetworkUtils.isOnline(context)) {
-                _errorMessage.value = "Error al cerrar sesión: se necesita conexión a internet"
-                return@launch
-            }
 
             isLoggingOut = true
             userRepository.logout().onSuccess {
                 _uiState.value = DashboardUiState.Initial
-            }.onFailure {
+            }.onFailure { e ->
                 isLoggingOut = false
-                _errorMessage.value = "Error al cerrar sesión"
+                val isNetworkError = e is java.io.IOException || e is java.net.UnknownHostException
+                _errorMessage.value = if (isNetworkError) "Sin conexión a internet" else "Error al cerrar sesión"
             }
         }
     }

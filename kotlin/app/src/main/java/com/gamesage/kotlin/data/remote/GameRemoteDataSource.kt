@@ -17,6 +17,10 @@ class GameRemoteDataSource @Inject constructor(
     override suspend fun addAll(gameList: List<Game>) {
         // Not needed for remote data source
     }
+
+    override suspend fun addOne(game: Game) {
+        // Not needed for remote data source
+    }
     
     override fun observe(): Flow<Result<List<Game>>> {
         // Not implemented for remote - use readAll instead

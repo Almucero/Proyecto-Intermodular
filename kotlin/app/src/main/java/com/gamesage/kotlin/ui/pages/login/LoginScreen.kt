@@ -3,8 +3,10 @@ package com.gamesage.kotlin.ui.pages.login
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
@@ -32,156 +34,170 @@ fun LoginScreen(
     onLoginSuccess: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val formData by viewModel.formData.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
+    val snackbarHostState = remember { SnackbarHostState() }
     var passwordVisible by remember { mutableStateOf(false) }
 
-    LaunchedEffect(uiState.isSuccess) {
-        if (uiState.isSuccess) {
+    LaunchedEffect(uiState) {
+        if (uiState is LoginUiState.Success) {
             onLoginSuccess()
         }
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF111827))
-            .padding(16.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Card(
-            colors = CardDefaults.cardColors(containerColor = Color(0xFF374151)),
+    LaunchedEffect(errorMessage) {
+        errorMessage?.let {
+            snackbarHostState.showSnackbar(it)
+            viewModel.clearError()
+        }
+    }
+
+    Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        containerColor = Color(0xFF111827)
+    ) { paddingValues ->
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(16.dp),
+            contentAlignment = Alignment.Center
         ) {
-            Column(
-                modifier = Modifier
-                    .padding(24.dp)
-                    .fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = stringResource(R.string.login_title),
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
-
-                Text(
-                    text = stringResource(R.string.login_no_account),
-                    color = Color.White,
-                    fontSize = 14.sp
-                )
-                Text(
-                    text = stringResource(R.string.login_create_account),
-                    color = Color(0xFF93E3FE),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .clickable { onNavigateToRegister() }
-                        .padding(bottom = 24.dp)
-                )
-
-                OutlinedTextField(
-                    value = uiState.email,
-                    onValueChange = viewModel::onEmailChange,
-                    label = { Text(stringResource(R.string.register_email), color = Color.Gray) },
-                    leadingIcon = { Icon(Icons.Default.Email, contentDescription = null, tint = Color.Gray) },
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedTextColor = Color.White,
-                        unfocusedTextColor = Color.White,
-                        focusedBorderColor = Color(0xFF93E3FE),
-                        unfocusedBorderColor = Color.Gray,
-                        cursorColor = Color(0xFF93E3FE)
-                    ),
-                    singleLine = true
-                )
-                OutlinedTextField(
-                    value = uiState.password,
-                    onValueChange = viewModel::onPasswordChange,
-                    label = { Text(stringResource(R.string.register_password), color = Color.Gray) },
-                    leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null, tint = Color.Gray) },
-                    trailingIcon = {
-                        IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                            Icon(
-                                imageVector = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                                contentDescription = if (passwordVisible) stringResource(R.string.common_hide) else stringResource(R.string.common_show),
-                                tint = Color.Gray
-                            )
-                        }
-                    },
-                    visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedTextColor = Color.White,
-                        unfocusedTextColor = Color.White,
-                        focusedBorderColor = Color(0xFF93E3FE),
-                        unfocusedBorderColor = Color.Gray,
-                        cursorColor = Color(0xFF93E3FE)
-                    ),
-                    singleLine = true
-                )
-                }
-                
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.clickable { viewModel.onRememberMeChange(!uiState.rememberMe) }
-                    ) {
-                        Checkbox(
-                            checked = uiState.rememberMe,
-                            onCheckedChange = { viewModel.onRememberMeChange(it) },
-                            colors = CheckboxDefaults.colors(
-                                checkedColor = Color(0xFF3B82F6),
-                                uncheckedColor = Color.Gray,
-                                checkmarkColor = Color.White
-                            )
-                        )
-                        Text(
-                            text = stringResource(R.string.login_remember_me),
-                            color = Color.White,
-                            fontSize = 14.sp
-                        )
+            when (uiState) {
+                is LoginUiState.Loading -> {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        CircularProgressIndicator(color = Color(0xFF22D3EE))
                     }
-                    
-                    Text(
-                        text = stringResource(R.string.login_forgot_password),
-                        color = Color(0xFF93E3FE),
-                        fontSize = 14.sp,
-                        modifier = Modifier.clickable { }
-                    )
                 }
+                else -> {
+                    Card(
+                        colors = CardDefaults.cardColors(containerColor = Color(0xFF374151)),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                            .verticalScroll(rememberScrollState())
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .padding(24.dp)
+                                .fillMaxWidth(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = stringResource(R.string.login_title),
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White,
+                                modifier = Modifier.padding(bottom = 16.dp)
+                            )
 
-                if (uiState.error != null) {
-                    Text(
-                        text = uiState.error!!,
-                        color = Color.Red,
-                        fontSize = 14.sp,
-                        modifier = Modifier.padding(bottom = 16.dp)
-                    )
-                }
+                            Text(
+                                text = stringResource(R.string.login_no_account),
+                                color = Color.White,
+                                fontSize = 14.sp
+                            )
+                            Text(
+                                text = stringResource(R.string.login_create_account),
+                                color = Color(0xFF93E3FE),
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier
+                                    .clickable { onNavigateToRegister() }
+                                    .padding(bottom = 24.dp)
+                            )
 
-                Button(
-                    onClick = { viewModel.login() },
-                    modifier = Modifier.fillMaxWidth().height(50.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3B82F6)),
-                    shape = RoundedCornerShape(25.dp),
-                    enabled = !uiState.isLoading
-                ) {
-                    if (uiState.isLoading) {
-                        CircularProgressIndicator(color = Color(0xFF22D3EE), modifier = Modifier.size(24.dp))
-                    } else {
-                        Text(stringResource(R.string.login_button), color = Color.White, fontSize = 16.sp)
+                            OutlinedTextField(
+                                value = formData.email,
+                                onValueChange = viewModel::onEmailChange,
+                                label = { Text(stringResource(R.string.register_email), color = Color.Gray) },
+                                leadingIcon = { Icon(Icons.Default.Email, contentDescription = null, tint = Color.Gray) },
+                                modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
+                                colors = OutlinedTextFieldDefaults.colors(
+                                    focusedTextColor = Color.White,
+                                    unfocusedTextColor = Color.White,
+                                    focusedBorderColor = Color(0xFF93E3FE),
+                                    unfocusedBorderColor = Color.Gray,
+                                    cursorColor = Color(0xFF93E3FE)
+                                ),
+                                singleLine = true
+                            )
+                            OutlinedTextField(
+                                value = formData.password,
+                                onValueChange = viewModel::onPasswordChange,
+                                label = { Text(stringResource(R.string.register_password), color = Color.Gray) },
+                                leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null, tint = Color.Gray) },
+                                trailingIcon = {
+                                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                                        Icon(
+                                            imageVector = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
+                                            contentDescription = if (passwordVisible) stringResource(R.string.common_hide) else stringResource(R.string.common_show),
+                                            tint = Color.Gray
+                                        )
+                                    }
+                                },
+                                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                                modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
+                                colors = OutlinedTextFieldDefaults.colors(
+                                    focusedTextColor = Color.White,
+                                    unfocusedTextColor = Color.White,
+                                    focusedBorderColor = Color(0xFF93E3FE),
+                                    unfocusedBorderColor = Color.Gray,
+                                    cursorColor = Color(0xFF93E3FE)
+                                ),
+                                singleLine = true
+                            )
+
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 16.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    modifier = Modifier.clickable { viewModel.onRememberMeChange(!formData.rememberMe) }
+                                ) {
+                                    Checkbox(
+                                        checked = formData.rememberMe,
+                                        onCheckedChange = { viewModel.onRememberMeChange(it) },
+                                        colors = CheckboxDefaults.colors(
+                                            checkedColor = Color(0xFF3B82F6),
+                                            uncheckedColor = Color.Gray,
+                                            checkmarkColor = Color.White
+                                        )
+                                    )
+                                    Text(
+                                        text = stringResource(R.string.login_remember_me),
+                                        color = Color.White,
+                                        fontSize = 14.sp
+                                    )
+                                }
+                            }
+
+                            if (uiState is LoginUiState.Error) {
+                                Text(
+                                    text = (uiState as LoginUiState.Error).message,
+                                    color = Color.Red,
+                                    fontSize = 14.sp,
+                                    modifier = Modifier.padding(bottom = 16.dp)
+                                )
+                            }
+
+                            Button(
+                                onClick = { viewModel.login() },
+                                modifier = Modifier.fillMaxWidth().height(50.dp),
+                                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3B82F6)),
+                                shape = RoundedCornerShape(25.dp),
+                                enabled = uiState !is LoginUiState.Loading
+                            ) {
+                                Text(stringResource(R.string.login_button), color = Color.White, fontSize = 16.sp)
+                            }
+                        }
                     }
                 }
             }
         }
     }
+}

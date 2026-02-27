@@ -5,6 +5,7 @@ import com.gamesage.kotlin.data.local.TokenManager
 import com.gamesage.kotlin.data.model.User
 import com.gamesage.kotlin.data.remote.api.GameSageApi
 import com.gamesage.kotlin.data.remote.model.SignUpRequest
+import com.gamesage.kotlin.data.remote.model.SignInRequest
 import com.gamesage.kotlin.di.LocalDataSource
 import com.gamesage.kotlin.di.RemoteDataSource
 import kotlinx.coroutines.CoroutineScope
@@ -28,6 +29,25 @@ class UserRepositoryImpl @Inject constructor(
             Result.failure(e)
         }
     }
+
+    override suspend fun signIn(request: SignInRequest): Result<Unit> {
+        return try {
+            val response = api.login(request)
+            tokenManager.saveToken(response.token)
+            me()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+    override suspend fun saveRememberMe(remember: Boolean) {
+        tokenManager.saveRememberMe(remember)
+    }
+
+    override fun observeRememberMe(): Flow<Boolean> {
+        return tokenManager.rememberMe
+    }
+
     override suspend fun readOne(id: Long): Result<User> {
         return remoteDataSource.readOne(id)
     }

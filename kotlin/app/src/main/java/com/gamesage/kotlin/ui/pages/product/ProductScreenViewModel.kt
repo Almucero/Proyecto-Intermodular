@@ -23,7 +23,7 @@ sealed class ProductUiState {
         val game: Game,
         val selectedPlatform: String? = null,
         val currentMediaIndex: Int = 0,
-        val showAuthModal: Boolean = false,
+        val navigateToLogin: Boolean = false,
         val addedToCartSuccess: Boolean = false,
         val addedToFavoritesSuccess: Boolean = false,
         val error: String? = null
@@ -195,7 +195,7 @@ class ProductScreenViewModel @Inject constructor(
             viewModelScope.launch {
                 val token = tokenManager.token.firstOrNull()
                 if (token.isNullOrBlank()) {
-                    _uiState.value = currentState.copy(showAuthModal = true)
+                    _uiState.value = currentState.copy(navigateToLogin = true)
                     return@launch
                 }
 
@@ -253,7 +253,7 @@ class ProductScreenViewModel @Inject constructor(
             viewModelScope.launch {
                 val token = tokenManager.token.firstOrNull()
                 if (token.isNullOrBlank()) {
-                    _uiState.value = currentState.copy(showAuthModal = true)
+                    _uiState.value = currentState.copy(navigateToLogin = true)
                     return@launch
                 }
 
@@ -301,10 +301,10 @@ class ProductScreenViewModel @Inject constructor(
         addToCart()
     }
 
-    fun showAuthModal(show: Boolean) {
+    fun onNavigationConsumed() {
         val currentState = _uiState.value
         if (currentState is ProductUiState.Success) {
-            _uiState.value = currentState.copy(showAuthModal = show)
+            _uiState.value = currentState.copy(navigateToLogin = false)
         }
     }
 
