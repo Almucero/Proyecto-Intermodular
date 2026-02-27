@@ -28,6 +28,16 @@ class GameLocalDataSource @Inject constructor(
             }
         }
     }
+
+    override suspend fun addOne(game: Game) {
+        withContext(Dispatchers.IO) {
+            gameDao.insert(game.toEntity())
+            game.media?.let { mediaList ->
+                val mediaEntities = mediaList.map { it.toEntity().copy(gameId = game.id) }
+                mediaDao.insert(mediaEntities)
+            }
+        }
+    }
     
     override fun observe(): Flow<Result<List<Game>>> {
         return gameDao.observeAll().map { entities ->

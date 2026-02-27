@@ -15,6 +15,11 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
+sealed class SearchUiState {
+    object Loading : SearchUiState()
+    object Error : SearchUiState()
+    data class Success(val games: List<Game>) : SearchUiState()
+}
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val gameRepository: GameRepository,
@@ -217,12 +222,6 @@ class SearchViewModel @Inject constructor(
         
         return filters
     }
-}
-
-sealed class SearchUiState {
-    object Loading : SearchUiState()
-    object Error : SearchUiState()
-    data class Success(val games: List<Game>) : SearchUiState()
 }
 
 data class ActiveFilter(

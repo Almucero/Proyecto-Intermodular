@@ -20,9 +20,8 @@
     <string name="home_best_sellers">Más vendidos</string>
     <string name="home_offers">Ofertas</string>
     <string name="home_top_rated">Mejor valorados</string>
-    <string name="home_no_games">No hay juegos disponibles</string>
     <string name="home_retry">Reintentar</string>
-    <string name="home_error_loading">Ocurrió un error al cargar los datos</string>
+    <string name="home_error_loading">No se pudo cargar la pagina.</string>
 
     <string name="favorites_title">Mis Favoritos</string>
     <string name="favorites_empty">Aún no tienes favoritos</string>
@@ -69,6 +68,7 @@
     <string name="register_back">Volver</string>
     <string name="common_hide">Ocultar</string>
     <string name="common_show">Mostrar</string>
+    <string name="common_loading">Cargando...</string>
     <string name="confirm">Confirmar</string>
     <string name="cancel">Cancelar</string>
 

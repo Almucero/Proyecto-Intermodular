@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -34,14 +35,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
-import com.gamesage.kotlin.data.model.Game
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.res.stringResource
 import com.gamesage.kotlin.R
+import com.gamesage.kotlin.data.model.Game
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,31 +50,15 @@ fun HomeScreen(
 ) {
     //Observa el estado y mensajes de error desde el ViewModel.
     val uiState by viewModel.uiState.collectAsState()
-    val errorMessage by viewModel.errorMessage.collectAsState()
 
-    //Estado para el Snackbar.
-    val snackbarHostState = remember { SnackbarHostState() }
 
-    //Escucha cambios en el mensaje de error y dispara el snackbar.
-    LaunchedEffect(errorMessage) {
-        errorMessage?.let {
-            snackbarHostState.showSnackbar(it)
-            //Limpia el error después de mostrarlo.
-            viewModel.clearError()
-        }
-    }
-
-    Scaffold(
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-        containerColor = Color(0xFF111827)
-    ) { paddingValues ->
-        Box(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
-            //Manejo de los distintos estados de la pantalla.
-            when (val state = uiState) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(Color(0xFF111827))
+    ) {
+        //Manejo de los distintos estados de la pantalla.
+        when (val state = uiState) {
                 is HomeUiState.Initial,
                 is HomeUiState.Loading -> {
                     Box(
@@ -96,7 +76,7 @@ fun HomeScreen(
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text(stringResource(R.string.home_error_loading), color = Color.White)
                             Spacer(Modifier.height(16.dp))
-                            androidx.compose.material3.Button(
+                            Button(
                                 onClick = { viewModel.retry() },
                                 colors = androidx.compose.material3.ButtonDefaults.buttonColors(
                                     containerColor = Color(0xFF22D3EE)
@@ -127,7 +107,7 @@ fun HomeScreen(
             }
         }
     }
-}
+
 
 @Composable
 fun CategorySection(categories: List<String>, onGenreClick: (String) -> Unit) {
@@ -154,25 +134,18 @@ fun CategorySection(categories: List<String>, onGenreClick: (String) -> Unit) {
 //Lista horizontal de juegos con título.
 @Composable
 fun GameHorizontalList(title: String, games: List<GameHomeUiState>, onGameClick: (Long) -> Unit) {
-    Column(modifier = Modifier.padding(top = 20.dp)) {
+    if (games.isNotEmpty()) {
+        Column(modifier = Modifier.padding(top = 20.dp)) {
 
-        Text(
-            text = title,
-            modifier = Modifier.padding(horizontal = 16.dp),
-            color = Color(0xFF93E3FE),
-            fontWeight = FontWeight.SemiBold
-        )
-
-        Spacer(Modifier.height(8.dp))
-
-        if (games.isEmpty()) {
             Text(
-                text = stringResource(R.string.home_no_games),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-                modifier = Modifier.padding(horizontal = 16.dp)
+                text = title,
+                modifier = Modifier.padding(horizontal = 16.dp),
+                color = Color(0xFF93E3FE),
+                fontWeight = FontWeight.SemiBold
             )
-        } else {
+
+            Spacer(Modifier.height(8.dp))
+
             LazyRow(
                 contentPadding = PaddingValues(horizontal = 16.dp)
             ) {

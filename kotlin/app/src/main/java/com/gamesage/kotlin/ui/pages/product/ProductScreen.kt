@@ -42,7 +42,6 @@ import com.gamesage.kotlin.R
 @Composable
 fun ProductScreen(
     gameId: Long,
-    onNavigateBack: () -> Unit = {},
     onNavigateToLogin: () -> Unit = {},
     viewModel: ProductScreenViewModel = hiltViewModel()
 ) {
@@ -81,21 +80,18 @@ fun ProductScreen(
                 is ProductUiState.Loading -> LoadingView()
                 is ProductUiState.Error -> ErrorView(onRetry = { viewModel.retry() })
                 is ProductUiState.Success -> {
-                     ProductContent(
+                    LaunchedEffect(state.navigateToLogin) {
+                        if (state.navigateToLogin) {
+                            viewModel.onNavigationConsumed()
+                            onNavigateToLogin()
+                        }
+                    }
+
+                    ProductContent(
                         state = state,
                         mediaItems = mediaItems,
                         viewModel = viewModel
                     )
-                    
-                    if (state.showAuthModal) {
-                        AuthModal(
-                            onDismiss = { viewModel.showAuthModal(false) },
-                            onConfirm = { 
-                                viewModel.showAuthModal(false)
-                                onNavigateToLogin()
-                            }
-                        )
-                    }
                 }
             }
         }
@@ -212,15 +208,6 @@ fun ProductContent(
         GameInfoTable(state.game)
         
         Spacer(modifier = Modifier.height(32.dp))
-    }
-    if (state.showAuthModal) {
-        AuthModal(
-            onDismiss = { viewModel.showAuthModal(false) },
-            onConfirm = { 
-                viewModel.showAuthModal(false)
-                // TODO: Navigate to login
-            }
-        )
     }
 }
 
@@ -764,34 +751,4 @@ fun InfoRow(label: String, value: String, isFirst: Boolean = false, isLast: Bool
                 .padding(16.dp)
         )
     }
-}
-
-@Composable
-fun AuthModal(
-    onDismiss: () -> Unit,
-    onConfirm: () -> Unit
-) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = {
-            Text(stringResource(R.string.product_login_required), color = Color.White)
-        },
-        text = {
-            Text(
-                stringResource(R.string.product_login_message),
-                color = Color(0xFFD1D5DB)
-            )
-        },
-        confirmButton = {
-            TextButton(onClick = onConfirm) {
-                Text(stringResource(R.string.product_login_button), color = Color(0xFF93E3FE))
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.dashboard_cancel), color = Color(0xFF9CA3AF))
-            }
-        },
-        containerColor = Color(0xFF111827)
-    )
 }

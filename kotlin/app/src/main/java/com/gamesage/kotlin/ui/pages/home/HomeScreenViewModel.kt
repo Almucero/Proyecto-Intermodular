@@ -46,9 +46,6 @@ class HomeScreenViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Initial)
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
-    // Para mensajes de error (Snackbars)
-    private val _errorMessage = MutableStateFlow<String?>(null)
-    val errorMessage: StateFlow<String?> = _errorMessage.asStateFlow()
 
     init {
         observeData()
@@ -59,14 +56,21 @@ class HomeScreenViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.value = HomeUiState.Loading
 
+            // Intentamos sincronizar con la red para saber si falla
+            val genresSync = genreRepository.readAll()
+            val gamesSync = gameRepository.readAll()
+
             combine(
                 genreRepository.observe(),
                 gameRepository.observe()
             ) { genresResult, gamesResult ->
-                if (genresResult.isSuccess && gamesResult.isSuccess) {
-                    val genres = genresResult.getOrNull() ?: emptyList()
-                    val allGames = gamesResult.getOrNull() ?: emptyList()
+                val genres = genresResult.getOrNull() ?: emptyList()
+                val allGames = gamesResult.getOrNull() ?: emptyList()
 
+                // Si no hay nada en local Y la sincronización falló, mostramos pantalla de error
+                if (genres.isEmpty() && allGames.isEmpty() && (genresSync.isFailure || gamesSync.isFailure)) {
+                    HomeUiState.Error
+                } else {
                     // Transformamos a modelos de UI
                     val bestSellers = allGames.sortedByDescending { it.numberOfSales }
                         .take(10)
@@ -82,12 +86,10 @@ class HomeScreenViewModel @Inject constructor(
 
                     HomeUiState.Success(
                         categories = genres.map { it.name },
-                        bestSellers = bestSellers.ifEmpty { allGames.take(10).map { it.asGameHomeUiState() } },
-                        offers = offers.ifEmpty { allGames.take(10).map { it.asGameHomeUiState() } },
-                        topRated = topRated.ifEmpty { allGames.take(10).map { it.asGameHomeUiState() } }
+                        bestSellers = bestSellers,
+                        offers = offers,
+                        topRated = topRated
                     )
-                } else {
-                    HomeUiState.Error
                 }
             }.collect { state ->
                 _uiState.value = state
@@ -95,9 +97,6 @@ class HomeScreenViewModel @Inject constructor(
         }
     }
 
-    fun clearError() {
-        _errorMessage.value = null
-    }
 
     fun retry() {
         observeData()
