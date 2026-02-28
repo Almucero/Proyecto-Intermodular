@@ -110,9 +110,12 @@ class CartRemoteDataSource @Inject constructor(
 
     override suspend fun update(gameId: Int, platformId: Int, quantity: Int): Result<Unit> {
         return try {
+            // Ejecuta el PATCH al endpoint del carrito
             cartApi.updateCartItem(gameId, mapOf("quantity" to quantity, "platformId" to platformId))
+            //la operación fue exitosa y no hay valor adicional que devolver
             Result.success(Unit)
         } catch (e: Exception) {
+            //La operación falló y contiene el error
             Result.failure(e)
         }
     }

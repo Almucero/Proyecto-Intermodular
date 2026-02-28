@@ -34,12 +34,12 @@ class CartLocalDataSource @Inject constructor(
         cartDao.insert(items.toEntity())
     }
 
-    //Cambia la cantidad de un producto en la base local
+    //no toca la DB porque se actualiza con addAll()
     override suspend fun update(gameId: Int, platformId: Int, quantity: Int): Result<Unit> {
-        val entity = cartDao.getById(gameId, platformId)
-        if (entity != null) {
-            cartDao.insert(entity.copy(quantity = quantity))
-        }
+        //val entity = cartDao.getById(gameId, platformId)
+        //if (entity != null) {
+        //    cartDao.insert(entity.copy(quantity = quantity))
+        //}
         return Result.success(Unit)
     }
 

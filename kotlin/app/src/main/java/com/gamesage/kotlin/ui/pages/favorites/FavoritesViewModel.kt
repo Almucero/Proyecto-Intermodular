@@ -26,6 +26,7 @@ data class FavoriteItemUiState(
     val imageUrl: String
 )
 
+//Estados de pantalla
 sealed class FavoritesUiState {
     object Initial : FavoritesUiState()
     object Loading : FavoritesUiState()
@@ -55,12 +56,17 @@ class FavoritesViewModel @Inject constructor(
     // Observa los favoritos y actualiza el estado de la UI
     private fun observeFavorites() {
         viewModelScope.launch {
+            //El estado se muestra en loading mientras se obtiene la información de favoritos
             _uiState.value = FavoritesUiState.Loading
+            //Se observa el flujo de datos desde el repositorio de favoritos
             favoritesRepository.observe().collect { result ->
+                //Si la lista de juegos favoritos (games) se obtiene correctamente, el estado de la UI se actualiza a FavoritesUiState.Success
                 result.onSuccess { games ->
                     _uiState.value = FavoritesUiState.Success(
+                        //se asignan los juegos mapeados a un formato adecuado para la UI
                         games = games.map { it.asFavoriteItemUiState() }
                     )
+                    //Se ejecuta si el resultado es un error
                 }.onFailure { e ->
                     _uiState.value = FavoritesUiState.Error(e.message ?: "Error al cargar favoritos")
                 }

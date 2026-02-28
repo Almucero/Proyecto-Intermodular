@@ -64,7 +64,9 @@ class CartRepositoryImpl @Inject constructor(
     }
 
     override suspend fun update(gameId: Int, platformId: Int, quantity: Int): Result<Unit> {
+        //Llama al servidor primero
         val result = remoteDataSource.update(gameId, platformId, quantity)
+        //Si el servidor responde bien, refresca la caché local
         if (result.isSuccess) {
             readAll()
         }

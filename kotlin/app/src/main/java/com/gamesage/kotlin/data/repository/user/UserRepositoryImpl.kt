@@ -65,6 +65,7 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun readAll(): Result<List<User>> {
         return remoteDataSource.readAll()
     }
+
     override fun observe(): Flow<Result<List<User>>> {
         scope.launch {
             remoteDataSource.observe().collect { result ->

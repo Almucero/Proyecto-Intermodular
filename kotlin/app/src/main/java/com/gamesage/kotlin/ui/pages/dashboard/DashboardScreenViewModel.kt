@@ -15,20 +15,6 @@ import java.io.File
 import javax.inject.Inject
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
-import dagger.hilt.android.qualifiers.ApplicationContext
-import android.content.Context
-
-
-sealed class DashboardUiState {
-    object Initial : DashboardUiState()
-    object Loading : DashboardUiState()
-    data class Success(
-        val user: User,
-        val isEditing: Boolean = false,
-        val editableUser: UserEditableData
-    ) : DashboardUiState()
-    data class Error(val message: String) : DashboardUiState()
-}
 
 data class UserEditableData(
     val nickname: String = "",
@@ -45,11 +31,21 @@ data class UserEditableData(
     val selectedFile: File? = null
 )
 
+sealed class DashboardUiState {
+    object Initial : DashboardUiState()
+    object Loading : DashboardUiState()
+    data class Success(
+        val user: User,
+        val isEditing: Boolean = false,
+        val editableUser: UserEditableData
+    ) : DashboardUiState()
+    data class Error(val message: String) : DashboardUiState()
+}
+
 @HiltViewModel
 class DashboardScreenViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val api: GameSageApi,
-    @ApplicationContext private val context: Context
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<DashboardUiState>(DashboardUiState.Initial)
     val uiState: StateFlow<DashboardUiState> = _uiState.asStateFlow()
@@ -68,6 +64,7 @@ class DashboardScreenViewModel @Inject constructor(
     private fun observeUser() {
         viewModelScope.launch {
             _uiState.value = DashboardUiState.Loading
+            //Observa los cambios en los datos del usuario a través del repositorio
             userRepository.observeMe().collect { result ->
                 result.onSuccess { user ->
                     val currentState = _uiState.value
@@ -75,6 +72,7 @@ class DashboardScreenViewModel @Inject constructor(
                         // Si ya estábamos editando, mantenemos los datos que el usuario está escribiendo
                         _uiState.value = currentState.copy(user = user)
                     } else {
+                        //// Si no estamos editando, mostramos los datos del usuario en el estado
                         _uiState.value = DashboardUiState.Success(
                             user = user,
                             editableUser = user.toEditableData()
@@ -95,21 +93,27 @@ class DashboardScreenViewModel @Inject constructor(
     fun toggleEdit() {
         val state = _uiState.value
         if (state is DashboardUiState.Success) {
+            //Se invierte el valor de isEditing, que indica si el perfil está actualmente en modo edición o no
             val newIsEditing = !state.isEditing
-            
-            // Si el usuario intenta entrar en modo edición sin internet, lo bloqueamos con Snackbar
             _uiState.value = state.copy(
+                //Cambiamos el estado de 'isEditing' para reflejar si estamos en modo edición o no
                 isEditing = newIsEditing,
-                // Si cancelamos, restauramos los datos del usuario (que son los que hay en local)
-                editableUser = if (!newIsEditing) state.user.toEditableData() else state.editableUser
+                editableUser = if (!newIsEditing)
+                    //Si no estamos en modo edición, restauramos los datos originales
+                    state.user.toEditableData()
+                // Si estamos en modo edición, mantenemos los datos ya editados
+                else state.editableUser
             )
         }
     }
 
     // Actualiza los datos temporales del formulario
     fun onEditableDataChange(data: UserEditableData) {
+        // Obtenemos el estado actual de la UI
         val state = _uiState.value
+        // Verificamos si el estado actual es de tipo 'Success', que indica que los datos del usuario han sido cargados correctamente
         if (state is DashboardUiState.Success) {
+            // Actualizamos los datos temporales del formulario con los nuevos datos
             _uiState.value = state.copy(editableUser = data)
         }
     }
@@ -117,20 +121,22 @@ class DashboardScreenViewModel @Inject constructor(
     // Guarda los cambios en el servidor (foto y datos personales)
     fun saveChanges() {
         val state = _uiState.value
+        // Si el estado no es 'Success', no realizamos ninguna acción, ya que no hay datos de usuario válidos
         if (state !is DashboardUiState.Success) return
-
+        // Extraemos los datos del usuario actual y los datos editables
         val currentUser = state.user
         val editable = state.editableUser
 
         viewModelScope.launch {
             try {
-                // Subir imagen si se ha seleccionado una nueva
+                // Subir imagen si el usuario ha seleccionado una nueva
                 editable.selectedFile?.let { file ->
+                    // Si el usuario ha seleccionado un archivo, lo convertimos a 'MultipartBody' para enviarlo en la solicitud
                     val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
                     val body = okhttp3.MultipartBody.Part.createFormData("file", file.name, requestFile)
                     val typePart = okhttp3.MultipartBody.Part.createFormData("type", "user")
                     val idPart = okhttp3.MultipartBody.Part.createFormData("id", currentUser.id.toString())
-                    
+                    // Realizamos la llamada para cargar la imagen al servidor
                     api.createMedia(body, typePart, idPart)
                 }
 
@@ -147,10 +153,10 @@ class DashboardScreenViewModel @Inject constructor(
                     postalCode = editable.postalCode,
                     country = editable.country
                 )
-
+                // Realizamos la llamada para actualizar los datos del usuario
                 api.updateOwnUser(updateRequest)
-                
-                // Salir de modo edición. La recarga de datos vendrá sola por el observeMe()
+
+                // Salimos del modo edición. Después de guardar, la UI se actualizará automáticamente con los datos más recientes
                 _uiState.value = state.copy(isEditing = false)
             } catch (e: Exception) {
                 // Si falla el guardado, se muestra el error por Snackbar y seguimos en modo edición con los datos guardados localmente
@@ -163,11 +169,14 @@ class DashboardScreenViewModel @Inject constructor(
     // Cierra la sesión del usuario
     fun logout() {
         viewModelScope.launch {
-
+            // Marca el estado como "en proceso de cierre de sesión"
             isLoggingOut = true
+            // Llama al repositorio para cerrar la sesión del usuario
             userRepository.logout().onSuccess {
+                // Si el cierre de sesión es exitoso, se cambia el estado de la UI a 'Initial',la pantalla de login
                 _uiState.value = DashboardUiState.Initial
             }.onFailure { e ->
+                // Si ocurre un error durante el cierre de sesión, se marca como no estando en proceso de cierre
                 isLoggingOut = false
                 val isNetworkError = e is java.io.IOException || e is java.net.UnknownHostException
                 _errorMessage.value = if (isNetworkError) "Sin conexión a internet" else "Error al cerrar sesión"
