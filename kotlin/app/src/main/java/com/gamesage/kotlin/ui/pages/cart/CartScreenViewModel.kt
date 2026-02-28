@@ -27,6 +27,7 @@ data class CartItemUiState(
     val itemTotal: Double
 )
 
+//Estados de pantalla
 sealed class CartUiState {
     object Initial : CartUiState()
     object Loading : CartUiState()
@@ -54,15 +55,20 @@ class CartScreenViewModel @Inject constructor(
 
     private fun observeCart() {
         viewModelScope.launch {
+            //El estado se muestra en loading mientras se obtiene la información del carrito
             _uiState.value = CartUiState.Loading
+            //Se observa el flujo de datos desde el repositorio del carrito
             cartRepository.observe().collect { result ->
                 if (result.isSuccess) {
+                    //Si es exitoso, se obtiene la lista de elementos del carrito o si es nulo una lista vacia
                     val items = result.getOrNull() ?: emptyList()
+                    //Se actualiza el estado de la UI con los datos obtenidos, se mapea los datos con el CartItemUiState y se calcula el total
                     _uiState.value = CartUiState.Success(
                         items = items.map { it.asCartItemUiState() },
                         total = calculateTotal(items)
                     )
                 } else {
+                    //Si falla, se muestra un mensaje de error
                     _uiState.value = CartUiState.Error("Error al cargar el carrito")
                 }
             }
@@ -71,7 +77,9 @@ class CartScreenViewModel @Inject constructor(
 
     //Calcula el total general del carrito.
     private fun calculateTotal(items: List<CartItem>): Double {
+        //suma los resultados de una operación sobre una la lista, CartItem
         return items.sumOf { item ->
+            //Se extrae el objeto game del item
             val game = item.game
             //Si está en oferta usa salePrice.
             //Si no, usa price normal.
@@ -86,8 +94,7 @@ class CartScreenViewModel @Inject constructor(
 
     //Actualiza la cantidad de un producto.
     private suspend fun updateItemQuantity(item: CartItemUiState, newQuantity: Int) {
-        // En modo reactivo, ya no necesitamos actualizar el _uiState aquí.
-        // Solo mandamos el cambio al repositorio y el observe() se encargará del resto.
+        // Hacemos llamada al repositorio para actualizar la cantidad, se pasa el identificador del juego que se está actualizando,el identificador de la plataforma en la que se juega el juego y l    a nueva cantidad para el artículo en el carrito.
         val result = cartRepository.update(item.gameId, item.platformId, newQuantity)
         if (result.isFailure) {
             _errorMessage.value = "Error al actualizar: se necesita conexión a internet"
@@ -103,13 +110,14 @@ class CartScreenViewModel @Inject constructor(
         }
     }
 
-    //Si cantidad > 1, resta 1
-    //Si cantidad = 1,elimina el producto
+
     fun decrementQuantity(item: CartItemUiState) {
         viewModelScope.launch {
+            //Si cantidad > 1, resta 1
             if (item.quantity > 1) {
                 updateItemQuantity(item, item.quantity - 1)
             } else {
+                //Si cantidad = 1,elimina el producto
                 removeFromCart(item.gameId, item.platformId)
             }
         }
@@ -141,7 +149,7 @@ class CartScreenViewModel @Inject constructor(
     }
 }
 
-//Convierte el modelo de base de datos en modelo para UI.
+//Convierte un objeto de tipo CartItem en un objeto CartItemUiState
 fun CartItem.asCartItemUiState(): CartItemUiState {
     val game = this.game
     //Calcula precio correcto (oferta o normal)
