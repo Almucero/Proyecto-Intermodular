@@ -19,5 +19,5 @@ data class SignUpRequest(
 @Serializable
 data class AuthResponse(
     val token: String,
-    val user: UserApiModel? = null // Assuming we might get user info back, nullable for now
+    val user: UserApiModel? = null
 )

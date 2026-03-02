@@ -32,9 +32,13 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun signIn(request: SignInRequest): Result<Unit> {
         return try {
+            //Llamada a la API para hacer login enviando email y password
             val response = api.login(request)
+            //Guarda el token recibido para futuras peticiones
             tokenManager.saveToken(response.token)
+            //Llama a "me()" para obtener los datos del usuario autenticado
             me()
+            //Si salió bien, devolvemos éxito
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
