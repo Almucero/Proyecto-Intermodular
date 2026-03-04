@@ -47,20 +47,12 @@ export async function registerCtrl(req: Request, res: Response) {
 }
 
 export async function loginCtrl(req: Request, res: Response) {
-  try {
-    const { email, password } = loginSchema.parse(req.body);
-    const data = await login(email, password);
-    res.json(data);
-  } catch (e: any) {
-    if (e.status === 423) {
-      return res.status(423).json({ message: e.message });
-    }
-    else if (e.message === 'Credenciales inválidas') {
-      return res.status(401).json({ message: e.message });
-    }
-    else {
-      console.error('LOGIN ERROR', e);
-    }
-    res.status(400).json({ message: e.message });
-  }
+  // Handler simplificado temporalmente para aislar errores en producción (Vercel).
+  // Si esta ruta sigue devolviendo 500 con este código,
+  // el problema está antes de llegar al controlador (routing / configuración),
+  // no en la lógica de login.
+  return res.status(200).json({
+    ok: true,
+    echo: req.body,
+  });
 }
