@@ -23,13 +23,15 @@ export function errorHandler(
     message = 'Caracteres no válidos en la petición';
   }
 
-  if (env.NODE_ENV !== 'production') {
-    logger.error(`${req.method} ${req.path} - ${err.message}`);
+  // Log detallado también en producción para diagnosticar errores 500 en Vercel.
+  // OJO: si en el futuro quieres silenciar detalles en producción, reduce este log.
+  logger.error(
+    `${req.method} ${req.path} - status=${status} message=${message} original=${
+      err?.message ?? 'n/a'
+    }`,
+  );
+  if (err?.stack) {
     logger.error(err.stack);
-  } else {
-    if (status >= 500) {
-      logger.error(`${req.method} ${req.path} - Error ${status}`);
-    }
   }
 
   const isProduction = env.NODE_ENV === 'production';
