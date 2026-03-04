@@ -13,7 +13,7 @@ El proyecto está pensado para ofrecer una experiencia completa de principio a f
   - La **API REST** bajo `/api/*` (misma URL base y mismo puerto).
 - El **frontend** consume la API exclusivamente mediante rutas **relativas** (`/api/...`), evitando dependencias de URLs absolutas.
 - **Traducción y SEO Dinámico**: El servidor Node.js (SSR) detecta el idioma del usuario (vía cabecera `Accept-Language` o cookie) e inyecta al vuelo las meta-etiquetas SEO traducidas (`description`, `keywords`, `OpenGraph`, `Twitter Cards`, etc.) y el atributo `lang` en el `index.html` antes de enviarlo al cliente. Esto permite tener una única SPA que se comporta como múltiples sitios localizados para los motores de búsqueda.
-- **Gestión de Puertos**: Los scripts de arranque (`start`, `dev`, `serve:ssr`) incluyen limpieza automática de puertos (3000 y 4200) para evitar errores `EADDRINUSE`.
+- **Gestión de Puertos**: Los scripts de arranque (`start`, `dev`, `serve:ssr`) llaman internamente a `scripts/free-port.mjs` para liberar los puertos 4200 y 3000 solo cuando están ocupados, evitando errores `EADDRINUSE` sin mostrar mensajes innecesarios.
 - La **persistencia** se gestiona con PostgreSQL y Prisma.
 - El backend incorpora seguridad, validación y utilidades de operación (rate limit, serialización, logging).
 - La aplicación ha sido **testeada con OWASP ZAP**; se han corregido la mayoría de vulnerabilidades detectadas, salvo aquellas cuya mitigación rompería el funcionamiento de la página (por ejemplo limitaciones propias de Angular o de recursos externos).
@@ -285,6 +285,8 @@ Antes de ejecutar determinados comandos (build, serve, dev, tests, seeds, etc.),
 
 - **`scripts/serve-ssr.mjs`**: Antes de arrancar el servidor SSR compilado, valida que exista el build (`dist/game-sage/server/server.mjs`) y que exista un `.env` configurado. Si falta alguno, muestra un error directo indicando qué comando o paso previo ejecutar.
 
+- **`scripts/free-port.mjs`**: Utilidad interna que verifica si un puerto concreto está en uso y, solo en ese caso, mata el proceso asociado. Se usa desde los scripts `start`, `dev` y `serve:ssr` para evitar errores `EADDRINUSE` sin imprimir mensajes cuando el puerto ya está libre.
+
 Estas verificaciones se ejecutan automáticamente en los scripts de `package.json` que las requieren (build, serve:ssr, dev:backend, test, seed:admin, format, etc.). No aplican a `clean:full` ni a `reinstall`, ya que esos comandos borran o reinstalan dependencias por diseño.
 
 ---
@@ -482,7 +484,7 @@ Los comandos están definidos en `package.json`. Para un arranque desde cero com
 
 ### Desarrollo
 
-*Nota: Los comandos `start`, `dev` y `serve:ssr` ejecutan automáticamente `npx kill-port <puerto>` antes de arrancar para liberar los puertos 3000 o 4200 y evitar conflictos.*
+*Nota: Los comandos `start`, `dev` y `serve:ssr` ejecutan automáticamente `node scripts/free-port.mjs <puerto>` antes de arrancar para liberar los puertos 3000 o 4200 solo si están en uso, evitando conflictos sin generar ruido en la consola.*
 
 - **`npm start`**  
   Ejecuta `ng serve` (desarrollo de frontend en modo SPA).
