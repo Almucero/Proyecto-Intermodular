@@ -11,7 +11,7 @@ export function errorHandler(
 ) {
   applySecurityHeaders(req, res);
   applyNoCacheHeaders(res);
-  
+
   let status = err.status || 500;
   let message = err.message || 'Error interno';
 
