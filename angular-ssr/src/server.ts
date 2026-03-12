@@ -73,7 +73,9 @@ if (process.env['VERCEL']) {
     next();
   });
 }
-const angularApp = new AngularNodeAppEngine();
+const angularApp = new AngularNodeAppEngine({
+  allowedHosts: ['localhost', '127.0.0.1', '::1', 'api']
+});
 
 const SENSITIVE_PATH_SEGMENTS = /\.(env|git|htaccess|zap\d+)|\.(idea|svn|hg|bzr|DS_Store)|server\.key|privatekey\.key|id_rsa|id_dsa|\.ssh\/|config\/database|WebServers\.xml|actuator\/|\.php|composer\.(json|lock)|sftp-config\.json|WS_FTP\.ini|filezilla\.xml|vim_settings\.xml|phpinfo|CHANGELOG\.txt|server-status|server-info/i;
 
