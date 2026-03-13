@@ -49,11 +49,10 @@ jobs:
       shell: bash
       run: |
         cd kotlin
-        # Crear archivo local.properties para evitar error de configuración de Gradle
         touch local.properties
         chmod +x gradlew
-        # Usamos compileReleaseKotlin para evitar la ambigüedad de variantes
-        ./gradlew clean compileReleaseKotlin
+        # Cambiamos a assembleDebug para que incluya las librerías de tooling/preview
+        ./gradlew clean assembleDebug -x test
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v4
