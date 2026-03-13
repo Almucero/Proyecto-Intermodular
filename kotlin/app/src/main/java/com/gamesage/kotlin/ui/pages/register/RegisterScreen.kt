@@ -22,7 +22,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.compose.ui.res.stringResource
 import com.gamesage.kotlin.R
 
@@ -208,7 +208,7 @@ fun RegisterScreen(
                                 modifier = Modifier.fillMaxWidth().height(50.dp),
                                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3B82F6)),
                                 shape = RoundedCornerShape(25.dp),
-                                enabled = uiState !is RegisterUiState.Loading
+                                enabled = true
                             ) {
                                 Text(stringResource(R.string.register_button), color = Color.White, fontSize = 16.sp)
                             }

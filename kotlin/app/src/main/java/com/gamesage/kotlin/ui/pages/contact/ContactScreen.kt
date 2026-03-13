@@ -118,7 +118,7 @@ fun ContactCard(
             .background(Color(0xFF1F2937))
             .border(1.dp, Color(0xFF374151), RoundedCornerShape(16.dp))
             .then(
-                if (onClick != null) Modifier.clickable(onClick = onClick as () -> Unit)
+                if (onClick != null) Modifier.clickable(onClick = onClick)
                 else Modifier
             )
             .padding(20.dp)

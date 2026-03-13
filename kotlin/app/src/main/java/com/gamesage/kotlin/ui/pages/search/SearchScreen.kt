@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,7 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.gamesage.kotlin.data.model.Game
 import androidx.compose.ui.res.stringResource
@@ -44,7 +45,6 @@ fun SearchScreen(
     val selectedPlatform by viewModel.selectedPlatform.collectAsState()
     val priceValue by viewModel.priceValue.collectAsState()
     val maxPrice by viewModel.maxPrice.collectAsState()
-    val searchQuery by viewModel.searchQuery.collectAsState()
     val genres by viewModel.availableGenres.collectAsStateWithLifecycle()
 
 
@@ -214,7 +214,7 @@ fun FilterSection(
         }
         
         if (expanded) {
-            Divider(color = Color(0xFF374151), thickness = 1.dp)
+            HorizontalDivider(Modifier, thickness = 1.dp, color = Color(0xFF374151))
             Box(modifier = Modifier.padding(16.dp)) {
                 content()
             }
@@ -247,7 +247,7 @@ fun PriceFilterContent(
         }
         
         Spacer(modifier = Modifier.height(16.dp))
-        Divider(color = Color(0xFF374151))
+        HorizontalDivider(Modifier, DividerDefaults.Thickness, color = Color(0xFF374151))
         Spacer(modifier = Modifier.height(16.dp))
         
         Text("${stringResource(R.string.filter_max)} $priceValue€", color = Color(0xFF9CA3AF), fontSize = 14.sp)

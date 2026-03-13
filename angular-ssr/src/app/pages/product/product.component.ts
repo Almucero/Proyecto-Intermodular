@@ -423,7 +423,9 @@ export class ProductComponent implements OnInit {
   private convertToEmbedUrl(url: string): string {
     const videoId = this.getVideoId(url);
     if (videoId) {
-      return `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3`;
+      const origin = typeof window !== 'undefined' ? window.location.origin : '';
+      const originParam = origin ? `&origin=${encodeURIComponent(origin)}` : '';
+      return `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&enablejsapi=1${originParam}`;
     }
     return url;
   }
