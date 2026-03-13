@@ -1,4 +1,3 @@
-
 name: "CodeQL Advanced"
 
 on:
@@ -53,7 +52,8 @@ jobs:
         # Crear archivo local.properties para evitar error de configuración de Gradle
         touch local.properties
         chmod +x gradlew
-        ./gradlew clean compileKotlin
+        # Usamos compileReleaseKotlin para evitar la ambigüedad de variantes
+        ./gradlew clean compileReleaseKotlin
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v4
