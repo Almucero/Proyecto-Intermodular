@@ -69,11 +69,15 @@
     <string name="register_back">Indietro</string>
     <string name="common_hide">Nascondi</string>
     <string name="common_show">Mostra</string>
+    <string name="common_loading">Caricamento…</string>
+    <string name="confirm">Conferma</string>
+    <string name="cancel">Annulla</string>
 
     <string name="cart_title">Carrello</string>
     <string name="cart_empty">Il tuo carrello è vuoto</string>
     <string name="cart_total">Totale:</string>
     <string name="cart_checkout">Acquista</string>
+    <string name="cart_clear">Svuota carrello</string>
     <string name="cart_unknown_game">Gioco sconosciuto</string>
     <string name="cart_unknown_developer">Sconosciuto</string>
     <string name="cart_unit_price">Prezzo:</string>
@@ -127,9 +131,11 @@
     <string name="dashboard_save">Salva</string>
     <string name="dashboard_logout">Esci</string>
     <string name="dashboard_copied">Copiato</string>
+    <string name="logout_title">Esci</string>
+    <string name="logout_message">Sei sicuro di voler uscire?</string>
 
     <string name="aichat_title">Chat IA</string>
-    <string name="aichat_loading">Caricamento chat...</string>
+    <string name="aichat_loading">Caricamento chat…</string>
 
     <string name="contact_title">Contatto</string>
     <string name="contact_subtitle">Hai domande o bisogno di aiuto? Siamo qui per te.</string>
@@ -195,7 +201,7 @@
     <string name="privacy_section1_bp5">Indirizzo IP e dati del dispositivo</string>
     <string name="privacy_section2_title">2. Come Utilizziamo le Tue Informazioni</string>
     <string name="privacy_section2_text">Utilizziamo le tue informazioni per:</string>
-    <string name="privacy_section2_bp1">Elaborare i tuoi ordini e transazioni</string>
+    <string name="privacy_section2_bp1">Elaborare i tuoi ordini e transacciones</string>
     <string name="privacy_section2_bp2">Migliorare i nostri servizi</string>
     <string name="privacy_section2_bp3">Inviarti aggiornamenti e offerte (con il tuo consenso)</string>
     <string name="privacy_section2_bp4">Rispettare gli obblighi legali</string>

@@ -69,11 +69,15 @@
     <string name="register_back">Zurück</string>
     <string name="common_hide">Verbergen</string>
     <string name="common_show">Anzeigen</string>
+    <string name="common_loading">Laden…</string>
+    <string name="confirm">Bestätigen</string>
+    <string name="cancel">Abbrechen</string>
 
     <string name="cart_title">Warenkorb</string>
     <string name="cart_empty">Ihr Warenkorb ist leer</string>
     <string name="cart_total">Gesamt:</string>
     <string name="cart_checkout">Bezahlen</string>
+    <string name="cart_clear">Warenkorb leeren</string>
     <string name="cart_unknown_game">Unbekanntes Spiel</string>
     <string name="cart_unknown_developer">Unbekannt</string>
     <string name="cart_unit_price">Preis:</string>
@@ -127,9 +131,11 @@
     <string name="dashboard_save">Speichern</string>
     <string name="dashboard_logout">Abmelden</string>
     <string name="dashboard_copied">Kopiert</string>
+    <string name="logout_title">Abmelden</string>
+    <string name="logout_message">Sind Sie sicher, dass Sie sich abmelden möchten?</string>
 
     <string name="aichat_title">KI-Chat</string>
-    <string name="aichat_loading">Chat wird geladen...</string>
+    <string name="aichat_loading">Chat wird geladen…</string>
 
     <string name="contact_title">Kontakt</string>
     <string name="contact_subtitle">Haben Sie Fragen oder benötigen Sie Hilfe? Wir sind für Sie da.</string>
@@ -171,7 +177,7 @@
     <string name="conditions_section8_text">Bei Fragen zu diesen Bedingungen kontaktieren Sie uns unter info.gamesage@gmail.com</string>
 
     <string name="cookies_section1_title">1. Was sind Cookies?</string>
-    <string name="cookies_section1_text">Cookies sind kleine Textdateien, die auf Ihrem Gerät gespeichert werden, wenn Sie eine Website besuchen.</string>
+    <string name="cookies_section1_text">Cookies are small text files stored on your device when you visit a website.</string>
     <string name="cookies_section2_title">2. Arten von Cookies, die wir verwenden</string>
     <string name="cookies_type_essential_title">Essentielle Cookies</string>
     <string name="cookies_type_essential_desc">Notwendig für die grundlegende Funktion der Website.</string>
@@ -220,5 +226,4 @@
     <string name="privacy_section7_text">Wir können diese Richtlinie gelegentlich aktualisieren. Wir werden Sie über wesentliche Änderungen informieren.</string>
     <string name="privacy_section8_title">8. Kontakt</string>
     <string name="privacy_section8_text">Um Ihre Rechte auszuüben oder Fragen zum Datenschutz zu stellen, kontaktieren Sie uns unter info.gamesage@gmail.com</string>
-    <string name="game_desc_the_elder_scrolls_v_skyrim">Als Dovahkiin, das prophezeite Drachenblut, bist du der Einzige, der Alduin, dem Weltenfresser, in einem vom Bürgerkrieg zerrissenen Land entgegentreten kann. Skyrim bietet unvergleichliche Freiheit in einer riesigen offenen Welt voller verschneiter Berge, antiker Städte und tiefer Verliese. Das Fortschrittssystem ermöglicht es dir, \\"das zu sein, was du spielst\\", indem du deine Fähigkeiten durch Gebrauch verbesserst, anstatt eine vordefinierte Klasse zu wählen, sodass du alles erschaffen kannst, vom heimlichen Magier bis zum schwer gepanzerten Krieger.\\n\\nDie Immersion ist absolut, mit Hunderten von Nebenquests, Gilden, denen man beitreten kann, und Geheimnissen, die in jeder Ecke der Karte zu entdecken sind. Mit der Möglichkeit, Häuser zu bauen, Kinder zu adoptieren und jederzeit gegen Drachen zu kämpfen, bietet das Spiel Hunderte von Stunden Inhalt, bei denen die Neugier des Spielers der einzige notwendige Kompass in dieser nordischen Provinz von Tamriel ist.</string>
 </resources>

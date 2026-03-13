@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">GameSage</string>
 
+    <!-- Strings para el menú -->
     <string name="menu_title">Menú</string>
     <string name="menu_explore">Explorar</string>
     <string name="menu_settings">Ajustes</string>
@@ -17,16 +18,20 @@
     <string name="menu_register">Registrarse</string>
     <string name="menu_aichat">Chat IA</string>
 
+    <!-- Strings para home -->
     <string name="home_best_sellers">Más vendidos</string>
     <string name="home_offers">Ofertas</string>
     <string name="home_top_rated">Mejor valorados</string>
+    <string name="home_no_games">No hay juegos disponibles</string>
     <string name="home_retry">Reintentar</string>
-    <string name="home_error_loading">No se pudo cargar la pagina.</string>
+    <string name="home_error_loading">No se pudo cargar la página.</string>
 
+    <!-- Strings para favoritos -->
     <string name="favorites_title">Mis Favoritos</string>
     <string name="favorites_empty">Aún no tienes favoritos</string>
     <string name="favorites_transfer_all">MOVER TODO AL CARRITO</string>
 
+    <!-- Strings para pantalla de búsqueda -->
     <string name="search_placeholder">Buscar</string>
     <string name="search_filters">Filtros</string>
     <string name="search_reset">Restablecer</string>
@@ -39,6 +44,7 @@
     <string name="price_free">Gratis</string>
     <string name="filter_max">Máx:</string>
 
+    <!-- Strings para géneros -->
     <string name="genre_action">Acción</string>
     <string name="genre_adventure">Aventura</string>
     <string name="genre_rpg">RPG</string>
@@ -50,6 +56,7 @@
     <string name="genre_sandbox">Sandbox</string>
     <string name="genre_shooter">Shooter</string>
 
+    <!-- Strings para pantalla de login -->
     <string name="login_title">Iniciar Sesión</string>
     <string name="login_no_account">¿No tienes una cuenta? </string>
     <string name="login_create_account">Crea una aquí</string>
@@ -68,10 +75,11 @@
     <string name="register_back">Volver</string>
     <string name="common_hide">Ocultar</string>
     <string name="common_show">Mostrar</string>
-    <string name="common_loading">Cargando...</string>
+    <string name="common_loading">Cargando…</string>
     <string name="confirm">Confirmar</string>
     <string name="cancel">Cancelar</string>
 
+    <!-- Strings para el carrito -->
     <string name="cart_title">Carrito de Compras</string>
     <string name="cart_empty">Tu carrito está vacío</string>
     <string name="cart_total">Total:</string>
@@ -83,6 +91,7 @@
     <string name="cart_delete">Eliminar</string>
     <string name="cart_unknown_error">Error Desconocido</string>
 
+    <!-- Strings para pantalla de producto -->
     <string name="product_loading_error">Error al cargar el producto</string>
     <string name="product_retry">Reintentar</string>
     <string name="product_stock_available">En Stock</string>
@@ -107,6 +116,7 @@
     <string name="product_login_button">Iniciar Sesión</string>
     <string name="product_platform">Plataforma</string>
 
+    <!-- Strings para el dashboard -->
     <string name="dashboard_image_error">Error al procesar imagen</string>
     <string name="dashboard_user_section">Usuario</string>
     <string name="dashboard_user_placeholder">Usuario</string>
@@ -133,9 +143,11 @@
     <string name="logout_title">Cerrar Sesión</string>
     <string name="logout_message">¿Estás seguro de que deseas cerrar la sesión?</string>
 
+    <!-- Strings para pantalla de chat -->
     <string name="aichat_title">Chat IA</string>
-    <string name="aichat_loading">Cargando chat...</string>
+    <string name="aichat_loading">Cargando chat…</string>
 
+    <!-- Strings para pantalla de contacto -->
     <string name="contact_title">Contacto</string>
     <string name="contact_subtitle">¿Tienes preguntas o necesitas ayuda? Estamos aquí para ti.</string>
     <string name="contact_email_title">Email</string>
@@ -143,14 +155,7 @@
     <string name="contact_address_title">Dirección</string>
     <string name="contact_address_content">Calle Sancha de Lara s/n, Barrio Centro Histórico, Distrito Centro, Málaga, Comarca de Málaga(España)</string>
 
-    <string name="cookies_title">Política de Cookies</string>
-    <string name="cookies_update">Última actualización: Diciembre 2024</string>
-    <string name="cookies_intro">En GameSage utilizamos cookies para mejorar tu experiencia de navegación.</string>
-
-    <string name="privacy_title">Política de Privacidad</string>
-    <string name="privacy_update">Fecha de vigencia: Diciembre 2024</string>
-    <string name="privacy_intro">En GameSage, tu privacidad es importante para nosotros.</string>
-    
+    <!-- Strings para pantalla de términos y condiciones -->
     <string name="conditions_title">Términos y Condiciones</string>
     <string name="conditions_update">Fecha de vigencia: Diciembre 2024</string>
     <string name="conditions_intro">Bienvenido a GameSage. Al usar nuestros servicios, aceptas estos términos.</string>
@@ -166,15 +171,19 @@
     <string name="conditions_section3_text">Eres responsable de mantener la confidencialidad de tu cuenta y contraseña.</string>
     <string name="conditions_section4_title">4. Compras y Pagos</string>
     <string name="conditions_section4_text">Todos los precios están en Euros e incluyen IVA. Las compras son definitivas a menos que se indique lo contrario.</string>
-    <string name="conditions_section5_title">5. Propiedad Intelectual</string>
-    <string name="conditions_section5_text">Todo el contenido de GameSage está protegido por derechos de autor y otras leyes de propiedad intelectual.</string>
+    <string name="conditions_section5_title" tools:ignore="Typos">5. Propiedad Intelectual</string>
+    <string name="conditions_section5_text" tools:ignore="Typos">Todo el contenido de GameSage está protegido por derechos de autor y otras leyes de propiedad intelectual.</string>
     <string name="conditions_section6_title">6. Limitación de Responsabilidad</string>
     <string name="conditions_section6_text">GameSage no se hace responsable de daños indirectos, incidentales o consecuentes derivados del uso del servicio.</string>
     <string name="conditions_section7_title">7. Modificaciones</string>
-    <string name="conditions_section7_text">Nos reservamos el derecho de modificar estos términos en cualquier momento.</string>
+    <string name="conditions_section7_text" tools:ignore="Typos">Nos reservamos el derecho de modificar estos términos en cualquier momento.</string>
     <string name="conditions_section8_title">8. Contacto</string>
     <string name="conditions_section8_text">Para preguntas sobre estos términos, contáctanos en info.gamesage@gmail.com</string>
 
+    <!-- Strings para pantalla de cookies -->
+    <string name="cookies_title">Política de Cookies</string>
+    <string name="cookies_update">Última actualización: Diciembre 2024</string>
+    <string name="cookies_intro">En GameSage utilizamos cookies para mejorar tu experiencia de navegación.</string>
     <string name="cookies_section1_title">1. ¿Qué son las cookies?</string>
     <string name="cookies_section1_text">Las cookies son pequeños archivos de texto almacenados en tu dispositivo cuando visitas un sitio web.</string>
     <string name="cookies_section2_title">2. Tipos de cookies que usamos</string>
@@ -191,6 +200,10 @@
     <string name="cookies_section4_title">4. Más información</string>
     <string name="cookies_section4_text">Para más información sobre nuestra política de cookies, contáctanos en info.gamesage@gmail.com</string>
 
+    <!-- Strings para pantalla de políticas privacidad -->
+    <string name="privacy_title">Política de Privacidad</string>
+    <string name="privacy_update">Fecha de vigencia: Diciembre 2024</string>
+    <string name="privacy_intro">En GameSage, tu privacidad es importante para nosotros.</string>
     <string name="privacy_section1_title">1. Información que Recopilamos</string>
     <string name="privacy_section1_text">Recopilamos la siguiente información:</string>
     <string name="privacy_section1_bp1">Nombre y dirección de correo electrónico</string>

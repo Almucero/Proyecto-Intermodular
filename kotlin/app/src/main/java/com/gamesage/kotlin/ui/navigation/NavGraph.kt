@@ -64,17 +64,13 @@ fun NavGraph(
 
     // Solicitar permiso de notificaciones
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        val askedPermission = remember { mutableStateOf(false) }
         val notificationPermissionState = rememberPermissionState(
             android.Manifest.permission.POST_NOTIFICATIONS
         )
         
         if (!notificationPermissionState.status.isGranted) {
             LaunchedEffect(Unit) {
-                if (!askedPermission.value) {
-                    notificationPermissionState.launchPermissionRequest()
-                    askedPermission.value = true
-                }
+                notificationPermissionState.launchPermissionRequest()
             }
         }
     }
@@ -82,7 +78,10 @@ fun NavGraph(
     Menu(
         navController = navController,
         show = showBottomSheet,
-        onDismiss = { },
+        onDismiss = {
+            @Suppress("AssignedValueIsNeverRead")
+            showBottomSheet = false
+        },
         onClearSearch = { searchQuery = "" }
     )
 
@@ -114,7 +113,10 @@ fun NavGraph(
         },
         bottomBar = {
                 HomeBottomBar(
-                    onMenuClick = { },
+                    onMenuClick = {
+                        @Suppress("AssignedValueIsNeverRead")
+                        showBottomSheet = true
+                    },
                     onCartClick = {
                         if (token != null) {
                             navController.navigate(Destinations.Cart) {

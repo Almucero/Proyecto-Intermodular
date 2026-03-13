@@ -1,3 +1,11 @@
+// =====================================================================
+// ⚠️ IMPORTANTE: LECTURA OBLIGATORIA ANTES DE EJECUTAR
+// =====================================================================
+// Pulsa la tecla 'Shift' dos veces seguidas, escribe "README.md"
+// y abre el archivo para ver cómo configurar la API de Google Maps
+// y los diccionarios de idiomas (para quitar los avisos verdes).
+// =====================================================================
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
