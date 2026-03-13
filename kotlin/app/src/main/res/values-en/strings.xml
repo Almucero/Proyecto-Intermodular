@@ -23,6 +23,9 @@
     <string name="home_no_games">No games available</string>
     <string name="home_retry">Retry</string>
     <string name="home_error_loading">An error occurred while loading data</string>
+    <string name="home_free">Free</string>
+    <string name="home_price_sale">%1$s€ (Before %2$s€)</string>
+    <string name="home_free_sale">Free (Before %1$s€)</string>
 
     <string name="favorites_title">My Favorites</string>
     <string name="favorites_empty">You have no favorites yet</string>
@@ -133,6 +136,8 @@
     <string name="dashboard_copied">Copied</string>
     <string name="logout_title">Log Out</string>
     <string name="logout_message">Are you sure you want to log out?</string>
+    <string name="button_save">Save</string>
+    <string name="button_back">Back</string>
 
     <string name="aichat_title">AI Chat</string>
     <string name="aichat_loading">Loading chat…</string>

@@ -15,7 +15,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.io.File
 import java.util.concurrent.Executors
@@ -69,7 +68,6 @@ class   CameraViewModel : ViewModel() {
             context.cacheDir,
             "photo_${System.currentTimeMillis()}.jpg"
         )
-
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
 
         imageCapture.takePicture(
@@ -77,6 +75,22 @@ class   CameraViewModel : ViewModel() {
             cameraExecutor,
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+                    // COPIA LA IMAGEN A LA GALERÍA
+                    val contentValues = android.content.ContentValues().apply {
+                        put(android.provider.MediaStore.MediaColumns.DISPLAY_NAME, "GameSage_${System.currentTimeMillis()}.jpg")
+                        put(android.provider.MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+                        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.P) {
+                            put(android.provider.MediaStore.Images.Media.RELATIVE_PATH, android.os.Environment.DIRECTORY_PICTURES + "/GameSage")
+                        }
+                    }
+                    val uri = context.contentResolver.insert(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+                    uri?.let {
+                        context.contentResolver.openOutputStream(it)?.use { outputStream ->
+                            photoFile.inputStream().use { inputStream ->
+                                inputStream.copyTo(outputStream)
+                            }
+                        }
+                    }
                     Handler(Looper.getMainLooper()).post {
                         onPhotoCaptured(photoFile)
                     }

@@ -23,6 +23,9 @@
     <string name="home_no_games">Aucun jeu disponible</string>
     <string name="home_retry">Réessayer</string>
     <string name="home_error_loading">Erreur lors du chargement des données</string>
+    <string name="home_free">Gratuit</string>
+    <string name="home_price_sale">%1$s€ (Avant %2$s€)</string>
+    <string name="home_free_sale">Gratuit (Avant %1$s€)</string>
 
     <string name="favorites_title">Mes favoris</string>
     <string name="favorites_empty">Vous n\'avez pas encore de favoris</string>
@@ -133,6 +136,8 @@
     <string name="dashboard_copied">Copié</string>
     <string name="logout_title">Se déconnecter</string>
     <string name="logout_message">Êtes-vous sûr de vouloir vous déconnecter ?</string>
+    <string name="button_save">Enregistrer</string>
+    <string name="button_back">Retour</string>
 
     <string name="aichat_title">Chat IA</string>
     <string name="aichat_loading">Chargement du chat…</string>

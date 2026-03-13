@@ -30,14 +30,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
-import androidx.compose.ui.res.stringResource
 import com.gamesage.kotlin.R
-import com.gamesage.kotlin.data.model.Game
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -193,12 +192,25 @@ fun GameCard(game: GameHomeUiState, onGameClick: (Long) -> Unit) {
             overflow = TextOverflow.Ellipsis
         )
 
-        game.price?.let {
+        game.price?.let { price ->
+            val currentPrice = if (game.isOnSale && game.salePrice != null) game.salePrice else price
+            val isFree = currentPrice.toString().toDoubleOrNull() == 0.0
+            val priceText = if (isFree) {
+                if (game.isOnSale && game.salePrice != null) {
+                    stringResource(id = R.string.home_free_sale, price.toString())
+                } else {
+                    stringResource(id = R.string.home_free)
+                }
+            } else {
+                if (game.isOnSale && game.salePrice != null) {
+                    stringResource(id = R.string.home_price_sale, game.salePrice.toString(), price.toString())
+                } else {
+                    "${price}€"
+                }
+            }
+
             Text(
-                text = if (game.isOnSale && game.salePrice != null)
-                    "${game.salePrice}€ (Antes ${game.price}€)"
-                else
-                    "${game.price}€",
+                text = priceText,
                 color = if (game.isOnSale) Color(0xFFE57373) else Color.LightGray,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = MaterialTheme.typography.labelMedium.fontSize
