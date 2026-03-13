@@ -11,7 +11,7 @@ on:
 jobs:
   analyze:
     name: Analyze (${{ matrix.language }})
-    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+    runs-on: ubuntu-latest
     permissions:
       security-events: write
       packages: read
@@ -31,11 +31,12 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Set up JDK 17
+    # Necesitas JDK 21 para ejecutar Gradle 9.x y AGP 9.x
+    - name: Set up JDK 21
       if: matrix.language == 'java-kotlin'
       uses: actions/setup-java@v4
       with:
-        java-version: '17'
+        java-version: '21'
         distribution: 'temurin'
 
     - name: Initialize CodeQL
@@ -49,9 +50,10 @@ jobs:
       shell: bash
       run: |
         cd kotlin
-        touch local.properties
+        # Inyectamos una clave ficticia para que el Manifest Merger no falle
+        echo "MAPS_API_KEY=dummy_key_for_analysis" > local.properties
         chmod +x gradlew
-        # Cambiamos a assembleDebug para que incluya las librerías de tooling/preview
+        # Ejecutamos assembleDebug omitiendo tests para agilizar el análisis
         ./gradlew clean assembleDebug -x test
 
     - name: Perform CodeQL Analysis
