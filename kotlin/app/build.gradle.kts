@@ -1,20 +1,16 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.serialize)
-    //mapa
+    // Secretos para Google Maps
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
     namespace = "com.gamesage.kotlin"
-    compileSdk {
-        version = release(36)
-    }
-
+    compileSdk = 36
     defaultConfig {
         applicationId = "com.gamesage.kotlin"
         minSdk = 24
@@ -24,7 +20,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -35,87 +30,95 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
         isCoreLibraryDesugaringEnabled = true
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
-        freeCompilerArgs = listOf("-XXLanguage:+PropertyParamAnnotationDefaultTargetMode")
+    //noinspection WrongGradleMethod
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+            freeCompilerArgs.add("-XXLanguage:+PropertyParamAnnotationDefaultTargetMode")
+        }
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
-//mapa
+
 secrets {
     defaultPropertiesFileName = "local.properties"
 }
-dependencies {
-    implementation("com.google.maps.android:maps-compose:7.0.0")
-    implementation("com.google.maps.android:maps-compose-utils:7.0.0")
-    implementation("com.google.maps.android:maps-compose-widgets:7.0.0")
 
+dependencies {
+    // Google Maps
+    implementation(libs.maps.compose)
+    implementation(libs.maps.compose.utils)
+    implementation(libs.maps.compose.widgets)
+
+    // Compose Foundation & UI
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.foundation.layout)
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.compose.ui.text.google.fonts)
+    implementation(libs.androidx.compose.runtime)
+
+    // Material Design 3
+    implementation(libs.androidx.material3)
     implementation(libs.androidx.compose.material.icons.extended)
 
-    implementation(libs.androidx.compose.foundation.layout)
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.room.common.jvm)
+    // Room
     implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.compose.runtime)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.runtime)
-    implementation(libs.ui.graphics)
-    implementation(libs.androidx.hilt.common)
-    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.room.common.jvm)
     ksp(libs.androidx.room.compiler)
-    coreLibraryDesugaring(libs.desugar.jdk.libs)
-    //Coil
-    implementation(libs.coil.compose)
-    implementation(libs.coil.network.okhttp)
-    // PERMISOS EN COMPOSE
-    implementation("com.google.accompanist:accompanist-permissions:0.37.3")
-    // CAMARA
-    implementation("androidx.camera:camera-compose:1.5.2")
-    implementation("androidx.camera:camera-lifecycle:1.5.2")
-    implementation("androidx.camera:camera-camera2:1.5.2")
-    implementation("androidx.camera:camera-core:1.5.2")
-    implementation("androidx.camera.viewfinder:viewfinder-compose:1.5.2")
 
-    //Retrofit
+    // Retrofit & Networking
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
-    //Hilt
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+
+    // Hilt (Inyección de dependencias)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
-    // View Model
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.datastore.preferences)
-    // Navigation
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.kotlinx.serialization.json)
-    // WorkManager
-    implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.androidx.hilt.work)
-    ksp(libs.androidx.hilt.compiler)
-    //Others
-    implementation(libs.androidx.core.ktx)
+
+    // Lifecycle & Navigation
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.ui.text.google.fonts)
+
+    // CameraX & Permissions
+    implementation(libs.accompanist.permissions)
+    implementation(libs.androidx.camera.compose)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.core)
+
+    // Utilities
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.work.runtime.ktx)
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
+
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.tooling.preview)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+}
+
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
 }

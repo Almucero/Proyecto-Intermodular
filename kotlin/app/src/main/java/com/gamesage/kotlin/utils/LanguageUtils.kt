@@ -2,10 +2,8 @@ package com.gamesage.kotlin.utils
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.res.Configuration
-import android.os.Build
-import android.os.LocaleList
 import java.util.Locale
+import androidx.core.content.edit
 
 object LanguageUtils {
 
@@ -13,16 +11,8 @@ object LanguageUtils {
     private const val KEY_LANGUAGE = "language"
 
     fun setLocale(context: Context, languageCode: String) {
-        val locale = Locale(languageCode)
+        val locale = Locale.forLanguageTag(languageCode)
         Locale.setDefault(locale)
-
-        val resources = context.resources
-        val configuration = resources.configuration
-        configuration.setLocale(locale)
-        configuration.setLayoutDirection(locale)
-
-        resources.updateConfiguration(configuration, resources.displayMetrics)
-
         saveLanguage(context, languageCode)
     }
 
@@ -38,7 +28,7 @@ object LanguageUtils {
 
     fun onAttach(context: Context): Context {
         val lang = getSavedLanguage(context)
-        val locale = Locale(lang)
+        val locale = Locale.forLanguageTag(lang)
         Locale.setDefault(locale)
 
         val config = context.resources.configuration
@@ -50,6 +40,6 @@ object LanguageUtils {
 
     private fun saveLanguage(context: Context, languageCode: String) {
         val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        prefs.edit().putString(KEY_LANGUAGE, languageCode).apply()
+        prefs.edit { putString(KEY_LANGUAGE, languageCode) }
     }
 }

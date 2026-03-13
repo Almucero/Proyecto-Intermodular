@@ -18,7 +18,7 @@ object NotificationHelper {
     private const val CHANNEL_ID = "daily_game_channel"
     private const val NOTIFICATION_ID = 1001
 
-    //canal de notificaciones, obligatorio para android 8 en adelante
+    // Canal de notificaciones, obligatorio para android 8 en adelante
     fun createNotificationChannel(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = "Juego del Día"
@@ -33,7 +33,7 @@ object NotificationHelper {
         }
     }
 
-    //Muestra la notificación con el titulo, el mensaje y el id del juego
+    // Muestra la notificación con el título, el mensaje e id del juego
     fun showNotification(context: Context, title: String, message: String, gameId: Long? = null) {
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -53,8 +53,8 @@ object NotificationHelper {
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
 
-        //Mostrar notificación si el usuario ha aceptado los permisos de notificación o
-        // si es anterior a Android 13 ya que antes no existía permiso de notificaciones
+        // Mostrar notificación si el usuario ha aceptado los permisos de notificación o
+        // si es anterior a Android 13, ya que antes no existía permiso de notificaciones
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || checkSelfPermission(
                 context,
                 POST_NOTIFICATIONS

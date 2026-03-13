@@ -1,44 +1,50 @@
 package com.gamesage.kotlin.ui.navigation
 
 import android.app.Activity
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import android.os.Build
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.toRoute
-import com.gamesage.kotlin.ui.pages.home.HomeScreen
-import com.gamesage.kotlin.ui.pages.product.ProductScreen
-import com.gamesage.kotlin.ui.common.TopBar
-import com.gamesage.kotlin.ui.common.HomeBottomBar
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.gamesage.kotlin.data.local.TokenManager
+import com.gamesage.kotlin.ui.common.HomeBottomBar
 import com.gamesage.kotlin.ui.common.Menu
+import com.gamesage.kotlin.ui.common.TopBar
 import com.gamesage.kotlin.ui.pages.cart.CartScreen
 import com.gamesage.kotlin.ui.pages.conditions.ConditionsScreen
-import com.gamesage.kotlin.ui.pages.contact.MapScreen
 import com.gamesage.kotlin.ui.pages.contact.ContactScreen
+import com.gamesage.kotlin.ui.pages.contact.MapScreen
 import com.gamesage.kotlin.ui.pages.cookies.CookiesScreen
 import com.gamesage.kotlin.ui.pages.dashboard.CameraScreen
 import com.gamesage.kotlin.ui.pages.dashboard.CaptureScreen
 import com.gamesage.kotlin.ui.pages.dashboard.DashboardScreen
 import com.gamesage.kotlin.ui.pages.dashboard.DashboardScreenViewModel
 import com.gamesage.kotlin.ui.pages.favorites.FavoritesScreen
+import com.gamesage.kotlin.ui.pages.home.HomeScreen
 import com.gamesage.kotlin.ui.pages.login.LoginScreen
 import com.gamesage.kotlin.ui.pages.privacy.PrivacyScreen
+import com.gamesage.kotlin.ui.pages.product.ProductScreen
 import com.gamesage.kotlin.ui.pages.register.RegisterScreen
 import com.gamesage.kotlin.ui.pages.search.SearchScreen
-import android.os.Build
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -76,7 +82,7 @@ fun NavGraph(
     Menu(
         navController = navController,
         show = showBottomSheet,
-        onDismiss = { showBottomSheet = false },
+        onDismiss = { },
         onClearSearch = { searchQuery = "" }
     )
 
@@ -108,7 +114,7 @@ fun NavGraph(
         },
         bottomBar = {
                 HomeBottomBar(
-                    onMenuClick = { showBottomSheet = true },
+                    onMenuClick = { },
                     onCartClick = {
                         if (token != null) {
                             navController.navigate(Destinations.Cart) {
@@ -203,7 +209,7 @@ fun NavGraph(
                 val searchArgs = backStackEntry.toRoute<Destinations.Search>()
                 LaunchedEffect(searchArgs.query) {
                     if (!searchArgs.query.isNullOrEmpty()) {
-                        searchQuery = searchArgs.query
+                        searchArgs.query
                     }
                 }
 
@@ -274,8 +280,7 @@ fun NavGraph(
                     onCancel = { navController.popBackStack() },
                     onSave = { path ->
                         navController.getBackStackEntry<Destinations.Dashboard>()
-                            .savedStateHandle
-                            .set("capturedPhoto", path)
+                            .savedStateHandle["capturedPhoto"] = path
                         navController.popBackStack<Destinations.Dashboard>(inclusive = false)
                     }
                 )

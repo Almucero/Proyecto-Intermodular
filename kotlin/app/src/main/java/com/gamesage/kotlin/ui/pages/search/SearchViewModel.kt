@@ -23,7 +23,7 @@ sealed class SearchUiState {
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val gameRepository: GameRepository,
-    private val savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<SearchUiState>(SearchUiState.Loading)
@@ -31,17 +31,16 @@ class SearchViewModel @Inject constructor(
 
     private val _allGames = MutableStateFlow<List<Game>>(emptyList())
     
-    private val _selectedPrice = MutableStateFlow<String>("")
+    private val _selectedPrice = MutableStateFlow("")
     val selectedPrice: StateFlow<String> = _selectedPrice.asStateFlow()
     
     private val _selectedGenre = MutableStateFlow<Set<String>>(emptySet())
     val selectedGenre: StateFlow<Set<String>> = _selectedGenre.asStateFlow()
     
-    private val _selectedPlatform = MutableStateFlow<String>("")
+    private val _selectedPlatform = MutableStateFlow("")
     val selectedPlatform: StateFlow<String> = _selectedPlatform.asStateFlow()
     private val _searchQuery = MutableStateFlow(savedStateHandle.get<String>("query") ?: "")
-    val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
-    
+
     private val _priceValue = MutableStateFlow(100)
     val priceValue: StateFlow<Int> = _priceValue.asStateFlow()
     
@@ -78,7 +77,7 @@ class SearchViewModel @Inject constructor(
                 onSuccess = { games ->
                     _allGames.value = games
                     val max = games.maxOfOrNull { 
-                        if (it.isOnSale && it.salePrice != null) it.salePrice!! else it.price ?: 0.0 
+                        if (it.isOnSale && it.salePrice != null) it.salePrice else it.price ?: 0.0
                     }?.toInt() ?: 100
                     _maxPrice.value = ((max / 10) + 1) * 10
                     _priceValue.value = _maxPrice.value
@@ -115,11 +114,6 @@ class SearchViewModel @Inject constructor(
     fun updatePriceSlider(value: Int) {
         _priceValue.value = value
         _selectedPrice.value = "0-$value"
-        applyFilters()
-    }
-
-    fun updateSearchQuery(query: String) {
-        _searchQuery.value = query
         applyFilters()
     }
 
@@ -187,7 +181,7 @@ class SearchViewModel @Inject constructor(
             priceRange.contains("-") -> {
                 val (min, max) = priceRange.split("-").map { it.toIntOrNull() ?: 0 }
                 games.filter {
-                    val price = if (it.isOnSale && it.salePrice != null) it.salePrice!! else it.price ?: 0.0
+                    val price = if (it.isOnSale && it.salePrice != null) it.salePrice else it.price ?: 0.0
                     price >= min && price <= max
                 }
             }
