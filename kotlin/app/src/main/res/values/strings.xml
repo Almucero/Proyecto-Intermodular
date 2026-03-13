@@ -25,6 +25,9 @@
     <string name="home_no_games">No hay juegos disponibles</string>
     <string name="home_retry">Reintentar</string>
     <string name="home_error_loading">No se pudo cargar la página.</string>
+    <string name="home_free">Gratis</string>
+    <string name="home_price_sale">%1$s€ (Antes %2$s€)</string>
+    <string name="home_free_sale">Gratis (Antes %1$s€)</string>
 
     <!-- Strings para favoritos -->
     <string name="favorites_title">Mis Favoritos</string>
@@ -142,6 +145,8 @@
     <string name="dashboard_copied">Copiado</string>
     <string name="logout_title">Cerrar Sesión</string>
     <string name="logout_message">¿Estás seguro de que deseas cerrar la sesión?</string>
+    <string name="button_save">Guardar</string>
+    <string name="button_back">Volver</string>
 
     <!-- Strings para pantalla de chat -->
     <string name="aichat_title">Chat IA</string>

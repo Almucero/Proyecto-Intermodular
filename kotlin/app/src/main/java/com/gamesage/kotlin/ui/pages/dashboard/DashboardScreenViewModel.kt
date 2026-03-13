@@ -37,6 +37,7 @@ sealed class DashboardUiState {
     data class Success(
         val user: User,
         val isEditing: Boolean = false,
+        val isSaving: Boolean = false,
         val editableUser: UserEditableData
     ) : DashboardUiState()
     data class Error(val message: String) : DashboardUiState()
@@ -64,15 +65,20 @@ class DashboardScreenViewModel @Inject constructor(
     private fun observeUser() {
         viewModelScope.launch {
             _uiState.value = DashboardUiState.Loading
-            //Observa los cambios en los datos del usuario a través del repositorio
             userRepository.observeMe().collect { result ->
                 result.onSuccess { user ->
                     val currentState = _uiState.value
                     if (currentState is DashboardUiState.Success) {
-                        // Si ya estábamos editando, mantenemos los datos que el usuario está escribiendo
-                        _uiState.value = currentState.copy(user = user)
+                        // Evitamos que la caché de la base de datos sobrescriba la imagen recién subida (Base64)
+                        val currentAvatar = currentState.user.avatar
+                        val isBase64 = currentAvatar != null && (currentAvatar.startsWith("data:image") || currentAvatar.length > 200)
+
+                        // Si tenemos Base64, lo mantenemos. Si no, usamos lo que venga de la base de datos.
+                        val finalAvatar = if (isBase64) currentAvatar else user.avatar
+
+                        _uiState.value = currentState.copy(user = user.copy(avatar = finalAvatar))
                     } else {
-                        //// Si no estamos editando, mostramos los datos del usuario en el estado
+                        // Si no estamos editando, mostramos los datos del usuario en el estado
                         _uiState.value = DashboardUiState.Success(
                             user = user,
                             editableUser = user.toEditableData()
@@ -80,7 +86,6 @@ class DashboardScreenViewModel @Inject constructor(
                     }
                 }.onFailure {
                     // Si no hay datos ni siquiera en local, mostramos error de carga
-                    // Pero lo ignoramos si estamos en proceso de cerrar sesión
                     if (!isLoggingOut && _uiState.value !is DashboardUiState.Success) {
                         _uiState.value = DashboardUiState.Error("No se ha podido cargar el perfil")
                     }
@@ -119,11 +124,14 @@ class DashboardScreenViewModel @Inject constructor(
     }
 
     // Guarda los cambios en el servidor (foto y datos personales)
+    // Guarda los cambios en el servidor (foto y datos personales)
     fun saveChanges() {
         val state = _uiState.value
-        // Si el estado no es 'Success', no realizamos ninguna acción, ya que no hay datos de usuario válidos
+        // Si el estado no es 'Success', no realizamos ninguna acción
         if (state !is DashboardUiState.Success) return
-        // Extraemos los datos del usuario actual y los datos editables
+
+        _uiState.value = state.copy(isSaving = true)
+
         val currentUser = state.user
         val editable = state.editableUser
 
@@ -131,12 +139,10 @@ class DashboardScreenViewModel @Inject constructor(
             try {
                 // Subir imagen si el usuario ha seleccionado una nueva
                 editable.selectedFile?.let { file ->
-                    // Si el usuario ha seleccionado un archivo, lo convertimos a 'MultipartBody' para enviarlo en la solicitud
                     val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
                     val body = okhttp3.MultipartBody.Part.createFormData("file", file.name, requestFile)
                     val typePart = okhttp3.MultipartBody.Part.createFormData("type", "user")
                     val idPart = okhttp3.MultipartBody.Part.createFormData("id", currentUser.id.toString())
-                    // Realizamos la llamada para cargar la imagen al servidor
                     api.createMedia(body, typePart, idPart)
                 }
 
@@ -153,15 +159,33 @@ class DashboardScreenViewModel @Inject constructor(
                     postalCode = editable.postalCode,
                     country = editable.country
                 )
-                // Realizamos la llamada para actualizar los datos del usuario
                 api.updateOwnUser(updateRequest)
 
-                // Salimos del modo edición. Después de guardar, la UI se actualizará automáticamente con los datos más recientes
-                _uiState.value = state.copy(isEditing = false)
+                val updatedUser = currentUser.copy(
+                    nickname = editable.nickname,
+                    email = editable.email,
+                    name = editable.name,
+                    surname = editable.surname,
+                    addressLine1 = editable.addressLine1,
+                    addressLine2 = editable.addressLine2,
+                    city = editable.city,
+                    region = editable.region,
+                    postalCode = editable.postalCode,
+                    country = editable.country,
+                    avatar = editable.avatar
+                )
+
+                // Salimos del modo edición y actualizamos el usuario local para reflejar los cambios
+                _uiState.value = state.copy(
+                    user = updatedUser,
+                    isEditing = false,
+                    isSaving = false
+                )
             } catch (e: Exception) {
-                // Si falla el guardado, se muestra el error por Snackbar y seguimos en modo edición con los datos guardados localmente
-                val isNetworkError = e is java.io.IOException || e is java.net.UnknownHostException
+                // Si falla el guardado, mostramos el error
+                val isNetworkError = e is java.io.IOException
                 _errorMessage.value = if (isNetworkError) "Sin conexión a internet" else "Error al guardar los cambios"
+                _uiState.value = state.copy(isSaving = false)
             }
         }
     }
@@ -178,7 +202,7 @@ class DashboardScreenViewModel @Inject constructor(
             }.onFailure { e ->
                 // Si ocurre un error durante el cierre de sesión, se marca como no estando en proceso de cierre
                 isLoggingOut = false
-                val isNetworkError = e is java.io.IOException || e is java.net.UnknownHostException
+                val isNetworkError = e is java.io.IOException
                 _errorMessage.value = if (isNetworkError) "Sin conexión a internet" else "Error al cerrar sesión"
             }
         }

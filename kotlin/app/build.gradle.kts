@@ -116,6 +116,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.work.runtime.ktx)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
+    implementation(libs.androidx.exifinterface)
 
     // Testing
     testImplementation(libs.junit)

@@ -23,6 +23,9 @@
     <string name="home_no_games">Keine Spiele verfügbar</string>
     <string name="home_retry">Erneut versuchen</string>
     <string name="home_error_loading">Fehler beim Laden der Daten</string>
+    <string name="home_free">Kostenlos</string>
+    <string name="home_price_sale">%1$s€ (Vorher %2$s€)</string>
+    <string name="home_free_sale">Kostenlos (Vorher %1$s€)</string>
 
     <string name="favorites_title">Meine Favoriten</string>
     <string name="favorites_empty">Sie haben noch keine Favoriten</string>
@@ -133,6 +136,8 @@
     <string name="dashboard_copied">Kopiert</string>
     <string name="logout_title">Abmelden</string>
     <string name="logout_message">Sind Sie sicher, dass Sie sich abmelden möchten?</string>
+    <string name="button_save">Speichern</string>
+    <string name="button_back">Zurück</string>
 
     <string name="aichat_title">KI-Chat</string>
     <string name="aichat_loading">Chat wird geladen…</string>

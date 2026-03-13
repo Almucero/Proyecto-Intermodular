@@ -1,7 +1,9 @@
 package com.gamesage.kotlin.ui.pages.dashboard
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.util.Base64
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -54,6 +56,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
@@ -65,11 +68,14 @@ import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.exifinterface.media.ExifInterface
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.gamesage.kotlin.R
 import com.gamesage.kotlin.ui.theme.bodyFontFamily
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileOutputStream
 
 //Pantalla principal del perfil de usuario.
 //Permite observar, editar el perfil, cambiar fotos y cerrar sesión.
@@ -88,6 +94,7 @@ fun DashboardScreen(
     val context = LocalContext.current
     val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
     var showCameraOptions by remember { mutableStateOf(false) }
+    val sessionKey = remember { System.currentTimeMillis() }
 
     // Para mostrar el Snackbar
     val snackbarHostState = remember { SnackbarHostState() }
@@ -111,13 +118,13 @@ fun DashboardScreen(
     LaunchedEffect(capturedPhoto) {
         capturedPhoto?.let { path ->
             if (path.isNotEmpty()) {
-                val file = File(path)
-                val avatarBase64 = imageFileToBase64(file)
+                val originalFile = File(path)
+                val (processedFile, avatarBase64) = processAndRotateImage(context, originalFile)
                 val currentEditable = (uiState as? DashboardUiState.Success)?.editableUser ?: UserEditableData()
                 viewModel.onEditableDataChange(
                     currentEditable.copy(
                         avatar = avatarBase64,
-                        selectedFile = file
+                        selectedFile = processedFile
                     )
                 )
                 onPhotoProcessed()
@@ -133,23 +140,22 @@ fun DashboardScreen(
     ) { uri ->
         uri?.let {
             try {
-                //Lee los bytes del URI seleccionado y los convierte a Base64.
                 val inputStream = context.contentResolver.openInputStream(it)
                 val bytes = inputStream?.readBytes()
                 inputStream?.close()
                 if (bytes != null) {
-                    val base64 = Base64.encodeToString(bytes, Base64.NO_WRAP)
-                    val avatarString = "data:image/jpeg;base64,$base64"
-                    
-                    //Crea un archivo temporal para el ViewModel.
+                    // Crea un archivo temporal para procesarlo
                     val tempFile = File(context.cacheDir, "picked_image_${System.currentTimeMillis()}.jpg")
                     tempFile.writeBytes(bytes)
-                    
+
+                    // Se usa la nueva función de procesado
+                    val (processedFile, avatarString) = processAndRotateImage(context, tempFile)
+
                     val currentEditable = (uiState as? DashboardUiState.Success)?.editableUser ?: UserEditableData()
                     viewModel.onEditableDataChange(
                         currentEditable.copy(
                             avatar = avatarString,
-                            selectedFile = tempFile
+                            selectedFile = processedFile
                         )
                     )
                 }
@@ -176,392 +182,510 @@ fun DashboardScreen(
                         CircularProgressIndicator(color = Color(0xFF22D3EE))
                     }
                 }
+
                 is DashboardUiState.Error -> {
                     //Muestra el mensaje de error si algo falla.
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         Text(text = state.message, color = Color.Red, textAlign = Center)
                     }
                 }
+
                 is DashboardUiState.Success -> {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(Color(0xFF111827))
-                            .verticalScroll(rememberScrollState())
-                            .padding(16.dp, bottom = 32.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        //Título de la sección.
-                        Text(
-                            text = stringResource(R.string.dashboard_user_section),
-                            fontSize = 30.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color(0xFFA5F3FC),
-                            modifier = Modifier.padding(vertical = 24.dp)
-                        )
-                        
-                         Spacer(modifier = Modifier.height(8.dp))
-
-             //Contenedor para la Imagen de perfil.
-            Box(
-                modifier = Modifier.size(192.dp)
-            ) {
-                val avatarData = if (state.isEditing) {
-                    state.editableUser.avatar
-                } else {
-                    state.user.avatar
-                }
-
-                if (!avatarData.isNullOrEmpty() && (avatarData.startsWith("data:image") || avatarData.length > 200)) {
-                    val base64String = if (avatarData.contains("base64,")) {
-                        avatarData.substringAfter("base64,")
-                    } else {
-                        avatarData
-                    }.trim()
-                    val bytes = Base64.decode(base64String, Base64.DEFAULT)
-                    val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-                    if (bitmap != null) {
-                        Image(
-                            bitmap = bitmap.asImageBitmap(),
-                            contentDescription = "User",
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        Column(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .clip(CircleShape)
-                                .background(Color.Gray),
-                            contentScale = ContentScale.Crop
-                        )
-                    }
-                } else if (!avatarData.isNullOrEmpty()) {
-                    AsyncImage(
-                        model = avatarData,
-                        contentDescription = "User",
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .clip(CircleShape)
-                            .background(Color.Gray),
-                        contentScale = ContentScale.Crop
-                    )
-                } else {
-                    // Círculo gris por defecto si no hay foto
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .clip(CircleShape)
-                            .background(Color(0xFF374151)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.PhotoCamera,
-                            contentDescription = null,
-                            tint = Color(0xFF6B7280),
-                            modifier = Modifier.size(64.dp)
-                        )
-                    }
-                }
-                
-                if (state.isEditing) {
-                    Box(
-                        modifier = Modifier
-                            .align(Alignment.BottomEnd)
-                            .size(48.dp)
-                            .background(Color(0xFF22D3EE), CircleShape)
-                            .clickable {
-                                showCameraOptions = true
-                            }
-                            .padding(12.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.PhotoCamera,
-                            contentDescription = "Change Picture",
-                            tint = Color.White,
-                            modifier = Modifier.size(24.dp)
-                        )
-                    }
-                }
-
-                //Muestra el diálogo para elegir el origen de la foto (Cámara o Galería).
-                if (showCameraOptions) {
-                    AlertDialog(
-                        onDismissRequest = { showCameraOptions = false },
-                        containerColor = Color(0xFF1F2937),
-                        title = { 
+                                .background(Color(0xFF111827))
+                                .verticalScroll(rememberScrollState())
+                                .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 32.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            //Título de la sección.
                             Text(
-                                "Foto de perfil", 
-                                color = Color(0xFFA5F3FC),
+                                text = stringResource(R.string.dashboard_user_section),
                                 fontSize = 30.sp,
                                 fontWeight = FontWeight.Bold,
-                                fontFamily = bodyFontFamily,
-                                textAlign = Center,
-                                modifier = Modifier.fillMaxWidth()
-                            ) 
-                        },
-                        text = {
-                            Column(
-                                modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
-                                horizontalAlignment = Alignment.CenterHorizontally
+                                color = Color(0xFFA5F3FC),
+                                modifier = Modifier.padding(vertical = 24.dp)
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            //Contenedor para la Imagen de perfil.
+                            Box(
+                                modifier = Modifier.size(192.dp)
                             ) {
-                                Button(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    onClick = {
-                                        showCameraOptions = false
-                                        onNavigateToCamera()
-                                    },
-                                    colors = ButtonDefaults.buttonColors(
-                                        containerColor = Color(0xFF22D3EE)
-                                    ),
-                                    shape = RoundedCornerShape(8.dp)
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Filled.PhotoCamera,
-                                        contentDescription = null,
-                                        modifier = Modifier.size(20.dp)
-                                    )
-                                    Spacer(modifier = Modifier.width(8.dp))
-                                    Text("Hacer foto", color = Color.White)
+                                val avatarData = if (state.isEditing) {
+                                    state.editableUser.avatar
+                                } else {
+                                    state.user.avatar
                                 }
-                                
-                                Spacer(modifier = Modifier.height(12.dp))
-                                
-                                Button(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    onClick = {
-                                        showCameraOptions = false
-                                        launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-                                    },
-                                    colors = ButtonDefaults.buttonColors(
-                                        containerColor = Color(0xFF374151)
-                                    ),
-                                    shape = RoundedCornerShape(8.dp),
-                                    border = BorderStroke(1.dp, Color(0xFF4B5563))
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Filled.PhotoLibrary,
-                                        contentDescription = null,
-                                        modifier = Modifier.size(20.dp),
-                                        tint = Color(0xFF22D3EE)
+
+                                if (!avatarData.isNullOrEmpty() && (avatarData.startsWith("data:image") || avatarData.length > 200)) {
+                                    val base64String = if (avatarData.contains("base64,")) {
+                                        avatarData.substringAfter("base64,")
+                                    } else {
+                                        avatarData
+                                    }.trim()
+                                    val bytes = Base64.decode(base64String, Base64.DEFAULT)
+                                    val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                                    if (bitmap != null) {
+                                        Image(
+                                            bitmap = bitmap.asImageBitmap(),
+                                            contentDescription = "User",
+                                            modifier = Modifier
+                                                .fillMaxSize()
+                                                .clip(CircleShape)
+                                                .background(Color.Gray),
+                                            contentScale = ContentScale.Crop
+                                        )
+                                    }
+                                } else if (!avatarData.isNullOrEmpty()) {
+                                    val avatarUrl = if (avatarData.startsWith("http")) "$avatarData?t=$sessionKey" else avatarData
+                                    AsyncImage(
+                                        model = avatarUrl,
+                                        contentDescription = "User",
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .clip(CircleShape)
+                                            .background(Color.Gray),
+                                        contentScale = ContentScale.Crop
                                     )
-                                    Spacer(modifier = Modifier.width(8.dp))
-                                    Text("Elegir de galeria", color = Color.White)
+                                } else {
+                                    // Círculo gris por defecto si no hay foto
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .clip(CircleShape)
+                                            .background(Color(0xFF374151)),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.PhotoCamera,
+                                            contentDescription = null,
+                                            tint = Color(0xFF6B7280),
+                                            modifier = Modifier.size(64.dp)
+                                        )
+                                    }
+                                }
+
+                                if (state.isEditing) {
+                                    Box(
+                                        modifier = Modifier
+                                            .align(Alignment.BottomEnd)
+                                            .size(48.dp)
+                                            .background(Color(0xFF22D3EE), CircleShape)
+                                            .clickable {
+                                                showCameraOptions = true
+                                            }
+                                            .padding(12.dp),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Filled.PhotoCamera,
+                                            contentDescription = "Change Picture",
+                                            tint = Color.White,
+                                            modifier = Modifier.size(24.dp)
+                                        )
+                                    }
+                                }
+
+                                //Muestra el diálogo para elegir el origen de la foto (Cámara o Galería).
+                                if (showCameraOptions) {
+                                    AlertDialog(
+                                        onDismissRequest = { showCameraOptions = false },
+                                        containerColor = Color(0xFF1F2937),
+                                        title = {
+                                            Text(
+                                                "Foto de perfil",
+                                                color = Color(0xFFA5F3FC),
+                                                fontSize = 30.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                fontFamily = bodyFontFamily,
+                                                textAlign = Center,
+                                                modifier = Modifier.fillMaxWidth()
+                                            )
+                                        },
+                                        text = {
+                                            Column(
+                                                modifier = Modifier.fillMaxWidth()
+                                                    .padding(top = 16.dp),
+                                                horizontalAlignment = Alignment.CenterHorizontally
+                                            ) {
+                                                Button(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    onClick = {
+                                                        showCameraOptions = false
+                                                        onNavigateToCamera()
+                                                    },
+                                                    colors = ButtonDefaults.buttonColors(
+                                                        containerColor = Color(0xFF22D3EE)
+                                                    ),
+                                                    shape = RoundedCornerShape(8.dp)
+                                                ) {
+                                                    Icon(
+                                                        imageVector = Icons.Filled.PhotoCamera,
+                                                        contentDescription = null,
+                                                        modifier = Modifier.size(20.dp)
+                                                    )
+                                                    Spacer(modifier = Modifier.width(8.dp))
+                                                    Text("Hacer foto", color = Color.White)
+                                                }
+
+                                                Spacer(modifier = Modifier.height(12.dp))
+
+                                                Button(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    onClick = {
+                                                        showCameraOptions = false
+                                                        launcher.launch(
+                                                            PickVisualMediaRequest(
+                                                                ActivityResultContracts.PickVisualMedia.ImageOnly
+                                                            )
+                                                        )
+                                                    },
+                                                    colors = ButtonDefaults.buttonColors(
+                                                        containerColor = Color(0xFF374151)
+                                                    ),
+                                                    shape = RoundedCornerShape(8.dp),
+                                                    border = BorderStroke(1.dp, Color(0xFF4B5563))
+                                                ) {
+                                                    Icon(
+                                                        imageVector = Icons.Filled.PhotoLibrary,
+                                                        contentDescription = null,
+                                                        modifier = Modifier.size(20.dp),
+                                                        tint = Color(0xFF22D3EE)
+                                                    )
+                                                    Spacer(modifier = Modifier.width(8.dp))
+                                                    Text("Elegir de galeria", color = Color.White)
+                                                }
+                                            }
+                                        },
+                                        confirmButton = {},
+                                        dismissButton = {}
+                                    )
                                 }
                             }
-                        },
-                        confirmButton = {},
-                        dismissButton = {}
-                    )
-                }
-            }
 
-            Spacer(modifier = Modifier.height(32.dp))
-            Text(
-                text = state.user.nickname ?: stringResource(R.string.dashboard_user_placeholder),
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White
-            )
+                            Spacer(modifier = Modifier.height(32.dp))
+                            Text(
+                                text = state.user.nickname
+                                    ?: stringResource(R.string.dashboard_user_placeholder),
+                                fontSize = 30.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            )
 
-            Row(
-                modifier = Modifier.padding(top = 4.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = "@${state.user.nickname ?: ""}", color = Color(0xFF9CA3AF))
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = "📄",
-                    modifier = Modifier.clickable {
-                        val clip = android.content.ClipData.newPlainText("Nickname", "@${state.user.nickname}")
-                        clipboardManager.setPrimaryClip(clip)
-                        Toast.makeText(context, copiedMessage, Toast.LENGTH_SHORT).show()
-                    },
-                    color = Color.Gray
-                )
-            }
+                            Row(
+                                modifier = Modifier.padding(top = 4.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = "@${state.user.nickname ?: ""}",
+                                    color = Color(0xFF9CA3AF)
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_copy),
+                                    contentDescription = "Copiar Nickname",
+                                    modifier = Modifier
+                                        .size(16.dp)
+                                        .clickable {
+                                            val clip = android.content.ClipData.newPlainText(
+                                                "Nickname",
+                                                "@${state.user.nickname}"
+                                            )
+                                            clipboardManager.setPrimaryClip(clip)
+                                            Toast.makeText(context, copiedMessage, Toast.LENGTH_SHORT).show()
+                                        },
+                                    tint = Color.Gray
+                                )
+                            }
 
-            Row(
-                modifier = Modifier.padding(top = 4.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = "ID: ${state.user.id}", color = Color(0xFF6B7280), fontSize = 14.sp)
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = "📄",
-                    modifier = Modifier.clickable {
-                        val clip = android.content.ClipData.newPlainText("User ID", state.user.id.toString())
-                        clipboardManager.setPrimaryClip(clip)
-                        Toast.makeText(context, copiedMessage, Toast.LENGTH_SHORT).show()
-                    },
-                    color = Color.Gray,
-                    fontSize = 14.sp
-                )
-            }
+                            Row(
+                                modifier = Modifier.padding(top = 4.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = "ID: ${state.user.id}",
+                                    color = Color(0xFF6B7280),
+                                    fontSize = 14.sp
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_copy),
+                                    contentDescription = "Copiar ID",
+                                    modifier = Modifier
+                                        .size(16.dp)
+                                        .clickable {
+                                            val clip = android.content.ClipData.newPlainText(
+                                                "User ID",
+                                                state.user.id.toString()
+                                            )
+                                            clipboardManager.setPrimaryClip(clip)
+                                            Toast.makeText(context, copiedMessage, Toast.LENGTH_SHORT).show()
+                                        },
+                                    tint = Color.Gray
+                                )
+                            }
 
-            Spacer(modifier = Modifier.height(32.dp))
-            //Encabezado: Información de la cuenta
-            SectionHeader(stringResource(R.string.dashboard_account_info))
-            //Campo para el nombre de usuario
-            DashboardTextField(
-                label = stringResource(R.string.dashboard_username),
-                value = state.editableUser.nickname,
-                onValueChange = { viewModel.onEditableDataChange(state.editableUser.copy(nickname = it)) },
-                isEditing = state.isEditing
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            //Campo para ver/editar el email de la cuenta.
-            DashboardTextField(
-                label = stringResource(R.string.dashboard_email),
-                value = state.editableUser.email,
-                onValueChange = { viewModel.onEditableDataChange(state.editableUser.copy(email = it)) },
-                isEditing = state.isEditing
-            )
+                            Spacer(modifier = Modifier.height(32.dp))
+                            //Encabezado: Información de la cuenta
+                            SectionHeader(stringResource(R.string.dashboard_account_info))
+                            //Campo para el nombre de usuario
+                            DashboardTextField(
+                                label = stringResource(R.string.dashboard_username),
+                                value = state.editableUser.nickname,
+                                onValueChange = {
+                                    viewModel.onEditableDataChange(
+                                        state.editableUser.copy(
+                                            nickname = it
+                                        )
+                                    )
+                                },
+                                isEditing = state.isEditing
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                            //Campo para ver/editar el email de la cuenta.
+                            DashboardTextField(
+                                label = stringResource(R.string.dashboard_email),
+                                value = state.editableUser.email,
+                                onValueChange = {
+                                    viewModel.onEditableDataChange(
+                                        state.editableUser.copy(
+                                            email = it
+                                        )
+                                    )
+                                },
+                                isEditing = state.isEditing
+                            )
 
-            Spacer(modifier = Modifier.height(32.dp))
-            //Encabezado: Datos Personales
-            SectionHeader(stringResource(R.string.dashboard_personal_data))
+                            Spacer(modifier = Modifier.height(32.dp))
+                            //Encabezado: Datos Personales
+                            SectionHeader(stringResource(R.string.dashboard_personal_data))
 
-            val privacyText = stringResource(R.string.dashboard_privacy_text)
-            val privacyLink = stringResource(R.string.dashboard_privacy_link)
-            val annotatedPrivacyString = buildAnnotatedString {
-                append(privacyText)
-                val link = LinkAnnotation.Clickable(
-                    tag = "PRIVACY",
-                    linkInteractionListener = {
-                        onPrivacyClick()
-                    }
-                )
-                withLink(link) {
-                    withStyle(
-                        style = SpanStyle(
-                            color = Color(0xFF22D3EE),
-                            fontWeight = FontWeight.Bold
-                        )
-                    ) {
-                        append(privacyLink)
-                    }
-                }
-            }
+                            val privacyText = stringResource(R.string.dashboard_privacy_text)
+                            val privacyLink = stringResource(R.string.dashboard_privacy_link)
+                            val annotatedPrivacyString = buildAnnotatedString {
+                                append(privacyText)
+                                val link = LinkAnnotation.Clickable(
+                                    tag = "PRIVACY",
+                                    linkInteractionListener = {
+                                        onPrivacyClick()
+                                    }
+                                )
+                                withLink(link) {
+                                    withStyle(
+                                        style = SpanStyle(
+                                            color = Color(0xFF22D3EE),
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                    ) {
+                                        append(privacyLink)
+                                    }
+                                }
+                            }
 
-            Text(
-                text = annotatedPrivacyString,
-                style = TextStyle(
-                    color = Color(0xFF6B7280),
-                    fontSize = 14.sp
-                ),
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-            
-            //Campo para el nombre
-            DashboardTextField(
-                label = stringResource(R.string.dashboard_name),
-                value = state.editableUser.name,
-                onValueChange = { viewModel.onEditableDataChange(state.editableUser.copy(name = it)) },
-                isEditing = state.isEditing
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            DashboardTextField(
-                label = stringResource(R.string.dashboard_surname),
-                value = state.editableUser.surname,
-                onValueChange = { viewModel.onEditableDataChange(state.editableUser.copy(surname = it)) },
-                isEditing = state.isEditing
-            )
+                            Text(
+                                text = annotatedPrivacyString,
+                                style = TextStyle(
+                                    color = Color(0xFF6B7280),
+                                    fontSize = 14.sp
+                                ),
+                                modifier = Modifier.padding(bottom = 16.dp)
+                            )
 
-            Spacer(modifier = Modifier.height(32.dp))
-            //Encabezado: Dirección
-            SectionHeader(stringResource(R.string.dashboard_address_section))
-            //Campo para la dirección línea 1
-            DashboardTextField(
-                label = stringResource(R.string.dashboard_address_line1),
-                value = state.editableUser.addressLine1,
-                onValueChange = { viewModel.onEditableDataChange(state.editableUser.copy(addressLine1 = it)) },
-                isEditing = state.isEditing
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            DashboardTextField(
-                label = stringResource(R.string.dashboard_address_line2),
-                value = state.editableUser.addressLine2,
-                onValueChange = { viewModel.onEditableDataChange(state.editableUser.copy(addressLine2 = it)) },
-                isEditing = state.isEditing
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            DashboardTextField(
-                label = stringResource(R.string.dashboard_city),
-                value = state.editableUser.city,
-                onValueChange = { viewModel.onEditableDataChange(state.editableUser.copy(city = it)) },
-                isEditing = state.isEditing
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            DashboardTextField(
-                label = stringResource(R.string.dashboard_region),
-                value = state.editableUser.region,
-                onValueChange = { viewModel.onEditableDataChange(state.editableUser.copy(region = it)) },
-                isEditing = state.isEditing
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            DashboardTextField(
-                label = stringResource(R.string.dashboard_postal_code),
-                value = state.editableUser.postalCode,
-                onValueChange = { viewModel.onEditableDataChange(state.editableUser.copy(postalCode = it)) },
-                isEditing = state.isEditing
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            DashboardTextField(
-                label = stringResource(R.string.dashboard_country),
-                value = state.editableUser.country,
-                onValueChange = { viewModel.onEditableDataChange(state.editableUser.copy(country = it)) },
-                isEditing = state.isEditing
-            )
+                            //Campo para el nombre
+                            DashboardTextField(
+                                label = stringResource(R.string.dashboard_name),
+                                value = state.editableUser.name,
+                                onValueChange = {
+                                    viewModel.onEditableDataChange(
+                                        state.editableUser.copy(
+                                            name = it
+                                        )
+                                    )
+                                },
+                                isEditing = state.isEditing
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                            DashboardTextField(
+                                label = stringResource(R.string.dashboard_surname),
+                                value = state.editableUser.surname,
+                                onValueChange = {
+                                    viewModel.onEditableDataChange(
+                                        state.editableUser.copy(
+                                            surname = it
+                                        )
+                                    )
+                                },
+                                isEditing = state.isEditing
+                            )
 
-            Spacer(modifier = Modifier.height(32.dp))
-            //Botones de acción (Editar, Guardar, Cancelar)
-            Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
-                //Botón para entrar o salir del modo edición
-                Button(
-                    onClick = { viewModel.toggleEdit() },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF22D3EE)
-                    ),
-                    shape = RoundedCornerShape(4.dp)
-                ) {
-                    Text(
-                        text = if (state.isEditing) stringResource(R.string.dashboard_cancel) else stringResource(R.string.dashboard_configure),
-                        color = Color.White
-                    )
-                }
+                            Spacer(modifier = Modifier.height(32.dp))
+                            //Encabezado: Dirección
+                            SectionHeader(stringResource(R.string.dashboard_address_section))
+                            //Campo para la dirección línea 1
+                            DashboardTextField(
+                                label = stringResource(R.string.dashboard_address_line1),
+                                value = state.editableUser.addressLine1,
+                                onValueChange = {
+                                    viewModel.onEditableDataChange(
+                                        state.editableUser.copy(
+                                            addressLine1 = it
+                                        )
+                                    )
+                                },
+                                isEditing = state.isEditing
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                            DashboardTextField(
+                                label = stringResource(R.string.dashboard_address_line2),
+                                value = state.editableUser.addressLine2,
+                                onValueChange = {
+                                    viewModel.onEditableDataChange(
+                                        state.editableUser.copy(
+                                            addressLine2 = it
+                                        )
+                                    )
+                                },
+                                isEditing = state.isEditing
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                            DashboardTextField(
+                                label = stringResource(R.string.dashboard_city),
+                                value = state.editableUser.city,
+                                onValueChange = {
+                                    viewModel.onEditableDataChange(
+                                        state.editableUser.copy(
+                                            city = it
+                                        )
+                                    )
+                                },
+                                isEditing = state.isEditing
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                            DashboardTextField(
+                                label = stringResource(R.string.dashboard_region),
+                                value = state.editableUser.region,
+                                onValueChange = {
+                                    viewModel.onEditableDataChange(
+                                        state.editableUser.copy(
+                                            region = it
+                                        )
+                                    )
+                                },
+                                isEditing = state.isEditing
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                            DashboardTextField(
+                                label = stringResource(R.string.dashboard_postal_code),
+                                value = state.editableUser.postalCode,
+                                onValueChange = {
+                                    viewModel.onEditableDataChange(
+                                        state.editableUser.copy(
+                                            postalCode = it
+                                        )
+                                    )
+                                },
+                                isEditing = state.isEditing
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                            DashboardTextField(
+                                label = stringResource(R.string.dashboard_country),
+                                value = state.editableUser.country,
+                                onValueChange = {
+                                    viewModel.onEditableDataChange(
+                                        state.editableUser.copy(
+                                            country = it
+                                        )
+                                    )
+                                },
+                                isEditing = state.isEditing
+                            )
 
-                if (state.isEditing) {
-                    Spacer(modifier = Modifier.width(16.dp))
-                    //Botón para guardar los cambios en el perfil
-                    Button(
-                        onClick = { viewModel.saveChanges() },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF16A34A)
-                        ),
-                        shape = RoundedCornerShape(4.dp)
-                    ) {
-                        Text(stringResource(R.string.dashboard_save), color = Color.White)
-                    }
-                }
-            }
-            
-            Spacer(modifier = Modifier.height(16.dp))
-            //Botón para cerrar la sesión
-            Button(
-                onClick = { viewModel.logout() },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFDC2626)
-                ),
-                shape = RoundedCornerShape(4.dp)
-            ) {
-                Text(stringResource(R.string.dashboard_logout), color = Color.White)
-            }
+                            Spacer(modifier = Modifier.height(32.dp))
 
-            Spacer(modifier = Modifier.height(32.dp))
+                            // Fila de botones principales (Configurar y Cerrar Sesión)
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                            ) {
+                                Button(
+                                    onClick = { viewModel.toggleEdit() },
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = Color(
+                                            0xFF22D3EE
+                                        )
+                                    ),
+                                    shape = RoundedCornerShape(4.dp),
+                                    modifier = Modifier.weight(1f)
+                                ) {
+                                    Text(
+                                        text = if (state.isEditing) stringResource(R.string.dashboard_cancel) else stringResource(
+                                            R.string.dashboard_configure
+                                        ),
+                                        color = Color.White
+                                    )
+                                }
+                                Button(
+                                    onClick = { viewModel.logout() },
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = Color(
+                                            0xFFDC2626
+                                        )
+                                    ),
+                                    shape = RoundedCornerShape(4.dp),
+                                    modifier = Modifier.weight(1f)
+                                ) {
+                                    Text(
+                                        stringResource(R.string.dashboard_logout),
+                                        color = Color.White
+                                    )
+                                }
+                            }
 
+                            // Botón de guardar
+                            if (state.isEditing) {
+                                Spacer(modifier = Modifier.height(16.dp))
+                                Button(
+                                    onClick = { viewModel.saveChanges() },
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = Color(
+                                            0xFF16A34A
+                                        )
+                                    ),
+                                    shape = RoundedCornerShape(4.dp),
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text(
+                                        stringResource(R.string.dashboard_save),
+                                        color = Color.White
+                                    )
+                                }
+                            }
+                            Spacer(modifier = Modifier.height(32.dp))
+
+                        }
+                        if (state.isSaving) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(Color.Black.copy(alpha = 0.6f))
+                                    .clickable(enabled = false) {}, // Intercepta los toques para que no pasen al fondo
+                                contentAlignment = Alignment.Center
+                            ) {
+                                CircularProgressIndicator(
+                                    color = Color(0xFF22D3EE),
+                                    modifier = Modifier.size(64.dp),
+                                    strokeWidth = 6.dp
+                                )
+                            }
                         }
                     }
                 }
             }
         }
     }
+}
 
 
 //Cabecera de sección para los campos del perfil.
@@ -613,9 +737,29 @@ fun DashboardTextField(
 }
 
 
-//Función auxiliar para convertir imagen a Base64 para el perfil.
-fun imageFileToBase64(file: File): String {
-    val bytes = file.readBytes()
-    val base64 = Base64.encodeToString(bytes, Base64.NO_WRAP)
-    return "data:image/jpeg;base64,$base64"
+// Función auxiliar para corregir rotación, comprimir y generar Base64
+fun processAndRotateImage(context: Context, file: File): Pair<File, String> {
+    val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+    val exif = ExifInterface(file.absolutePath)
+    val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+    val matrix = Matrix()
+    when (orientation) {
+        ExifInterface.ORIENTATION_ROTATE_90 -> matrix.postRotate(90f)
+        ExifInterface.ORIENTATION_ROTATE_180 -> matrix.postRotate(180f)
+        ExifInterface.ORIENTATION_ROTATE_270 -> matrix.postRotate(270f)
+    }
+    val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+
+    // 1. Guardar la imagen ya rotada y comprimida en un nuevo archivo para enviarlo al servidor
+    val newFile = File(context.cacheDir, "avatar_ready_${System.currentTimeMillis()}.jpg")
+    FileOutputStream(newFile).use { out ->
+        rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, out)
+    }
+
+    // 2. Generar el Base64 para actualizar la vista previa en la UI
+    val outputStream = ByteArrayOutputStream()
+    rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream)
+    val base64 = Base64.encodeToString(outputStream.toByteArray(), Base64.NO_WRAP)
+
+    return Pair(newFile, "data:image/jpeg;base64,$base64")
 }
