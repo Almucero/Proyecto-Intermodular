@@ -69,11 +69,15 @@
     <string name="register_back">Retour</string>
     <string name="common_hide">Masquer</string>
     <string name="common_show">Afficher</string>
+    <string name="common_loading">Chargement…</string>
+    <string name="confirm">Confirmer</string>
+    <string name="cancel">Annuler</string>
 
     <string name="cart_title">Panier</string>
     <string name="cart_empty">Votre panier est vide</string>
     <string name="cart_total">Total :</string>
     <string name="cart_checkout">Payer</string>
+    <string name="cart_clear">Vider le panier</string>
     <string name="cart_unknown_game">Jeu inconnu</string>
     <string name="cart_unknown_developer">Inconnu</string>
     <string name="cart_unit_price">Prix :</string>
@@ -127,9 +131,11 @@
     <string name="dashboard_save">Enregistrer</string>
     <string name="dashboard_logout">Se déconnecter</string>
     <string name="dashboard_copied">Copié</string>
+    <string name="logout_title">Se déconnecter</string>
+    <string name="logout_message">Êtes-vous sûr de vouloir vous déconnecter ?</string>
 
     <string name="aichat_title">Chat IA</string>
-    <string name="aichat_loading">Chargement du chat...</string>
+    <string name="aichat_loading">Chargement du chat…</string>
 
     <string name="contact_title">Contact</string>
     <string name="contact_subtitle">Vous avez des questions ou besoin d\'aide ? Nous sommes là pour vous.</string>
@@ -186,28 +192,28 @@
     <string name="cookies_section4_title">4. Plus d\'informations</string>
     <string name="cookies_section4_text">Pour plus d\'informations sur notre politique de cookies, contactez-nous à info.gamesage@gmail.com</string>
 
-    <string name="privacy_section1_title">1. Informations que Nous Collectons</string>
+    <string name="privacy_section1_title">1. Informations que nous collectons</string>
     <string name="privacy_section1_text">Nous collectons les informations suivantes :</string>
     <string name="privacy_section1_bp1">Nom et adresse e-mail</string>
-    <string name="privacy_section1_bp2">Informations de paiement (traitées de manière sécurisée)</string>
+    <string name="privacy_section1_bp2">Informations de paiement (traitées en toute sécurité)</string>
     <string name="privacy_section1_bp3">Historique des achats et préférences</string>
     <string name="privacy_section1_bp4">Données d\'utilisation et de navigation</string>
     <string name="privacy_section1_bp5">Adresse IP et données de l\'appareil</string>
-    <string name="privacy_section2_title">2. Comment Nous Utilisons Vos Informations</string>
+    <string name="privacy_section2_title">2. Comment nous utilisons vos informations</string>
     <string name="privacy_section2_text">Nous utilisons vos informations pour :</string>
     <string name="privacy_section2_bp1">Traiter vos commandes et transactions</string>
     <string name="privacy_section2_bp2">Améliorer nos services</string>
     <string name="privacy_section2_bp3">Vous envoyer des mises à jour et des offres (avec votre consentement)</string>
     <string name="privacy_section2_bp4">Respecter les obligations légales</string>
     <string name="privacy_section2_bp5">Prévenir la fraude et assurer la sécurité</string>
-    <string name="privacy_section3_title">3. Partage d\'Informations</string>
+    <string name="privacy_section3_title">3. Partage d\'informations</string>
     <string name="privacy_section3_text">Nous ne vendons pas vos informations personnelles. Nous les partageons uniquement avec :</string>
     <string name="privacy_section3_bp1">Fournisseurs de services de paiement</string>
     <string name="privacy_section3_bp2">Services d\'analyse et de marketing</string>
     <string name="privacy_section3_bp3">Autorités lorsque requis par la loi</string>
-    <string name="privacy_section4_title">4. Sécurité des Données</string>
+    <string name="privacy_section4_title">4. Sécurité des données</string>
     <string name="privacy_section4_text">Nous mettons en œuvre des mesures de sécurité techniques et organisationnelles pour protéger vos informations.</string>
-    <string name="privacy_section5_title">5. Vos Droits</string>
+    <string name="privacy_section5_title">5. Vos droits</string>
     <string name="privacy_section5_text">Vous avez le droit de :</string>
     <string name="privacy_section5_bp1">Accéder à vos données personnelles</string>
     <string name="privacy_section5_bp2">Rectifier les informations incorrectes</string>
@@ -216,7 +222,7 @@
     <string name="privacy_section5_bp5">Portabilité des données</string>
     <string name="privacy_section6_title">6. Cookies</string>
     <string name="privacy_section6_text">Nous utilisons des cookies pour améliorer votre expérience. Voir notre Politique de Cookies pour plus d\'informations.</string>
-    <string name="privacy_section7_title">7. Modifications de cette Politique</string>
+    <string name="privacy_section7_title">7. Modifications de cette politique</string>
     <string name="privacy_section7_text">Nous pouvons mettre à jour cette politique occasionnellement. Nous vous informerons des modifications importantes.</string>
     <string name="privacy_section8_title">8. Contact</string>
     <string name="privacy_section8_text">Pour exercer vos droits ou poser des questions sur la confidentialité, contactez-nous à info.gamesage@gmail.com</string>

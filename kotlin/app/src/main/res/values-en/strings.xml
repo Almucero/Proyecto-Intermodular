@@ -69,11 +69,15 @@
     <string name="register_back">Back</string>
     <string name="common_hide">Hide</string>
     <string name="common_show">Show</string>
+    <string name="common_loading">Loading…</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
 
     <string name="cart_title">Shopping Cart</string>
     <string name="cart_empty">Your cart is empty</string>
     <string name="cart_total">Total:</string>
     <string name="cart_checkout">Checkout</string>
+    <string name="cart_clear">Clear cart</string>
     <string name="cart_unknown_game">Unknown Game</string>
     <string name="cart_unknown_developer">Unknown</string>
     <string name="cart_unit_price">Price:</string>
@@ -127,9 +131,11 @@
     <string name="dashboard_save">Save</string>
     <string name="dashboard_logout">Log Out</string>
     <string name="dashboard_copied">Copied</string>
+    <string name="logout_title">Log Out</string>
+    <string name="logout_message">Are you sure you want to log out?</string>
 
     <string name="aichat_title">AI Chat</string>
-    <string name="aichat_loading">Loading chat...</string>
+    <string name="aichat_loading">Loading chat…</string>
 
     <string name="contact_title">Contact</string>
     <string name="contact_subtitle">Have questions or need help? We are here for you.</string>
