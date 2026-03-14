@@ -7,11 +7,11 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 
 data class GenreApiModel(
-    @SerializedName("id") val id: Int,
-    @SerializedName("name") val name: String,
-    @SerializedName("createdAt") val createdAt: String? = null,
-    @SerializedName("updatedAt") val updatedAt: String? = null,
-    @SerializedName("games") val games: List<GameApiModel>?
+    val id: Int,
+    val name: String,
+    val createdAt: String? = null,
+    val updatedAt: String? = null,
+    val games: List<GameApiModel>?
 )
 
 fun GenreApiModel.toDomain(): Genre {

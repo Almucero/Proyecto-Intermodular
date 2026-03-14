@@ -33,7 +33,6 @@ class RemoteModule {
     @Provides
     @Singleton
     fun provideGameSageApi(
-        tokenManager: TokenManager,
         authInterceptor: AuthInterceptor
     ): GameSageApi {
         val client = okhttp3.OkHttpClient.Builder()

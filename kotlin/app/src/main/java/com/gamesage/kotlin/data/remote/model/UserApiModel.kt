@@ -1,9 +1,6 @@
 package com.gamesage.kotlin.data.remote.model
 
-import kotlinx.serialization.Serializable
-
 //Lo que el servidor nos da (información completa)
-@Serializable
 data class UserApiModel(
     val id: Int,
     val email: String,

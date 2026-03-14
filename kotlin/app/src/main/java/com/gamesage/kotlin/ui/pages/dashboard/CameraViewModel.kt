@@ -1,8 +1,16 @@
 package com.gamesage.kotlin.ui.pages.dashboard
 
+import android.content.ContentValues
 import android.content.Context
+import android.os.Build
+import android.os.Build.VERSION.SDK_INT
+import android.os.Environment.DIRECTORY_PICTURES
 import android.os.Handler
 import android.os.Looper
+import android.provider.MediaStore.Files.FileColumns.MIME_TYPE
+import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+import android.provider.MediaStore.MediaColumns.DISPLAY_NAME
+import android.provider.MediaStore.MediaColumns.RELATIVE_PATH
 import androidx.camera.core.CameraSelector.DEFAULT_BACK_CAMERA
 import androidx.camera.core.CameraSelector.DEFAULT_FRONT_CAMERA
 import androidx.camera.core.ImageCapture
@@ -41,6 +49,7 @@ class   CameraViewModel : ViewModel() {
     private val cameraExecutor = Executors.newSingleThreadExecutor()
 
 
+    //motor de arranque de la camara
     suspend fun bindToCamera(
         context: Context,
         lifecycleOwner: LifecycleOwner
@@ -64,38 +73,51 @@ class   CameraViewModel : ViewModel() {
         context: Context,
         onPhotoCaptured: (File) -> Unit
     ) {
+        // Crea un archivo vacío temporal en la caché donde se guardará la foto antes de procesarla
         val photoFile = File(
             context.cacheDir,
             "photo_${System.currentTimeMillis()}.jpg"
         )
+        // Define dónde se va a guardar el archivo de la foto (en el archivo temporal creado arriba)
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
 
+        // Ordena a CameraX que dispare la foto. El resultado llega de forma asíncrona a través del callback
         imageCapture.takePicture(
-            outputOptions,
-            cameraExecutor,
+            outputOptions,  // Destino de la foto
+            cameraExecutor, // Hilo en segundo plano para no bloquear la UI
             object : ImageCapture.OnImageSavedCallback {
+
+                // Se ejecuta cuando la foto se ha guardado correctamente en el archivo temporal
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    // COPIA LA IMAGEN A LA GALERÍA
-                    val contentValues = android.content.ContentValues().apply {
-                        put(android.provider.MediaStore.MediaColumns.DISPLAY_NAME, "GameSage_${System.currentTimeMillis()}.jpg")
-                        put(android.provider.MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
-                        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.P) {
-                            put(android.provider.MediaStore.Images.Media.RELATIVE_PATH, android.os.Environment.DIRECTORY_PICTURES + "/GameSage")
+                    // Prepara los metadatos de la foto para guardarla también en la galería del móvil
+                    val contentValues = ContentValues().apply {
+                        // Nombre del archivo que aparecerá en la galería
+                        put(DISPLAY_NAME, "GameSage_${System.currentTimeMillis()}.jpg")
+                        // Tipo de archivo (es una imagen JPEG)
+                        put(MIME_TYPE, "image/jpeg")
+                        // En Android 10 (API 29) y superior, especificamos la carpeta destino dentro de "Imágenes"
+                        if (SDK_INT > Build.VERSION_CODES.P) {
+                            put(RELATIVE_PATH, DIRECTORY_PICTURES + "/GameSage")
                         }
                     }
-                    val uri = context.contentResolver.insert(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+                    // Crea el "hueco" (entrada) en la galería con esos metadatos y obtiene su URI (dirección)
+                    val uri = context.contentResolver.insert(EXTERNAL_CONTENT_URI, contentValues)
                     uri?.let {
+                        // Abre el destino en la galería para escribir y copia los bytes desde el archivo temporal
                         context.contentResolver.openOutputStream(it)?.use { outputStream ->
                             photoFile.inputStream().use { inputStream ->
                                 inputStream.copyTo(outputStream)
                             }
                         }
                     }
+                    // Volvemos al hilo principal (UI Thread) para notificar a la pantalla que la foto está lista
                     Handler(Looper.getMainLooper()).post {
+                        // Llamamos al callback con el archivo, lo que dispara la navegación a la siguiente pantalla
                         onPhotoCaptured(photoFile)
                     }
                 }
 
+                // Se ejecuta si algo sale mal durante la captura de la foto
                 override fun onError(exception: ImageCaptureException) {
                     exception.printStackTrace()
                 }

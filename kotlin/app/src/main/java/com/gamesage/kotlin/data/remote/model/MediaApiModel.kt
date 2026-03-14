@@ -7,23 +7,22 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import kotlinx.serialization.Serializable
 
-@Serializable
 data class MediaApiModel(
-    @SerializedName("id") val id: Int,
-    @SerializedName("url") val url: String,
-    @SerializedName("publicId") val publicId: String?,
-    @SerializedName("format") val format: String?,
-    @SerializedName("resourceType") val resourceType: String?,
-    @SerializedName("bytes") val bytes: Int?,
-    @SerializedName("width") val width: Int?,
-    @SerializedName("height") val height: Int?,
-    @SerializedName("originalName") val originalName: String?,
-    @SerializedName("folder") val folder: String?,
-    @SerializedName("altText") val altText: String?,
-    @SerializedName("createdAt") val createdAt: String? = null,
-    @SerializedName("updatedAt") val updatedAt: String? = null,
-    @SerializedName("gameId") val gameId: Int?,
-    @SerializedName("userId") val userId: Int?
+    val id: Int,
+    val url: String,
+    val publicId: String?,
+    val format: String?,
+    val resourceType: String?,
+    val bytes: Int?,
+    val width: Int?,
+    val height: Int?,
+    val originalName: String?,
+    val folder: String?,
+    val altText: String?,
+    val createdAt: String? = null,
+    val updatedAt: String? = null,
+    val gameId: Int?,
+    val userId: Int?
 )
 
 fun MediaApiModel.toDomain(): Media {

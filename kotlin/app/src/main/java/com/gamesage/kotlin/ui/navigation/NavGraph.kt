@@ -262,7 +262,6 @@ fun NavGraph(
 
             composable<Destinations.Camera> {
                 CameraScreen(
-                    modifier = Modifier.fillMaxSize(),
                     viewModel = viewModel(),
                     onNavigateBack = { navController.popBackStack() },
                     onNavigateToCapture = { file ->

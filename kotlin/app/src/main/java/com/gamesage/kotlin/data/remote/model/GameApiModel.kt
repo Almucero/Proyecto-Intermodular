@@ -1,7 +1,6 @@
 package com.gamesage.kotlin.data.remote.model
 
 import com.gamesage.kotlin.data.model.*
-import com.google.gson.annotations.SerializedName
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId

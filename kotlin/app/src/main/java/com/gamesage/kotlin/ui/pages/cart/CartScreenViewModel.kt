@@ -40,7 +40,6 @@ sealed class CartUiState {
 class CartScreenViewModel @Inject constructor(
     private val cartRepository: CartRepository
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow<CartUiState>(CartUiState.Initial)
     val uiState: StateFlow<CartUiState> = _uiState.asStateFlow()
 
@@ -94,7 +93,7 @@ class CartScreenViewModel @Inject constructor(
 
     //Actualiza la cantidad de un producto.
     private suspend fun updateItemQuantity(item: CartItemUiState, newQuantity: Int) {
-        // Hacemos llamada al repositorio para actualizar la cantidad, se pasa el identificador del juego que se está actualizando,el identificador de la plataforma en la que se juega el juego y l    a nueva cantidad para el artículo en el carrito.
+        // Hacemos llamada al repositorio para actualizar la cantidad, se pasa el identificador del juego que se está actualizando,el identificador de la plataforma en la que se juega el juego y la nueva cantidad para el artículo en el carrito.
         val result = cartRepository.update(item.gameId, item.platformId, newQuantity)
         if (result.isFailure) {
             _errorMessage.value = "Error al actualizar: se necesita conexión a internet"
