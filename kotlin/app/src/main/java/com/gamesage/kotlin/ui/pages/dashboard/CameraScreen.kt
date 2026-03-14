@@ -66,9 +66,15 @@ fun CameraPreview(
     onNavigateToCapture: (File) -> Unit,
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
 ) {
+    // Obtenemos el contexto actual de la aplicación
     val context = LocalContext.current
+    
+    // Observamos el estado del "SurfaceRequest" desde el ViewModel.
+    // Esto es lo que CameraX usa para saber donde pintar los fotogramas de la cámara en la pantalla.
     val surfaceRequest by viewModel.surfaceRequest.collectAsStateWithLifecycle()
 
+    // Usamos LaunchedEffect para asegurarnos de que la cámara se inicializa y se "ata" (bind) 
+    // al ciclo de vida de esta pantalla solo una vez al abrirse.
     LaunchedEffect(lifecycleOwner) {
         viewModel.bindToCamera(
             context = context.applicationContext,
@@ -76,17 +82,21 @@ fun CameraPreview(
         )
     }
 
+    // Contenedor principal que ocupa toda la pantalla
     Box(modifier = Modifier.fillMaxSize()) {
+        // Solo pintamos la vista si la cámara ya nos ha dado el SurfaceRequest válido
         surfaceRequest?.let { request ->
+            // Componente visual nativo de CameraX que muestra lo que ve la cámara
             CameraXViewfinder(
                 surfaceRequest = request,
                 modifier = Modifier.fillMaxSize()
             )
 
+            // Botón de Volver Atras (Arriba a la izquierda)
             IconButton(
                 onClick = onNavigateBack,
                 modifier = Modifier
-                    .align(Alignment.TopStart)
+                    .align(Alignment.TopStart) // Lo posicionamos arriba a la izquierda
                     .padding(16.dp)
                     .size(48.dp),
                 colors = IconButtonDefaults.iconButtonColors(
@@ -100,12 +110,14 @@ fun CameraPreview(
                 )
             }
 
+            // Fila de botones inferiores (Cambiar cámara y Hacer Foto)
             Row(
                 modifier = Modifier
-                    .align(Alignment.BottomCenter)
+                    .align(Alignment.BottomCenter) // Abajo en el centro
                     .padding(16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
+                // Botón para alternar entre cámara frontal y trasera
                 Button(
                     onClick = {
                         viewModel.switchCamera(lifecycleOwner)
@@ -121,9 +133,13 @@ fun CameraPreview(
                         modifier = Modifier.size(24.dp)
                     )
                 }
+                
+                // Botón principal para realizar la foto
                 Button(
                     onClick = {
+                        // Le decimos al ViewModel que tome la foto
                         viewModel.takePhoto(context) { file ->
+                            // Cuando la foto se guarda con éxito en un archivo, saltamos a la siguiente pantalla
                             onNavigateToCapture(file)
                         }
                     },
@@ -139,4 +155,6 @@ fun CameraPreview(
                     )
                 }
             }
-        }}}
+        }
+    }
+}

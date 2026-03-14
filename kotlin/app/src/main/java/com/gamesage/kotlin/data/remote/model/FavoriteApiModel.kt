@@ -1,7 +1,5 @@
 package com.gamesage.kotlin.data.remote.model
 
-import com.google.gson.annotations.SerializedName
-
 data class FavoriteApiModel(
     val id: Int,
     val createdAt: String,

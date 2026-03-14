@@ -124,7 +124,6 @@ class DashboardScreenViewModel @Inject constructor(
     }
 
     // Guarda los cambios en el servidor (foto y datos personales)
-    // Guarda los cambios en el servidor (foto y datos personales)
     fun saveChanges() {
         val state = _uiState.value
         // Si el estado no es 'Success', no realizamos ninguna acción

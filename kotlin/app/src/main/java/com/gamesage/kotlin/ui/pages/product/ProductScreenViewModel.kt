@@ -10,6 +10,7 @@ import com.gamesage.kotlin.data.repository.cart.CartRepository
 import com.gamesage.kotlin.data.repository.favorites.FavoritesRepository
 import com.gamesage.kotlin.data.repository.game.GameRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,10 +24,10 @@ sealed class ProductUiState {
         val game: Game,
         val selectedPlatform: String? = null,
         val currentMediaIndex: Int = 0,
-        val navigateToLogin: Boolean = false,
-        val addedToCartSuccess: Boolean = false,
-        val addedToFavoritesSuccess: Boolean = false,
-        val error: String? = null
+        val navigateToLogin: Boolean = false,  // Flag que indica si hay que navegar al Login
+        val addedToCartSuccess: Boolean = false,   // Flag temporal de confirmación al añadir al carrito
+        val addedToFavoritesSuccess: Boolean = false, // Flag temporal de confirmación al añadir a favoritos
+        val error: String? = null  // Mensaje de error temporal para mostrar en la UI
     ) : ProductUiState()
     object Error : ProductUiState()
 }
@@ -56,6 +57,7 @@ class ProductScreenViewModel @Inject constructor(
     private val _mediaItems = MutableStateFlow<List<MediaItem>>(emptyList())
     val mediaItems: StateFlow<List<MediaItem>> = _mediaItems.asStateFlow()
 
+    // Mapa que asocia el nombre de cada plataforma con su icono (drawable)
     private val platformImages: Map<String, Int> = mapOf(
         "PC" to R.drawable.pc,
         "PS5" to R.drawable.ps5,
@@ -65,6 +67,7 @@ class ProductScreenViewModel @Inject constructor(
         "Xbox One" to R.drawable.xbox_one
     )
 
+    // Devuelve el stock disponible del juego para la plataforma indicada
     fun getStockForPlatform(game: Game, platformName: String?): Int {
         return when (platformName) {
             "PC" -> game.stockPc ?: 0
@@ -74,6 +77,7 @@ class ProductScreenViewModel @Inject constructor(
             "PS4" -> game.stockPs4 ?: 0
             "Xbox One" -> game.stockXboxOne ?: 0
             else -> {
+                // Si no hay plataforma seleccionada, devuelve el stock total sumando todas las plataformas
                 (game.stockPc ?: 0) + 
                 (game.stockPs5 ?: 0) + 
                 (game.stockXboxX ?: 0) + 
@@ -84,13 +88,17 @@ class ProductScreenViewModel @Inject constructor(
         }
     }
 
+    // Carga los datos del juego desde el repositorio usando su ID
     fun loadGame(gameId: Long) {
         viewModelScope.launch {
+            // Muestra el estado de carga mientras esperamos la respuesta
             _uiState.value = ProductUiState.Loading
             
             gameRepository.readOne(gameId).fold(
                 onSuccess = { game ->
+                    // Construye la lista de fotos y vídeos del juego para el carrusel de la pantalla
                     buildMediaItems(game)
+                    // Si el juego solo tiene una plataforma, la seleccionamos automáticamente
                     val selectedPlatform = if (game.platforms?.size == 1) {
                         game.platforms.firstOrNull()?.name
                     } else null
@@ -101,15 +109,18 @@ class ProductScreenViewModel @Inject constructor(
                     )
                 },
                 onFailure = {
+                    // Si algo falla (sin red, juego no encontrado), mostramos el estado de error
                     _uiState.value = ProductUiState.Error
                 }
             )
         }
     }
 
+    // Construye la lista interna de MediaItems (vídeo + portada) para el carrusel
     private fun buildMediaItems(game: Game) {
         val items = mutableListOf<MediaItem>()
 
+        // Si el juego tiene vídeo de YouTube, lo convierte a URL embebible y genera su miniatura
         game.videoUrl?.let { videoUrl ->
             val videoId = getVideoId(videoUrl)
             val embedUrl = convertToEmbedUrl(videoUrl)
@@ -126,6 +137,7 @@ class ProductScreenViewModel @Inject constructor(
                 )
             )
         }
+        // Busca la imagen de tipo "cover" en las fotos del juego y la añade al carrusel
         game.media?.find { it.altText?.lowercase()?.contains("cover") == true }?.let { cover ->
             items.add(
                 MediaItem(
@@ -139,10 +151,12 @@ class ProductScreenViewModel @Inject constructor(
         _mediaItems.value = items
     }
 
+    // Marca la plataforma seleccionada por el usuario. Si ya estaba seleccionada y hay más opciones, la deselecciona.
     fun selectPlatform(platformName: String) {
         val currentState = _uiState.value
         if (currentState is ProductUiState.Success) {
             val availablePlatforms = currentState.game.platforms?.size ?: 0
+            // Si el usuario pulsa la misma plataforma que ya tenía y hay más de una, la quita (toggle)
             val newPlatform = if (currentState.selectedPlatform == platformName && availablePlatforms > 1) {
                 null
             } else {
@@ -152,6 +166,7 @@ class ProductScreenViewModel @Inject constructor(
         }
     }
 
+    // Comprueba si una plataforma concreta está disponible para el juego actual
     fun isPlatformAvailable(platformName: String): Boolean {
         val currentState = _uiState.value
         return if (currentState is ProductUiState.Success) {
@@ -161,8 +176,10 @@ class ProductScreenViewModel @Inject constructor(
         }
     }
 
+    // Retrocede al elemento anterior del carrusel de media (foto/vídeo)
     fun previousMedia() {
         val currentState = _uiState.value
+        // Solo retrocede si hay elementos anteriores (no estamos ya en el primero)
         if (currentState is ProductUiState.Success && currentState.currentMediaIndex > 0) {
             _uiState.value = currentState.copy(
                 currentMediaIndex = currentState.currentMediaIndex - 1
@@ -170,10 +187,12 @@ class ProductScreenViewModel @Inject constructor(
         }
     }
 
+    // Avanza al siguiente elemento del carrusel de media (foto/vídeo)
     fun nextMedia() {
         val currentState = _uiState.value
         if (currentState is ProductUiState.Success) {
             val maxIndex = _mediaItems.value.size - 1
+            // Solo avanza si hay más elementos (no estamos ya en el último)
             if (currentState.currentMediaIndex < maxIndex) {
                 _uiState.value = currentState.copy(
                     currentMediaIndex = currentState.currentMediaIndex + 1
@@ -182,6 +201,7 @@ class ProductScreenViewModel @Inject constructor(
         }
     }
 
+    // Salta directamente a un elemento concreto del carrusel al pulsar su miniatura
     fun selectMedia(index: Int) {
         val currentState = _uiState.value
         if (currentState is ProductUiState.Success) {
@@ -189,19 +209,23 @@ class ProductScreenViewModel @Inject constructor(
         }
     }
 
+    // Añade el juego al carrito del usuario
     fun addToCart() {
         val currentState = _uiState.value
         if (currentState is ProductUiState.Success) {
             viewModelScope.launch {
+                // Comprueba si el usuario tiene sesión iniciada (si tiene token guardado)
                 val token = tokenManager.token.firstOrNull()
                 if (token.isNullOrBlank()) {
+                    // Sin token → redirige al Login (activa el flag navigateToLogin)
                     _uiState.value = currentState.copy(navigateToLogin = true)
                     return@launch
                 }
 
+                // Si no ha seleccionado plataforma, muestra un error temporal de 2 segundos
                 if (currentState.selectedPlatform == null) {
                      _uiState.value = currentState.copy(error = "Selecciona una plataforma")
-                     kotlinx.coroutines.delay(2000)
+                     delay(2000)
                      val state = _uiState.value
                      if (state is ProductUiState.Success) {
                          _uiState.value = state.copy(error = null)
@@ -209,6 +233,7 @@ class ProductScreenViewModel @Inject constructor(
                      return@launch
                 }
 
+                // Busca el ID de la plataforma seleccionada dentro de las plataformas del juego
                 val platform = currentState.game.platforms?.find { it.name == currentState.selectedPlatform }
                 val platformId = platform?.id
 
@@ -217,10 +242,12 @@ class ProductScreenViewModel @Inject constructor(
                     return@launch
                 }
 
+                // Llama al repositorio para añadir el juego al carrito con cantidad 1
                 cartRepository.add(currentState.game.id, platformId, 1).fold(
                     onSuccess = {
+                        // Muestra un mensaje de éxito temporal durante 2 segundos
                         _uiState.value = currentState.copy(addedToCartSuccess = true, error = null)
-                        kotlinx.coroutines.delay(2000)
+                        delay(2000)
                         val state = _uiState.value
                         if (state is ProductUiState.Success) {
                             _uiState.value = state.copy(addedToCartSuccess = false)
@@ -228,8 +255,9 @@ class ProductScreenViewModel @Inject constructor(
                     },
                     onFailure = { e ->
                         e.printStackTrace()
+                        // Muestra el error durante 3 segundos y luego lo limpia
                         _uiState.value = currentState.copy(error = "Error al añadir al carrito: ${e.message}")
-                        kotlinx.coroutines.delay(3000)
+                        delay(3000)
                         val state = _uiState.value
                         if (state is ProductUiState.Success) {
                             _uiState.value = state.copy(error = null)
@@ -240,6 +268,7 @@ class ProductScreenViewModel @Inject constructor(
         }
     }
 
+    // Limpia el mensaje de error actual del estado
     fun clearError() {
          val currentState = _uiState.value
         if (currentState is ProductUiState.Success) {
@@ -247,19 +276,23 @@ class ProductScreenViewModel @Inject constructor(
         }
     }
 
+    // Añade el juego a la lista de favoritos del usuario
     fun addToFavorites() {
         val currentState = _uiState.value
         if (currentState is ProductUiState.Success) {
             viewModelScope.launch {
+                // Comprueba si el usuario tiene sesión iniciada (si tiene token guardado)
                 val token = tokenManager.token.firstOrNull()
                 if (token.isNullOrBlank()) {
+                    // Sin token → redirige al Login (activa el flag navigateToLogin)
                     _uiState.value = currentState.copy(navigateToLogin = true)
                     return@launch
                 }
 
+                // Si no ha seleccionado plataforma, muestra un error temporal de 2 segundos
                 if (currentState.selectedPlatform == null) {
                     _uiState.value = currentState.copy(error = "Selecciona una plataforma")
-                     kotlinx.coroutines.delay(2000)
+                     delay(2000)
                      val state = _uiState.value
                      if (state is ProductUiState.Success) {
                          _uiState.value = state.copy(error = null)
@@ -267,26 +300,30 @@ class ProductScreenViewModel @Inject constructor(
                     return@launch
                 }
                 
+                // Busca el ID de la plataforma seleccionada
                 val platform = currentState.game.platforms?.find { it.name == currentState.selectedPlatform }
                 val platformId = platform?.id ?: return@launch
 
+                // Llama al repositorio para añadir el juego a favoritos
                 favoritesRepository.add(currentState.game.id, platformId).fold(
                     onSuccess = {
+                        // Muestra confirmación visual de éxito durante 2 segundos
                         _uiState.value = currentState.copy(addedToFavoritesSuccess = true)
-                        kotlinx.coroutines.delay(2000)
+                        delay(2000)
                         val state = _uiState.value
                          if (state is ProductUiState.Success) {
                             _uiState.value = state.copy(addedToFavoritesSuccess = false)
                         }
                     },
                     onFailure = { e ->
+                        // Error 409 significa que el juego ya estaba en favoritos para esa plataforma
                         val errorMsg = if (e is retrofit2.HttpException && e.code() == 409) {
                             "Este juego ya está en favoritos para esta plataforma"
                         } else {
                             "Error al añadir a favoritos: ${e.message}"
                         }
                         _uiState.value = currentState.copy(error = errorMsg)
-                         kotlinx.coroutines.delay(2000)
+                         delay(2000)
                          val state = _uiState.value
                          if (state is ProductUiState.Success) {
                              _uiState.value = state.copy(error = null)
@@ -297,10 +334,13 @@ class ProductScreenViewModel @Inject constructor(
         }
     }
 
+    // Comprar ahora: reutiliza la lógica de añadir al carrito
     fun buyNow() {
         addToCart()
     }
 
+    // Se llama desde la UI después de que se haya procesado la navegación al Login,
+    // para evitar que se vuelva a navegar al Login de forma involuntaria
     fun onNavigationConsumed() {
         val currentState = _uiState.value
         if (currentState is ProductUiState.Success) {
@@ -308,6 +348,7 @@ class ProductScreenViewModel @Inject constructor(
         }
     }
 
+    // Reintenta cargar el juego si hubo un error anterior
     fun retry() {
         val currentState = _uiState.value
         if (currentState is ProductUiState.Success) {
@@ -315,15 +356,19 @@ class ProductScreenViewModel @Inject constructor(
         }
     }
 
+    // Devuelve el número de estrellas llenas basándose en el rating (truncado a entero)
     fun getRatingStars(rating: Float?): Int {
         return (rating ?: 0f).toInt()
     }
 
+    // Devuelve el número de estrellas vacías (hasta completar 5 estrellas en total)
     fun getEmptyStars(rating: Float?): Int {
         val fullStars = (rating ?: 0f).toInt()
         return 5 - fullStars
     }
 
+    // Devuelve la lista de todas las plataformas con su disponibilidad y stock,
+    // ordenadas para que aparezcan primero las que están disponibles
     fun getSortedPlatforms(): List<PlatformInfo> {
         val currentState = _uiState.value
         if (currentState !is ProductUiState.Success) return emptyList()
@@ -338,14 +383,16 @@ class ProductScreenViewModel @Inject constructor(
                 isAvailable = isPlatformAvailable(platformName),
                 stock = stock
             )
-        }.sortedByDescending { it.isAvailable }
+        }.sortedByDescending { it.isAvailable } // Las plataformas disponibles van primero
     }
 
+    // Extrae el ID del vídeo de YouTube desde la URL completa (parámetro "v=")
     private fun getVideoId(url: String): String? {
         val regex = "[?&]v=([^&]+)".toRegex()
         return regex.find(url)?.groupValues?.get(1)
     }
 
+    // Convierte la URL normal de YouTube a URL embebible con parámetros de reproducción automática
     private fun convertToEmbedUrl(url: String): String {
         val videoId = getVideoId(url)
         return if (videoId != null) {
@@ -355,6 +402,7 @@ class ProductScreenViewModel @Inject constructor(
         }
     }
 
+    // Busca y devuelve la URL de la primera captura de pantalla del juego
     fun getScreenshot1(): String? {
         val currentState = _uiState.value
         if (currentState !is ProductUiState.Success) return null
@@ -365,6 +413,7 @@ class ProductScreenViewModel @Inject constructor(
         }?.url
     }
 
+    // Busca y devuelve la URL de la segunda captura de pantalla del juego
     fun getScreenshot2(): String? {
         val currentState = _uiState.value
         if (currentState !is ProductUiState.Success) return null
@@ -376,6 +425,7 @@ class ProductScreenViewModel @Inject constructor(
     }
 }
 
+// Clase que agrupa la información de una plataforma para mostrarla en la UI
 data class PlatformInfo(
     val name: String,
     val image: Int,
