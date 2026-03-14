@@ -141,6 +141,16 @@
 
     <string name="aichat_title">AI Chat</string>
     <string name="aichat_loading">Loading chat…</string>
+    <string name="aichat_history">Chat History</string>
+    <string name="aichat_new_chat">New Chat</string>
+    <string name="aichat_input_hint">Ask something…</string>
+    <string name="aichat_empty_session">Empty Chat</string>
+    <string name="aichat_welcome_title">How can I help you today?</string>
+    <string name="aichat_welcome_subtitle">I am Sage, your AI assistant specialized in video games. You can ask me about recommendations, stories, or anything else you want to know.</string>
+    <string name="aichat_suggestion_terror">Recommend me 5 psychological horror games to play at night</string>
+    <string name="aichat_suggestion_rpg">What are the best RPGs of the last decade?</string>
+    <string name="aichat_suggestion_coop">I am looking for local co-op games to play with my partner</string>
+    <string name="aichat_suggestion_ps5">Tell me the must-have PlayStation 5 exclusives</string>
 
     <string name="contact_title">Contact</string>
     <string name="contact_subtitle">Have questions or need help? We are here for you.</string>

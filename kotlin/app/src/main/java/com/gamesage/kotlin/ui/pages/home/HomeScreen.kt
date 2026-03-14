@@ -96,8 +96,8 @@ fun HomeScreen(
                             .padding(top = 12.dp, bottom = 32.dp)
                     ) {
                         //Sección de categorías (géneros).
-                        CategorySection(state.categories, onGenreClick)
                         Spacer(Modifier.height(12.dp))
+                        CategorySection(state.categories, onGenreClick)
 
                         //Listas horizontales de juegos por sección.
                         GameHorizontalList(stringResource(R.string.home_best_sellers), state.bestSellers, onGameClick)

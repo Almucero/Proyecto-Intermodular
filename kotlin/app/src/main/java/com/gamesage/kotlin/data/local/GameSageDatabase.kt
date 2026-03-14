@@ -20,6 +20,11 @@ import com.gamesage.kotlin.data.local.cart.CartDao
 import com.gamesage.kotlin.data.local.cart.CartEntity
 import com.gamesage.kotlin.data.local.favorites.FavoriteDao
 import com.gamesage.kotlin.data.local.favorites.FavoriteEntity
+import com.gamesage.kotlin.data.local.chat.ChatDao
+import com.gamesage.kotlin.data.local.chat.ChatSessionEntity
+import com.gamesage.kotlin.data.local.chat.ChatMessageEntity
+import com.gamesage.kotlin.data.local.chat.ChatConverters
+import androidx.room.TypeConverters
 
 @Database(
     entities = [
@@ -31,10 +36,13 @@ import com.gamesage.kotlin.data.local.favorites.FavoriteEntity
         PublisherEntity::class,
         UserEntity::class,
         CartEntity::class,
-        FavoriteEntity::class
+        FavoriteEntity::class,
+        ChatSessionEntity::class,
+        ChatMessageEntity::class
     ],
-    version = 2,
+    version = 3,
 )
+@TypeConverters(ChatConverters::class)
 abstract class GameSageDatabase : RoomDatabase() {
 
     abstract fun getDeveloperDao(): DeveloperDao
@@ -46,4 +54,5 @@ abstract class GameSageDatabase : RoomDatabase() {
     abstract fun getUserDao(): UserDao
     abstract fun getCartDao(): CartDao
     abstract fun getFavoriteDao(): FavoriteDao
+    abstract fun getChatDao(): ChatDao
 }

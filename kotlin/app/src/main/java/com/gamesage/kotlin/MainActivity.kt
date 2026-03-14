@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.gamesage.kotlin.data.local.TokenManager
 import com.gamesage.kotlin.ui.navigation.Destinations
 import com.gamesage.kotlin.ui.navigation.NavGraph
@@ -27,6 +28,7 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        @Suppress("UnusedVariable", "unused") val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         loadLocale(this)
         enableEdgeToEdge()

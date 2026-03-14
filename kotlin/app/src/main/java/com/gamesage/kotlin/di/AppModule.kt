@@ -1,33 +1,42 @@
 package com.gamesage.kotlin.di
 
-import com.gamesage.kotlin.data.ChatDataSource
+import com.gamesage.kotlin.data.CartDataSource
 import com.gamesage.kotlin.data.DeveloperDataSource
+import com.gamesage.kotlin.data.FavoritesDataSource
 import com.gamesage.kotlin.data.GameDataSource
 import com.gamesage.kotlin.data.GenreDataSource
 import com.gamesage.kotlin.data.MediaDataSource
 import com.gamesage.kotlin.data.PlatformDataSource
 import com.gamesage.kotlin.data.PublisherDataSource
 import com.gamesage.kotlin.data.UserDataSource
-import com.gamesage.kotlin.data.CartDataSource
-import com.gamesage.kotlin.data.FavoritesDataSource
+import com.gamesage.kotlin.data.local.cart.CartLocalDataSource
 import com.gamesage.kotlin.data.local.developer.DeveloperLocalDataSource
+import com.gamesage.kotlin.data.local.favorites.FavoritesLocalDataSource
 import com.gamesage.kotlin.data.local.game.GameLocalDataSource
 import com.gamesage.kotlin.data.local.genre.GenreLocalDataSource
 import com.gamesage.kotlin.data.local.media.MediaLocalDataSource
 import com.gamesage.kotlin.data.local.platform.PlatformLocalDataSource
 import com.gamesage.kotlin.data.local.publisher.PublisherLocalDataSource
 import com.gamesage.kotlin.data.local.user.UserLocalDataSource
+import com.gamesage.kotlin.data.remote.CartRemoteDataSource
 import com.gamesage.kotlin.data.remote.DeveloperRemoteDataSource
+import com.gamesage.kotlin.data.remote.FavoritesRemoteDataSource
 import com.gamesage.kotlin.data.remote.GameRemoteDataSource
 import com.gamesage.kotlin.data.remote.GenreRemoteDataSource
 import com.gamesage.kotlin.data.remote.MediaRemoteDataSource
 import com.gamesage.kotlin.data.remote.PlatformRemoteDataSource
 import com.gamesage.kotlin.data.remote.PublisherRemoteDataSource
 import com.gamesage.kotlin.data.remote.UserRemoteDataSource
-import com.gamesage.kotlin.data.remote.CartRemoteDataSource
-import com.gamesage.kotlin.data.remote.FavoritesRemoteDataSource
+import com.gamesage.kotlin.data.ChatDataSource
+import com.gamesage.kotlin.data.remote.ChatRemoteDataSource
+import com.gamesage.kotlin.data.repository.chat.ChatRepository
+import com.gamesage.kotlin.data.repository.chat.ChatRepositoryImpl
+import com.gamesage.kotlin.data.repository.cart.CartRepository
+import com.gamesage.kotlin.data.repository.cart.CartRepositoryImpl
 import com.gamesage.kotlin.data.repository.developer.DeveloperRepository
 import com.gamesage.kotlin.data.repository.developer.DeveloperRepositoryImpl
+import com.gamesage.kotlin.data.repository.favorites.FavoritesRepository
+import com.gamesage.kotlin.data.repository.favorites.FavoritesRepositoryImpl
 import com.gamesage.kotlin.data.repository.game.GameRepository
 import com.gamesage.kotlin.data.repository.game.GameRepositoryImpl
 import com.gamesage.kotlin.data.repository.genre.GenreRepository
@@ -38,14 +47,6 @@ import com.gamesage.kotlin.data.repository.platform.PlatformRepository
 import com.gamesage.kotlin.data.repository.platform.PlatformRepositoryImpl
 import com.gamesage.kotlin.data.repository.publisher.PublisherRepository
 import com.gamesage.kotlin.data.repository.publisher.PublisherRepositoryImpl
-import com.gamesage.kotlin.data.local.cart.CartLocalDataSource
-import com.gamesage.kotlin.data.local.favorites.FavoritesLocalDataSource
-import com.gamesage.kotlin.data.repository.favorites.FavoritesRepository
-import com.gamesage.kotlin.data.repository.favorites.FavoritesRepositoryImpl
-import com.gamesage.kotlin.data.repository.cart.CartRepository
-import com.gamesage.kotlin.data.repository.cart.CartRepositoryImpl
-import com.gamesage.kotlin.data.repository.chat.ChatRepository
-import com.gamesage.kotlin.data.repository.chat.ChatRepositoryImpl
 import com.gamesage.kotlin.data.repository.user.UserRepository
 import com.gamesage.kotlin.data.repository.user.UserRepositoryImpl
 import dagger.Binds
@@ -169,6 +170,15 @@ abstract class AppModule {
     @Binds
     @Singleton
     abstract fun bindUserRepository(repository: UserRepositoryImpl): UserRepository
+
+    @Singleton
+    @Binds
+    @RemoteDataSource
+    abstract fun bindsRemoteChatDataSource(ds: ChatRemoteDataSource): ChatDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindChatRepository(repository: ChatRepositoryImpl): ChatRepository
 }
 
 @Qualifier

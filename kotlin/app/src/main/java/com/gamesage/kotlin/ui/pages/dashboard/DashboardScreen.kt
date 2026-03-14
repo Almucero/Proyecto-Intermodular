@@ -1,5 +1,6 @@
 package com.gamesage.kotlin.ui.pages.dashboard
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -38,8 +39,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -52,6 +51,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
@@ -79,6 +79,7 @@ import java.io.FileOutputStream
 
 //Pantalla principal del perfil de usuario.
 //Permite observar, editar el perfil, cambiar fotos y cerrar sesión.
+@SuppressLint("FrequentlyChangingValue")
 @Composable
 fun DashboardScreen(
     onPrivacyClick: () -> Unit,
@@ -165,14 +166,12 @@ fun DashboardScreen(
         }
     }
 
-    Scaffold(
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-        containerColor = Color(0xFF111827)
-    ) { paddingValues ->
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
         ) {
             //Manejo de estados de la UI (Cargando, Error o Éxito).
             when (val state = uiState) {
@@ -192,11 +191,12 @@ fun DashboardScreen(
 
                 is DashboardUiState.Success -> {
                     Box(modifier = Modifier.fillMaxSize()) {
+                        val scrollState = rememberScrollState()
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .background(Color(0xFF111827))
-                                .verticalScroll(rememberScrollState())
+                                .verticalScroll(scrollState)
                                 .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 32.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
@@ -679,6 +679,14 @@ fun DashboardScreen(
                                     strokeWidth = 6.dp
                                 )
                             }
+                        }
+                        
+                        if (scrollState.value > 0) {
+                            Box(modifier = Modifier.fillMaxWidth().height(32.dp).align(Alignment.TopCenter).background(
+                                brush = Brush.verticalGradient(
+                                    colors = listOf(Color(0xFF111827), Color.Transparent)
+                                )
+                            ))
                         }
                     }
                 }

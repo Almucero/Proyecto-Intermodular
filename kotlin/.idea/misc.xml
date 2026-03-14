@@ -1,6 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BuildAttributionWarningsFilter">
     <option name="noGCSettingWarning" value="true" />
+  </component>
+  <component name="EntryPointsManager">
+    <list size="8">
+      <item index="0" class="java.lang.String" itemvalue="com.gamesage.kotlin.di.LocalDataSource" />
+      <item index="1" class="java.lang.String" itemvalue="com.gamesage.kotlin.di.RemoteDataSource" />
+      <item index="2" class="java.lang.String" itemvalue="dagger.Binds" />
+      <item index="3" class="java.lang.String" itemvalue="dagger.hilt.InstallIn" />
+      <item index="4" class="java.lang.String" itemvalue="retrofit2.http.DELETE" />
+      <item index="5" class="java.lang.String" itemvalue="retrofit2.http.GET" />
+      <item index="6" class="java.lang.String" itemvalue="retrofit2.http.PATCH" />
+      <item index="7" class="java.lang.String" itemvalue="retrofit2.http.POST" />
+    </list>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="jbr-21" project-jdk-type="JavaSDK">

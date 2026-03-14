@@ -2,7 +2,12 @@ package com.gamesage.kotlin.ui.navigation
 
 import android.app.Activity
 import android.os.Build
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.Box
+import androidx.compose.ui.zIndex
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -14,9 +19,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -25,6 +34,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.gamesage.kotlin.data.local.TokenManager
 import com.gamesage.kotlin.ui.common.HomeBottomBar
 import com.gamesage.kotlin.ui.common.Menu
@@ -32,6 +43,7 @@ import com.gamesage.kotlin.ui.common.TopBar
 import com.gamesage.kotlin.ui.pages.cart.CartScreen
 import com.gamesage.kotlin.ui.pages.conditions.ConditionsScreen
 import com.gamesage.kotlin.ui.pages.contact.ContactScreen
+import com.gamesage.kotlin.ui.pages.chat.ChatScreen
 import com.gamesage.kotlin.ui.pages.contact.MapScreen
 import com.gamesage.kotlin.ui.pages.cookies.CookiesScreen
 import com.gamesage.kotlin.ui.pages.dashboard.CameraScreen
@@ -61,6 +73,14 @@ fun NavGraph(
     var showBottomSheet by remember { mutableStateOf(false) }
     var searchQuery by remember { mutableStateOf("") }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+
+    LaunchedEffect(currentBackStackEntry) {
+        showBottomSheet = false
+        if (currentBackStackEntry?.destination?.route?.contains("search", ignoreCase = true) != true) {
+            searchQuery = ""
+        }
+    }
 
     // Solicitar permiso de notificaciones
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -75,15 +95,7 @@ fun NavGraph(
         }
     }
 
-    Menu(
-        navController = navController,
-        show = showBottomSheet,
-        onDismiss = {
-            @Suppress("AssignedValueIsNeverRead")
-            showBottomSheet = false
-        },
-        onClearSearch = { searchQuery = "" }
-    )
+
 
     Scaffold(
         modifier = Modifier
@@ -108,21 +120,23 @@ fun NavGraph(
                 onLanguageClick = { langCode ->
                     com.gamesage.kotlin.utils.LanguageUtils.setLocale(context, langCode)
                     (context as? Activity)?.recreate()
+                },
+                onSearchFocus = {
+                    @Suppress("AssignedValueIsNeverRead")
+                    showBottomSheet = false
                 }
             )
         },
         bottomBar = {
                 HomeBottomBar(
                     onMenuClick = {
-                        @Suppress("AssignedValueIsNeverRead")
-                        showBottomSheet = true
+                        showBottomSheet = !showBottomSheet
                     },
                     onCartClick = {
                         if (token != null) {
                             navController.navigate(Destinations.Cart) {
-                                popUpTo(Destinations.Home) { saveState = true }
+                                popUpTo(navController.graph.findStartDestination().id)
                                 launchSingleTop = true
-                                restoreState = true
                             }
                         } else {
                             navController.navigate(Destinations.Login)
@@ -131,9 +145,18 @@ fun NavGraph(
                     onFavoritesClick = {
                         if (token != null) {
                             navController.navigate(Destinations.Favorites) {
-                                popUpTo(Destinations.Home) { saveState = true }
+                                popUpTo(navController.graph.findStartDestination().id)
                                 launchSingleTop = true
-                                restoreState = true
+                            }
+                        } else {
+                            navController.navigate(Destinations.Login)
+                        }
+                    },
+                    onAiChatClick = {
+                        if (token != null) {
+                            navController.navigate(Destinations.Chat(-1)) {
+                                popUpTo(navController.graph.findStartDestination().id)
+                                launchSingleTop = true
                             }
                         } else {
                             navController.navigate(Destinations.Login)
@@ -142,9 +165,8 @@ fun NavGraph(
                     onProfileClick = {
                         if (token != null) {
                             navController.navigate(Destinations.Dashboard) {
-                                popUpTo(Destinations.Home) { saveState = true }
+                                popUpTo(navController.graph.findStartDestination().id)
                                 launchSingleTop = true
-                                restoreState = true
                             }
                         } else {
                             navController.navigate(Destinations.Login)
@@ -154,11 +176,14 @@ fun NavGraph(
         },
         containerColor = Color(0xFF111827)
     ) { innerPadding ->
-        NavHost(
-            navController = navController,
-            startDestination = startDestination,
-            modifier = Modifier.padding(innerPadding)
-        ) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            NavHost(
+                navController = navController,
+                startDestination = startDestination,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+            ) {
             composable<Destinations.Home> {
                 HomeScreen(
                     onGameClick = { gameId ->
@@ -298,6 +323,63 @@ fun NavGraph(
                     }
                 )
             }
+
+            composable<Destinations.Chat> { backStackEntry ->
+                val chatArgs = backStackEntry.toRoute<Destinations.Chat>()
+                ChatScreen(
+                    sessionId = chatArgs.sessionId
+                )
+            }
+        }
+        } // closes Box(fillMaxSize)
+
+        // Global gradient overlays — top (below header) and bottom (above nav bar)
+        Box(modifier = Modifier.fillMaxSize().zIndex(10f)) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(28.dp)
+                    .absoluteOffset(y = innerPadding.calculateTopPadding())
+                    .align(Alignment.TopStart)
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(Color(0xFF111827), Color.Transparent)
+                        )
+                    )
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(28.dp)
+                    .align(Alignment.BottomStart)
+                    .absoluteOffset(y = -innerPadding.calculateBottomPadding())
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(Color.Transparent, Color(0xFF111827))
+                        )
+                    )
+            )
+        }
+
+        // Overlay the Menu inside the Scaffold so it renders strictly
+        // within the content bounds and above the active screen,
+        // avoiding overlapping with the Scaffold's persistent BottomBar.
+        Box(modifier = Modifier
+            .padding(innerPadding)
+            .fillMaxSize()
+            .zIndex(100f)
+        ) {
+            Menu(
+                navController = navController,
+                show = showBottomSheet,
+                onDismiss = {
+                    showBottomSheet = false
+                },
+                onClearSearch = {
+                    @Suppress("AssignedValueIsNeverRead")
+                    searchQuery = ""
+                }
+            )
         }
     }
 }
