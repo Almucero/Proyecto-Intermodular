@@ -56,7 +56,8 @@ import com.gamesage.kotlin.R
 @Composable
 fun CartScreen(
     //Obtiene el ViewModel usando Hilt.
-    viewModel: CartScreenViewModel = hiltViewModel()
+    viewModel: CartScreenViewModel = hiltViewModel(),
+    isLoggedIn: Boolean
 ) {
     //Observa el StateFlow del ViewModel.
     //Cada vez que el estado cambia, la pantalla se recompone automáticamente.
@@ -97,119 +98,130 @@ fun CartScreen(
                 textAlign = TextAlign.Center
             )
 
-            //Estados de la pantalla
-            when (val state = uiState) {
-                //Si está cargando o en el inicio, muestra un CircularProgressIndicator
-                is CartUiState.Initial, is CartUiState.Loading -> {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator(color = Color(0xFF22D3EE))
-                    }
+            if (!isLoggedIn) {
+                Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
+                    Text(
+                        text = stringResource(R.string.product_login_message),
+                        color = Color(0xFF9CA3AF),
+                        fontSize = 18.sp,
+                        textAlign = TextAlign.Center
+                    )
                 }
-                //Si hay error muestra el mensaje en rojo
-                is CartUiState.Error -> {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text(
-                            text = state.message,
-                            color = Color(0xFFF87171),
-                            textAlign = TextAlign.Center
-                        )
+            } else {
+                //Estados de la pantalla
+                when (val state = uiState) {
+                    //Si está cargando o en el inicio, muestra un CircularProgressIndicator
+                    is CartUiState.Initial, is CartUiState.Loading -> {
+                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                            CircularProgressIndicator(color = Color(0xFF22D3EE))
+                        }
                     }
-                }
-                //Si fue bien muestra el carrito.
-                is CartUiState.Success -> {
-                    //Si el carrito está vacío muestra el texto: "carrito vacío"
-                    if (state.items.isEmpty()) {
+                    //Si hay error muestra el mensaje en rojo
+                    is CartUiState.Error -> {
                         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                             Text(
-                                text = stringResource(R.string.cart_empty),
-                                color = Color(0xFF9CA3AF),
-                                fontSize = 18.sp,
+                                text = state.message,
+                                color = Color(0xFFF87171),
                                 textAlign = TextAlign.Center
                             )
                         }
-                    } else {
-                        //Si hay productos
-                        LazyColumn(
-                            modifier = Modifier.weight(1f),
-                            verticalArrangement = Arrangement.spacedBy(16.dp)
-                        ) {
-                            //Por cada producto muestra un CartItemRow.
-                            //Le pasa: onIncrement, onDecrement,onRemove
-                            items(state.items) { item ->
-                                CartItemRow(
-                                    item = item,
-                                    onIncrement = { viewModel.incrementQuantity(item) },
-                                    onDecrement = { viewModel.decrementQuantity(item) },
-                                    onRemove = { viewModel.removeFromCart(item.gameId, item.platformId) }
+                    }
+                    //Si fue bien muestra el carrito.
+                    is CartUiState.Success -> {
+                        //Si el carrito está vacío muestra el texto: "carrito vacío"
+                        if (state.items.isEmpty()) {
+                            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                                Text(
+                                    text = stringResource(R.string.cart_empty),
+                                    color = Color(0xFF9CA3AF),
+                                    fontSize = 18.sp,
+                                    textAlign = TextAlign.Center
                                 )
                             }
-                        }
-                        //Total del carrito en la parte inferior
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 32.dp)
-                        ) {
-                            Row(
+                        } else {
+                            //Si hay productos
+                            LazyColumn(
+                                modifier = Modifier.weight(1f),
+                                verticalArrangement = Arrangement.spacedBy(16.dp)
+                            ) {
+                                //Por cada producto muestra un CartItemRow.
+                                //Le pasa: onIncrement, onDecrement,onRemove
+                                items(state.items) { item ->
+                                    CartItemRow(
+                                        item = item,
+                                        onIncrement = { viewModel.incrementQuantity(item) },
+                                        onDecrement = { viewModel.decrementQuantity(item) },
+                                        onRemove = { viewModel.removeFromCart(item.gameId, item.platformId) }
+                                    )
+                                }
+                            }
+                            //Total del carrito en la parte inferior
+                            Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(bottom = 16.dp),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically
+                                    .padding(top = 32.dp)
                             ) {
-                                Text(
-                                    text = stringResource(R.string.cart_total),
-                                    color = Color(0xFF93E3FE),
-                                    fontSize = 24.sp,
-                                    fontWeight = FontWeight.Bold
-                                )
-                                Text(
-                                    text = String.format("%.2f€", state.total),
-                                    color = Color(0xFF93E3FE),
-                                    fontSize = 24.sp,
-                                    fontWeight = FontWeight.Bold
-                                )
-                            }
-                            //Botón Vaciar carrito
-                            OutlinedButton(
-                                onClick = { viewModel.clearCart() },
-                                colors = ButtonDefaults.outlinedButtonColors(
-                                    contentColor = Color(0xFFF87171)
-                                ),
-                                border = BorderStroke(1.dp, Color(0xFFF87171)),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(bottom = 12.dp)
-                                    .height(50.dp),
-                                shape = RoundedCornerShape(8.dp)
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Delete,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(18.dp)
-                                )
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text(text = stringResource(R.string.cart_clear))
-                            }
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(bottom = 16.dp),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = stringResource(R.string.cart_total),
+                                        color = Color(0xFF93E3FE),
+                                        fontSize = 24.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                    Text(
+                                        text = String.format("%.2f€", state.total),
+                                        color = Color(0xFF93E3FE),
+                                        fontSize = 24.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                }
+                                //Botón Vaciar carrito
+                                OutlinedButton(
+                                    onClick = { viewModel.clearCart() },
+                                    colors = ButtonDefaults.outlinedButtonColors(
+                                        contentColor = Color(0xFFF87171)
+                                    ),
+                                    border = BorderStroke(1.dp, Color(0xFFF87171)),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(bottom = 12.dp)
+                                        .height(50.dp),
+                                    shape = RoundedCornerShape(8.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Delete,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(18.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text(text = stringResource(R.string.cart_clear))
+                                }
 
-                            //Botón para pagar
-                            Button(
-                                onClick = {  },
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = Color.Transparent
-                                ),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(50.dp)
-                                    .border(2.dp, Color(0xFF93E3FE), RoundedCornerShape(8.dp)),
-                                shape = RoundedCornerShape(8.dp)
-                            ) {
-                                Text(
-                                    text = stringResource(R.string.cart_checkout),
-                                    color = Color(0xFF93E3FE),
-                                    fontSize = 16.sp,
-                                    fontWeight = FontWeight.Medium
-                                )
+                                //Botón para pagar
+                                Button(
+                                    onClick = {  },
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = Color.Transparent
+                                    ),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(50.dp)
+                                        .border(2.dp, Color(0xFF93E3FE), RoundedCornerShape(8.dp)),
+                                    shape = RoundedCornerShape(8.dp)
+                                ) {
+                                    Text(
+                                        text = stringResource(R.string.cart_checkout),
+                                        color = Color(0xFF93E3FE),
+                                        fontSize = 16.sp,
+                                        fontWeight = FontWeight.Medium
+                                    )
+                                }
                             }
                         }
                     }

@@ -1,15 +1,23 @@
 package com.gamesage.kotlin.ui.common
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Info
@@ -18,15 +26,13 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -37,7 +43,6 @@ import androidx.navigation.NavHostController
 import com.gamesage.kotlin.R
 import com.gamesage.kotlin.ui.navigation.Destinations
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Menu(
     navController: NavHostController,
@@ -45,33 +50,51 @@ fun Menu(
     onDismiss: () -> Unit,
     onClearSearch: () -> Unit
 ) {
-    if (!show) return
-
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-
-    ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        sheetState = sheetState,
-        containerColor = Color(0xFF030712),
-        dragHandle = null
-    ) {
-        MenuBottomSheetContent(
-            navController = navController,
-            onCloseMenu = onDismiss,
-            onClearSearch = onClearSearch
+    if (show) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.5f))
+                .clickable { onDismiss() }
         )
+    }
+
+    AnimatedVisibility(
+        visible = show,
+        enter = slideInVertically(
+            initialOffsetY = { fullHeight -> fullHeight },
+            animationSpec = tween(durationMillis = 300)
+        ) + fadeIn(animationSpec = tween(durationMillis = 300)),
+        exit = slideOutVertically(
+            targetOffsetY = { fullHeight -> fullHeight },
+            animationSpec = tween(durationMillis = 300)
+        ) + fadeOut(animationSpec = tween(durationMillis = 300)),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize(),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            MenuBottomSheetContent(
+                navController = navController,
+                onCloseMenu = onDismiss,
+                onClearSearch = onClearSearch
+            )
+        }
     }
 }
 
 @Composable
-    fun MenuBottomSheetContent(
-        navController: NavHostController,
-        onCloseMenu: () -> Unit,
-        onClearSearch: () -> Unit = {}
-    ) {
+fun MenuBottomSheetContent(
+    navController: NavHostController,
+    onCloseMenu: () -> Unit,
+    onClearSearch: () -> Unit = {}
+) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
                 .background(Color(0xFF030712))
         ) {
             Box(
@@ -145,23 +168,15 @@ fun Menu(
                 MenuItemRow(
                     icon = Icons.Default.Star,
                     text = stringResource(R.string.menu_cookies),
+                    showDivider = false,
                     onClick = {
                         navController.navigate(Destinations.Cookies)
                         onCloseMenu()
-
                     }
                 )
             }
 
             HorizontalDivider(Modifier, thickness = 1.dp, color = Color(0xFF4A4A4A))
-            HomeBottomBar(
-                onMenuClick = onCloseMenu,
-                onCartClick = {
-                    navController.navigate(Destinations.Cart)
-                    onCloseMenu()
-
-                }
-            )
         }
     }
 
@@ -169,6 +184,7 @@ fun Menu(
     fun MenuItemRow(
         icon: ImageVector,
         text: String,
+        showDivider: Boolean = true,
         onClick: () -> Unit
     ) {
         Row(
@@ -192,5 +208,7 @@ fun Menu(
                 fontWeight = FontWeight.Normal
             )
         }
-        HorizontalDivider(Modifier, thickness = 1.dp, color = Color(0xFF4A4A4A))
+        if (showDivider) {
+            HorizontalDivider(Modifier, thickness = 1.dp, color = Color(0xFF4A4A4A))
+        }
     }

@@ -151,7 +151,16 @@
     <!-- Strings para pantalla de chat -->
     <string name="aichat_title">Chat IA</string>
     <string name="aichat_loading">Cargando chat…</string>
-
+    <string name="aichat_history">Historial de Chat</string>
+    <string name="aichat_new_chat">Nuevo Chat</string>
+    <string name="aichat_input_hint">Escribe algo…</string>
+    <string name="aichat_empty_session">Chat Vacío</string>
+    <string name="aichat_welcome_title">¿En qué puedo ayudarte hoy?</string>
+    <string name="aichat_welcome_subtitle">Soy Sage, tu asistente de IA especializado en videojuegos. Puedes preguntarme sobre recomendaciones, historias, o cualquier otra cosa que necesites saber.</string>
+    <string name="aichat_suggestion_terror">Recomiéndame 5 juegos de terror psicológico para jugar de noche</string>
+    <string name="aichat_suggestion_rpg">¿Cuáles son los mejores RPGs de la última década?</string>
+    <string name="aichat_suggestion_coop">Busco juegos cooperativos locales para jugar con mi pareja</string>
+    <string name="aichat_suggestion_ps5">Dime los exclusivos imprescindibles de PlayStation 5</string>
     <!-- Strings para pantalla de contacto -->
     <string name="contact_title">Contacto</string>
     <string name="contact_subtitle">¿Tienes preguntas o necesitas ayuda? Estamos aquí para ti.</string>

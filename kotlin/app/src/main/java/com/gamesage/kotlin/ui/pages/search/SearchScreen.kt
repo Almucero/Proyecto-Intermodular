@@ -32,6 +32,14 @@ import com.gamesage.kotlin.data.model.Game
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gamesage.kotlin.R
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.core.animateFloatAsState
+import com.gamesage.kotlin.ui.pages.home.shimmerEffect
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,7 +55,6 @@ fun SearchScreen(
     val maxPrice by viewModel.maxPrice.collectAsState()
     val genres by viewModel.availableGenres.collectAsStateWithLifecycle()
 
-
     var priceExpanded by remember { mutableStateOf(false) }
     var genreExpanded by remember { mutableStateOf(false) }
     var platformExpanded by remember { mutableStateOf(false) }
@@ -59,8 +66,25 @@ fun SearchScreen(
     ) {
         when (uiState) {
             is SearchUiState.Loading -> {
-                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator(color = Color(0xFF22D3EE))
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    contentPadding = PaddingValues(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    item(span = { GridItemSpan(2) }) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 16.dp)
+                                .height(220.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .shimmerEffect()
+                        )
+                    }
+                    items(6) {
+                        GameGridCardSkeleton()
+                    }
                 }
             }
             is SearchUiState.Error -> {
@@ -80,6 +104,7 @@ fun SearchScreen(
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .padding(vertical = 16.dp)
                                 .background(Color(0xFF1F2937), RoundedCornerShape(8.dp))
                                 .padding(16.dp)
                         ) {
@@ -181,7 +206,6 @@ fun SearchScreen(
     }
 }
 
-
 @Composable
 fun FilterSection(
     title: String,
@@ -189,6 +213,11 @@ fun FilterSection(
     onToggle: () -> Unit,
     content: @Composable () -> Unit
 ) {
+    val rotation by animateFloatAsState(
+        targetValue = if (expanded) 180f else 0f,
+        label = "rotationAnimation"
+    )
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -205,18 +234,25 @@ fun FilterSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(title, color = Color(0xFFD1D5DB), fontWeight = FontWeight.Medium)
+
             Icon(
                 Icons.Default.KeyboardArrowDown,
                 contentDescription = null,
                 tint = Color(0xFFD1D5DB),
-                modifier = Modifier.rotate(if (expanded) 180f else 0f)
+                modifier = Modifier.rotate(rotation)
             )
         }
-        
-        if (expanded) {
-            HorizontalDivider(Modifier, thickness = 1.dp, color = Color(0xFF374151))
-            Box(modifier = Modifier.padding(16.dp)) {
-                content()
+
+        AnimatedVisibility(
+            visible = expanded,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically()
+        ) {
+            Column {
+                HorizontalDivider(Modifier, thickness = 1.dp, color = Color(0xFF374151))
+                Box(modifier = Modifier.padding(16.dp)) {
+                    content()
+                }
             }
         }
     }
@@ -245,11 +281,11 @@ fun PriceFilterContent(
                 onClick = { onSelectPrice(value) }
             )
         }
-        
+
         Spacer(modifier = Modifier.height(16.dp))
         HorizontalDivider(Modifier, DividerDefaults.Thickness, color = Color(0xFF374151))
         Spacer(modifier = Modifier.height(16.dp))
-        
+
         Text("${stringResource(R.string.filter_max)} $priceValue€", color = Color(0xFF9CA3AF), fontSize = 14.sp)
         Slider(
             value = priceValue.toFloat(),
@@ -404,5 +440,44 @@ fun GameCard(game: Game, onClick: () -> Unit) {
                 fontWeight = FontWeight.SemiBold
             )
         }
+    }
+}
+
+@Composable
+fun GameGridCardSkeleton() {
+    Column(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(0.7f)
+                .clip(RoundedCornerShape(12.dp))
+                .shimmerEffect()
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Box(
+            modifier = Modifier
+                .height(14.dp)
+                .fillMaxWidth(0.9f)
+                .clip(RoundedCornerShape(4.dp))
+                .shimmerEffect()
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Box(
+            modifier = Modifier
+                .height(14.dp)
+                .fillMaxWidth(0.6f)
+                .clip(RoundedCornerShape(4.dp))
+                .shimmerEffect()
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Box(
+            modifier = Modifier
+                .height(14.dp)
+                .width(50.dp)
+                .clip(RoundedCornerShape(4.dp))
+                .shimmerEffect()
+        )
     }
 }

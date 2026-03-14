@@ -12,6 +12,7 @@ import com.gamesage.kotlin.data.local.publisher.PublisherDao
 import com.gamesage.kotlin.data.local.user.UserDao
 import com.gamesage.kotlin.data.local.cart.CartDao
 import com.gamesage.kotlin.data.local.favorites.FavoriteDao
+import com.gamesage.kotlin.data.local.chat.ChatDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,7 +32,7 @@ class DatabaseModule {
             context = applicationContext,
             klass = GameSageDatabase::class.java,
             name = "gamesage-db"
-        ).build()
+        ).fallbackToDestructiveMigration(false).build()
     }
     @Provides
     fun provideDeveloperDao(database: GameSageDatabase): DeveloperDao {
@@ -71,5 +72,10 @@ class DatabaseModule {
     @Provides
     fun provideFavoriteDao(database: GameSageDatabase): FavoriteDao {
         return database.getFavoriteDao()
+    }
+
+    @Provides
+    fun provideChatDao(database: GameSageDatabase): ChatDao {
+        return database.getChatDao()
     }
 }

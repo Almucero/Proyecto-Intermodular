@@ -3,7 +3,7 @@ package com.gamesage.kotlin.ui.navigation
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed class Destinations(val route: String) {
+sealed class Destinations(@Suppress("unused") val route: String) {
 
     @Serializable
     data class Capture(
@@ -51,5 +51,8 @@ sealed class Destinations(val route: String) {
 
     @Serializable
     object Favorites : Destinations("favorites")
+
+    @Serializable
+    data class Chat(val sessionId: Int = -1) : Destinations("chat?sessionId=$sessionId")
 
 }

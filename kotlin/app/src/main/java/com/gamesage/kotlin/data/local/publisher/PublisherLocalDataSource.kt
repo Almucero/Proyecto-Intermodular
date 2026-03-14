@@ -12,11 +12,11 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class PublisherLocalDataSource @Inject constructor(
-    private val scope: CoroutineScope,
+    @Suppress("unused") private val scope: CoroutineScope,
     private val publisherDao: PublisherDao
 ): PublisherDataSource {
     override suspend fun addAll(publisherList: List<Publisher>) {
-        val mutex = Mutex()
+        Mutex()
         publisherList.forEach { publisher ->
             withContext(Dispatchers.IO) {
                 publisherDao.insert(publisher.toEntity())

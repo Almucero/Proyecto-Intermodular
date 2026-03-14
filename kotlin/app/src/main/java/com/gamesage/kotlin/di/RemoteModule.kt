@@ -1,9 +1,11 @@
 package com.gamesage.kotlin.di
 
-import com.gamesage.kotlin.data.local.TokenManager
 import com.gamesage.kotlin.data.remote.AuthInterceptor
 import com.gamesage.kotlin.data.remote.api.AuthApi
+import com.gamesage.kotlin.data.remote.api.CartApi
+import com.gamesage.kotlin.data.remote.api.ChatApi
 import com.gamesage.kotlin.data.remote.api.DevelopersApi
+import com.gamesage.kotlin.data.remote.api.FavoritesApi
 import com.gamesage.kotlin.data.remote.api.GameSageApi
 import com.gamesage.kotlin.data.remote.api.GamesApi
 import com.gamesage.kotlin.data.remote.api.GenresApi
@@ -11,8 +13,6 @@ import com.gamesage.kotlin.data.remote.api.MediaApi
 import com.gamesage.kotlin.data.remote.api.PlatformsApi
 import com.gamesage.kotlin.data.remote.api.PublishersApi
 import com.gamesage.kotlin.data.remote.api.UsersApi
-import com.gamesage.kotlin.data.remote.api.CartApi
-import com.gamesage.kotlin.data.remote.api.FavoritesApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,6 +24,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
+@Suppress("unused")
 const val developmentUrl = "http://10.0.2.2:3000"
 const val productionUrl = "https://gamingsage.vercel.app/"
 
@@ -95,6 +96,11 @@ class RemoteModule {
     @Provides
     @Singleton
     fun provideFavoritesApi(gameSageApi: GameSageApi): FavoritesApi {
+        return gameSageApi
+    }
+    @Provides
+    @Singleton
+    fun provideChatApi(gameSageApi: GameSageApi): ChatApi {
         return gameSageApi
     }
     @Provides

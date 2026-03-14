@@ -39,7 +39,8 @@ import androidx.compose.ui.text.style.TextDecoration
 fun FavoritesScreen(
     onGameClick: (Long) -> Unit,
     // Obtiene el ViewModel usando Hilt.
-    viewModel: FavoritesViewModel = hiltViewModel()
+    viewModel: FavoritesViewModel = hiltViewModel(),
+    isLoggedIn: Boolean
 ) {
     // Observa el StateFlow del ViewModel.
     // Cada vez que el estado cambia, la pantalla se recompone automáticamente.
@@ -84,85 +85,96 @@ fun FavoritesScreen(
                     textAlign = TextAlign.Center
                 )
 
-                // Estados de la pantalla
-                when (val state = uiState) {
-                    // Si está cargando o en el inicio, muestra un CircularProgressIndicator
-                    is FavoritesUiState.Initial, is FavoritesUiState.Loading -> {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                             CircularProgressIndicator(color = Color(0xFF22D3EE))
-                        }
+                if (!isLoggedIn) {
+                    Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
+                        Text(
+                            text = stringResource(R.string.product_login_message),
+                            color = Color(0xFF9CA3AF),
+                            fontSize = 18.sp,
+                            textAlign = TextAlign.Center
+                        )
                     }
-                    // Si fue bien muestra los favoritos.
-                    is FavoritesUiState.Success -> {
-                        // Si la lista está vacía muestra el texto: "No tienes favoritos"
-                        if (state.games.isEmpty()) {
+                } else {
+                    // Estados de la pantalla
+                    when (val state = uiState) {
+                        // Si está cargando o en el inicio, muestra un CircularProgressIndicator
+                        is FavoritesUiState.Initial, is FavoritesUiState.Loading -> {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                CircularProgressIndicator(color = Color(0xFF22D3EE))
+                            }
+                        }
+                        // Si fue bien muestra los favoritos.
+                        is FavoritesUiState.Success -> {
+                            // Si la lista está vacía muestra el texto: "No tienes favoritos"
+                            if (state.games.isEmpty()) {
+                                Box(
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = stringResource(R.string.favorites_empty),
+                                        color = Color(0xFF9CA3AF),
+                                        fontSize = 18.sp
+                                    )
+                                }
+                            } else {
+                                // Si hay productos
+                                LazyColumn(
+                                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                                    modifier = Modifier.weight(1f)
+                                ) {
+                                    // Por cada favorito muestra un FavoriteHorizontalCard.
+                                    items(state.games) { game ->
+                                        FavoriteHorizontalCard(
+                                            game = game,
+                                            onGameClick = { onGameClick(game.gameId.toLong()) },
+                                            onAddToCart = { viewModel.addToCart(game) },
+                                            onRemove = { viewModel.removeFromFavorites(game.gameId, game.platformId) }
+                                        )
+                                    }
+
+                                    // Botón para transferir todo al carrito
+                                    item {
+                                        Spacer(modifier = Modifier.height(32.dp))
+                                        Button(
+                                            onClick = { viewModel.transferAllToCart() },
+                                            colors = ButtonDefaults.buttonColors(
+                                                containerColor = Color.Transparent,
+                                                contentColor = Color(0xFF22D3EE)
+                                            ),
+                                            border = BorderStroke(2.dp, Color(0xFF22D3EE)),
+                                            shape = RoundedCornerShape(8.dp),
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .height(48.dp)
+                                                .padding(horizontal = 32.dp)
+                                        ) {
+                                            Text(
+                                                text = stringResource(R.string.favorites_transfer_all),
+                                                fontWeight = FontWeight.Bold,
+                                                fontSize = 16.sp
+                                            )
+                                        }
+                                        Spacer(modifier = Modifier.height(32.dp))
+                                    }
+                                }
+                            }
+                        }
+                        // Si hay error muestra el mensaje en rojo
+                        is FavoritesUiState.Error -> {
                             Box(
                                 modifier = Modifier.fillMaxSize(),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = stringResource(R.string.favorites_empty),
-                                    color = Color(0xFF9CA3AF),
-                                    fontSize = 18.sp
+                                    text = state.message,
+                                    color = Color(0xFFF87171),
+                                    textAlign = TextAlign.Center
                                 )
                             }
-                        } else {
-                            // Si hay productos
-                            LazyColumn(
-                                verticalArrangement = Arrangement.spacedBy(16.dp),
-                                modifier = Modifier.weight(1f)
-                            ) {
-                                // Por cada favorito muestra un FavoriteHorizontalCard.
-                                items(state.games) { game ->
-                                    FavoriteHorizontalCard(
-                                        game = game,
-                                        onGameClick = { onGameClick(game.gameId.toLong()) },
-                                        onAddToCart = { viewModel.addToCart(game) },
-                                        onRemove = { viewModel.removeFromFavorites(game.gameId, game.platformId) }
-                                    )
-                                }
-
-                                // Botón para transferir todo al carrito
-                                item {
-                                    Spacer(modifier = Modifier.height(32.dp))
-                                    Button(
-                                        onClick = { viewModel.transferAllToCart() },
-                                        colors = ButtonDefaults.buttonColors(
-                                            containerColor = Color.Transparent,
-                                            contentColor = Color(0xFF22D3EE)
-                                        ),
-                                        border = BorderStroke(2.dp, Color(0xFF22D3EE)),
-                                        shape = RoundedCornerShape(8.dp),
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(48.dp)
-                                            .padding(horizontal = 32.dp)
-                                    ) {
-                                        Text(
-                                            text = stringResource(R.string.favorites_transfer_all),
-                                            fontWeight = FontWeight.Bold,
-                                            fontSize = 16.sp
-                                        )
-                                    }
-                                    Spacer(modifier = Modifier.height(32.dp))
-                                }
-                            }
-                        }
-                    }
-                    // Si hay error muestra el mensaje en rojo
-                    is FavoritesUiState.Error -> {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = state.message,
-                                color = Color(0xFFF87171),
-                                textAlign = TextAlign.Center
-                            )
                         }
                     }
                 }

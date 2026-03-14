@@ -1,5 +1,6 @@
 package com.gamesage.kotlin.ui.pages.dashboard
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -38,8 +39,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -52,6 +51,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
@@ -79,6 +80,7 @@ import java.io.FileOutputStream
 
 //Pantalla principal del perfil de usuario.
 //Permite observar, editar el perfil, cambiar fotos y cerrar sesión.
+@SuppressLint("FrequentlyChangingValue")
 @Composable
 fun DashboardScreen(
     onPrivacyClick: () -> Unit,
@@ -165,14 +167,12 @@ fun DashboardScreen(
         }
     }
 
-    Scaffold(
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-        containerColor = Color(0xFF111827)
-    ) { paddingValues ->
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
         ) {
             //Manejo de estados de la UI (Cargando, Error o Éxito).
             when (val state = uiState) {
@@ -192,11 +192,12 @@ fun DashboardScreen(
 
                 is DashboardUiState.Success -> {
                     Box(modifier = Modifier.fillMaxSize()) {
+                        val scrollState = rememberScrollState()
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .background(Color(0xFF111827))
-                                .verticalScroll(rememberScrollState())
+                                .verticalScroll(scrollState)
                                 .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 32.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
@@ -680,6 +681,14 @@ fun DashboardScreen(
                                 )
                             }
                         }
+                        
+                        if (scrollState.value > 0) {
+                            Box(modifier = Modifier.fillMaxWidth().height(32.dp).align(Alignment.TopCenter).background(
+                                brush = Brush.verticalGradient(
+                                    colors = listOf(Color(0xFF111827), Color.Transparent)
+                                )
+                            ))
+                        }
                     }
                 }
             }
@@ -710,30 +719,41 @@ fun DashboardTextField(
     onValueChange: (String) -> Unit,
     isEditing: Boolean
 ) {
-    Column {
-        Box(modifier = Modifier.fillMaxWidth()) {
-            OutlinedTextField(
-                value = value,
-                onValueChange = if (isEditing) onValueChange else { _ -> },
-                label = { Text(label, color = Color(0xFF9CA3AF)) },
-                readOnly = !isEditing,
-                modifier = Modifier.fillMaxWidth(),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF22D3EE),
-                    unfocusedBorderColor = Color.Transparent,
-                    disabledBorderColor = Color.Transparent,
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color(0xFFD1D5DB),
-                    disabledTextColor = Color(0xFFD1D5DB),
-                    focusedContainerColor = if (isEditing) Color(0xFF374151) else Color(0xFF1F2937),
-                    unfocusedContainerColor = if (isEditing) Color(0xFF374151) else Color(0xFF1F2937),
-                    disabledContainerColor = Color(0xFF1F2937)
-                ),
-                singleLine = true
+    var isFocused by remember { mutableStateOf(false) }
+
+    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterStart) {
+        OutlinedTextField(
+            value = value,
+            onValueChange = if (isEditing) onValueChange else { _ -> },
+            label = if (value.isNotEmpty()) { { Text(label) } } else null,
+            placeholder = { Text(label, color = Color(0xFF9CA3AF)) },
+            readOnly = !isEditing,
+            modifier = Modifier
+                .fillMaxWidth()
+                .onFocusChanged { isFocused = it.isFocused },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Color(0xFF22D3EE),
+                unfocusedBorderColor = Color.Transparent,
+                disabledBorderColor = Color.Transparent,
+                focusedTextColor = Color.White,
+                unfocusedTextColor = Color(0xFFD1D5DB),
+                disabledTextColor = Color(0xFFD1D5DB),
+                focusedContainerColor = if (isEditing) Color(0xFF374151) else Color(0xFF1F2937),
+                unfocusedContainerColor = if (isEditing) Color(0xFF374151) else Color(0xFF1F2937),
+                disabledContainerColor = Color(0xFF1F2937)
+            ),
+            singleLine = true
+        )
+
+        if (value.isEmpty() && !isFocused) {
+            Text(
+                text = label,
+                color = Color(0xFF9CA3AF),
+                modifier = Modifier.padding(start = 16.dp),
+                fontSize = 16.sp
             )
         }
     }
-
 }
 
 

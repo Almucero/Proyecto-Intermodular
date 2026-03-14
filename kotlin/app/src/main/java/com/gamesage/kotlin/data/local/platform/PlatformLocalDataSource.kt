@@ -12,11 +12,11 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class PlatformLocalDataSource @Inject constructor(
-    private val scope: CoroutineScope,
+    @Suppress("unused") private val scope: CoroutineScope,
     private val platformDao: PlatformDao
 ): PlatformDataSource {
     override suspend fun addAll(platformList: List<Platform>) {
-        val mutex = Mutex()
+        Mutex()
         platformList.forEach { platform ->
             withContext(Dispatchers.IO) {
                 platformDao.insert(platform.toEntity())

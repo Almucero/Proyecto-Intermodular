@@ -12,11 +12,11 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class DeveloperLocalDataSource @Inject constructor(
-    private val scope: CoroutineScope,
+    @Suppress("unused") private val scope: CoroutineScope,
     private val developerDao: DeveloperDao
 ): DeveloperDataSource {
     override suspend fun addAll(developerList: List<Developer>) {
-        val mutex = Mutex()
+        Mutex()
         developerList.forEach { developer ->
             withContext(Dispatchers.IO) {
                 developerDao.insert(developer.toEntity())
