@@ -47,6 +47,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpOffset
 
 @Composable
@@ -62,17 +63,18 @@ fun TopBar(
     val isImeVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    // Efecto para que no se quede parpadeando el buscador cuando el teclado se oculta automáticamente
     LaunchedEffect(isImeVisible) {
         if (!isImeVisible) {
             focusManager.clearFocus()
         }
     }
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFF030712))
+            .background(Color(0xFF030712)) // Fondo muy oscuro para la barra superior
             .pointerInput(Unit) {
+                // Detectamos toques fuera del buscador para cerrar el teclado y quitar el foco
                 detectTapGestures(onTap = {
                     keyboardController?.hide()
                     focusManager.clearFocus()
@@ -80,13 +82,13 @@ fun TopBar(
             }
     ) {
         Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
-
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 12.dp)
                 .height(56.dp)
         ) {
+            // Logo de la aplicación a la izquierda
             Image(
                 painter = painterResource(id = R.drawable.game_sage_logo),
                 contentDescription = "Logo GameSage",
@@ -116,36 +118,40 @@ fun TopBar(
                         modifier = Modifier.size(20.dp)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    BasicTextField(
-                        value = searchQuery,
-                        onValueChange = { newValue ->
-                            onSearchQueryChange(newValue)
-                        },
-                        modifier = Modifier
-                            .weight(1f)
-                            .onFocusChanged { focusState ->
-                                if (focusState.isFocused) {
-                                    onSearchFocus()
-                                }
+                        // Campo de texto para la búsqueda
+                        BasicTextField(
+                            value = searchQuery,
+                            onValueChange = { newValue ->
+                                onSearchQueryChange(newValue) // Notifica el cambio de texto al ViewModel
                             },
-                        textStyle = TextStyle(
-                            color = Color.White,
-                            fontSize = 14.sp
-                        ),
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                        keyboardActions = KeyboardActions(
-                            onSearch = {
-                                focusManager.clearFocus()
-                                onSearchClick()
-                            }
-                        ),
+                            modifier = Modifier
+                                .weight(1f)
+                                .onFocusChanged { focusState ->
+                                    // Si el usuario toca el buscador, notificamos(si el menu estuviera abierto se cerraria)
+                                    if (focusState.isFocused) {
+                                        onSearchFocus()
+                                    }
+                                },
+                            textStyle = TextStyle(
+                                color = Color.White,
+                                fontSize = 14.sp
+                            ),
+                            // Configura el teclado para que muestre el botón "Buscar" (Lupa)
+                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                            keyboardActions = KeyboardActions(
+                                onSearch = {
+                                    focusManager.clearFocus() // Cerramos el teclado al buscar
+                                    onSearchClick()          // Ejecutamos la búsqueda
+                                }
+                            ),
                         cursorBrush = SolidColor(Color(0xFF93E3FE)),
                         singleLine = true,
                         decorationBox = { innerTextField ->
+                            // Para poner el texto de "Buscar..." cuando no hay nada escrito
                             if (searchQuery.isEmpty()) {
                                 Text(
-                                    text = androidx.compose.ui.res.stringResource(R.string.search_placeholder),
-                                    color = Color.White,
+                                    text =stringResource(R.string.search_placeholder),
+                                    color = Color.White.copy(alpha = 0.5f),
                                     fontSize = 14.sp
                                 )
                             }
@@ -155,6 +161,7 @@ fun TopBar(
                 }
             }
 
+            // Lista estática de idiomas disponibles
             val languages = remember {
                 listOf(
                     Language("es", "Español", R.drawable.espana),
@@ -165,6 +172,7 @@ fun TopBar(
                 )
             }
 
+            // Gestión del menú desplegable de idiomas
             var isLanguageMenuExpanded by remember { mutableStateOf(false) }
             var currentLanguage by remember {
                 mutableStateOf(
@@ -172,6 +180,7 @@ fun TopBar(
                 )
             }
 
+            // Selector de idioma (Bandera clickable a la derecha)
             Box(
                 modifier = Modifier
                     .align(Alignment.CenterEnd)
@@ -186,6 +195,7 @@ fun TopBar(
                         .clickable { isLanguageMenuExpanded = true }
                 )
 
+                // Menú que aparece al pulsar la bandera
                 DropdownMenu(
                     expanded = isLanguageMenuExpanded,
                     onDismissRequest = { isLanguageMenuExpanded = false },
@@ -194,6 +204,7 @@ fun TopBar(
                         .background(Color(0xFF030712))
                         .width(60.dp)
                 ) {
+                    // Listamos los idiomas que NO son el actual para poder cambiar
                     languages.filter { it.code != currentLanguage.code }.forEach { language ->
                         DropdownMenuItem(
                             text = {
@@ -213,7 +224,7 @@ fun TopBar(
                             onClick = {
                                 currentLanguage = language
                                 isLanguageMenuExpanded = false
-                                onLanguageClick(language.code)
+                                onLanguageClick(language.code) // Cambia el idioma de la app
                             },
                             modifier = Modifier.background(Color(0xFF030712))
                         )

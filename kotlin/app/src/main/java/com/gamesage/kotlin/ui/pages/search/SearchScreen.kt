@@ -47,6 +47,7 @@ fun SearchScreen(
     onGameClick: (Long) -> Unit,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
+    // Observamos los estados desde el ViewModel
     val uiState by viewModel.uiState.collectAsState()
     val selectedPrice by viewModel.selectedPrice.collectAsState()
     val selectedGenre by viewModel.selectedGenre.collectAsState()
@@ -54,7 +55,9 @@ fun SearchScreen(
     val priceValue by viewModel.priceValue.collectAsState()
     val maxPrice by viewModel.maxPrice.collectAsState()
     val genres by viewModel.availableGenres.collectAsStateWithLifecycle()
+    val platforms by viewModel.availablePlatforms.collectAsStateWithLifecycle()
 
+    // Estados locales para controlar qué secciones de filtro están expandidas
     var priceExpanded by remember { mutableStateOf(false) }
     var genreExpanded by remember { mutableStateOf(false) }
     var platformExpanded by remember { mutableStateOf(false) }
@@ -62,32 +65,20 @@ fun SearchScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF111827))
+            .background(Color(0xFF111827)) // Fondo oscuro global
     ) {
         when (uiState) {
             is SearchUiState.Loading -> {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    contentPadding = PaddingValues(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                // Muestra una ruedecita de carga centrada (como en el resto de la app)
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
                 ) {
-                    item(span = { GridItemSpan(2) }) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 16.dp)
-                                .height(220.dp)
-                                .clip(RoundedCornerShape(8.dp))
-                                .shimmerEffect()
-                        )
-                    }
-                    items(6) {
-                        GameGridCardSkeleton()
-                    }
+                    CircularProgressIndicator(color = Color(0xFF93E3FE))
                 }
             }
             is SearchUiState.Error -> {
+                // Mensaje simple si falla la carga
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Text(stringResource(R.string.search_error), color = Color.White)
                 }
@@ -100,6 +91,7 @@ fun SearchScreen(
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
+                    // Cabecera: Sección de Filtros y chips activos
                     item(span = { GridItemSpan(2) }) {
                         Column(
                             modifier = Modifier
@@ -109,6 +101,8 @@ fun SearchScreen(
                                 .padding(16.dp)
                         ) {
                             val activeFilters = viewModel.getActiveFilters()
+                            
+                            // Si hay filtros puestos, mostramos la lista de Chips y el botón de Limpiar
                             if (activeFilters.isNotEmpty()) {
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
@@ -129,13 +123,8 @@ fun SearchScreen(
                                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                                 ) {
                                     activeFilters.forEach { filter ->
-                                        val label = if (filter.type.startsWith("genre:")) {
-                                            filter.label
-                                        } else {
-                                            filter.label
-                                        }
                                         FilterChip(
-                                            label = label,
+                                            label = filter.label,
                                             onRemove = { viewModel.removeFilter(filter.type) }
                                         )
                                     }
@@ -143,12 +132,15 @@ fun SearchScreen(
                             }
                             
                             Spacer(modifier = Modifier.height(16.dp))
+                            
+                            // Sección colapsable de Precio
                             FilterSection(
                                 title = stringResource(R.string.filter_price),
                                 expanded = priceExpanded,
                                 onToggle = { priceExpanded = !priceExpanded }
                             ) {
                                 PriceFilterContent(
+                                    priceOptions = viewModel.priceOptions,
                                     selectedPrice = selectedPrice,
                                     priceValue = priceValue,
                                     maxPrice = maxPrice,
@@ -158,6 +150,8 @@ fun SearchScreen(
                             }
                             
                             Spacer(modifier = Modifier.height(8.dp))
+                            
+                            // Sección colapsable de Género
                             FilterSection(
                                 title = stringResource(R.string.filter_genre),
                                 expanded = genreExpanded,
@@ -171,12 +165,15 @@ fun SearchScreen(
                             }
                             
                             Spacer(modifier = Modifier.height(8.dp))
+                            
+                            // Sección colapsable de Plataforma
                             FilterSection(
                                 title = stringResource(R.string.filter_platform),
                                 expanded = platformExpanded,
                                 onToggle = { platformExpanded = !platformExpanded }
                             ) {
                                 PlatformFilterContent(
+                                    platforms = platforms,
                                     selectedPlatform = selectedPlatform,
                                     onSelectPlatform = { viewModel.selectPlatform(it) }
                                 )
@@ -184,7 +181,9 @@ fun SearchScreen(
                         }
                     }
 
+                    // Resultados de la búsqueda
                     if (games.isEmpty()) {
+                        // Mensaje si ningún juego coincide con los filtros
                         item(span = { GridItemSpan(2) }) {
                             Box(
                                 modifier = Modifier
@@ -196,6 +195,7 @@ fun SearchScreen(
                             }
                         }
                     } else {
+                        // Cuadrícula con las tarjetas de los juegos encontrados
                         items(games) { game ->
                             GameCard(game = game, onClick = { onGameClick(game.id.toLong()) })
                         }
@@ -206,6 +206,7 @@ fun SearchScreen(
     }
 }
 
+// Contenedor genérico para una sección de filtro que se puede abrir y cerrar
 @Composable
 fun FilterSection(
     title: String,
@@ -213,11 +214,11 @@ fun FilterSection(
     onToggle: () -> Unit,
     content: @Composable () -> Unit
 ) {
+    // Animación de rotación para la flecha
     val rotation by animateFloatAsState(
         targetValue = if (expanded) 180f else 0f,
         label = "rotationAnimation"
     )
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -225,6 +226,7 @@ fun FilterSection(
             .background(Color(0xFF111827))
             .border(1.dp, Color(0xFF374151), RoundedCornerShape(8.dp))
     ) {
+        // Cabecera clicable de la sección
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -243,6 +245,7 @@ fun FilterSection(
             )
         }
 
+        // Contenido que aparece/desaparece con animación
         AnimatedVisibility(
             visible = expanded,
             enter = fadeIn() + expandVertically(),
@@ -258,8 +261,10 @@ fun FilterSection(
     }
 }
 
+// Opciones específicas para el filtro de precio (Botones + Slider)
 @Composable
 fun PriceFilterContent(
+    priceOptions: List<PriceOption>,
     selectedPrice: String,
     priceValue: Int,
     maxPrice: Int,
@@ -267,25 +272,20 @@ fun PriceFilterContent(
     onPriceChange: (Int) -> Unit
 ) {
     Column {
-        val options = listOf(
-            "free" to stringResource(R.string.price_free),
-            "0-10" to "0-10€",
-            "10-20" to "10-20€",
-            "20-40" to "20-40€",
-            "40+" to "40€+"
-        )
-        options.forEach { (value, label) ->
+        // Lista de rangos predefinidos (vienen del ViewModel)
+        priceOptions.forEach { option ->
+            val label = option.labelResId?.let { stringResource(it) } ?: option.labelText ?: ""
             FilterOption(
                 label = label,
-                selected = selectedPrice == value,
-                onClick = { onSelectPrice(value) }
+                selected = selectedPrice == option.value,
+                onClick = { onSelectPrice(option.value) }
             )
         }
-
         Spacer(modifier = Modifier.height(16.dp))
         HorizontalDivider(Modifier, DividerDefaults.Thickness, color = Color(0xFF374151))
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Control deslizante (Slider) para un precio máximo exacto
         Text("${stringResource(R.string.filter_max)} $priceValue€", color = Color(0xFF9CA3AF), fontSize = 14.sp)
         Slider(
             value = priceValue.toFloat(),
@@ -307,6 +307,7 @@ fun PriceFilterContent(
     }
 }
 
+// Lista de géneros para filtrar
 @Composable
 fun GenreFilterContent(
     genres: List<String>,
@@ -324,14 +325,15 @@ fun GenreFilterContent(
     }
 }
 
-
+// Lista de plataformas para filtrar
 @Composable
 fun PlatformFilterContent(
+    platforms: List<String>,
     selectedPlatform: String,
     onSelectPlatform: (String) -> Unit
 ) {
     Column {
-        listOf("PC", "PS5", "Xbox Series X", "Switch", "PS4", "Xbox One").forEach { platform ->
+        platforms.forEach { platform ->
             FilterOption(
                 label = platform,
                 selected = selectedPlatform == platform,
@@ -341,6 +343,7 @@ fun PlatformFilterContent(
     }
 }
 
+// Una fila simple que representa una opción seleccionable dentro de un filtro
 @Composable
 fun FilterOption(
     label: String,
@@ -365,6 +368,7 @@ fun FilterOption(
     }
 }
 
+// El "Chip" (pequeña burbuja) que aparece arriba cuando un filtro está activo
 @Composable
 fun FilterChip(
     label: String,
@@ -394,6 +398,7 @@ fun FilterChip(
     }
 }
 
+// Tarjeta individual que muestra un juego en la cuadrícula de resultados
 @Composable
 fun GameCard(game: Game, onClick: () -> Unit) {
     Column(
@@ -420,7 +425,6 @@ fun GameCard(game: Game, onClick: () -> Unit) {
         }
         
         Spacer(modifier = Modifier.height(8.dp))
-        
         Text(
             text = game.title,
             color = Color.White,
@@ -428,7 +432,6 @@ fun GameCard(game: Game, onClick: () -> Unit) {
             maxLines = 2,
             overflow = TextOverflow.Ellipsis
         )
-        
         game.price?.let { price ->
             Text(
                 text = if (game.isOnSale && game.salePrice != null) 
@@ -440,44 +443,5 @@ fun GameCard(game: Game, onClick: () -> Unit) {
                 fontWeight = FontWeight.SemiBold
             )
         }
-    }
-}
-
-@Composable
-fun GameGridCardSkeleton() {
-    Column(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(0.7f)
-                .clip(RoundedCornerShape(12.dp))
-                .shimmerEffect()
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Box(
-            modifier = Modifier
-                .height(14.dp)
-                .fillMaxWidth(0.9f)
-                .clip(RoundedCornerShape(4.dp))
-                .shimmerEffect()
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Box(
-            modifier = Modifier
-                .height(14.dp)
-                .fillMaxWidth(0.6f)
-                .clip(RoundedCornerShape(4.dp))
-                .shimmerEffect()
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Box(
-            modifier = Modifier
-                .height(14.dp)
-                .width(50.dp)
-                .clip(RoundedCornerShape(4.dp))
-                .shimmerEffect()
-        )
     }
 }

@@ -15,11 +15,14 @@ import dagger.hilt.android.HiltAndroidApp
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+// Clase principal de la aplicación. Es lo primero que se ejecuta al abrir la app.
 @HiltAndroidApp
 class GameSageApplication : Application(), Configuration.Provider {
 
+    // Inyectamos la fábrica de trabajadores de Hilt
     @Inject lateinit var workerFactory: HiltWorkerFactory
 
+    // Configuración necesaria para que WorkManager pueda usar la inyección de dependencias (Hilt)
     override val workManagerConfiguration: Configuration get() =
         Configuration.Builder()
             .setWorkerFactory(workerFactory)
@@ -27,21 +30,27 @@ class GameSageApplication : Application(), Configuration.Provider {
 
     override fun onCreate() {
         super.onCreate()
+        // Creamos el canal de notificaciones (necesario para Android 8+)
         createNotificationChannel(this)
+        // Programamos las tareas que deben ejecutarse en segundo plano
         scheduleDailyGameWork()
     }
 
+    /**
+     * Configura la tarea periódica de recomendar un juego cada día.
+     */
     private fun scheduleDailyGameWork() {
-        //Configuración real, cada 24 horas recomienda el juego y solo si hay internet
+        // Configuración real para ejecución periódica (comentada para pruebas)
         /*
         val workRequest = PeriodicWorkRequestBuilder<DailyGameWorker>(
             24, TimeUnit.HOURS
         ).setConstraints(
             Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .setRequiredNetworkType(NetworkType.CONNECTED) // Solo se ejecuta si hay internet
                 .build()
         ).build()
 
+        // Encolamos el trabajo de forma que no se duplique si la app se abre varias veces
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
             "DailyGameWork",
             ExistingPeriodicWorkPolicy.KEEP,
@@ -49,7 +58,7 @@ class GameSageApplication : Application(), Configuration.Provider {
         )
         */
 
-        // Lanzar una vez inmediatamente para probar la notificación
+        // Tarea de prueba: Se lanza una vez inmediatamente al abrir la app para verificar que funciona
         val testWorkRequest = OneTimeWorkRequestBuilder<DailyGameWorker>()
             .build()
         WorkManager.getInstance(this).enqueue(testWorkRequest)
