@@ -6,6 +6,7 @@ import com.gamesage.kotlin.data.model.ChatMessage
 import com.gamesage.kotlin.data.model.ChatSession
 import com.gamesage.kotlin.data.remote.model.SendMessageRequest
 import com.gamesage.kotlin.data.repository.chat.ChatRepository
+import com.gamesage.kotlin.data.repository.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,12 +20,14 @@ data class ChatUiState(
     val isLoading: Boolean = false,
     val error: String? = null,
     val sessionId: Int? = null,
-    val sessions: List<ChatSession> = emptyList()
+    val sessions: List<ChatSession> = emptyList(),
+    val userAvatar: String? = null
 )
 
 @HiltViewModel
 class ChatViewModel @Inject constructor(
-    private val chatRepository: ChatRepository
+    private val chatRepository: ChatRepository,
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ChatUiState())
@@ -32,6 +35,13 @@ class ChatViewModel @Inject constructor(
 
     init {
         fetchSessions()
+        viewModelScope.launch {
+            userRepository.observeMe().collect { result ->
+                result.onSuccess { user ->
+                    _uiState.value = _uiState.value.copy(userAvatar = user.avatar)
+                }
+            }
+        }
     }
 
     fun fetchSessions() {

@@ -7,7 +7,9 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +26,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -32,13 +35,16 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -52,8 +58,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
@@ -66,6 +75,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import coil3.compose.AsyncImage
 import com.gamesage.kotlin.R
 import com.gamesage.kotlin.data.model.ChatMessage
 import com.gamesage.kotlin.data.model.ChatSession
@@ -83,9 +93,20 @@ fun formatMarkdown(text: String): AnnotatedString {
                 val subPart = italicParts[j]
                 val style = SpanStyle(
                     fontWeight = if (isBold) FontWeight.Bold else null,
-                    fontStyle = if (isItalic) FontStyle.Italic else null
+                    fontStyle = if (isItalic) FontStyle.Italic else null,
+                    color = if (isBold) Color(0xFF22D3EE) else Color.Unspecified
                 )
                 withStyle(style) {
+                    if (isBold && j == 0 && i > 0) {
+                        val prevPart = boldParts[i - 1]
+                        if (!prevPart.endsWith("\n\n")) {
+                            if (prevPart.endsWith("\n")) {
+                                append("\n")
+                            } else {
+                                append("\n\n")
+                            }
+                        }
+                    }
                     append(subPart)
                 }
                 if (j < italicParts.size - 1) isItalic = !isItalic
@@ -97,20 +118,27 @@ fun formatMarkdown(text: String): AnnotatedString {
 
 @Composable
 fun ChatScreen(
+    isLoggedIn: Boolean,
+    onNavigateToLogin: () -> Unit,
     sessionId: Int? = null,
+    onGameClick: (Long) -> Unit,
     viewModel: ChatViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
     var inputText by remember { mutableStateOf("") }
     var showHistory by remember { mutableStateOf(false) }
+    var showLoginDialog by remember { mutableStateOf(false) }
+
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     LaunchedEffect(sessionId) {
         viewModel.setSessionId(sessionId)
     }
 
     LaunchedEffect(uiState.sessionId) {
-        if (uiState.sessionId != null) {
+        if (uiState.sessionId != null && isLoggedIn) {
             viewModel.fetchSessions()
         }
     }
@@ -122,12 +150,18 @@ fun ChatScreen(
     }
 
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = {
+                    keyboardController?.hide()
+                    focusManager.clearFocus()
+                })
+            }
     ) {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-
             if (uiState.isLoading && uiState.messages.isEmpty()) {
                 Box(modifier = Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator(color = Color(0xFF22D3EE))
@@ -137,6 +171,7 @@ fun ChatScreen(
                     val listState = rememberLazyListState()
                     val showTopGradient by remember { derivedStateOf { listState.canScrollBackward } }
                     val showBottomGradient by remember { derivedStateOf { listState.canScrollForward } }
+
                     LazyColumn(
                         state = listState,
                         modifier = Modifier
@@ -169,13 +204,13 @@ fun ChatScreen(
                                         modifier = Modifier.padding(horizontal = 24.dp)
                                     )
                                     Spacer(modifier = Modifier.height(16.dp))
-                                    
+
                                     val suggestions = listOf(
                                         R.string.aichat_suggestion_terror,
                                         R.string.aichat_suggestion_rpg,
                                         R.string.aichat_suggestion_ps5
                                     )
-                                    
+
                                     suggestions.forEach { suggestionRes ->
                                         val suggestionText = stringResource(id = suggestionRes)
                                         Box(
@@ -184,8 +219,12 @@ fun ChatScreen(
                                                 .padding(vertical = 5.dp)
                                                 .clip(RoundedCornerShape(12.dp))
                                                 .background(Color(0xFF1F2937))
-                                                .clickable { 
-                                                    viewModel.sendMessage(suggestionText) 
+                                                .clickable {
+                                                    if (isLoggedIn) {
+                                                        viewModel.sendMessage(suggestionText)
+                                                    } else {
+                                                        showLoginDialog = true
+                                                    }
                                                 }
                                                 .padding(12.dp)
                                         ) {
@@ -201,8 +240,12 @@ fun ChatScreen(
                             }
                         } else {
                             items(uiState.messages) { message ->
-                                ChatMessageBubble(message = message)
-                                Spacer(modifier = Modifier.height(24.dp))
+                                ChatMessageBubble(
+                                    message = message,
+                                    userAvatarUrl = uiState.userAvatar,
+                                    onGameClick = onGameClick
+                                )
+                                Spacer(modifier = Modifier.height(16.dp))
                             }
                             if (uiState.isLoading) {
                                 item {
@@ -213,9 +256,7 @@ fun ChatScreen(
                             }
                         }
                     }
-                    
 
-                    
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -274,18 +315,25 @@ fun ChatScreen(
                         ) + fadeOut(animationSpec = tween(durationMillis = 300)),
                         modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter)
                     ) {
-                        ChatHistoryMenuContent(
-                            sessions = uiState.sessions,
-                            onDismiss = { showHistory = false },
-                            onSessionSelect = { id ->
-                                viewModel.setSessionId(id)
-                                showHistory = false
-                            },
-                            onNewChat = {
-                                viewModel.setSessionId(-1)
-                                showHistory = false
-                            }
-                        )
+                        Column(modifier = Modifier.fillMaxWidth()) {
+                            Box(modifier = Modifier.fillMaxWidth().height(32.dp).background(
+                                brush = Brush.verticalGradient(
+                                    colors = listOf(Color.Transparent, Color(0xFF111827))
+                                )
+                            ))
+                            ChatHistoryMenuContent(
+                                sessions = uiState.sessions,
+                                onDismiss = { showHistory = false },
+                                onSessionSelect = { id ->
+                                    viewModel.setSessionId(id)
+                                    showHistory = false
+                                },
+                                onNewChat = {
+                                    viewModel.setSessionId(-1)
+                                    showHistory = false
+                                }
+                            )
+                        }
                     }
                 }
             }
@@ -295,15 +343,72 @@ fun ChatScreen(
                 onTextChange = { inputText = it },
                 onSend = {
                     if (inputText.isNotBlank()) {
-                        viewModel.sendMessage(inputText)
-                        inputText = ""
+                        if (isLoggedIn) {
+                            viewModel.sendMessage(inputText)
+                            inputText = ""
+                        } else {
+                            keyboardController?.hide()
+                            focusManager.clearFocus()
+                            inputText = ""
+                            showLoginDialog = true
+                        }
                     }
                 },
-                onHistoryClick = { showHistory = true }
+                isHistoryVisible = showHistory,
+                onHistoryClick = {
+                    if (isLoggedIn) {
+                        showHistory = !showHistory
+                    } else {
+                        keyboardController?.hide()
+                        focusManager.clearFocus()
+                        showLoginDialog = true
+                    }
+                }
+            )
+        }
+
+        if (showLoginDialog) {
+            AlertDialog(
+                onDismissRequest = { showLoginDialog = false },
+                title = {
+                    Text(
+                        text = stringResource(R.string.product_login_required),
+                        color = Color.White,
+                        fontSize = 16.sp
+                    )
+                },
+                text = {
+                    Text(
+                        text = stringResource(R.string.product_login_message),
+                        color = Color.LightGray,
+                        fontSize = 16.sp
+                    )
+                },
+                containerColor = Color(0xFF1F2937),
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            showLoginDialog = false
+                            onNavigateToLogin()
+                        },
+                        contentPadding = PaddingValues(vertical = 0.dp, horizontal = 16.dp),
+                        modifier = Modifier.heightIn(min = 32.dp)
+                    ) {
+                        Text(stringResource(R.string.login_title), color = Color(0xFF22D3EE))
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = { showLoginDialog = false },
+                        contentPadding = PaddingValues(vertical = 0.dp, horizontal = 16.dp),
+                        modifier = Modifier.heightIn(min = 32.dp)
+                    ) {
+                        Text(stringResource(R.string.cancel), color = Color.Gray)
+                    }
+                }
             )
         }
     }
-
 }
 
 @Composable
@@ -317,12 +422,15 @@ fun ChatHistoryMenuContent(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
-            .background(Color(0xFF1F2937))
-            .padding(16.dp)
+            .background(Color(0xFF030712))
+            .padding(top = 16.dp)
             .heightIn(max = 400.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp)
+                .padding(bottom = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -340,33 +448,43 @@ fun ChatHistoryMenuContent(
                 )
             }
         }
-        Spacer(modifier = Modifier.height(16.dp))
+
+        HorizontalDivider(thickness = 1.dp, color = Color(0xFF4A4A4A))
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
-            items(sessions) { session ->
+            itemsIndexed(sessions) { index, session ->
                 val titleText = session.title ?: stringResource(R.string.aichat_empty_session)
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(8.dp))
-                        .clickable { onSessionSelect(session.id) }
-                        .padding(horizontal = 8.dp, vertical = 12.dp)
-                ) {
-                    Text(
-                        text = titleText.ifBlank { stringResource(R.string.aichat_empty_session) },
-                        color = Color.LightGray,
-                        fontSize = 16.sp,
-                        maxLines = 1,
-                        modifier = Modifier.weight(1f)
-                    )
+
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { onSessionSelect(session.id) }
+                            .padding(vertical = 12.dp, horizontal = 24.dp)
+                    ) {
+                        Text(
+                            text = titleText.ifBlank { stringResource(R.string.aichat_empty_session) },
+                            color = Color.LightGray,
+                            fontSize = 16.sp,
+                            maxLines = 1,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+
+                    if (index < sessions.lastIndex) {
+                        HorizontalDivider(thickness = 1.dp, color = Color(0xFF4A4A4A))
+                    }
                 }
-                Spacer(modifier = Modifier.height(4.dp))
             }
         }
     }
 }
 
 @Composable
-fun ChatMessageBubble(message: ChatMessage) {
+fun ChatMessageBubble(
+    message: ChatMessage,
+    userAvatarUrl: String?,
+    onGameClick: (Long) -> Unit
+) {
     val isUser = message.role == "user"
 
     Row(
@@ -376,7 +494,7 @@ fun ChatMessageBubble(message: ChatMessage) {
     ) {
         if (!isUser) {
             Image(
-                painter = androidx.compose.ui.res.painterResource(id = R.drawable.aichat),
+                painter = painterResource(id = R.drawable.aichat),
                 contentDescription = null,
                 modifier = Modifier
                     .size(32.dp)
@@ -400,29 +518,102 @@ fun ChatMessageBubble(message: ChatMessage) {
                     fontSize = 16.sp,
                     lineHeight = 22.sp
                 )
-                
+
                 if (!message.games.isNullOrEmpty()) {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    message.games.forEach { game ->
-                        Text(
-                            text = "• ${game.title} - ${game.price}",
-                            color = Color(0xFF93E3FE),
-                            fontSize = 14.sp,
-                            modifier = Modifier.padding(vertical = 2.dp)
-                        )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        message.games.forEach { game ->
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .background(Color(0x80111827), RoundedCornerShape(12.dp))
+                                    .border(1.dp, Color(0xFF374151), RoundedCornerShape(12.dp))
+                                    .clickable { onGameClick(game.id.toLong()) }
+                                    .padding(12.dp)
+                            ) {
+                                Column {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        verticalAlignment = Alignment.Top
+                                    ) {
+                                        Text(
+                                            text = game.title,
+                                            color = Color(0xFF67E8F9),
+                                            fontSize = 14.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            maxLines = 1,
+                                            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                                            modifier = Modifier.weight(1f)
+                                        )
+                                        Spacer(modifier = Modifier.width(8.dp))
+                                        Box(
+                                            modifier = Modifier
+                                                .background(Color(0x1A4ADE80), RoundedCornerShape(4.dp))
+                                                .padding(horizontal = 6.dp, vertical = 2.dp)
+                                        ) {
+                                            Text(
+                                                text = "${game.price}€",
+                                                color = Color(0xFF4ADE80),
+                                                fontSize = 12.sp,
+                                                fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace
+                                            )
+                                        }
+                                    }
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Row {
+                                        Text(text = "Géneros: ", color = Color(0xFF6B7280), fontSize = 12.sp)
+                                        Text(
+                                            text = game.genres,
+                                            color = Color(0xFF9CA3AF),
+                                            fontSize = 12.sp,
+                                            maxLines = 1,
+                                            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.height(4.dp))
+                                    Row {
+                                        Text(text = "Plat: ", color = Color(0xFF6B7280), fontSize = 12.sp)
+                                        Text(
+                                            text = game.platforms,
+                                            color = Color(0xFF9CA3AF),
+                                            fontSize = 12.sp,
+                                            maxLines = 1,
+                                            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+                                        )
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
         if (isUser) {
             Spacer(modifier = Modifier.width(8.dp))
-            Image(
-                painter = androidx.compose.ui.res.painterResource(id = R.drawable.user),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(32.dp)
-                    .clip(RoundedCornerShape(50))
-            )
+            if (!userAvatarUrl.isNullOrEmpty()) {
+                val avatarUrl = if (userAvatarUrl.startsWith("http")) userAvatarUrl else userAvatarUrl
+                AsyncImage(
+                    model = avatarUrl,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clip(RoundedCornerShape(50))
+                        .background(Color.Gray),
+                    contentScale = ContentScale.Crop
+                )
+            } else {
+                Image(
+                    painter = painterResource(id = R.drawable.user),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clip(RoundedCornerShape(50))
+                )
+            }
         }
     }
 }
@@ -432,15 +623,17 @@ fun ChatInputBar(
     text: String,
     onTextChange: (String) -> Unit,
     onSend: () -> Unit,
-    onHistoryClick: () -> Unit
+    onHistoryClick: () -> Unit,
+    @Suppress("unused") isHistoryVisible: Boolean
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
 
+    HorizontalDivider(Modifier, thickness = 1.dp, color = Color(0xFF4A4A4A))
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFF1F2937))
+            .background(Color(0xFF030712))
             .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -449,7 +642,9 @@ fun ChatInputBar(
                 keyboardController?.hide()
                 focusManager.clearFocus()
                 onHistoryClick()
-            }
+            },
+            modifier = Modifier
+                .background(Color(0xFF1F2937), RoundedCornerShape(50))
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.List,
@@ -457,6 +652,7 @@ fun ChatInputBar(
                 tint = Color.White
             )
         }
+
         Spacer(modifier = Modifier.width(8.dp))
         OutlinedTextField(
             value = text,
@@ -464,24 +660,29 @@ fun ChatInputBar(
             modifier = Modifier.weight(1f),
             placeholder = { Text(stringResource(R.string.aichat_input_hint), color = Color.Gray) },
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFF22D3EE),
-                unfocusedBorderColor = Color.Transparent,
+                focusedContainerColor = Color(0xFF111827),
+                unfocusedContainerColor = Color(0xFF111827),
+                focusedBorderColor = Color(0xFF4A4A4A),
+                unfocusedBorderColor = Color(0xFF4A4A4A),
                 focusedTextColor = Color.White,
-                unfocusedTextColor = Color.White
+                unfocusedTextColor = Color.White,
+                cursorColor = Color(0xFF22D3EE)
             ),
             shape = RoundedCornerShape(24.dp),
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Send
             ),
             keyboardActions = KeyboardActions(
-                onSend = { 
+                onSend = {
                     keyboardController?.hide()
                     focusManager.clearFocus()
-                    onSend() 
+                    onSend()
                 }
             )
         )
+
         Spacer(modifier = Modifier.width(8.dp))
+
         IconButton(
             onClick = {
                 keyboardController?.hide()
@@ -498,4 +699,6 @@ fun ChatInputBar(
             )
         }
     }
+
+    HorizontalDivider(Modifier, thickness = 1.dp, color = Color(0xFF4A4A4A))
 }

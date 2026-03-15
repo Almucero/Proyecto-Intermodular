@@ -44,6 +44,10 @@ import androidx.compose.ui.unit.sp
 import com.gamesage.kotlin.R
 import java.util.Locale
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.unit.DpOffset
 
 @Composable
 fun TopBar(
@@ -56,6 +60,7 @@ fun TopBar(
 ) {
     val focusManager = LocalFocusManager.current
     val isImeVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     LaunchedEffect(isImeVisible) {
         if (!isImeVisible) {
@@ -67,6 +72,12 @@ fun TopBar(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color(0xFF030712))
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = {
+                    keyboardController?.hide()
+                    focusManager.clearFocus()
+                })
+            }
     ) {
         Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
 
@@ -162,14 +173,15 @@ fun TopBar(
             }
 
             Box(
-                modifier = Modifier.align(Alignment.CenterEnd)
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .padding(end = 8.dp)
             ) {
                 Image(
                     painter = painterResource(id = currentLanguage.flagResId),
                     contentDescription = "Idioma ${currentLanguage.name}",
                     modifier = Modifier
                         .size(40.dp)
-                        .padding(end = 8.dp)
                         .clip(RoundedCornerShape(4.dp))
                         .clickable { isLanguageMenuExpanded = true }
                 )
@@ -177,6 +189,7 @@ fun TopBar(
                 DropdownMenu(
                     expanded = isLanguageMenuExpanded,
                     onDismissRequest = { isLanguageMenuExpanded = false },
+                    offset = DpOffset(x = (-10).dp, y = 26.dp),
                     modifier = Modifier
                         .background(Color(0xFF030712))
                         .width(60.dp)
@@ -184,13 +197,18 @@ fun TopBar(
                     languages.filter { it.code != currentLanguage.code }.forEach { language ->
                         DropdownMenuItem(
                             text = {
-                                Image(
-                                    painter = painterResource(id = language.flagResId),
-                                    contentDescription = language.name,
-                                    modifier = Modifier
-                                        .size(30.dp)
-                                        .clip(RoundedCornerShape(4.dp))
-                                )
+                                Box(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = language.flagResId),
+                                        contentDescription = language.name,
+                                        modifier = Modifier
+                                            .size(30.dp)
+                                            .clip(RoundedCornerShape(4.dp))
+                                    )
+                                }
                             },
                             onClick = {
                                 currentLanguage = language

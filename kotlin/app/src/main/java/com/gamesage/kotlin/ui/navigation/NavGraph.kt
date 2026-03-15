@@ -3,11 +3,14 @@ package com.gamesage.kotlin.ui.navigation
 import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.Box
-import androidx.compose.ui.zIndex
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -21,29 +24,33 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.gamesage.kotlin.data.local.TokenManager
 import com.gamesage.kotlin.ui.common.HomeBottomBar
 import com.gamesage.kotlin.ui.common.Menu
 import com.gamesage.kotlin.ui.common.TopBar
 import com.gamesage.kotlin.ui.pages.cart.CartScreen
+import com.gamesage.kotlin.ui.pages.chat.ChatScreen
 import com.gamesage.kotlin.ui.pages.conditions.ConditionsScreen
 import com.gamesage.kotlin.ui.pages.contact.ContactScreen
-import com.gamesage.kotlin.ui.pages.chat.ChatScreen
 import com.gamesage.kotlin.ui.pages.contact.MapScreen
 import com.gamesage.kotlin.ui.pages.cookies.CookiesScreen
 import com.gamesage.kotlin.ui.pages.dashboard.CameraScreen
@@ -74,6 +81,8 @@ fun NavGraph(
     var searchQuery by remember { mutableStateOf("") }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     LaunchedEffect(currentBackStackEntry) {
         showBottomSheet = false
@@ -81,6 +90,13 @@ fun NavGraph(
             searchQuery = ""
         }
     }
+
+    val isChatScreen = currentBackStackEntry?.destination?.route?.contains("Destinations.Chat", ignoreCase = true) == true
+    val isFormScreen = currentBackStackEntry?.destination?.route?.let { route ->
+        route.contains("Chat", ignoreCase = true) ||
+                route.contains("Login", ignoreCase = true) ||
+                route.contains("Register", ignoreCase = true)
+    } ?: false
 
     // Solicitar permiso de notificaciones
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -100,7 +116,13 @@ fun NavGraph(
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+            .nestedScroll(scrollBehavior.nestedScrollConnection)
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = {
+                    keyboardController?.hide()
+                    focusManager.clearFocus()
+                })
+            },
         topBar = {
             TopBar(
                 searchQuery = searchQuery,
@@ -113,6 +135,8 @@ fun NavGraph(
                     }
                 },
                 onLogoClick = {
+                    keyboardController?.hide()
+                    focusManager.clearFocus()
                     navController.navigate(Destinations.Home) {
                         popUpTo(Destinations.Home) { inclusive = true }
                     }
@@ -133,33 +157,21 @@ fun NavGraph(
                         showBottomSheet = !showBottomSheet
                     },
                     onCartClick = {
-                        if (token != null) {
-                            navController.navigate(Destinations.Cart) {
-                                popUpTo(navController.graph.findStartDestination().id)
-                                launchSingleTop = true
-                            }
-                        } else {
-                            navController.navigate(Destinations.Login)
+                        navController.navigate(Destinations.Cart) {
+                            popUpTo(navController.graph.findStartDestination().id)
+                            launchSingleTop = true
                         }
                     },
                     onFavoritesClick = {
-                        if (token != null) {
-                            navController.navigate(Destinations.Favorites) {
-                                popUpTo(navController.graph.findStartDestination().id)
-                                launchSingleTop = true
-                            }
-                        } else {
-                            navController.navigate(Destinations.Login)
+                        navController.navigate(Destinations.Favorites) {
+                            popUpTo(navController.graph.findStartDestination().id)
+                            launchSingleTop = true
                         }
                     },
                     onAiChatClick = {
-                        if (token != null) {
-                            navController.navigate(Destinations.Chat(-1)) {
-                                popUpTo(navController.graph.findStartDestination().id)
-                                launchSingleTop = true
-                            }
-                        } else {
-                            navController.navigate(Destinations.Login)
+                        navController.navigate(Destinations.Chat(-1)) {
+                            popUpTo(navController.graph.findStartDestination().id)
+                            launchSingleTop = true
                         }
                     },
                     onProfileClick = {
@@ -183,6 +195,19 @@ fun NavGraph(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
+                    .then(
+                        if (!isFormScreen) {
+                            Modifier.pointerInput(Unit) {
+                                awaitEachGesture {
+                                    awaitFirstDown(pass = PointerEventPass.Initial)
+                                    keyboardController?.hide()
+                                    focusManager.clearFocus()
+                                }
+                            }
+                        } else {
+                            Modifier
+                        }
+                    )
             ) {
             composable<Destinations.Home> {
                 HomeScreen(
@@ -312,12 +337,12 @@ fun NavGraph(
                 )
             }
             composable<Destinations.Cart> {
-                CartScreen(
-                )
+                CartScreen(isLoggedIn = token != null)
             }
 
             composable<Destinations.Favorites> {
                 FavoritesScreen(
+                    isLoggedIn = token != null,
                     onGameClick = { gameId ->
                         navController.navigate(Destinations.Product(gameId))
                     }
@@ -327,13 +352,17 @@ fun NavGraph(
             composable<Destinations.Chat> { backStackEntry ->
                 val chatArgs = backStackEntry.toRoute<Destinations.Chat>()
                 ChatScreen(
-                    sessionId = chatArgs.sessionId
+                    isLoggedIn = token != null,
+                    onNavigateToLogin = { navController.navigate(Destinations.Login) },
+                    sessionId = chatArgs.sessionId,
+                    onGameClick = { gameId ->
+                        navController.navigate(Destinations.Product(gameId))
+                    }
                 )
             }
         }
-        } // closes Box(fillMaxSize)
+        }
 
-        // Global gradient overlays — top (below header) and bottom (above nav bar)
         Box(modifier = Modifier.fillMaxSize().zIndex(10f)) {
             Box(
                 modifier = Modifier
@@ -347,23 +376,22 @@ fun NavGraph(
                         )
                     )
             )
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(28.dp)
-                    .align(Alignment.BottomStart)
-                    .absoluteOffset(y = -innerPadding.calculateBottomPadding())
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(Color.Transparent, Color(0xFF111827))
+            if (!isChatScreen) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(28.dp)
+                        .align(Alignment.BottomStart)
+                        .absoluteOffset(y = -innerPadding.calculateBottomPadding())
+                        .background(
+                            brush = Brush.verticalGradient(
+                                colors = listOf(Color.Transparent, Color(0xFF111827))
+                            )
                         )
-                    )
-            )
+                )
+            }
         }
 
-        // Overlay the Menu inside the Scaffold so it renders strictly
-        // within the content bounds and above the active screen,
-        // avoiding overlapping with the Scaffold's persistent BottomBar.
         Box(modifier = Modifier
             .padding(innerPadding)
             .fillMaxSize()

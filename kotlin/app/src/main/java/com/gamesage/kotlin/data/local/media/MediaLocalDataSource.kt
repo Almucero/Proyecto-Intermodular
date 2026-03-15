@@ -12,11 +12,11 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class MediaLocalDataSource @Inject constructor(
-    private val scope: CoroutineScope,
+    @Suppress("unused") private val scope: CoroutineScope,
     private val mediaDao: MediaDao
 ): MediaDataSource {
     override suspend fun addAll(mediaList: List<Media>) {
-        val mutex = Mutex()
+        Mutex()
         mediaList.forEach { media ->
             withContext(Dispatchers.IO) {
                 mediaDao.insert(media.toEntity())

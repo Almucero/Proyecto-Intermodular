@@ -1,5 +1,11 @@
 package com.gamesage.kotlin.ui.pages.home
 
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -19,7 +25,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults.buttonColors
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -28,7 +33,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
@@ -62,11 +70,18 @@ fun HomeScreen(
         when (val state = uiState) {
                 is HomeUiState.Initial,
                 is HomeUiState.Loading -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = 12.dp, bottom = 32.dp)
                     ) {
-                        CircularProgressIndicator(color = Color(0xFF22D3EE))
+                        Spacer(Modifier.height(12.dp))
+
+                        CategorySectionSkeleton()
+
+                        GameHorizontalListSkeleton(stringResource(R.string.home_best_sellers))
+                        GameHorizontalListSkeleton(stringResource(R.string.home_offers))
+                        GameHorizontalListSkeleton(stringResource(R.string.home_top_rated))
                     }
                 }
                 is HomeUiState.Error -> {
@@ -118,6 +133,7 @@ fun CategorySection(categories: List<String>, onGenreClick: (String) -> Unit) {
             .padding(horizontal = 12.dp)
     ) {
         categories.forEach { cat ->
+            val translatedName = getTranslatedGenre(cat)
             Box(
                 modifier = Modifier
                     .padding(end = 10.dp)
@@ -126,7 +142,7 @@ fun CategorySection(categories: List<String>, onGenreClick: (String) -> Unit) {
                     .clickable { onGenreClick(cat) }
                     .padding(horizontal = 18.dp, vertical = 8.dp)
             ) {
-                Text(cat, color = Color.White)
+                Text(translatedName, color = Color.White)
             }
         }
     }
@@ -221,3 +237,113 @@ fun GameCard(game: GameHomeUiState, onGameClick: (Long) -> Unit) {
     }
 }
 
+@Composable
+fun getTranslatedGenre(genreName: String): String {
+    @Suppress("SpellCheckingInspection")
+    return when (genreName.trim().lowercase()) {
+        "accion" -> stringResource(R.string.genre_action)
+        "aventura" -> stringResource(R.string.genre_adventure)
+        "rpg" -> stringResource(R.string.genre_rpg)
+        "deportes" -> stringResource(R.string.genre_sports)
+        "estrategia" -> stringResource(R.string.genre_strategy)
+        "simulacion" -> stringResource(R.string.genre_simulation)
+        "terror" -> stringResource(R.string.genre_horror)
+        "carreras" -> stringResource(R.string.genre_racing)
+        "sandbox" -> stringResource(R.string.genre_sandbox)
+        "shooter" -> stringResource(R.string.genre_shooter)
+        else -> genreName
+    }
+}
+
+fun Modifier.shimmerEffect(): Modifier = composed {
+    val transition = rememberInfiniteTransition(label = "shimmer")
+    val translateAnim by transition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1000f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 1200, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "shimmerAnim"
+    )
+
+    val brush = Brush.linearGradient(
+        colors = listOf(
+            Color(0xFF1F2937),
+            Color(0xFF374151),
+            Color(0xFF1F2937)
+        ),
+        start = Offset.Zero,
+        end = Offset(x = translateAnim, y = translateAnim)
+    )
+
+    this.background(brush)
+}
+
+@Composable
+fun CategorySectionSkeleton() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp)
+    ) {
+        repeat(4) {
+            Box(
+                modifier = Modifier
+                    .padding(end = 10.dp)
+                    .width(100.dp)
+                    .height(36.dp)
+                    .clip(RoundedCornerShape(50))
+                    .shimmerEffect()
+            )
+        }
+    }
+}
+
+@Composable
+fun GameHorizontalListSkeleton(title: String) {
+    Column(modifier = Modifier.padding(top = 20.dp)) {
+        Text(
+            text = title,
+            modifier = Modifier.padding(horizontal = 16.dp),
+            color = Color(0xFF93E3FE),
+            fontWeight = FontWeight.SemiBold
+        )
+        Spacer(Modifier.height(8.dp))
+        LazyRow(
+            contentPadding = PaddingValues(horizontal = 16.dp)
+        ) {
+            items(3) {
+                Column(
+                    modifier = Modifier
+                        .padding(end = 16.dp)
+                        .width(150.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .height(110.dp)
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(12.dp))
+                            .shimmerEffect()
+                    )
+                    Spacer(Modifier.height(6.dp))
+                    Box(
+                        modifier = Modifier
+                            .height(14.dp)
+                            .fillMaxWidth(0.8f)
+                            .clip(RoundedCornerShape(4.dp))
+                            .shimmerEffect()
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    Box(
+                        modifier = Modifier
+                            .height(12.dp)
+                            .width(40.dp)
+                            .clip(RoundedCornerShape(4.dp))
+                            .shimmerEffect()
+                    )
+                }
+            }
+        }
+    }
+}
