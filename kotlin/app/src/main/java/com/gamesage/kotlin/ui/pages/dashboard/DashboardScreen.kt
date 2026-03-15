@@ -39,6 +39,8 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -167,25 +169,27 @@ fun DashboardScreen(
         }
     }
 
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
+    Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        containerColor = Color(0xFF111827)
+    ) { paddingValues ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .background(Color(0xFF111827))
         ) {
             //Manejo de estados de la UI (Cargando, Error o Éxito).
             when (val state = uiState) {
                 is DashboardUiState.Initial, DashboardUiState.Loading -> {
                     //Estado inicial y carga de datos.
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Box(modifier = Modifier.fillMaxSize().padding(paddingValues), contentAlignment = Alignment.Center) {
                         CircularProgressIndicator(color = Color(0xFF22D3EE))
                     }
                 }
 
                 is DashboardUiState.Error -> {
                     //Muestra el mensaje de error si algo falla.
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Box(modifier = Modifier.fillMaxSize().padding(paddingValues), contentAlignment = Alignment.Center) {
                         Text(text = state.message, color = Color.Red, textAlign = Center)
                     }
                 }
@@ -196,9 +200,14 @@ fun DashboardScreen(
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .background(Color(0xFF111827))
                                 .verticalScroll(scrollState)
-                                .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 32.dp),
+                                .padding(
+                                    start = 16.dp,
+                                    end = 16.dp,
+                                    // LA CLAVE: Exactamente la misma fórmula que en el carrito
+                                    top = paddingValues.calculateTopPadding() + 16.dp,
+                                    bottom = 32.dp
+                                ),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             //Título de la sección.
@@ -206,8 +215,11 @@ fun DashboardScreen(
                                 text = stringResource(R.string.dashboard_user_section),
                                 fontSize = 30.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color(0xFFA5F3FC),
-                                modifier = Modifier.padding(vertical = 24.dp)
+                                color = Color(0xFF93E3FE),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 16.dp),
+                                textAlign = Center
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             //Contenedor para la Imagen de perfil.
@@ -664,30 +676,20 @@ fun DashboardScreen(
                                 }
                             }
                             Spacer(modifier = Modifier.height(32.dp))
+                        }
 
-                        }
-                        if (state.isSaving) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(Color.Black.copy(alpha = 0.6f))
-                                    .clickable(enabled = false) {}, // Intercepta los toques para que no pasen al fondo
-                                contentAlignment = Alignment.Center
-                            ) {
-                                CircularProgressIndicator(
-                                    color = Color(0xFF22D3EE),
-                                    modifier = Modifier.size(64.dp),
-                                    strokeWidth = 6.dp
-                                )
-                            }
-                        }
-                        
+                        // Adaptamos también el degradado superior para que coincida perfectamente
                         if (scrollState.value > 0) {
-                            Box(modifier = Modifier.fillMaxWidth().height(32.dp).align(Alignment.TopCenter).background(
-                                brush = Brush.verticalGradient(
-                                    colors = listOf(Color(0xFF111827), Color.Transparent)
+                            Box(modifier = Modifier
+                                .fillMaxWidth()
+                                .height(paddingValues.calculateTopPadding() + 16.dp)
+                                .align(Alignment.TopCenter)
+                                .background(
+                                    brush = Brush.verticalGradient(
+                                        colors = listOf(Color(0xFF111827), Color.Transparent)
+                                    )
                                 )
-                            ))
+                            )
                         }
                     }
                 }

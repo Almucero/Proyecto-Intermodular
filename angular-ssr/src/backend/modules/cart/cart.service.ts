@@ -106,6 +106,12 @@ export async function getUserCart(userId: number) {
               name: true,
             },
           },
+          media: {
+            select: {
+              url: true,
+            },
+            take: 1,
+          },
         },
       },
       platform: {

@@ -33,7 +33,7 @@ fun ContactScreen(
     onNavigateToMap:()-> Unit,
 ) {
     val context = LocalContext.current
-    
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -42,7 +42,6 @@ fun ContactScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(bottom = 16.dp)
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -87,7 +86,16 @@ fun ContactScreen(
                 icon = Icons.Default.Phone,
                 title = stringResource(R.string.contact_phone_title),
                 content = "+34 123 456 789",
-                onClick = null
+                onClick = {
+                    try {
+                        val intent = Intent(Intent.ACTION_DIAL).apply {
+                            data = "tel:+34123456789".toUri()
+                        }
+                        context.startActivity(intent)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
             )
             
             Spacer(modifier = Modifier.height(16.dp))

@@ -104,6 +104,7 @@ class RemoteModule {
         return gameSageApi
     }
     @Provides
+    @Singleton
     fun provideCoroutineScope(): CoroutineScope {
         return CoroutineScope(SupervisorJob() + Dispatchers.Default)
     }

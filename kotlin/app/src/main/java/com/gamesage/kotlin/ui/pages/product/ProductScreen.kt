@@ -2,6 +2,7 @@ package com.gamesage.kotlin.ui.pages.product
 
 import android.content.Intent
 import android.content.Intent.ACTION_VIEW
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -39,6 +41,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -58,12 +61,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration.Companion.LineThrough
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
+import androidx.core.net.toUri
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.gamesage.kotlin.R
 import com.gamesage.kotlin.data.model.Game
 import java.time.format.DateTimeFormatter
-import androidx.core.net.toUri
 
 // Pantalla principal del detalle de un juego. Gestiona el estado global y la navegación.
 @OptIn(ExperimentalMaterial3Api::class)
@@ -71,6 +75,7 @@ import androidx.core.net.toUri
 fun ProductScreen(
     gameId: Long,
     onNavigateToLogin: () -> Unit = {},
+    onNavigateToCart: () -> Unit = {},
     viewModel: ProductScreenViewModel = hiltViewModel()
 ) {
     // Observa el estado de la UI y la lista de media del ViewModel
@@ -105,7 +110,7 @@ fun ProductScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+            // Eliminado el .padding(paddingValues) de aquí para que ocupe toda la pantalla
         ) {
             // Muestra un composable distinto según el estado actual
             when (val state = uiState) {
@@ -113,13 +118,13 @@ fun ProductScreen(
                 is ProductUiState.Initial,
                 is ProductUiState.Loading -> {
                     Box(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier.fillMaxSize().padding(paddingValues),
                         contentAlignment = Alignment.Center
                     ) {
                         CircularProgressIndicator(color = Color(0xFF22D3EE))
                     }
                 }
-                is ProductUiState.Error -> ErrorView(onRetry = { viewModel.retry() }) // Pantalla de error con botón reintentar
+                is ProductUiState.Error -> ErrorView(onRetry = { viewModel.retry() }, paddingValues = paddingValues) // Pantalla de error con botón reintentar
                 is ProductUiState.Success -> {
                     // Si el usuario no está logueado y pulsa carrito/favoritos, redirige al Login
                     LaunchedEffect(state.navigateToLogin) {
@@ -130,10 +135,18 @@ fun ProductScreen(
                     }
 
                     // Muestra el contenido real del juego
+                    LaunchedEffect(state.navigateToCart) {
+                        if (state.navigateToCart) {
+                            viewModel.onCartNavigationConsumed()
+                            onNavigateToCart()
+                        }
+                    }
+
                     ProductContent(
                         state = state,
                         mediaItems = mediaItems,
-                        viewModel = viewModel
+                        viewModel = viewModel,
+                        paddingValues = paddingValues
                     )
                 }
             }
@@ -143,9 +156,9 @@ fun ProductScreen(
 
 // Muestra un mensaje de error y un botón para reintentar la carga del juego
 @Composable
-fun ErrorView(onRetry: () -> Unit) {
+fun ErrorView(onRetry: () -> Unit, paddingValues: androidx.compose.foundation.layout.PaddingValues) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().padding(paddingValues),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -174,16 +187,22 @@ fun ErrorView(onRetry: () -> Unit) {
 fun ProductContent(
     state: ProductUiState.Success,
     mediaItems: List<MediaItem>,
-    viewModel: ProductScreenViewModel
+    viewModel: ProductScreenViewModel,
+    paddingValues: androidx.compose.foundation.layout.PaddingValues
 ) {
     // Calcula el stock actual según la plataforma seleccionada (o total si no hay ninguna)
     val currentStock = viewModel.getStockForPlatform(state.game, state.selectedPlatform)
-    
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState()) // Permite hacer scroll en toda la pantalla
-            .padding(16.dp)
+            .padding(
+                top = paddingValues.calculateTopPadding() + 16.dp,
+                bottom = paddingValues.calculateBottomPadding() + 16.dp,
+                start = 16.dp,
+                end = 16.dp
+            )
     ) {
         GameHeader(state.game, viewModel)         // Título + estrellas de valoración
         Spacer(modifier = Modifier.height(16.dp))
@@ -222,7 +241,6 @@ fun ProductContent(
             onAddToFavorites = { viewModel.addToFavorites() }
         )
         Spacer(modifier = Modifier.height(18.dp))
-        // Descripción larga del juego (justificada)
         Text(
             text = state.game.description ?: stringResource(R.string.product_no_description),
             color = Color(0xFFD1D5DB),
@@ -310,7 +328,7 @@ fun MediaCarousel(
                         model = currentItem.url,
                         contentDescription = currentItem.label,
                         modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Fit
+                        contentScale = ContentScale.Crop
                     )
                 }
                 // Si es un vídeo, muestra su miniatura con un botón de Play encima
@@ -338,7 +356,7 @@ fun MediaCarousel(
                                 model = thumb,
                                 contentDescription = currentItem.label,
                                 modifier = Modifier.fillMaxSize(),
-                                contentScale = ContentScale.Fit
+                                contentScale = ContentScale.Crop
                             )
                         }
                         // Círculo semitransparente con el icono de Play centrado encima
@@ -410,21 +428,21 @@ fun MediaThumbnails(
         horizontalArrangement = Arrangement.Center
     ) {
         mediaItems.forEachIndexed { index, item ->
-            Box(
+            val isFocused = index == currentIndex
+            Surface(
                 modifier = Modifier
                     .padding(4.dp)
                     .size(width = 96.dp, height = 64.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(Color.Black)
-                    .border(
-                        // La miniatura activa tiene borde más grueso y azul
-                        width = if (index == currentIndex) 4.dp else 2.dp,
-                        color = if (index == currentIndex) Color(0xFF93E3FE) else Color(0xFF6B7280),
-                        shape = RoundedCornerShape(8.dp)
-                    )
-                    // La miniatura activa tiene un ligero zoom para destacar
-                    .scale(if (index == currentIndex) 1.05f else 0.9f)
-                    .clickable { onSelect(index) }
+                    // Efecto de enfoque: el seleccionado es un poco más grande
+                    .scale(if (isFocused) 1.05f else 1.0f)
+                    .zIndex(if (isFocused) 1f else 0f)
+                    .clickable { onSelect(index) },
+                shape = RoundedCornerShape(8.dp),
+                color = Color.Black, // Fondo negro para la miniatura
+                border = BorderStroke(
+                    width = 4.dp,
+                    color = if (isFocused) Color(0xFF93E3FE) else Color(0xFF6B7280)
+                )
             ) {
                 when (item.type) {
                     MediaType.IMAGE -> {
@@ -435,24 +453,26 @@ fun MediaThumbnails(
                             contentScale = ContentScale.Crop
                         )
                     }
-                    // Para los vídeos muestra su miniatura con el icono de Play encima
                     MediaType.VIDEO -> {
-                        item.thumbnail?.let { thumb ->
-                            AsyncImage(
-                                model = thumb,
-                                contentDescription = item.label,
-                                modifier = Modifier.fillMaxSize(),
-                                contentScale = ContentScale.Crop
+                        Box(contentAlignment = Alignment.Center) {
+                            item.thumbnail?.let { thumb ->
+                                AsyncImage(
+                                    model = thumb,
+                                    contentDescription = item.label,
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentScale = ContentScale.Crop
+                                )
+                            }
+                            // Icono de play distintivo para vídeos
+                            Icon(
+                                Icons.Default.PlayArrow,
+                                contentDescription = null,
+                                tint = Color.White,
+                                modifier = Modifier
+                                    .size(24.dp)
+                                    .background(Color.Black.copy(alpha = 0.4f), CircleShape)
                             )
                         }
-                        Icon(
-                            Icons.Default.PlayArrow,
-                            contentDescription = null,
-                            tint = Color.White,
-                            modifier = Modifier
-                                .size(24.dp)
-                                .align(Alignment.Center)
-                        )
                     }
                 }
             }
@@ -717,7 +737,7 @@ fun ActionButtons(
                 // Estado tras añadir: icono check + texto de confirmación
                 Icon(Icons.Default.Check, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(stringResource(R.string.product_added_to_cart), fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.product_added_to_favorites), fontWeight = FontWeight.Bold)
             } else {
                 Text(stringResource(R.string.product_add_to_favorites), fontWeight = FontWeight.Bold)
             }
@@ -771,8 +791,11 @@ fun GameInfoTable(game: Game) {
             .border(1.dp, Color(0xFF6B7280), RoundedCornerShape(8.dp))
     ) {
         InfoRow(stringResource(R.string.product_developer), game.Developer?.name ?: "N/A")
+        Box(modifier = Modifier.fillMaxWidth().height(1.dp).background(Color(0xFF6B7280)))
         InfoRow(stringResource(R.string.product_publisher), game.Publisher?.name ?: "N/A")
+        Box(modifier = Modifier.fillMaxWidth().height(1.dp).background(Color(0xFF6B7280)))
         InfoRow(stringResource(R.string.product_release_date), game.releaseDate?.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) ?: "N/A")
+        Box(modifier = Modifier.fillMaxWidth().height(1.dp).background(Color(0xFF6B7280)))
         InfoRow(stringResource(R.string.product_refundable), if (game.isRefundable) stringResource(R.string.product_yes) else stringResource(R.string.product_no))
     }
 }
@@ -783,7 +806,9 @@ fun InfoRow(label: String, value: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFF111827))
+            .height(androidx.compose.foundation.layout.IntrinsicSize.Min)
+            .background(Color(0xFF111827)),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = label,
@@ -791,12 +816,13 @@ fun InfoRow(label: String, value: String) {
             fontSize = 14.sp,
             modifier = Modifier
                 .weight(1f)
-                .background(Color(0xFF111827))
-                .border(
-                    width = 1.dp,
-                    color = Color(0xFF6B7280)
-                )
                 .padding(16.dp)
+        )
+        Box(
+            modifier = Modifier
+                .width(1.dp)
+                .fillMaxHeight()
+                .background(Color(0xFF6B7280))
         )
         Text(
             text = value,
@@ -805,7 +831,6 @@ fun InfoRow(label: String, value: String) {
             textAlign = TextAlign.End,
             modifier = Modifier
                 .weight(1f)
-                .background(Color(0xFF111827))
                 .padding(16.dp)
         )
     }

@@ -48,9 +48,15 @@ interface UsersApi {
 }
 interface GamesApi {
     @GET("api/games")
-    suspend fun readAllGames(@Query("include") include: String = "media,genres,platforms"): List<GameApiModel>
+    suspend fun readAllGames(
+        @Query("include") include: String = "media,genres,platforms,Developer,Publisher"
+    ): List<GameApiModel>
+
     @GET("api/games/{id}")
-    suspend fun readOneGame(@Path("id") id: Int): GameApiModel
+    suspend fun readOneGame(
+        @Path("id") id: Int,
+        @Query("include") include: String = "Developer,Publisher,media,genres,platforms"
+    ): GameApiModel
 }
 interface DevelopersApi {
     @GET("api/developers")
@@ -115,42 +121,34 @@ interface MediaApi {
 }
 
 interface CartApi {
-    //Obtiene todos los items del carrito del usuario en el servidor
     @GET("api/cart")
     suspend fun getCart(): List<CartItemApiModel>
-    //Agrega un nuevo item al carrito en el servidor.
     @POST("api/cart")
     suspend fun addToCart(@Body body: Map<String, Int>)
-    //Actualiza un item del carrito
     @PATCH("api/cart/{gameId}")
     suspend fun updateCartItem(@Path("gameId") gameId: Int, @Body body: Map<String, Int>)
-    //Elimina un item del carrito en el servidor
     @DELETE("api/cart/{gameId}")
     suspend fun removeFromCart(@Path("gameId") gameId: Int, @Query("platformId") platformId: Int)
-    //Elimina todos los items del carrito en el servidor
     @DELETE("api/cart")
     suspend fun clearCart()
 }
-
 interface FavoritesApi {
     @GET("api/favorites")
-    suspend fun getFavorites(): List<FavoriteApiModel>
+    suspend fun getFavorites(
+        @Query("include") include: String = "media,platforms,Developer"
+    ): List<FavoriteApiModel>
     @POST("api/favorites")
     suspend fun addToFavorites(@Body body: Map<String, Int>)
     @DELETE("api/favorites/{gameId}")
     suspend fun removeFromFavorites(@Path("gameId") gameId: Int, @Query("platformId") platformId: Int = 0)
 }
-
 interface ChatApi {
     @GET("api/chat/sessions")
     suspend fun getSessions(): List<ChatSessionApiModel>
-    
     @GET("api/chat/sessions/{id}")
     suspend fun getSession(@Path("id") id: Int): ChatSessionApiModel
-    
     @DELETE("api/chat/sessions/{id}")
     suspend fun deleteSession(@Path("id") id: Int)
-    
     @POST("api/chat")
     suspend fun sendMessage(@Body request: SendMessageRequest): ChatResponseApiModel
 }

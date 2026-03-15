@@ -4,6 +4,7 @@ import android.Manifest.permission.POST_NOTIFICATIONS
 import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -13,6 +14,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
@@ -86,6 +89,10 @@ fun NavGraph(
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    // Gestor de carga global para bloquear la pantalla durante operaciones críticas
+    val globalLoadingViewModel: GlobalLoadingViewModel = hiltViewModel()
+    val isGlobalBlocking by globalLoadingViewModel.loadingManager.isBlocking.collectAsState()
+
     LaunchedEffect(currentBackStackEntry) {
         showBottomSheet = false
         if (currentBackStackEntry?.destination?.route?.contains("search", ignoreCase = true) != true) {
@@ -115,7 +122,8 @@ fun NavGraph(
 
 
 
-    Scaffold(
+    Box(modifier = Modifier.fillMaxSize()) {
+        Scaffold(
         modifier = Modifier
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection)
@@ -227,6 +235,9 @@ fun NavGraph(
                     gameId = product.gameId,
                     onNavigateToLogin = {
                         navController.navigate(Destinations.Login)
+                    },
+                    onNavigateToCart = {
+                        navController.navigate(Destinations.Cart)
                     }
                 )
             }
@@ -338,7 +349,12 @@ fun NavGraph(
                 )
             }
             composable<Destinations.Cart> {
-                CartScreen(isLoggedIn = token != null)
+                CartScreen(
+                    isLoggedIn = token != null,
+                    onNavigateToGame = { gameId ->
+                        navController.navigate(Destinations.Product(gameId.toLong()))
+                    }
+                )
             }
 
             composable<Destinations.Favorites> {
@@ -408,6 +424,32 @@ fun NavGraph(
                     searchQuery = ""
                 }
             )
+        }
+
+        }
+
+        // Overlay de carga global: bloquea TODA la pantalla, incluyendo barras de navegación
+        if (isGlobalBlocking) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .zIndex(5000f)
+                    .background(Color.Black.copy(alpha = 0.6f))
+                    .pointerInput(Unit) {
+                        // Intercepta todos los gestos para que no lleguen a la UI inferior
+                        awaitEachGesture {
+                            awaitFirstDown(pass = PointerEventPass.Initial)
+                        }
+                    }
+                    .clickable(enabled = false) { },
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(
+                    color = Color(0xFF22D3EE),
+                    modifier = Modifier.size(64.dp),
+                    strokeWidth = 6.dp
+                )
+            }
         }
     }
 }

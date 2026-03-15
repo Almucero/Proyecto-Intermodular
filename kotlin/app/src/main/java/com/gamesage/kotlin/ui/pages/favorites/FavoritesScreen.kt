@@ -7,6 +7,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons.Default
 import androidx.compose.material.icons.filled.Delete
@@ -15,11 +16,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.ColorPainter
@@ -50,6 +53,14 @@ fun FavoritesScreen(
     // Para mostrar el Snackbar
     val snackbarHostState = remember { SnackbarHostState() }
 
+    // Estado del scroll para el efecto de degradado
+    val listState = rememberLazyListState()
+    val showGradient by remember {
+        derivedStateOf {
+            listState.firstVisibleItemIndex > 0 || listState.firstVisibleItemScrollOffset > 0
+        }
+    }
+
     // Escucha cambios en el mensaje de error (cuando no hay internet) y dispara el snackbar
     LaunchedEffect(errorMessage) {
         errorMessage?.let {
@@ -63,29 +74,22 @@ fun FavoritesScreen(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         containerColor = Color(0xFF111827)
     ) { paddingValues ->
+        // Quitamos el padding estático para permitir el comportamiento de scroll completo
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .background(Color(0xFF111827))
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color(0xFF111827))
-                    .padding(16.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.favorites_title),
-                    color = Color(0xFF93E3FE),
-                    fontSize = 30.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 32.dp),
-                    textAlign = TextAlign.Center
-                )
-
-                if (!isLoggedIn) {
+            if (!isLoggedIn) {
+                // Vista estática para usuario no logueado
+                Column(
+                    modifier = Modifier.fillMaxSize().padding(
+                        top = paddingValues.calculateTopPadding() + 16.dp,
+                        bottom = 16.dp, start = 16.dp, end = 16.dp
+                    ),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    FavoritesHeader()
                     Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
                         Text(
                             text = stringResource(R.string.product_login_message),
@@ -94,11 +98,19 @@ fun FavoritesScreen(
                             textAlign = TextAlign.Center
                         )
                     }
-                } else {
-                    // Estados de la pantalla
-                    when (val state = uiState) {
-                        // Si está cargando o en el inicio, muestra un CircularProgressIndicator
-                        is FavoritesUiState.Initial, is FavoritesUiState.Loading -> {
+                }
+            } else {
+                // Estados de la pantalla
+                when (val state = uiState) {
+                    // Si está cargando o en el inicio, muestra un CircularProgressIndicator
+                    is FavoritesUiState.Initial, is FavoritesUiState.Loading -> {
+                        Column(
+                            modifier = Modifier.fillMaxSize().padding(
+                                top = paddingValues.calculateTopPadding() + 16.dp,
+                                bottom = 16.dp, start = 16.dp, end = 16.dp
+                            )
+                        ) {
+                            FavoritesHeader()
                             Box(
                                 modifier = Modifier.fillMaxSize(),
                                 contentAlignment = Alignment.Center
@@ -106,65 +118,16 @@ fun FavoritesScreen(
                                 CircularProgressIndicator(color = Color(0xFF22D3EE))
                             }
                         }
-                        // Si fue bien muestra los favoritos.
-                        is FavoritesUiState.Success -> {
-                            // Si la lista está vacía muestra el texto: "No tienes favoritos"
-                            if (state.games.isEmpty()) {
-                                Box(
-                                    modifier = Modifier.fillMaxSize(),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text(
-                                        text = stringResource(R.string.favorites_empty),
-                                        color = Color(0xFF9CA3AF),
-                                        fontSize = 18.sp
-                                    )
-                                }
-                            } else {
-                                // Si hay productos
-                                LazyColumn(
-                                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                                    modifier = Modifier.weight(1f)
-                                ) {
-                                    // Por cada favorito muestra un FavoriteHorizontalCard.
-                                    items(state.games) { game ->
-                                        FavoriteHorizontalCard(
-                                            game = game,
-                                            onGameClick = { onGameClick(game.gameId.toLong()) },
-                                            onAddToCart = { viewModel.addToCart(game) },
-                                            onRemove = { viewModel.removeFromFavorites(game.gameId, game.platformId) }
-                                        )
-                                    }
-
-                                    // Botón para transferir todo al carrito
-                                    item {
-                                        Spacer(modifier = Modifier.height(32.dp))
-                                        Button(
-                                            onClick = { viewModel.transferAllToCart() },
-                                            colors = ButtonDefaults.buttonColors(
-                                                containerColor = Color.Transparent,
-                                                contentColor = Color(0xFF22D3EE)
-                                            ),
-                                            border = BorderStroke(2.dp, Color(0xFF22D3EE)),
-                                            shape = RoundedCornerShape(8.dp),
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .height(48.dp)
-                                                .padding(horizontal = 32.dp)
-                                        ) {
-                                            Text(
-                                                text = stringResource(R.string.favorites_transfer_all),
-                                                fontWeight = FontWeight.Bold,
-                                                fontSize = 16.sp
-                                            )
-                                        }
-                                        Spacer(modifier = Modifier.height(32.dp))
-                                    }
-                                }
-                            }
-                        }
-                        // Si hay error muestra el mensaje en rojo
-                        is FavoritesUiState.Error -> {
+                    }
+                    // Si hay error muestra el mensaje en rojo
+                    is FavoritesUiState.Error -> {
+                        Column(
+                            modifier = Modifier.fillMaxSize().padding(
+                                top = paddingValues.calculateTopPadding() + 16.dp,
+                                bottom = 16.dp, start = 16.dp, end = 16.dp
+                            )
+                        ) {
+                            FavoritesHeader()
                             Box(
                                 modifier = Modifier.fillMaxSize(),
                                 contentAlignment = Alignment.Center
@@ -177,10 +140,130 @@ fun FavoritesScreen(
                             }
                         }
                     }
+                    // Si fue bien muestra los favoritos.
+                    is FavoritesUiState.Success -> {
+                        // Si la lista está vacía muestra el texto: "No tienes favoritos"
+                        if (state.games.isEmpty()) {
+                            Column(
+                                modifier = Modifier.fillMaxSize().padding(
+                                    top = paddingValues.calculateTopPadding() + 16.dp,
+                                    bottom = 16.dp, start = 16.dp, end = 16.dp
+                                )
+                            ) {
+                                FavoritesHeader()
+                                Box(
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = stringResource(R.string.favorites_empty),
+                                        color = Color(0xFF9CA3AF),
+                                        fontSize = 18.sp,
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
+                            }
+                        } else {
+                            // Si hay productos
+                            LazyColumn(
+                                state = listState,
+                                modifier = Modifier.fillMaxSize(),
+                                // Padding dinámico para respetar la barra superior e inferior
+                                contentPadding = PaddingValues(
+                                    start = 16.dp,
+                                    end = 16.dp,
+                                    top = paddingValues.calculateTopPadding() + 16.dp,
+                                    bottom = paddingValues.calculateBottomPadding() + 64.dp
+                                ),
+                                verticalArrangement = Arrangement.spacedBy(16.dp)
+                            ) {
+                                // 1. Título scrolleable (se desplaza hacia arriba al mover la lista)
+                                item {
+                                    FavoritesHeader(modifier = Modifier.padding(bottom = 16.dp))
+                                }
+
+                                // 2. Por cada favorito muestra un FavoriteHorizontalCard.
+                                items(state.games) { game ->
+                                    FavoriteHorizontalCard(
+                                        game = game,
+                                        onGameClick = { onGameClick(game.gameId.toLong()) },
+                                        onAddToCart = { viewModel.addToCart(game) },
+                                        onRemove = { viewModel.removeFromFavorites(game.gameId, game.platformId) }
+                                    )
+                                }
+
+                                // 3. Botones de acción general (Vaciar y Transferir)
+                                item {
+                                    Spacer(modifier = Modifier.height(16.dp))
+                                    OutlinedButton(
+                                        onClick = { viewModel.clearFavorites() },
+                                        colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFFF87171)),
+                                        border = BorderStroke(1.dp, Color(0xFFF87171)),
+                                        modifier = Modifier.fillMaxWidth().height(48.dp),
+                                        shape = RoundedCornerShape(8.dp)
+                                    ) {
+                                        Icon(Default.Delete, contentDescription = null, modifier = Modifier.size(18.dp))
+                                        Spacer(modifier = Modifier.width(8.dp))
+                                        Text(
+                                            text = stringResource(R.string.favorites_clear),
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = 16.sp
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.height(12.dp))
+                                    Button(
+                                        onClick = { viewModel.transferAllToCart() },
+                                        colors = ButtonDefaults.buttonColors(
+                                            containerColor = Color.Transparent,
+                                            contentColor = Color(0xFF22D3EE)
+                                        ),
+                                        border = BorderStroke(2.dp, Color(0xFF22D3EE)),
+                                        shape = RoundedCornerShape(8.dp),
+                                        modifier = Modifier.fillMaxWidth().height(48.dp)
+                                    ) {
+                                        Text(
+                                            text = stringResource(R.string.favorites_transfer_all),
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = 16.sp
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.height(32.dp))
+                                }
+                            }
+                        }
+                    }
                 }
+            }
+
+            // Efecto de degradado superior al hacer scroll (igual que en carrito)
+            if (showGradient) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(paddingValues.calculateTopPadding() + 16.dp)
+                        .align(Alignment.TopCenter)
+                        .background(
+                            brush = Brush.verticalGradient(
+                                colors = listOf(Color(0xFF111827), Color.Transparent)
+                            )
+                        )
+                )
             }
         }
     }
+}
+
+// Componente para reutilizar el estilo del título
+@Composable
+fun FavoritesHeader(modifier: Modifier = Modifier) {
+    Text(
+        text = stringResource(R.string.favorites_title),
+        color = Color(0xFF93E3FE),
+        fontSize = 30.sp,
+        fontWeight = FontWeight.Bold,
+        modifier = modifier.fillMaxWidth(),
+        textAlign = TextAlign.Center
+    )
 }
 
 // Cada producto de la lista de favoritos
@@ -196,106 +279,49 @@ fun FavoriteHorizontalCard(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFF1F2937), RoundedCornerShape(8.dp))
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .clip(RoundedCornerShape(8.dp))
+            .background(Color(0xFF1F2937))
+            .clickable { onGameClick() }
+            .padding(12.dp)
+            .height(IntrinsicSize.Min)
     ) {
-        Box(
-            modifier = Modifier
-                .size(128.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(Color(0xFF1F2937))
-                .clickable { onGameClick() },
-            contentAlignment = Alignment.Center
-        ) {
-             AsyncImage(
-                model = imageUrl,
-                contentDescription = game.title,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop,
-                error = ColorPainter(Color(0xFF374151)),
-                placeholder = ColorPainter(Color(0xFF1F2937))
-            )
-        }
-
-        Spacer(modifier = Modifier.width(16.dp))
-        // Muestra: Título, nombre del desarrollador y plataforma
+        // COLUMNA IZQUIERDA: Imagen y botones de acción
         Column(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.width(90.dp)
         ) {
-            Text(
-                text = game.title,
-                color = Color.White,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.clickable { onGameClick() }
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = game.developerName,
-                color = Color.White,
-                fontSize = 14.sp
-            )
-            Spacer(modifier = Modifier.height(2.dp))
-             Text(
-                text = game.platformName,
-                color = Color(0xFF9CA3AF),
-                fontSize = 14.sp
-            )
-        }
-        
-        Spacer(modifier = Modifier.width(16.dp))
-        // Precio y acciones
-        Column(
-            horizontalAlignment = Alignment.End,
-            verticalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxHeight()
-        ) {
-            Column(horizontalAlignment = Alignment.End) {
-                 Text(
-                    text = stringResource(R.string.cart_unit_price),
-                    color = Color(0xFF9CA3AF),
-                    fontSize = 14.sp
+            // Imagen del juego
+            Box(
+                modifier = Modifier
+                    .size(90.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(Color(0xFF1F2937)),
+                contentAlignment = Alignment.Center
+            ) {
+                AsyncImage(
+                    model = imageUrl,
+                    contentDescription = game.title,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop,
+                    error = ColorPainter(Color(0xFF374151)),
+                    placeholder = ColorPainter(Color(0xFF1F2937))
                 )
-                 // Si está en oferta
-                 if (game.isOnSale && game.salePrice != null) {
-                    Text(
-                        text = "${game.price}€",
-                        color = Color(0xFF6B7280),
-                        fontSize = 14.sp,
-                         style = LocalTextStyle.current.copy(
-                            textDecoration = TextDecoration.LineThrough
-                        )
-                    )
-                     Text(
-                        text = "${game.salePrice}€",
-                        color = Color(0xFF22D3EE),
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                 } else {
-                      // Si no está en oferta
-                       Text(
-                        text = "${game.price}€",
-                        color = Color.White,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                 }
             }
-            
-            Spacer(modifier = Modifier.height(16.dp))
-            // Botones de acción: Carrito y Eliminar
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Botones de acción (Suman 90dp justos: 40dp + 10dp + 40dp)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 OutlinedIconButton(
-                     onClick = onAddToCart,
-                     border = BorderStroke(1.dp, Color(0xFF22D3EE)),
-                     colors = IconButtonDefaults.outlinedIconButtonColors(
-                         contentColor = Color(0xFF22D3EE)
-                     ),
-                     modifier = Modifier.size(40.dp)
+                    onClick = onAddToCart,
+                    border = BorderStroke(1.dp, Color(0xFF22D3EE)),
+                    colors = IconButtonDefaults.outlinedIconButtonColors(
+                        contentColor = Color(0xFF22D3EE)
+                    ),
+                    modifier = Modifier.size(40.dp)
                 ) {
                     Icon(
                         imageVector = Default.ShoppingCart,
@@ -303,18 +329,88 @@ fun FavoriteHorizontalCard(
                         modifier = Modifier.size(20.dp)
                     )
                 }
-                 OutlinedIconButton(
-                     onClick = onRemove,
-                     border = BorderStroke(1.dp, Color(0xFF22D3EE)),
-                     colors = IconButtonDefaults.outlinedIconButtonColors(
-                         contentColor = Color(0xFF22D3EE)
-                     ),
-                     modifier = Modifier.size(40.dp)
+                OutlinedIconButton(
+                    onClick = onRemove,
+                    // La papelera la ponemos en rojo para que sea igual que en la cesta
+                    border = BorderStroke(1.dp, Color(0xFFF87171)),
+                    colors = IconButtonDefaults.outlinedIconButtonColors(
+                        contentColor = Color(0xFFF87171)
+                    ),
+                    modifier = Modifier.size(40.dp)
                 ) {
-                      Icon(
+                    Icon(
                         imageVector = Default.Delete,
                         contentDescription = "Eliminar de favoritos",
                         modifier = Modifier.size(20.dp)
+                    )
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.width(12.dp))
+
+        // COLUMNA DERECHA: Textos y Precios
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight(),
+            verticalArrangement = Arrangement.SpaceBetween // Empuja los textos arriba y los precios abajo
+        ) {
+            // Textos superiores (Título, Desarrollador, Plataforma)
+            Column(modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = game.title,
+                    color = Color.White,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(modifier = Modifier.height(2.dp))
+                Text(
+                    // Traducción en caso de que sea null
+                    text = game.developerName ?: stringResource(R.string.cart_unknown_developer),
+                    color = Color(0xFF9CA3AF),
+                    fontSize = 12.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(modifier = Modifier.height(2.dp))
+                Text(
+                    text = game.platformName,
+                    color = Color(0xFF6B7280),
+                    fontSize = 12.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+
+            // Fila Inferior: Precios
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.End
+            ) {
+                if (game.isOnSale && game.salePrice != null) {
+                    Text(
+                        text = "${game.price}€",
+                        color = Color(0xFF6B7280),
+                        fontSize = 12.sp,
+                        style = LocalTextStyle.current.copy(
+                            textDecoration = TextDecoration.LineThrough
+                        )
+                    )
+                    Text(
+                        text = "${game.salePrice}€",
+                        color = Color(0xFF22D3EE),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                } else {
+                    Text(
+                        text = "${game.price}€",
+                        color = Color.White,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
                     )
                 }
             }

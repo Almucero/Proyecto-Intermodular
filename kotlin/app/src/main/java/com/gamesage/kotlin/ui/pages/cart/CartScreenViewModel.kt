@@ -8,7 +8,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,7 +18,7 @@ data class CartItemUiState(
     val platformId: Int,
     val title: String,
     val imageUrl: String,
-    val developerName: String,
+    val developerName: String?,
     val quantity: Int,
     val price: Double,
     val salePrice: Double?,
@@ -38,7 +37,8 @@ sealed class CartUiState {
 //Se comunica con el CartRepository (que accede a la base de datos)
 @HiltViewModel
 class CartScreenViewModel @Inject constructor(
-    private val cartRepository: CartRepository
+    private val cartRepository: CartRepository,
+    private val loadingManager: com.gamesage.kotlin.utils.LoadingManager
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<CartUiState>(CartUiState.Initial)
     val uiState: StateFlow<CartUiState> = _uiState.asStateFlow()
@@ -93,11 +93,13 @@ class CartScreenViewModel @Inject constructor(
 
     //Actualiza la cantidad de un producto.
     private suspend fun updateItemQuantity(item: CartItemUiState, newQuantity: Int) {
+        loadingManager.setBlocking(true)
         // Hacemos llamada al repositorio para actualizar la cantidad, se pasa el identificador del juego que se está actualizando,el identificador de la plataforma en la que se juega el juego y la nueva cantidad para el artículo en el carrito.
         val result = cartRepository.update(item.gameId, item.platformId, newQuantity)
         if (result.isFailure) {
             _errorMessage.value = "Error al actualizar: se necesita conexión a internet"
         }
+        loadingManager.setBlocking(false)
     }
 
     //Aumenta la cantidad en +1
@@ -125,20 +127,40 @@ class CartScreenViewModel @Inject constructor(
     //Elimina un producto del carrito.
     fun removeFromCart(gameId: Int, platformId: Int) {
         viewModelScope.launch {
+            loadingManager.setBlocking(true)
             val result = cartRepository.remove(gameId, platformId)
             if (result.isFailure) {
                 _errorMessage.value = "Error al eliminar: se necesita conexión a internet"
             }
+            loadingManager.setBlocking(false)
         }
     }
 
     //Vacía completamente el carrito.
     fun clearCart() {
         viewModelScope.launch {
+            loadingManager.setBlocking(true)
             val result = cartRepository.clear()
             if (result.isFailure) {
                 _errorMessage.value = "Error al vaciar: se necesita conexión a internet"
             }
+            loadingManager.setBlocking(false)
+        }
+    }
+
+    // Simula el proceso de pago/checkout
+    fun checkout() {
+        viewModelScope.launch {
+            loadingManager.setBlocking(true)
+            // En una app real aquí se llamaría a la API de pedidos. 
+            // Por ahora, vaciamos el carrito como señal de compra completada.
+            val result = cartRepository.clear()
+            if (result.isSuccess) {
+                _errorMessage.value = "¡Compra realizada con éxito!"
+            } else {
+                _errorMessage.value = "Error al procesar el pago"
+            }
+            loadingManager.setBlocking(false)
         }
     }
 
@@ -161,8 +183,8 @@ fun CartItem.asCartItemUiState(): CartItemUiState {
         gameId = this.gameId,
         platformId = this.platformId,
         title = game?.title ?: "Unknown Game",
-        imageUrl = game?.media?.firstOrNull()?.url ?: "https://via.placeholder.com/600x400",
-        developerName = game?.Developer?.name ?: "Unknown Developer",
+        imageUrl = game?.media?.firstOrNull()?.url ?: "https://imgs.search.brave.com/fYkD5wfC_-Rme5c7BsUqQrc85GwiSHKVsArtXOFqpBc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA2LzQzLzk3LzA4/LzM2MF9GXzY0Mzk3/MDg2OV9xWVduenp1/em5iTU83VGF5bVFp/cndNblE1ZmlRSFpi/dS5qcGc",
+        developerName = game?.Developer?.name,
         quantity = this.quantity,
         price = game?.price ?: 0.0,
         salePrice = game?.salePrice,
