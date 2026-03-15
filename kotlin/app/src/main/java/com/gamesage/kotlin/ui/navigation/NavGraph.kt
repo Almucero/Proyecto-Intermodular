@@ -1,5 +1,6 @@
 package com.gamesage.kotlin.ui.navigation
 
+import android.Manifest.permission.POST_NOTIFICATIONS
 import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.background
@@ -64,6 +65,7 @@ import com.gamesage.kotlin.ui.pages.privacy.PrivacyScreen
 import com.gamesage.kotlin.ui.pages.product.ProductScreen
 import com.gamesage.kotlin.ui.pages.register.RegisterScreen
 import com.gamesage.kotlin.ui.pages.search.SearchScreen
+import com.gamesage.kotlin.utils.LanguageUtils.setLocale
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -101,7 +103,7 @@ fun NavGraph(
     // Solicitar permiso de notificaciones
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         val notificationPermissionState = rememberPermissionState(
-            android.Manifest.permission.POST_NOTIFICATIONS
+            POST_NOTIFICATIONS
         )
         
         if (!notificationPermissionState.status.isGranted) {
@@ -142,11 +144,10 @@ fun NavGraph(
                     }
                 },
                 onLanguageClick = { langCode ->
-                    com.gamesage.kotlin.utils.LanguageUtils.setLocale(context, langCode)
+                    setLocale(context, langCode)
                     (context as? Activity)?.recreate()
                 },
                 onSearchFocus = {
-                    @Suppress("AssignedValueIsNeverRead")
                     showBottomSheet = false
                 }
             )
@@ -404,7 +405,6 @@ fun NavGraph(
                     showBottomSheet = false
                 },
                 onClearSearch = {
-                    @Suppress("AssignedValueIsNeverRead")
                     searchQuery = ""
                 }
             )

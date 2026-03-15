@@ -120,19 +120,17 @@ class ProductScreenViewModel @Inject constructor(
     private fun buildMediaItems(game: Game) {
         val items = mutableListOf<MediaItem>()
 
-        // Si el juego tiene vídeo de YouTube, lo convierte a URL embebible y genera su miniatura
+        // Si el juego tiene vídeo de YouTube,genera su miniatura
         game.videoUrl?.let { videoUrl ->
             val videoId = getVideoId(videoUrl)
-            val embedUrl = convertToEmbedUrl(videoUrl)
             val thumbnailUrl = videoId?.let {
                 "https://img.youtube.com/vi/$it/maxresdefault.jpg"
             }
-
             items.add(
                 MediaItem(
                     type = MediaType.VIDEO,
                     label = "Video",
-                    url = embedUrl,
+                    url = videoUrl,
                     thumbnail = thumbnailUrl
                 )
             )
@@ -390,16 +388,6 @@ class ProductScreenViewModel @Inject constructor(
     private fun getVideoId(url: String): String? {
         val regex = "[?&]v=([^&]+)".toRegex()
         return regex.find(url)?.groupValues?.get(1)
-    }
-
-    // Convierte la URL normal de YouTube a URL embebible con parámetros de reproducción automática
-    private fun convertToEmbedUrl(url: String): String {
-        val videoId = getVideoId(url)
-        return if (videoId != null) {
-            "https://www.youtube.com/embed/$videoId?autoplay=1&mute=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3"
-        } else {
-            url
-        }
     }
 
     // Busca y devuelve la URL de la primera captura de pantalla del juego

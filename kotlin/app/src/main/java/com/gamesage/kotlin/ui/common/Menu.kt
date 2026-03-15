@@ -46,19 +46,21 @@ import com.gamesage.kotlin.ui.navigation.Destinations
 @Composable
 fun Menu(
     navController: NavHostController,
-    show: Boolean,
-    onDismiss: () -> Unit,
-    onClearSearch: () -> Unit
+    show: Boolean, // Controla si el menú es visible o no
+    onDismiss: () -> Unit, // Acción para cerrar el menú
+    onClearSearch: () -> Unit // Limpia el texto de búsqueda antes de navegar
 ) {
+    // Fondo oscuro semitransparente que cubre la pantalla al abrir el menú
     if (show) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Black.copy(alpha = 0.5f))
-                .clickable { onDismiss() }
+                .clickable { onDismiss() } // Si tocas fuera del menú, se cierra
         )
     }
 
+    // Animación de entrada/salida (Desliza desde abajo hacia arriba)
     AnimatedVisibility(
         visible = show,
         enter = slideInVertically(
@@ -76,6 +78,7 @@ fun Menu(
                 .fillMaxSize(),
             contentAlignment = Alignment.BottomCenter
         ) {
+            // Contenedor real del contenido del menú
             MenuBottomSheetContent(
                 navController = navController,
                 onCloseMenu = onDismiss,
@@ -94,9 +97,10 @@ fun MenuBottomSheetContent(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
-                .background(Color(0xFF030712))
+                .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)) // Esquinas redondeadas arriba
+                .background(Color(0xFF030712)) // Color muy oscuro a juego con la TopBar
         ) {
+            // Cabecera del menú
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -106,29 +110,32 @@ fun MenuBottomSheetContent(
             ) {
                 Text(
                     text = stringResource(R.string.menu_title),
-                    color = Color(0xFF93E3FE),
+                    color = Color(0xFF93E3FE), // Azul GameSage
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
 
             HorizontalDivider(Modifier, thickness = 1.dp, color = Color(0xFF4A4A4A))
+
+            // Lista de opciones de navegación
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Color(0xFF111827))
             ) {
-
+                // Opción: Explorar (Barra de búsqueda)
                 MenuItemRow(
                     icon = Icons.Default.Search,
                     text = stringResource(R.string.menu_explore),
                     onClick = {
-                        onClearSearch()
-                        onClearSearch()
+                        onClearSearch() // Borramos lo que hubiera escrito antes para que no se quede el contemido anterior de la búsqueda
                         navController.navigate(Destinations.Search())
                         onCloseMenu()
                     }
                 )
+
+                // TODO: Futura implementación de Ajustes y Ayuda
                 MenuItemRow(
                     icon = Icons.Default.Settings,
                     text = stringResource(R.string.menu_settings),
@@ -139,6 +146,8 @@ fun MenuBottomSheetContent(
                     text = stringResource(R.string.menu_help),
                     onClick = { /* TODO */ }
                 )
+
+                // Opción: Contacto
                 MenuItemRow(
                     icon = Icons.Default.Person,
                     text = stringResource(R.string.menu_contact),
@@ -147,24 +156,28 @@ fun MenuBottomSheetContent(
                         onCloseMenu()
                     }
                 )
+
+                // Opción: Política de Privacidad
                 MenuItemRow(
                     icon = Icons.Default.Lock,
                     text = stringResource(R.string.menu_privacy),
                     onClick = {
                         navController.navigate(Destinations.Privacy)
                         onCloseMenu()
-
                     }
                 )
+
+                // Opción: Términos y Condiciones
                 MenuItemRow(
                     icon = Icons.AutoMirrored.Filled.List,
                     text = stringResource(R.string.menu_terms),
                     onClick = {
                         navController.navigate(Destinations.Terms)
                         onCloseMenu()
-
                     }
                 )
+
+                // Opción: Política de Cookies (Sin divisor debajo)
                 MenuItemRow(
                     icon = Icons.Default.Star,
                     text = stringResource(R.string.menu_cookies),
@@ -175,10 +188,13 @@ fun MenuBottomSheetContent(
                     }
                 )
             }
-
             HorizontalDivider(Modifier, thickness = 1.dp, color = Color(0xFF4A4A4A))
         }
     }
+
+
+     //Componente reutilizable para cada fila del menú.
+     //Incluye icono, texto e interactividad.
 
     @Composable
     fun MenuItemRow(
@@ -208,6 +224,7 @@ fun MenuBottomSheetContent(
                 fontWeight = FontWeight.Normal
             )
         }
+        // Divisor opcional entre filas
         if (showDivider) {
             HorizontalDivider(Modifier, thickness = 1.dp, color = Color(0xFF4A4A4A))
         }
