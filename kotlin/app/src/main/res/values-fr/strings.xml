@@ -30,6 +30,7 @@
     <string name="favorites_title">Mes favoris</string>
     <string name="favorites_empty">Vous n\'avez pas encore de favoris</string>
     <string name="favorites_transfer_all">TOUT DÉPLACER AU PANIER</string>
+    <string name="favorites_clear">Vider les favoris</string>
 
     <string name="search_placeholder">Rechercher</string>
     <string name="search_filters">Filtres</string>
@@ -95,6 +96,7 @@
     <string name="product_buy_now">Acheter maintenant</string>
     <string name="product_add_to_cart">Ajouter au panier</string>
     <string name="product_added_to_cart">Ajouté !</string>
+    <string name="product_added_to_favorites">Dans les favoris !</string>
     <string name="product_add_to_favorites">Ajouter aux favoris</string>
     <string name="product_already_in_favorites">Ce jeu est déjà dans les favoris pour cette plateforme</string>
     <string name="product_description">Description</string>

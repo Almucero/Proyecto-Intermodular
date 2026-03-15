@@ -14,6 +14,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,6 +28,7 @@ sealed class ProductUiState {
         val navigateToLogin: Boolean = false,  // Flag que indica si hay que navegar al Login
         val addedToCartSuccess: Boolean = false,   // Flag temporal de confirmación al añadir al carrito
         val addedToFavoritesSuccess: Boolean = false, // Flag temporal de confirmación al añadir a favoritos
+        val navigateToCart: Boolean = false,      // Flag para redirigir al carrito tras "Comprar ya"
         val error: String? = null  // Mensaje de error temporal para mostrar en la UI
     ) : ProductUiState()
     object Error : ProductUiState()
@@ -48,7 +50,8 @@ class ProductScreenViewModel @Inject constructor(
     private val gameRepository: GameRepository,
     private val cartRepository: CartRepository,
     private val favoritesRepository: FavoritesRepository,
-    private val tokenManager: TokenManager
+    private val tokenManager: TokenManager,
+    private val loadingManager: com.gamesage.kotlin.utils.LoadingManager
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<ProductUiState>(ProductUiState.Initial)
@@ -208,7 +211,7 @@ class ProductScreenViewModel @Inject constructor(
     }
 
     // Añade el juego al carrito del usuario
-    fun addToCart() {
+    fun addToCart(showSuccess: Boolean = true) {
         val currentState = _uiState.value
         if (currentState is ProductUiState.Success) {
             viewModelScope.launch {
@@ -241,24 +244,41 @@ class ProductScreenViewModel @Inject constructor(
                 }
 
                 // Llama al repositorio para añadir el juego al carrito con cantidad 1
+                loadingManager.setBlocking(true)
+                // Limpiamos estados de éxito anteriores para evitar solapamientos
+                _uiState.update { state: ProductUiState -> 
+                    if (state is ProductUiState.Success) state.copy(addedToFavoritesSuccess = false) else state 
+                }
+                
                 cartRepository.add(currentState.game.id, platformId, 1).fold(
                     onSuccess = {
-                        // Muestra un mensaje de éxito temporal durante 2 segundos
-                        _uiState.value = currentState.copy(addedToCartSuccess = true, error = null)
-                        delay(2000)
-                        val state = _uiState.value
-                        if (state is ProductUiState.Success) {
-                            _uiState.value = state.copy(addedToCartSuccess = false)
+                        loadingManager.setBlocking(false)
+                        if (showSuccess) {
+                            // Muestra un mensaje de éxito temporal durante 2 segundos
+                            _uiState.update { state: ProductUiState ->
+                                if (state is ProductUiState.Success) state.copy(addedToCartSuccess = true, error = null) else state
+                            }
+                            delay(2000)
+                            _uiState.update { state: ProductUiState ->
+                                if (state is ProductUiState.Success) state.copy(addedToCartSuccess = false) else state
+                            }
+                        } else {
+                            // Si no queremos mostrar éxito (ej: Buy Now), activamos la navegación directa
+                            _uiState.update { state: ProductUiState ->
+                                if (state is ProductUiState.Success) state.copy(navigateToCart = true) else state
+                            }
                         }
                     },
                     onFailure = { e ->
+                        loadingManager.setBlocking(false)
                         e.printStackTrace()
                         // Muestra el error durante 3 segundos y luego lo limpia
-                        _uiState.value = currentState.copy(error = "Error al añadir al carrito: ${e.message}")
+                        _uiState.update { state: ProductUiState ->
+                            if (state is ProductUiState.Success) state.copy(error = "Error al añadir al carrito: ${e.message}") else state
+                        }
                         delay(3000)
-                        val state = _uiState.value
-                        if (state is ProductUiState.Success) {
-                            _uiState.value = state.copy(error = null)
+                        _uiState.update { state: ProductUiState ->
+                            if (state is ProductUiState.Success) state.copy(error = null) else state
                         }
                     }
                 )
@@ -303,38 +323,55 @@ class ProductScreenViewModel @Inject constructor(
                 val platformId = platform?.id ?: return@launch
 
                 // Llama al repositorio para añadir el juego a favoritos
+                loadingManager.setBlocking(true)
+                // Limpiamos estados de éxito anteriores para evitar solapamientos
+                _uiState.update { state: ProductUiState -> 
+                    if (state is ProductUiState.Success) state.copy(addedToCartSuccess = false) else state 
+                }
+
                 favoritesRepository.add(currentState.game.id, platformId).fold(
                     onSuccess = {
+                        loadingManager.setBlocking(false)
                         // Muestra confirmación visual de éxito durante 2 segundos
-                        _uiState.value = currentState.copy(addedToFavoritesSuccess = true)
+                        _uiState.update { state: ProductUiState ->
+                            if (state is ProductUiState.Success) state.copy(addedToFavoritesSuccess = true) else state
+                        }
                         delay(2000)
-                        val state = _uiState.value
-                         if (state is ProductUiState.Success) {
-                            _uiState.value = state.copy(addedToFavoritesSuccess = false)
+                        _uiState.update { state: ProductUiState ->
+                            if (state is ProductUiState.Success) state.copy(addedToFavoritesSuccess = false) else state
                         }
                     },
                     onFailure = { e ->
+                        loadingManager.setBlocking(false)
                         // Error 409 significa que el juego ya estaba en favoritos para esa plataforma
                         val errorMsg = if (e is retrofit2.HttpException && e.code() == 409) {
                             "Este juego ya está en favoritos para esta plataforma"
                         } else {
                             "Error al añadir a favoritos: ${e.message}"
                         }
-                        _uiState.value = currentState.copy(error = errorMsg)
-                         delay(2000)
-                         val state = _uiState.value
-                         if (state is ProductUiState.Success) {
-                             _uiState.value = state.copy(error = null)
-                         }
+                        _uiState.update { state: ProductUiState ->
+                            if (state is ProductUiState.Success) state.copy(error = errorMsg) else state
+                        }
+                        delay(2000)
+                        _uiState.update { state: ProductUiState ->
+                            if (state is ProductUiState.Success) state.copy(error = null) else state
+                        }
                     }
                 )
             }
         }
     }
 
-    // Comprar ahora: reutiliza la lógica de añadir al carrito
+    // Comprar ahora: redirige al carrito tras añadir el producto
     fun buyNow() {
-        addToCart()
+        addToCart(showSuccess = false)
+    }
+
+    fun onCartNavigationConsumed() {
+        val currentState = _uiState.value
+        if (currentState is ProductUiState.Success) {
+            _uiState.value = currentState.copy(navigateToCart = false)
+        }
     }
 
     // Se llama desde la UI después de que se haya procesado la navegación al Login,

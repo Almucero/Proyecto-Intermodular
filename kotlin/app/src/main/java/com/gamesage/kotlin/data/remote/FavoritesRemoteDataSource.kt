@@ -1,43 +1,33 @@
 package com.gamesage.kotlin.data.remote
 
+import android.util.Log
 import com.gamesage.kotlin.data.FavoritesDataSource
 import com.gamesage.kotlin.data.model.Game
-import com.gamesage.kotlin.data.model.Media
 import com.gamesage.kotlin.data.remote.api.FavoritesApi
-import com.gamesage.kotlin.data.remote.api.GamesApi
 import com.gamesage.kotlin.data.remote.model.FavoriteApiModel
 import com.gamesage.kotlin.data.remote.model.toDomain
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.shareIn
 import java.time.LocalDateTime
 import javax.inject.Inject
 
 class FavoritesRemoteDataSource @Inject constructor(
-    private val favoritesApi: FavoritesApi,
-    private val gamesApi: GamesApi,
-    private val scope: CoroutineScope
+    private val favoritesApi: FavoritesApi
 ): FavoritesDataSource {
 
     override fun observe(): Flow<Result<List<Game>>> {
         return flow {
-            emit(Result.success(emptyList()))
-            val result = readAll()
-            emit(result)
-        }.shareIn(
-            scope = scope,
-            started = SharingStarted.WhileSubscribed(5_000L),
-            replay = 1
-        )
+            emit(readAll())
+        }
     }
+
     override suspend fun readAll(): Result<List<Game>> {
         return try {
             val apiItems = favoritesApi.getFavorites()
-            val items = apiItems.map { fetchFullFavorite(it) }
+            val items = apiItems.map { it.asDomainModel() }
             Result.success(items)
         } catch (e: Exception) {
+            Log.e("FavoritesRemoteDS", "readAll Error: ${e.message}")
             Result.failure(e)
         }
     }
@@ -45,9 +35,9 @@ class FavoritesRemoteDataSource @Inject constructor(
     override suspend fun readOne(gameId: Int, platformId: Int): Result<Game> {
         return try {
             val all = favoritesApi.getFavorites()
-            val apiItem = all.find { it.gameId == gameId && it.platform?.id == platformId }
+            val apiItem = all.find { it.realGameId == gameId && it.realPlatformId == platformId }
             if (apiItem != null) {
-                Result.success(fetchFullFavorite(apiItem))
+                Result.success(apiItem.asDomainModel())
             } else {
                 Result.failure(Exception("Favorite not found"))
             }
@@ -56,64 +46,60 @@ class FavoritesRemoteDataSource @Inject constructor(
         }
     }
 
-    private suspend fun fetchFullFavorite(apiItem: FavoriteApiModel): Game {
-        val fullGame = try {
-            gamesApi.readOneGame(apiItem.gameId)
-        } catch (e: Exception) {
-            null
-        }
+    private fun FavoriteApiModel.asDomainModel(): Game {
         return Game(
-            id = apiItem.gameId,
-            title = apiItem.title,
-            description = fullGame?.description,
-            price = apiItem.price,
-            isOnSale = apiItem.isOnSale ?: false,
-            salePrice = apiItem.salePrice,
-            isRefundable = fullGame?.isRefundable ?: false,
-            numberOfSales = fullGame?.numberOfSales ?: 0,
-            stockPc = fullGame?.stockPc,
-            stockPs5 = fullGame?.stockPs5,
-            stockXboxX = fullGame?.stockXboxX,
-            stockSwitch = fullGame?.stockSwitch,
-            stockPs4 = fullGame?.stockPs4,
-            stockXboxOne = fullGame?.stockXboxOne,
-            videoUrl = fullGame?.videoUrl,
-            rating = apiItem.rating,
+            id = this.realGameId,
+            title = this.title,
+            description = null,
+            price = this.price,
+            isOnSale = this.isOnSale ?: false,
+            salePrice = this.salePrice,
+            isRefundable = false,
+            numberOfSales = 0,
+            stockPc = null,
+            stockPs5 = null,
+            stockXboxX = null,
+            stockSwitch = null,
+            stockPs4 = null,
+            stockXboxOne = null,
+            videoUrl = null,
+            rating = this.rating,
             releaseDate = null,
             createdAt = LocalDateTime.now(),
             updatedAt = LocalDateTime.now(),
-            genres = fullGame?.genres?.map { it.toDomain() },
-            platforms = apiItem.platform?.let { listOf(it.toDomain()) },
-            media = fullGame?.media?.map { it.toDomain() },
-            publisherId = fullGame?.publisherId,
-            developerId = fullGame?.developerId,
-            Publisher = fullGame?.publisher?.toDomain(),
-            Developer = fullGame?.developer?.toDomain()
+            genres = null,
+            platforms = this.platform?.let { listOf(it.toDomain()) },
+            media = this.media?.map { it.toDomain() },
+            publisherId = null,
+            developerId = this.Developer?.id,
+            Publisher = null,
+            Developer = this.Developer?.toDomain()
         )
     }
 
     override suspend fun add(gameId: Int, platformId: Int): Result<Unit> {
         return try {
+            Log.d("FavoritesRemoteDS", "Adding favorite: gameId=$gameId, platformId=$platformId")
             favoritesApi.addToFavorites(mapOf("gameId" to gameId, "platformId" to platformId))
             Result.success(Unit)
         } catch (e: Exception) {
+            Log.e("FavoritesRemoteDS", "add FAILED: ${e.message}")
             Result.failure(e)
         }
     }
 
     override suspend fun remove(gameId: Int, platformId: Int): Result<Unit> {
         return try {
+            Log.d("FavoritesRemoteDS", "Deleting favorite: gameId=$gameId, platformId=$platformId")
             favoritesApi.removeFromFavorites(gameId, platformId)
             Result.success(Unit)
         } catch (e: Exception) {
+            Log.e("FavoritesRemoteDS", "remove FAILED: ${e.message}")
             Result.failure(e)
         }
     }
 
     override suspend fun clear(): Result<Unit> {
-        // En el backend no hay endpoint para vaciar favoritos de golpe
-        // Devolvemos success para que al menos limpie la base local
         return Result.success(Unit)
     }
-
 }

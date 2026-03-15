@@ -33,6 +33,7 @@
     <string name="favorites_title">Mis Favoritos</string>
     <string name="favorites_empty">Aún no tienes favoritos</string>
     <string name="favorites_transfer_all">MOVER TODO AL CARRITO</string>
+    <string name="favorites_clear">Vaciar favoritos</string>
 
     <!-- Strings para pantalla de búsqueda -->
     <string name="search_placeholder">Buscar</string>
@@ -89,7 +90,7 @@
     <string name="cart_checkout">Pagar</string>
     <string name="cart_clear">Vaciar cesta</string>
     <string name="cart_unknown_game">Juego Desconocido</string>
-    <string name="cart_unknown_developer">Desconocido</string>
+    <string name="cart_unknown_developer">Desarrollador Desconocido</string>
     <string name="cart_unit_price">Precio:</string>
     <string name="cart_delete">Eliminar</string>
     <string name="cart_unknown_error">Error Desconocido</string>
@@ -103,6 +104,7 @@
     <string name="product_buy_now">Comprar Ahora</string>
     <string name="product_add_to_cart">Añadir al Carrito</string>
     <string name="product_added_to_cart">¡Añadido!</string>
+    <string name="product_added_to_favorites">¡En favoritos!</string>
     <string name="product_add_to_favorites">Añadir a Favoritos</string>
     <string name="product_already_in_favorites">Este juego ya está en favoritos para esta plataforma</string>
     <string name="product_description">Descripción</string>

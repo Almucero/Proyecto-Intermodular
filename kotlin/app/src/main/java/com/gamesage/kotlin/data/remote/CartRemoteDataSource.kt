@@ -4,7 +4,6 @@ import com.gamesage.kotlin.data.CartDataSource
 import com.gamesage.kotlin.data.model.CartItem
 import com.gamesage.kotlin.data.model.Game
 import com.gamesage.kotlin.data.remote.api.CartApi
-import com.gamesage.kotlin.data.remote.api.GamesApi
 import com.gamesage.kotlin.data.remote.model.CartItemApiModel
 import com.gamesage.kotlin.data.remote.model.toDomain
 import kotlinx.coroutines.CoroutineScope
@@ -17,15 +16,12 @@ import javax.inject.Inject
 
 class CartRemoteDataSource @Inject constructor(
     private val cartApi: CartApi,
-    private val gamesApi: GamesApi,
     private val scope: CoroutineScope
 ): CartDataSource {
 
     override fun observe(): Flow<Result<List<CartItem>>> {
         return flow {
-            emit(Result.success(emptyList()))
-            val result = readAll()
-            emit(result)
+            emit(readAll())
         }.shareIn(
             scope = scope,
             started = SharingStarted.WhileSubscribed(5_000L),
@@ -36,7 +32,7 @@ class CartRemoteDataSource @Inject constructor(
     override suspend fun readAll(): Result<List<CartItem>> {
         return try {
             val apiItems = cartApi.getCart()
-            val items = apiItems.map { fetchFullItem(it) }
+            val items = apiItems.map { it.asDomainModel() }
             Result.success(items)
         } catch (e: Exception) {
             Result.failure(e)
@@ -48,7 +44,7 @@ class CartRemoteDataSource @Inject constructor(
             val all = cartApi.getCart()
             val apiItem = all.find { it.id == gameId && it.platform?.id == platformId }
             if (apiItem != null) {
-                Result.success(fetchFullItem(apiItem))
+                Result.success(apiItem.asDomainModel())
             } else {
                 Result.failure(Exception("Item not found"))
             }
@@ -57,44 +53,39 @@ class CartRemoteDataSource @Inject constructor(
         }
     }
 
-    private suspend fun fetchFullItem(apiItem: CartItemApiModel): CartItem {
-        val fullGame = try {
-            gamesApi.readOneGame(apiItem.id)
-        } catch (e: Exception) {
-            null
-        }
+    private fun CartItemApiModel.asDomainModel(): CartItem {
         return CartItem(
             userId = 0,
-            gameId = apiItem.id,
-            platformId = apiItem.platform?.id ?: 0,
-            quantity = apiItem.quantity,
+            gameId = this.id,
+            platformId = this.platform?.id ?: 0,
+            quantity = this.quantity,
             game = Game(
-                id = apiItem.id,
-                title = apiItem.title,
-                description = fullGame?.description,
-                price = apiItem.price,
-                isOnSale = apiItem.isOnSale ?: false,
-                salePrice = apiItem.salePrice,
-                isRefundable = fullGame?.isRefundable ?: false,
-                numberOfSales = fullGame?.numberOfSales ?: 0,
-                stockPc = fullGame?.stockPc,
-                stockPs5 = fullGame?.stockPs5,
-                stockXboxX = fullGame?.stockXboxX,
-                stockSwitch = fullGame?.stockSwitch,
-                stockPs4 = fullGame?.stockPs4,
-                stockXboxOne = fullGame?.stockXboxOne,
-                videoUrl = fullGame?.videoUrl,
-                rating = apiItem.rating,
+                id = this.id,
+                title = this.title,
+                description = null, // No se necesita en la lista del carrito
+                price = this.price,
+                isOnSale = this.isOnSale ?: false,
+                salePrice = this.salePrice,
+                isRefundable = false,
+                numberOfSales = 0,
+                stockPc = null,
+                stockPs5 = null,
+                stockXboxX = null,
+                stockSwitch = null,
+                stockPs4 = null,
+                stockXboxOne = null,
+                videoUrl = null,
+                rating = this.rating,
                 releaseDate = null,
                 createdAt = LocalDateTime.now(),
                 updatedAt = LocalDateTime.now(),
-                genres = fullGame?.genres?.map { it.toDomain() },
-                platforms = apiItem.platform?.let { listOf(it.toDomain()) },
-                media = fullGame?.media?.map { it.toDomain() },
-                publisherId = fullGame?.publisherId,
-                developerId = apiItem.developer?.id,
+                genres = null,
+                platforms = this.platform?.let { listOf(it.toDomain()) },
+                media = this.media?.map { it.toDomain() },
+                publisherId = null,
+                developerId = this.developer?.id,
                 Publisher = null,
-                Developer = apiItem.developer?.toDomain()
+                Developer = this.developer?.toDomain()
             )
         )
     }
@@ -110,12 +101,9 @@ class CartRemoteDataSource @Inject constructor(
 
     override suspend fun update(gameId: Int, platformId: Int, quantity: Int): Result<Unit> {
         return try {
-            // Ejecuta el PATCH al endpoint del carrito
             cartApi.updateCartItem(gameId, mapOf("quantity" to quantity, "platformId" to platformId))
-            //la operación fue exitosa y no hay valor adicional que devolver
             Result.success(Unit)
         } catch (e: Exception) {
-            //La operación falló y contiene el error
             Result.failure(e)
         }
     }

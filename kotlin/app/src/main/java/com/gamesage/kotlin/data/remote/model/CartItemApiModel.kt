@@ -12,5 +12,6 @@ data class CartItemApiModel(
     val salePrice: Double?,
     val rating: Float?,
     val platform: PlatformApiModel?,
-    val developer: DeveloperApiModel?
+    val developer: DeveloperApiModel?,
+    val media: List<MediaApiModel>? = null
 )

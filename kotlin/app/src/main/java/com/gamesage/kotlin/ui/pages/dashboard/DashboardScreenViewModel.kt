@@ -47,6 +47,7 @@ sealed class DashboardUiState {
 class DashboardScreenViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val api: GameSageApi,
+    private val loadingManager: com.gamesage.kotlin.utils.LoadingManager
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<DashboardUiState>(DashboardUiState.Initial)
     val uiState: StateFlow<DashboardUiState> = _uiState.asStateFlow()
@@ -130,6 +131,7 @@ class DashboardScreenViewModel @Inject constructor(
         if (state !is DashboardUiState.Success) return
 
         _uiState.value = state.copy(isSaving = true)
+        loadingManager.setBlocking(true)
 
         val currentUser = state.user
         val editable = state.editableUser
@@ -180,11 +182,13 @@ class DashboardScreenViewModel @Inject constructor(
                     isEditing = false,
                     isSaving = false
                 )
+                loadingManager.setBlocking(false)
             } catch (e: Exception) {
                 // Si falla el guardado, mostramos el error
                 val isNetworkError = e is java.io.IOException
                 _errorMessage.value = if (isNetworkError) "Sin conexión a internet" else "Error al guardar los cambios"
                 _uiState.value = state.copy(isSaving = false)
+                loadingManager.setBlocking(false)
             }
         }
     }

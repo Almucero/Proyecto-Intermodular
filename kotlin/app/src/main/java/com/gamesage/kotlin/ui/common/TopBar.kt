@@ -2,6 +2,7 @@ package com.gamesage.kotlin.ui.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -97,13 +98,24 @@ fun TopBar(
                     .align(Alignment.CenterStart)
                     .clickable { onLogoClick() }
             )
+
+            // Estado para controlar si el buscador tiene el foco (está pulsado)
+            var isSearchFocused by remember { mutableStateOf(false) }
+
+            // Buscador (Barra central)
             Box(
                 modifier = Modifier
                     .height(40.dp)
                     .width(200.dp)
+                    .align(Alignment.Center) // Esto funciona porque está directamente dentro del Box principal
+                    // Añadimos el borde dinámico antes del clip
+                    .border(
+                        width = 1.dp,
+                        color = if (isSearchFocused) Color(0xFF93E3FE) else Color.Transparent,
+                        shape = RoundedCornerShape(20.dp)
+                    )
                     .clip(RoundedCornerShape(20.dp))
-                    .background(Color(0xFF1F2937))
-                    .align(Alignment.Center),
+                    .background(Color(0xFF1F2937)),
                 contentAlignment = Alignment.CenterStart
             ) {
                 Row(
@@ -118,44 +130,50 @@ fun TopBar(
                         modifier = Modifier.size(20.dp)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                        // Campo de texto para la búsqueda
-                        BasicTextField(
-                            value = searchQuery,
-                            onValueChange = { newValue ->
-                                onSearchQueryChange(newValue) // Notifica el cambio de texto al ViewModel
-                            },
-                            modifier = Modifier
-                                .weight(1f)
-                                .onFocusChanged { focusState ->
-                                    // Si el usuario toca el buscador, notificamos(si el menu estuviera abierto se cerraria)
-                                    if (focusState.isFocused) {
-                                        onSearchFocus()
-                                    }
-                                },
-                            textStyle = TextStyle(
-                                color = Color.White,
-                                fontSize = 14.sp
-                            ),
-                            // Configura el teclado para que muestre el botón "Buscar" (Lupa)
-                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                            keyboardActions = KeyboardActions(
-                                onSearch = {
-                                    focusManager.clearFocus() // Cerramos el teclado al buscar
-                                    onSearchClick()          // Ejecutamos la búsqueda
+
+                    // Campo de texto para la búsqueda
+                    BasicTextField(
+                        value = searchQuery,
+                        onValueChange = { newValue ->
+                            onSearchQueryChange(newValue) // Notifica el cambio de texto al ViewModel
+                        },
+                        modifier = Modifier
+                            .weight(1f)
+                            .onFocusChanged { focusState ->
+                                // Actualizamos nuestro estado visual del borde
+                                isSearchFocused = focusState.isFocused
+
+                                // Si el usuario toca el buscador, notificamos(si el menu estuviera abierto se cerraria)
+                                if (focusState.isFocused) {
+                                    onSearchFocus()
                                 }
-                            ),
+                            },
+                        textStyle = TextStyle(
+                            color = Color.White,
+                            fontSize = 14.sp
+                        ),
+                        // Configura el teclado para que muestre el botón "Buscar" (Lupa)
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                        keyboardActions = KeyboardActions(
+                            onSearch = {
+                                focusManager.clearFocus() // Cerramos el teclado al buscar
+                                onSearchClick()          // Ejecutamos la búsqueda
+                            },
+                        ),
                         cursorBrush = SolidColor(Color(0xFF93E3FE)),
                         singleLine = true,
                         decorationBox = { innerTextField ->
-                            // Para poner el texto de "Buscar..." cuando no hay nada escrito
-                            if (searchQuery.isEmpty()) {
-                                Text(
-                                    text =stringResource(R.string.search_placeholder),
-                                    color = Color.White.copy(alpha = 0.5f),
-                                    fontSize = 14.sp
-                                )
+                            Box(contentAlignment = Alignment.CenterStart) {
+                                // Para poner el texto de "Buscar..." cuando no hay nada escrito
+                                if (searchQuery.isEmpty()) {
+                                    Text(
+                                        text = stringResource(R.string.search_placeholder),
+                                        color = Color.White.copy(alpha = 0.5f),
+                                        fontSize = 14.sp
+                                    )
+                                }
+                                innerTextField()
                             }
-                            innerTextField()
                         }
                     )
                 }

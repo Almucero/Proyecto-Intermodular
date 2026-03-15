@@ -80,6 +80,12 @@ export async function getUserFavorites(userId: number) {
               name: true,
             },
           },
+          media: {
+            select: {
+              url: true,
+            },
+            take: 1,
+          },
         },
       },
       platform: {

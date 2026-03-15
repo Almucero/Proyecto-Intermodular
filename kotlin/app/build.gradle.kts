@@ -118,6 +118,7 @@ dependencies {
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.androidx.exifinterface)
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.compose.material3)
 
     // Testing
     testImplementation(libs.junit)
