@@ -215,71 +215,48 @@ class ProductScreenViewModel @Inject constructor(
         val currentState = _uiState.value
         if (currentState is ProductUiState.Success) {
             viewModelScope.launch {
-                // Comprueba si el usuario tiene sesión iniciada (si tiene token guardado)
                 val token = tokenManager.token.firstOrNull()
                 if (token.isNullOrBlank()) {
-                    // Sin token → redirige al Login (activa el flag navigateToLogin)
                     _uiState.value = currentState.copy(navigateToLogin = true)
                     return@launch
                 }
 
-                // Si no ha seleccionado plataforma, muestra un error temporal de 2 segundos
                 if (currentState.selectedPlatform == null) {
-                     _uiState.value = currentState.copy(error = "Selecciona una plataforma")
-                     delay(2000)
-                     val state = _uiState.value
-                     if (state is ProductUiState.Success) {
-                         _uiState.value = state.copy(error = null)
-                     }
-                     return@launch
-                }
-
-                // Busca el ID de la plataforma seleccionada dentro de las plataformas del juego
-                val platform = currentState.game.platforms?.find { it.name == currentState.selectedPlatform }
-                val platformId = platform?.id
-
-                if (platformId == null) {
-                    _uiState.value = currentState.copy(error = "Error: Plataforma no encontrada")
+                    _uiState.value = currentState.copy(error = "Selecciona una plataforma")
+                    delay(2000)
+                    clearError()
                     return@launch
                 }
 
-                // Llama al repositorio para añadir el juego al carrito con cantidad 1
-                loadingManager.setBlocking(true)
-                // Limpiamos estados de éxito anteriores para evitar solapamientos
-                _uiState.update { state: ProductUiState -> 
-                    if (state is ProductUiState.Success) state.copy(addedToFavoritesSuccess = false) else state 
+                val stock = getStockForPlatform(currentState.game, currentState.selectedPlatform)
+                if (stock <= 0) {
+                    _uiState.value = currentState.copy(error = "No hay stock disponible para esta plataforma")
+                    delay(2000)
+                    clearError()
+                    return@launch
                 }
-                
+
+                val platformId = currentState.game.platforms?.find { it.name == currentState.selectedPlatform }?.id ?: return@launch
+
+                loadingManager.setBlocking(true)
                 cartRepository.add(currentState.game.id, platformId, 1).fold(
                     onSuccess = {
                         loadingManager.setBlocking(false)
                         if (showSuccess) {
-                            // Muestra un mensaje de éxito temporal durante 2 segundos
-                            _uiState.update { state: ProductUiState ->
-                                if (state is ProductUiState.Success) state.copy(addedToCartSuccess = true, error = null) else state
-                            }
+                            _uiState.update { if (it is ProductUiState.Success) it.copy(addedToCartSuccess = true) else it }
                             delay(2000)
-                            _uiState.update { state: ProductUiState ->
-                                if (state is ProductUiState.Success) state.copy(addedToCartSuccess = false) else state
-                            }
+                            _uiState.update { if (it is ProductUiState.Success) it.copy(addedToCartSuccess = false) else it }
                         } else {
-                            // Si no queremos mostrar éxito (ej: Buy Now), activamos la navegación directa
-                            _uiState.update { state: ProductUiState ->
-                                if (state is ProductUiState.Success) state.copy(navigateToCart = true) else state
-                            }
+                            _uiState.update { if (it is ProductUiState.Success) it.copy(navigateToCart = true) else it }
                         }
                     },
                     onFailure = { e ->
                         loadingManager.setBlocking(false)
-                        e.printStackTrace()
-                        // Muestra el error durante 3 segundos y luego lo limpia
-                        _uiState.update { state: ProductUiState ->
-                            if (state is ProductUiState.Success) state.copy(error = "Error al añadir al carrito: ${e.message}") else state
-                        }
-                        delay(3000)
-                        _uiState.update { state: ProductUiState ->
-                            if (state is ProductUiState.Success) state.copy(error = null) else state
-                        }
+                        val errorMsg = if (e is java.io.IOException) "Error al añadir al carrito: se necesita conexión a internet"
+                        else "Error al añadir al carrito: ${e.message}"
+                        _uiState.update { if (it is ProductUiState.Success) it.copy(error = errorMsg) else it }
+                        delay(2000)
+                        clearError()
                     }
                 )
             }
@@ -299,63 +276,39 @@ class ProductScreenViewModel @Inject constructor(
         val currentState = _uiState.value
         if (currentState is ProductUiState.Success) {
             viewModelScope.launch {
-                // Comprueba si el usuario tiene sesión iniciada (si tiene token guardado)
                 val token = tokenManager.token.firstOrNull()
                 if (token.isNullOrBlank()) {
-                    // Sin token → redirige al Login (activa el flag navigateToLogin)
                     _uiState.value = currentState.copy(navigateToLogin = true)
                     return@launch
                 }
 
-                // Si no ha seleccionado plataforma, muestra un error temporal de 2 segundos
                 if (currentState.selectedPlatform == null) {
                     _uiState.value = currentState.copy(error = "Selecciona una plataforma")
-                     delay(2000)
-                     val state = _uiState.value
-                     if (state is ProductUiState.Success) {
-                         _uiState.value = state.copy(error = null)
-                     }
+                    delay(2000)
+                    clearError()
                     return@launch
                 }
-                
-                // Busca el ID de la plataforma seleccionada
-                val platform = currentState.game.platforms?.find { it.name == currentState.selectedPlatform }
-                val platformId = platform?.id ?: return@launch
 
-                // Llama al repositorio para añadir el juego a favoritos
+                val platformId = currentState.game.platforms?.find { it.name == currentState.selectedPlatform }?.id ?: return@launch
+
                 loadingManager.setBlocking(true)
-                // Limpiamos estados de éxito anteriores para evitar solapamientos
-                _uiState.update { state: ProductUiState -> 
-                    if (state is ProductUiState.Success) state.copy(addedToCartSuccess = false) else state 
-                }
-
                 favoritesRepository.add(currentState.game.id, platformId).fold(
                     onSuccess = {
                         loadingManager.setBlocking(false)
-                        // Muestra confirmación visual de éxito durante 2 segundos
-                        _uiState.update { state: ProductUiState ->
-                            if (state is ProductUiState.Success) state.copy(addedToFavoritesSuccess = true) else state
-                        }
+                        _uiState.update { if (it is ProductUiState.Success) it.copy(addedToFavoritesSuccess = true) else it }
                         delay(2000)
-                        _uiState.update { state: ProductUiState ->
-                            if (state is ProductUiState.Success) state.copy(addedToFavoritesSuccess = false) else state
-                        }
+                        _uiState.update { if (it is ProductUiState.Success) it.copy(addedToFavoritesSuccess = false) else it }
                     },
                     onFailure = { e ->
                         loadingManager.setBlocking(false)
-                        // Error 409 significa que el juego ya estaba en favoritos para esa plataforma
-                        val errorMsg = if (e is retrofit2.HttpException && e.code() == 409) {
-                            "Este juego ya está en favoritos para esta plataforma"
-                        } else {
-                            "Error al añadir a favoritos: ${e.message}"
+                        val errorMsg = when (e) {
+                            is java.io.IOException -> "Error al añadir a favoritos: se necesita conexión a internet"
+                            is retrofit2.HttpException if e.code() == 409 -> "Este juego ya está en favoritos"
+                            else -> "Error al añadir a favoritos: ${e.message}"
                         }
-                        _uiState.update { state: ProductUiState ->
-                            if (state is ProductUiState.Success) state.copy(error = errorMsg) else state
-                        }
+                        _uiState.update { if (it is ProductUiState.Success) it.copy(error = errorMsg) else it }
                         delay(2000)
-                        _uiState.update { state: ProductUiState ->
-                            if (state is ProductUiState.Success) state.copy(error = null) else state
-                        }
+                        clearError()
                     }
                 )
             }

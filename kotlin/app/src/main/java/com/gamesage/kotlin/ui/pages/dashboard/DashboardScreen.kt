@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -204,7 +205,6 @@ fun DashboardScreen(
                                 .padding(
                                     start = 16.dp,
                                     end = 16.dp,
-                                    // LA CLAVE: Exactamente la misma fórmula que en el carrito
                                     top = paddingValues.calculateTopPadding() + 16.dp,
                                     bottom = 32.dp
                                 ),
@@ -247,7 +247,8 @@ fun DashboardScreen(
                                             modifier = Modifier
                                                 .fillMaxSize()
                                                 .clip(CircleShape)
-                                                .background(Color.Gray),
+                                                .background(Color.Gray)
+                                                .border(width = 2.dp, color = Color.White, shape = CircleShape),
                                             contentScale = ContentScale.Crop
                                         )
                                     }
@@ -259,8 +260,10 @@ fun DashboardScreen(
                                         modifier = Modifier
                                             .fillMaxSize()
                                             .clip(CircleShape)
-                                            .background(Color.Gray),
-                                        contentScale = ContentScale.Crop
+                                            .background(Color.Gray)
+                                            .border(width = 2.dp, color = Color.White, shape = CircleShape),
+                                        contentScale = ContentScale.Crop,
+                                        error = coil3.compose.rememberAsyncImagePainter("https://imgs.search.brave.com/fYkD5wfC_-Rme5c7BsUqQrc85GwiSHKVsArtXOFqpBc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA2LzQzLzk3LzA4/LzM2MF9GXzY0Mzk3/MDg2OV9xWVduenp1/em5iTU83VGF5bVFp/cndNblE1ZmlRSFpi/dS5qcGc")
                                     )
                                 } else {
                                     // Círculo gris por defecto si no hay foto
@@ -268,7 +271,8 @@ fun DashboardScreen(
                                         modifier = Modifier
                                             .fillMaxSize()
                                             .clip(CircleShape)
-                                            .background(Color(0xFF374151)),
+                                            .background(Color(0xFF374151))
+                                            .border(width = 2.dp, color = Color.White, shape = CircleShape),
                                         contentAlignment = Alignment.Center
                                     ) {
                                         Icon(

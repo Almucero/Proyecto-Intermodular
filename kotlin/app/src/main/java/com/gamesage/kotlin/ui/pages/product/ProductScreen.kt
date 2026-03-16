@@ -572,35 +572,32 @@ fun PlatformItem(
     modifier: Modifier = Modifier
 ) {
     val hasStock = platform.stock > 0
-    // Una plataforma está habilitada solo si el juego existe en ella Y tiene stock
-    val isEnabled = platform.isAvailable && hasStock
-    
+    val isAvailable = platform.isAvailable
+
     Box(
         modifier = modifier
             .aspectRatio(1f)
             .clip(RoundedCornerShape(8.dp))
             .background(
                 when {
-                    isSelected && isEnabled -> Color(0xFF374151) // Seleccionada: gris oscuro
-                    !hasStock -> Color(0xFF1F1F1F)              // Sin stock: casi negro
-                    else -> Color(0xFF1F2937)                   // Normal: gris azulado
+                    isSelected && hasStock -> Color(0xFF374151)
+                    !hasStock -> Color(0xFF1F1F1F)
+                    else -> Color(0xFF1F2937)
                 }
             )
             .border(
-                // Borde más grueso y azul si está seleccionada, gris oscuro si no tiene stock
-                width = if (isSelected && isEnabled) 4.dp else 2.dp,
+                width = if (isSelected && hasStock) 4.dp else 2.dp,
                 color = when {
-                    isSelected && isEnabled -> Color(0xFF93E3FE)
+                    isSelected && hasStock -> Color(0xFF93E3FE)
                     !hasStock -> Color(0xFF4A4A4A)
                     else -> Color(0xFF6B7280)
                 },
                 shape = RoundedCornerShape(8.dp)
             )
-            .clickable(enabled = isEnabled) { onSelect() }, // Solo clicable si tiene stock
+            .clickable { onSelect() },
         contentAlignment = Alignment.Center
     ) {
         if (platform.image != 0) {
-            // Muestra el logo de la plataforma (opaco si disponible, transparente si sin stock)
             AsyncImage(
                 model = platform.image,
                 contentDescription = platform.name,
@@ -608,17 +605,12 @@ fun PlatformItem(
                     .fillMaxSize()
                     .padding(12.dp),
                 contentScale = ContentScale.Fit,
-                alpha = if (isEnabled) 1f else 0.3f
+                alpha = if (isAvailable && hasStock) 1f else 0.3f
             )
         } else {
-            // Si no hay imagen, muestra el nombre de la plataforma en texto
             Text(
                 text = platform.name,
-                color = when {
-                    isEnabled -> Color.White
-                    !hasStock -> Color(0xFF4A4A4A)
-                    else -> Color(0xFF6B7280)
-                },
+                color = if (isAvailable && hasStock) Color.White else Color(0xFF4A4A4A),
                 fontSize = 12.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(4.dp)
@@ -673,46 +665,37 @@ fun ActionButtons(
     onAddToCart: () -> Unit,
     onAddToFavorites: () -> Unit
 ) {
-    // Los botones de compra solo están activos si hay plataforma seleccionada Y hay stock
-    val isEnabled = selectedPlatform != null && stock > 0
-    
+    val isReady = selectedPlatform != null && stock > 0
+
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        // Botón "Comprar ya": muestra un candado si no hay plataforma seleccionada
         Button(
             onClick = onBuyNow,
-            enabled = isEnabled,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp),
+            enabled = true,
+            modifier = Modifier.fillMaxWidth().height(48.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF93E3FE),
-                disabledContainerColor = Color(0xFF93E3FE).copy(alpha = 0.5f)
+                containerColor = if (isReady) Color(0xFF93E3FE) else Color(0xFF93E3FE).copy(alpha = 0.5f)
             ),
             shape = RoundedCornerShape(8.dp)
         ) {
-            if (!isEnabled && selectedPlatform == null) {
-                Icon(Icons.Default.Lock, contentDescription = null) // Candado: falta seleccionar plataforma
+            if (selectedPlatform == null) {
+                Icon(Icons.Default.Lock, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
             }
             Text(stringResource(R.string.product_buy_now), fontWeight = FontWeight.Bold)
         }
-        // Botón "Añadir al carrito": verde con check de confirmación si se añadió con éxito
+
         Button(
             onClick = onAddToCart,
-            enabled = isEnabled,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp),
+            enabled = true,
+            modifier = Modifier.fillMaxWidth().height(48.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = if (addedToCartSuccess) Color(0xFF10B981) else Color(0xFF030712),
-                disabledContainerColor = Color(0xFF030712).copy(alpha = 0.5f)
+                containerColor = if (addedToCartSuccess) Color(0xFF10B981) else if (isReady) Color(0xFF030712) else Color(0xFF030712).copy(alpha = 0.5f)
             ),
             shape = RoundedCornerShape(8.dp)
         ) {
             if (addedToCartSuccess) {
-                // Estado tras añadir: icono check + texto de confirmación
                 Icon(Icons.Default.Check, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(stringResource(R.string.product_added_to_cart), fontWeight = FontWeight.Bold)
@@ -720,21 +703,17 @@ fun ActionButtons(
                 Text(stringResource(R.string.product_add_to_cart), fontWeight = FontWeight.Bold)
             }
         }
-        // Botón "Añadir a favoritos": solo requiere plataforma seleccionada (ignora el stock)
+
         Button(
             onClick = onAddToFavorites,
-            enabled = selectedPlatform != null,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp),
+            enabled = true,
+            modifier = Modifier.fillMaxWidth().height(48.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = if (addedToFavoritesSuccess) Color(0xFF10B981) else Color(0xFF030712),
-                disabledContainerColor = Color(0xFF030712).copy(alpha = 0.5f)
+                containerColor = if (addedToFavoritesSuccess) Color(0xFF10B981) else if (selectedPlatform != null) Color(0xFF030712) else Color(0xFF030712).copy(alpha = 0.5f)
             ),
             shape = RoundedCornerShape(8.dp)
         ) {
             if (addedToFavoritesSuccess) {
-                // Estado tras añadir: icono check + texto de confirmación
                 Icon(Icons.Default.Check, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(stringResource(R.string.product_added_to_favorites), fontWeight = FontWeight.Bold)
