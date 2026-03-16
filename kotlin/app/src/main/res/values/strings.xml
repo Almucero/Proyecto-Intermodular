@@ -267,4 +267,5 @@
     <!-- Avisos globales de conexión -->
     <string name="network_lost">Sin conexión a internet</string>
     <string name="network_restored">Conexión restablecida</string>
+    <string name="chat_no_connection_reply" tools:ignore="Typos">Sage no puede responder en este momento porque no tienes conexión a internet. Por favor, revisa tu red e inténtalo de nuevo.</string>
 </resources>

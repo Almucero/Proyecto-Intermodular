@@ -19,10 +19,27 @@ class NetworkMonitor @Inject constructor(
 ) {
     private val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
+    fun isOnlineStatus(): Boolean {
+        val activeNetwork = connectivityManager.activeNetwork ?: return false
+        val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
+        return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+    }
+
     val isOnline: Flow<Boolean> = callbackFlow {
         val callback = object : ConnectivityManager.NetworkCallback() {
-            override fun onAvailable(network: Network) { trySend(true) }
-            override fun onLost(network: Network) { trySend(false) }
+            override fun onAvailable(network: Network) {
+                trySend(isOnlineStatus())
+            }
+
+            override fun onLost(network: Network) {
+                // Antes de decir que no hay internet, comprobamos si queda otra red activa
+                trySend(isOnlineStatus())
+            }
+
+            override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
+                // Detecta casos como "Wifi conectado pero sin acceso a internet"
+                trySend(isOnlineStatus())
+            }
         }
 
         val request = NetworkRequest.Builder()
@@ -31,12 +48,8 @@ class NetworkMonitor @Inject constructor(
 
         connectivityManager.registerNetworkCallback(request, callback)
 
-        // Comprobación inmediata al arrancar
-        val currentNetwork = connectivityManager.activeNetwork
-        val hasInternet = currentNetwork?.let {
-            connectivityManager.getNetworkCapabilities(it)?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-        } ?: false
-        trySend(hasInternet)
+        // Estado inicial para el flujo
+        trySend(isOnlineStatus())
 
         awaitClose { connectivityManager.unregisterNetworkCallback(callback) }
     }.distinctUntilChanged()

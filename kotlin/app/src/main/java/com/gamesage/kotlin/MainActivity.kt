@@ -46,69 +46,55 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
-// TODO: IMPORTANTE -> Revisa el archivo README.md en la raíz del proyecto para configurar tu API Key de Maps.
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    // Inyectamos el gestor de tokens para controlar la sesión del usuario
     @Inject
     lateinit var tokenManager: TokenManager
 
-    // Inyectamos el monitor de red para detectar cambios de conexión
     @Inject
     lateinit var networkMonitor: NetworkMonitor
 
-    // Se ejecuta al inicio para configurar el contexto con el idioma guardado
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(onAttach(newBase))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Instalamos la pantalla de inicio (Splash Screen) con el logo de la app
         installSplashScreen()
-
         super.onCreate(savedInstanceState)
 
-        // Carga la configuración regional antes de mostrar la UI
         loadLocale(this)
-        // Configura la barra de estado y navegación transparente/estética
         enableEdgeToEdge()
 
-        // Destino por defecto: Pantalla de Inicio (Home)
         var startDestination: Any = Destinations.Home
-
-        // Lógica de navegación desde notificaciones push
-        // Si recibimos un ID de juego en el intent, navegamos directamente a su pantalla de producto
         val gameIdFromNotification = intent.getLongExtra("gameId", -1L)
         if (gameIdFromNotification != -1L) {
             startDestination = Destinations.Product(gameIdFromNotification)
         }
 
-        // Lógica de "Recordarme"
-        // Si hay un token, pero el usuario NO marcó "Recordarme", borramos la sesión al iniciar
         runBlocking {
             val token = tokenManager.token.firstOrNull()
             val rememberMe = tokenManager.rememberMe.firstOrNull() ?: false
             if (token != null && !rememberMe) {
-                tokenManager.deleteToken() // Forzamos el logout si no se marcó "Recordarme"
+                tokenManager.deleteToken()
             }
         }
 
-        // Definimos el contenido de la aplicación con Compose
         setContent {
             AppTheme {
-                // Estado de conexión y gestión de avisos temporales (Snackbars)
-                val isOnline by networkMonitor.isOnline.collectAsState(initial = true)
+                // 1. Estado inicial síncrono para que la app no arranque "pensando" que no hay red
+                val initialState = remember { networkMonitor.isOnlineStatus() }
+                val isOnline by networkMonitor.isOnline.collectAsState(initial = initialState)
+
                 val snackbarHostState = remember { SnackbarHostState() }
 
-                // Mensajes traducidos
+                // 2. Controlamos si hemos pasado por un estado offline
+                var wasOffline by remember { mutableStateOf(!initialState) }
+
                 val msgLost = stringResource(R.string.network_lost)
                 val msgRestored = stringResource(R.string.network_restored)
 
-                // Variable para saber si estuvimos desconectados previamente
-                var wasOffline by remember { mutableStateOf(false) }
-
-                // Detecta cambios en la conexión y lanza el aviso correspondiente
+                // 3. Lógica de disparo de Snackbars
                 LaunchedEffect(isOnline) {
                     if (!isOnline) {
                         wasOffline = true
@@ -117,6 +103,7 @@ class MainActivity : ComponentActivity() {
                             duration = SnackbarDuration.Short
                         )
                     } else if (wasOffline) {
+                        // Solo si antes estuvimos desconectados, avisamos de la restauración
                         snackbarHostState.showSnackbar(
                             message = msgRestored,
                             duration = SnackbarDuration.Short
@@ -126,12 +113,13 @@ class MainActivity : ComponentActivity() {
                 }
 
                 Box(modifier = Modifier.fillMaxSize()) {
-                    // El NavGraph gestiona la navegación principal de la app
+                    // Contenido de la App
                     NavGraph(
                         startDestination = startDestination,
                         tokenManager = tokenManager
                     )
-                    // El Host gestiona el pop-up flotante en la parte inferior
+
+                    // El aviso flotante (Snackbar)
                     SnackbarHost(
                         hostState = snackbarHostState,
                         modifier = Modifier
