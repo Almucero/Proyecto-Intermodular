@@ -8,6 +8,7 @@ import com.gamesage.kotlin.data.remote.model.SendMessageRequest
 import com.gamesage.kotlin.data.repository.chat.ChatRepository
 import com.gamesage.kotlin.data.repository.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -81,46 +82,66 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    fun sendMessage(content: String) {
+    // Corregido: Referencia a sessionId y lógica de respuesta automática por error de red
+    fun sendMessage(content: String, errorReplyText: String) {
         if (content.isBlank()) return
 
-        val currentSessionId = _uiState.value.sessionId
+        // Usamos el sessionId del estado actual de la UI para evitar errores de referencia
+        val currentId = _uiState.value.sessionId
+
         val newUserMessage = ChatMessage(
             id = null,
-            sessionId = currentSessionId ?: 0, 
+            sessionId = currentId ?: 0,
             role = "user",
             content = content,
             createdAt = LocalDateTime.now(),
             games = null
         )
-        
-        // Optimistically add user message
+
         val updatedMessages = _uiState.value.messages + newUserMessage
         _uiState.value = _uiState.value.copy(messages = updatedMessages, isLoading = true, error = null)
 
         viewModelScope.launch {
             val request = SendMessageRequest(
                 message = content,
-                sessionId = currentSessionId
+                sessionId = currentId
             )
             val result = chatRepository.sendMessage(request)
-            
-            if (result.isSuccess) {
-                val assistantMessage = result.getOrNull()
-                if (assistantMessage != null) {
-                    val finalMessages = _uiState.value.messages + assistantMessage
+
+            result.onSuccess { assistantMessage ->
+                val finalMessages = _uiState.value.messages + assistantMessage
+                _uiState.value = _uiState.value.copy(
+                    messages = finalMessages,
+                    isLoading = false,
+                    sessionId = assistantMessage.sessionId
+                )
+            }.onFailure { e ->
+                // Si el error es de conexión (IOException), añadimos un mensaje de Sage automático
+                if (e is java.io.IOException) {
+                    delay(1500)
+                    val autoReply = ChatMessage(
+                        id = null,
+                        sessionId = currentId ?: 0,
+                        role = "assistant",
+                        content = errorReplyText, // El texto traducido que viene de la UI
+                        createdAt = LocalDateTime.now(),
+                        games = null
+                    )
                     _uiState.value = _uiState.value.copy(
-                        messages = finalMessages,
+                        messages = _uiState.value.messages + autoReply,
+                        isLoading = false
+                    )
+                } else {
+                    _uiState.value = _uiState.value.copy(
                         isLoading = false,
-                        sessionId = assistantMessage.sessionId // Important if this was a new session!
+                        error = e.message ?: "Error"
                     )
                 }
-            } else {
-                _uiState.value = _uiState.value.copy(
-                    isLoading = false,
-                    error = result.exceptionOrNull()?.message ?: "Failed to send message"
-                )
             }
         }
+    }
+
+    fun clearError() {
+        _uiState.value = _uiState.value.copy(error = null)
     }
 }

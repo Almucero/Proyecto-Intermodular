@@ -254,4 +254,5 @@
 
     <string name="network_lost">Keine Internetverbindung</string>
     <string name="network_restored">Verbindung wiederhergestellt</string>
+    <string name="chat_no_connection_reply">Sage kann momentan nicht antworten, da keine Internetverbindung besteht. Bitte überprüfen Sie Ihre Netzwerkverbindung und versuchen Sie es erneut.</string>
 </resources>

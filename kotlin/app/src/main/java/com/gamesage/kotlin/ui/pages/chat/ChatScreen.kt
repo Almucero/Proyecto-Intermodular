@@ -133,6 +133,9 @@ fun ChatScreen(
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    // Recuperamos el mensaje de error traducido para Sage
+    val noConnectionReply = stringResource(R.string.chat_no_connection_reply)
+
     LaunchedEffect(sessionId) {
         viewModel.setSessionId(sessionId)
     }
@@ -221,7 +224,8 @@ fun ChatScreen(
                                                 .background(Color(0xFF1F2937))
                                                 .clickable {
                                                     if (isLoggedIn) {
-                                                        viewModel.sendMessage(suggestionText)
+                                                        // Enviamos el mensaje con el texto de error adjunto
+                                                        viewModel.sendMessage(suggestionText, noConnectionReply)
                                                     } else {
                                                         showLoginDialog = true
                                                     }
@@ -344,7 +348,8 @@ fun ChatScreen(
                 onSend = {
                     if (inputText.isNotBlank()) {
                         if (isLoggedIn) {
-                            viewModel.sendMessage(inputText)
+                            // Enviamos el mensaje manual con el texto de error adjunto
+                            viewModel.sendMessage(inputText, noConnectionReply)
                             inputText = ""
                         } else {
                             keyboardController?.hide()

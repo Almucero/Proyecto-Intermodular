@@ -254,4 +254,5 @@
 
     <string name="network_lost">Pas de connexion internet</string>
     <string name="network_restored">Connexion rétablie</string>
+    <string name="chat_no_connection_reply">Sage ne peut pas répondre pour le moment car vous n\'avez pas de connexion internet. Veuillez vérifier votre réseau et réessayez.</string>
 </resources>
