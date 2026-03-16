@@ -54,6 +54,14 @@
     <string name="genre_racing">Rennen</string>
     <string name="genre_sandbox">Sandbox</string>
     <string name="genre_shooter">Shooter</string>
+    <string name="genre_platforms">Plattformer</string>
+    <string name="genre_puzzles">Rätsel</string>
+    <string name="genre_fighting">Kampf</string>
+    <string name="genre_musical">Musikalisch</string>
+    <string name="genre_moba">MOBA</string>
+    <string name="genre_roguelike">Roguelike</string>
+    <string name="genre_open_world">Open World</string>
+    <string name="platform_switch">Switch</string>
 
     <string name="login_title">Anmelden</string>
     <string name="login_no_account">Haben Sie kein Konto? </string>
@@ -243,4 +251,7 @@
     <string name="privacy_section7_text">Wir können diese Richtlinie gelegentlich aktualisieren. Wir werden Sie über wesentliche Änderungen informieren.</string>
     <string name="privacy_section8_title">8. Kontakt</string>
     <string name="privacy_section8_text">Um Ihre Rechte auszuüben oder Fragen zum Datenschutz zu stellen, kontaktieren Sie uns unter info.gamesage@gmail.com</string>
+
+    <string name="network_lost">Keine Internetverbindung</string>
+    <string name="network_restored">Verbindung wiederhergestellt</string>
 </resources>

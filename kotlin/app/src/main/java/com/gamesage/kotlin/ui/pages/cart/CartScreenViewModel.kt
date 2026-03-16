@@ -56,10 +56,12 @@ class CartScreenViewModel @Inject constructor(
         viewModelScope.launch {
             //El estado se muestra en loading mientras se obtiene la información del carrito
             _uiState.value = CartUiState.Loading
+            //Delay mínimo para ver rueda de carga (como en favoritos) y mejor obtención de datos
+            kotlinx.coroutines.delay(400)
             //Se observa el flujo de datos desde el repositorio del carrito
             cartRepository.observe().collect { result ->
                 if (result.isSuccess) {
-                    //Si es exitoso, se obtiene la lista de elementos del carrito o si es nulo una lista vacia
+                    //Si es exitoso, se obtiene la lista de elementos del carrito o si es nulo una lista vacía
                     val items = result.getOrNull() ?: emptyList()
                     //Se actualiza el estado de la UI con los datos obtenidos, se mapea los datos con el CartItemUiState y se calcula el total
                     _uiState.value = CartUiState.Success(
@@ -94,7 +96,7 @@ class CartScreenViewModel @Inject constructor(
     //Actualiza la cantidad de un producto.
     private suspend fun updateItemQuantity(item: CartItemUiState, newQuantity: Int) {
         loadingManager.setBlocking(true)
-        // Hacemos llamada al repositorio para actualizar la cantidad, se pasa el identificador del juego que se está actualizando,el identificador de la plataforma en la que se juega el juego y la nueva cantidad para el artículo en el carrito.
+        // Hacemos llamada al repositorio para actualizar la cantidad, se pasa el identificador del juego que se está actualizando, el identificador de la plataforma en la que se juega el juego y la nueva cantidad para el artículo en el carrito.
         val result = cartRepository.update(item.gameId, item.platformId, newQuantity)
         if (result.isFailure) {
             _errorMessage.value = "Error al actualizar: se necesita conexión a internet"

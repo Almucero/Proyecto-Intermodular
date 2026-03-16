@@ -1,44 +1,67 @@
 package com.gamesage.kotlin.ui.pages.search
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DividerDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.runtime.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import coil3.compose.AsyncImage
-import com.gamesage.kotlin.data.model.Game
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil3.compose.AsyncImage
 import com.gamesage.kotlin.R
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.shrinkVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.core.animateFloatAsState
-import com.gamesage.kotlin.ui.pages.home.shimmerEffect
+import com.gamesage.kotlin.data.model.Game
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -101,38 +124,44 @@ fun SearchScreen(
                                 .padding(16.dp)
                         ) {
                             val activeFilters = viewModel.getActiveFilters()
-                            
-                            // Si hay filtros puestos, mostramos la lista de Chips y el botón de Limpiar
-                            if (activeFilters.isNotEmpty()) {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.SpaceBetween,
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Text(stringResource(R.string.search_filters) + " (${activeFilters.size})", color = Color.White, fontWeight = FontWeight.Bold)
-                                    TextButton(onClick = { viewModel.resetFilters() }) {
-                                        Text(stringResource(R.string.search_reset), color = Color(0xFF93E3FE))
-                                    }
-                                }
 
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 8.dp)
-                                        .horizontalScroll(rememberScrollState()),
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                                ) {
-                                    activeFilters.forEach { filter ->
-                                        FilterChip(
-                                            label = filter.label,
-                                            onRemove = { viewModel.removeFilter(filter.type) }
-                                        )
+                            AnimatedVisibility(
+                                visible = activeFilters.isNotEmpty(),
+                                enter = expandVertically() + fadeIn(),
+                                exit = shrinkVertically() + fadeOut()
+                            ) {
+                                Column {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text(stringResource(R.string.search_filters) + " (${activeFilters.size})", color = Color.White, fontWeight = FontWeight.Bold)
+                                        TextButton(onClick = { viewModel.resetFilters() }) {
+                                            Text(stringResource(R.string.search_reset), color = Color(0xFF93E3FE))
+                                        }
+                                    }
+
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(vertical = 8.dp)
+                                            .horizontalScroll(rememberScrollState()),
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                    ) {
+                                        activeFilters.forEach { filter ->
+                                            FilterChip(
+                                                // Si es género, lo traducimos antes de mostrarlo en el chip
+                                                label = if (filter.type.startsWith("genre:")) getGenreTranslation(filter.label) else filter.label,
+                                                onRemove = { viewModel.removeFilter(filter.type) }
+                                            )
+                                        }
                                     }
                                 }
                             }
                             
                             Spacer(modifier = Modifier.height(16.dp))
-                            
+
                             // Sección colapsable de Precio
                             FilterSection(
                                 title = stringResource(R.string.filter_price),
@@ -144,8 +173,15 @@ fun SearchScreen(
                                     selectedPrice = selectedPrice,
                                     priceValue = priceValue,
                                     maxPrice = maxPrice,
-                                    onSelectPrice = { viewModel.selectPrice(it) },
-                                    onPriceChange = { viewModel.updatePriceSlider(it) }
+                                    onSelectPrice = {
+                                        viewModel.selectPrice(it)
+                                        priceExpanded = false
+                                    },
+                                    onPriceChange = { viewModel.updatePriceSlider(it) },
+                                    onPriceChangeFinished = {
+                                        viewModel.onPriceSliderFinished()
+                                        priceExpanded = false
+                                    }
                                 )
                             }
                             
@@ -160,7 +196,10 @@ fun SearchScreen(
                                 GenreFilterContent(
                                     genres=genres,
                                     selectedGenre = selectedGenre,
-                                    onSelectGenre = { viewModel.selectGenre(it) }
+                                    onSelectGenre = {
+                                        viewModel.selectGenre(it)
+                                        genreExpanded = false
+                                    }
                                 )
                             }
                             
@@ -175,7 +214,10 @@ fun SearchScreen(
                                 PlatformFilterContent(
                                     platforms = platforms,
                                     selectedPlatform = selectedPlatform,
-                                    onSelectPlatform = { viewModel.selectPlatform(it) }
+                                    onSelectPlatform = {
+                                        viewModel.selectPlatform(it)
+                                        platformExpanded = false
+                                    }
                                 )
                             }
                         }
@@ -269,7 +311,8 @@ fun PriceFilterContent(
     priceValue: Int,
     maxPrice: Int,
     onSelectPrice: (String) -> Unit,
-    onPriceChange: (Int) -> Unit
+    onPriceChange: (Int) -> Unit,
+    onPriceChangeFinished: () -> Unit
 ) {
     Column {
         // Lista de rangos predefinidos (vienen del ViewModel)
@@ -290,6 +333,7 @@ fun PriceFilterContent(
         Slider(
             value = priceValue.toFloat(),
             onValueChange = { onPriceChange(it.toInt()) },
+            onValueChangeFinished = onPriceChangeFinished,
             valueRange = 0f..maxPrice.toFloat(),
             colors = SliderDefaults.colors(
                 thumbColor = Color(0xFF93E3FE),
@@ -317,12 +361,38 @@ fun GenreFilterContent(
     Column {
         genres.forEach { genre ->
             FilterOption(
-                label = genre,
+                label = getGenreTranslation(genre),
                 selected = selectedGenre.contains(genre),
                 onClick = { onSelectGenre(genre) }
             )
         }
     }
+}
+
+// Función auxiliar para mapear los strings de generos del backend a recursos traducibles
+@Composable
+fun getGenreTranslation(genre: String): String {
+    val resId = when (genre.lowercase()) {
+        "accion" -> R.string.genre_action
+        "aventura" -> R.string.genre_adventure
+        "rpg" -> R.string.genre_rpg
+        "deportes" -> R.string.genre_sports
+        "estrategia" -> R.string.genre_strategy
+        "simulacion" -> R.string.genre_simulation
+        "terror" -> R.string.genre_horror
+        "carreras" -> R.string.genre_racing
+        "plataformas" -> R.string.genre_platforms
+        "puzzles" -> R.string.genre_puzzles
+        "lucha" -> R.string.genre_fighting
+        "musicales" -> R.string.genre_musical
+        "shooter" -> R.string.genre_shooter
+        "moba" -> R.string.genre_moba
+        "roguelike" -> R.string.genre_roguelike
+        "sandbox" -> R.string.genre_sandbox
+        "mundo abierto" -> R.string.genre_open_world
+        else -> null
+    }
+    return if (resId != null) stringResource(resId) else genre
 }
 
 // Lista de plataformas para filtrar
@@ -433,14 +503,13 @@ fun GameCard(game: Game, onClick: () -> Unit) {
             overflow = TextOverflow.Ellipsis
         )
         game.price?.let { price ->
+            val displayPrice = if (game.isOnSale && game.salePrice != null) game.salePrice else price
+
             Text(
-                text = if (game.isOnSale && game.salePrice != null) 
-                    "${game.salePrice}€" 
-                else 
-                    "$price€",
+                text = if (displayPrice == 0.0) stringResource(R.string.price_free) else "${displayPrice}€",
                 color = if (game.isOnSale) Color(0xFFE57373) else Color(0xFF9CA3AF),
                 fontSize = 14.sp,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.Bold
             )
         }
     }

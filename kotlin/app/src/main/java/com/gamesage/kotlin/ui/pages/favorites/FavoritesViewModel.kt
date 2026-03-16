@@ -1,6 +1,5 @@
 package com.gamesage.kotlin.ui.pages.favorites
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gamesage.kotlin.data.model.Game
@@ -15,6 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import java.io.IOException
 
 data class FavoriteItemUiState(
     val gameId: Int,
@@ -39,7 +39,7 @@ sealed class FavoritesUiState {
 class FavoritesViewModel @Inject constructor(
     private val favoritesRepository: FavoritesRepository,
     private val cartRepository: CartRepository,
-    private val applicationScope: CoroutineScope, // Inyectado desde RemoteModule (Singleton)
+    @Suppress("unused") private val applicationScope: CoroutineScope,
     private val loadingManager: com.gamesage.kotlin.utils.LoadingManager
 ) : ViewModel() {
 
@@ -50,22 +50,31 @@ class FavoritesViewModel @Inject constructor(
     val errorMessage: StateFlow<String?> = _errorMessage.asStateFlow()
 
     init {
-        loadFavorites()
+        // Enchufamos directamente a la base de datos local
+        observeFavorites()
     }
 
-    private fun loadFavorites(showLoading: Boolean = true) {
+    private fun observeFavorites() {
         viewModelScope.launch {
-            if (showLoading) {
-                _uiState.value = FavoritesUiState.Loading
-            }
-            val result = favoritesRepository.readAll()
-            result.onSuccess { games ->
-                _uiState.value = FavoritesUiState.Success(
-                    games = games.map { it.asFavoriteItemUiState() }
-                )
-            }.onFailure { e ->
-                Log.e("FavoritesVM", "loadFavorites FAILED: ${e.javaClass.simpleName} - ${e.message}")
-                _uiState.value = FavoritesUiState.Error(e.message ?: "Error al cargar favoritos")
+            _uiState.value = FavoritesUiState.Loading
+            kotlinx.coroutines.delay(400)
+
+            // Nos enganchamos al Flow de Room. Cada vez que cambie algo, esto se repintará solo.
+            favoritesRepository.observe().collect { result ->
+                if (result.isSuccess) {
+                    val games = result.getOrNull() ?: emptyList()
+                    _uiState.value = FavoritesUiState.Success(
+                        games = games.map { it.asFavoriteItemUiState() }
+                    )
+                } else {
+                    val e = result.exceptionOrNull()
+                    val displayMessage = if (e is IOException) {
+                        "Error al cargar favoritos: se necesita conexión a internet"
+                    } else {
+                        "Error al cargar favoritos: ${e?.message ?: "desconocido"}"
+                    }
+                    _uiState.value = FavoritesUiState.Error(displayMessage)
+                }
             }
         }
     }
@@ -75,49 +84,27 @@ class FavoritesViewModel @Inject constructor(
     }
 
     fun removeFromFavorites(gameId: Int, platformId: Int) {
-        // Usar applicationScope para que sobreviva al cambio de pantalla
-        applicationScope.launch {
+        viewModelScope.launch {
             loadingManager.setBlocking(true)
             val result = favoritesRepository.remove(gameId, platformId)
-            if (result.isSuccess) {
-                // Si seguimos en la pantalla, refrescar (silent para evitar flash)
-                if (uiState.value is FavoritesUiState.Success) {
-                    loadFavorites(showLoading = false)
-                }
-            } else {
-                val e = result.exceptionOrNull()
-                Log.e("FavoritesVM", "Background remove FAILED: ${e?.message}")
-                // Si falla, mostramos el error (solo si seguimos en la pantalla)
-                _errorMessage.value = "Error al eliminar de favoritos"
-                loadFavorites()
+            if (result.isFailure) {
+                _errorMessage.value = "Error al eliminar: comprueba tu conexión"
             }
             loadingManager.setBlocking(false)
         }
     }
 
     fun addToCart(game: FavoriteItemUiState) {
-        // Usar applicationScope para garantizar persistencia aunque el usuario salga de la pantalla
-        applicationScope.launch {
+        viewModelScope.launch {
             loadingManager.setBlocking(true)
-            Log.d("FavoritesVM", "Starting BACKGROUND transfer for game ${game.gameId}")
             val addResult = cartRepository.add(game.gameId, game.platformId, 1)
             if (addResult.isSuccess) {
-                Log.d("FavoritesVM", "Add to cart success, removing from favorites...")
                 val removeResult = favoritesRepository.remove(game.gameId, game.platformId)
-                if (removeResult.isSuccess) {
-                    Log.d("FavoritesVM", "Transfer COMPLETE for game ${game.gameId}")
-                    // Refrescar si el usuario sigue aquí (silent para evitar flash)
-                    loadFavorites(showLoading = false)
-                } else {
-                    Log.e("FavoritesVM", "Background remove FAILED after successful add")
-                    loadFavorites(showLoading = false)
+                if (removeResult.isFailure) {
+                    _errorMessage.value = "Error al eliminar de favoritos: comprueba tu conexión"
                 }
             } else {
-                // Si falla, mostramos mensaje (solo si seguimos en la pantalla)
-                if (_uiState.value is FavoritesUiState.Success) {
-                    _errorMessage.value = "Error al añadir al carrito"
-                }
-                loadFavorites(showLoading = false)
+                _errorMessage.value = "Error al añadir al carrito: comprueba tu conexión"
             }
             loadingManager.setBlocking(false)
         }
@@ -126,12 +113,10 @@ class FavoritesViewModel @Inject constructor(
     fun transferAllToCart() {
         val currentState = _uiState.value
         if (currentState is FavoritesUiState.Success) {
-            val gamesToTransfer = currentState.games
-            
-            applicationScope.launch {
+            viewModelScope.launch {
                 loadingManager.setBlocking(true)
                 var hasError = false
-                val jobs = gamesToTransfer.map { game ->
+                val jobs = currentState.games.map { game ->
                     async {
                         val addRes = cartRepository.add(game.gameId, game.platformId, 1)
                         if (addRes.isSuccess) {
@@ -143,10 +128,9 @@ class FavoritesViewModel @Inject constructor(
                     }
                 }
                 jobs.awaitAll()
-                if (hasError && _uiState.value is FavoritesUiState.Success) {
+                if (hasError) {
                     _errorMessage.value = "Algunos juegos no pudieron transferirse"
                 }
-                loadFavorites(showLoading = false)
                 loadingManager.setBlocking(false)
             }
         }
@@ -155,23 +139,26 @@ class FavoritesViewModel @Inject constructor(
     fun clearFavorites() {
         val currentState = _uiState.value
         if (currentState is FavoritesUiState.Success) {
-            val gamesToDelete = currentState.games
-            
-            applicationScope.launch {
+            viewModelScope.launch {
                 loadingManager.setBlocking(true)
-                val jobs = gamesToDelete.map { game ->
+                var hasError = false
+                val jobs = currentState.games.map { game ->
                     async {
-                        favoritesRepository.remove(game.gameId, game.platformId)
+                        val result = favoritesRepository.remove(game.gameId, game.platformId)
+                        if (result.isFailure) hasError = true
                     }
                 }
                 jobs.awaitAll()
-                loadFavorites(showLoading = false)
+                if (hasError) {
+                    _errorMessage.value = "Error al vaciar favoritos: comprueba tu conexión"
+                }
                 loadingManager.setBlocking(false)
             }
         }
     }
 }
 
+// Convertidor (Debe ir fuera de la clase)
 fun Game.asFavoriteItemUiState(): FavoriteItemUiState {
     return FavoriteItemUiState(
         gameId = this.id,

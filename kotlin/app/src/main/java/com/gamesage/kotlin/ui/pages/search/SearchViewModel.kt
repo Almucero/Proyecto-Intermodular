@@ -1,7 +1,9 @@
 package com.gamesage.kotlin.ui.pages.search
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gamesage.kotlin.R
 import com.gamesage.kotlin.data.model.Game
 import com.gamesage.kotlin.data.repository.game.GameRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,11 +12,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import androidx.lifecycle.SavedStateHandle
-import com.gamesage.kotlin.R
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 
 // Representa los posibles estados de la pantalla de búsqueda
 sealed class SearchUiState {
@@ -58,37 +55,23 @@ class SearchViewModel @Inject constructor(
     // Precio máximo detectado entre todos los juegos para ajustar el slider automáticamente(100 es valor por defecto antes de que carguen datos reales)
     private val _maxPrice = MutableStateFlow(100)
     val maxPrice: StateFlow<Int> = _maxPrice.asStateFlow()
-    // Lista dinámica de géneros disponibles extraída de los juegos cargados
-    val availableGenres: StateFlow<List<String>> =
-        _allGames
-            .map { games ->
-                games
-                    .flatMap { it.genres ?: emptyList() }
-                    .map { it.name }
-                    .distinct()
-                    .sorted()
-            }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = emptyList()
-            )
 
-    // Lista dinámica de plataformas disponibles extraída de los juegos cargados
-    val availablePlatforms: StateFlow<List<String>> =
-        _allGames
-            .map { games ->
-                games
-                    .flatMap { it.platforms ?: emptyList() }
-                    .map { it.name }
-                    .distinct()
-                    .sorted()
-            }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = emptyList()
-            )
+    // Lista de géneros
+    val availableGenres = MutableStateFlow(listOf(
+        "Accion", "Aventura", "RPG", "Deportes", "Estrategia", "Simulacion", "Terror",
+        "Carreras", "Plataformas", "Puzzles", "Lucha", "Musicales", "Acción-Aventura",
+        "Shooter", "MOBA", "Roguelike", "Sandbox", "MMORPG", "Battle Royale",
+        "Survival Horror", "Metroidvania", "RTS", "TBS", "Hack and Slash", "Beat 'Em Up",
+        "Novela Visual", "CCG", "FPS", "Táctico", "Ciencia Ficción", "Educativo",
+        "Gestión", "Construcción de Ciudades", "Exploración", "Supervivencia",
+        "Horror Psicológico", "Stealth", "Cinemático", "Narrativa", "Cooperativo",
+        "Arcade", "Mundo Abierto", "Off-Road", "Simcade"
+    )).asStateFlow()
+
+    // Lista de plataformas
+    val availablePlatforms = MutableStateFlow(listOf(
+        "PC", "PS5", "Xbox Series X", "Switch", "PS4", "Xbox One"
+    )).asStateFlow()
 
 
     // Lista de opciones de filtrado por precio disponibles para la UI
@@ -160,7 +143,10 @@ class SearchViewModel @Inject constructor(
     // Actualiza los filtros cuando el usuario mueve el slider de precio
     fun updatePriceSlider(value: Int) {
         _priceValue.value = value
-        _selectedPrice.value = "0-$value"
+    }
+
+    fun onPriceSliderFinished() {
+        _selectedPrice.value = "0-${_priceValue.value}"
         applyFilters()
     }
 

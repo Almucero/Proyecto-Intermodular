@@ -43,6 +43,12 @@ export async function addToCart(
           title: true,
           price: true,
           description: true,
+          Developer: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
           media: {
             select: {
               id: true,
@@ -158,6 +164,12 @@ export async function updateQuantity(
           id: true,
           title: true,
           price: true,
+          Developer: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
           media: {
             select: {
               id: true,
