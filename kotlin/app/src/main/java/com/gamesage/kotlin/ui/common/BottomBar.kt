@@ -2,7 +2,6 @@ package com.gamesage.kotlin.ui.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -14,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.gamesage.kotlin.R
 
@@ -36,7 +36,7 @@ fun HomeBottomBar(
     ) {
         Icon(
             painter = painterResource(id = R.drawable.aichat),
-            contentDescription = "AIChat",
+            contentDescription = stringResource(R.string.cd_bottom_aichat),
             tint = Color.White,
             modifier = Modifier
                 .weight(1f)
@@ -45,7 +45,7 @@ fun HomeBottomBar(
         )
         Icon(
             painter = painterResource(id = R.drawable.cart),
-            contentDescription = "Cesta",
+            contentDescription = stringResource(R.string.cd_bottom_cart),
             tint = Color.White,
             modifier = Modifier
                 .weight(1f)
@@ -54,7 +54,7 @@ fun HomeBottomBar(
         )
         Icon(
             painter = painterResource(id = R.drawable.menu),
-            contentDescription = "Menu",
+            contentDescription = stringResource(R.string.cd_bottom_menu),
             tint = Color.White,
             modifier = Modifier
                 .weight(1f)
@@ -63,7 +63,7 @@ fun HomeBottomBar(
         )
         Icon(
             painter = painterResource(id = R.drawable.favourites),
-            contentDescription = "Favoritos",
+            contentDescription = stringResource(R.string.cd_bottom_favorites),
             tint = Color.White,
             modifier = Modifier
                 .weight(1f)
@@ -72,7 +72,7 @@ fun HomeBottomBar(
         )
         Icon(
             painter = painterResource(id = R.drawable.user),
-            contentDescription = "Perfil",
+            contentDescription = stringResource(R.string.cd_bottom_profile),
             tint = Color.White,
             modifier = Modifier
                 .weight(1f)

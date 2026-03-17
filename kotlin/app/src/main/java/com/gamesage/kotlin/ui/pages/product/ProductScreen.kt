@@ -9,6 +9,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -107,11 +108,7 @@ fun ProductScreen(
         containerColor = Color(0xFF111827),
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) { paddingValues ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-            // Eliminado el .padding(paddingValues) de aquí para que ocupe toda la pantalla
-        ) {
+        Box(modifier = Modifier.fillMaxSize()) {
             // Muestra un composable distinto según el estado actual
             when (val state = uiState) {
                 // Ruedecita de carga
@@ -134,7 +131,7 @@ fun ProductScreen(
                         }
                     }
 
-                    // Muestra el contenido real del juego
+                    // Muestra el contenido del juego
                     LaunchedEffect(state.navigateToCart) {
                         if (state.navigateToCart) {
                             viewModel.onCartNavigationConsumed()
@@ -156,7 +153,7 @@ fun ProductScreen(
 
 // Muestra un mensaje de error y un botón para reintentar la carga del juego
 @Composable
-fun ErrorView(onRetry: () -> Unit, paddingValues: androidx.compose.foundation.layout.PaddingValues) {
+fun ErrorView(onRetry: () -> Unit, paddingValues: PaddingValues) {
     Box(
         modifier = Modifier.fillMaxSize().padding(paddingValues),
         contentAlignment = Alignment.Center
@@ -182,13 +179,12 @@ fun ErrorView(onRetry: () -> Unit, paddingValues: androidx.compose.foundation.la
     }
 }
 
-// Composable principal que orquesta todos los bloques visuales de la pantalla del juego
 @Composable
 fun ProductContent(
     state: ProductUiState.Success,
     mediaItems: List<MediaItem>,
     viewModel: ProductScreenViewModel,
-    paddingValues: androidx.compose.foundation.layout.PaddingValues
+    paddingValues: PaddingValues
 ) {
     // Calcula el stock actual según la plataforma seleccionada (o total si no hay ninguna)
     val currentStock = viewModel.getStockForPlatform(state.game, state.selectedPlatform)
@@ -314,7 +310,7 @@ fun MediaCarousel(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .aspectRatio(16f / 9f)     // Mantiene la proporción 16:9 (formato vídeo)
+            .aspectRatio(16f / 9f)     // Mantiene la proporción 16:9 (formato vídeo YT)
             .clip(RoundedCornerShape(12.dp))
             .background(Color.Black)
     ) {
@@ -372,7 +368,7 @@ fun MediaCarousel(
                         ) {
                             Icon(
                                 Icons.Default.PlayArrow,
-                                contentDescription = "Play video",
+                                contentDescription = stringResource(R.string.cd_media_play_video),
                                 tint = Color.White,
                                 modifier = Modifier.size(48.dp)
                             )
@@ -391,7 +387,7 @@ fun MediaCarousel(
             ) {
                 Icon(
                     Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Anterior",
+                    contentDescription = stringResource(R.string.common_previous),
                     tint = Color.White,
                     modifier = Modifier.size(32.dp)
                 )
@@ -407,7 +403,7 @@ fun MediaCarousel(
             ) {
                 Icon(
                     Icons.AutoMirrored.Filled.ArrowForward,
-                    contentDescription = "Siguiente",
+                    contentDescription = stringResource(R.string.common_next),
                     tint = Color.White,
                     modifier = Modifier.size(32.dp)
                 )
@@ -416,7 +412,7 @@ fun MediaCarousel(
     }
 }
 
-// Fila de miniaturas clicables debajo del carrusel. La miniatura activa tiene borde azul y es más grande.
+// Fila de miniaturas pulsables debajo del carrusel
 @Composable
 fun MediaThumbnails(
     mediaItems: List<MediaItem>,
@@ -433,12 +429,11 @@ fun MediaThumbnails(
                 modifier = Modifier
                     .padding(4.dp)
                     .size(width = 96.dp, height = 64.dp)
-                    // Efecto de enfoque: el seleccionado es un poco más grande
-                    .scale(if (isFocused) 1.05f else 1.0f)
+                    .scale(if (isFocused) 1.05f else 1.0f) // Efecto de enfoque: el seleccionado debe ser un poco más grande
                     .zIndex(if (isFocused) 1f else 0f)
                     .clickable { onSelect(index) },
                 shape = RoundedCornerShape(8.dp),
-                color = Color.Black, // Fondo negro para la miniatura
+                color = Color.Black,
                 border = BorderStroke(
                     width = 4.dp,
                     color = if (isFocused) Color(0xFF93E3FE) else Color(0xFF6B7280)
@@ -514,7 +509,7 @@ fun PriceSection(game: Game) {
     }
 }
 
-// Cuadrícula de plataformas disponibles para el juego. Las organiza en filas de 3.
+// Cuadrícula de plataformas disponibles para el juego
 @Composable
 fun PlatformSelector(
     platforms: List<PlatformInfo>,
@@ -639,9 +634,9 @@ fun StockIndicator(stock: Int) {
         }
         Text(
             text = when {
-                stock > 20 -> stringResource(R.string.product_stock_available) // Verde: "En stock"
-                stock > 0 -> stringResource(R.string.product_stock_low)        // Amarillo: "Stock bajo"
-                else -> stringResource(R.string.product_stock_out)             // Rojo: "Sin stock"
+                stock > 20 -> stringResource(R.string.product_stock_available)  // Verde: "En stock"
+                stock > 0 -> stringResource(R.string.product_stock_low) // Amarillo: "Stock bajo"
+                else -> stringResource(R.string.product_stock_out)         // Rojo: "Sin stock"
             },
             color = when {
                 stock > 20 -> Color(0xFF10B981) // Verde
@@ -737,7 +732,7 @@ fun ScreenshotsSection(screenshot1: String?, screenshot2: String?) {
             screenshot1?.let { url ->
                 AsyncImage(
                     model = url,
-                    contentDescription = "Screenshot 1",
+                    contentDescription = stringResource(R.string.cd_screenshot_1),
                     modifier = Modifier
                         .weight(1f)
                         .aspectRatio(16f / 9f)
@@ -748,7 +743,7 @@ fun ScreenshotsSection(screenshot1: String?, screenshot2: String?) {
             screenshot2?.let { url ->
                 AsyncImage(
                     model = url,
-                    contentDescription = "Screenshot 2",
+                    contentDescription = stringResource(R.string.cd_screenshot_2),
                     modifier = Modifier
                         .weight(1f)
                         .aspectRatio(16f / 9f)
@@ -769,11 +764,21 @@ fun GameInfoTable(game: Game) {
             .clip(RoundedCornerShape(8.dp))
             .border(1.dp, Color(0xFF6B7280), RoundedCornerShape(8.dp))
     ) {
-        InfoRow(stringResource(R.string.product_developer), game.Developer?.name ?: "N/A")
+        InfoRow(
+            stringResource(R.string.product_developer),
+            game.Developer?.name ?: stringResource(R.string.product_info_not_available)
+        )
         Box(modifier = Modifier.fillMaxWidth().height(1.dp).background(Color(0xFF6B7280)))
-        InfoRow(stringResource(R.string.product_publisher), game.Publisher?.name ?: "N/A")
+        InfoRow(
+            stringResource(R.string.product_publisher),
+            game.Publisher?.name ?: stringResource(R.string.product_info_not_available)
+        )
         Box(modifier = Modifier.fillMaxWidth().height(1.dp).background(Color(0xFF6B7280)))
-        InfoRow(stringResource(R.string.product_release_date), game.releaseDate?.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) ?: "N/A")
+        InfoRow(
+            stringResource(R.string.product_release_date),
+            game.releaseDate?.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                ?: stringResource(R.string.product_info_not_available)
+        )
         Box(modifier = Modifier.fillMaxWidth().height(1.dp).background(Color(0xFF6B7280)))
         InfoRow(stringResource(R.string.product_refundable), if (game.isRefundable) stringResource(R.string.product_yes) else stringResource(R.string.product_no))
     }

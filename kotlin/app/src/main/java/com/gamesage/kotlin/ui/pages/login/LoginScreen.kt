@@ -91,6 +91,7 @@ fun LoginScreen(
                                     .fillMaxWidth(),
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
+                                // Título de inicio de sesión
                                 Text(
                                     text = stringResource(R.string.login_title),
                                     fontSize = 24.sp,
@@ -98,12 +99,12 @@ fun LoginScreen(
                                     color = Color.White,
                                     modifier = Modifier.padding(bottom = 16.dp)
                                 )
-
                                 Text(
                                     text = stringResource(R.string.login_no_account),
                                     color = Color.White,
                                     fontSize = 14.sp
                                 )
+                                // Texto para redirigir a pantalla de registro
                                 Text(
                                     text = stringResource(R.string.login_create_account),
                                     color = Color(0xFF93E3FE),
@@ -157,6 +158,7 @@ fun LoginScreen(
                                     singleLine = true
                                 )
 
+                                // Sección para recuérdame (Datastore)
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -207,7 +209,6 @@ fun LoginScreen(
                     }
                 }
 
-                // Margen inferior dinámico
                 Spacer(modifier = Modifier.height(paddingValues.calculateBottomPadding() + 64.dp))
             }
 

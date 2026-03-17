@@ -13,7 +13,7 @@ import javax.inject.Inject
 class CartRepositoryImpl @Inject constructor(
     @RemoteDataSource private val remoteDataSource: CartDataSource,
     @LocalDataSource private val localDataSource: CartDataSource,
-    //para lanzar corrutinas
+    // Para lanzar corrutinas
     private val scope: CoroutineScope
 ): CartRepository {
     override suspend fun readAll(): Result<List<CartItem>> {
@@ -31,7 +31,7 @@ class CartRepositoryImpl @Inject constructor(
         }
     }
 
-    //Llama al servidor y devuelve el resultado
+    // Llama al servidor y devuelve el resultado
     override suspend fun readOne(gameId: Int, platformId: Int): Result<CartItem> {
         val remoteResult = remoteDataSource.readOne(gameId, platformId)
         return if (remoteResult.isSuccess) {
@@ -41,10 +41,10 @@ class CartRepositoryImpl @Inject constructor(
         }
     }
 
-    //La UI observa la base local
-    //El repositorio sincroniza con el servidor
-    //Si llegan datos nuevos, se guardan localmente
-    //El Flow emite automáticamente
+    // La UI observa la base local
+    // El repositorio sincroniza con el servidor
+    // Si llegan datos nuevos, se guardan localmente
+    // El Flow emite automáticamente
     override fun observe(): Flow<Result<List<CartItem>>> {
         scope.launch {
             readAll()
@@ -52,9 +52,9 @@ class CartRepositoryImpl @Inject constructor(
         return localDataSource.observe()
     }
 
-    //Llama al servidor para añadir producto
-    //Si funciona, vuelve a llamar a readAll()
-    //Devuelve el resultado
+    // Llama al servidor para añadir producto
+    // Si funciona, vuelve a llamar a readAll()
+    // Devuelve el resultado
     override suspend fun add(gameId: Int, platformId: Int, quantity: Int): Result<Unit> {
         val result = remoteDataSource.add(gameId, platformId, quantity)
         if (result.isSuccess) {
@@ -64,16 +64,16 @@ class CartRepositoryImpl @Inject constructor(
     }
 
     override suspend fun update(gameId: Int, platformId: Int, quantity: Int): Result<Unit> {
-        //Llama al servidor primero
+        // Llama al servidor primero
         val result = remoteDataSource.update(gameId, platformId, quantity)
-        //Si el servidor responde bien, refresca la caché local
+        // Si el servidor responde bien, refresca la caché local
         if (result.isSuccess) {
             readAll()
         }
         return result
     }
 
-    //Borra en servidor
+    //                                     Borra en servidor
     override suspend fun remove(gameId: Int, platformId: Int): Result<Unit> {
         val result = remoteDataSource.remove(gameId, platformId)
         if (result.isSuccess) {
@@ -82,9 +82,9 @@ class CartRepositoryImpl @Inject constructor(
         return result
     }
 
-    //Llama al servidor para vaciar carrito
-    //Si sale bien, limpia base local
-    //Devuelve resultado
+    // Llama al servidor para vaciar carrito
+    // Si sale bien, limpia base local
+    // Devuelve resultado
     override suspend fun clear(): Result<Unit> {
         val result = remoteDataSource.clear()
         if (result.isSuccess) {

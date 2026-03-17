@@ -1,6 +1,5 @@
 package com.gamesage.kotlin.data.remote.model
 
-//Lo que el servidor nos da (información completa)
 data class UserApiModel(
     val id: Int,
     val email: String,

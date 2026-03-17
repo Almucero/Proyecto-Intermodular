@@ -92,7 +92,7 @@ fun TopBar(
             // Logo de la aplicación a la izquierda
             Image(
                 painter = painterResource(id = R.drawable.game_sage_logo),
-                contentDescription = "Logo GameSage",
+                contentDescription = stringResource(R.string.cd_logo_gamesage),
                 modifier = Modifier
                     .size(45.dp)
                     .align(Alignment.CenterStart)
@@ -108,7 +108,7 @@ fun TopBar(
                     .height(40.dp)
                     .width(200.dp)
                     .align(Alignment.Center) // Esto funciona porque está directamente dentro del Box principal
-                    // Añadimos el borde dinámico antes del clip
+                    // Se añade el borde dinámico antes del clip
                     .border(
                         width = 1.dp,
                         color = if (isSearchFocused) Color(0xFF93E3FE) else Color.Transparent,
@@ -126,7 +126,7 @@ fun TopBar(
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.search),
-                        contentDescription = "Buscador",
+                        contentDescription = stringResource(R.string.cd_search_icon),
                         modifier = Modifier.size(20.dp)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
@@ -140,10 +140,10 @@ fun TopBar(
                         modifier = Modifier
                             .weight(1f)
                             .onFocusChanged { focusState ->
-                                // Actualizamos nuestro estado visual del borde
+                                // Se actualiza el estado visual del borde
                                 isSearchFocused = focusState.isFocused
 
-                                // Si el usuario toca el buscador, notificamos(si el menu estuviera abierto se cerraria)
+                                // Si el usuario toca el buscador, notificamos(si el menu estuviera abierto se cerraría)
                                 if (focusState.isFocused) {
                                     onSearchFocus()
                                 }
@@ -157,14 +157,14 @@ fun TopBar(
                         keyboardActions = KeyboardActions(
                             onSearch = {
                                 focusManager.clearFocus() // Cerramos el teclado al buscar
-                                onSearchClick()          // Ejecutamos la búsqueda
+                                onSearchClick()           // Ejecutamos la búsqueda
                             },
                         ),
                         cursorBrush = SolidColor(Color(0xFF93E3FE)),
                         singleLine = true,
                         decorationBox = { innerTextField ->
                             Box(contentAlignment = Alignment.CenterStart) {
-                                // Para poner el texto de "Buscar..." cuando no hay nada escrito
+                                // Para poner el texto de "Buscar...", o sus traducciones, cuando no hay nada escrito
                                 if (searchQuery.isEmpty()) {
                                     Text(
                                         text = stringResource(R.string.search_placeholder),
@@ -180,15 +180,13 @@ fun TopBar(
             }
 
             // Lista estática de idiomas disponibles
-            val languages = remember {
-                listOf(
-                    Language("es", "Español", R.drawable.espana),
-                    Language("en", "English", R.drawable.estados_unidos),
-                    Language("de", "Deutsch", R.drawable.alemania),
-                    Language("fr", "Français", R.drawable.francia),
-                    Language("it", "Italiano", R.drawable.italia)
-                )
-            }
+            val languages = listOf(
+                Language("es", stringResource(R.string.lang_name_es), R.drawable.espana),
+                Language("en", stringResource(R.string.lang_name_en), R.drawable.estados_unidos),
+                Language("de", stringResource(R.string.lang_name_de), R.drawable.alemania),
+                Language("fr", stringResource(R.string.lang_name_fr), R.drawable.francia),
+                Language("it", stringResource(R.string.lang_name_it), R.drawable.italia)
+            )
 
             // Gestión del menú desplegable de idiomas
             var isLanguageMenuExpanded by remember { mutableStateOf(false) }
@@ -206,7 +204,7 @@ fun TopBar(
             ) {
                 Image(
                     painter = painterResource(id = currentLanguage.flagResId),
-                    contentDescription = "Idioma ${currentLanguage.name}",
+                    contentDescription = stringResource(R.string.cd_language_flag, currentLanguage.name),
                     modifier = Modifier
                         .size(40.dp)
                         .clip(RoundedCornerShape(4.dp))
@@ -222,7 +220,7 @@ fun TopBar(
                         .background(Color(0xFF030712))
                         .width(60.dp)
                 ) {
-                    // Listamos los idiomas que NO son el actual para poder cambiar
+                    // Listamos los idiomas que no son el actual para poder cambiar
                     languages.filter { it.code != currentLanguage.code }.forEach { language ->
                         DropdownMenuItem(
                             text = {

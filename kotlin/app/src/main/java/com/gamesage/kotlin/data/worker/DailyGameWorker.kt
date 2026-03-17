@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.gamesage.kotlin.R
 import com.gamesage.kotlin.data.repository.game.GameRepository
 import com.gamesage.kotlin.utils.NotificationHelper
+import com.gamesage.kotlin.utils.LanguageUtils
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
@@ -38,16 +40,27 @@ class DailyGameWorker @AssistedInject constructor(
 
                 // Si hemos encontrado un juego para recomendar, lanzamos la notificación
                 gameToNotify?.let { game ->
-                    val title = if (game.isOnSale) "¡Oferta del Día!" else "Recomendación del Día"
-                    val message = if (game.isOnSale) {
-                        "¡${game.title} tiene un precio especial! Échale un vistazo."
+                    // Aplicamos el locale guardado por el usuario para que la notificación
+                    // respete el idioma seleccionado en la app.
+                    val localizedContext = LanguageUtils.onAttach(applicationContext)
+
+                    val titleRes = if (game.isOnSale) {
+                        R.string.notification_daily_sale_title
                     } else {
-                        "Hoy te recomendamos: ${game.title}"
+                        R.string.notification_daily_recommendation_title
                     }
+                    val messageRes = if (game.isOnSale) {
+                        R.string.notification_daily_sale_message
+                    } else {
+                        R.string.notification_daily_recommendation_message
+                    }
+
+                    val title = localizedContext.getString(titleRes)
+                    val message = localizedContext.getString(messageRes, game.title)
 
                     // Usamos nuestra utilidad de notificaciones para mostrar el aviso
                     NotificationHelper.showNotification(
-                        applicationContext,
+                        localizedContext,
                         title,
                         message,
                         game.id.toLong() // Pasamos el ID del juego para que al pulsar se abra su ficha
@@ -55,7 +68,7 @@ class DailyGameWorker @AssistedInject constructor(
                 }
             }
             Result.success() // La tarea se completó con éxito
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             Result.retry() // Si hubo un error (ej: fallo de red), se reintentará más tarde
         }
     }

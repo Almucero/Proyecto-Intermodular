@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.BitmapFactory.decodeByteArray
 import android.graphics.Matrix
 import android.util.Base64
 import android.widget.Toast
@@ -75,14 +76,15 @@ import androidx.compose.ui.unit.sp
 import androidx.exifinterface.media.ExifInterface
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
+import coil3.compose.rememberAsyncImagePainter
 import com.gamesage.kotlin.R
 import com.gamesage.kotlin.ui.theme.bodyFontFamily
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 
-//Pantalla principal del perfil de usuario.
-//Permite observar, editar el perfil, cambiar fotos y cerrar sesión.
+// Pantalla principal del perfil de usuario.
+// Permite observar, editar el perfil, cambiar fotos y cerrar sesión.
 @SuppressLint("FrequentlyChangingValue")
 @Composable
 fun DashboardScreen(
@@ -93,7 +95,7 @@ fun DashboardScreen(
     capturedPhoto: String? = null,
     onPhotoProcessed: () -> Unit = {},
 ) {
-    //Observa el estado y mensajes de error desde el ViewModel.
+    // Observa el estado y mensajes de error desde el ViewModel.
     val uiState by viewModel.uiState.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
     val context = LocalContext.current
@@ -119,7 +121,7 @@ fun DashboardScreen(
         }
     }
 
-    //Recibe la foto capturada desde la cámara y la procesa para el perfil.
+    // Recibe la foto capturada desde la cámara y la procesa para el perfil.
     LaunchedEffect(capturedPhoto) {
         capturedPhoto?.let { path ->
             if (path.isNotEmpty()) {
@@ -137,7 +139,7 @@ fun DashboardScreen(
         }
     }
 
-    //Logica para elegir una imagen de la galería.
+    // Logica para elegir una imagen de la galería.
     val imageErrorMessage = stringResource(R.string.dashboard_image_error)
     val copiedMessage = stringResource(R.string.dashboard_copied)
     val launcher = rememberLauncherForActivityResult(
@@ -179,7 +181,7 @@ fun DashboardScreen(
                 .fillMaxSize()
                 .background(Color(0xFF111827))
         ) {
-            //Manejo de estados de la UI (Cargando, Error o Éxito).
+            // Manejo de estados de la UI (Cargando, Error o Éxito).
             when (val state = uiState) {
                 is DashboardUiState.Initial, DashboardUiState.Loading -> {
                     //Estado inicial y carga de datos.
@@ -189,7 +191,7 @@ fun DashboardScreen(
                 }
 
                 is DashboardUiState.Error -> {
-                    //Muestra el mensaje de error si algo falla.
+                    // Muestra el mensaje de error si algo falla.
                     Box(modifier = Modifier.fillMaxSize().padding(paddingValues), contentAlignment = Alignment.Center) {
                         Text(text = state.message, color = Color.Red, textAlign = Center)
                     }
@@ -210,7 +212,7 @@ fun DashboardScreen(
                                 ),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            //Título de la sección.
+                            // Título de la sección.
                             Text(
                                 text = stringResource(R.string.dashboard_user_section),
                                 fontSize = 30.sp,
@@ -222,7 +224,7 @@ fun DashboardScreen(
                                 textAlign = Center
                             )
                             Spacer(modifier = Modifier.height(8.dp))
-                            //Contenedor para la Imagen de perfil.
+                            // Contenedor para la Imagen de perfil.
                             Box(
                                 modifier = Modifier.size(192.dp)
                             ) {
@@ -239,11 +241,11 @@ fun DashboardScreen(
                                         avatarData
                                     }.trim()
                                     val bytes = Base64.decode(base64String, Base64.DEFAULT)
-                                    val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                                    val bitmap = decodeByteArray(bytes, 0, bytes.size)
                                     if (bitmap != null) {
                                         Image(
                                             bitmap = bitmap.asImageBitmap(),
-                                            contentDescription = "User",
+                                            contentDescription = stringResource(R.string.dashboard_cd_user),
                                             modifier = Modifier
                                                 .fillMaxSize()
                                                 .clip(CircleShape)
@@ -256,17 +258,17 @@ fun DashboardScreen(
                                     val avatarUrl = if (avatarData.startsWith("http")) "$avatarData?t=$sessionKey" else avatarData
                                     AsyncImage(
                                         model = avatarUrl,
-                                        contentDescription = "User",
+                                        contentDescription = stringResource(R.string.dashboard_cd_user),
                                         modifier = Modifier
                                             .fillMaxSize()
                                             .clip(CircleShape)
                                             .background(Color.Gray)
                                             .border(width = 2.dp, color = Color.White, shape = CircleShape),
                                         contentScale = ContentScale.Crop,
-                                        error = coil3.compose.rememberAsyncImagePainter("https://imgs.search.brave.com/fYkD5wfC_-Rme5c7BsUqQrc85GwiSHKVsArtXOFqpBc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA2LzQzLzk3LzA4/LzM2MF9GXzY0Mzk3/MDg2OV9xWVduenp1/em5iTU83VGF5bVFp/cndNblE1ZmlRSFpi/dS5qcGc")
+                                        error = rememberAsyncImagePainter("https://imgs.search.brave.com/fYkD5wfC_-Rme5c7BsUqQrc85GwiSHKVsArtXOFqpBc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA2LzQzLzk3LzA4/LzM2MF9GXzY0Mzk3/MDg2OV9xWVduenp1/em5iTU83VGF5bVFp/cndNblE1ZmlRSFpi/dS5qcGc")
                                     )
                                 } else {
-                                    // Círculo gris por defecto si no hay foto
+                                    // Círculo gris por defecto si no hay foto (en caso de sí haber foto, pero no haber conexión se establece una por defecto más abajo)
                                     Box(
                                         modifier = Modifier
                                             .fillMaxSize()
@@ -298,21 +300,21 @@ fun DashboardScreen(
                                     ) {
                                         Icon(
                                             imageVector = Icons.Filled.PhotoCamera,
-                                            contentDescription = "Change Picture",
+                                            contentDescription = stringResource(R.string.dashboard_change_picture),
                                             tint = Color.White,
                                             modifier = Modifier.size(24.dp)
                                         )
                                     }
                                 }
 
-                                //Muestra el diálogo para elegir el origen de la foto (Cámara o Galería).
+                                // Muestra el diálogo para elegir el origen de la foto (Cámara o Galería).
                                 if (showCameraOptions) {
                                     AlertDialog(
                                         onDismissRequest = { showCameraOptions = false },
                                         containerColor = Color(0xFF1F2937),
                                         title = {
                                             Text(
-                                                "Foto de perfil",
+                                                stringResource(R.string.dashboard_camera_title),
                                                 color = Color(0xFFA5F3FC),
                                                 fontSize = 30.sp,
                                                 fontWeight = FontWeight.Bold,
@@ -344,7 +346,7 @@ fun DashboardScreen(
                                                         modifier = Modifier.size(20.dp)
                                                     )
                                                     Spacer(modifier = Modifier.width(8.dp))
-                                                    Text("Hacer foto", color = Color.White)
+                                                    Text(stringResource(R.string.dashboard_camera_take_photo), color = Color.White)
                                                 }
 
                                                 Spacer(modifier = Modifier.height(12.dp))
@@ -372,7 +374,7 @@ fun DashboardScreen(
                                                         tint = Color(0xFF22D3EE)
                                                     )
                                                     Spacer(modifier = Modifier.width(8.dp))
-                                                    Text("Elegir de galeria", color = Color.White)
+                                                    Text(stringResource(R.string.dashboard_camera_pick_gallery), color = Color.White)
                                                 }
                                             }
                                         },
@@ -402,7 +404,7 @@ fun DashboardScreen(
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_copy),
-                                    contentDescription = "Copiar Nickname",
+                                    contentDescription = stringResource(R.string.dashboard_copy_nickname_cd),
                                     modifier = Modifier
                                         .size(16.dp)
                                         .clickable {
@@ -429,7 +431,7 @@ fun DashboardScreen(
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_copy),
-                                    contentDescription = "Copiar ID",
+                                    contentDescription = stringResource(R.string.dashboard_copy_id_cd),
                                     modifier = Modifier
                                         .size(16.dp)
                                         .clickable {
@@ -445,9 +447,9 @@ fun DashboardScreen(
                             }
 
                             Spacer(modifier = Modifier.height(32.dp))
-                            //Encabezado: Información de la cuenta
+                            // Encabezado: Información de la cuenta
                             SectionHeader(stringResource(R.string.dashboard_account_info))
-                            //Campo para el nombre de usuario
+                            // Campo para el nombre de usuario
                             DashboardTextField(
                                 label = stringResource(R.string.dashboard_username),
                                 value = state.editableUser.nickname,
@@ -461,7 +463,7 @@ fun DashboardScreen(
                                 isEditing = state.isEditing
                             )
                             Spacer(modifier = Modifier.height(16.dp))
-                            //Campo para ver/editar el email de la cuenta.
+                            // Campo para ver/editar el email de la cuenta.
                             DashboardTextField(
                                 label = stringResource(R.string.dashboard_email),
                                 value = state.editableUser.email,
@@ -476,7 +478,7 @@ fun DashboardScreen(
                             )
 
                             Spacer(modifier = Modifier.height(32.dp))
-                            //Encabezado: Datos Personales
+                            // Encabezado: Datos Personales
                             SectionHeader(stringResource(R.string.dashboard_personal_data))
 
                             val privacyText = stringResource(R.string.dashboard_privacy_text)
@@ -510,7 +512,7 @@ fun DashboardScreen(
                                 modifier = Modifier.padding(bottom = 16.dp)
                             )
 
-                            //Campo para el nombre
+                            // Campo para el nombre
                             DashboardTextField(
                                 label = stringResource(R.string.dashboard_name),
                                 value = state.editableUser.name,
@@ -538,9 +540,9 @@ fun DashboardScreen(
                             )
 
                             Spacer(modifier = Modifier.height(32.dp))
-                            //Encabezado: Dirección
+                            // Encabezado: Dirección
                             SectionHeader(stringResource(R.string.dashboard_address_section))
-                            //Campo para la dirección línea 1
+                            // Campo para la dirección línea 1
                             DashboardTextField(
                                 label = stringResource(R.string.dashboard_address_line1),
                                 value = state.editableUser.addressLine1,
@@ -682,7 +684,6 @@ fun DashboardScreen(
                             Spacer(modifier = Modifier.height(32.dp))
                         }
 
-                        // Adaptamos también el degradado superior para que coincida perfectamente
                         if (scrollState.value > 0) {
                             Box(modifier = Modifier
                                 .fillMaxWidth()

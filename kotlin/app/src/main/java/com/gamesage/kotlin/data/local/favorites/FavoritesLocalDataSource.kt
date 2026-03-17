@@ -1,6 +1,8 @@
 package com.gamesage.kotlin.data.local.favorites
 
 import com.gamesage.kotlin.data.FavoritesDataSource
+import com.gamesage.kotlin.data.local.favorites.exceptions.FavoriteNotFoundException
+import com.gamesage.kotlin.data.model.Favorite
 import com.gamesage.kotlin.data.model.Game
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -9,20 +11,20 @@ import javax.inject.Inject
 class FavoritesLocalDataSource @Inject constructor(
     private val favoriteDao: FavoriteDao
 ): FavoritesDataSource {
-    // Trae todos los items guardados en la DB local
-    override suspend fun readAll(): Result<List<Game>> {
+    // Trae todos los items guardados en la DB local como Favorite
+    override suspend fun readAll(): Result<List<Favorite>> {
         return Result.success(favoriteDao.getAll().toModel())
     }
 
     // Obtiene un favorito específico de la base local
-    override suspend fun readOne(gameId: Int, platformId: Int): Result<Game> {
+    override suspend fun readOne(gameId: Int, platformId: Int): Result<Favorite> {
         val entity = favoriteDao.getById(gameId, platformId)
         return if (entity != null) Result.success(entity.toModel())
-        else Result.failure(Exception("Favorite not found"))
+        else Result.failure(FavoriteNotFoundException())
     }
 
     // Permite que la UI se actualice automáticamente cuando cambian los favoritos
-    override fun observe(): Flow<Result<List<Game>>> {
+    override fun observe(): Flow<Result<List<Favorite>>> {
         return favoriteDao.observeAll().map { Result.success(it.toModel()) }
     }
 
@@ -32,7 +34,9 @@ class FavoritesLocalDataSource @Inject constructor(
     }
     
     // Inserta una lista de favoritos en la base local
-    suspend fun addAll(games: List<Game>) {
+    suspend fun addAll(favorites: List<Favorite>) {
+        // Aprovechamos el Game interno para mapear a entidad
+        val games: List<Game> = favorites.map { it.game }
         favoriteDao.insert(games.toEntity())
     }
 

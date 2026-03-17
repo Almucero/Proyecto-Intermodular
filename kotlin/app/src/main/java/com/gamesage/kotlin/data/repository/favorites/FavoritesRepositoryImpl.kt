@@ -2,11 +2,13 @@ package com.gamesage.kotlin.data.repository.favorites
 
 import com.gamesage.kotlin.data.FavoritesDataSource
 import com.gamesage.kotlin.data.local.favorites.FavoritesLocalDataSource
+import com.gamesage.kotlin.data.model.Favorite
 import com.gamesage.kotlin.data.model.Game
 import com.gamesage.kotlin.di.LocalDataSource
 import com.gamesage.kotlin.di.RemoteDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,23 +19,26 @@ class FavoritesRepositoryImpl @Inject constructor(
 ): FavoritesRepository {
 
     override suspend fun readAll(): Result<List<Game>> {
-        val remoteResult = remoteDataSource.readAll()
+        val remoteResult: Result<List<Favorite>> = remoteDataSource.readAll()
         return if (remoteResult.isSuccess) {
-            val games = remoteResult.getOrNull() ?: emptyList()
+            val favorites = remoteResult.getOrNull().orEmpty()
+            val games = favorites.map { it.game }
             localDataSource.clear()
-            (localDataSource as FavoritesLocalDataSource).addAll(games)
-            remoteResult
+            (localDataSource as FavoritesLocalDataSource).addAll(favorites)
+            Result.success(games)
         } else {
-            localDataSource.readAll()
+            val localResult = localDataSource.readAll()
+            localResult.map { list -> list.map { it.game } }
         }
     }
 
     override suspend fun readOne(gameId: Int, platformId: Int): Result<Game> {
-        val remoteResult = remoteDataSource.readOne(gameId, platformId)
+        val remoteResult: Result<Favorite> = remoteDataSource.readOne(gameId, platformId)
         return if (remoteResult.isSuccess) {
-            remoteResult
+            remoteResult.map { it.game }
         } else {
-            localDataSource.readOne(gameId, platformId)
+            val localResult = localDataSource.readOne(gameId, platformId)
+            localResult.map { it.game }
         }
     }
 
@@ -41,7 +46,9 @@ class FavoritesRepositoryImpl @Inject constructor(
         scope.launch {
             readAll()
         }
-        return localDataSource.observe()
+        return localDataSource.observe().map { result ->
+            result.map { list -> list.map { it.game } }
+        }
     }
 
     override suspend fun add(gameId: Int, platformId: Int): Result<Unit> {

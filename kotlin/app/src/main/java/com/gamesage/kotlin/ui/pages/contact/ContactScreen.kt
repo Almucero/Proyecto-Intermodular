@@ -64,6 +64,7 @@ fun ContactScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Mediante esto se abre la app de gmail con el correo ya introducido
             ContactCard(
                 icon = Icons.Default.Email,
                 title = stringResource(R.string.contact_email_title),
@@ -82,6 +83,7 @@ fun ContactScreen(
             
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Mediante esto se abre la app de teléfono con el número ya marcado
             ContactCard(
                 icon = Icons.Default.Phone,
                 title = stringResource(R.string.contact_phone_title),
@@ -100,6 +102,7 @@ fun ContactScreen(
             
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Al pulsar aquí se redirige a la pantalla de google maps
             ContactCard(
                 icon = Icons.Default.LocationOn,
                 title = stringResource(R.string.contact_address_title),

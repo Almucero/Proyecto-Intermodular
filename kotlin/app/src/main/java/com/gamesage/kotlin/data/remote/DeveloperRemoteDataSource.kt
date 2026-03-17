@@ -8,19 +8,19 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class DeveloperRemoteDataSource @Inject constructor(
-    private val api: DevelopersApi,
-    private val scope: CoroutineScope
+    @Suppress("unused") private val api: DevelopersApi,
+    @Suppress("unused") private val scope: CoroutineScope
 ): DeveloperDataSource {
     override suspend fun addAll(developerList: List<Developer>) {
-        TODO("Not yet implemented")
+        TODO("Sin implementar")
     }
     override fun observe(): Flow<Result<List<Developer>>> {
-        throw UnsupportedOperationException("Use readAll() for remote data source")
+        throw UnsupportedOperationException("Usa readAll() para remote data source")
     }
     override suspend fun readAll(): Result<List<Developer>> {
-        TODO("Not yet implemented")
+        TODO("Sin implementar")
     }
     override suspend fun readOne(id: Long): Result<Developer> {
-        TODO("Not yet implemented")
+        TODO("Sin implementar")
     }
 }

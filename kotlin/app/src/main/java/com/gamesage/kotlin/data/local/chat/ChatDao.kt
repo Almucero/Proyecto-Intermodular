@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
+// DAO de Room para chat_sessions y chat_messages.
 @Dao
 interface ChatDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -16,14 +17,14 @@ interface ChatDao {
 
     @Query("SELECT * FROM chat_sessions ORDER BY id DESC")
     suspend fun getAllSessions(): List<ChatSessionEntity>
-    
+
     @Query("SELECT * FROM chat_sessions WHERE id = :id")
     suspend fun getSessionById(id: Int): ChatSessionEntity?
 
     @Query("DELETE FROM chat_sessions WHERE id = :id")
     suspend fun deleteSession(id: Int)
 
-    // Messages
+    // Mensajes
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMessage(message: ChatMessageEntity)
 

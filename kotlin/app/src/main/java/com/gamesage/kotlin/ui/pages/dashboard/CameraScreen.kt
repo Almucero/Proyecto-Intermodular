@@ -92,7 +92,7 @@ fun CameraPreview(
                 modifier = Modifier.fillMaxSize()
             )
 
-            // Botón de Volver Atras (Arriba a la izquierda)
+            // Botón de Volver Atrás (Arriba a la izquierda)
             IconButton(
                 onClick = onNavigateBack,
                 modifier = Modifier

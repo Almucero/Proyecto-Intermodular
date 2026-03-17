@@ -5,6 +5,7 @@ import com.gamesage.kotlin.data.model.GameResult
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
+// Convierte List<GameResult> a JSON y viceversa para persistir en Room.
 class ChatConverters {
     private val gson = Gson()
 

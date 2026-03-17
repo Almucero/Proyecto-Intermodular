@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons.Default
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
+import androidx.compose.material3.IconButtonDefaults.outlinedIconButtonColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -168,7 +169,6 @@ fun FavoritesScreen(
                             LazyColumn(
                                 state = listState,
                                 modifier = Modifier.fillMaxSize(),
-                                // Padding dinámico para respetar la barra superior e inferior
                                 contentPadding = PaddingValues(
                                     start = 16.dp,
                                     end = 16.dp,
@@ -177,12 +177,12 @@ fun FavoritesScreen(
                                 ),
                                 verticalArrangement = Arrangement.spacedBy(16.dp)
                             ) {
-                                // 1. Título scrolleable (se desplaza hacia arriba al mover la lista)
+                                // Título scrolleable
                                 item {
                                     FavoritesHeader(modifier = Modifier.padding(bottom = 16.dp))
                                 }
 
-                                // 2. Por cada favorito muestra un FavoriteHorizontalCard.
+                                // Por cada favorito muestra un FavoriteHorizontalCard
                                 items(state.games) { game ->
                                     FavoriteHorizontalCard(
                                         game = game,
@@ -192,7 +192,7 @@ fun FavoritesScreen(
                                     )
                                 }
 
-                                // 3. Botones de acción general (Vaciar y Transferir)
+                                // Botones de acción general (Vaciar y Transferir)
                                 item {
                                     Spacer(modifier = Modifier.height(16.dp))
                                     OutlinedButton(
@@ -235,7 +235,7 @@ fun FavoritesScreen(
                 }
             }
 
-            // Efecto de degradado superior al hacer scroll (igual que en carrito)
+            // Efecto de degradado superior al hacer scroll
             if (showGradient) {
                 Box(
                     modifier = Modifier
@@ -309,7 +309,7 @@ fun FavoriteHorizontalCard(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Botones de acción (Suman 90dp justos: 40dp + 10dp + 40dp)
+            // Botones de acción
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -318,29 +318,28 @@ fun FavoriteHorizontalCard(
                 OutlinedIconButton(
                     onClick = onAddToCart,
                     border = BorderStroke(1.dp, Color(0xFF22D3EE)),
-                    colors = IconButtonDefaults.outlinedIconButtonColors(
+                    colors = outlinedIconButtonColors(
                         contentColor = Color(0xFF22D3EE)
                     ),
                     modifier = Modifier.size(40.dp)
                 ) {
                     Icon(
                         imageVector = Default.ShoppingCart,
-                        contentDescription = "Añadir al carrito",
+                        contentDescription = stringResource(R.string.cd_add_to_cart),
                         modifier = Modifier.size(20.dp)
                     )
                 }
                 OutlinedIconButton(
                     onClick = onRemove,
-                    // La papelera la ponemos en rojo para que sea igual que en la cesta
                     border = BorderStroke(1.dp, Color(0xFFF87171)),
-                    colors = IconButtonDefaults.outlinedIconButtonColors(
+                    colors = outlinedIconButtonColors(
                         contentColor = Color(0xFFF87171)
                     ),
                     modifier = Modifier.size(40.dp)
                 ) {
                     Icon(
                         imageVector = Default.Delete,
-                        contentDescription = "Eliminar de favoritos",
+                        contentDescription = stringResource(R.string.cd_remove_favorite),
                         modifier = Modifier.size(20.dp)
                     )
                 }
@@ -354,7 +353,7 @@ fun FavoriteHorizontalCard(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxHeight(),
-            verticalArrangement = Arrangement.SpaceBetween // Empuja los textos arriba y los precios abajo
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
             // Textos superiores (Título, Desarrollador, Plataforma)
             Column(modifier = Modifier.fillMaxWidth()) {
@@ -426,7 +425,7 @@ fun OutlinedIconButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     shape: Shape = RoundedCornerShape(8.dp),
-    colors: IconButtonColors = IconButtonDefaults.outlinedIconButtonColors(),
+    colors: IconButtonColors = outlinedIconButtonColors(),
     border: BorderStroke? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable () -> Unit

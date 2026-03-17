@@ -1,6 +1,5 @@
 package com.gamesage.kotlin.data.remote.model
 
-//Es el modelo que representa un item del carrito como lo devuelve el servidor
 data class CartItemApiModel(
     val cartItemId: Int,
     val quantity: Int,

@@ -255,4 +255,84 @@
     <string name="network_lost">No internet connection</string>
     <string name="network_restored">Connection restored</string>
     <string name="chat_no_connection_reply">Sage cannot respond right now because you have no internet connection. Please check your network and try again.</string>
+
+    <string name="notification_daily_sale_title">Deal of the Day!</string>
+    <string name="notification_daily_recommendation_title">Recommendation of the Day</string>
+    <string name="notification_daily_sale_message">%1$s is on special offer! Check it out.</string>
+    <string name="notification_daily_recommendation_message">Today we recommend: %1$s</string>
+
+    <string name="error_fill_all_fields">Fill in all fields</string>
+    <string name="error_password_mismatch">Passwords do not match</string>
+    <string name="error_password_policy">Password must be at least 8 characters and include an uppercase letter, a lowercase letter and a number</string>
+    <string name="error_no_internet">No internet connection. Check your network.</string>
+    <string name="error_email_already_registered">This email is already registered</string>
+    <string name="error_register_generic">Error registering the account. Please try again.</string>
+    <string name="error_connection_short">Connection error</string>
+    <string name="error_register_short">Registration error</string>
+    <string name="error_login_credentials">User not registered or invalid credentials</string>
+    <string name="error_login_short">Error logging in</string>
+    <string name="error_favorites_load_network">Error loading favorites: internet connection required</string>
+    <string name="error_favorites_load_generic">Error loading favorites: %1$s</string>
+    <string name="error_favorites_remove">Error deleting: please check your connection</string>
+    <string name="error_favorites_remove_item">Error removing from favorites: please check your connection</string>
+    <string name="error_favorites_add_to_cart">Error adding to cart: please check your connection</string>
+    <string name="error_favorites_transfer_some_failed">Some games could not be transferred</string>
+    <string name="error_favorites_clear">Error clearing favorites: please check your connection</string>
+    <string name="error_product_select_platform">Select a platform</string>
+    <string name="error_product_no_stock_for_platform">No stock available for this platform</string>
+    <string name="error_cart_add_network">Error adding to cart: internet connection required</string>
+    <string name="error_cart_add_generic">Error adding to cart: %1$s</string>
+    <string name="error_favorite_add_network">Error adding to favorites: internet connection required</string>
+    <string name="error_favorite_add_conflict">This game is already in favorites</string>
+    <string name="error_favorite_add_generic">Error adding to favorites: %1$s</string>
+    <string name="error_profile_load">Could not load profile</string>
+    <string name="error_profile_save_network">No internet connection</string>
+    <string name="error_profile_save_generic">Error saving changes</string>
+    <string name="error_logout_network">No internet connection</string>
+    <string name="error_logout_generic">Error logging out</string>
+
+    <string name="cd_logo_gamesage">GameSage logo</string>
+    <string name="cd_search_icon">Search</string>
+    <string name="cd_language_flag">Language %1$s</string>
+    <string name="cd_bottom_aichat">Go to AI chat</string>
+    <string name="cd_bottom_cart">Go to cart</string>
+    <string name="cd_bottom_menu">Open menu</string>
+    <string name="cd_bottom_favorites">Go to favorites</string>
+    <string name="cd_bottom_profile">Go to profile</string>
+    <string name="cd_media_play_video">Play video</string>
+    <string name="cd_screenshot_1">Screenshot 1</string>
+    <string name="cd_screenshot_2">Screenshot 2</string>
+    <string name="cd_add_to_cart">Add to cart</string>
+    <string name="cd_remove_favorite">Remove from favorites</string>
+    <string name="product_info_not_available">N/A</string>
+
+    <string name="common_previous">Previous</string>
+    <string name="common_next">Next</string>
+
+    <string name="error_cart_load">Error loading cart</string>
+    <string name="error_cart_update_network">Error updating: internet connection required</string>
+    <string name="error_cart_remove_network">Error removing item: internet connection required</string>
+    <string name="error_cart_clear_network">Error clearing cart: internet connection required</string>
+    <string name="cart_checkout_success">Purchase completed successfully!</string>
+    <string name="cart_checkout_error">Error processing payment</string>
+
+    <string name="error_chat_load_session">Failed to load chat session</string>
+    <string name="error_generic">Error</string>
+
+    <string name="platform_multiple">Multiple</string>
+    <string name="dashboard_cd_user">User</string>
+    <string name="dashboard_change_picture">Change profile picture</string>
+    <string name="dashboard_camera_title">Profile photo</string>
+    <string name="dashboard_camera_take_photo">Take photo</string>
+    <string name="dashboard_camera_pick_gallery">Choose from gallery</string>
+    <string name="dashboard_copy_nickname_cd">Copy nickname</string>
+    <string name="dashboard_copy_id_cd">Copy ID</string>
+    <string name="dashboard_clip_label_nickname">Nickname</string>
+    <string name="dashboard_clip_label_user_id">User ID</string>
+
+    <string name="lang_name_es">Español</string>
+    <string name="lang_name_en">English</string>
+    <string name="lang_name_de">Deutsch</string>
+    <string name="lang_name_fr">Français</string>
+    <string name="lang_name_it">Italiano</string>
 </resources>

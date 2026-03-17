@@ -1,38 +1,39 @@
 package com.gamesage.kotlin.data.remote
 
-import android.util.Log
 import com.gamesage.kotlin.data.FavoritesDataSource
+import com.gamesage.kotlin.data.model.Favorite
 import com.gamesage.kotlin.data.model.Game
 import com.gamesage.kotlin.data.remote.api.FavoritesApi
 import com.gamesage.kotlin.data.remote.model.FavoriteApiModel
 import com.gamesage.kotlin.data.remote.model.toDomain
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.time.LocalDateTime
 import javax.inject.Inject
 
 class FavoritesRemoteDataSource @Inject constructor(
-    private val favoritesApi: FavoritesApi
+    private val favoritesApi: FavoritesApi,
+    @Suppress("unused") private val scope: CoroutineScope
 ): FavoritesDataSource {
 
-    override fun observe(): Flow<Result<List<Game>>> {
+    override fun observe(): Flow<Result<List<Favorite>>> {
         return flow {
             emit(readAll())
         }
     }
 
-    override suspend fun readAll(): Result<List<Game>> {
+    override suspend fun readAll(): Result<List<Favorite>> {
         return try {
             val apiItems = favoritesApi.getFavorites()
             val items = apiItems.map { it.asDomainModel() }
             Result.success(items)
         } catch (e: Exception) {
-            Log.e("FavoritesRemoteDS", "readAll Error: ${e.message}")
             Result.failure(e)
         }
     }
 
-    override suspend fun readOne(gameId: Int, platformId: Int): Result<Game> {
+    override suspend fun readOne(gameId: Int, platformId: Int): Result<Favorite> {
         return try {
             val all = favoritesApi.getFavorites()
             val apiItem = all.find { it.realGameId == gameId && it.realPlatformId == platformId }
@@ -46,8 +47,8 @@ class FavoritesRemoteDataSource @Inject constructor(
         }
     }
 
-    private fun FavoriteApiModel.asDomainModel(): Game {
-        return Game(
+    private fun FavoriteApiModel.asDomainModel(): Favorite {
+        val game = Game(
             id = this.realGameId,
             title = this.title,
             description = null,
@@ -75,26 +76,27 @@ class FavoritesRemoteDataSource @Inject constructor(
             Publisher = null,
             Developer = this.Developer?.toDomain()
         )
+        return Favorite(
+            gameId = this.realGameId,
+            platformId = this.realPlatformId,
+            game = game
+        )
     }
 
     override suspend fun add(gameId: Int, platformId: Int): Result<Unit> {
         return try {
-            Log.d("FavoritesRemoteDS", "Adding favorite: gameId=$gameId, platformId=$platformId")
             favoritesApi.addToFavorites(mapOf("gameId" to gameId, "platformId" to platformId))
             Result.success(Unit)
         } catch (e: Exception) {
-            Log.e("FavoritesRemoteDS", "add FAILED: ${e.message}")
             Result.failure(e)
         }
     }
 
     override suspend fun remove(gameId: Int, platformId: Int): Result<Unit> {
         return try {
-            Log.d("FavoritesRemoteDS", "Deleting favorite: gameId=$gameId, platformId=$platformId")
             favoritesApi.removeFromFavorites(gameId, platformId)
             Result.success(Unit)
         } catch (e: Exception) {
-            Log.e("FavoritesRemoteDS", "remove FAILED: ${e.message}")
             Result.failure(e)
         }
     }

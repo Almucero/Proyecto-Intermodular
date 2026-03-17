@@ -1,6 +1,7 @@
 package com.gamesage.kotlin.data.local.cart
 
 import com.gamesage.kotlin.data.CartDataSource
+import com.gamesage.kotlin.data.local.cart.exceptions.CartNotFoundException
 import com.gamesage.kotlin.data.model.CartItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -18,7 +19,7 @@ class CartLocalDataSource @Inject constructor(
     override suspend fun readOne(gameId: Int, platformId: Int): Result<CartItem> {
         val entity = cartDao.getById(gameId, platformId)
         return if (entity != null) Result.success(entity.toModel())
-        else Result.failure(Exception("Item not found"))
+        else Result.failure(CartNotFoundException())
     }
 
     //Permite que la UI se actualice automáticamente cuando cambian los items del carrito

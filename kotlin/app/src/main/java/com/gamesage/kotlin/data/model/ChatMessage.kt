@@ -4,8 +4,8 @@ import java.time.LocalDateTime
 
 data class ChatMessage(
     val id: Int?,
-    val sessionId: Int, // Associated session
-    val role: String, // "user" or "assistant"
+    val sessionId: Int,
+    val role: String, // Puede ser usuario o asistente
     val content: String,
     val createdAt: LocalDateTime?,
     val games: List<GameResult>?

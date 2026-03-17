@@ -56,11 +56,11 @@ fun Menu(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Black.copy(alpha = 0.5f))
-                .clickable { onDismiss() } // Si tocas fuera del menú, se cierra
+                .clickable { onDismiss() } // Al tocar fuera del menú, este se cierra
         )
     }
 
-    // Animación de entrada/salida (Desliza desde abajo hacia arriba)
+    // Animación de entrada/salida
     AnimatedVisibility(
         visible = show,
         enter = slideInVertically(
@@ -78,7 +78,7 @@ fun Menu(
                 .fillMaxSize(),
             contentAlignment = Alignment.BottomCenter
         ) {
-            // Contenedor real del contenido del menú
+            // Contenedor del contenido del menú
             MenuBottomSheetContent(
                 navController = navController,
                 onCloseMenu = onDismiss,
@@ -98,7 +98,7 @@ fun MenuBottomSheetContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)) // Esquinas redondeadas arriba
-                .background(Color(0xFF030712)) // Color muy oscuro a juego con la TopBar
+                .background(Color(0xFF030712))
         ) {
             // Cabecera del menú
             Box(
@@ -192,10 +192,8 @@ fun MenuBottomSheetContent(
         }
     }
 
-
-     //Componente reutilizable para cada fila del menú.
-     //Incluye icono, texto e interactividad.
-
+     // Componente reutilizable para cada fila del menú.
+     // Incluye icono, texto e interactividad.
     @Composable
     fun MenuItemRow(
         icon: ImageVector,

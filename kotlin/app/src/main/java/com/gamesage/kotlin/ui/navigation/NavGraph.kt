@@ -89,7 +89,7 @@ fun NavGraph(
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    // Gestor de carga global para bloquear la pantalla durante operaciones críticas
+    // Gestor de carga global para bloquear la pantalla durante operaciones
     val globalLoadingViewModel: GlobalLoadingViewModel = hiltViewModel()
     val isGlobalBlocking by globalLoadingViewModel.loadingManager.isBlocking.collectAsState()
 
@@ -429,6 +429,7 @@ fun NavGraph(
         }
 
         // Overlay de carga global: bloquea TODA la pantalla, incluyendo barras de navegación
+        // (de no tener esto muchas opciones se podrían llegar a romper en caso de cambio de pantalla mientras ocurre una operación)
         if (isGlobalBlocking) {
             Box(
                 modifier = Modifier
@@ -436,7 +437,7 @@ fun NavGraph(
                     .zIndex(5000f)
                     .background(Color.Black.copy(alpha = 0.6f))
                     .pointerInput(Unit) {
-                        // Intercepta todos los gestos para que no lleguen a la UI inferior
+                        // Intercepta todos los gestos para que no lleguen a la pantalla
                         awaitEachGesture {
                             awaitFirstDown(pass = PointerEventPass.Initial)
                         }

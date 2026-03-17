@@ -1,5 +1,6 @@
 package com.gamesage.kotlin.ui.pages.product
 
+import android.content.Context
 import com.gamesage.kotlin.R
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +11,7 @@ import com.gamesage.kotlin.data.repository.cart.CartRepository
 import com.gamesage.kotlin.data.repository.favorites.FavoritesRepository
 import com.gamesage.kotlin.data.repository.game.GameRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,6 +19,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.gamesage.kotlin.utils.LanguageUtils
 
 sealed class ProductUiState {
     object Initial : ProductUiState()
@@ -25,11 +28,11 @@ sealed class ProductUiState {
         val game: Game,
         val selectedPlatform: String? = null,
         val currentMediaIndex: Int = 0,
-        val navigateToLogin: Boolean = false,  // Flag que indica si hay que navegar al Login
-        val addedToCartSuccess: Boolean = false,   // Flag temporal de confirmación al añadir al carrito
+        val navigateToLogin: Boolean = false,         // Flag que indica si hay que navegar al Login
+        val addedToCartSuccess: Boolean = false,      // Flag temporal de confirmación al añadir al carrito
         val addedToFavoritesSuccess: Boolean = false, // Flag temporal de confirmación al añadir a favoritos
-        val navigateToCart: Boolean = false,      // Flag para redirigir al carrito tras "Comprar ya"
-        val error: String? = null  // Mensaje de error temporal para mostrar en la UI
+        val navigateToCart: Boolean = false,          // Flag para redirigir al carrito tras "Comprar ya"
+        val error: String? = null                     // Mensaje de error temporal para mostrar en la UI
     ) : ProductUiState()
     object Error : ProductUiState()
 }
@@ -51,8 +54,12 @@ class ProductScreenViewModel @Inject constructor(
     private val cartRepository: CartRepository,
     private val favoritesRepository: FavoritesRepository,
     private val tokenManager: TokenManager,
-    private val loadingManager: com.gamesage.kotlin.utils.LoadingManager
+    private val loadingManager: com.gamesage.kotlin.utils.LoadingManager,
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
+
+    private val localizedContext: Context
+        get() = LanguageUtils.onAttach(context)
 
     private val _uiState = MutableStateFlow<ProductUiState>(ProductUiState.Initial)
     val uiState: StateFlow<ProductUiState> = _uiState.asStateFlow()
@@ -60,7 +67,7 @@ class ProductScreenViewModel @Inject constructor(
     private val _mediaItems = MutableStateFlow<List<MediaItem>>(emptyList())
     val mediaItems: StateFlow<List<MediaItem>> = _mediaItems.asStateFlow()
 
-    // Mapa que asocia el nombre de cada plataforma con su icono (drawable)
+    // Mapa que asocia el nombre de cada plataforma con sus png
     private val platformImages: Map<String, Int> = mapOf(
         "PC" to R.drawable.pc,
         "PS5" to R.drawable.ps5,
@@ -112,7 +119,7 @@ class ProductScreenViewModel @Inject constructor(
                     )
                 },
                 onFailure = {
-                    // Si algo falla (sin red, juego no encontrado), mostramos el estado de error
+                    // Si algo falla, mostramos el estado de error
                     _uiState.value = ProductUiState.Error
                 }
             )
@@ -123,7 +130,7 @@ class ProductScreenViewModel @Inject constructor(
     private fun buildMediaItems(game: Game) {
         val items = mutableListOf<MediaItem>()
 
-        // Si el juego tiene vídeo de YouTube,genera su miniatura
+        // Si el juego tiene vídeo de YouTube, genera su miniatura
         game.videoUrl?.let { videoUrl ->
             val videoId = getVideoId(videoUrl)
             val thumbnailUrl = videoId?.let {
@@ -138,7 +145,7 @@ class ProductScreenViewModel @Inject constructor(
                 )
             )
         }
-        // Busca la imagen de tipo "cover" en las fotos del juego y la añade al carrusel
+        // Busca la imagen de tipo "cover" en las fotos del juego y la añade al carrusel (definido en back)
         game.media?.find { it.altText?.lowercase()?.contains("cover") == true }?.let { cover ->
             items.add(
                 MediaItem(
@@ -222,7 +229,9 @@ class ProductScreenViewModel @Inject constructor(
                 }
 
                 if (currentState.selectedPlatform == null) {
-                    _uiState.value = currentState.copy(error = "Selecciona una plataforma")
+                    _uiState.value = currentState.copy(
+                        error = localizedContext.getString(R.string.error_product_select_platform)
+                    )
                     delay(2000)
                     clearError()
                     return@launch
@@ -230,7 +239,9 @@ class ProductScreenViewModel @Inject constructor(
 
                 val stock = getStockForPlatform(currentState.game, currentState.selectedPlatform)
                 if (stock <= 0) {
-                    _uiState.value = currentState.copy(error = "No hay stock disponible para esta plataforma")
+                    _uiState.value = currentState.copy(
+                        error = localizedContext.getString(R.string.error_product_no_stock_for_platform)
+                    )
                     delay(2000)
                     clearError()
                     return@launch
@@ -238,6 +249,7 @@ class ProductScreenViewModel @Inject constructor(
 
                 val platformId = currentState.game.platforms?.find { it.name == currentState.selectedPlatform }?.id ?: return@launch
 
+                // Mediante el loading manager se aplica la pantalla de carga mientras se hace la operación, para evitar errores por cambio de pestaña
                 loadingManager.setBlocking(true)
                 cartRepository.add(currentState.game.id, platformId, 1).fold(
                     onSuccess = {
@@ -252,8 +264,13 @@ class ProductScreenViewModel @Inject constructor(
                     },
                     onFailure = { e ->
                         loadingManager.setBlocking(false)
-                        val errorMsg = if (e is java.io.IOException) "Error al añadir al carrito: se necesita conexión a internet"
-                        else "Error al añadir al carrito: ${e.message}"
+                        val errorMsg = if (e is java.io.IOException)
+                            localizedContext.getString(R.string.error_cart_add_network)
+                        else
+                            localizedContext.getString(
+                                R.string.error_cart_add_generic,
+                                e.message ?: ""
+                            )
                         _uiState.update { if (it is ProductUiState.Success) it.copy(error = errorMsg) else it }
                         delay(2000)
                         clearError()
@@ -283,7 +300,9 @@ class ProductScreenViewModel @Inject constructor(
                 }
 
                 if (currentState.selectedPlatform == null) {
-                    _uiState.value = currentState.copy(error = "Selecciona una plataforma")
+                    _uiState.value = currentState.copy(
+                        error = localizedContext.getString(R.string.error_product_select_platform)
+                    )
                     delay(2000)
                     clearError()
                     return@launch
@@ -291,6 +310,7 @@ class ProductScreenViewModel @Inject constructor(
 
                 val platformId = currentState.game.platforms?.find { it.name == currentState.selectedPlatform }?.id ?: return@launch
 
+                // Mediante el loading manager se aplica la pantalla de carga mientras se hace la operación, para evitar errores por cambio de pestaña
                 loadingManager.setBlocking(true)
                 favoritesRepository.add(currentState.game.id, platformId).fold(
                     onSuccess = {
@@ -302,9 +322,15 @@ class ProductScreenViewModel @Inject constructor(
                     onFailure = { e ->
                         loadingManager.setBlocking(false)
                         val errorMsg = when (e) {
-                            is java.io.IOException -> "Error al añadir a favoritos: se necesita conexión a internet"
-                            is retrofit2.HttpException if e.code() == 409 -> "Este juego ya está en favoritos"
-                            else -> "Error al añadir a favoritos: ${e.message}"
+                            is java.io.IOException ->
+                                localizedContext.getString(R.string.error_favorite_add_network)
+                            is retrofit2.HttpException if e.code() == 409 ->
+                                localizedContext.getString(R.string.error_favorite_add_conflict)
+                            else ->
+                                localizedContext.getString(
+                                    R.string.error_favorite_add_generic,
+                                    e.message ?: ""
+                                )
                         }
                         _uiState.update { if (it is ProductUiState.Success) it.copy(error = errorMsg) else it }
                         delay(2000)
@@ -344,7 +370,7 @@ class ProductScreenViewModel @Inject constructor(
         }
     }
 
-    // Devuelve el número de estrellas llenas basándose en el rating (truncado a entero)
+    // Devuelve el número de estrellas llenas basándose en el rating del back
     fun getRatingStars(rating: Float?): Int {
         return (rating ?: 0f).toInt()
     }

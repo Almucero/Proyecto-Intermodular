@@ -3,8 +3,10 @@ package com.gamesage.kotlin.ui.pages.register
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gamesage.kotlin.R
 import com.gamesage.kotlin.data.remote.model.SignUpRequest
 import com.gamesage.kotlin.data.repository.user.UserRepository
+import com.gamesage.kotlin.utils.LanguageUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,10 +26,10 @@ data class RegisterFormData(
 )
 
 sealed class RegisterUiState {
-    object Initial : RegisterUiState()
-    object Loading : RegisterUiState()
-    object Success : RegisterUiState()
-    data class Error(val message: String) : RegisterUiState()
+    object Initial: RegisterUiState()
+    object Loading: RegisterUiState()
+    object Success: RegisterUiState()
+    data class Error(val message: String): RegisterUiState()
 }
 
 @HiltViewModel
@@ -35,6 +37,9 @@ class RegisterScreenViewModel @Inject constructor(
     private val userRepository: UserRepository,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
+
+    private val localizedContext: Context
+        get() = LanguageUtils.onAttach(context)
 
     private val _uiState = MutableStateFlow<RegisterUiState>(RegisterUiState.Initial)
     val uiState: StateFlow<RegisterUiState> = _uiState.asStateFlow()
@@ -71,18 +76,18 @@ class RegisterScreenViewModel @Inject constructor(
 
 
         if (state.name.isBlank() || state.surname.isBlank() || state.email.isBlank() || state.password.isBlank() || state.confirmPassword.isBlank()) {
-            _errorMessage.value = "Rellena todos los campos"
+            _errorMessage.value = localizedContext.getString(R.string.error_fill_all_fields)
             return
         }
 
         if (state.password != state.confirmPassword) {
-            _errorMessage.value = "Las contraseñas no coinciden"
+            _errorMessage.value = localizedContext.getString(R.string.error_password_mismatch)
             return
         }
 
-        val passwordRegex = Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}\$")
+        val passwordRegex = Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$") // Misma verificación de contraseña que en la versión web
         if (!passwordRegex.matches(state.password)) {
-            _errorMessage.value = "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número"
+            _errorMessage.value = localizedContext.getString(R.string.error_password_policy)
             return
         }
 
@@ -103,18 +108,21 @@ class RegisterScreenViewModel @Inject constructor(
                 _uiState.value = RegisterUiState.Success
             } else {
                 val exception = result.exceptionOrNull()
-                val isNetworkError = exception is java.io.IOException || exception is java.net.UnknownHostException
+                val isNetworkError = exception is java.io.IOException
                 
                 val userMessage = if (isNetworkError) {
-                    "No hay conexión a internet. Verifica tu red."
+                    localizedContext.getString(R.string.error_no_internet)
                 } else if (exception is retrofit2.HttpException && exception.code() == 409) {
-                    "Este email ya está registrado"
+                    localizedContext.getString(R.string.error_email_already_registered)
                 } else {
-                    "Error al registrar la cuenta. Inténtalo de nuevo."
+                    localizedContext.getString(R.string.error_register_generic)
                 }
 
                 _uiState.value = RegisterUiState.Error(userMessage)
-                _errorMessage.value = if (isNetworkError) "Error de conexión" else "Error en el registro"
+                _errorMessage.value = if (isNetworkError)
+                    localizedContext.getString(R.string.error_connection_short)
+                else
+                    localizedContext.getString(R.string.error_register_short)
             }
         }
     }
