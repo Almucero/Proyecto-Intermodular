@@ -1,6 +1,5 @@
 package com.gamesage.kotlin.data.remote.model
 
-//Lo que nosotros le enviamos al servidor, solo la parte de texto, la imagen va por otro camino
 data class UpdateProfileRequest(
     val name: String,
     val surname: String? = null,

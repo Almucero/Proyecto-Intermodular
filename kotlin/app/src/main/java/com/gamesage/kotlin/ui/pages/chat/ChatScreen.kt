@@ -42,6 +42,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -80,6 +82,7 @@ import com.gamesage.kotlin.R
 import com.gamesage.kotlin.data.model.ChatMessage
 import com.gamesage.kotlin.data.model.ChatSession
 
+// Función adaptada de la versión web para formatear markdown en la UI
 fun formatMarkdown(text: String): AnnotatedString {
     val cleanedText = text.lines().joinToString("\n") { it.trimStart() }
     return buildAnnotatedString {
@@ -125,218 +128,265 @@ fun ChatScreen(
     viewModel: ChatViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
     var inputText by remember { mutableStateOf("") }
     var showHistory by remember { mutableStateOf(false) }
     var showLoginDialog by remember { mutableStateOf(false) }
-
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
-
-    // Recuperamos el mensaje de error traducido para Sage
     val noConnectionReply = stringResource(R.string.chat_no_connection_reply)
 
+    // Sincroniza la sesión mostrada con el id que llega por navegación
     LaunchedEffect(sessionId) {
         viewModel.setSessionId(sessionId)
     }
 
-    LaunchedEffect(uiState.sessionId) {
-        if (uiState.sessionId != null && isLoggedIn) {
+    // Refresca la lista de sesiones al cambiar de sesión estando logueado
+    LaunchedEffect((uiState as? ChatUiState.Success)?.sessionId) {
+        if (uiState is ChatUiState.Success && (uiState as ChatUiState.Success).sessionId != null && isLoggedIn) {
             viewModel.fetchSessions()
         }
     }
 
-    LaunchedEffect(uiState.error) {
-        uiState.error?.let {
+    // Muestra el mensaje de error en Snackbar y lo limpia después
+    LaunchedEffect(errorMessage) {
+        errorMessage?.let {
             snackbarHostState.showSnackbar(it)
+            viewModel.clearError()
         }
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .pointerInput(Unit) {
-                detectTapGestures(onTap = {
-                    keyboardController?.hide()
-                    focusManager.clearFocus()
-                })
-            }
-    ) {
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            if (uiState.isLoading && uiState.messages.isEmpty()) {
-                Box(modifier = Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator(color = Color(0xFF22D3EE))
+    Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        containerColor = Color(0xFF111827)
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .pointerInput(Unit) {
+                    detectTapGestures(onTap = {
+                        keyboardController?.hide()
+                        focusManager.clearFocus()
+                    })
                 }
-            } else {
-                Box(modifier = Modifier.weight(1f)) {
-                    val listState = rememberLazyListState()
-                    val showTopGradient by remember { derivedStateOf { listState.canScrollBackward } }
-                    val showBottomGradient by remember { derivedStateOf { listState.canScrollForward } }
-
-                    LazyColumn(
-                        state = listState,
+        ) {
+            Column(
+                modifier = Modifier.fillMaxSize()
+            ) {
+            when (val state = uiState) {
+                is ChatUiState.Initial, is ChatUiState.Loading -> {
+                    // Pantalla de carga mientras se obtienen las sesiones
+                    Box(modifier = Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator(color = Color(0xFF22D3EE))
+                    }
+                }
+                is ChatUiState.Error -> {
+                    // Mensaje de error y botón reintentar
+                    Box(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = 16.dp),
-                        contentPadding = PaddingValues(top = 40.dp, bottom = 8.dp),
-                        reverseLayout = false
+                            .weight(1f)
+                            .fillMaxWidth()
+                            .padding(24.dp),
+                        contentAlignment = Alignment.Center
                     ) {
-                        if (uiState.messages.isEmpty() && !uiState.isLoading) {
-                            item {
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 16.dp),
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
-                                    Text(
-                                        text = stringResource(id = R.string.aichat_welcome_title),
-                                        color = Color.White,
-                                        fontSize = 20.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        textAlign = TextAlign.Center
-                                    )
-                                    Spacer(modifier = Modifier.height(4.dp))
-                                    Text(
-                                        text = stringResource(id = R.string.aichat_welcome_subtitle),
-                                        color = Color.Gray,
-                                        fontSize = 13.sp,
-                                        textAlign = TextAlign.Center,
-                                        modifier = Modifier.padding(horizontal = 24.dp)
-                                    )
-                                    Spacer(modifier = Modifier.height(16.dp))
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = state.message,
+                                color = Color(0xFFF87171),
+                                fontSize = 16.sp,
+                                textAlign = TextAlign.Center
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                            TextButton(onClick = { viewModel.retry() }) {
+                                Text(stringResource(R.string.home_retry), color = Color(0xFF22D3EE))
+                            }
+                        }
+                    }
+                }
+                is ChatUiState.Success -> {
+                    if (state.isSessionLoading && state.messages.isEmpty()) {
+                        // Cargando mensajes de la sesión seleccionada
+                        Box(modifier = Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
+                            CircularProgressIndicator(color = Color(0xFF22D3EE))
+                        }
+                    } else {
+                        Box(modifier = Modifier.weight(1f)) {
+                            // Estado del scroll para el efecto de degradado
+                            val listState = rememberLazyListState()
+                            val showTopGradient by remember { derivedStateOf { listState.canScrollBackward } }
+                            val showBottomGradient by remember { derivedStateOf { listState.canScrollForward } }
 
-                                    val suggestions = listOf(
-                                        R.string.aichat_suggestion_terror,
-                                        R.string.aichat_suggestion_rpg,
-                                        R.string.aichat_suggestion_ps5
-                                    )
-
-                                    suggestions.forEach { suggestionRes ->
-                                        val suggestionText = stringResource(id = suggestionRes)
-                                        Box(
+                            // Lista de mensajes o bienvenida con sugerencias
+                            LazyColumn(
+                                state = listState,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(horizontal = 16.dp),
+                                contentPadding = PaddingValues(top = 40.dp, bottom = 8.dp),
+                                reverseLayout = false
+                            ) {
+                                if (state.messages.isEmpty()) {
+                                    item {
+                                        Column(
                                             modifier = Modifier
                                                 .fillMaxWidth()
-                                                .padding(vertical = 5.dp)
-                                                .clip(RoundedCornerShape(12.dp))
-                                                .background(Color(0xFF1F2937))
-                                                .clickable {
-                                                    if (isLoggedIn) {
-                                                        // Enviamos el mensaje con el texto de error adjunto
-                                                        viewModel.sendMessage(suggestionText, noConnectionReply)
-                                                    } else {
-                                                        showLoginDialog = true
-                                                    }
-                                                }
-                                                .padding(12.dp)
+                                                .padding(vertical = 16.dp),
+                                            horizontalAlignment = Alignment.CenterHorizontally
                                         ) {
                                             Text(
-                                                text = "\"$suggestionText\"",
-                                                color = Color.LightGray,
-                                                fontSize = 14.sp,
+                                                text = stringResource(id = R.string.aichat_welcome_title),
+                                                color = Color.White,
+                                                fontSize = 20.sp,
+                                                fontWeight = FontWeight.Bold,
                                                 textAlign = TextAlign.Center
                                             )
+                                            Spacer(modifier = Modifier.height(4.dp))
+                                            Text(
+                                                text = stringResource(id = R.string.aichat_welcome_subtitle),
+                                                color = Color.Gray,
+                                                fontSize = 13.sp,
+                                                textAlign = TextAlign.Center,
+                                                modifier = Modifier.padding(horizontal = 24.dp)
+                                            )
+                                            Spacer(modifier = Modifier.height(16.dp))
+
+                                            val suggestions = listOf(
+                                                R.string.aichat_suggestion_terror,
+                                                R.string.aichat_suggestion_rpg,
+                                                R.string.aichat_suggestion_ps5
+                                            )
+
+                                            suggestions.forEach { suggestionRes ->
+                                                val suggestionText = stringResource(id = suggestionRes)
+                                                Box(
+                                                    modifier = Modifier
+                                                        .fillMaxWidth()
+                                                        .padding(vertical = 5.dp)
+                                                        .clip(RoundedCornerShape(12.dp))
+                                                        .background(Color(0xFF1F2937))
+                                                        .clickable {
+                                                            if (isLoggedIn) {
+                                                                viewModel.sendMessage(suggestionText, noConnectionReply)
+                                                            } else {
+                                                                showLoginDialog = true
+                                                            }
+                                                        }
+                                                        .padding(12.dp)
+                                                ) {
+                                                    Text(
+                                                        text = "\"$suggestionText\"",
+                                                        color = Color.LightGray,
+                                                        fontSize = 14.sp,
+                                                        textAlign = TextAlign.Center
+                                                    )
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    // Mensajes de la conversación
+                                    items(state.messages) { message ->
+                                        ChatMessageBubble(
+                                            message = message,
+                                            userAvatarUrl = state.userAvatar,
+                                            onGameClick = onGameClick
+                                        )
+                                        Spacer(modifier = Modifier.height(16.dp))
+                                    }
+                                    if (state.isSendingMessage) {
+                                        // Indicador de envío en curso
+                                        item {
+                                            Box(modifier = Modifier.fillMaxWidth().padding(8.dp), contentAlignment = Alignment.Center) {
+                                                CircularProgressIndicator(color = Color(0xFF22D3EE))
+                                            }
                                         }
                                     }
                                 }
                             }
-                        } else {
-                            items(uiState.messages) { message ->
-                                ChatMessageBubble(
-                                    message = message,
-                                    userAvatarUrl = uiState.userAvatar,
-                                    onGameClick = onGameClick
-                                )
-                                Spacer(modifier = Modifier.height(16.dp))
-                            }
-                            if (uiState.isLoading) {
-                                item {
-                                    Box(modifier = Modifier.fillMaxWidth().padding(8.dp), contentAlignment = Alignment.Center) {
-                                        CircularProgressIndicator(color = Color(0xFF22D3EE))
-                                    }
+
+                            // Efecto de degradado superior al hacer scroll
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(32.dp)
+                                    .align(Alignment.TopCenter)
+                            ) {
+                                androidx.compose.animation.AnimatedVisibility(
+                                    visible = showTopGradient,
+                                    enter = fadeIn(animationSpec = tween(durationMillis = 400)),
+                                    exit = fadeOut(animationSpec = tween(durationMillis = 400))
+                                ) {
+                                    Box(modifier = Modifier.fillMaxSize().background(
+                                        brush = Brush.verticalGradient(
+                                            colors = listOf(Color(0xFF111827), Color.Transparent)
+                                        )
+                                    ))
                                 }
                             }
-                        }
-                    }
 
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(32.dp)
-                            .align(Alignment.TopCenter)
-                    ) {
-                        androidx.compose.animation.AnimatedVisibility(
-                            visible = showTopGradient,
-                            enter = fadeIn(animationSpec = tween(durationMillis = 400)),
-                            exit = fadeOut(animationSpec = tween(durationMillis = 400))
-                        ) {
-                            Box(modifier = Modifier.fillMaxSize().background(
-                                brush = Brush.verticalGradient(
-                                    colors = listOf(Color(0xFF111827), Color.Transparent)
-                                )
-                            ))
-                        }
-                    }
-
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(32.dp)
-                            .align(Alignment.BottomCenter)
-                    ) {
-                        androidx.compose.animation.AnimatedVisibility(
-                            visible = !showHistory && showBottomGradient,
-                            enter = fadeIn(animationSpec = tween(durationMillis = 400)),
-                            exit = fadeOut(animationSpec = tween(durationMillis = 400))
-                        ) {
-                            Box(modifier = Modifier.fillMaxSize().background(
-                                brush = Brush.verticalGradient(
-                                    colors = listOf(Color.Transparent, Color(0xFF111827))
-                                )
-                            ))
-                        }
-                    }
-
-                    if (showHistory) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .clickable { showHistory = false }
-                        )
-                    }
-
-                    androidx.compose.animation.AnimatedVisibility(
-                        visible = showHistory,
-                        enter = slideInVertically(
-                            initialOffsetY = { it },
-                            animationSpec = tween(durationMillis = 300)
-                        ) + fadeIn(animationSpec = tween(durationMillis = 300)),
-                        exit = slideOutVertically(
-                            targetOffsetY = { it },
-                            animationSpec = tween(durationMillis = 300)
-                        ) + fadeOut(animationSpec = tween(durationMillis = 300)),
-                        modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter)
-                    ) {
-                        Column(modifier = Modifier.fillMaxWidth()) {
-                            Box(modifier = Modifier.fillMaxWidth().height(32.dp).background(
-                                brush = Brush.verticalGradient(
-                                    colors = listOf(Color.Transparent, Color(0xFF111827))
-                                )
-                            ))
-                            ChatHistoryMenuContent(
-                                sessions = uiState.sessions,
-                                onDismiss = { showHistory = false },
-                                onSessionSelect = { id ->
-                                    viewModel.setSessionId(id)
-                                    showHistory = false
-                                },
-                                onNewChat = {
-                                    viewModel.setSessionId(-1)
-                                    showHistory = false
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(32.dp)
+                                    .align(Alignment.BottomCenter)
+                            ) {
+                                androidx.compose.animation.AnimatedVisibility(
+                                    visible = !showHistory && showBottomGradient,
+                                    enter = fadeIn(animationSpec = tween(durationMillis = 400)),
+                                    exit = fadeOut(animationSpec = tween(durationMillis = 400))
+                                ) {
+                                    Box(modifier = Modifier.fillMaxSize().background(
+                                        brush = Brush.verticalGradient(
+                                            colors = listOf(Color.Transparent, Color(0xFF111827))
+                                        )
+                                    ))
                                 }
-                            )
+                            }
+
+                            // Fondo táctil para cerrar el menú de historial al tocar fuera
+                            if (showHistory) {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .clickable { showHistory = false }
+                                )
+                            }
+
+                            // Menú de historial de sesiones (desliza desde abajo)
+                            androidx.compose.animation.AnimatedVisibility(
+                                visible = showHistory,
+                                enter = slideInVertically(
+                                    initialOffsetY = { it },
+                                    animationSpec = tween(durationMillis = 300)
+                                ) + fadeIn(animationSpec = tween(durationMillis = 300)),
+                                exit = slideOutVertically(
+                                    targetOffsetY = { it },
+                                    animationSpec = tween(durationMillis = 300)
+                                ) + fadeOut(animationSpec = tween(durationMillis = 300)),
+                                modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter)
+                            ) {
+                                Column(modifier = Modifier.fillMaxWidth()) {
+                                    Box(modifier = Modifier.fillMaxWidth().height(32.dp).background(
+                                        brush = Brush.verticalGradient(
+                                            colors = listOf(Color.Transparent, Color(0xFF111827))
+                                        )
+                                    ))
+                                    ChatHistoryMenuContent(
+                                        sessions = state.sessions,
+                                        onDismiss = { showHistory = false },
+                                        onSessionSelect = { id ->
+                                            viewModel.setSessionId(id)
+                                            showHistory = false
+                                        },
+                                        onNewChat = {
+                                            viewModel.setSessionId(-1)
+                                            showHistory = false
+                                        }
+                                    )
+                                }
+                            }
                         }
                     }
                 }
@@ -348,8 +398,7 @@ fun ChatScreen(
                 onSend = {
                     if (inputText.isNotBlank()) {
                         if (isLoggedIn) {
-                            // Enviamos el mensaje manual con el texto de error adjunto
-                            viewModel.sendMessage(inputText, noConnectionReply)
+                                viewModel.sendMessage(inputText, noConnectionReply)
                             inputText = ""
                         } else {
                             keyboardController?.hide()
@@ -413,9 +462,11 @@ fun ChatScreen(
                 }
             )
         }
+        }
     }
 }
 
+// Menú deslizable con la lista de sesiones y opción de nuevo chat
 @Composable
 fun ChatHistoryMenuContent(
     sessions: List<ChatSession>,
@@ -484,6 +535,7 @@ fun ChatHistoryMenuContent(
     }
 }
 
+// Cada mensaje de la conversación (usuario o asistente)
 @Composable
 fun ChatMessageBubble(
     message: ChatMessage,
@@ -623,6 +675,7 @@ fun ChatMessageBubble(
     }
 }
 
+// Barra inferior con campo de texto, botón historial y enviar
 @Composable
 fun ChatInputBar(
     text: String,
@@ -704,6 +757,5 @@ fun ChatInputBar(
             )
         }
     }
-
     HorizontalDivider(Modifier, thickness = 1.dp, color = Color(0xFF4A4A4A))
 }

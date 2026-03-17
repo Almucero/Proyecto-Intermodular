@@ -45,7 +45,7 @@ class   CameraViewModel : ViewModel() {
         .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
         .build()
 
-    //para no bloquear la pantalla ya que tomar fotos puede tardar un poco
+    //para no bloquear la pantalla, ya que tomar fotos puede tardar un poco
     private val cameraExecutor = Executors.newSingleThreadExecutor()
 
 
@@ -97,7 +97,7 @@ class   CameraViewModel : ViewModel() {
                         put(MIME_TYPE, "image/jpeg")
                         // En Android 10 (API 29) y superior, especificamos la carpeta destino dentro de "Imágenes"
                         if (SDK_INT > Build.VERSION_CODES.P) {
-                            put(RELATIVE_PATH, DIRECTORY_PICTURES + "/GameSage")
+                            put(RELATIVE_PATH, "$DIRECTORY_PICTURES/GameSage")
                         }
                     }
                     // Crea el "hueco" (entrada) en la galería con esos metadatos y obtiene su URI (dirección)

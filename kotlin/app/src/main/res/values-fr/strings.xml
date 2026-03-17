@@ -255,4 +255,84 @@
     <string name="network_lost">Pas de connexion internet</string>
     <string name="network_restored">Connexion rétablie</string>
     <string name="chat_no_connection_reply">Sage ne peut pas répondre pour le moment car vous n\'avez pas de connexion internet. Veuillez vérifier votre réseau et réessayez.</string>
+
+    <string name="notification_daily_sale_title">Offre du jour !</string>
+    <string name="notification_daily_recommendation_title">Recommandation du jour</string>
+    <string name="notification_daily_sale_message">%1$s est en promotion spéciale ! Allez voir.</string>
+    <string name="notification_daily_recommendation_message">Aujourd\'hui, nous vous recommandons : %1$s</string>
+
+    <string name="error_fill_all_fields">Remplissez tous les champs</string>
+    <string name="error_password_mismatch">Les mots de passe ne correspondent pas</string>
+    <string name="error_password_policy">Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre</string>
+    <string name="error_no_internet">Pas de connexion internet. Vérifiez votre réseau.</string>
+    <string name="error_email_already_registered">Cet e-mail est déjà enregistré</string>
+    <string name="error_register_generic">Erreur lors de l\'enregistrement du compte. Veuillez réessayer.</string>
+    <string name="error_connection_short">Erreur de connexion</string>
+    <string name="error_register_short">Erreur d\'inscription</string>
+    <string name="error_login_credentials">Utilisateur non enregistré ou identifiants incorrects</string>
+    <string name="error_login_short">Erreur de connexion</string>
+    <string name="error_favorites_load_network">Erreur lors du chargement des favoris : connexion internet requise</string>
+    <string name="error_favorites_load_generic">Erreur lors du chargement des favoris : %1$s</string>
+    <string name="error_favorites_remove">Erreur lors de la suppression : vérifiez votre connexion</string>
+    <string name="error_favorites_remove_item">Erreur lors de la suppression des favoris : vérifiez votre connexion</string>
+    <string name="error_favorites_add_to_cart">Erreur lors de l\'ajout au panier : vérifiez votre connexion</string>
+    <string name="error_favorites_transfer_some_failed">Certains jeux n\'ont pas pu être transférés</string>
+    <string name="error_favorites_clear">Erreur lors du vidage des favoris : vérifiez votre connexion</string>
+    <string name="error_product_select_platform">Sélectionnez une plateforme</string>
+    <string name="error_product_no_stock_for_platform">Aucun stock disponible pour cette plateforme</string>
+    <string name="error_cart_add_network">Erreur lors de l\'ajout au panier : connexion internet requise</string>
+    <string name="error_cart_add_generic">Erreur lors de l\'ajout au panier : %1$s</string>
+    <string name="error_favorite_add_network">Erreur lors de l\'ajout aux favoris : connexion internet requise</string>
+    <string name="error_favorite_add_conflict">Ce jeu est déjà dans les favoris</string>
+    <string name="error_favorite_add_generic">Erreur lors de l\'ajout aux favoris : %1$s</string>
+    <string name="error_profile_load">Impossible de charger le profil</string>
+    <string name="error_profile_save_network">Pas de connexion internet</string>
+    <string name="error_profile_save_generic">Erreur lors de l\'enregistrement des modifications</string>
+    <string name="error_logout_network">Pas de connexion internet</string>
+    <string name="error_logout_generic">Erreur lors de la déconnexion</string>
+
+    <string name="cd_logo_gamesage">Logo GameSage</string>
+    <string name="cd_search_icon">Recherche</string>
+    <string name="cd_language_flag">Langue %1$s</string>
+    <string name="cd_bottom_aichat">Aller au chat IA</string>
+    <string name="cd_bottom_cart">Aller au panier</string>
+    <string name="cd_bottom_menu">Ouvrir le menu</string>
+    <string name="cd_bottom_favorites">Aller aux favoris</string>
+    <string name="cd_bottom_profile">Aller au profil</string>
+    <string name="cd_media_play_video">Lire la vidéo</string>
+    <string name="cd_screenshot_1">Capture d\'écran 1</string>
+    <string name="cd_screenshot_2">Capture d\'écran 2</string>
+    <string name="cd_add_to_cart">Ajouter au panier</string>
+    <string name="cd_remove_favorite">Retirer des favoris</string>
+    <string name="product_info_not_available">N/D</string>
+
+    <string name="common_previous">Précédent</string>
+    <string name="common_next">Suivant</string>
+
+    <string name="error_cart_load">Erreur lors du chargement du panier</string>
+    <string name="error_cart_update_network">Erreur de mise à jour : connexion internet requise</string>
+    <string name="error_cart_remove_network">Erreur lors de la suppression : connexion internet requise</string>
+    <string name="error_cart_clear_network">Erreur lors du vidage du panier : connexion internet requise</string>
+    <string name="cart_checkout_success">Achat effectué avec succès !</string>
+    <string name="cart_checkout_error">Erreur lors du traitement du paiement</string>
+
+    <string name="error_chat_load_session">Échec du chargement de la session de chat</string>
+    <string name="error_generic">Erreur</string>
+
+    <string name="platform_multiple">Multiple</string>
+    <string name="dashboard_cd_user">Utilisateur</string>
+    <string name="dashboard_change_picture">Changer la photo de profil</string>
+    <string name="dashboard_camera_title">Photo de profil</string>
+    <string name="dashboard_camera_take_photo">Prendre une photo</string>
+    <string name="dashboard_camera_pick_gallery">Choisir depuis la galerie</string>
+    <string name="dashboard_copy_nickname_cd">Copier le pseudo</string>
+    <string name="dashboard_copy_id_cd">Copier l\'ID</string>
+    <string name="dashboard_clip_label_nickname">Pseudo</string>
+    <string name="dashboard_clip_label_user_id">ID utilisateur</string>
+
+    <string name="lang_name_es">Español</string>
+    <string name="lang_name_en">English</string>
+    <string name="lang_name_de">Deutsch</string>
+    <string name="lang_name_fr">Français</string>
+    <string name="lang_name_it">Italiano</string>
 </resources>

@@ -13,18 +13,21 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import javax.inject.Inject
 import javax.inject.Singleton
 
+// Observa la conectividad de red y expone el estado actual y un Flow de cambios.
 @Singleton
 class NetworkMonitor @Inject constructor(
     @ApplicationContext context: Context
 ) {
     private val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
+    // Comprueba si hay una red activa con capacidad de internet.
     fun isOnlineStatus(): Boolean {
         val activeNetwork = connectivityManager.activeNetwork ?: return false
         val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
         return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
 
+    // Flujo que emite true/false cuando cambia la conectividad (distinctUntilChanged para no repetir valor).
     val isOnline: Flow<Boolean> = callbackFlow {
         val callback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
@@ -32,12 +35,12 @@ class NetworkMonitor @Inject constructor(
             }
 
             override fun onLost(network: Network) {
-                // Antes de decir que no hay internet, comprobamos si queda otra red activa
+                // Comprueba si queda otra red activa antes de emitir desconexión
                 trySend(isOnlineStatus())
             }
 
             override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
-                // Detecta casos como "Wifi conectado pero sin acceso a internet"
+                // Detecta casos como wifi conectado pero sin acceso a internet
                 trySend(isOnlineStatus())
             }
         }
@@ -47,8 +50,7 @@ class NetworkMonitor @Inject constructor(
             .build()
 
         connectivityManager.registerNetworkCallback(request, callback)
-
-        // Estado inicial para el flujo
+        // Emite el estado inicial para el flujo
         trySend(isOnlineStatus())
 
         awaitClose { connectivityManager.unregisterNetworkCallback(callback) }

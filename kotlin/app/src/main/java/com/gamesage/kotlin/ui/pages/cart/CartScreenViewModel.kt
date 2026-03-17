@@ -1,10 +1,14 @@
 package com.gamesage.kotlin.ui.pages.cart
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gamesage.kotlin.R
 import com.gamesage.kotlin.data.model.CartItem
 import com.gamesage.kotlin.data.repository.cart.CartRepository
+import com.gamesage.kotlin.utils.LanguageUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,7 +30,7 @@ data class CartItemUiState(
     val itemTotal: Double
 )
 
-//Estados de pantalla
+// Estados de pantalla
 sealed class CartUiState {
     object Initial : CartUiState()
     object Loading : CartUiState()
@@ -34,12 +38,16 @@ sealed class CartUiState {
     data class Error(val message: String) : CartUiState()
 }
 
-//Se comunica con el CartRepository (que accede a la base de datos)
+// Se comunica con el CartRepository (que accede a la base de datos)
 @HiltViewModel
 class CartScreenViewModel @Inject constructor(
     private val cartRepository: CartRepository,
-    private val loadingManager: com.gamesage.kotlin.utils.LoadingManager
+    private val loadingManager: com.gamesage.kotlin.utils.LoadingManager,
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
+
+    private val localizedContext: Context
+        get() = LanguageUtils.onAttach(context)
     private val _uiState = MutableStateFlow<CartUiState>(CartUiState.Initial)
     val uiState: StateFlow<CartUiState> = _uiState.asStateFlow()
 
@@ -47,43 +55,45 @@ class CartScreenViewModel @Inject constructor(
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> = _errorMessage.asStateFlow()
 
-    //Cuando se crea el ViewModel, automáticamente observa el carrito.
+    // Cuando se crea el ViewModel, automáticamente observa el carrito.
     init {
         observeCart()
     }
 
     private fun observeCart() {
         viewModelScope.launch {
-            //El estado se muestra en loading mientras se obtiene la información del carrito
+            // El estado se muestra en loading mientras se obtiene la información del carrito
             _uiState.value = CartUiState.Loading
-            //Delay mínimo para ver rueda de carga (como en favoritos) y mejor obtención de datos
+            // Delay mínimo para ver rueda de carga (como en favoritos) y mejor obtención de datos
             kotlinx.coroutines.delay(400)
-            //Se observa el flujo de datos desde el repositorio del carrito
+            // Se observa el flujo de datos desde el repositorio del carrito
             cartRepository.observe().collect { result ->
                 if (result.isSuccess) {
-                    //Si es exitoso, se obtiene la lista de elementos del carrito o si es nulo una lista vacía
+                    // Si es exitoso, se obtiene la lista de elementos del carrito o si es nulo una lista vacía
                     val items = result.getOrNull() ?: emptyList()
-                    //Se actualiza el estado de la UI con los datos obtenidos, se mapea los datos con el CartItemUiState y se calcula el total
+                    // Se actualiza el estado de la UI con los datos obtenidos, se mapea los datos con el CartItemUiState y se calcula el total
                     _uiState.value = CartUiState.Success(
                         items = items.map { it.asCartItemUiState() },
                         total = calculateTotal(items)
                     )
                 } else {
-                    //Si falla, se muestra un mensaje de error
-                    _uiState.value = CartUiState.Error("Error al cargar el carrito")
+                    // Si falla, se muestra un mensaje de error
+                    _uiState.value = CartUiState.Error(
+                        localizedContext.getString(R.string.error_cart_load)
+                    )
                 }
             }
         }
     }
 
-    //Calcula el total general del carrito.
+    // Calcula el total general del carrito.
     private fun calculateTotal(items: List<CartItem>): Double {
-        //suma los resultados de una operación sobre una la lista, CartItem
+        // Suma los resultados de una operación sobre una la lista, CartItem
         return items.sumOf { item ->
-            //Se extrae el objeto game del item
+            // Se extrae el objeto game del item
             val game = item.game
-            //Si está en oferta usa salePrice.
-            //Si no, usa price normal.
+            // Si está en oferta usa salePrice.
+            // Si no, usa price normal.
             val price = if (game?.isOnSale == true && game.salePrice != null) {
                 game.salePrice
             } else {
@@ -93,19 +103,20 @@ class CartScreenViewModel @Inject constructor(
         }
     }
 
-    //Actualiza la cantidad de un producto.
+    // Actualiza la cantidad de un producto.
     private suspend fun updateItemQuantity(item: CartItemUiState, newQuantity: Int) {
         loadingManager.setBlocking(true)
-        // Hacemos llamada al repositorio para actualizar la cantidad, se pasa el identificador del juego que se está actualizando, el identificador de la plataforma en la que se juega el juego y la nueva cantidad para el artículo en el carrito.
+        // Hacemos llamada al repositorio para actualizar la cantidad
         val result = cartRepository.update(item.gameId, item.platformId, newQuantity)
         if (result.isFailure) {
-            _errorMessage.value = "Error al actualizar: se necesita conexión a internet"
+            _errorMessage.value =
+                localizedContext.getString(R.string.error_cart_update_network)
         }
         loadingManager.setBlocking(false)
     }
 
-    //Aumenta la cantidad en +1
-    //Llama a updateItemQuantity
+    // Aumenta la cantidad en +1
+    // Llama a updateItemQuantity
     fun incrementQuantity(item: CartItemUiState) {
         viewModelScope.launch {
             val newQuantity = item.quantity + 1
@@ -116,35 +127,37 @@ class CartScreenViewModel @Inject constructor(
 
     fun decrementQuantity(item: CartItemUiState) {
         viewModelScope.launch {
-            //Si cantidad > 1, resta 1
+            // Si cantidad > 1, resta 1
             if (item.quantity > 1) {
                 updateItemQuantity(item, item.quantity - 1)
             } else {
-                //Si cantidad = 1,elimina el producto
+                // Si cantidad = 1,elimina el producto
                 removeFromCart(item.gameId, item.platformId)
             }
         }
     }
 
-    //Elimina un producto del carrito.
+    // Elimina un producto del carrito.
     fun removeFromCart(gameId: Int, platformId: Int) {
         viewModelScope.launch {
             loadingManager.setBlocking(true)
             val result = cartRepository.remove(gameId, platformId)
             if (result.isFailure) {
-                _errorMessage.value = "Error al eliminar: se necesita conexión a internet"
+                _errorMessage.value =
+                    localizedContext.getString(R.string.error_cart_remove_network)
             }
             loadingManager.setBlocking(false)
         }
     }
 
-    //Vacía completamente el carrito.
+    // Vacía completamente el carrito.
     fun clearCart() {
         viewModelScope.launch {
             loadingManager.setBlocking(true)
             val result = cartRepository.clear()
             if (result.isFailure) {
-                _errorMessage.value = "Error al vaciar: se necesita conexión a internet"
+                _errorMessage.value =
+                    localizedContext.getString(R.string.error_cart_clear_network)
             }
             loadingManager.setBlocking(false)
         }
@@ -158,9 +171,11 @@ class CartScreenViewModel @Inject constructor(
             // Por ahora, vaciamos el carrito como señal de compra completada.
             val result = cartRepository.clear()
             if (result.isSuccess) {
-                _errorMessage.value = "¡Compra realizada con éxito!"
+                _errorMessage.value =
+                    localizedContext.getString(R.string.cart_checkout_success)
             } else {
-                _errorMessage.value = "Error al procesar el pago"
+                _errorMessage.value =
+                    localizedContext.getString(R.string.cart_checkout_error)
             }
             loadingManager.setBlocking(false)
         }
@@ -172,10 +187,10 @@ class CartScreenViewModel @Inject constructor(
     }
 }
 
-//Convierte un objeto de tipo CartItem en un objeto CartItemUiState
+// Convierte un objeto de tipo CartItem en un objeto CartItemUiState
 fun CartItem.asCartItemUiState(): CartItemUiState {
     val game = this.game
-    //Calcula precio correcto (oferta o normal)
+    // Calcula precio correcto (oferta o normal)
     val unitPrice = if (game?.isOnSale == true && game.salePrice != null) {
         game.salePrice
     } else {

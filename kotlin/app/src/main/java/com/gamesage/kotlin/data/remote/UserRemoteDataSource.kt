@@ -2,7 +2,6 @@ package com.gamesage.kotlin.data.remote
 
 import com.gamesage.kotlin.data.UserDataSource
 import com.gamesage.kotlin.data.model.User
-import com.gamesage.kotlin.data.remote.api.GamesApi
 import com.gamesage.kotlin.data.remote.api.UsersApi
 import com.gamesage.kotlin.data.remote.model.UserApiModel
 import com.gamesage.kotlin.data.remote.model.toDomain
@@ -48,7 +47,7 @@ class UserRemoteDataSource @Inject constructor(
     }
 
     override suspend fun readOne(id: Long): Result<User> {
-         // Si pedimos uno específico por ID, de momento devolvemos 'me' 
+         // Si pedimos uno específico por ID, de momento devolvemos 'me',
          // ya que la API del cliente está limitada a su propio perfil
          return me()
     }

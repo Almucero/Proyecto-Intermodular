@@ -57,7 +57,7 @@ fun HomeScreen(
     onGameClick: (Long) -> Unit = {},
     onGenreClick: (String) -> Unit = {}
 ) {
-    //Observa el estado y mensajes de error desde el ViewModel.
+    // Observa el estado y mensajes de error desde el ViewModel.
     val uiState by viewModel.uiState.collectAsState()
 
 
@@ -66,7 +66,7 @@ fun HomeScreen(
             .fillMaxSize()
             .background(Color(0xFF111827))
     ) {
-        //Manejo de los distintos estados de la pantalla.
+        // Manejo de los distintos estados de la pantalla.
         when (val state = uiState) {
                 is HomeUiState.Initial,
                 is HomeUiState.Loading -> {
@@ -110,11 +110,11 @@ fun HomeScreen(
                             .verticalScroll(rememberScrollState())
                             .padding(top = 12.dp, bottom = 32.dp)
                     ) {
-                        //Sección de categorías (géneros).
+                        // Sección de categorías (géneros).
                         Spacer(Modifier.height(12.dp))
                         CategorySection(state.categories, onGenreClick)
 
-                        //Listas horizontales de juegos por sección.
+                        // Listas horizontales de juegos por sección.
                         GameHorizontalList(stringResource(R.string.home_best_sellers), state.bestSellers, onGameClick)
                         GameHorizontalList(stringResource(R.string.home_offers), state.offers, onGameClick)
                         GameHorizontalList(stringResource(R.string.home_top_rated), state.topRated, onGameClick)
@@ -148,7 +148,7 @@ fun CategorySection(categories: List<String>, onGenreClick: (String) -> Unit) {
     }
 }
 
-//Lista horizontal de juegos con título.
+// Lista horizontal de juegos con título.
 @Composable
 fun GameHorizontalList(title: String, games: List<GameHomeUiState>, onGameClick: (Long) -> Unit) {
     if (games.isNotEmpty()) {
@@ -174,7 +174,7 @@ fun GameHorizontalList(title: String, games: List<GameHomeUiState>, onGameClick:
     }
 }
 
-//Tarjeta individual de juego.
+// Tarjeta individual de juego.
 @Composable
 fun GameCard(game: GameHomeUiState, onGameClick: (Long) -> Unit) {
     Column(
@@ -210,6 +210,7 @@ fun GameCard(game: GameHomeUiState, onGameClick: (Long) -> Unit) {
             overflow = TextOverflow.Ellipsis
         )
 
+        // Gestiona como se muestra el precio, ya bien sea el normal, el de oferta, o cuando es gratis
         game.price?.let { price ->
             val currentPrice = if (game.isOnSale && game.salePrice != null) game.salePrice else price
             val isFree = currentPrice.toString().toDoubleOrNull() == 0.0
@@ -239,7 +240,6 @@ fun GameCard(game: GameHomeUiState, onGameClick: (Long) -> Unit) {
 
 @Composable
 fun getTranslatedGenre(genreName: String): String {
-    @Suppress("SpellCheckingInspection")
     return when (genreName.trim().lowercase()) {
         "accion" -> stringResource(R.string.genre_action)
         "aventura" -> stringResource(R.string.genre_adventure)
@@ -255,6 +255,7 @@ fun getTranslatedGenre(genreName: String): String {
     }
 }
 
+// Este es el efecto parpadeante que muestran los skeletons
 fun Modifier.shimmerEffect(): Modifier = composed {
     val transition = rememberInfiniteTransition(label = "shimmer")
     val translateAnim by transition.animateFloat(
@@ -280,6 +281,7 @@ fun Modifier.shimmerEffect(): Modifier = composed {
     this.background(brush)
 }
 
+// Aquí se hace una fila de óvalos (categorías), a los que se les aplicará el efecto de shimmer
 @Composable
 fun CategorySectionSkeleton() {
     Row(
@@ -300,6 +302,7 @@ fun CategorySectionSkeleton() {
     }
 }
 
+// Aquí simplemente se hace una fila de cuadrados (carátulas), a los que se les aplicará el efecto de shimmer, junto con los espacios para precios y demás
 @Composable
 fun GameHorizontalListSkeleton(title: String) {
     Column(modifier = Modifier.padding(top = 20.dp)) {
@@ -347,3 +350,5 @@ fun GameHorizontalListSkeleton(title: String) {
         }
     }
 }
+
+// Estos skeletons desaparecen al llegar los datos, de esta forma se evita un circulo de progreso aburrido

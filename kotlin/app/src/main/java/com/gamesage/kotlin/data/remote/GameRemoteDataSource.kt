@@ -1,8 +1,6 @@
 package com.gamesage.kotlin.data.remote
 
-import com.gamesage.kotlin.data.DeveloperDataSource
 import com.gamesage.kotlin.data.GameDataSource
-import com.gamesage.kotlin.data.model.Developer
 import com.gamesage.kotlin.data.model.Game
 import com.gamesage.kotlin.data.remote.api.GamesApi
 import com.gamesage.kotlin.data.remote.model.toDomain
@@ -12,19 +10,19 @@ import javax.inject.Inject
 
 class GameRemoteDataSource @Inject constructor(
     private val api: GamesApi,
-    private val scope: CoroutineScope
+    @Suppress("unused") private val scope: CoroutineScope
 ): GameDataSource {
     override suspend fun addAll(gameList: List<Game>) {
-        // Not needed for remote data source
+        // No es necesario para remote data source
     }
 
     override suspend fun addOne(game: Game) {
-        // Not needed for remote data source
+        // No es necesario para remote data source
     }
     
     override fun observe(): Flow<Result<List<Game>>> {
-        // Not implemented for remote - use readAll instead
-        throw UnsupportedOperationException("Use readAll() for remote data source")
+        // Not implementado para remote - usa readAll, en cambio,
+        throw UnsupportedOperationException("Usa readAll() para remote data source")
     }
     
     override suspend fun readAll(): Result<List<Game>> {

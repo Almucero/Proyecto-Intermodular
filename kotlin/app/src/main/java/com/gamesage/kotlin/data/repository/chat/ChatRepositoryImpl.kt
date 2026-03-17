@@ -2,6 +2,7 @@ package com.gamesage.kotlin.data.repository.chat
 
 import com.gamesage.kotlin.data.ChatDataSource
 import com.gamesage.kotlin.data.local.chat.ChatLocalDataSource
+import com.gamesage.kotlin.data.local.chat.exceptions.ChatNotFoundException
 import com.gamesage.kotlin.data.model.ChatMessage
 import com.gamesage.kotlin.data.model.ChatSession
 import com.gamesage.kotlin.data.remote.model.SendMessageRequest
@@ -11,12 +12,14 @@ import kotlinx.coroutines.CoroutineScope
 import java.time.LocalDateTime
 import javax.inject.Inject
 
+// Implementación del repositorio de chat: remoto primero, fallback a local.
 class ChatRepositoryImpl @Inject constructor(
     @RemoteDataSource private val remoteDataSource: ChatDataSource,
     private val localDataSource: ChatLocalDataSource,
     @Suppress("unused") private val scope: CoroutineScope
 ) : ChatRepository {
 
+    // Obtiene la lista de sesiones (remoto primero; si falla, devuelve las locales si hay).
     override suspend fun getSessions(): Result<List<ChatSession>> {
         return try {
             val remoteSessions = remoteDataSource.getSessions()
@@ -25,16 +28,21 @@ class ChatRepositoryImpl @Inject constructor(
             Result.success(domainSessions)
         } catch (e: Exception) {
             e.printStackTrace()
-            // Fallback to local
-            val localSessions = localDataSource.getSessions()
-            if (localSessions.isNotEmpty()) {
-                Result.success(localSessions)
+            val localResult = localDataSource.getSessions()
+            if (localResult.isSuccess) {
+                val localSessions = localResult.getOrNull().orEmpty()
+                if (localSessions.isNotEmpty()) {
+                    Result.success(localSessions)
+                } else {
+                    Result.failure(e)
+                }
             } else {
                 Result.failure(e)
             }
         }
     }
 
+    // Obtiene una sesión por id (remoto primero; fallback a local con ChatNotFoundException si no existe).
     override suspend fun getSession(id: Int): Result<ChatSession> {
         return try {
             val remoteSession = remoteDataSource.getSession(id)
@@ -43,23 +51,26 @@ class ChatRepositoryImpl @Inject constructor(
             Result.success(domainSession)
         } catch (e: Exception) {
             e.printStackTrace()
-            // Fallback to local
-            val localSession = localDataSource.getSession(id)
-            if (localSession != null) {
-                Result.success(localSession)
+            val localResult = localDataSource.getSession(id)
+            if (localResult.isSuccess) {
+                localResult
             } else {
-                Result.failure(e)
+                val localError = localResult.exceptionOrNull()
+                if (localError is ChatNotFoundException) {
+                    Result.failure(localError)
+                } else {
+                    Result.failure(e)
+                }
             }
         }
     }
 
+    // Envía el mensaje al remoto, construye la respuesta en dominio, la guarda en local y la devuelve.
     override suspend fun sendMessage(request: SendMessageRequest): Result<ChatMessage> {
         return try {
             val response = remoteDataSource.sendMessage(request)
-            
-            // The response contains text and games, but we must construct the ChatMessage Domain Object
             val assistantMessage = ChatMessage(
-                id = null, // Will fetch true ID later if needed or rely on session refresh
+                id = null,
                 sessionId = response.sessionId,
                 role = "assistant",
                 content = response.text,
@@ -75,6 +86,7 @@ class ChatRepositoryImpl @Inject constructor(
         }
     }
 
+    // Elimina la sesión en remoto y local; si falla el remoto, intenta borrar solo en local y devuelve failure.
     override suspend fun deleteSession(id: Int): Result<Unit> {
         return try {
             remoteDataSource.deleteSession(id)
@@ -82,7 +94,6 @@ class ChatRepositoryImpl @Inject constructor(
             Result.success(Unit)
         } catch (e: Exception) {
             e.printStackTrace()
-            // Maybe it was deleted remotely but local failed, or vice versa. Still want to delete local
             try {
                 localDataSource.deleteSession(id)
             } catch (_: Exception) {}

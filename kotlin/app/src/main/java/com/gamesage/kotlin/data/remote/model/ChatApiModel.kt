@@ -1,51 +1,50 @@
 package com.gamesage.kotlin.data.remote.model
 
-import com.google.gson.annotations.SerializedName
-import com.gamesage.kotlin.data.model.ChatSession
 import com.gamesage.kotlin.data.model.ChatMessage
+import com.gamesage.kotlin.data.model.ChatSession
 import com.gamesage.kotlin.data.model.GameResult
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 data class ChatMessageApiModel(
-    @SerializedName("id") val id: Int? = null,
-    @SerializedName("role") val role: String, // "user" or "assistant"
-    @SerializedName("content") val content: String,
-    @SerializedName("createdAt") val createdAt: String? = null,
-    @SerializedName("games") val games: List<GameResultApiModel>? = null
+    val id: Int? = null,
+    val role: String,
+    val content: String,
+    val createdAt: String? = null,
+    val games: List<GameResultApiModel>? = null
 )
 
 data class ChatSessionApiModel(
-    @SerializedName("id") val id: Int,
-    @SerializedName("userId") val userId: Int? = null,
-    @SerializedName("title") val title: String? = null,
-    @SerializedName("createdAt") val createdAt: String? = null,
-    @SerializedName("updatedAt") val updatedAt: String? = null,
-    @SerializedName("messages") val messages: List<ChatMessageApiModel>? = null,
-    @SerializedName("_count") val count: ChatCountApiModel? = null
+    val id: Int,
+    val userId: Int? = null,
+    val title: String? = null,
+    val createdAt: String? = null,
+    val updatedAt: String? = null,
+    val messages: List<ChatMessageApiModel>? = null,
+    val count: ChatCountApiModel? = null
 )
 
 data class ChatCountApiModel(
-    @SerializedName("messages") val messages: Int
+    val messages: Int
 )
 
 data class GameResultApiModel(
-    @SerializedName("id") val id: Int,
-    @SerializedName("title") val title: String,
-    @SerializedName("price") val price: String,
-    @SerializedName("genres") val genres: String,
-    @SerializedName("platforms") val platforms: String
+    val id: Int,
+    val title: String,
+    val price: String,
+    val genres: String,
+    val platforms: String
 )
 
 data class ChatResponseApiModel(
-    @SerializedName("sessionId") val sessionId: Int,
-    @SerializedName("text") val text: String,
-    @SerializedName("games") val games: List<GameResultApiModel>
+    val sessionId: Int,
+    val text: String,
+    val games: List<GameResultApiModel>
 )
 
 data class SendMessageRequest(
-    @SerializedName("message") val message: String,
-    @SerializedName("sessionId") val sessionId: Int? = null
+    val message: String,
+    val sessionId: Int? = null
 )
 
 fun ChatSessionApiModel.toModel(): ChatSession {

@@ -37,7 +37,7 @@ class SearchViewModel @Inject constructor(
     private val _selectedPrice = MutableStateFlow("")
     val selectedPrice: StateFlow<String> = _selectedPrice.asStateFlow()
     
-    // Filtro de géneros seleccionados (soporta selección múltiple)
+    // Filtro de géneros seleccionados
     private val _selectedGenre = MutableStateFlow<Set<String>>(emptySet())
     val selectedGenre: StateFlow<Set<String>> = _selectedGenre.asStateFlow()
     
@@ -52,11 +52,11 @@ class SearchViewModel @Inject constructor(
     private val _priceValue = MutableStateFlow(100)
     val priceValue: StateFlow<Int> = _priceValue.asStateFlow()
     
-    // Precio máximo detectado entre todos los juegos para ajustar el slider automáticamente(100 es valor por defecto antes de que carguen datos reales)
+    // Precio máximo detectado entre todos los juegos para ajustar el slider automáticamente (100 es valor por defecto antes de que carguen datos reales)
     private val _maxPrice = MutableStateFlow(100)
     val maxPrice: StateFlow<Int> = _maxPrice.asStateFlow()
 
-    // Lista de géneros
+    // Lista de géneros del back
     val availableGenres = MutableStateFlow(listOf(
         "Accion", "Aventura", "RPG", "Deportes", "Estrategia", "Simulacion", "Terror",
         "Carreras", "Plataformas", "Puzzles", "Lucha", "Musicales", "Acción-Aventura",
@@ -68,13 +68,13 @@ class SearchViewModel @Inject constructor(
         "Arcade", "Mundo Abierto", "Off-Road", "Simcade"
     )).asStateFlow()
 
-    // Lista de plataformas
+    // Lista de plataformas del back
     val availablePlatforms = MutableStateFlow(listOf(
         "PC", "PS5", "Xbox Series X", "Switch", "PS4", "Xbox One"
     )).asStateFlow()
 
 
-    // Lista de opciones de filtrado por precio disponibles para la UI
+    // Lista de opciones de filtrado por precio disponibles
     val priceOptions = listOf(
         PriceOption("free", R.string.price_free),
         PriceOption("0-10", labelText = "0-10€"),
@@ -84,7 +84,7 @@ class SearchViewModel @Inject constructor(
     )
 
     init {
-        // Si venimos de otra pantalla con un género preseleccionado (ej. desde Home), lo aplicamos
+        // Si se viene desde home al seleccionar un genero, se aplica
         val genreArg = savedStateHandle.get<String>("genre")
         if (!genreArg.isNullOrEmpty()) {
             _selectedGenre.value = setOf(genreArg)
@@ -103,7 +103,7 @@ class SearchViewModel @Inject constructor(
                     val max = games.maxOfOrNull { 
                         if (it.isOnSale && it.salePrice != null) it.salePrice else it.price ?: 0.0
                     }?.toInt() ?: 100
-                    // Redondea el máximo hacia arriba a la decena más cercana (ej: 53 -> 60)
+                    // Redondea el máximo hacia arriba a la decena más cercana (ej.: 53 -> 60)
                     _maxPrice.value = ((max / 10) + 1) * 10
                     _priceValue.value = _maxPrice.value
                     
@@ -211,7 +211,7 @@ class SearchViewModel @Inject constructor(
         _uiState.value = SearchUiState.Success(filtered)
     }
 
-    // Lógica interna para filtrar la lista basándose en cadenas de tipo "free", "40+" o rangos "X-Y"
+    // Lógica para filtrar la lista basándose en cadenas de tipo "free", "40+" o rangos "X-Y"
     private fun filterByPrice(games: List<Game>, priceRange: String): List<Game> {
         return when {
             priceRange == "free" -> games.filter { (it.price ?: 0.0) == 0.0 }
@@ -219,7 +219,7 @@ class SearchViewModel @Inject constructor(
             priceRange.contains("-") -> {
                 val (min, max) = priceRange.split("-").map { it.toIntOrNull() ?: 0 }
                 games.filter {
-                    // Importante: chequeamos el precio de oferta si existe
+                    // Se chequea el precio de oferta si existe
                     val price = if (it.isOnSale && it.salePrice != null) it.salePrice else it.price ?: 0.0
                     price >= min && price <= max
                 }
@@ -228,15 +228,15 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    // Genera una lista de objetos ActiveFilter para mostrar los "Chips" de filtros aplicados en la UI
+    // Genera una lista de objetos para mostrar los chips de filtros aplicados en la UI
     fun getActiveFilters(): List<ActiveFilter> {
         val filters = mutableListOf<ActiveFilter>()
         
-        // Formatea la etiqueta del precio para que sea legible usando la lista centralizada
+        // Formatea la etiqueta del precio para que sea legible usando la lista
         if (_selectedPrice.value.isNotEmpty()) {
             val option = priceOptions.find { it.value == _selectedPrice.value }
             val label = when {
-                option != null -> option.labelText ?: "Gratis" // Si existe en la lista, usamos su texto (o "Gratis" para el recurso)
+                option != null -> option.labelText ?: "Gratis" // Si existe en la lista, se usa su texto (o "Gratis" para el recurso)
                 else -> "Max: ${_priceValue.value}€"           // Si no está, es que viene del slider
             }
             filters.add(ActiveFilter("price", label))
@@ -256,16 +256,16 @@ class SearchViewModel @Inject constructor(
     }
 }
 
-// Representa una opción de filtrado por precio
+// Opción de filtrado por precio
 data class PriceOption(
-    val value: String,          // Valor de filtro (ej: "free", "0-10")
-    val labelResId: Int? = null, // ID del recurso de texto si es traducible
+    val value: String,            // Valor de filtro (ej: "free", "0-10")
+    val labelResId: Int? = null,  // ID del recurso de texto si es traducible
     val labelText: String? = null // Texto directo si no necesita traducción
 )
 
-// Representa un filtro activo para ser mostrado en la interfaz (Chip)
+// Filtro activo para ser mostrado en la interfaz
 data class ActiveFilter(
     val type: String,  // Identificador del tipo (price, genre:Action, etc.)
-    val label: String  // Texto que verá el usuario (ej: "Acción", "Gratis")
+    val label: String  // Texto que verá el usuario (ej.: "Acción", "Gratis")
 )
 

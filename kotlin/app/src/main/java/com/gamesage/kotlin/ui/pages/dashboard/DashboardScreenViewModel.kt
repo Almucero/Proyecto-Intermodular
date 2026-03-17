@@ -1,12 +1,16 @@
 package com.gamesage.kotlin.ui.pages.dashboard
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gamesage.kotlin.R
 import com.gamesage.kotlin.data.model.User
 import com.gamesage.kotlin.data.remote.api.GameSageApi
 import com.gamesage.kotlin.data.remote.model.UpdateProfileRequest
 import com.gamesage.kotlin.data.repository.user.UserRepository
+import com.gamesage.kotlin.utils.LanguageUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,6 +18,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody.Part.Companion.createFormData
 import okhttp3.RequestBody.Companion.asRequestBody
 
 data class UserEditableData(
@@ -47,8 +52,12 @@ sealed class DashboardUiState {
 class DashboardScreenViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val api: GameSageApi,
-    private val loadingManager: com.gamesage.kotlin.utils.LoadingManager
+    private val loadingManager: com.gamesage.kotlin.utils.LoadingManager,
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
+
+    private val localizedContext: Context
+        get() = LanguageUtils.onAttach(context)
     private val _uiState = MutableStateFlow<DashboardUiState>(DashboardUiState.Initial)
     val uiState: StateFlow<DashboardUiState> = _uiState.asStateFlow()
 
@@ -88,7 +97,9 @@ class DashboardScreenViewModel @Inject constructor(
                 }.onFailure {
                     // Si no hay datos ni siquiera en local, mostramos error de carga
                     if (!isLoggingOut && _uiState.value !is DashboardUiState.Success) {
-                        _uiState.value = DashboardUiState.Error("No se ha podido cargar el perfil")
+                        _uiState.value = DashboardUiState.Error(
+                            localizedContext.getString(R.string.error_profile_load)
+                        )
                     }
                 }
             }
@@ -99,13 +110,13 @@ class DashboardScreenViewModel @Inject constructor(
     fun toggleEdit() {
         val state = _uiState.value
         if (state is DashboardUiState.Success) {
-            //Se invierte el valor de isEditing, que indica si el perfil está actualmente en modo edición o no
+            // Se invierte el valor de isEditing, que indica si el perfil está actualmente en modo edición o no
             val newIsEditing = !state.isEditing
             _uiState.value = state.copy(
-                //Cambiamos el estado de 'isEditing' para reflejar si estamos en modo edición o no
+                // Cambiamos el estado de 'isEditing' para reflejar si estamos en modo edición o no
                 isEditing = newIsEditing,
                 editableUser = if (!newIsEditing)
-                    //Si no estamos en modo edición, restauramos los datos originales
+                    // Si no estamos en modo edición, restauramos los datos originales
                     state.user.toEditableData()
                 // Si estamos en modo edición, mantenemos los datos ya editados
                 else state.editableUser
@@ -141,9 +152,9 @@ class DashboardScreenViewModel @Inject constructor(
                 // Subir imagen si el usuario ha seleccionado una nueva
                 editable.selectedFile?.let { file ->
                     val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-                    val body = okhttp3.MultipartBody.Part.createFormData("file", file.name, requestFile)
-                    val typePart = okhttp3.MultipartBody.Part.createFormData("type", "user")
-                    val idPart = okhttp3.MultipartBody.Part.createFormData("id", currentUser.id.toString())
+                    val body = createFormData("file", file.name, requestFile)
+                    val typePart = createFormData("type", "user")
+                    val idPart = createFormData("id", currentUser.id.toString())
                     api.createMedia(body, typePart, idPart)
                 }
 
@@ -186,7 +197,10 @@ class DashboardScreenViewModel @Inject constructor(
             } catch (e: Exception) {
                 // Si falla el guardado, mostramos el error
                 val isNetworkError = e is java.io.IOException
-                _errorMessage.value = if (isNetworkError) "Sin conexión a internet" else "Error al guardar los cambios"
+                _errorMessage.value = if (isNetworkError)
+                    localizedContext.getString(R.string.error_profile_save_network)
+                else
+                    localizedContext.getString(R.string.error_profile_save_generic)
                 _uiState.value = state.copy(isSaving = false)
                 loadingManager.setBlocking(false)
             }
@@ -206,7 +220,10 @@ class DashboardScreenViewModel @Inject constructor(
                 // Si ocurre un error durante el cierre de sesión, se marca como no estando en proceso de cierre
                 isLoggingOut = false
                 val isNetworkError = e is java.io.IOException
-                _errorMessage.value = if (isNetworkError) "Sin conexión a internet" else "Error al cerrar sesión"
+                _errorMessage.value = if (isNetworkError)
+                    localizedContext.getString(R.string.error_logout_network)
+                else
+                    localizedContext.getString(R.string.error_logout_generic)
             }
         }
     }

@@ -14,11 +14,13 @@ import kotlinx.coroutines.flow.shareIn
 import java.time.LocalDateTime
 import javax.inject.Inject
 
+// Fuente de datos del carrito vía API; implementa CartDataSource.
 class CartRemoteDataSource @Inject constructor(
     private val cartApi: CartApi,
     private val scope: CoroutineScope
 ): CartDataSource {
 
+    // Flujo que reemite readAll() y se comparte con replay 1 para suscriptores.
     override fun observe(): Flow<Result<List<CartItem>>> {
         return flow {
             emit(readAll())
@@ -29,6 +31,7 @@ class CartRemoteDataSource @Inject constructor(
         )
     }
 
+    // Obtiene el carrito desde la API y lo mapea a dominio.
     override suspend fun readAll(): Result<List<CartItem>> {
         return try {
             val apiItems = cartApi.getCart()
@@ -39,6 +42,7 @@ class CartRemoteDataSource @Inject constructor(
         }
     }
 
+    // Busca un item por gameId y platformId en la respuesta del carrito.
     override suspend fun readOne(gameId: Int, platformId: Int): Result<CartItem> {
         return try {
             val all = cartApi.getCart()
@@ -53,6 +57,7 @@ class CartRemoteDataSource @Inject constructor(
         }
     }
 
+    // Convierte el modelo de API a CartItem de dominio.
     private fun CartItemApiModel.asDomainModel(): CartItem {
         return CartItem(
             userId = 0,
@@ -62,7 +67,7 @@ class CartRemoteDataSource @Inject constructor(
             game = Game(
                 id = this.id,
                 title = this.title,
-                description = null, // No se necesita en la lista del carrito
+                description = null,
                 price = this.price,
                 isOnSale = this.isOnSale ?: false,
                 salePrice = this.salePrice,
@@ -90,6 +95,7 @@ class CartRemoteDataSource @Inject constructor(
         )
     }
 
+    // Añade o actualiza cantidad de un producto en el carrito del servidor.
     override suspend fun add(gameId: Int, platformId: Int, quantity: Int): Result<Unit> {
         return try {
             cartApi.addToCart(mapOf("gameId" to gameId, "platformId" to platformId, "quantity" to quantity))
@@ -99,6 +105,7 @@ class CartRemoteDataSource @Inject constructor(
         }
     }
 
+    // Actualiza la cantidad de un item en el carrito del servidor.
     override suspend fun update(gameId: Int, platformId: Int, quantity: Int): Result<Unit> {
         return try {
             cartApi.updateCartItem(gameId, mapOf("quantity" to quantity, "platformId" to platformId))
@@ -108,6 +115,7 @@ class CartRemoteDataSource @Inject constructor(
         }
     }
 
+    // Elimina un producto del carrito en el servidor.
     override suspend fun remove(gameId: Int, platformId: Int): Result<Unit> {
         return try {
             cartApi.removeFromCart(gameId, platformId)
@@ -117,6 +125,7 @@ class CartRemoteDataSource @Inject constructor(
         }
     }
 
+    // Vacía el carrito en el servidor.
     override suspend fun clear(): Result<Unit> {
         return try {
             cartApi.clearCart()

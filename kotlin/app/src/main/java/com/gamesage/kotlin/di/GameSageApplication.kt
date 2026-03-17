@@ -3,21 +3,16 @@ package com.gamesage.kotlin.di
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import androidx.work.Constraints
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.gamesage.kotlin.data.worker.DailyGameWorker
 import com.gamesage.kotlin.utils.NotificationHelper.createNotificationChannel
 import dagger.hilt.android.HiltAndroidApp
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 // Clase principal de la aplicación. Es lo primero que se ejecuta al abrir la app.
 @HiltAndroidApp
-class GameSageApplication : Application(), Configuration.Provider {
+class GameSageApplication: Application(), Configuration.Provider {
 
     // Inyectamos la fábrica de trabajadores de Hilt
     @Inject lateinit var workerFactory: HiltWorkerFactory

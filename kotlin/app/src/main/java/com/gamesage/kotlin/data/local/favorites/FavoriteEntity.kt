@@ -1,8 +1,8 @@
 package com.gamesage.kotlin.data.local.favorites
 
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.gamesage.kotlin.data.model.Developer
+import com.gamesage.kotlin.data.model.Favorite
 import com.gamesage.kotlin.data.model.Game
 import com.gamesage.kotlin.data.model.Media
 import com.gamesage.kotlin.data.model.Platform
@@ -42,8 +42,8 @@ fun Game.toEntity(): FavoriteEntity {
 
 fun List<Game>.toEntity(): List<FavoriteEntity> = this.map(Game::toEntity)
 
-fun FavoriteEntity.toModel(): Game {
-    return Game(
+fun FavoriteEntity.toModel(): Favorite {
+    val game = Game(
         id = this.gameId,
         title = this.title,
         description = null,
@@ -103,6 +103,11 @@ fun FavoriteEntity.toModel(): Game {
             Developer(0, it, LocalDateTime.now(), LocalDateTime.now(), null)
         }
     )
+    return Favorite(
+        gameId = this.gameId,
+        platformId = this.platformId,
+        game = game
+    )
 }
 
-fun List<FavoriteEntity>.toModel(): List<Game> = this.map(FavoriteEntity::toModel)
+fun List<FavoriteEntity>.toModel(): List<Favorite> = this.map(FavoriteEntity::toModel)

@@ -3,6 +3,8 @@ package com.gamesage.kotlin.ui.pages.login
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gamesage.kotlin.R
+import com.gamesage.kotlin.utils.LanguageUtils
 import com.gamesage.kotlin.data.remote.model.SignInRequest
 import com.gamesage.kotlin.data.repository.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +23,7 @@ data class LoginFormData(
     val rememberMe: Boolean = false
 )
 
-//Estados de pantalla
+// Estados de pantalla
 sealed class LoginUiState {
     object Initial : LoginUiState()
     object Loading : LoginUiState()
@@ -32,7 +34,11 @@ sealed class LoginUiState {
 @HiltViewModel
 class LoginScreenViewModel @Inject constructor(
     private val userRepository: UserRepository,
+    @ApplicationContext private val context: Context,
 ) : ViewModel() {
+
+    private val localizedContext: Context
+        get() = LanguageUtils.onAttach(context)
 
     private val _uiState = MutableStateFlow<LoginUiState>(LoginUiState.Initial)
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
@@ -64,9 +70,9 @@ class LoginScreenViewModel @Inject constructor(
     fun login() {
         // Obtiene el estado actual del formulario
         val state = _formData.value
-        //si algún campo está vacío, muestra error
+        // Si algún campo está vacío, muestra error
         if (state.email.isBlank() || state.password.isBlank()) {
-            _errorMessage.value = "Rellena todos los campos"
+            _errorMessage.value = localizedContext.getString(R.string.error_fill_all_fields)
             return
         }
 
@@ -91,17 +97,21 @@ class LoginScreenViewModel @Inject constructor(
             } else {
                 val exception = result.exceptionOrNull()
                 // Verifica si es un error de red
-                val isNetworkError = exception is java.io.IOException || exception is java.net.UnknownHostException
+                val isNetworkError = exception is java.io.IOException
                 
                 val userMessage = if (isNetworkError) {
-                    "No hay conexión a internet. Verifica tu red."
+                    localizedContext.getString(R.string.error_no_internet)
                 } else {
-                    "Usuario no registrado o credenciales incorrectas"
+                    localizedContext.getString(R.string.error_login_credentials)
                 }
                 // Actualiza el estado general de error
                 _uiState.value = LoginUiState.Error(userMessage)
                 // Mensaje corto para Snackbar
-                _errorMessage.value = if (isNetworkError) "Error de conexión" else "Error al iniciar sesión"
+                _errorMessage.value = if (isNetworkError) {
+                    localizedContext.getString(R.string.error_connection_short)
+                } else {
+                    localizedContext.getString(R.string.error_login_short)
+                }
             }
         }
     }

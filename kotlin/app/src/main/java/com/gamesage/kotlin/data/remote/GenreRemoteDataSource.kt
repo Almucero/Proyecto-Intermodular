@@ -2,7 +2,6 @@ package com.gamesage.kotlin.data.remote
 
 import com.gamesage.kotlin.data.GenreDataSource
 import com.gamesage.kotlin.data.model.Genre
-import com.gamesage.kotlin.data.remote.api.GamesApi
 import com.gamesage.kotlin.data.remote.api.GenresApi
 import com.gamesage.kotlin.data.remote.model.toDomain
 import kotlinx.coroutines.CoroutineScope
@@ -11,13 +10,13 @@ import javax.inject.Inject
 
 class GenreRemoteDataSource @Inject constructor(
     private val api: GenresApi,
-    private val scope: CoroutineScope
+    @Suppress("unused") private val scope: CoroutineScope
 ): GenreDataSource {
     override suspend fun addAll(genreList: List<Genre>) {
     }
     
     override fun observe(): Flow<Result<List<Genre>>> {
-        throw UnsupportedOperationException("Use readAll() for remote data source")
+        throw UnsupportedOperationException("Usa readAll() para remote data source")
     }
     
     override suspend fun readAll(): Result<List<Genre>> {

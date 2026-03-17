@@ -3,7 +3,7 @@ package com.gamesage.kotlin.data
 import com.gamesage.kotlin.data.model.CartItem
 import kotlinx.coroutines.flow.Flow
 
-//Define qué operaciones debe tener cualquier fuente de datos del carrito
+// Define qué operaciones debe tener cualquier fuente de datos del carrito
 interface CartDataSource {
     suspend fun readAll(): Result<List<CartItem>>
     suspend fun readOne(gameId: Int, platformId: Int): Result<CartItem>

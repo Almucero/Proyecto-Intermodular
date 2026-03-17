@@ -27,7 +27,7 @@ data class Game(
     val media: List<Media>?,
     val publisherId: Int?,
     val developerId: Int?,
-    val Publisher: Publisher?,
+    val Publisher: Publisher?, // Estos atributos van siempre en mayúsculas, ya que se definieron asi en el back
     val Developer: Developer?
 )
 

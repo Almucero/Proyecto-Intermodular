@@ -1,11 +1,15 @@
 package com.gamesage.kotlin.ui.pages.favorites
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gamesage.kotlin.R
 import com.gamesage.kotlin.data.model.Game
 import com.gamesage.kotlin.data.repository.cart.CartRepository
 import com.gamesage.kotlin.data.repository.favorites.FavoritesRepository
+import com.gamesage.kotlin.utils.LanguageUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -40,8 +44,12 @@ class FavoritesViewModel @Inject constructor(
     private val favoritesRepository: FavoritesRepository,
     private val cartRepository: CartRepository,
     @Suppress("unused") private val applicationScope: CoroutineScope,
-    private val loadingManager: com.gamesage.kotlin.utils.LoadingManager
+    private val loadingManager: com.gamesage.kotlin.utils.LoadingManager,
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
+
+    private val localizedContext: Context
+        get() = LanguageUtils.onAttach(context)
 
     private val _uiState = MutableStateFlow<FavoritesUiState>(FavoritesUiState.Initial)
     val uiState: StateFlow<FavoritesUiState> = _uiState.asStateFlow()
@@ -69,9 +77,12 @@ class FavoritesViewModel @Inject constructor(
                 } else {
                     val e = result.exceptionOrNull()
                     val displayMessage = if (e is IOException) {
-                        "Error al cargar favoritos: se necesita conexión a internet"
+                        localizedContext.getString(R.string.error_favorites_load_network)
                     } else {
-                        "Error al cargar favoritos: ${e?.message ?: "desconocido"}"
+                        localizedContext.getString(
+                            R.string.error_favorites_load_generic,
+                            e?.message ?: ""
+                        )
                     }
                     _uiState.value = FavoritesUiState.Error(displayMessage)
                 }
@@ -88,7 +99,7 @@ class FavoritesViewModel @Inject constructor(
             loadingManager.setBlocking(true)
             val result = favoritesRepository.remove(gameId, platformId)
             if (result.isFailure) {
-                _errorMessage.value = "Error al eliminar: comprueba tu conexión"
+                _errorMessage.value = localizedContext.getString(R.string.error_favorites_remove)
             }
             loadingManager.setBlocking(false)
         }
@@ -101,10 +112,12 @@ class FavoritesViewModel @Inject constructor(
             if (addResult.isSuccess) {
                 val removeResult = favoritesRepository.remove(game.gameId, game.platformId)
                 if (removeResult.isFailure) {
-                    _errorMessage.value = "Error al eliminar de favoritos: comprueba tu conexión"
+                    _errorMessage.value =
+                        localizedContext.getString(R.string.error_favorites_remove_item)
                 }
             } else {
-                _errorMessage.value = "Error al añadir al carrito: comprueba tu conexión"
+                _errorMessage.value =
+                    localizedContext.getString(R.string.error_favorites_add_to_cart)
             }
             loadingManager.setBlocking(false)
         }
@@ -129,7 +142,8 @@ class FavoritesViewModel @Inject constructor(
                 }
                 jobs.awaitAll()
                 if (hasError) {
-                    _errorMessage.value = "Algunos juegos no pudieron transferirse"
+                    _errorMessage.value =
+                        localizedContext.getString(R.string.error_favorites_transfer_some_failed)
                 }
                 loadingManager.setBlocking(false)
             }
@@ -150,7 +164,8 @@ class FavoritesViewModel @Inject constructor(
                 }
                 jobs.awaitAll()
                 if (hasError) {
-                    _errorMessage.value = "Error al vaciar favoritos: comprueba tu conexión"
+                    _errorMessage.value =
+                        localizedContext.getString(R.string.error_favorites_clear)
                 }
                 loadingManager.setBlocking(false)
             }

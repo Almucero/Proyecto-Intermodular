@@ -82,19 +82,19 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             AppTheme {
-                // 1. Estado inicial síncrono para que la app no arranque "pensando" que no hay red
+                // Estado inicial síncrono para que la app no arranque "pensando" que no hay red
                 val initialState = remember { networkMonitor.isOnlineStatus() }
                 val isOnline by networkMonitor.isOnline.collectAsState(initial = initialState)
 
                 val snackbarHostState = remember { SnackbarHostState() }
 
-                // 2. Controlamos si hemos pasado por un estado offline
+                // Controlamos si hemos pasado por un estado offline
                 var wasOffline by remember { mutableStateOf(!initialState) }
 
                 val msgLost = stringResource(R.string.network_lost)
                 val msgRestored = stringResource(R.string.network_restored)
 
-                // 3. Lógica de disparo de Snackbars
+                // Lógica de disparo de Snackbars
                 LaunchedEffect(isOnline) {
                     if (!isOnline) {
                         wasOffline = true
@@ -103,7 +103,7 @@ class MainActivity : ComponentActivity() {
                             duration = SnackbarDuration.Short
                         )
                     } else if (wasOffline) {
-                        // Solo si antes estuvimos desconectados, avisamos de la restauración
+                        // Solo si antes estuvimos desconectados, avisamos de la vuelta de conexión
                         snackbarHostState.showSnackbar(
                             message = msgRestored,
                             duration = SnackbarDuration.Short
@@ -119,7 +119,7 @@ class MainActivity : ComponentActivity() {
                         tokenManager = tokenManager
                     )
 
-                    // El aviso flotante (Snackbar)
+                    // El aviso flotante de conexión (Snackbar)
                     SnackbarHost(
                         hostState = snackbarHostState,
                         modifier = Modifier

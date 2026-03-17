@@ -70,7 +70,7 @@ fun SearchScreen(
     onGameClick: (Long) -> Unit,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
-    // Observamos los estados desde el ViewModel
+    // Se observan los estados desde el ViewModel
     val uiState by viewModel.uiState.collectAsState()
     val selectedPrice by viewModel.selectedPrice.collectAsState()
     val selectedGenre by viewModel.selectedGenre.collectAsState()
@@ -88,11 +88,11 @@ fun SearchScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF111827)) // Fondo oscuro global
+            .background(Color(0xFF111827))
     ) {
         when (uiState) {
             is SearchUiState.Loading -> {
-                // Muestra una ruedecita de carga centrada (como en el resto de la app)
+                // Muestra una rueda de carga
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
@@ -101,7 +101,7 @@ fun SearchScreen(
                 }
             }
             is SearchUiState.Error -> {
-                // Mensaje simple si falla la carga
+                // Mensaje si falla la carga
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Text(stringResource(R.string.search_error), color = Color.White)
                 }
@@ -125,6 +125,7 @@ fun SearchScreen(
                         ) {
                             val activeFilters = viewModel.getActiveFilters()
 
+                            // Se envuelve en animated visibility para evitar que las expansiones de la sección de filtros vayan de 0 a 100
                             AnimatedVisibility(
                                 visible = activeFilters.isNotEmpty(),
                                 enter = expandVertically() + fadeIn(),
@@ -151,7 +152,7 @@ fun SearchScreen(
                                     ) {
                                         activeFilters.forEach { filter ->
                                             FilterChip(
-                                                // Si es género, lo traducimos antes de mostrarlo en el chip
+                                                // Si es género, se traduce antes de mostrarlo en el chip
                                                 label = if (filter.type.startsWith("genre:")) getGenreTranslation(filter.label) else filter.label,
                                                 onRemove = { viewModel.removeFilter(filter.type) }
                                             )
@@ -248,7 +249,7 @@ fun SearchScreen(
     }
 }
 
-// Contenedor genérico para una sección de filtro que se puede abrir y cerrar
+// Contenedor genérico para la sección de filtro
 @Composable
 fun FilterSection(
     title: String,
@@ -369,7 +370,7 @@ fun GenreFilterContent(
     }
 }
 
-// Función auxiliar para mapear los strings de generos del backend a recursos traducibles
+// Función auxiliar para mapear los strings de géneros del backend (tal y como se pusieron) a recursos traducibles
 @Composable
 fun getGenreTranslation(genre: String): String {
     val resId = when (genre.lowercase()) {
@@ -438,7 +439,7 @@ fun FilterOption(
     }
 }
 
-// El "Chip" (pequeña burbuja) que aparece arriba cuando un filtro está activo
+// El chip que aparece arriba cuando un filtro está activo
 @Composable
 fun FilterChip(
     label: String,

@@ -7,12 +7,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class UserLocalDataSource @Inject constructor(
-    private val scope: CoroutineScope,
+    @Suppress("unused") private val scope: CoroutineScope,
     private val userDao: UserDao
 ): UserDataSource {
     override suspend fun addAll(userList: List<User>) {
@@ -40,7 +39,7 @@ class UserLocalDataSource @Inject constructor(
     override suspend fun me(): Result<User> {
         val entity = userDao.getMe()
         return if (entity == null)
-            Result.failure(Exception("No hay usuario guardado localmente"))
+            Result.failure(UserNotFoundException())
         else
             Result.success(entity.toModel())
     }

@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
-// Modelo específico para la UI de la Home
 data class GameHomeUiState(
     val id: Long,
     val title: String,
@@ -51,15 +50,11 @@ class HomeScreenViewModel @Inject constructor(
         observeData()
     }
 
-    // Observa bases de datos de forma reactiva
     private fun observeData() {
         viewModelScope.launch {
             _uiState.value = HomeUiState.Loading
-
-            // Intentamos sincronizar con la red para saber si falla
             val genresSync = genreRepository.readAll()
             val gamesSync = gameRepository.readAll()
-
             combine(
                 genreRepository.observe(),
                 gameRepository.observe()
@@ -103,7 +98,6 @@ class HomeScreenViewModel @Inject constructor(
     }
 }
 
-// Mapeador de Dominio -> UI (Igual que en Cart)
 fun Game.asGameHomeUiState(): GameHomeUiState {
     return GameHomeUiState(
         id = this.id.toLong(),

@@ -28,7 +28,7 @@ class TokenManager @Inject constructor(@ApplicationContext private val context: 
             preferences[TOKEN_KEY]
         }
         
-    // Proporciona un flujo con la preferencia de "Recuerdarme" (por defecto es falso)
+    // Proporciona un flujo con la preferencia de "Recuérdame" (por defecto es falso)
     val rememberMe: Flow<Boolean> = context.dataStore.data
         .map { preferences ->
             preferences[REMEMBER_ME_KEY] ?: false
