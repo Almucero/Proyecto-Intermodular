@@ -1,0 +1,751 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>game-sage documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">game-sage documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content miscellaneous-typealiases">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Miscellaneous</li>
+  <li class="breadcrumb-item">Type aliases</li>
+</ol>
+
+<section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <ul class="index-list">
+                        <li>
+                            <a href="#AddToCartInput" title="src/backend/modules/cart/cart.schema.ts" ><b>AddToCartInput</b>&nbsp;&nbsp;&nbsp;(src/.../cart.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#AddToFavoritesInput" title="src/backend/modules/favorites/favorites.schema.ts" ><b>AddToFavoritesInput</b>&nbsp;&nbsp;&nbsp;(src/.../favorites.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#CartItemResponse" title="src/backend/modules/cart/cart.schema.ts" ><b>CartItemResponse</b>&nbsp;&nbsp;&nbsp;(src/.../cart.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ChangePasswordInput" title="src/backend/modules/users/users.schema.ts" ><b>ChangePasswordInput</b>&nbsp;&nbsp;&nbsp;(src/.../users.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ChatInput" title="src/backend/modules/chat/chat.schema.ts" ><b>ChatInput</b>&nbsp;&nbsp;&nbsp;(src/.../chat.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#CheckoutInput" title="src/backend/modules/purchases/purchases.schema.ts" ><b>CheckoutInput</b>&nbsp;&nbsp;&nbsp;(src/.../purchases.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#CreateDeveloperInput" title="src/backend/modules/developers/developers.schema.ts" ><b>CreateDeveloperInput</b>&nbsp;&nbsp;&nbsp;(src/.../developers.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#CreateGameInput" title="src/backend/modules/games/games.schema.ts" ><b>CreateGameInput</b>&nbsp;&nbsp;&nbsp;(src/.../games.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#CreateGenreInput" title="src/backend/modules/genres/genres.schema.ts" ><b>CreateGenreInput</b>&nbsp;&nbsp;&nbsp;(src/.../genres.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#CreatePlatformInput" title="src/backend/modules/platforms/platforms.schema.ts" ><b>CreatePlatformInput</b>&nbsp;&nbsp;&nbsp;(src/.../platforms.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#CreatePublisherInput" title="src/backend/modules/publishers/publishers.schema.ts" ><b>CreatePublisherInput</b>&nbsp;&nbsp;&nbsp;(src/.../publishers.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#FavoriteResponse" title="src/backend/modules/favorites/favorites.schema.ts" ><b>FavoriteResponse</b>&nbsp;&nbsp;&nbsp;(src/.../favorites.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#Language" title="src/app/core/services/language.service.ts" ><b>Language</b>&nbsp;&nbsp;&nbsp;(src/.../language.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#LoginInput" title="src/backend/modules/auth/auth.schema.ts" ><b>LoginInput</b>&nbsp;&nbsp;&nbsp;(src/.../auth.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#PurchaseResponse" title="src/backend/modules/purchases/purchases.schema.ts" ><b>PurchaseResponse</b>&nbsp;&nbsp;&nbsp;(src/.../purchases.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#RefundInput" title="src/backend/modules/purchases/purchases.schema.ts" ><b>RefundInput</b>&nbsp;&nbsp;&nbsp;(src/.../purchases.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#RegisterInput" title="src/backend/modules/auth/auth.schema.ts" ><b>RegisterInput</b>&nbsp;&nbsp;&nbsp;(src/.../auth.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#UpdateCartQuantityInput" title="src/backend/modules/cart/cart.schema.ts" ><b>UpdateCartQuantityInput</b>&nbsp;&nbsp;&nbsp;(src/.../cart.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#UpdateDeveloperInput" title="src/backend/modules/developers/developers.schema.ts" ><b>UpdateDeveloperInput</b>&nbsp;&nbsp;&nbsp;(src/.../developers.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#UpdateGameInput" title="src/backend/modules/games/games.schema.ts" ><b>UpdateGameInput</b>&nbsp;&nbsp;&nbsp;(src/.../games.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#UpdateGenreInput" title="src/backend/modules/genres/genres.schema.ts" ><b>UpdateGenreInput</b>&nbsp;&nbsp;&nbsp;(src/.../genres.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#UpdateMediaInput" title="src/backend/modules/media/media.schema.ts" ><b>UpdateMediaInput</b>&nbsp;&nbsp;&nbsp;(src/.../media.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#UpdatePlatformInput" title="src/backend/modules/platforms/platforms.schema.ts" ><b>UpdatePlatformInput</b>&nbsp;&nbsp;&nbsp;(src/.../platforms.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#UpdateProfileInput" title="src/backend/modules/users/users.schema.ts" ><b>UpdateProfileInput</b>&nbsp;&nbsp;&nbsp;(src/.../users.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#UpdatePublisherInput" title="src/backend/modules/publishers/publishers.schema.ts" ><b>UpdatePublisherInput</b>&nbsp;&nbsp;&nbsp;(src/.../publishers.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#UpdateUserInput" title="src/backend/modules/users/users.schema.ts" ><b>UpdateUserInput</b>&nbsp;&nbsp;&nbsp;(src/.../users.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#UploadMediaInput" title="src/backend/modules/media/media.schema.ts" ><b>UploadMediaInput</b>&nbsp;&nbsp;&nbsp;(src/.../media.schema.ts)</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    <h3>src/backend/modules/cart/cart.schema.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AddToCartInput"></a>
+                    <span class="name "><b>AddToCartInput</b><a href="#AddToCartInput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CartItemResponse"></a>
+                    <span class="name "><b>CartItemResponse</b><a href="#CartItemResponse"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="UpdateCartQuantityInput"></a>
+                    <span class="name "><b>UpdateCartQuantityInput</b><a href="#UpdateCartQuantityInput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/backend/modules/favorites/favorites.schema.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AddToFavoritesInput"></a>
+                    <span class="name "><b>AddToFavoritesInput</b><a href="#AddToFavoritesInput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="FavoriteResponse"></a>
+                    <span class="name "><b>FavoriteResponse</b><a href="#FavoriteResponse"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/backend/modules/users/users.schema.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ChangePasswordInput"></a>
+                    <span class="name "><b>ChangePasswordInput</b><a href="#ChangePasswordInput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="UpdateProfileInput"></a>
+                    <span class="name "><b>UpdateProfileInput</b><a href="#UpdateProfileInput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="UpdateUserInput"></a>
+                    <span class="name "><b>UpdateUserInput</b><a href="#UpdateUserInput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/backend/modules/chat/chat.schema.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ChatInput"></a>
+                    <span class="name "><b>ChatInput</b><a href="#ChatInput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/backend/modules/purchases/purchases.schema.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CheckoutInput"></a>
+                    <span class="name "><b>CheckoutInput</b><a href="#CheckoutInput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="PurchaseResponse"></a>
+                    <span class="name "><b>PurchaseResponse</b><a href="#PurchaseResponse"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="RefundInput"></a>
+                    <span class="name "><b>RefundInput</b><a href="#RefundInput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/backend/modules/developers/developers.schema.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CreateDeveloperInput"></a>
+                    <span class="name "><b>CreateDeveloperInput</b><a href="#CreateDeveloperInput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="UpdateDeveloperInput"></a>
+                    <span class="name "><b>UpdateDeveloperInput</b><a href="#UpdateDeveloperInput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/backend/modules/games/games.schema.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CreateGameInput"></a>
+                    <span class="name "><b>CreateGameInput</b><a href="#CreateGameInput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="UpdateGameInput"></a>
+                    <span class="name "><b>UpdateGameInput</b><a href="#UpdateGameInput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/backend/modules/genres/genres.schema.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CreateGenreInput"></a>
+                    <span class="name "><b>CreateGenreInput</b><a href="#CreateGenreInput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="UpdateGenreInput"></a>
+                    <span class="name "><b>UpdateGenreInput</b><a href="#UpdateGenreInput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/backend/modules/platforms/platforms.schema.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CreatePlatformInput"></a>
+                    <span class="name "><b>CreatePlatformInput</b><a href="#CreatePlatformInput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="UpdatePlatformInput"></a>
+                    <span class="name "><b>UpdatePlatformInput</b><a href="#UpdatePlatformInput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/backend/modules/publishers/publishers.schema.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CreatePublisherInput"></a>
+                    <span class="name "><b>CreatePublisherInput</b><a href="#CreatePublisherInput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="UpdatePublisherInput"></a>
+                    <span class="name "><b>UpdatePublisherInput</b><a href="#UpdatePublisherInput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/app/core/services/language.service.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="Language"></a>
+                    <span class="name "><b>Language</b><a href="#Language"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;es&quot; | &quot;en&quot; | &quot;de&quot; | &quot;fr&quot; | &quot;it&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/backend/modules/auth/auth.schema.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="LoginInput"></a>
+                    <span class="name "><b>LoginInput</b><a href="#LoginInput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="RegisterInput"></a>
+                    <span class="name "><b>RegisterInput</b><a href="#RegisterInput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>src/backend/modules/media/media.schema.ts</h3>
+    <section data-compodoc="block-typealias">
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="UpdateMediaInput"></a>
+                    <span class="name "><b>UpdateMediaInput</b><a href="#UpdateMediaInput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="UploadMediaInput"></a>
+                    <span class="name "><b>UploadMediaInput</b><a href="#UploadMediaInput"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>z.infer&lt;unknown&gt;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'miscellaneous-typealiases';
+            var COMPODOC_CURRENT_PAGE_URL = 'typealiases.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

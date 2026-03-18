@@ -18,6 +18,11 @@ import { MediaService } from '../../core/services/impl/media.service';
 import { PurchaseService } from '../../core/services/impl/purchase.service';
 import { User } from '../../core/models/user.model';
 
+/**
+ * Componente del Panel de Control (Dashboard) del Usuario.
+ * Permite gestionar el perfil personal, direcciones, visualizar compras completadas
+ * y solicitar reembolsos.
+ */
 @Component({
   selector: 'app-user',
   standalone: true,
@@ -39,22 +44,32 @@ export class DashboardComponent {
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
 
+  /** Señal que contiene los datos del usuario autenticado. */
   user = toSignal(this.auth.user$);
+  /** Señal con la lista de compras completadas satisfactoriamente. */
   purchases = toSignal(this.purchaseService.getAll({ status: 'completed' }), {
     initialValue: [],
   });
+  /** Señal con la lista de compras que han sido reembolsadas. */
   returns = toSignal(this.purchaseService.getAll({ status: 'refunded' }), {
     initialValue: [],
   });
 
+  /** Controla la visibilidad del modal de solicitud de reembolso. */
   isRefundModalOpen = signal(false);
+  /** Almacena el ID de la compra seleccionada para el reembolso. */
   selectedPurchaseId = signal<number | null>(null);
+  /** Almacena el motivo del reembolso introducido por el usuario. */
   refundReason = signal('');
+  /** Mensaje de error relacionado con el proceso de reembolso. */
   refundError = signal<string | null>(null);
 
+  /** Identificador visual del usuario (ej: @usuario). */
   userHandle = '';
+  /** ID interno de la cuenta del usuario. */
   userId = '';
 
+  /** Estructura para gestionar la dirección de envío del usuario. */
   address = {
     line1: '',
     line2: '',
@@ -64,15 +79,25 @@ export class DashboardComponent {
     country: '',
   };
 
+  /** Saldo disponible en la cuenta del usuario (simulado). */
   balance = 0;
+  /** Puntos de fidelidad acumulados por el usuario. */
   points = 250;
 
+  /** Indica si el formulario de perfil está en modo edición. */
   isEditing = false;
+  /** Copia temporal de los datos del usuario para edición sin afectar al original hasta guardar. */
   editableUser: any = {};
 
+  /** Archivo de imagen seleccionado para la foto de perfil. */
   selectedImageFile: File | null = null;
+  /** URL temporal para la previsualización de la nueva imagen de perfil. */
   previewImageUrl: string | null = null;
 
+  /**
+   * Obtiene la URL de la imagen de perfil, priorizando la previsualización local,
+   * luego la imagen de la cuenta y finalmente un icono por defecto.
+   */
   get profileImage(): string {
     if (this.previewImageUrl) {
       return this.previewImageUrl;
@@ -85,6 +110,9 @@ export class DashboardComponent {
   }
 
   constructor() {
+    /**
+     * Sincroniza los datos editables cuando cambia el usuario autenticado.
+     */
     effect(() => {
       const u = this.user();
       if (u) {
@@ -101,6 +129,7 @@ export class DashboardComponent {
     });
   }
 
+  /** Activa o desactiva el modo de edición de perfil. */
   toggleEdit() {
     this.isEditing = !this.isEditing;
     if (this.isEditing) {
@@ -111,6 +140,7 @@ export class DashboardComponent {
     }
   }
 
+  /** Limpia la previsualización de imagen y libera recursos de URL. */
   private clearImagePreview() {
     if (this.previewImageUrl) {
       URL.revokeObjectURL(this.previewImageUrl);
@@ -119,6 +149,10 @@ export class DashboardComponent {
     this.selectedImageFile = null;
   }
 
+  /**
+   * Guarda los cambios realizados en el perfil.
+   * Si se seleccionó una nueva imagen, primero la sube y luego actualiza el usuario.
+   */
   saveChanges() {
     const currentUser = this.user();
     if (currentUser && currentUser.id) {
@@ -130,6 +164,9 @@ export class DashboardComponent {
     }
   }
 
+  /**
+   * Envía la actualización de los datos textuales del usuario al servidor.
+   */
   private saveUserData() {
     const updatedUser: Partial<User> = {
       name: this.editableUser.name,
@@ -154,6 +191,9 @@ export class DashboardComponent {
     });
   }
 
+  /**
+   * Gestiona el reemplazo de la imagen de perfil: elimina la antigua y sube la nueva.
+   */
   private uploadImageThenSaveUser() {
     const currentUser = this.user();
 
@@ -168,6 +208,9 @@ export class DashboardComponent {
     }
   }
 
+  /**
+   * Sube el archivo de imagen seleccionado al servidor.
+   */
   private uploadNewImageThenSaveUser() {
     if (!this.selectedImageFile) return;
 
@@ -177,6 +220,7 @@ export class DashboardComponent {
     });
   }
 
+  /** Maneja el evento de selección de archivo por parte del usuario. */
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
@@ -187,12 +231,14 @@ export class DashboardComponent {
     }
   }
 
+  /** Cierra la sesión del usuario y redirige a la página principal. */
   async onLogout() {
     this.auth.signOut().subscribe(() => {
       this.router.navigate(['/']);
     });
   }
 
+  /** Abre el modal para solicitar un reembolso de una compra específica. */
   openRefundModal(purchaseId: number) {
     this.selectedPurchaseId.set(purchaseId);
     this.refundReason.set('');
@@ -200,6 +246,7 @@ export class DashboardComponent {
     this.isRefundModalOpen.set(true);
   }
 
+  /** Cierra el modal de reembolso y limpia su estado. */
   closeRefundModal() {
     this.isRefundModalOpen.set(false);
     this.selectedPurchaseId.set(null);
@@ -207,6 +254,10 @@ export class DashboardComponent {
     this.refundError.set(null);
   }
 
+  /**
+   * Valida y envía la solicitud de reembolso al servidor.
+   * Recarga la página tras una operación exitosa para refrescar los datos.
+   */
   confirmRefund() {
     const id = this.selectedPurchaseId();
     const reason = this.refundReason();
@@ -219,12 +270,6 @@ export class DashboardComponent {
 
     this.purchaseService.refund(id, reason).subscribe({
       next: () => {
-        // Refresh data (naive approach: reload window or refetch)
-        // For signals, we might need to manually trigger a refresh or just reload for now
-        // Assuming the service update might trigger a signal update if wired correctly,
-        // but since we used toSignal on an observable call, we need to re-run it.
-        // Simple way: reload page or better, re-assign signals if they were writable (they are strictly read-only from toSignal)
-        // Let's do a window reload for simplicity or just navigate to same route
         if (isPlatformBrowser(this.platformId)) {
           window.location.reload();
         }

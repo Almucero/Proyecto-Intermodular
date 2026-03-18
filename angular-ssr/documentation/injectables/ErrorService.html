@@ -1,0 +1,1267 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>game-sage documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">game-sage documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >ErrorService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/core/services/error.service.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Servicio de gestión centralizada de errores de la aplicación.</p>
+<p>Proporciona una forma unificada de manejar errores desde cualquier parte
+de la aplicación, convirtiéndolos en mensajes legibles para el usuario
+y mostrándolos mediante un toast global.</p>
+<p>Características:</p>
+<ul>
+<li>Conversión automática de HttpErrorResponse a mensajes legibles</li>
+<li>Soporte para códigos de error personalizados</li>
+<li>Auto-limpieza de errores después de un tiempo configurable</li>
+<li>Señales reactivas para integración con componentes</li>
+</ul>
+
+            </p>
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#currentError" >currentError</a>
+                            </li>
+                            <li>
+                                <a href="#error" >error</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#errorMap" >errorMap</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#clearError" >clearError</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getErrorType" >getErrorType</a>
+                            </li>
+                            <li>
+                                <a href="#handleError" >handleError</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#parseError" >parseError</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#parseHttpError" >parseHttpError</a>
+                            </li>
+                            <li>
+                                <a href="#registerErrorMessage" >registerErrorMessage</a>
+                            </li>
+                            <li>
+                                <a href="#setError" >setError</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clearError"></a>
+                    <span class="name">
+                        <span ><b>clearError</b></span>
+                        <a href="#clearError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>clearError()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="185"
+                                    class="link-to-prism">src/app/core/services/error.service.ts:185</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Limpia el error actual inmediatamente.</p>
+<p>Típicamente llamado cuando el usuario cierra manualmente el toast
+o cuando se auto-limpia después del duration.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getErrorType"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getErrorType</b></span>
+                        <a href="#getErrorType"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getErrorType(code: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="171"
+                                    class="link-to-prism">src/app/core/services/error.service.ts:171</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Determina el tipo de error basándose en el prefijo del código.</p>
+<p>Convenciones de prefijos:</p>
+<ul>
+<li>ERR_AUTH* → ErrorType.AUTH</li>
+<li>ERR_NETWORK* → ErrorType.NETWORK</li>
+<li>ERR_VALIDATION* → ErrorType.VALIDATION</li>
+<li>ERR_SERVER* → ErrorType.SERVER</li>
+<li>Otro → ErrorType.UNKNOWN</li>
+</ul>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>code</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>Código de error personalizado</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../miscellaneous/enumerations.html#ErrorType" target="_self" >ErrorType</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Tipo de error correspondiente</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleError"></a>
+                    <span class="name">
+                        <span ><b>handleError</b></span>
+                        <a href="#handleError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleError(error: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, duration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="48"
+                                    class="link-to-prism">src/app/core/services/error.service.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Maneja cualquier tipo de error de la aplicación.</p>
+<p>Detecta automáticamente el tipo de error (HttpErrorResponse, Error custom, etc.)
+y lo convierte en un AppError con mensaje legible.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html">this.http.post(...).subscribe({
+  error: (err) =&gt; this.errorService.handleError(err)
+});</code></pre></div></div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>error</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    <ul>
+<li>Objeto de error de cualquier tipo</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>duration</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>5000</code>
+                                            </td>
+
+                                            <td>
+                                                    <ul>
+<li>Tiempo en ms que se muestra el error (0 = permanente)</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="parseError"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>parseError</b></span>
+                        <a href="#parseError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>parseError(error: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="98"
+                                    class="link-to-prism">src/app/core/services/error.service.ts:98</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Determina el tipo de error y lo convierte a AppError.</p>
+<p>Estrategia de parseo:</p>
+<ol>
+<li>Si es HttpErrorResponse → usa parseHttpError()</li>
+<li>Si tiene propiedad &#39;code&#39; → busca en errorMap</li>
+<li>Caso contrario → retorna error desconocido</li>
+</ol>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>error</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>Error de cualquier tipo</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/AppError.html" target="_self" >AppError</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>AppError con tipo, mensaje y metadata</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="parseHttpError"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>parseHttpError</b></span>
+                        <a href="#parseHttpError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>parseHttpError(error: <a href="https://angular.io/api/common/http/HttpErrorResponse" target="_blank">HttpErrorResponse</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="135"
+                                    class="link-to-prism">src/app/core/services/error.service.ts:135</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Convierte errores HTTP en objetos AppError con tipo y mensaje apropiados.</p>
+<p>Mapeo de códigos HTTP:</p>
+<ul>
+<li>400 → VALIDATION: &quot;Datos inválidos&quot;</li>
+<li>401 → AUTH: &quot;Credenciales incorrectas&quot;</li>
+<li>403 → AUTH: &quot;No tienes permisos&quot;</li>
+<li>404 → NETWORK: &quot;Recurso no encontrado&quot;</li>
+<li>500 → SERVER: &quot;Error del servidor&quot;</li>
+<li>0 → NETWORK: &quot;Error de conexión&quot;</li>
+</ul>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>error</td>
+                                            <td>
+                                                            <code><a href="https://angular.io/api/common/http/HttpErrorResponse" target="_blank" >HttpErrorResponse</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>HttpErrorResponse de Angular</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/AppError.html" target="_self" >AppError</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>AppError con código HTTP_{status}</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="registerErrorMessage"></a>
+                    <span class="name">
+                        <span ><b>registerErrorMessage</b></span>
+                        <a href="#registerErrorMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>registerErrorMessage(code: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, message: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="201"
+                                    class="link-to-prism">src/app/core/services/error.service.ts:201</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Registra dinámicamente un nuevo código de error con su mensaje.</p>
+<p>Permite extender el errorMap en tiempo de ejecución sin modificar
+el código del servicio.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html">this.errorService.registerErrorMessage(&#39;ERR_QUOTA_EXCEEDED&#39;, &#39;Has superado tu cuota&#39;);</code></pre></div></div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>code</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>Código de error único</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>message</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>Mensaje legible para el usuario</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setError"></a>
+                    <span class="name">
+                        <span ><b>setError</b></span>
+                        <a href="#setError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setError(message: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, type: <a href="../miscellaneous/enumerations.html#ErrorType" target="_self">ErrorType</a>, duration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="70"
+                                    class="link-to-prism">src/app/core/services/error.service.ts:70</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Establece un error manualmente con mensaje y tipo específicos.</p>
+<p>Útil para errores personalizados del dominio de negocio que no provienen
+de llamadas HTTP.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html">this.errorService.setError(&#39;Usuario o contraseña incorrectos&#39;, ErrorType.AUTH);</code></pre></div></div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>message</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    <ul>
+<li>Mensaje de error legible para el usuario</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>type</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/enumerations.html#ErrorType" target="_self" >ErrorType</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>ErrorType.UNKNOWN</code>
+                                            </td>
+
+                                            <td>
+                                                    <ul>
+<li>Tipo de error (AUTH, NETWORK, VALIDATION, SERVER, UNKNOWN)</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>duration</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>5000</code>
+                                            </td>
+
+                                            <td>
+                                                    <ul>
+<li>Tiempo en ms que se muestra el error (0 = permanente)</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentError"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>currentError</b></span>
+                        <a href="#currentError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;AppError | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/core/services/error.service.ts:20</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="error"></a>
+                    <span class="name">
+                        <span ><b>error</b></span>
+                        <a href="#error"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.currentError.asReadonly()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/core/services/error.service.ts:22</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="errorMap"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>errorMap</b></span>
+                        <a href="#errorMap"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Map&lt;string, string&gt;([
+    [&#x27;ERR_NETWORK&#x27;, &#x27;Error de conexión&#x27;],
+    [&#x27;ERR_AUTH_INVALID&#x27;, &#x27;Credenciales incorrectas&#x27;],
+    [&#x27;ERR_AUTH_EXPIRED&#x27;, &#x27;Sesión expirada&#x27;],
+    [&#x27;ERR_PERMISSION&#x27;, &#x27;No tienes permisos&#x27;],
+    [&#x27;ERR_NOT_FOUND&#x27;, &#x27;Recurso no encontrado&#x27;],
+    [&#x27;ERR_SERVER&#x27;, &#x27;Error del servidor&#x27;],
+    [&#x27;ERR_VALIDATION&#x27;, &#x27;Datos inválidos&#x27;],
+  ])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/core/services/error.service.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, signal } from &#x27;@angular/core&#x27;;
+import { HttpErrorResponse } from &#x27;@angular/common/http&#x27;;
+import { AppError, ErrorType } from &#x27;../models/app-error&#x27;;
+
+/**
+ * Servicio de gestión centralizada de errores de la aplicación.
+ *
+ * Proporciona una forma unificada de manejar errores desde cualquier parte
+ * de la aplicación, convirtiéndolos en mensajes legibles para el usuario
+ * y mostrándolos mediante un toast global.
+ *
+ * Características:
+ * - Conversión automática de HttpErrorResponse a mensajes legibles
+ * - Soporte para códigos de error personalizados
+ * - Auto-limpieza de errores después de un tiempo configurable
+ * - Señales reactivas para integración con componentes
+ */
+@Injectable({ providedIn: &#x27;root&#x27; })
+export class ErrorService {
+  private currentError &#x3D; signal&lt;AppError | null&gt;(null);
+
+  error &#x3D; this.currentError.asReadonly();
+
+  private errorMap &#x3D; new Map&lt;string, string&gt;([
+    [&#x27;ERR_NETWORK&#x27;, &#x27;Error de conexión&#x27;],
+    [&#x27;ERR_AUTH_INVALID&#x27;, &#x27;Credenciales incorrectas&#x27;],
+    [&#x27;ERR_AUTH_EXPIRED&#x27;, &#x27;Sesión expirada&#x27;],
+    [&#x27;ERR_PERMISSION&#x27;, &#x27;No tienes permisos&#x27;],
+    [&#x27;ERR_NOT_FOUND&#x27;, &#x27;Recurso no encontrado&#x27;],
+    [&#x27;ERR_SERVER&#x27;, &#x27;Error del servidor&#x27;],
+    [&#x27;ERR_VALIDATION&#x27;, &#x27;Datos inválidos&#x27;],
+  ]);
+
+  /**
+   * Maneja cualquier tipo de error de la aplicación.
+   *
+   * Detecta automáticamente el tipo de error (HttpErrorResponse, Error custom, etc.)
+   * y lo convierte en un AppError con mensaje legible.
+   *
+   * @param error - Objeto de error de cualquier tipo
+   * @param duration - Tiempo en ms que se muestra el error (0 &#x3D; permanente)
+   *
+   * @example
+   * this.http.post(...).subscribe({
+   *   error: (err) &#x3D;&gt; this.errorService.handleError(err)
+   * });
+   */
+  handleError(error: any, duration: number &#x3D; 5000) {
+    const appError &#x3D; this.parseError(error);
+    this.currentError.set(appError);
+
+    if (duration &gt; 0) {
+      setTimeout(() &#x3D;&gt; this.clearError(), duration);
+    }
+  }
+
+  /**
+   * Establece un error manualmente con mensaje y tipo específicos.
+   *
+   * Útil para errores personalizados del dominio de negocio que no provienen
+   * de llamadas HTTP.
+   *
+   * @param message - Mensaje de error legible para el usuario
+   * @param type - Tipo de error (AUTH, NETWORK, VALIDATION, SERVER, UNKNOWN)
+   * @param duration - Tiempo en ms que se muestra el error (0 &#x3D; permanente)
+   *
+   * @example
+   * this.errorService.setError(&#x27;Usuario o contraseña incorrectos&#x27;, ErrorType.AUTH);
+   */
+  setError(
+    message: string,
+    type: ErrorType &#x3D; ErrorType.UNKNOWN,
+    duration: number &#x3D; 5000,
+  ) {
+    const appError: AppError &#x3D; {
+      type,
+      message,
+      timestamp: new Date(),
+    };
+    this.currentError.set(appError);
+
+    if (duration &gt; 0) {
+      setTimeout(() &#x3D;&gt; this.clearError(), duration);
+    }
+  }
+
+  /**
+   * Determina el tipo de error y lo convierte a AppError.
+   *
+   * Estrategia de parseo:
+   * 1. Si es HttpErrorResponse → usa parseHttpError()
+   * 2. Si tiene propiedad &#x27;code&#x27; → busca en errorMap
+   * 3. Caso contrario → retorna error desconocido
+   *
+   * @param error - Error de cualquier tipo
+   * @returns AppError con tipo, mensaje y metadata
+   */
+  private parseError(error: any): AppError {
+    if (error instanceof HttpErrorResponse) {
+      return this.parseHttpError(error);
+    }
+
+    if (error?.code) {
+      return {
+        type: this.getErrorType(error.code),
+        message: this.errorMap.get(error.code) || error.message,
+        code: error.code,
+        originalError: error,
+        timestamp: new Date(),
+      };
+    }
+
+    return {
+      type: ErrorType.UNKNOWN,
+      message: error?.message || &#x27;Error desconocido&#x27;,
+      originalError: error,
+      timestamp: new Date(),
+    };
+  }
+
+  /**
+   * Convierte errores HTTP en objetos AppError con tipo y mensaje apropiados.
+   *
+   * Mapeo de códigos HTTP:
+   * - 400 → VALIDATION: &quot;Datos inválidos&quot;
+   * - 401 → AUTH: &quot;Credenciales incorrectas&quot;
+   * - 403 → AUTH: &quot;No tienes permisos&quot;
+   * - 404 → NETWORK: &quot;Recurso no encontrado&quot;
+   * - 500 → SERVER: &quot;Error del servidor&quot;
+   * - 0 → NETWORK: &quot;Error de conexión&quot;
+   *
+   * @param error - HttpErrorResponse de Angular
+   * @returns AppError con código HTTP_{status}
+   */
+  private parseHttpError(error: HttpErrorResponse): AppError {
+    const statusMap: Record&lt;number, { type: ErrorType; message: string }&gt; &#x3D; {
+      400: { type: ErrorType.VALIDATION, message: &#x27;Datos inválidos&#x27; },
+      401: { type: ErrorType.AUTH, message: &#x27;Credenciales incorrectas&#x27; },
+      403: { type: ErrorType.AUTH, message: &#x27;No tienes permisos&#x27; },
+      404: { type: ErrorType.NETWORK, message: &#x27;Recurso no encontrado&#x27; },
+      500: { type: ErrorType.SERVER, message: &#x27;Error del servidor&#x27; },
+      0: { type: ErrorType.NETWORK, message: &#x27;Error de conexión&#x27; },
+    };
+
+    const errorInfo &#x3D; statusMap[error.status] || {
+      type: ErrorType.UNKNOWN,
+      message: &#x27;Error inesperado&#x27;,
+    };
+
+    return {
+      ...errorInfo,
+      code: &#x60;HTTP_${error.status}&#x60;,
+      originalError: error,
+      timestamp: new Date(),
+    };
+  }
+
+  /**
+   * Determina el tipo de error basándose en el prefijo del código.
+   *
+   * Convenciones de prefijos:
+   * - ERR_AUTH* → ErrorType.AUTH
+   * - ERR_NETWORK* → ErrorType.NETWORK
+   * - ERR_VALIDATION* → ErrorType.VALIDATION
+   * - ERR_SERVER* → ErrorType.SERVER
+   * - Otro → ErrorType.UNKNOWN
+   *
+   * @param code - Código de error personalizado
+   * @returns Tipo de error correspondiente
+   */
+  private getErrorType(code: string): ErrorType {
+    if (code.startsWith(&#x27;ERR_AUTH&#x27;)) return ErrorType.AUTH;
+    if (code.startsWith(&#x27;ERR_NETWORK&#x27;)) return ErrorType.NETWORK;
+    if (code.startsWith(&#x27;ERR_VALIDATION&#x27;)) return ErrorType.VALIDATION;
+    if (code.startsWith(&#x27;ERR_SERVER&#x27;)) return ErrorType.SERVER;
+    return ErrorType.UNKNOWN;
+  }
+
+  /**
+   * Limpia el error actual inmediatamente.
+   *
+   * Típicamente llamado cuando el usuario cierra manualmente el toast
+   * o cuando se auto-limpia después del duration.
+   */
+  clearError() {
+    this.currentError.set(null);
+  }
+
+  /**
+   * Registra dinámicamente un nuevo código de error con su mensaje.
+   *
+   * Permite extender el errorMap en tiempo de ejecución sin modificar
+   * el código del servicio.
+   *
+   * @param code - Código de error único
+   * @param message - Mensaje legible para el usuario
+   *
+   * @example
+   * this.errorService.registerErrorMessage(&#x27;ERR_QUOTA_EXCEEDED&#x27;, &#x27;Has superado tu cuota&#x27;);
+   */
+  registerErrorMessage(code: string, message: string) {
+    this.errorMap.set(code, message);
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'ErrorService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

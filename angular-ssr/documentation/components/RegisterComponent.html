@@ -1,0 +1,1566 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>game-sage documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">game-sage documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  RegisterComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/pages/register/register.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Componente de la página de registro.
+Gestiona el alta de nuevos usuarios con validaciones de contraseña y formato.</p>
+
+    </p>
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-register</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="https://angular.io/api/forms/ReactiveFormsModule" target="_blank" >ReactiveFormsModule</a></code>
+                                <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
+                            <code>TranslatePipe</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./register.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./register.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#auth" >auth</a>
+                            </li>
+                            <li>
+                                <a href="#formRegister" >formRegister</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#languageService" >languageService</a>
+                            </li>
+                            <li>
+                                <a href="#navigateTo" >navigateTo</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#platformId" >platformId</a>
+                            </li>
+                            <li>
+                                <a href="#registerError" >registerError</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#router" >router</a>
+                            </li>
+                            <li>
+                                <a href="#showPassword" >showPassword</a>
+                            </li>
+                            <li>
+                                <a href="#submitted" >submitted</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#getError" >getError</a>
+                            </li>
+                            <li>
+                                <a href="#goBack" >goBack</a>
+                            </li>
+                            <li>
+                                <a href="#goToLogin" >goToLogin</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#hasError" >hasError</a>
+                            </li>
+                            <li>
+                                <a href="#onSubmit" >onSubmit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(formSvc: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/pages/register/register.component.ts:69</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>formSvc</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getError"></a>
+                    <span class="name">
+                        <span ><b>getError</b></span>
+                        <a href="#getError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getError(control: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="147"
+                                    class="link-to-prism">src/app/pages/register/register.component.ts:147</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Obtiene la clave de traducción del error para un campo del formulario.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>control</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Nombre del campo.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>&quot;errors.emailRequired&quot; | &quot;errors.emailInvalid&quot; | &quot;errors.passwordRequired&quot; | &quot;&quot; | &quot;errors.nameRequired&quot; | &quot;errors.surnameRequired&quot; | &quot;errors.passwordPattern&quot; | &quot;errors.password2Required&quot; | &quot;errors.passwordMismatch&quot;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="goBack"></a>
+                    <span class="name">
+                        <span ><b>goBack</b></span>
+                        <a href="#goBack"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>goBack()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="137"
+                                    class="link-to-prism">src/app/pages/register/register.component.ts:137</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Vuelve a la página de login.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="goToLogin"></a>
+                    <span class="name">
+                        <span ><b>goToLogin</b></span>
+                        <a href="#goToLogin"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>goToLogin()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="130"
+                                    class="link-to-prism">src/app/pages/register/register.component.ts:130</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Redirige a la página de login.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hasError"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>hasError</b></span>
+                        <a href="#hasError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>hasError(controlName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, errorName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="181"
+                                    class="link-to-prism">src/app/pages/register/register.component.ts:181</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Comprueba si un campo tiene un error específico y ha sido interactuado.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>controlName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Nombre del campo.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>errorName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Tipo de error.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSubmit"></a>
+                    <span class="name">
+                        <span ><b>onSubmit</b></span>
+                        <a href="#onSubmit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSubmit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="100"
+                                    class="link-to-prism">src/app/pages/register/register.component.ts:100</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Procesa el envío del formulario de registro.
+Si es válido, llama al servicio de registro y redirige al login.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="auth"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>auth</b></span>
+                        <a href="#auth"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(BaseAuthenticationService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/pages/register/register.component.ts:67</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="formRegister"></a>
+                    <span class="name">
+                        <span ><b>formRegister</b></span>
+                        <a href="#formRegister"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/pages/register/register.component.ts:56</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Formulario reactivo de registro.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="languageService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>languageService</b></span>
+                        <a href="#languageService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(LanguageService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/app/pages/register/register.component.ts:68</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="navigateTo"></a>
+                    <span class="name">
+                        <span ><b>navigateTo</b></span>
+                        <a href="#navigateTo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/app/pages/register/register.component.ts:64</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Ruta a la que redirigir tras el login posterior al registro.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="platformId"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>platformId</b></span>
+                        <a href="#platformId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(PLATFORM_ID)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/pages/register/register.component.ts:69</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="registerError"></a>
+                    <span class="name">
+                        <span ><b>registerError</b></span>
+                        <a href="#registerError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/pages/register/register.component.ts:58</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Mensaje de error si falla el registro en el servidor.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="router"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>router</b></span>
+                        <a href="#router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Router)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/pages/register/register.component.ts:66</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showPassword"></a>
+                    <span class="name">
+                        <span ><b>showPassword</b></span>
+                        <a href="#showPassword"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/pages/register/register.component.ts:60</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Controla la visibilidad del campo de contraseña.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submitted"></a>
+                    <span class="name">
+                        <span ><b>submitted</b></span>
+                        <a href="#submitted"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/pages/register/register.component.ts:62</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indica si se ha intentado enviar el formulario.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, inject, PLATFORM_ID } from &#x27;@angular/core&#x27;;
+import { CommonModule, isPlatformBrowser } from &#x27;@angular/common&#x27;;
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidationErrors,
+  Validators,
+} from &#x27;@angular/forms&#x27;;
+import { Router } from &#x27;@angular/router&#x27;;
+import { TranslatePipe } from &#x27;@ngx-translate/core&#x27;;
+import { LanguageService } from &#x27;../../core/services/language.service&#x27;;
+import { BaseAuthenticationService } from &#x27;../../core/services/impl/base-authentication.service&#x27;;
+import { SignUpPayload } from &#x27;../../core/models/user.model&#x27;;
+
+/**
+ * Validador personalizado para comprobar que las contraseñas coinciden.
+ * @param control Control del formulario (espera un FormGroup).
+ */
+function passwordMatches(control: AbstractControl): ValidationErrors | null {
+  const group &#x3D; control as FormGroup;
+  const password &#x3D; group.controls[&#x27;password&#x27;];
+  const password2 &#x3D; group.controls[&#x27;password2&#x27;];
+
+  if (!password || !password2) return null;
+
+  if (password.value !&#x3D;&#x3D; password2.value) {
+    const existing &#x3D; password2.errors ? { ...password2.errors } : {};
+    password2.setErrors({ ...existing, passwordMatch: true });
+  } else {
+    if (password2.errors) {
+      const { passwordMatch, ...rest } &#x3D; password2.errors as any;
+      const remaining &#x3D; Object.keys(rest).length ? rest : null;
+      password2.setErrors(remaining);
+    } else {
+      password2.setErrors(null);
+    }
+  }
+  return null;
+}
+
+/**
+ * Componente de la página de registro.
+ * Gestiona el alta de nuevos usuarios con validaciones de contraseña y formato.
+ */
+@Component({
+  selector: &#x27;app-register&#x27;,
+  standalone: true,
+  imports: [ReactiveFormsModule, CommonModule, TranslatePipe],
+  templateUrl: &#x27;./register.component.html&#x27;,
+  styleUrls: [&#x27;./register.component.scss&#x27;],
+})
+export class RegisterComponent {
+  /** Formulario reactivo de registro. */
+  formRegister: FormGroup;
+  /** Mensaje de error si falla el registro en el servidor. */
+  registerError &#x3D; &#x27;&#x27;;
+  /** Controla la visibilidad del campo de contraseña. */
+  showPassword &#x3D; false;
+  /** Indica si se ha intentado enviar el formulario. */
+  submitted &#x3D; false;
+  /** Ruta a la que redirigir tras el login posterior al registro. */
+  navigateTo: string &#x3D; &#x27;&#x27;;
+
+  private router &#x3D; inject(Router);
+  private auth &#x3D; inject(BaseAuthenticationService);
+  private languageService &#x3D; inject(LanguageService);
+  private platformId &#x3D; inject(PLATFORM_ID);
+
+  constructor(private formSvc: FormBuilder) {
+    this.formRegister &#x3D; this.formSvc.group(
+      {
+        name: [&#x27;&#x27;, [Validators.required]],
+        surname: [&#x27;&#x27;, [Validators.required]],
+        email: [&#x27;&#x27;, [Validators.required, Validators.email]],
+        password: [
+          &#x27;&#x27;,
+          [
+            Validators.required,
+            Validators.pattern(/^(?&#x3D;.*[a-z])(?&#x3D;.*[A-Z])(?&#x3D;.*\d).{8,}$/),
+          ],
+        ],
+        password2: [&#x27;&#x27;, [Validators.required]],
+      },
+      {
+        validators: passwordMatches,
+      },
+    );
+
+    this.navigateTo &#x3D;
+      this.router.getCurrentNavigation()?.extras.state?.[&#x27;navigateTo&#x27;] ||
+      &#x27;/dashboard&#x27;;
+  }
+
+  /**
+   * Procesa el envío del formulario de registro.
+   * Si es válido, llama al servicio de registro y redirige al login.
+   */
+  onSubmit() {
+    this.submitted &#x3D; true;
+    this.registerError &#x3D; &#x27;&#x27;;
+
+    if (this.formRegister.valid) {
+      const { name, surname, email, password } &#x3D; this.formRegister.value;
+      const payload: SignUpPayload &#x3D; { name, surname, email, password };
+
+      this.auth.signUp(payload).subscribe({
+        next: () &#x3D;&gt; {
+          if (isPlatformBrowser(this.platformId)) {
+            sessionStorage.setItem(&#x27;registrationSuccess&#x27;, &#x27;true&#x27;);
+          }
+          this.router.navigate([&#x27;/login&#x27;], {
+            state: { navigateTo: this.navigateTo },
+          });
+        },
+        error: (err) &#x3D;&gt; {
+          this.registerError &#x3D;
+            err.error?.message || &#x27;Error al registrar la cuenta&#x27;;
+          this.formRegister.controls[&#x27;password&#x27;].reset();
+          this.formRegister.controls[&#x27;password2&#x27;].reset();
+        },
+      });
+    } else {
+      this.formRegister.markAllAsTouched();
+    }
+  }
+
+  /** Redirige a la página de login. */
+  goToLogin() {
+    this.router.navigate([&#x27;/login&#x27;], {
+      state: { navigateTo: this.navigateTo },
+    });
+  }
+
+  /** Vuelve a la página de login. */
+  goBack() {
+    this.router.navigate([&#x27;/login&#x27;], {
+      state: { navigateTo: this.navigateTo },
+    });
+  }
+
+  /**
+   * Obtiene la clave de traducción del error para un campo del formulario.
+   * @param control Nombre del campo.
+   */
+  getError(control: string) {
+    switch (control) {
+      case &#x27;name&#x27;:
+        if (this.hasError(&#x27;name&#x27;, &#x27;required&#x27;)) return &#x27;errors.nameRequired&#x27;;
+        break;
+      case &#x27;surname&#x27;:
+        if (this.hasError(&#x27;surname&#x27;, &#x27;required&#x27;))
+          return &#x27;errors.surnameRequired&#x27;;
+        break;
+      case &#x27;email&#x27;:
+        if (this.hasError(&#x27;email&#x27;, &#x27;required&#x27;)) return &#x27;errors.emailRequired&#x27;;
+        if (this.hasError(&#x27;email&#x27;, &#x27;email&#x27;)) return &#x27;errors.emailInvalid&#x27;;
+        break;
+      case &#x27;password&#x27;:
+        if (this.hasError(&#x27;password&#x27;, &#x27;required&#x27;))
+          return &#x27;errors.passwordRequired&#x27;;
+        if (this.hasError(&#x27;password&#x27;, &#x27;pattern&#x27;))
+          return &#x27;errors.passwordPattern&#x27;;
+        break;
+      case &#x27;password2&#x27;:
+        if (this.hasError(&#x27;password2&#x27;, &#x27;required&#x27;))
+          return &#x27;errors.password2Required&#x27;;
+        if (this.hasError(&#x27;password2&#x27;, &#x27;passwordMatch&#x27;))
+          return &#x27;errors.passwordMismatch&#x27;;
+        break;
+    }
+    return &#x27;&#x27;;
+  }
+
+  /**
+   * Comprueba si un campo tiene un error específico y ha sido interactuado.
+   * @param controlName Nombre del campo.
+   * @param errorName Tipo de error.
+   */
+  private hasError(controlName: string, errorName: string): boolean {
+    // eslint-disable-next-line security/detect-object-injection
+    const control &#x3D; this.formRegister.controls[controlName];
+    return (control.touched || this.submitted) &amp;&amp; control.hasError(errorName);
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;flex-1 w-full flex flex-col bg-gray-900 text-white font-sans&quot;&gt;
+  &lt;div class&#x3D;&quot;flex-1 flex items-center justify-center p-4&quot;&gt;
+    &lt;div class&#x3D;&quot;w-full max-w-lg bg-gray-700 rounded-lg p-4 md:p-8 shadow-xl&quot;&gt;
+      &lt;h1 class&#x3D;&quot;text-xl md:text-3xl font-bold text-white text-center mb-4&quot;&gt;
+        {{ &quot;register.title&quot; | translate }}
+      &lt;/h1&gt;
+      &lt;p class&#x3D;&quot;mb-4 text-white text-center&quot;&gt;
+        {{ &quot;register.alreadyAccount&quot; | translate }}
+        &lt;a
+          (click)&#x3D;&quot;goToLogin()&quot;
+          class&#x3D;&quot;text-blue-300 underline cursor-pointer transition-transform duration-150 active:scale-95&quot;
+          &gt;{{ &quot;register.loginLink&quot; | translate }}&lt;/a
+        &gt;
+      &lt;/p&gt;
+      &lt;form
+        class&#x3D;&quot;px-4 md:px-5&quot;
+        [formGroup]&#x3D;&quot;formRegister&quot;
+        (ngSubmit)&#x3D;&quot;onSubmit()&quot;
+      &gt;
+        &lt;div class&#x3D;&quot;mb-3&quot;&gt;
+          &lt;div class&#x3D;&quot;flex items-center gap-1 mb-2&quot;&gt;
+            &lt;label class&#x3D;&quot;text-white font-medium&quot; for&#x3D;&quot;name&quot;&gt;{{
+              &quot;register.nameLabel&quot; | translate
+            }}&lt;/label&gt;
+            &lt;span class&#x3D;&quot;text-red-500&quot;&gt; *&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div class&#x3D;&quot;relative&quot;&gt;
+            &lt;span
+              class&#x3D;&quot;text-gray-400 absolute left-3 top-1/2 -translate-y-1/2&quot;
+            &gt;
+              &lt;svg
+                xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+                fill&#x3D;&quot;none&quot;
+                viewBox&#x3D;&quot;0 0 24 24&quot;
+                stroke-width&#x3D;&quot;1.5&quot;
+                stroke&#x3D;&quot;currentColor&quot;
+                class&#x3D;&quot;size-6&quot;
+              &gt;
+                &lt;path
+                  stroke-linecap&#x3D;&quot;round&quot;
+                  stroke-linejoin&#x3D;&quot;round&quot;
+                  d&#x3D;&quot;M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z&quot;
+                /&gt;
+              &lt;/svg&gt;
+            &lt;/span&gt;
+            &lt;input
+              id&#x3D;&quot;name&quot;
+              formControlName&#x3D;&quot;name&quot;
+              [placeholder]&#x3D;&quot;&#x27;register.namePlaceholder&#x27; | translate&quot;
+              autocomplete&#x3D;&quot;given-name&quot;
+              class&#x3D;&quot;w-full pl-10 h-10 rounded-sm border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-300&quot;
+              type&#x3D;&quot;text&quot;
+            /&gt;
+          &lt;/div&gt;
+          @if (getError(&quot;name&quot;)) {
+            &lt;span class&#x3D;&quot;text-red-500 mt-3 mix-blend-color-dodge&quot;&gt;
+              {{ getError(&quot;name&quot;) | translate }}
+            &lt;/span&gt;
+          }
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;mb-3&quot;&gt;
+          &lt;label class&#x3D;&quot;text-white font-medium&quot; for&#x3D;&quot;surname&quot;&gt;{{
+            &quot;register.surnameLabel&quot; | translate
+          }}&lt;/label&gt;
+          &lt;span class&#x3D;&quot;text-red-500&quot;&gt; *&lt;/span&gt;
+          &lt;div class&#x3D;&quot;relative&quot;&gt;
+            &lt;span
+              class&#x3D;&quot;text-gray-400 absolute left-3 top-1/2 -translate-y-1/2&quot;
+            &gt;
+              &lt;svg
+                xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+                fill&#x3D;&quot;none&quot;
+                viewBox&#x3D;&quot;0 0 24 24&quot;
+                stroke-width&#x3D;&quot;1.5&quot;
+                stroke&#x3D;&quot;currentColor&quot;
+                class&#x3D;&quot;size-6&quot;
+              &gt;
+                &lt;path
+                  stroke-linecap&#x3D;&quot;round&quot;
+                  stroke-linejoin&#x3D;&quot;round&quot;
+                  d&#x3D;&quot;M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z&quot;
+                /&gt;
+              &lt;/svg&gt;
+            &lt;/span&gt;
+            &lt;input
+              id&#x3D;&quot;surname&quot;
+              formControlName&#x3D;&quot;surname&quot;
+              autocomplete&#x3D;&quot;family-name&quot;
+              [placeholder]&#x3D;&quot;&#x27;register.surnamePlaceholder&#x27; | translate&quot;
+              class&#x3D;&quot;w-full pl-10 h-10 rounded-sm border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-300&quot;
+            /&gt;
+          &lt;/div&gt;
+          @if (getError(&quot;surname&quot;)) {
+            &lt;span class&#x3D;&quot;text-red-500 mt-3 mix-blend-color-dodge&quot;&gt;
+              {{ getError(&quot;surname&quot;) | translate }}
+            &lt;/span&gt;
+          }
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;mb-3&quot;&gt;
+          &lt;label class&#x3D;&quot;text-white font-medium&quot; for&#x3D;&quot;email&quot;&gt;{{
+            &quot;login.emailLabel&quot; | translate
+          }}&lt;/label&gt;
+          &lt;span class&#x3D;&quot;text-red-500&quot;&gt; *&lt;/span&gt;
+          &lt;div class&#x3D;&quot;relative&quot;&gt;
+            &lt;span
+              class&#x3D;&quot;text-gray-400 absolute left-3 top-1/2 -translate-y-1/2&quot;
+            &gt;
+              &lt;svg
+                xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+                fill&#x3D;&quot;none&quot;
+                viewBox&#x3D;&quot;0 0 24 24&quot;
+                stroke-width&#x3D;&quot;1.5&quot;
+                stroke&#x3D;&quot;currentColor&quot;
+                class&#x3D;&quot;size-6&quot;
+              &gt;
+                &lt;path
+                  stroke-linecap&#x3D;&quot;round&quot;
+                  stroke-linejoin&#x3D;&quot;round&quot;
+                  d&#x3D;&quot;M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75&quot;
+                /&gt;
+              &lt;/svg&gt;
+            &lt;/span&gt;
+            &lt;input
+              id&#x3D;&quot;email&quot;
+              formControlName&#x3D;&quot;email&quot;
+              autocomplete&#x3D;&quot;email&quot;
+              [placeholder]&#x3D;&quot;&#x27;login.emailPlaceholder&#x27; | translate&quot;
+              class&#x3D;&quot;w-full pl-10 h-10 rounded-sm border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-300 focus:bg-gray-800&quot;
+              type&#x3D;&quot;email&quot;
+            /&gt;
+          &lt;/div&gt;
+          @if (getError(&quot;email&quot;)) {
+            &lt;span class&#x3D;&quot;text-red-500 mt-3 mix-blend-color-dodge&quot;&gt;
+              {{ getError(&quot;email&quot;) | translate }}
+            &lt;/span&gt;
+          }
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;mb-3&quot;&gt;
+          &lt;label class&#x3D;&quot;text-white font-medium&quot; for&#x3D;&quot;password&quot;&gt;{{
+            &quot;login.passwordLabel&quot; | translate
+          }}&lt;/label&gt;
+          &lt;span class&#x3D;&quot;text-red-500&quot;&gt; *&lt;/span&gt;
+          &lt;div class&#x3D;&quot;relative&quot;&gt;
+            &lt;span
+              class&#x3D;&quot;text-gray-400 absolute left-3 top-1/2 -translate-y-1/2&quot;
+            &gt;
+              &lt;svg
+                xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+                fill&#x3D;&quot;none&quot;
+                viewBox&#x3D;&quot;0 0 24 24&quot;
+                stroke-width&#x3D;&quot;1.5&quot;
+                stroke&#x3D;&quot;currentColor&quot;
+                class&#x3D;&quot;size-6&quot;
+              &gt;
+                &lt;path
+                  stroke-linecap&#x3D;&quot;round&quot;
+                  stroke-linejoin&#x3D;&quot;round&quot;
+                  d&#x3D;&quot;M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z&quot;
+                /&gt;
+              &lt;/svg&gt;
+            &lt;/span&gt;
+            &lt;input
+              id&#x3D;&quot;password&quot;
+              formControlName&#x3D;&quot;password&quot;
+              autocomplete&#x3D;&quot;new-password&quot;
+              [placeholder]&#x3D;&quot;&#x27;login.passwordPlaceholder&#x27; | translate&quot;
+              class&#x3D;&quot;w-full pl-10 h-10 rounded-sm border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-300&quot;
+              [type]&#x3D;&quot;showPassword ? &#x27;text&#x27; : &#x27;password&#x27;&quot;
+            /&gt;
+            &lt;span
+              (click)&#x3D;&quot;showPassword &#x3D; !showPassword&quot;
+              class&#x3D;&quot;text-gray-400 cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 transition-transform duration-150 active:scale-95&quot;
+            &gt;
+              @if (!showPassword) {
+                &lt;svg
+                  xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+                  fill&#x3D;&quot;none&quot;
+                  viewBox&#x3D;&quot;0 0 24 24&quot;
+                  stroke-width&#x3D;&quot;1.5&quot;
+                  stroke&#x3D;&quot;currentColor&quot;
+                  class&#x3D;&quot;size-6&quot;
+                &gt;
+                  &lt;path
+                    stroke-linecap&#x3D;&quot;round&quot;
+                    stroke-linejoin&#x3D;&quot;round&quot;
+                    d&#x3D;&quot;M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z&quot;
+                  /&gt;
+                  &lt;path
+                    stroke-linecap&#x3D;&quot;round&quot;
+                    stroke-linejoin&#x3D;&quot;round&quot;
+                    d&#x3D;&quot;M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z&quot;
+                  /&gt;
+                &lt;/svg&gt;
+              }
+              @if (showPassword) {
+                &lt;svg
+                  xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+                  fill&#x3D;&quot;none&quot;
+                  viewBox&#x3D;&quot;0 0 24 24&quot;
+                  stroke-width&#x3D;&quot;1.5&quot;
+                  stroke&#x3D;&quot;currentColor&quot;
+                  class&#x3D;&quot;size-6&quot;
+                &gt;
+                  &lt;path
+                    stroke-linecap&#x3D;&quot;round&quot;
+                    stroke-linejoin&#x3D;&quot;round&quot;
+                    d&#x3D;&quot;M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88&quot;
+                  /&gt;
+                &lt;/svg&gt;
+              }
+            &lt;/span&gt;
+          &lt;/div&gt;
+          @if (getError(&quot;password&quot;)) {
+            &lt;span class&#x3D;&quot;text-red-500 mt-3 mix-blend-color-dodge&quot;&gt;
+              {{ getError(&quot;password&quot;) | translate }}
+            &lt;/span&gt;
+          }
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;mb-3&quot;&gt;
+          &lt;label class&#x3D;&quot;text-white font-medium&quot; for&#x3D;&quot;password2&quot;&gt;{{
+            &quot;register.password2Label&quot; | translate
+          }}&lt;/label&gt;
+          &lt;span class&#x3D;&quot;text-red-500&quot;&gt; *&lt;/span&gt;
+          &lt;div class&#x3D;&quot;relative&quot;&gt;
+            &lt;span
+              class&#x3D;&quot;text-gray-400 absolute left-3 top-1/2 -translate-y-1/2&quot;
+            &gt;
+              &lt;svg
+                xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+                fill&#x3D;&quot;none&quot;
+                viewBox&#x3D;&quot;0 0 24 24&quot;
+                stroke-width&#x3D;&quot;1.5&quot;
+                stroke&#x3D;&quot;currentColor&quot;
+                class&#x3D;&quot;size-6&quot;
+              &gt;
+                &lt;path
+                  stroke-linecap&#x3D;&quot;round&quot;
+                  stroke-linejoin&#x3D;&quot;round&quot;
+                  d&#x3D;&quot;M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z&quot;
+                /&gt;
+              &lt;/svg&gt;
+            &lt;/span&gt;
+            &lt;input
+              id&#x3D;&quot;password2&quot;
+              formControlName&#x3D;&quot;password2&quot;
+              autocomplete&#x3D;&quot;new-password&quot;
+              [placeholder]&#x3D;&quot;&#x27;register.password2Placeholder&#x27; | translate&quot;
+              class&#x3D;&quot;w-full pl-10 h-10 rounded-sm border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-300&quot;
+              type&#x3D;&quot;password&quot;
+            /&gt;
+          &lt;/div&gt;
+          @if (getError(&quot;password2&quot;)) {
+            &lt;span class&#x3D;&quot;text-red-500 mt-3 mix-blend-color-dodge&quot;&gt;
+              {{ getError(&quot;password2&quot;) | translate }}
+            &lt;/span&gt;
+          }
+        &lt;/div&gt;
+        @if (registerError) {
+          &lt;div class&#x3D;&quot;mb-3 text-red-500 text-center mix-blend-color-dodge&quot;&gt;
+            {{ registerError }}
+          &lt;/div&gt;
+        }
+
+        &lt;div class&#x3D;&quot;flex flex-col gap-4 mt-4 mb-3&quot;&gt;
+          &lt;button
+            class&#x3D;&quot;rounded-full w-full px-4 py-2 font-medium bg-blue-400 hover:bg-blue-600 border border-blue-300 text-white transition-transform duration-150 active:scale-95&quot;
+            type&#x3D;&quot;submit&quot;
+          &gt;
+            {{ &quot;register.createAccountButton&quot; | translate }}
+          &lt;/button&gt;
+          &lt;button
+            type&#x3D;&quot;button&quot;
+            (click)&#x3D;&quot;goBack()&quot;
+            class&#x3D;&quot;rounded-full w-full px-4 py-2 font-medium bg-gray-500 hover:bg-gray-600 border border-gray-400 text-white transition-transform duration-150 active:scale-95&quot;
+          &gt;
+            {{ &quot;register.backButton&quot; | translate }}
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./register.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 100%;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="flex-1 w-full flex flex-col bg-gray-900 text-white font-sans">  <div class="flex-1 flex items-center justify-center p-4">    <div class="w-full max-w-lg bg-gray-700 rounded-lg p-4 md:p-8 shadow-xl">      <h1 class="text-xl md:text-3xl font-bold text-white text-center mb-4">        {{ "register.title" | translate }}      </h1>      <p class="mb-4 text-white text-center">        {{ "register.alreadyAccount" | translate }}        <a          (click)="goToLogin()"          class="text-blue-300 underline cursor-pointer transition-transform duration-150 active:scale-95"          >{{ "register.loginLink" | translate }}</a        >      </p>      <form        class="px-4 md:px-5"        [formGroup]="formRegister"        (ngSubmit)="onSubmit()"      >        <div class="mb-3">          <div class="flex items-center gap-1 mb-2">            <label class="text-white font-medium" for="name">{{              "register.nameLabel" | translate            }}</label>            <span class="text-red-500"> *</span>          </div>          <div class="relative">            <span              class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"            >              <svg                xmlns="http://www.w3.org/2000/svg"                fill="none"                viewBox="0 0 24 24"                stroke-width="1.5"                stroke="currentColor"                class="size-6"              >                <path                  stroke-linecap="round"                  stroke-linejoin="round"                  d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"                />              </svg>            </span>            <input              id="name"              formControlName="name"              [placeholder]="\'register.namePlaceholder\' | translate"              autocomplete="given-name"              class="w-full pl-10 h-10 rounded-sm border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-300"              type="text"            />          </div>          @if (getError("name")) {            <span class="text-red-500 mt-3 mix-blend-color-dodge">              {{ getError("name") | translate }}            </span>          }        </div>        <div class="mb-3">          <label class="text-white font-medium" for="surname">{{            "register.surnameLabel" | translate          }}</label>          <span class="text-red-500"> *</span>          <div class="relative">            <span              class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"            >              <svg                xmlns="http://www.w3.org/2000/svg"                fill="none"                viewBox="0 0 24 24"                stroke-width="1.5"                stroke="currentColor"                class="size-6"              >                <path                  stroke-linecap="round"                  stroke-linejoin="round"                  d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"                />              </svg>            </span>            <input              id="surname"              formControlName="surname"              autocomplete="family-name"              [placeholder]="\'register.surnamePlaceholder\' | translate"              class="w-full pl-10 h-10 rounded-sm border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-300"            />          </div>          @if (getError("surname")) {            <span class="text-red-500 mt-3 mix-blend-color-dodge">              {{ getError("surname") | translate }}            </span>          }        </div>        <div class="mb-3">          <label class="text-white font-medium" for="email">{{            "login.emailLabel" | translate          }}</label>          <span class="text-red-500"> *</span>          <div class="relative">            <span              class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"            >              <svg                xmlns="http://www.w3.org/2000/svg"                fill="none"                viewBox="0 0 24 24"                stroke-width="1.5"                stroke="currentColor"                class="size-6"              >                <path                  stroke-linecap="round"                  stroke-linejoin="round"                  d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"                />              </svg>            </span>            <input              id="email"              formControlName="email"              autocomplete="email"              [placeholder]="\'login.emailPlaceholder\' | translate"              class="w-full pl-10 h-10 rounded-sm border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-300 focus:bg-gray-800"              type="email"            />          </div>          @if (getError("email")) {            <span class="text-red-500 mt-3 mix-blend-color-dodge">              {{ getError("email") | translate }}            </span>          }        </div>        <div class="mb-3">          <label class="text-white font-medium" for="password">{{            "login.passwordLabel" | translate          }}</label>          <span class="text-red-500"> *</span>          <div class="relative">            <span              class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"            >              <svg                xmlns="http://www.w3.org/2000/svg"                fill="none"                viewBox="0 0 24 24"                stroke-width="1.5"                stroke="currentColor"                class="size-6"              >                <path                  stroke-linecap="round"                  stroke-linejoin="round"                  d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"                />              </svg>            </span>            <input              id="password"              formControlName="password"              autocomplete="new-password"              [placeholder]="\'login.passwordPlaceholder\' | translate"              class="w-full pl-10 h-10 rounded-sm border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-300"              [type]="showPassword ? \'text\' : \'password\'"            />            <span              (click)="showPassword = !showPassword"              class="text-gray-400 cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 transition-transform duration-150 active:scale-95"            >              @if (!showPassword) {                <svg                  xmlns="http://www.w3.org/2000/svg"                  fill="none"                  viewBox="0 0 24 24"                  stroke-width="1.5"                  stroke="currentColor"                  class="size-6"                >                  <path                    stroke-linecap="round"                    stroke-linejoin="round"                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"                  />                  <path                    stroke-linecap="round"                    stroke-linejoin="round"                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"                  />                </svg>              }              @if (showPassword) {                <svg                  xmlns="http://www.w3.org/2000/svg"                  fill="none"                  viewBox="0 0 24 24"                  stroke-width="1.5"                  stroke="currentColor"                  class="size-6"                >                  <path                    stroke-linecap="round"                    stroke-linejoin="round"                    d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"                  />                </svg>              }            </span>          </div>          @if (getError("password")) {            <span class="text-red-500 mt-3 mix-blend-color-dodge">              {{ getError("password") | translate }}            </span>          }        </div>        <div class="mb-3">          <label class="text-white font-medium" for="password2">{{            "register.password2Label" | translate          }}</label>          <span class="text-red-500"> *</span>          <div class="relative">            <span              class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"            >              <svg                xmlns="http://www.w3.org/2000/svg"                fill="none"                viewBox="0 0 24 24"                stroke-width="1.5"                stroke="currentColor"                class="size-6"              >                <path                  stroke-linecap="round"                  stroke-linejoin="round"                  d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"                />              </svg>            </span>            <input              id="password2"              formControlName="password2"              autocomplete="new-password"              [placeholder]="\'register.password2Placeholder\' | translate"              class="w-full pl-10 h-10 rounded-sm border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-300"              type="password"            />          </div>          @if (getError("password2")) {            <span class="text-red-500 mt-3 mix-blend-color-dodge">              {{ getError("password2") | translate }}            </span>          }        </div>        @if (registerError) {          <div class="mb-3 text-red-500 text-center mix-blend-color-dodge">            {{ registerError }}          </div>        }        <div class="flex flex-col gap-4 mt-4 mb-3">          <button            class="rounded-full w-full px-4 py-2 font-medium bg-blue-400 hover:bg-blue-600 border border-blue-300 text-white transition-transform duration-150 active:scale-95"            type="submit"          >            {{ "register.createAccountButton" | translate }}          </button>          <button            type="button"            (click)="goBack()"            class="rounded-full w-full px-4 py-2 font-medium bg-gray-500 hover:bg-gray-600 border border-gray-400 text-white transition-transform duration-150 active:scale-95"          >            {{ "register.backButton" | translate }}          </button>        </div>      </form>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'}];
+    var DIRECTIVES = [{'name': 'CopyOnClickDirective', 'selector': '[appCopyOnClick]'},{'name': 'HighlightDirective', 'selector': '[appHighlight]'}];
+    var ACTUAL_COMPONENT = {'name': 'RegisterComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'RegisterComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,632 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>game-sage documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+	   <link rel="stylesheet" href="./styles/style.css">
+        <link rel="stylesheet" href="./styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="./" class="navbar-brand">game-sage documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content readme">
+                   <div class="content-data">
+
+
+<h1>GameSage SSR - Plataforma de videojuegos</h1>
+<h2>Introducción</h2>
+<p>GameSage es una plataforma web centrada en videojuegos que integra en un solo proyecto el frontend, el backend y la base de datos. La aplicación está construida como una <strong>aplicación Angular con renderizado en servidor (SSR)</strong> y un <strong>backend HTTP</strong> que se ejecuta en el mismo proceso Node.js, de modo que no hace falta desplegar por separado una SPA y una API: un único servidor atiende tanto las páginas web como las peticiones a la API REST.</p>
+<p>El proyecto está pensado para ofrecer una experiencia completa de principio a fin: catálogo de juegos, usuarios y autenticación, carrito y compras, favoritos, subida de imágenes (media), y un chat asistido por IA. Todo ello con persistencia en PostgreSQL, documentación de la API (Swagger), tests de integración del backend y posibilidad de despliegue en entornos como Vercel. Esta documentación describe la arquitectura, el flujo de ejecución, la estructura del código y los pasos para arrancar el proyecto desde cero o trabajar con él en desarrollo.</p>
+<h3>Resumen técnico</h3>
+<ul>
+<li>El <strong>servidor</strong> ejecuta un proceso Node.js que sirve:<ul>
+<li>El <strong>frontend SSR</strong> (HTML renderizado en servidor y assets estáticos).</li>
+<li>La <strong>API REST</strong> bajo <code>/api/*</code> (misma URL base y mismo puerto).</li>
+</ul>
+</li>
+<li>El <strong>frontend</strong> consume la API exclusivamente mediante rutas <strong>relativas</strong> (<code>/api/...</code>), evitando dependencias de URLs absolutas.</li>
+<li><strong>Traducción y SEO Dinámico</strong>: El servidor Node.js (SSR) detecta el idioma del usuario (vía cabecera <code>Accept-Language</code> o cookie) e inyecta al vuelo las meta-etiquetas SEO traducidas (<code>description</code>, <code>keywords</code>, <code>OpenGraph</code>, <code>Twitter Cards</code>, etc.) y el atributo <code>lang</code> en el <code>index.html</code> antes de enviarlo al cliente. Esto permite tener una única SPA que se comporta como múltiples sitios localizados para los motores de búsqueda.</li>
+<li><strong>Gestión de Puertos</strong>: Los scripts de arranque (<code>start</code>, <code>dev</code>, <code>serve:ssr</code>) llaman internamente a <code>scripts/free-port.mjs</code> para liberar los puertos 4200 y 3000 solo cuando están ocupados, evitando errores <code>EADDRINUSE</code> sin mostrar mensajes innecesarios.</li>
+<li>La <strong>persistencia</strong> se gestiona con PostgreSQL y Prisma.</li>
+<li>El backend incorpora seguridad, validación y utilidades de operación (rate limit, serialización, logging).</li>
+<li>La aplicación ha sido <strong>testeada con OWASP ZAP</strong>; se han corregido la mayoría de vulnerabilidades detectadas, salvo aquellas cuya mitigación rompería el funcionamiento de la página (por ejemplo limitaciones propias de Angular o de recursos externos).</li>
+</ul>
+<h3>Índice</h3>
+<ul>
+<li><a href="#visi%C3%B3n-general-y-arquitectura">Visión general y arquitectura</a></li>
+<li><a href="#stack-tecnol%C3%B3gico">Stack tecnológico</a></li>
+<li><a href="#puntos-de-entrada">Puntos de entrada</a></li>
+<li><a href="#ciclo-de-vida-de-una-petici%C3%B3n">Ciclo de vida de una petición</a></li>
+<li><a href="#estructura-del-backend">Estructura del backend</a></li>
+<li><a href="#modelo-de-datos-prisma">Modelo de datos (Prisma)</a></li>
+<li><a href="#frontend-configuraci%C3%B3n-y-flujo">Frontend: configuración y flujo</a></li>
+<li><a href="#build-ssr-y-variable-ssr_disable_backend">Build SSR y variable SSR_DISABLE_BACKEND</a></li>
+<li><a href="#rutas-y-endpoints-relevantes">Rutas y endpoints relevantes</a></li>
+<li><a href="#verificaciones-de-requisitos">Verificaciones de requisitos</a></li>
+<li><a href="#arrancar-el-proyecto-desde-cero">Arrancar el proyecto desde cero</a></li>
+<li><a href="#configuraci%C3%B3n-variables-de-entorno">Configuración (variables de entorno)</a></li>
+<li><a href="#environments-de-angular-srcenvironments">Environments de Angular</a></li>
+<li><a href="#comandos-disponibles">Comandos disponibles</a></li>
+<li><a href="#comandos-m%C3%A1s-%C3%BAtiles-resumen">Comandos más útiles (resumen)</a></li>
+</ul>
+<hr>
+<h2>Visión general y arquitectura</h2>
+<p>La aplicación sigue un modelo monolítico en el que un único proceso Node.js atiende tanto las peticiones de la aplicación web (incluyendo el renderizado en servidor de las páginas Angular) como las peticiones a la API REST. No hay separación de dominios por puerto: todo se expone en el mismo host y puerto configurado (por defecto 3000). Esta decisión simplifica el despliegue y evita problemas de CORS y de configuración de URLs entre frontend y backend.</p>
+<p>El flujo típico de una petición es el siguiente: la petición llega al servidor Express. Primero se inyectan las <strong>cabeceras de seguridad unificadas</strong> (CSP, HSTS, X-Frame-Options, etc.). Luego, si la ruta comienza por <code>/api</code>, la maneja el backend montado en Express (controladores, servicios, base de datos); en caso contrario, se sirven primero los archivos estáticos del build de Angular (incluyendo el <code>sitemap.xml</code> dinámico y estático). Si no hay coincidencia, se delega en el motor de Angular SSR para generar la respuesta HTML, en cuyo proceso <strong>se intercepta la respuesta para traducir dinámicamente el <code>index.html</code></strong> (metadatos SEO) al idioma del usuario antes de enviarla. Así, la SPA y la API coexisten en el mismo origen de forma segura y optimizada.</p>
+<hr>
+<h2>Stack tecnológico</h2>
+<h3>Angular y SSR</h3>
+<p>El frontend está construido con <strong>Angular</strong> (v20) y <strong>@angular/ssr</strong>. El CLI de Angular está configurado con <code>outputMode: &quot;server&quot;</code> y un entry point de servidor (<code>src/server.ts</code>), de modo que el build genera tanto el bundle del navegador como el del servidor. En el servidor se utiliza <code>AngularNodeAppEngine</code> de <code>@angular/ssr/node</code> para renderizar las rutas de la aplicación en Node y devolver HTML, mejorando el SEO y la percepción de carga inicial.</p>
+<h3>Express</h3>
+<p>El backend HTTP está implementado con <strong>Express</strong> (v5). La aplicación Express se crea en <code>src/backend/app.ts</code>, se monta bajo la aplicación principal en <code>src/server.ts</code> (cuando el backend no está deshabilitado) y concentra todo el enrutado bajo <code>/api/*</code>, middlewares globales (CORS, JSON, helmet, rate limiting en producción, logging, serialización de respuestas) y el manejador de errores al final de la cadena.</p>
+<h3>Prisma</h3>
+<p>El acceso a datos se realiza mediante <strong>Prisma</strong>. El esquema está en <code>prisma/schema.prisma</code> y define los modelos (User, Game, Developer, Publisher, Genre, Platform, Media, Favorite, CartItem, Purchase, PurchaseItem, ChatSession, ChatMessage) y sus relaciones. La URL de conexión se obtiene de la variable de entorno <code>POSTGRES_PRISMA_URL</code>. Las migraciones se gestionan con <code>prisma migrate</code>; el cliente se genera con <code>prisma generate</code> y se usa en los servicios del backend.</p>
+<h3>Cloudinary</h3>
+<p>Las imágenes y el media asociado a juegos o usuarios se almacenan y gestionan con <strong>Cloudinary</strong>. Las variables <code>CLOUDINARY_CLOUD_NAME</code>, <code>CLOUDINARY_API_KEY</code> y <code>CLOUDINARY_API_SECRET</code> configuran el cliente. El módulo de media (<code>src/backend/modules/media</code>) utiliza Cloudinary para subir y eliminar recursos; los scripts de seed pueden poblar media desde una carpeta local o desde URLs.</p>
+<h3>IA (Google Generative AI)</h3>
+<p>El chat con IA utiliza <strong>Google Generative AI</strong> (y dependencias como <code>@google/generative-ai</code> o <code>@ai-sdk/google</code>). La API key se configura con <code>GOOGLE_GENERATIVE_AI_API_KEY</code>. El módulo de chat (<code>src/backend/modules/chat</code>) expone endpoints para sesiones y mensajes, y delega en el servicio de IA para generar respuestas.</p>
+<h3>Otras dependencias</h3>
+<ul>
+<li><strong>Zod</strong>: validación de cuerpos de petición en los endpoints (schemas por módulo, middleware <code>validate</code>).</li>
+<li><strong>jsonwebtoken</strong> y <strong>bcryptjs</strong>: autenticación (JWT con issuer/audience, cabecera <code>Authorization: Bearer ...</code>, hash de contraseñas).</li>
+<li><strong>Helmet</strong>: cabeceras de seguridad (CSP desactivado para Swagger; crossOriginResourcePolicy).</li>
+<li><strong>hpp</strong>: protección frente a HTTP Parameter Pollution.</li>
+<li><strong>express-rate-limit</strong>: límite de peticiones por IP (general 100/15 min; auth 5 intentos/hora).</li>
+<li><strong>Swagger (swagger-jsdoc, swagger-ui-express)</strong>: documentación de la API en <code>/api-docs</code>.</li>
+<li><strong>Winston</strong>: logging estructurado en el backend.</li>
+<li><strong>dotenv</strong>: carga de variables desde <code>.env</code> al arrancar el backend.</li>
+<li><strong>ESLint</strong>: análisis estático de código mediante <code>eslint-plugin-security</code> para prevenir inyección de objetos, expresiones regulares inseguras y ejecución de comandos no seguros.</li>
+<li><strong>@angular/ssr</strong>: renderizado universal en servidor (Node.js) para mejorar el SEO y el rendimiento de carga inicial (LCP).</li>
+<li><strong>ngx-translate</strong>: internacionalización (i18n) en cliente y servidor.</li>
+</ul>
+<p>El proyecto aplica buenas prácticas OWASP: unificación de la inyección de <strong>cabeceras de seguridad centralizadas</strong> (<code>security-headers.ts</code>) en todo el proyecto Node.js, <code>Content-Security-Policy</code> estricto generado en vuelo dependiendo del entorno (<code>unsafe-inline</code> denegado en eval), X-Frame-Options (<code>SAMEORIGIN</code>), X-Content-Type-Options (<code>nosniff</code>) y Referrer-Policy en el servidor. CORS restringido en producción mediante <code>CORS_ORIGIN</code>; en desarrollo se permiten automáticamente las URL de origen seguro; redirección a HTTPS en producción; validación Zod de tipos; y bloqueo contra ejecución de objetos/comandos detectado con ESLint.</p>
+<p>La aplicación ha sido auditada con <strong>OWASP ZAP</strong> (Zed Attack Proxy). Tras una profunda revisión, se mitigaron exitosamente errores de enrutamiento con <em>wildcards</em> en SSR, vulnerabilidades de secuencias de bytes (Null Byte Injection mitigados recursivamente), falsos positivos en las validaciones de Zod (mapados correctamente a Bad Request), y problemas de memoria <code>Allocation failed - JavaScript heap out of memory</code> detectados en procesos pesados de compilación (<code>NODE_OPTIONS=--max-old-space-size=8192</code>). Actualmente, la aplicación cuenta con un <em>score</em> completamente limpio en ZAP.</p>
+<hr>
+<h2>Puntos de entrada</h2>
+<h3><code>src/server.ts</code></h3>
+<p>Es el punto de entrada del servidor cuando se ejecuta el build SSR (por ejemplo <code>node dist/game-sage/server/server.mjs</code>). Realiza lo siguiente:</p>
+<ol>
+<li>Registra un middleware global que aplica <strong>cabeceras de seguridad unificadas</strong> (<code>applySecurityHeaders</code>) a todas las peticiones desde el principio.</li>
+<li>Crea una aplicación Express y una instancia de <code>AngularNodeAppEngine</code>.</li>
+<li>Si la variable de entorno <code>SSR_DISABLE_BACKEND</code> no está definida, importa dinámicamente <code>./backend/app</code> y monta la aplicación Express del backend <strong>antes</strong> que los estáticos y el SSR. Esto asegura que las rutas de API (<code>/api/*</code>) tengan prioridad y no sean interceptadas por el router de Angular.</li>
+<li>Monta <code>express.static</code> sobre la carpeta del build del navegador (<code>dist/.../browser</code>) configurando caché a largo plazo.</li>
+<li>Registra un middleware final (<code>processAngularResponse</code>) que delega en <code>angularApp.handle(req)</code>. Tras recibir la respuesta HTML generada por Angular, <strong>la intercepta para inyectar dinámicamente el idioma y los metadatos SEO</strong> (traducción de <code>description</code>, <code>keywords</code>, <code>og:title</code>, etc.) basándose en la cookie <code>app-language</code> o la cabecera <code>Accept-Language</code>.</li>
+<li>Exporta <code>reqHandler</code> para integración con Vercel o para arrancar el servidor HTTP.</li>
+</ol>
+<p>El orden de montaje es crítico: Security Headers -&gt; Backend (/api) -&gt; Estáticos -&gt; Angular SSR (con intercepción SEO).</p>
+<h3><code>src/backend/app.ts</code></h3>
+<p>Construye la aplicación Express del backend. No inicia un servidor propio; se exporta por defecto y se monta en <code>server.ts</code>. Contiene:</p>
+<ul>
+<li>Configuración de <code>trust proxy</code> para correcto uso de IP detrás de proxies.</li>
+<li>En producción, redirección HTTP → HTTPS (según <code>x-forwarded-proto</code> o <code>req.secure</code>).</li>
+<li>Helmet con CSP desactivado y <code>crossOriginResourcePolicy: &#39;cross-origin&#39;</code>.</li>
+<li>CORS: en desarrollo se permiten automáticamente <code>http://localhost:PORT</code> y <code>http://localhost:4200</code>; en producción solo los orígenes definidos en <code>CORS_ORIGIN</code> (separados por coma). Si no se define <code>CORS_ORIGIN</code> en producción, se acepta cualquier origen.</li>
+<li><strong>hpp</strong> para evitar HTTP Parameter Pollution.</li>
+<li><code>express.json</code> con límite 10MB, middleware de logging de peticiones, middleware de serialización de respuestas (conversión de tipos Prisma como <code>Decimal</code> y <code>Date</code> a valores JSON serializables).</li>
+<li>En producción, rate limiter general (100 peticiones por 15 minutos por IP).</li>
+<li>Rutas de salud <code>/api/health</code> y <code>/api/diagnostic</code>.</li>
+<li>Montaje de Swagger UI en <code>/api-docs</code> con especificación dinámica según entorno y host.</li>
+<li>Rutas de auth con rate limiter específico (en entornos no test): <code>/api/auth</code> con <code>authLimiter</code> (5 intentos por hora por IP, sin contar exitosos) y <code>authRoutes</code>.</li>
+<li>Montaje del resto de rutas de dominio: <code>/api/users</code>, <code>/api/games</code>, <code>/api/developers</code>, <code>/api/publishers</code>, <code>/api/genres</code>, <code>/api/platforms</code>, <code>/api/media</code>, <code>/api/favorites</code>, <code>/api/cart</code>, <code>/api/purchases</code>, <code>/api/chat</code>.</li>
+<li>Middleware de manejo de errores al final (en producción devuelve mensajes genéricos sin detalles internos).</li>
+</ul>
+<p>Además, se reemplaza <code>console.warn</code> para silenciar mensajes deprecados o de limpieza que no aportan en runtime.</p>
+<h3><code>src/backend/index.ts</code></h3>
+<p>Punto de entrada alternativo cuando se ejecuta solo el backend (por ejemplo con <code>nodemon</code> sobre <code>src/backend</code>). Crea un servidor llamando a <code>app.listen(env.PORT)</code> y registra manejadores de <code>SIGTERM</code> y <code>SIGINT</code> para cerrar el servidor de forma ordenada. En el flujo SSR normal este fichero no se usa; el servidor se levanta desde <code>server.ts</code>.</p>
+<h3><code>src/main.ts</code> (navegador)</h3>
+<p>Punto de entrada del bundle del navegador. Ejecuta <code>bootstrapApplication(AppComponent, appConfig)</code> con la configuración definida en <code>src/app/app.config.ts</code>. Se usa cuando la aplicación se ejecuta en el cliente (tras la hidratación o en modo solo cliente con <code>ng serve</code>).</p>
+<h3><code>src/main.server.ts</code></h3>
+<p>Punto de entrada del bundle del servidor para Angular. Exporta una función <code>bootstrap</code> que recibe un <code>BootstrapContext</code> y arranca la aplicación con <code>bootstrapApplication(AppComponent, config, context)</code>, usando la configuración de servidor (<code>app.config.server</code>). El CLI de Angular utiliza este archivo para renderizar las rutas en el servidor.</p>
+<hr>
+<h2>Ciclo de vida de una petición</h2>
+<ol>
+<li><p><strong>Llegada al proceso Node</strong>: La petición entra en la aplicación Express definida en <code>server.ts</code>.</p>
+</li>
+<li><p><strong>Backend (rutas <code>/api/*</code>)</strong>: Si la ruta coincide con algún handler del backend montado primero (por ejemplo <code>/api/health</code>, <code>/api/auth/login</code>, <code>/api/games</code>, etc.), la cadena de middlewares de Express se ejecuta: CORS, body parser, request logger, response serializer, rate limiter (si aplica), y luego el router correspondiente. En rutas protegidas, el middleware <code>auth</code> verifica el JWT y adjunta <code>req.user</code>; el middleware <code>adminOnly</code> comprueba que el usuario esté en la lista de administradores. Los controladores llaman a los servicios, que usan Prisma para leer o escribir en PostgreSQL. La respuesta se serializa (Decimal, Date, etc. convertidos) y se envía. Si se lanza un error, el <code>errorHandler</code> centralizado devuelve un JSON de error y registra el fallo.</p>
+</li>
+<li><p><strong>Archivos estáticos</strong>: Si la URL no fue manejada por el backend, Express intenta servir un archivo desde la carpeta <code>browser</code> del build. Las peticiones a JS, CSS, imágenes, etc. se resuelven aquí.</p>
+</li>
+<li><p><strong>SSR (resto de rutas)</strong>: Si no hubo respuesta del backend ni archivo estático, el middleware de Angular llama a <code>angularApp.handle(req)</code>. Angular ejecuta el router de la aplicación, renderiza el componente en servidor y devuelve una respuesta HTTP que incluye un <code>index.html</code>. Esta respuesta <strong>se intercepta en el middleware <code>processAngularResponse</code></strong>, que extrae el idioma (<code>lang</code>) de las cookies del usuario o de <code>Accept-Language</code>, e <strong>inyecta metadatos SEO traducidos en tiempo real</strong> (keywords, descriptions, title) junto con el <code>&lt;html&gt;</code> dinámico.</p>
+</li>
+<li><p><strong>Cliente</strong>: El navegador recibe este HTML localizado y totalmente adaptado. A partir de aquí, Angular carga los scripts del bundle, arranca <code>ngx-translate</code>, hidrata el DOM y permite cambiar el idioma al vuelo manipulando reactivamente el <code>document.documentElement.lang</code>.</p>
+</li>
+</ol>
+<hr>
+<h2>Estructura del backend</h2>
+<h3><code>src/security-headers.ts</code></h3>
+<p>Archivo centralizado que exporta las funciones <code>applySecurityHeaders</code> y <code>applyNoCacheHeaders</code>. Concentra toda la configuración de cabeceras estrictas de seguridad (HSTS, CSP, X-Frame-Options, Permissions-Policy, etc.). El servidor SSR de Angular y todos los middlewares de Express importan y usan estas funciones, lo que garantiza una política de seguridad uniforme, evita duplicidad de código y previene alertas de seguridad (por ejemplo, en OWASP ZAP) independientemente de si la petición la atiende la SPA, un archivo estático o la API.</p>
+<h3><code>src/backend/config/</code></h3>
+<ul>
+<li><strong>env.ts</strong>: Carga <code>dotenv</code> desde <code>.env</code> y exporta un objeto <code>env</code> con las variables necesarias (PORT, NODE_ENV, JWT_SECRET, JWT_EXPIRES_IN, JWT_ISSUER, JWT_AUDIENCE, CORS_ORIGIN opcional, POSTGRES_PRISMA_URL, BCRYPT_SALT_ROUNDS, Cloudinary, GOOGLE_GENERATIVE_AI_API_KEY, ADMIN_EMAILS, ADMIN_PASSWORDS, ADMIN_NAMES). Valida la presencia de las obligatorias y lanza si falta alguna; las opcionales (JWT_*, CORS_ORIGIN) tienen valores por defecto o quedan undefined.</li>
+<li><strong>db.ts</strong>: Instancia única de <code>PrismaClient</code> para reutilizar la conexión.</li>
+<li><strong>swagger.ts</strong>: Definición de la especificación OpenAPI (servidores, componentes, seguridad) usada por Swagger UI. Los JSDoc en las rutas (por ejemplo en <code>auth.routes.ts</code>, <code>games.routes.ts</code>) documentan los endpoints y se integran con swagger-jsdoc.</li>
+</ul>
+<h3><code>src/backend/middleware/</code></h3>
+<ul>
+<li><strong>auth.ts</strong>: Middleware que lee la cabecera <code>Authorization: Bearer &lt;token&gt;</code>, verifica el JWT con <code>JWT_SECRET</code> y opciones <code>issuer</code> y <code>audience</code> (desde env), y si es válido asigna <code>req.user</code> con <code>{ sub, email, isAdmin }</code>. Si falta o es inválido, responde 401.</li>
+<li><strong>authorize.ts</strong>: <code>adminOnly</code> comprueba que <code>req.user</code> exista y que o bien <code>req.user.isAdmin</code> sea true o bien el email esté en la lista <code>ADMIN_EMAILS</code>. Si no, responde 403.</li>
+<li><strong>validate.ts</strong>: Factory que recibe un esquema Zod y devuelve un middleware que hace <code>schema.safeParse(req.body)</code>; si falla, responde 400 con los errores aplanados; si tiene éxito, reemplaza <code>req.body</code> por el resultado tipado y llama a <code>next()</code>.</li>
+<li><strong>rateLimiter.ts</strong>: <code>generalLimiter</code> (100 peticiones / 15 min por IP) y <code>authLimiter</code> (5 intentos / hora por IP para rutas de auth, sin contar las exitosas). Se aplican en <code>app.ts</code> según el entorno.</li>
+<li><strong>requestLogger.ts</strong>: Registra cada petición al finalizar la respuesta (método, path, código de estado, duración) usando el logger de la aplicación (nivel error/warn/http según el código).</li>
+<li><strong>serialize.ts</strong>: Middleware que reemplaza <code>res.json</code> para que, antes de enviar, pase el payload por <code>serializePrisma</code>. Así se convierten tipos no serializables de Prisma (Decimal, BigInt, Date) a tipos JSON válidos.</li>
+<li><strong>error.ts</strong>: Manejador de errores de Express (cuatro argumentos). Registra el error; en producción responde con mensajes genéricos (por ejemplo &quot;Error interno del servidor&quot;, &quot;Datos inválidos&quot;) sin exponer detalles ni stack. En desarrollo incluye el mensaje del error.</li>
+</ul>
+<h3><code>src/backend/utils/</code></h3>
+<ul>
+<li><strong>serialize.ts</strong>: Función recursiva <code>serializePrisma(value)</code> que convierte <code>Decimal</code> (objetos con <code>toNumber</code>), <code>Date</code> (a ISO string), arrays y objetos anidados a valores seguros para <code>JSON.stringify</code>.</li>
+<li><strong>logger.ts</strong>: Configuración de Winston (nivel, formato, salida a consola o archivo según entorno).</li>
+</ul>
+<h3><code>src/backend/modules/</code></h3>
+<p>Cada dominio (auth, users, games, developers, publishers, genres, platforms, media, favorites, cart, purchases, chat) sigue una estructura similar:</p>
+<ul>
+<li><strong>*.routes.ts</strong>: Router de Express que define las rutas (GET, POST, PATCH, DELETE, etc.), aplica middlewares (<code>auth</code>, <code>adminOnly</code>, <code>validate(schema)</code>) y delega en controladores. Incluye anotaciones JSDoc para Swagger.</li>
+<li><strong>*.controller.ts</strong>: Controladores que reciben <code>req</code> y <code>res</code>, extraen parámetros y cuerpo, llaman a los servicios y envían la respuesta (JSON o código de estado). No contienen lógica de negocio pesada.</li>
+<li><strong>*.service.ts</strong>: Lógica de negocio y acceso a datos con Prisma. Crean, leen, actualizan y borran entidades y relaciones.</li>
+<li><strong>*.schema.ts</strong>: Esquemas Zod para validar el body de las peticiones (registro, login, creación/actualización de juegos, etc.).</li>
+</ul>
+<p>Ejemplo de cadena en un endpoint protegido: petición → <code>auth</code> (opcional) → <code>validate(schema)</code> → <code>adminOnly</code> (opcional) → controlador → servicio → Prisma → respuesta JSON (serializada por el middleware global).</p>
+<h3><code>src/backend/scripts/</code></h3>
+<ul>
+<li><strong>seedAdmin.ts</strong>: Crea o actualiza usuarios administradores a partir de las variables <code>ADMIN_EMAILS</code>, <code>ADMIN_PASSWORDS</code> (opcional) y <code>ADMIN_NAMES</code> (opcional). Usado en el pipeline <code>build:full</code> para asegurar que existan admins tras el despliegue.</li>
+<li><strong>cleanData.ts</strong>: Limpia datos de negocio (juegos, compras, favoritos, carrito, media, etc.) y opcionalmente elimina recursos en Cloudinary. Útil para dejar la base en estado conocido antes de un seed completo.</li>
+<li><strong>seedData.ts</strong>: Tras una limpieza, rellena la base con datos de ejemplo (géneros, plataformas, desarrolladores, editores, juegos, media, etc.) usando ficheros o carpetas de referencia (por ejemplo <code>backend-data/</code> o variables como <code>MEDIA_BASE_PATH</code>).</li>
+</ul>
+<h3><code>src/backend/tests/</code></h3>
+<p>Tests de integración con <strong>Jest</strong> y <strong>supertest</strong>. Se ejecutan con <code>npm run test:backend</code> (NODE_ENV=test). Cada archivo (auth.test.ts, users.test.ts, games.test.ts, etc.) levanta la aplicación Express y realiza peticiones HTTP a los endpoints, comprobando códigos de estado y cuerpos de respuesta. La configuración de Jest está en <code>jest.backend.config.js</code>; la base de datos de test debe estar configurada en <code>.env</code> (misma variable <code>POSTGRES_PRISMA_URL</code> o una URL específica de test).</p>
+<hr>
+<h2>Modelo de datos (Prisma)</h2>
+<p>El esquema en <code>prisma/schema.prisma</code> define:</p>
+<ul>
+<li><strong>Developer</strong>, <strong>Publisher</strong>: entidades con nombre único; relacionadas con juegos.</li>
+<li><strong>Platform</strong>, <strong>Genre</strong>: catálogos con nombre único; muchos juegos pueden tener muchas plataformas y muchos géneros (relaciones N:M).</li>
+<li><strong>Game</strong>: título, descripción, precios (price, salePrice), flags (isOnSale, isRefundable), stock por plataforma (stockPc, stockPs5, etc.), videoUrl, rating, releaseDate, relaciones con Publisher, Developer, Genre[], Platform[], Media[], Favorite[], CartItem[], PurchaseItem[].</li>
+<li><strong>Media</strong>: url, publicId, metadatos (format, bytes, width, height, folder, altText); puede asociarse a un Game o a un User (avatar, etc.).</li>
+<li><strong>User</strong>: email, nickname, name, surname, passwordHash, balance, points, isAdmin, dirección (addressLine1, city, region, etc.), accountId/accountAt para integración externa; relaciones con Media, Favorite, CartItem, Purchase, ChatSession.</li>
+<li><strong>Favorite</strong>: usuario, juego, plataforma (único por combinación).</li>
+<li><strong>CartItem</strong>: usuario, juego, plataforma, cantidad.</li>
+<li><strong>Purchase</strong> / <strong>PurchaseItem</strong>: compra con total y estado; ítems con juego, plataforma, precio y cantidad.</li>
+<li><strong>ChatSession</strong> / <strong>ChatMessage</strong>: sesiones de chat por usuario; mensajes con rol (user/assistant), contenido y opcionalmente datos estructurados (por ejemplo juegos recomendados) en JSON.</li>
+</ul>
+<p>Las migraciones en <code>prisma/migrations/</code> reflejan la evolución del esquema (campos añadidos, índices, etc.). En entornos que usan pooler (por ejemplo Neon), <code>directUrl</code> con <code>POSTGRES_URL_NON_POOLING</code> se usa para migraciones.</p>
+<hr>
+<h2>Frontend: configuración y flujo</h2>
+<h3><code>src/app/app.config.ts</code></h3>
+<p>Configuración de la aplicación Angular: Zone.js, router (<code>routes</code>), HttpClient con <code>withFetch()</code> y el interceptor <code>serverConnectionInterceptor</code>, animaciones, Translate (ngx-translate) con loader HTTP desde <code>/assets/i18n/</code>, fallback y idioma por defecto (es), y una gran cantidad de providers para repositorios y servicios.</p>
+<p>Los tokens inyectables definen nombres de recurso (games, developers, genres, etc.), URLs base de API (todas con prefijo <code>environment.apiUrl</code> que en producción y desarrollo suele ser <code>&#39;&#39;</code>, resultando en rutas relativas <code>/api/...</code>) y factories de repositorios y mapeos. Los servicios de dominio (GameService, UserService, CartItemService, PurchaseService, FavoriteService, ChatService, etc.) y el AuthenticationService se registran aquí. También se habilita la hidratación del cliente con <code>provideClientHydration(withEventReplay())</code>.</p>
+<h3><code>src/app/app.routes.ts</code></h3>
+<p>Define las rutas de la SPA: home (<code>/</code>), login, register, dashboard (protegida con authGuard y customerGuard), product/:id, aichat, favourites, cart, settings, help, contact, privacy, conditions, cookies, search, y admin (protegida con authGuard y adminGuard) con rutas hijas para gestión de géneros, desarrolladores, plataformas, editores y juegos. Las rutas de admin cargan componentes con <code>loadComponent</code> (lazy loading).</p>
+<h3>Guards e interceptors</h3>
+<ul>
+<li><strong>authGuard</strong>: Impide acceder a rutas que requieren sesión si no hay usuario autenticado (por ejemplo leyendo token o estado de auth).</li>
+<li><strong>adminGuard</strong>: Restringe el acceso al área de administración a usuarios con rol admin (según backend o estado en cliente).</li>
+<li><strong>customerGuard</strong>: Distingue entre usuarios cliente y otros roles para rutas como dashboard.</li>
+<li><strong>serverConnectionInterceptor</strong>: Interceptor HTTP que reintenta peticiones fallidas con status 0 o &gt;= 500, con un delay (por ejemplo 2 segundos), para tolerar arranques lentos del servidor o fallos temporales.</li>
+</ul>
+<h3>Repositorios y servicios</h3>
+<p>El frontend abstrae las llamadas HTTP en repositorios (por recurso) que construyen las URLs a partir de los tokens (apiUrl + nombre de recurso). Los servicios de dominio utilizan estos repositorios y exponen métodos de alto nivel (listar juegos, añadir al carrito, crear compra, etc.). Los mapeos transforman los DTOs del backend al modelo que usa la aplicación. Esta capa permite cambiar la implementación (HTTP, mock) sin tocar los componentes.</p>
+<h3>Environments</h3>
+<p>En <code>src/environments/</code> están <code>environment.ts</code> (desarrollo) y <code>environment.prod.ts</code> (producción). Contienen <code>production: boolean</code> y <code>apiUrl: string</code>. Con <code>apiUrl: &#39;&#39;</code>, las peticiones se hacen a rutas relativas, por lo que funcionan contra el mismo origen (SSR o proxy en desarrollo). El build de producción reemplaza el fichero de environment mediante <code>fileReplacements</code> en <code>angular.json</code>.</p>
+<hr>
+<h2>Build SSR y variable SSR_DISABLE_BACKEND</h2>
+<p>Durante <code>ng build</code> con configuración SSR, Angular puede ejecutar el servidor de entrada (<code>src/server.ts</code>) para descubrir rutas y generar recursos. En ese contexto, el backend importa Prisma, Cloudinary, dotenv, etc., y puede fallar si no hay <code>.env</code>, base de datos o variables configuradas. Para evitar eso, el script <code>build:ssr</code> define <code>SSR_DISABLE_BACKEND=1</code> (por ejemplo con <code>cross-env</code>). Así, en <code>server.ts</code> la condición <code>if (!process.env[&#39;SSR_DISABLE_BACKEND&#39;])</code> es falsa y no se monta el backend durante el build. El artefacto generado (<code>server.mjs</code>) sí monta el backend cuando se ejecuta en runtime, porque entonces la variable no está definida.</p>
+<hr>
+<h2>Rutas y endpoints relevantes</h2>
+<ul>
+<li><strong>Web</strong>: <code>/</code> (y el resto de rutas de la SPA).</li>
+<li><strong>Health</strong>: <code>GET /api/health</code> (respuesta <code>{ ok: true }</code>).</li>
+<li><strong>Diagnóstico</strong>: <code>GET /api/diagnostic</code>.</li>
+<li><strong>Sitemaps y Robots</strong>:<ul>
+<li><code>GET /robots.txt</code>: Reglas para crawlers.</li>
+<li><code>GET /sitemap.xml</code>: Índice de sitemaps.</li>
+<li><code>GET /sitemap-static.xml</code>: Rutas estáticas de la web.</li>
+<li><code>GET /sitemap-products.xml</code>: Sitemap dinámico generado desde la BD con los productos actuales.</li>
+</ul>
+</li>
+<li><strong>Swagger UI</strong>: <code>GET /api-docs</code>.</li>
+<li><strong>Auth</strong>: <code>POST /api/auth/register</code>, <code>POST /api/auth/login</code>.</li>
+<li><strong>Usuario actual</strong>: <code>GET /api/users/me</code> (requiere JWT).</li>
+<li><strong>Juegos</strong>: <code>GET /api/games</code>, <code>GET /api/games/:id</code>, <code>POST /api/games</code>, <code>PATCH /api/games/:id</code>, <code>DELETE /api/games/:id</code> (creación/edición/borrado con auth y admin).</li>
+<li><strong>Desarrolladores, editores, géneros, plataformas</strong>: CRUD bajo <code>/api/developers</code>, <code>/api/publishers</code>, <code>/api/genres</code>, <code>/api/platforms</code>.</li>
+<li><strong>Media</strong>: subida y gestión bajo <code>/api/media</code>.</li>
+<li><strong>Favoritos, carrito, compras</strong>: <code>/api/favorites</code>, <code>/api/cart</code>, <code>/api/purchases</code>.</li>
+<li><strong>Chat</strong>: <code>/api/chat</code> (sesiones y mensajes con IA).</li>
+</ul>
+<p>La documentación detallada de parámetros, cuerpos y respuestas está en Swagger (<code>/api-docs</code>) y en los JSDoc de cada ruta.</p>
+<hr>
+<h2>Verificaciones de requisitos</h2>
+<p>Antes de ejecutar determinados comandos (build, serve, dev, tests, seeds, etc.), el proyecto ejecuta comprobaciones previas que evitan fallos confusos y muestran errores legibles.</p>
+<ul>
+<li><p><strong><code>scripts/check-npm-install.mjs</code></strong>: Comprueba que exista <code>node_modules</code> y binarios necesarios (Angular CLI, Prisma). Si no se ha ejecutado <code>npm install</code> o la carpeta está incompleta, se muestra un único error indicando que debe ejecutarse <code>npm install</code> antes de continuar.</p>
+</li>
+<li><p><strong><code>scripts/check-prisma.mjs</code></strong>: Comprueba que el cliente de Prisma esté generado (existe <code>node_modules/@prisma/client/index.d.ts</code>). Si no se ha ejecutado <code>npx prisma generate</code>, se muestra un error claro antes de que el compilador de TypeScript falle con mensajes sobre campos o tipos faltantes.</p>
+</li>
+<li><p><strong><code>scripts/serve-ssr.mjs</code></strong>: Antes de arrancar el servidor SSR compilado, valida que exista el build (<code>dist/game-sage/server/server.mjs</code>) y que exista un <code>.env</code> configurado. Si falta alguno, muestra un error directo indicando qué comando o paso previo ejecutar.</p>
+</li>
+<li><p><strong><code>scripts/free-port.mjs</code></strong>: Utilidad interna que verifica si un puerto concreto está en uso y, solo en ese caso, mata el proceso asociado. Se usa desde los scripts <code>start</code>, <code>dev</code> y <code>serve:ssr</code> para evitar errores <code>EADDRINUSE</code> sin imprimir mensajes cuando el puerto ya está libre.</p>
+</li>
+</ul>
+<p>Estas verificaciones se ejecutan automáticamente en los scripts de <code>package.json</code> que las requieren (build, serve:ssr, dev:backend, test, seed:admin, format, etc.). No aplican a <code>clean:full</code> ni a <code>reinstall</code>, ya que esos comandos borran o reinstalan dependencias por diseño.</p>
+<hr>
+<h2>Arrancar el proyecto desde cero</h2>
+<p>Esta sección describe los pasos necesarios para poner en marcha el proyecto en una máquina sin tener preinstalado Node.js, base de datos ni ninguna herramienta del stack.</p>
+<h3>1. Instalar Node.js</h3>
+<p>Node.js incluye el runtime de JavaScript y <strong>npm</strong> (gestor de paquetes). Sin Node no se puede ejecutar el servidor ni el CLI de Angular.</p>
+<ul>
+<li>Descargar el instalador LTS desde <a href="https://nodejs.org/">nodejs.org</a> (o la versión actual si se prefiere).</li>
+<li>Ejecutar el instalador y seguir las opciones por defecto; asegurarse de que la opción para añadir Node al PATH esté activada.</li>
+<li>Abrir una nueva terminal y comprobar:<ul>
+<li><code>node -v</code> (debe mostrar la versión, por ejemplo v20.x o v22.x).</li>
+<li><code>npm -v</code> (debe mostrar la versión de npm).</li>
+</ul>
+</li>
+</ul>
+<p>Versiones recomendadas: Node 20.x o 22.x; el proyecto está probado con estas versiones.</p>
+<h3>2. Instalar Git (opcional)</h3>
+<p>Si el código se obtiene desde un repositorio Git, hace falta tener Git instalado.</p>
+<ul>
+<li>Descargar desde <a href="https://git-scm.com/">git-scm.com</a> e instalar.</li>
+<li>Comprobar con <code>git --version</code>.</li>
+</ul>
+<p>Si el proyecto se recibe como ZIP o carpeta, este paso puede omitirse.</p>
+<h3>3. Obtener el código del proyecto</h3>
+<ul>
+<li>Con Git: clonar el repositorio en una carpeta local, por ejemplo <code>git clone &lt;url&gt; angular-ssr</code> y luego <code>cd angular-ssr</code>.</li>
+<li>Sin Git: descomprimir o copiar la carpeta del proyecto y abrir una terminal en la raíz del proyecto (donde está <code>package.json</code>).</li>
+</ul>
+<h3>4. Base de datos PostgreSQL</h3>
+<p>El backend usa PostgreSQL a través de Prisma. Hay que disponer de una instancia accesible y de las URLs de conexión en el <code>.env</code>.</p>
+<h4>Opción A – PostgreSQL local (o cualquier proveedor)</h4>
+<ul>
+<li>Instalar PostgreSQL desde <a href="https://www.postgresql.org/download/">postgresql.org</a> o con un gestor de paquetes (Chocolatey, Homebrew, etc.), o usar cualquier otro proveedor de PostgreSQL.</li>
+<li>Crear una base de datos y un usuario con permisos (por ejemplo <code>gamesage</code> / <code>gamesage</code>).</li>
+<li>La URL de conexión típica es: <code>postgresql://usuario:password@localhost:5432/nombre_bd</code>. Esa URL y, si aplica, la URL directa sin pooler se configuran en el paso de variables de entorno.</li>
+</ul>
+<h4>Opción B – Neon desde Vercel</h4>
+<ul>
+<li>Si el proyecto se despliega o se gestiona desde <strong>Vercel</strong>, la base de datos PostgreSQL tipo Neon se puede crear y administrar desde el propio panel de Vercel (Vercel permite crear y enlazar este tipo de base de datos).</li>
+<li>Lo único necesario es disponer de las URLs que Vercel proporciona: <code>POSTGRES_PRISMA_URL</code> y <code>POSTGRES_URL_NON_POOLING</code> (o la que corresponda para migraciones). Esas URLs se copian al <code>.env</code> y se gestionan desde Vercel; no hace falta crear la base manualmente en neon.tech.</li>
+</ul>
+<p>En cualquier caso, las URLs de conexión se definen en el archivo <code>.env</code> en el paso siguiente.</p>
+<h3>5. Variables de entorno</h3>
+<p>En la raíz del proyecto debe existir un archivo <code>.env</code>. No está versionado por seguridad.</p>
+<ul>
+<li>Copiar la plantilla: <code>cp .env.example .env</code> (en Windows: <code>copy .env.example .env</code>).</li>
+<li>Editar <code>.env</code> y rellenar cada variable:<ul>
+<li><strong>POSTGRES_PRISMA_URL</strong>: URL de conexión a PostgreSQL (ej. <code>postgresql://user:pass@host:5432/dbname</code>).</li>
+<li><strong>POSTGRES_URL_NON_POOLING</strong>: Si se usa Neon u otro pooler, la URL directa sin pooler; si la BD es local, puede ser la misma que <code>POSTGRES_PRISMA_URL</code>.</li>
+<li><strong>PORT</strong>: Puerto del servidor (ej. 3000).</li>
+<li><strong>NODE_ENV</strong>: <code>development</code> para desarrollo; en Vercel u otro hosting de producción usar <code>production</code>.</li>
+<li><strong>JWT_SECRET</strong>: Cadena secreta larga y aleatoria para firmar los JWT.</li>
+<li><strong>JWT_EXPIRES_IN</strong>, <strong>JWT_ISSUER</strong>, <strong>JWT_AUDIENCE</strong>: Opcionales; por defecto <code>7d</code>, <code>game-sage</code> y <code>game-sage-users</code>. Útiles para endurecer la emisión/verificación de tokens.</li>
+<li><strong>CORS_ORIGIN</strong>: Solo en producción. Orígenes permitidos para la API, separados por coma (ej. <code>https://tu-app.vercel.app</code>). En desarrollo se permiten automáticamente <code>http://localhost:PORT</code> y <code>http://localhost:4200</code>.</li>
+<li><strong>BCRYPT_SALT_ROUNDS</strong>: Número de rondas de bcrypt (ej. 10).</li>
+<li><strong>CLOUDINARY_</strong>* (CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET): credenciales para subida de imágenes.</li>
+<li><strong>GOOGLE_GENERATIVE_AI_API_KEY</strong>: API key de Google Generative AI para el chat.</li>
+<li><strong>ADMIN_EMAILS</strong>: Lista de correos de administradores separados por comas (ej. <code>admin@example.com</code>).</li>
+<li>Opcionales: <strong>ADMIN_PASSWORDS</strong>, <strong>ADMIN_NAMES</strong> (mismo orden que los emails) para el script de seed de admins.</li>
+</ul>
+</li>
+</ul>
+<p>Guardar el archivo. Sin estas variables, el backend no arrancará (env.ts lanza si falta alguna obligatoria).</p>
+<p><strong>En Vercel:</strong> configurar las mismas variables en el proyecto (Settings → Environment Variables). El build usa <code>vercel-build</code> (prisma generate + build:ssr) definido en <code>vercel.json</code>.</p>
+<h3>6. Instalar dependencias</h3>
+<p>En la raíz del proyecto ejecutar:</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm install
+npm audit fix --omit=dev</code></pre></div><p>Se instalan las dependencias de <code>package.json</code> y las devDependencies (Angular CLI, Prisma, Jest, etc.). Puede tardar varios minutos. <code>npm audit fix --omit=dev</code> corrige vulnerabilidades conocidas en las dependencias de producción, omitiendo las de desarrollo (para evitar conflictos conocidos con herramientas como ESLint).</p>
+<p><strong>Si en Windows PowerShell aparece</strong> <em>&quot;running scripts is disabled on this system&quot;</em> al ejecutar <code>npm</code>:</p>
+<ul>
+<li>Usa el ejecutable en formato cmd: <code>npm.cmd install</code> y <code>npm.cmd audit fix --omit=dev</code> (y en general <code>npm.cmd</code> en lugar de <code>npm</code> para el resto de comandos), o</li>
+<li>Abre PowerShell como administrador y ejecuta: <code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine</code> para permitir scripts locales como <code>npm.ps1</code>.</li>
+</ul>
+<h3>7. Prisma: generar cliente y migrar</h3>
+<p>Generar el cliente de Prisma (necesario para que el backend compile y ejecute):</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npx prisma generate</code></pre></div><p>Aplicar el esquema a la base de datos (crear tablas y migraciones pendientes):</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npx prisma migrate deploy</code></pre></div><p>Si es la primera vez y se usa <code>migrate dev</code> en lugar de <code>deploy</code> (por ejemplo en desarrollo local), se pueden crear migraciones desde el estado actual del schema con:</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npx prisma migrate dev</code></pre></div><p>Comprobar que la base tiene tablas con <code>npx prisma studio</code> (opcional).</p>
+<h3>8. Crear administradores (recomendado)</h3>
+<p>Para poder acceder al área de administración:</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run seed:admin</code></pre></div><p>Esto crea o actualiza los usuarios cuyos emails están en <code>ADMIN_EMAILS</code> (y opcionalmente contraseñas y nombres desde <code>.env</code>).</p>
+<h3>9. Datos de prueba (opcional)</h3>
+<p>Para cargar juegos, géneros, plataformas, etc. de ejemplo:</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run seed:data</code></pre></div><p>Ejecuta primero una limpieza y luego el seed completo. Requiere que las variables de Cloudinary y, si aplica, la ruta de media local estén configuradas (ver documentación de los scripts en <code>src/backend/scripts/</code>).</p>
+<h3>10. Build y ejecución del servidor SSR</h3>
+<p>Compilar la aplicación (frontend + servidor):</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run build:ssr</code></pre></div><p>Al finalizar, arrancar el servidor:</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run serve:ssr</code></pre></div><p>El servidor quedará escuchando en <code>http://localhost:&lt;PORT&gt;</code> (por defecto 3000). Ahí se sirve la web y la API (<code>/api/*</code>). Abrir el navegador en esa URL para usar la aplicación.</p>
+<h3>Resumen mínimo (con Node y BD ya listas)</h3>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">cp .env.example .env
+# Editar .env con BD, Cloudinary, JWT, etc.
+npm install
+npm audit fix --omit=dev
+npx prisma generate
+npx prisma migrate deploy
+npm run seed:admin
+npm run build:ssr
+npm run serve:ssr</code></pre></div><hr>
+<h2>Configuración (variables de entorno)</h2>
+<p>Las variables de entorno se definen en <code>.env</code> (ver plantilla en <code>.env.example</code>) y se cargan con <code>dotenv</code> desde <code>src/backend/config/env.ts</code>. En ese fichero se valida la presencia de variables críticas y se tipan para consumo interno.</p>
+<p>Variables habituales:</p>
+<ul>
+<li><strong>Servidor</strong>: <code>PORT</code>, <code>NODE_ENV</code></li>
+<li><strong>Auth</strong>: <code>JWT_SECRET</code>, <code>BCRYPT_SALT_ROUNDS</code>; opcionales <code>JWT_EXPIRES_IN</code>, <code>JWT_ISSUER</code>, <code>JWT_AUDIENCE</code></li>
+<li><strong>CORS</strong>: <code>CORS_ORIGIN</code> (solo en producción; orígenes permitidos separados por coma). En desarrollo se permiten <code>http://localhost:PORT</code> y <code>http://localhost:4200</code> sin configurarlo.</li>
+<li><strong>Base de datos</strong>: <code>POSTGRES_PRISMA_URL</code></li>
+<li><strong>Media</strong>: <code>CLOUDINARY_CLOUD_NAME</code>, <code>CLOUDINARY_API_KEY</code>, <code>CLOUDINARY_API_SECRET</code></li>
+<li><strong>IA</strong>: <code>GOOGLE_GENERATIVE_AI_API_KEY</code></li>
+<li><strong>Administradores</strong>: <code>ADMIN_EMAILS</code> (y opcionalmente <code>ADMIN_PASSWORDS</code>, <code>ADMIN_NAMES</code>)</li>
+</ul>
+<hr>
+<h2>Environments de Angular (<code>src/environments</code>)</h2>
+<p>Angular utiliza los ficheros de environment para seleccionar configuración en build (por ejemplo, reemplazos en producción). En este proyecto los environments son deliberadamente mínimos:</p>
+<ul>
+<li><code>production: boolean</code></li>
+<li><code>apiUrl: &#39;&#39;</code></li>
+</ul>
+<p>Con <code>apiUrl</code> vacío, todas las URLs de API construidas en <code>src/app/app.config.ts</code> quedan como rutas relativas (<code>/api/...</code>). Esto permite que el frontend funcione correctamente en SSR y despliegues sin necesitar reconfigurar URLs absolutas.</p>
+<hr>
+<h2>Comandos disponibles</h2>
+<p>Los comandos están definidos en <code>package.json</code>. Para un arranque desde cero completo, ver la sección <strong>Arrancar el proyecto desde cero</strong>.</p>
+<h3>Desarrollo</h3>
+<p><em>Nota: Los comandos <code>start</code>, <code>dev</code> y <code>serve:ssr</code> ejecutan automáticamente <code>node scripts/free-port.mjs &lt;puerto&gt;</code> antes de arrancar para liberar los puertos 3000 o 4200 solo si están en uso, evitando conflictos sin generar ruido en la consola.</em></p>
+<ul>
+<li><p><strong><code>npm start</code></strong><br>Ejecuta <code>ng serve</code> (desarrollo de frontend en modo SPA).</p>
+</li>
+<li><p><strong><code>npm run dev:backend</code></strong><br>Levanta el backend con <code>nodemon</code> + <code>tsx</code>, observando <code>src/backend</code>.</p>
+</li>
+<li><p><strong><code>npm run dev</code></strong><br>Alias de <code>npm run dev:backend</code>.</p>
+</li>
+<li><p><strong><code>npm run serve:ssr</code></strong><br>Ejecuta el servidor SSR compilado desde <code>dist/game-sage/server/server.mjs</code> (con 8GB de memoria asignada).</p>
+</li>
+<li><p><strong><code>npm run start:ssr</code></strong><br>Alias de <code>npm run serve:ssr</code>.</p>
+</li>
+</ul>
+<h3>Build</h3>
+<ul>
+<li><p><strong><code>npm run build</code></strong><br>Build estándar de Angular (browser) con 8GB de memoria.</p>
+</li>
+<li><p><strong><code>npm run build:ssr</code></strong><br>Build SSR (browser + server) con 8GB de memoria. Durante el build se utiliza <code>SSR_DISABLE_BACKEND=1</code> para evitar que el backend se evalúe en la fase de extracción de rutas.</p>
+</li>
+<li><p><strong><code>npm run build:full</code></strong><br>Pipeline completo:</p>
+<ul>
+<li><code>prisma generate</code></li>
+<li><code>seed:admin</code></li>
+<li><code>build:ssr</code></li>
+</ul>
+</li>
+</ul>
+<p>Tras instalar dependencias (<code>npm install</code>) conviene ejecutar <strong><code>npm audit fix --omit=dev</code></strong> para resolver vulnerabilidades reportadas por npm.</p>
+<h3>Tests</h3>
+<ul>
+<li><p><strong><code>npm test</code></strong><br>Ejecuta la suite de backend (<code>npm run test:backend</code>). Se mantiene como comando principal para CI/validación rápida.</p>
+</li>
+<li><p><strong><code>npm run test:backend</code></strong><br>Ejecuta Jest sobre <code>src/backend/tests</code>. Se configura <code>NODE_ENV=test</code> y se silencia el ruido de warnings de Node para una salida limpia.</p>
+</li>
+<li><p><strong><code>npm run test:frontend</code></strong><br>Ejecuta <code>ng test</code> (Karma/Jasmine). Útil si se añaden <code>*.spec.ts</code> del frontend.</p>
+</li>
+</ul>
+<h3>Seeds y scripts de datos</h3>
+<ul>
+<li><p><strong><code>npm run seed:admin</code></strong><br>Ejecuta <code>src/backend/scripts/seedAdmin.ts</code>.</p>
+</li>
+<li><p><strong><code>npm run clean:data</code></strong><br>Ejecuta <code>src/backend/scripts/cleanData.ts</code> y limpia por completo los datos de negocio y la media asociada en Cloudinary.</p>
+</li>
+<li><p><strong><code>npm run seed:data</code></strong><br>Ejecuta primero la limpieza completa (<code>npm run clean:data</code>) y, a continuación, <code>src/backend/scripts/seedData.ts</code>, que rellena la base de datos y la media a partir de <code>backend-data/</code>.</p>
+</li>
+</ul>
+<h3>Prisma (CLI)</h3>
+<ul>
+<li><code>npx prisma studio</code></li>
+<li><code>npx prisma migrate dev</code></li>
+<li><code>npx prisma generate</code></li>
+<li><code>npx prisma db push</code></li>
+</ul>
+<h3>Utilidades</h3>
+<ul>
+<li><strong><code>npm run audit</code></strong>: ejecuta <code>npm audit --audit-level=high --omit=dev</code> para revisar vulnerabilidades en dependencias de producción (OWASP A06).</li>
+<li><strong><code>npm run lint</code></strong>: ejecuta el análisis estático de código buscando vulnerabilidades de seguridad (vía ESLint y plugin de seguridad).</li>
+<li><strong><code>npm audit fix --omit=dev</code></strong>: corrige vulnerabilidades en dependencias de producción (recomendado tras <code>npm install</code>).</li>
+<li><strong><code>npm run watch</code></strong>: build en watch (config development).</li>
+<li><strong><code>npm run format</code></strong>: formateo con Prettier.</li>
+<li><strong><code>npm run clean</code></strong>: borra <code>dist</code>, <code>logs</code>, <code>coverage</code>.</li>
+<li><strong><code>npm run clean:full</code></strong>: borra <code>dist</code>, <code>node_modules</code>, <code>logs</code>, <code>coverage</code>.</li>
+<li><strong><code>npm run reinstall</code></strong>: reinstalación completa (<code>clean:full</code> + <code>npm install</code>); después ejecutar <code>npm audit fix --omit=dev</code>.</li>
+</ul>
+<hr>
+<h2>Comandos más útiles (resumen)</h2>
+<p>Los siguientes comandos cubren la mayoría de flujos habituales:</p>
+<ul>
+<li><strong>Instalación y corrección de vulnerabilidades</strong> (tras clonar o cambiar de rama):</li>
+</ul>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm install
+npm audit fix --omit=dev</code></pre></div><ul>
+<li><strong>Build SSR + ejecución local</strong>:</li>
+</ul>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run build:ssr
+npm run serve:ssr</code></pre></div><ul>
+<li><strong>Desarrollo de API (sin reconstruir SSR)</strong>:</li>
+</ul>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run dev:backend</code></pre></div><ul>
+<li><strong>Pipeline completo (Prisma + admins + SSR)</strong>:</li>
+</ul>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run build:full</code></pre></div><ul>
+<li><strong>Tests del backend (salida limpia)</strong>:</li>
+</ul>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm test</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 0;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'readme';
+            var COMPODOC_CURRENT_PAGE_URL = 'index.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="./js/libs/custom-elements.min.js"></script>
+       <script src="./js/libs/lit-html.js"></script>
+
+       <script src="./js/menu-wc.js" defer></script>
+       <script nomodule src="./js/menu-wc_es5.js" defer></script>
+
+       <script src="./js/libs/bootstrap-native.js"></script>
+
+       <script src="./js/libs/es6-shim.min.js"></script>
+       <script src="./js/libs/EventDispatcher.js"></script>
+       <script src="./js/libs/promise.min.js"></script>
+
+       <script src="./js/compodoc.js"></script>
+
+       <script src="./js/tabs.js"></script>
+       <script src="./js/menu.js"></script>
+       <script src="./js/libs/clipboard.min.js"></script>
+       <script src="./js/libs/prism.js"></script>
+       <script src="./js/sourceCode.js"></script>
+          <script src="./js/search/search.js"></script>
+          <script src="./js/search/lunr.min.js"></script>
+          <script src="./js/search/search-lunr.js"></script>
+          <script src="./js/search/search_index.js"></script>
+       <script src="./js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

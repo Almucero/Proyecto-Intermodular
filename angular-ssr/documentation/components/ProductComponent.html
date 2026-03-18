@@ -1,0 +1,3557 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>game-sage documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">game-sage documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  ProductComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/pages/product/product.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Componente de la página de detalle de un producto (juego).
+Muestra información exhaustiva, galería de medios (vídeo/imágenes),
+selección de plataformas y opciones de compra/favoritos.</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-product</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
+                            <code>TranslateModule</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./product.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./product.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addedToCartSuccess" >addedToCartSuccess</a>
+                            </li>
+                            <li>
+                                <a href="#addedToFavoritesSuccess" >addedToFavoritesSuccess</a>
+                            </li>
+                            <li>
+                                <a href="#allPlatforms" >allPlatforms</a>
+                            </li>
+                            <li>
+                                <a href="#alreadyInCart" >alreadyInCart</a>
+                            </li>
+                            <li>
+                                <a href="#alreadyInFavorites" >alreadyInFavorites</a>
+                            </li>
+                            <li>
+                                <a href="#buySuccess" >buySuccess</a>
+                            </li>
+                            <li>
+                                <a href="#currentMediaIndex" >currentMediaIndex</a>
+                            </li>
+                            <li>
+                                <a href="#game" >game</a>
+                            </li>
+                            <li>
+                                <a href="#isAuthenticated" >isAuthenticated</a>
+                            </li>
+                            <li>
+                                <a href="#mediaItems" >mediaItems</a>
+                            </li>
+                            <li>
+                                <a href="#quantityIncreased" >quantityIncreased</a>
+                            </li>
+                            <li>
+                                <a href="#selectedPlatform" >selectedPlatform</a>
+                            </li>
+                            <li>
+                                <a href="#showAuthModal" >showAuthModal</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addToCart" >addToCart</a>
+                            </li>
+                            <li>
+                                <a href="#addToFavorites" >addToFavorites</a>
+                            </li>
+                            <li>
+                                <a href="#buildMediaItems" >buildMediaItems</a>
+                            </li>
+                            <li>
+                                <a href="#buyNow" >buyNow</a>
+                            </li>
+                            <li>
+                                <a href="#cancelLogin" >cancelLogin</a>
+                            </li>
+                            <li>
+                                <a href="#checkAuth" >checkAuth</a>
+                            </li>
+                            <li>
+                                <a href="#confirmLogin" >confirmLogin</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#convertToEmbedUrl" >convertToEmbedUrl</a>
+                            </li>
+                            <li>
+                                <a href="#createPlaceholder" >createPlaceholder</a>
+                            </li>
+                            <li>
+                                <a href="#getEmptyStars" >getEmptyStars</a>
+                            </li>
+                            <li>
+                                <a href="#getRatingStars" >getRatingStars</a>
+                            </li>
+                            <li>
+                                <a href="#getSelectedPlatformId" >getSelectedPlatformId</a>
+                            </li>
+                            <li>
+                                <a href="#getStockForPlatform" >getStockForPlatform</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getVideoId" >getVideoId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#increaseQuantity" >increaseQuantity</a>
+                            </li>
+                            <li>
+                                <a href="#isPlatformAvailable" >isPlatformAvailable</a>
+                            </li>
+                            <li>
+                                <a href="#loadGame" >loadGame</a>
+                            </li>
+                            <li>
+                                <a href="#nextMedia" >nextMedia</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#previousMedia" >previousMedia</a>
+                            </li>
+                            <li>
+                                <a href="#selectMedia" >selectMedia</a>
+                            </li>
+                            <li>
+                                <a href="#selectPlatform" >selectPlatform</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#sortedPlatforms" >sortedPlatforms</a>
+                                </li>
+                                <li>
+                                    <a href="#coverImage" >coverImage</a>
+                                </li>
+                                <li>
+                                    <a href="#screenshot1" >screenshot1</a>
+                                </li>
+                                <li>
+                                    <a href="#screenshot2" >screenshot2</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, gameService: <a href="../injectables/GameService.html" target="_self">GameService</a>, mediaService: <a href="../injectables/MediaService.html" target="_self">MediaService</a>, sanitizer: <a href="https://angular.io/api/platform-browser/DomSanitizer" target="_blank">DomSanitizer</a>, cartItemService: <a href="../injectables/CartItemService.html" target="_self">CartItemService</a>, favoriteService: <a href="../injectables/FavoriteService.html" target="_self">FavoriteService</a>, authService: <a href="../injectables/BaseAuthenticationService.html" target="_self">BaseAuthenticationService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="121" class="link-to-prism">src/app/pages/product/product.component.ts:121</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>route</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>gameService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/GameService.html" target="_self" >GameService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>mediaService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/MediaService.html" target="_self" >MediaService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>sanitizer</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/platform-browser/DomSanitizer" target="_blank" >DomSanitizer</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>cartItemService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/CartItemService.html" target="_self" >CartItemService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>favoriteService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/FavoriteService.html" target="_self" >FavoriteService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>authService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/BaseAuthenticationService.html" target="_self" >BaseAuthenticationService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>router</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addToCart"></a>
+                    <span class="name">
+                        <span ><b>addToCart</b></span>
+                        <a href="#addToCart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addToCart()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="292"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:292</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Añade el producto al carrito para la plataforma seleccionada.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addToFavorites"></a>
+                    <span class="name">
+                        <span ><b>addToFavorites</b></span>
+                        <a href="#addToFavorites"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addToFavorites()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="360"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:360</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Añade el producto a la lista de favoritos.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="buildMediaItems"></a>
+                    <span class="name">
+                        <span ><b>buildMediaItems</b></span>
+                        <a href="#buildMediaItems"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>buildMediaItems()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="202"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:202</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Construye la lista de medios para el visor (vídeo de YouTube + capturas).</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="buyNow"></a>
+                    <span class="name">
+                        <span ><b>buyNow</b></span>
+                        <a href="#buyNow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>buyNow()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="387"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:387</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Añade al carrito y redirige inmediatamente a la página de pago/carrito.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cancelLogin"></a>
+                    <span class="name">
+                        <span ><b>cancelLogin</b></span>
+                        <a href="#cancelLogin"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>cancelLogin()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="285"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:285</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Cierra el modal de autenticación.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkAuth"></a>
+                    <span class="name">
+                        <span ><b>checkAuth</b></span>
+                        <a href="#checkAuth"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>checkAuth()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="268"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:268</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Verifica si el usuario está autenticado, mostrando un modal si no lo está.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="confirmLogin"></a>
+                    <span class="name">
+                        <span ><b>confirmLogin</b></span>
+                        <a href="#confirmLogin"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>confirmLogin()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="277"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:277</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Redirige al login tras confirmación en el modal.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="convertToEmbedUrl"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>convertToEmbedUrl</b></span>
+                        <a href="#convertToEmbedUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>convertToEmbedUrl(url: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="473"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:473</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Convierte una URL de YouTube estándar en una URL de inserción (embed) segura.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>url</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createPlaceholder"></a>
+                    <span class="name">
+                        <span ><b>createPlaceholder</b></span>
+                        <a href="#createPlaceholder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>createPlaceholder()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="152"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:152</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Crea un objeto juego vacío para el estado inicial de carga.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/Game.html" target="_self" >Game</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getEmptyStars"></a>
+                    <span class="name">
+                        <span ><b>getEmptyStars</b></span>
+                        <a href="#getEmptyStars"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getEmptyStars()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="459"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:459</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Calcula cuántas estrellas vacías mostrar en el rating.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>number[]</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getRatingStars"></a>
+                    <span class="name">
+                        <span ><b>getRatingStars</b></span>
+                        <a href="#getRatingStars"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getRatingStars()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="452"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:452</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Calcula cuántas estrellas llenas mostrar en el rating.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>number[]</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSelectedPlatformId"></a>
+                    <span class="name">
+                        <span ><b>getSelectedPlatformId</b></span>
+                        <a href="#getSelectedPlatformId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getSelectedPlatformId()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="259"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:259</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Obtiene el ID numérico de la plataforma seleccionada.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>number | null</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getStockForPlatform"></a>
+                    <span class="name">
+                        <span ><b>getStockForPlatform</b></span>
+                        <a href="#getStockForPlatform"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getStockForPlatform(platformName: string | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="251"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:251</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Obtiene la cantidad de stock para una plataforma específica.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>platformName</td>
+                                            <td>
+                                                        <code>string | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getVideoId"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getVideoId</b></span>
+                        <a href="#getVideoId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getVideoId(url: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="467"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:467</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Extrae el ID de vídeo de una URL de YouTube.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>url</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>string | null</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="increaseQuantity"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>increaseQuantity</b></span>
+                        <a href="#increaseQuantity"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>increaseQuantity(platformId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="333"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:333</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Incrementa la cantidad de un artículo ya existente en el carrito.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>platformId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isPlatformAvailable"></a>
+                    <span class="name">
+                        <span ><b>isPlatformAvailable</b></span>
+                        <a href="#isPlatformAvailable"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isPlatformAvailable(platformName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="422"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:422</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Comprueba si el juego está disponible para una plataforma dada.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>platformName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadGame"></a>
+                    <span class="name">
+                        <span ><b>loadGame</b></span>
+                        <a href="#loadGame"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadGame(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="179"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:179</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Carga los datos del juego y sus medios asociados.
+Selecciona automáticamente la plataforma si solo hay una disponible.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>ID del juego.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="nextMedia"></a>
+                    <span class="name">
+                        <span ><b>nextMedia</b></span>
+                        <a href="#nextMedia"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>nextMedia()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="440"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:440</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Avanza al siguiente medio en el visor.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="137"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:137</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Inicializa el componente cargando el juego según el ID de la ruta.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="previousMedia"></a>
+                    <span class="name">
+                        <span ><b>previousMedia</b></span>
+                        <a href="#previousMedia"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>previousMedia()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="433"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:433</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Retrocede al medio anterior en el visor.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectMedia"></a>
+                    <span class="name">
+                        <span ><b>selectMedia</b></span>
+                        <a href="#selectMedia"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>selectMedia(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="447"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:447</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Selecciona un medio específico por su índice.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>index</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectPlatform"></a>
+                    <span class="name">
+                        <span ><b>selectPlatform</b></span>
+                        <a href="#selectPlatform"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>selectPlatform(platform: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="427"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:427</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Selecciona o deselecciona una plataforma.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>platform</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addedToCartSuccess"></a>
+                    <span class="name">
+                        <span ><b>addedToCartSuccess</b></span>
+                        <a href="#addedToCartSuccess"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/pages/product/product.component.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addedToFavoritesSuccess"></a>
+                    <span class="name">
+                        <span ><b>addedToFavoritesSuccess</b></span>
+                        <a href="#addedToFavoritesSuccess"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/pages/product/product.component.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="allPlatforms"></a>
+                    <span class="name">
+                        <span ><b>allPlatforms</b></span>
+                        <a href="#allPlatforms"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+    {
+      name: &#x27;PC&#x27;,
+      image: &#x27;assets/images/platforms/pc.png&#x27;,
+      stockKey: &#x27;stockPc&#x27; as const,
+    },
+    {
+      name: &#x27;PS5&#x27;,
+      image: &#x27;assets/images/platforms/ps5.png&#x27;,
+      stockKey: &#x27;stockPs5&#x27; as const,
+    },
+    {
+      name: &#x27;Xbox Series X&#x27;,
+      image: &#x27;assets/images/platforms/xbox-series-x.png&#x27;,
+      stockKey: &#x27;stockXboxX&#x27; as const,
+    },
+    {
+      name: &#x27;Switch&#x27;,
+      image: &#x27;assets/images/platforms/switch.png&#x27;,
+      stockKey: &#x27;stockSwitch&#x27; as const,
+    },
+    {
+      name: &#x27;PS4&#x27;,
+      image: &#x27;assets/images/platforms/ps4.png&#x27;,
+      stockKey: &#x27;stockPs4&#x27; as const,
+    },
+    {
+      name: &#x27;Xbox One&#x27;,
+      image: &#x27;assets/images/platforms/xbox-one.png&#x27;,
+      stockKey: &#x27;stockXboxOne&#x27; as const,
+    },
+  ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/pages/product/product.component.ts:55</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Configuración estática de todas las plataformas soportadas.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="alreadyInCart"></a>
+                    <span class="name">
+                        <span ><b>alreadyInCart</b></span>
+                        <a href="#alreadyInCart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/pages/product/product.component.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="alreadyInFavorites"></a>
+                    <span class="name">
+                        <span ><b>alreadyInFavorites</b></span>
+                        <a href="#alreadyInFavorites"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/pages/product/product.component.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="buySuccess"></a>
+                    <span class="name">
+                        <span ><b>buySuccess</b></span>
+                        <a href="#buySuccess"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/pages/product/product.component.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentMediaIndex"></a>
+                    <span class="name">
+                        <span ><b>currentMediaIndex</b></span>
+                        <a href="#currentMediaIndex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/pages/product/product.component.ts:40</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Índice del medio (vídeo/imagen) que se muestra en el visor principal.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="game"></a>
+                    <span class="name">
+                        <span ><b>game</b></span>
+                        <a href="#game"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Game.html" target="_self" >Game | null</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.createPlaceholder()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/pages/product/product.component.ts:36</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Objeto del juego cargado.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isAuthenticated"></a>
+                    <span class="name">
+                        <span ><b>isAuthenticated</b></span>
+                        <a href="#isAuthenticated"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/pages/product/product.component.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mediaItems"></a>
+                    <span class="name">
+                        <span ><b>mediaItems</b></span>
+                        <a href="#mediaItems"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MediaItem[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/pages/product/product.component.ts:42</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Lista de elementos multimedia procesados para el visor.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="quantityIncreased"></a>
+                    <span class="name">
+                        <span ><b>quantityIncreased</b></span>
+                        <a href="#quantityIncreased"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/pages/product/product.component.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedPlatform"></a>
+                    <span class="name">
+                        <span ><b>selectedPlatform</b></span>
+                        <a href="#selectedPlatform"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/pages/product/product.component.ts:38</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Plataforma seleccionada actualmente por el usuario.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showAuthModal"></a>
+                    <span class="name">
+                        <span ><b>showAuthModal</b></span>
+                        <a href="#showAuthModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/pages/product/product.component.ts:45</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Estados para notificaciones visuales y modales.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-accessors">
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="sortedPlatforms"></a>
+                        <span class="name"><b>sortedPlatforms</b><a href="#sortedPlatforms"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>sortedPlatforms()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">src/app/pages/product/product.component.ts:89</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Devuelve las plataformas ordenadas, priorizando las que tienen stock.</p>
+</div>
+
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="coverImage"></a>
+                        <span class="name"><b>coverImage</b><a href="#coverImage"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>coverImage()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="99" class="link-to-prism">src/app/pages/product/product.component.ts:99</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Obtiene la URL de la imagen de portada de la lista de medios.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code>string | undefined</code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="screenshot1"></a>
+                        <span class="name"><b>screenshot1</b><a href="#screenshot1"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>screenshot1()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">src/app/pages/product/product.component.ts:106</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Obtiene la URL de la primera captura de pantalla.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code>string | undefined</code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="screenshot2"></a>
+                        <span class="name"><b>screenshot2</b><a href="#screenshot2"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>screenshot2()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="115" class="link-to-prism">src/app/pages/product/product.component.ts:115</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Obtiene la URL de la segunda captura de pantalla.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code>string | undefined</code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, signal, Inject } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { TranslatePipe, TranslateModule } from &#x27;@ngx-translate/core&#x27;;
+import { ActivatedRoute, Router } from &#x27;@angular/router&#x27;;
+import { DomSanitizer, SafeResourceUrl } from &#x27;@angular/platform-browser&#x27;;
+import { GameService } from &#x27;../../core/services/impl/game.service&#x27;;
+import { MediaService } from &#x27;../../core/services/impl/media.service&#x27;;
+import { CartItemService } from &#x27;../../core/services/impl/cart-item.service&#x27;;
+import { FavoriteService } from &#x27;../../core/services/impl/favorite.service&#x27;;
+import { BaseAuthenticationService } from &#x27;../../core/services/impl/base-authentication.service&#x27;;
+import { CartItem } from &#x27;../../core/models/cart-item.model&#x27;;
+import { Favorite } from &#x27;../../core/models/favorite.model&#x27;;
+import { Game } from &#x27;../../core/models/game.model&#x27;;
+
+interface MediaItem {
+  type: &#x27;video&#x27; | &#x27;image&#x27;;
+  label: string;
+  url?: string | SafeResourceUrl;
+  thumbnail?: string;
+}
+
+/**
+ * Componente de la página de detalle de un producto (juego).
+ * Muestra información exhaustiva, galería de medios (vídeo/imágenes),
+ * selección de plataformas y opciones de compra/favoritos.
+ */
+@Component({
+  selector: &#x27;app-product&#x27;,
+  standalone: true,
+  imports: [CommonModule, TranslateModule],
+  templateUrl: &#x27;./product.component.html&#x27;,
+  styleUrls: [&#x27;./product.component.scss&#x27;],
+})
+export class ProductComponent implements OnInit {
+  /** Objeto del juego cargado. */
+  game: Game | null &#x3D; this.createPlaceholder();
+  /** Plataforma seleccionada actualmente por el usuario. */
+  selectedPlatform: string | null &#x3D; null;
+  /** Índice del medio (vídeo/imagen) que se muestra en el visor principal. */
+  currentMediaIndex: number &#x3D; 0;
+  /** Lista de elementos multimedia procesados para el visor. */
+  mediaItems: MediaItem[] &#x3D; [];
+
+  /** Estados para notificaciones visuales y modales. */
+  showAuthModal &#x3D; signal(false);
+  isAuthenticated &#x3D; signal(false);
+  addedToCartSuccess &#x3D; signal(false);
+  addedToFavoritesSuccess &#x3D; signal(false);
+  buySuccess &#x3D; signal(false);
+  quantityIncreased &#x3D; signal(false);
+  alreadyInCart &#x3D; signal(false);
+  alreadyInFavorites &#x3D; signal(false);
+
+  /** Configuración estática de todas las plataformas soportadas. */
+  allPlatforms &#x3D; [
+    {
+      name: &#x27;PC&#x27;,
+      image: &#x27;assets/images/platforms/pc.png&#x27;,
+      stockKey: &#x27;stockPc&#x27; as const,
+    },
+    {
+      name: &#x27;PS5&#x27;,
+      image: &#x27;assets/images/platforms/ps5.png&#x27;,
+      stockKey: &#x27;stockPs5&#x27; as const,
+    },
+    {
+      name: &#x27;Xbox Series X&#x27;,
+      image: &#x27;assets/images/platforms/xbox-series-x.png&#x27;,
+      stockKey: &#x27;stockXboxX&#x27; as const,
+    },
+    {
+      name: &#x27;Switch&#x27;,
+      image: &#x27;assets/images/platforms/switch.png&#x27;,
+      stockKey: &#x27;stockSwitch&#x27; as const,
+    },
+    {
+      name: &#x27;PS4&#x27;,
+      image: &#x27;assets/images/platforms/ps4.png&#x27;,
+      stockKey: &#x27;stockPs4&#x27; as const,
+    },
+    {
+      name: &#x27;Xbox One&#x27;,
+      image: &#x27;assets/images/platforms/xbox-one.png&#x27;,
+      stockKey: &#x27;stockXboxOne&#x27; as const,
+    },
+  ];
+
+  /** Devuelve las plataformas ordenadas, priorizando las que tienen stock. */
+  get sortedPlatforms() {
+    return [...this.allPlatforms].sort((a, b) &#x3D;&gt; {
+      const aAvailable &#x3D; this.isPlatformAvailable(a.name);
+      const bAvailable &#x3D; this.isPlatformAvailable(b.name);
+      if (aAvailable &#x3D;&#x3D;&#x3D; bAvailable) return 0;
+      return aAvailable ? -1 : 1;
+    });
+  }
+
+  /** Obtiene la URL de la imagen de portada de la lista de medios. */
+  get coverImage(): string | undefined {
+    return this.game?.media?.find((m) &#x3D;&gt;
+      m.altText?.toLowerCase().includes(&#x27;cover&#x27;),
+    )?.url;
+  }
+
+  /** Obtiene la URL de la primera captura de pantalla. */
+  get screenshot1(): string | undefined {
+    return this.game?.media?.find(
+      (m) &#x3D;&gt;
+        m.altText?.toLowerCase().includes(&#x27;screenshot1&#x27;) ||
+        m.altText?.toLowerCase().includes(&#x27;screenshot 1&#x27;),
+    )?.url;
+  }
+
+  /** Obtiene la URL de la segunda captura de pantalla. */
+  get screenshot2(): string | undefined {
+    return this.game?.media?.find(
+      (m) &#x3D;&gt;
+        m.altText?.toLowerCase().includes(&#x27;screenshot2&#x27;) ||
+        m.altText?.toLowerCase().includes(&#x27;screenshot 2&#x27;),
+    )?.url;
+  }
+
+  constructor(
+    @Inject(ActivatedRoute) private route: ActivatedRoute,
+    private gameService: GameService,
+    private mediaService: MediaService,
+    private sanitizer: DomSanitizer,
+    private cartItemService: CartItemService,
+    private favoriteService: FavoriteService,
+    private authService: BaseAuthenticationService,
+    @Inject(Router) private router: Router,
+  ) {}
+
+  /**
+   * Inicializa el componente cargando el juego según el ID de la ruta.
+   */
+  ngOnInit(): void {
+    this.game &#x3D; this.createPlaceholder();
+    this.buildMediaItems();
+
+    const id &#x3D; this.route.snapshot.paramMap.get(&#x27;id&#x27;);
+    if (id) {
+      this.loadGame(id);
+    }
+
+    this.authService.authenticated$.subscribe((isAuth) &#x3D;&gt; {
+      this.isAuthenticated.set(isAuth);
+    });
+  }
+
+  /** Crea un objeto juego vacío para el estado inicial de carga. */
+  createPlaceholder(): Game {
+    return {
+      id: -1,
+      title: &#x27;common.loading&#x27;,
+      description: &#x27;...&#x27;,
+      price: 0,
+      rating: 0,
+      releaseDate: new Date(),
+      stockPc: 0,
+      stockPs5: 0,
+      stockXboxX: 0,
+      stockSwitch: 0,
+      stockPs4: 0,
+      stockXboxOne: 0,
+      numberOfSales: 0,
+      isOnSale: false,
+      isRefundable: false,
+      media: [],
+      platforms: [],
+    } as unknown as Game;
+  }
+
+  /**
+   * Carga los datos del juego y sus medios asociados.
+   * Selecciona automáticamente la plataforma si solo hay una disponible.
+   * @param id ID del juego.
+   */
+  loadGame(id: string): void {
+    this.gameService.getById(id).subscribe((game) &#x3D;&gt; {
+      if (game) {
+        this.mediaService.getAll({}).subscribe((allMedia) &#x3D;&gt; {
+          game.media &#x3D; allMedia.filter((m) &#x3D;&gt; m.gameId &#x3D;&#x3D;&#x3D; game.id);
+          this.game &#x3D; game;
+          this.buildMediaItems();
+
+          const availablePlatforms &#x3D; this.allPlatforms.filter((platform) &#x3D;&gt;
+            this.isPlatformAvailable(platform.name),
+          );
+
+          if (availablePlatforms.length &#x3D;&#x3D;&#x3D; 1) {
+            this.selectedPlatform &#x3D; availablePlatforms[0].name;
+          }
+        });
+      }
+    });
+  }
+
+  /**
+   * Construye la lista de medios para el visor (vídeo de YouTube + capturas).
+   */
+  buildMediaItems(): void {
+    if (!this.game) return;
+
+    this.mediaItems &#x3D; [];
+
+    if (this.game.id &#x3D;&#x3D;&#x3D; -1) {
+      this.mediaItems.push({
+        type: &#x27;image&#x27;,
+        label: &#x27;Loading...&#x27;,
+        url: &#x27;assets/images/placeholder.jpg&#x27;,
+      });
+      return;
+    }
+
+    if (this.game.videoUrl) {
+      const isImage &#x3D; this.game.videoUrl.match(/\.(jpeg|jpg|gif|png|webp|avif|svg)$/i) !&#x3D; null;
+
+      if (isImage) {
+        this.mediaItems.push({
+          type: &#x27;image&#x27;,
+          label: &#x27;Video (Image)&#x27;,
+          url: this.game.videoUrl,
+        });
+      } else {
+        const videoId &#x3D; this.getVideoId(this.game.videoUrl);
+        const embedUrl &#x3D; this.convertToEmbedUrl(this.game.videoUrl);
+        const thumbnailUrl &#x3D; videoId
+          ? &#x60;https://img.youtube.com/vi/${videoId}/maxresdefault.jpg&#x60;
+          : undefined;
+
+        this.mediaItems.push({
+          type: &#x27;video&#x27;,
+          label: &#x27;Video&#x27;,
+          url: this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl),
+          thumbnail: thumbnailUrl,
+        });
+      }
+    }
+
+    if (this.coverImage) {
+      this.mediaItems.push({
+        type: &#x27;image&#x27;,
+        label: &#x27;Cover&#x27;,
+        url: this.coverImage,
+      });
+    }
+  }
+
+  /** Obtiene la cantidad de stock para una plataforma específica. */
+  getStockForPlatform(platformName: string | null): number {
+    if (!this.game || !platformName) return 0;
+    const platform &#x3D; this.allPlatforms.find((p) &#x3D;&gt; p.name &#x3D;&#x3D;&#x3D; platformName);
+    if (!platform) return 0;
+    return (this.game as any)[platform.stockKey] || 0;
+  }
+
+  /** Obtiene el ID numérico de la plataforma seleccionada. */
+  getSelectedPlatformId(): number | null {
+    if (!this.selectedPlatform || !this.game?.platforms) return null;
+    const platform &#x3D; this.game.platforms.find(
+      (p) &#x3D;&gt; p.name &#x3D;&#x3D;&#x3D; this.selectedPlatform,
+    );
+    return platform?.id || null;
+  }
+
+  /** Verifica si el usuario está autenticado, mostrando un modal si no lo está. */
+  checkAuth(): boolean {
+    if (!this.isAuthenticated()) {
+      this.showAuthModal.set(true);
+      return false;
+    }
+    return true;
+  }
+
+  /** Redirige al login tras confirmación en el modal. */
+  confirmLogin() {
+    this.showAuthModal.set(false);
+    this.router.navigate([&#x27;/login&#x27;], {
+      state: { navigateTo: this.router.url },
+    });
+  }
+
+  /** Cierra el modal de autenticación. */
+  cancelLogin() {
+    this.showAuthModal.set(false);
+  }
+
+  /**
+   * Añade el producto al carrito para la plataforma seleccionada.
+   */
+  addToCart() {
+    if (!this.game || !this.checkAuth() || !this.selectedPlatform) return;
+
+    const platformId &#x3D; this.getSelectedPlatformId();
+    if (!platformId) return;
+
+    this.cartItemService.getAll().subscribe({
+      next: (items) &#x3D;&gt; {
+        const existingItem &#x3D; items.find(
+          (item) &#x3D;&gt;
+            Number(item.gameId) &#x3D;&#x3D;&#x3D; Number(this.game!.id) &amp;&amp;
+            Number(item.platformId) &#x3D;&#x3D;&#x3D; platformId,
+        );
+
+        this.cartItemService
+          .add({
+            gameId: Number(this.game!.id),
+            platformId,
+            quantity: 1,
+          } as CartItem)
+          .subscribe({
+            next: () &#x3D;&gt; {
+              if (existingItem) {
+                this.quantityIncreased.set(true);
+                setTimeout(() &#x3D;&gt; this.quantityIncreased.set(false), 2000);
+              } else {
+                this.addedToCartSuccess.set(true);
+                setTimeout(() &#x3D;&gt; this.addedToCartSuccess.set(false), 2000);
+              }
+            },
+            error: (err) &#x3D;&gt; {
+              if (err.status &#x3D;&#x3D;&#x3D; 401) {
+                this.router.navigate([&#x27;/login&#x27;]);
+              }
+            },
+          });
+      },
+    });
+  }
+
+  /** Incrementa la cantidad de un artículo ya existente en el carrito. */
+  private increaseQuantity(platformId: number) {
+    if (!this.game) return;
+    this.cartItemService.getAll().subscribe({
+      next: (items) &#x3D;&gt; {
+        const existingItem &#x3D; items.find(
+          (item) &#x3D;&gt;
+            item.gameId &#x3D;&#x3D;&#x3D; this.game!.id &amp;&amp; item.platformId &#x3D;&#x3D;&#x3D; platformId,
+        );
+        if (existingItem) {
+          this.cartItemService
+            .updateWithPlatform(
+              this.game!.id,
+              platformId,
+              existingItem.quantity + 1,
+            )
+            .subscribe({
+              next: () &#x3D;&gt; {
+                this.quantityIncreased.set(true);
+                setTimeout(() &#x3D;&gt; this.quantityIncreased.set(false), 2000);
+              },
+            });
+        }
+      },
+    });
+  }
+
+  /** Añade el producto a la lista de favoritos. */
+  addToFavorites() {
+    if (!this.game || !this.checkAuth() || !this.selectedPlatform) return;
+
+    const platformId &#x3D; this.getSelectedPlatformId();
+    if (!platformId) return;
+
+    this.favoriteService
+      .add({ gameId: Number(this.game.id), platformId } as Favorite)
+      .subscribe({
+        next: () &#x3D;&gt; {
+          this.addedToFavoritesSuccess.set(true);
+          setTimeout(() &#x3D;&gt; this.addedToFavoritesSuccess.set(false), 2000);
+        },
+        error: (err) &#x3D;&gt; {
+          if (err.status &#x3D;&#x3D;&#x3D; 401) {
+            this.router.navigate([&#x27;/login&#x27;]);
+          } else if (err.status &#x3D;&#x3D;&#x3D; 409) {
+            this.alreadyInFavorites.set(true);
+            setTimeout(() &#x3D;&gt; this.alreadyInFavorites.set(false), 3000);
+          }
+        },
+      });
+  }
+
+  /**
+   * Añade al carrito y redirige inmediatamente a la página de pago/carrito.
+   */
+  buyNow() {
+    if (!this.game || !this.checkAuth() || !this.selectedPlatform) return;
+
+    const platformId &#x3D; this.getSelectedPlatformId();
+    if (!platformId) return;
+
+    this.cartItemService
+      .add({
+        gameId: Number(this.game.id),
+        platformId,
+        quantity: 1,
+      } as CartItem)
+      .subscribe({
+        next: () &#x3D;&gt; {
+          this.buySuccess.set(true);
+          setTimeout(() &#x3D;&gt; {
+            this.buySuccess.set(false);
+            this.router.navigate([&#x27;/cart&#x27;]);
+          }, 500);
+        },
+        error: (err) &#x3D;&gt; {
+          if (err.status &#x3D;&#x3D;&#x3D; 401) {
+            this.router.navigate([&#x27;/login&#x27;]);
+          } else if (err.status &#x3D;&#x3D;&#x3D; 409) {
+            this.buySuccess.set(true);
+            setTimeout(() &#x3D;&gt; {
+              this.buySuccess.set(false);
+              this.router.navigate([&#x27;/cart&#x27;]);
+            }, 500);
+          }
+        },
+      });
+  }
+
+  /** Comprueba si el juego está disponible para una plataforma dada. */
+  isPlatformAvailable(platformName: string): boolean {
+    return this.game?.platforms?.some((p) &#x3D;&gt; p.name &#x3D;&#x3D;&#x3D; platformName) || false;
+  }
+
+  /** Selecciona o deselecciona una plataforma. */
+  selectPlatform(platform: string): void {
+    this.selectedPlatform &#x3D;
+      this.selectedPlatform &#x3D;&#x3D;&#x3D; platform ? null : platform;
+  }
+
+  /** Retrocede al medio anterior en el visor. */
+  previousMedia(): void {
+    if (this.currentMediaIndex &gt; 0) {
+      this.currentMediaIndex--;
+    }
+  }
+
+  /** Avanza al siguiente medio en el visor. */
+  nextMedia(): void {
+    if (this.currentMediaIndex &lt; this.mediaItems.length - 1) {
+      this.currentMediaIndex++;
+    }
+  }
+
+  /** Selecciona un medio específico por su índice. */
+  selectMedia(index: number): void {
+    this.currentMediaIndex &#x3D; index;
+  }
+
+  /** Calcula cuántas estrellas llenas mostrar en el rating. */
+  getRatingStars(): number[] {
+    const rating &#x3D; this.game?.rating || 0;
+    const fullStars &#x3D; Math.floor(rating);
+    return Array(fullStars).fill(0);
+  }
+
+  /** Calcula cuántas estrellas vacías mostrar en el rating. */
+  getEmptyStars(): number[] {
+    const rating &#x3D; this.game?.rating || 0;
+    const fullStars &#x3D; Math.floor(rating);
+    const emptyStars &#x3D; 5 - fullStars;
+    return Array(emptyStars).fill(0);
+  }
+
+  /** Extrae el ID de vídeo de una URL de YouTube. */
+  private getVideoId(url: string): string | null {
+    const videoIdMatch &#x3D; url.match(/[?&amp;]v&#x3D;([^&amp;]+)/);
+    return videoIdMatch ? videoIdMatch[1] : null;
+  }
+
+  /** Convierte una URL de YouTube estándar en una URL de inserción (embed) segura. */
+  private convertToEmbedUrl(url: string): string {
+    const videoId &#x3D; this.getVideoId(url);
+    if (videoId) {
+      const origin &#x3D; typeof window !&#x3D;&#x3D; &#x27;undefined&#x27; ? window.location.origin : &#x27;&#x27;;
+      const originParam &#x3D; origin ? &#x60;&amp;origin&#x3D;${encodeURIComponent(origin)}&#x60; : &#x27;&#x27;;
+      return &#x60;https://www.youtube-nocookie.com/embed/${videoId}?autoplay&#x3D;1&amp;mute&#x3D;1&amp;modestbranding&#x3D;1&amp;rel&#x3D;0&amp;showinfo&#x3D;0&amp;iv_load_policy&#x3D;3&amp;enablejsapi&#x3D;1${originParam}&#x60;;
+    }
+    return url;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;flex-1 w-full bg-gray-900 text-white font-sans pb-20&quot;&gt;
+  &lt;div class&#x3D;&quot;max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8&quot;&gt;
+    &lt;div class&#x3D;&quot;mb-6&quot;&gt;
+      &lt;h1
+        class&#x3D;&quot;text-4xl font-bold text-white mb-2&quot;
+        [class.animate-pulse]&#x3D;&quot;game?.id &#x3D;&#x3D;&#x3D; -1&quot;
+        [class.text-gray-500]&#x3D;&quot;game?.id &#x3D;&#x3D;&#x3D; -1&quot;
+      &gt;
+        {{ game?.id &#x3D;&#x3D;&#x3D; -1 ? (game?.title | translate) : game?.title }}
+      &lt;/h1&gt;
+      &lt;div class&#x3D;&quot;flex items-center gap-2 text-sm&quot; *ngIf&#x3D;&quot;game?.id &#x3D;&#x3D;&#x3D; -1&quot;&gt;
+        &lt;!-- Skeleton Stars --&gt;
+        &lt;div class&#x3D;&quot;flex gap-1 animate-pulse&quot;&gt;
+          &lt;div
+            class&#x3D;&quot;w-4 h-4 bg-gray-800 rounded-full&quot;
+            *ngFor&#x3D;&quot;let i of [1, 2, 3, 4, 5]&quot;
+          &gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;w-8 h-4 bg-gray-800 rounded animate-pulse&quot;&gt;&lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div
+        class&#x3D;&quot;flex items-center gap-2 text-sm&quot;
+        *ngIf&#x3D;&quot;game &amp;&amp; game.id !&#x3D;&#x3D; -1&quot;
+      &gt;
+        &lt;div class&#x3D;&quot;flex text-white&quot;&gt;
+          &lt;svg
+            *ngFor&#x3D;&quot;let star of getRatingStars()&quot;
+            xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+            class&#x3D;&quot;h-4 w-4 fill-current&quot;
+            viewBox&#x3D;&quot;0 0 20 20&quot;
+            [title]&#x3D;&quot;&#x27;tooltips.rating&#x27; | translate&quot;
+          &gt;
+            &lt;path
+              d&#x3D;&quot;M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z&quot;
+            /&gt;
+          &lt;/svg&gt;
+          &lt;svg
+            *ngFor&#x3D;&quot;let star of getEmptyStars()&quot;
+            xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+            class&#x3D;&quot;h-4 w-4 fill-current text-gray-500&quot;
+            viewBox&#x3D;&quot;0 0 20 20&quot;
+            [title]&#x3D;&quot;&#x27;tooltips.rating&#x27; | translate&quot;
+          &gt;
+            &lt;path
+              d&#x3D;&quot;M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z&quot;
+            /&gt;
+          &lt;/svg&gt;
+        &lt;/div&gt;
+        &lt;span class&#x3D;&quot;text-gray-400&quot;&gt;{{ game.rating }}&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;grid grid-cols-1 lg:grid-cols-12 gap-8&quot;&gt;
+      &lt;div class&#x3D;&quot;lg:col-span-8 space-y-8&quot;&gt;
+        &lt;div class&#x3D;&quot;relative&quot;&gt;
+          &lt;div
+            class&#x3D;&quot;aspect-video bg-black rounded-lg overflow-hidden relative group&quot;
+          &gt;
+            &lt;!-- Skeleton Main Player --&gt;
+            &lt;div
+              *ngIf&#x3D;&quot;game?.id &#x3D;&#x3D;&#x3D; -1&quot;
+              class&#x3D;&quot;w-full h-full bg-gray-700 animate-pulse absolute inset-0 z-20 pointer-events-none&quot;
+            &gt;&lt;/div&gt;
+
+            &lt;ng-container *ngIf&#x3D;&quot;game &amp;&amp; game.id !&#x3D;&#x3D; -1&quot;&gt;
+              &lt;iframe
+                *ngIf&#x3D;&quot;mediaItems[currentMediaIndex]?.type &#x3D;&#x3D;&#x3D; &#x27;video&#x27;&quot;
+                [src]&#x3D;&quot;mediaItems[currentMediaIndex].url&quot;
+                class&#x3D;&quot;w-full h-full transition-opacity duration-300&quot;
+                frameborder&#x3D;&quot;0&quot;
+                scrolling&#x3D;&quot;no&quot;
+                allow&#x3D;&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot;
+                allowfullscreen
+              &gt;&lt;/iframe&gt;
+              &lt;img
+                *ngIf&#x3D;&quot;mediaItems[currentMediaIndex]?.type &#x3D;&#x3D;&#x3D; &#x27;image&#x27;&quot;
+                [src]&#x3D;&quot;mediaItems[currentMediaIndex].url&quot;
+                [alt]&#x3D;&quot;mediaItems[currentMediaIndex].label&quot;
+                class&#x3D;&quot;w-full h-full object-contain transition-opacity duration-300&quot;
+                crossorigin&#x3D;&quot;anonymous&quot;
+                referrerpolicy&#x3D;&quot;no-referrer&quot;
+              /&gt;
+            &lt;/ng-container&gt;
+
+            &lt;button
+              (click)&#x3D;&quot;previousMedia()&quot;
+              [disabled]&#x3D;&quot;currentMediaIndex &#x3D;&#x3D;&#x3D; 0&quot;
+              [class.opacity-30]&#x3D;&quot;currentMediaIndex &#x3D;&#x3D;&#x3D; 0&quot;
+              [class.cursor-not-allowed]&#x3D;&quot;currentMediaIndex &#x3D;&#x3D;&#x3D; 0&quot;
+              [class.cursor-pointer]&#x3D;&quot;currentMediaIndex !&#x3D;&#x3D; 0&quot;
+              [class.hover:scale-110]&#x3D;&quot;currentMediaIndex !&#x3D;&#x3D; 0&quot;
+              [class.active:scale-95]&#x3D;&quot;currentMediaIndex !&#x3D;&#x3D; 0&quot;
+              class&#x3D;&quot;absolute left-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all duration-150 **opacity-0 group-hover:opacity-100** z-50 pointer-events-auto&quot;
+              [title]&#x3D;&quot;&#x27;tooltips.previousMedia&#x27; | translate&quot;
+            &gt;
+              &lt;svg
+                xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+                class&#x3D;&quot;h-8 w-8&quot;
+                fill&#x3D;&quot;none&quot;
+                viewBox&#x3D;&quot;0 0 24 24&quot;
+                stroke&#x3D;&quot;currentColor&quot;
+                stroke-width&#x3D;&quot;3&quot;
+              &gt;
+                &lt;path
+                  stroke-linecap&#x3D;&quot;round&quot;
+                  stroke-linejoin&#x3D;&quot;round&quot;
+                  d&#x3D;&quot;M15 19l-7-7 7-7&quot;
+                /&gt;
+              &lt;/svg&gt;
+            &lt;/button&gt;
+
+            &lt;button
+              (click)&#x3D;&quot;nextMedia()&quot;
+              [disabled]&#x3D;&quot;currentMediaIndex &#x3D;&#x3D;&#x3D; mediaItems.length - 1&quot;
+              [class.opacity-30]&#x3D;&quot;currentMediaIndex &#x3D;&#x3D;&#x3D; mediaItems.length - 1&quot;
+              [class.cursor-not-allowed]&#x3D;&quot;
+                currentMediaIndex &#x3D;&#x3D;&#x3D; mediaItems.length - 1
+              &quot;
+              [class.cursor-pointer]&#x3D;&quot;
+                currentMediaIndex !&#x3D;&#x3D; mediaItems.length - 1
+              &quot;
+              [class.hover:scale-110]&#x3D;&quot;
+                currentMediaIndex !&#x3D;&#x3D; mediaItems.length - 1
+              &quot;
+              [class.active:scale-95]&#x3D;&quot;
+                currentMediaIndex !&#x3D;&#x3D; mediaItems.length - 1
+              &quot;
+              class&#x3D;&quot;absolute right-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all duration-150 **opacity-0 group-hover:opacity-100** z-50 pointer-events-auto&quot;
+              [title]&#x3D;&quot;&#x27;tooltips.nextMedia&#x27; | translate&quot;
+            &gt;
+              &lt;svg
+                xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+                class&#x3D;&quot;h-8 w-8&quot;
+                fill&#x3D;&quot;none&quot;
+                viewBox&#x3D;&quot;0 0 24 24&quot;
+                stroke&#x3D;&quot;currentColor&quot;
+                stroke-width&#x3D;&quot;3&quot;
+              &gt;
+                &lt;path
+                  stroke-linecap&#x3D;&quot;round&quot;
+                  stroke-linejoin&#x3D;&quot;round&quot;
+                  d&#x3D;&quot;M9 5l7 7-7 7&quot;
+                /&gt;
+              &lt;/svg&gt;
+            &lt;/button&gt;
+          &lt;/div&gt;
+
+          &lt;div class&#x3D;&quot;flex justify-center gap-2 mt-4&quot;&gt;
+            &lt;div
+              *ngFor&#x3D;&quot;let media of mediaItems; let i &#x3D; index&quot;
+              (click)&#x3D;&quot;selectMedia(i)&quot;
+              [class.border-cyan-400]&#x3D;&quot;currentMediaIndex &#x3D;&#x3D;&#x3D; i&quot;
+              [class.border-4]&#x3D;&quot;currentMediaIndex &#x3D;&#x3D;&#x3D; i&quot;
+              [class.scale-105]&#x3D;&quot;currentMediaIndex &#x3D;&#x3D;&#x3D; i&quot;
+              [class.scale-90]&#x3D;&quot;currentMediaIndex !&#x3D;&#x3D; i&quot;
+              [class.opacity-50]&#x3D;&quot;currentMediaIndex !&#x3D;&#x3D; i&quot;
+              class&#x3D;&quot;w-24 h-16 bg-black rounded-lg overflow-hidden border-2 border-gray-700 cursor-pointer hover:border-gray-500 transition-all flex items-center justify-center transform duration-150 relative active:scale-95&quot;
+            &gt;
+              &lt;!-- Skeleton --&gt;
+              &lt;div
+                *ngIf&#x3D;&quot;game?.id &#x3D;&#x3D;&#x3D; -1&quot;
+                class&#x3D;&quot;w-full h-full bg-gray-700 animate-pulse pointer-events-none&quot;
+              &gt;&lt;/div&gt;
+
+              &lt;ng-container *ngIf&#x3D;&quot;game &amp;&amp; game.id !&#x3D;&#x3D; -1&quot;&gt;
+                &lt;img
+                  *ngIf&#x3D;&quot;media.type &#x3D;&#x3D;&#x3D; &#x27;image&#x27;&quot;
+                  [src]&#x3D;&quot;media.url&quot;
+                  [alt]&#x3D;&quot;media.label&quot;
+                  class&#x3D;&quot;w-full h-full object-cover&quot;
+                  crossorigin&#x3D;&quot;anonymous&quot;
+                  referrerpolicy&#x3D;&quot;no-referrer&quot;
+                /&gt;
+                &lt;div
+                  *ngIf&#x3D;&quot;media.type &#x3D;&#x3D;&#x3D; &#x27;video&#x27;&quot;
+                  class&#x3D;&quot;w-full h-full relative flex items-center justify-center&quot;
+                &gt;
+                  &lt;img
+                    *ngIf&#x3D;&quot;media.thumbnail&quot;
+                    [src]&#x3D;&quot;media.thumbnail&quot;
+                    [alt]&#x3D;&quot;media.label&quot;
+                    class&#x3D;&quot;w-full h-full object-cover opacity-75&quot;
+                    crossorigin&#x3D;&quot;anonymous&quot;
+                    referrerpolicy&#x3D;&quot;no-referrer&quot;
+                  /&gt;
+                  &lt;svg
+                    xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+                    class&#x3D;&quot;h-6 w-6 text-white absolute&quot;
+                    viewBox&#x3D;&quot;0 0 20 20&quot;
+                    fill&#x3D;&quot;currentColor&quot;
+                  &gt;
+                    &lt;path
+                      fill-rule&#x3D;&quot;evenodd&quot;
+                      d&#x3D;&quot;M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z&quot;
+                      clip-rule&#x3D;&quot;evenodd&quot;
+                    /&gt;
+                  &lt;/svg&gt;
+                  &lt;span *ngIf&#x3D;&quot;!media.thumbnail&quot; class&#x3D;&quot;text-gray-400 text-xs&quot;
+                    &gt;▶ {{ media.label }}&lt;/span
+                  &gt;
+                &lt;/div&gt;
+              &lt;/ng-container&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;text-gray-300 space-y-4 leading-relaxed text-sm&quot;&gt;
+          &lt;!-- Description Skeleton --&gt;
+          &lt;div *ngIf&#x3D;&quot;game?.id &#x3D;&#x3D;&#x3D; -1&quot; class&#x3D;&quot;space-y-2 animate-pulse&quot;&gt;
+            &lt;div class&#x3D;&quot;h-4 bg-gray-800 rounded w-full&quot;&gt;&lt;/div&gt;
+            &lt;div class&#x3D;&quot;h-4 bg-gray-800 rounded w-full&quot;&gt;&lt;/div&gt;
+            &lt;div class&#x3D;&quot;h-4 bg-gray-800 rounded w-3/4&quot;&gt;&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;!-- Real Description --&gt;
+          &lt;p
+            *ngIf&#x3D;&quot;game &amp;&amp; game.id !&#x3D;&#x3D; -1&quot;
+            class&#x3D;&quot;whitespace-pre-line text-justify&quot;
+          &gt;
+            {{ game.description }}
+          &lt;/p&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;grid grid-cols-2 gap-4&quot;&gt;
+          &lt;div class&#x3D;&quot;aspect-video bg-[#1e1e1e] rounded-lg overflow-hidden&quot;&gt;
+            &lt;!-- Skeleton for Screenshot 1 --&gt;
+            &lt;div
+              *ngIf&#x3D;&quot;game?.id &#x3D;&#x3D;&#x3D; -1&quot;
+              class&#x3D;&quot;w-full h-full bg-gray-700 animate-pulse pointer-events-none&quot;
+            &gt;&lt;/div&gt;
+            &lt;img
+              *ngIf&#x3D;&quot;game &amp;&amp; game.id !&#x3D;&#x3D; -1 &amp;&amp; screenshot1&quot;
+              [src]&#x3D;&quot;screenshot1&quot;
+              alt&#x3D;&quot;Screenshot 1&quot;
+              class&#x3D;&quot;w-full h-full object-cover&quot;
+              crossorigin&#x3D;&quot;anonymous&quot;
+              referrerpolicy&#x3D;&quot;no-referrer&quot;
+            /&gt;
+            &lt;div
+              *ngIf&#x3D;&quot;game &amp;&amp; game.id !&#x3D;&#x3D; -1 &amp;&amp; !screenshot1&quot;
+              class&#x3D;&quot;w-full h-full bg-gray-800 flex items-center justify-center text-gray-600&quot;
+            &gt;
+              No Screenshot 1
+            &lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class&#x3D;&quot;aspect-video bg-[#1e1e1e] rounded-lg overflow-hidden&quot;&gt;
+            &lt;!-- Skeleton for Screenshot 2 --&gt;
+            &lt;div
+              *ngIf&#x3D;&quot;game?.id &#x3D;&#x3D;&#x3D; -1&quot;
+              class&#x3D;&quot;w-full h-full bg-gray-700 animate-pulse pointer-events-none&quot;
+            &gt;&lt;/div&gt;
+            &lt;img
+              *ngIf&#x3D;&quot;game &amp;&amp; game.id !&#x3D;&#x3D; -1 &amp;&amp; screenshot2&quot;
+              [src]&#x3D;&quot;screenshot2&quot;
+              alt&#x3D;&quot;Screenshot 2&quot;
+              class&#x3D;&quot;w-full h-full object-cover&quot;
+              crossorigin&#x3D;&quot;anonymous&quot;
+              referrerpolicy&#x3D;&quot;no-referrer&quot;
+            /&gt;
+            &lt;div
+              *ngIf&#x3D;&quot;game &amp;&amp; game.id !&#x3D;&#x3D; -1 &amp;&amp; !screenshot2&quot;
+              class&#x3D;&quot;w-full h-full bg-gray-800 flex items-center justify-center text-gray-600&quot;
+            &gt;
+              No Screenshot 2
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;lg:col-span-4 space-y-2&quot;&gt;
+        &lt;div class&#x3D;&quot;bg-gray-900 p-6 rounded-lg -mt-7&quot;&gt;
+          &lt;!-- Price Skeleton --&gt;
+          &lt;div
+            *ngIf&#x3D;&quot;game?.id &#x3D;&#x3D;&#x3D; -1&quot;
+            class&#x3D;&quot;h-10 w-32 bg-gray-800 rounded animate-pulse mb-6&quot;
+          &gt;&lt;/div&gt;
+
+          &lt;!-- Real Price --&gt;
+          &lt;div *ngIf&#x3D;&quot;game?.id !&#x3D;&#x3D; -1&quot; class&#x3D;&quot;flex items-baseline gap-3 mb-6&quot;&gt;
+            &lt;span class&#x3D;&quot;text-white text-4xl font-bold&quot;&gt;
+              &lt;span
+                *ngIf&#x3D;&quot;
+                  (game?.isOnSale &amp;&amp; game?.salePrice !&#x3D;&#x3D; null
+                    ? game?.salePrice
+                    : game?.price) &#x3D;&#x3D;&#x3D; 0
+                &quot;
+              &gt;
+                {{ &quot;product.free&quot; | translate }}
+              &lt;/span&gt;
+              &lt;span
+                *ngIf&#x3D;&quot;
+                  (game?.isOnSale &amp;&amp; game?.salePrice !&#x3D;&#x3D; null
+                    ? game?.salePrice
+                    : game?.price) !&#x3D;&#x3D; 0
+                &quot;
+              &gt;
+                {{
+                  (game?.isOnSale &amp;&amp; game?.salePrice
+                    ? game?.salePrice
+                    : game?.price
+                  ) | currency: &quot;EUR&quot;
+                }}
+              &lt;/span&gt;
+            &lt;/span&gt;
+            &lt;span
+              *ngIf&#x3D;&quot;game?.isOnSale &amp;&amp; game?.price &amp;&amp; game?.price !&#x3D;&#x3D; 0&quot;
+              class&#x3D;&quot;text-gray-500 line-through text-xl&quot;
+              &gt;{{ game?.price | currency: &quot;EUR&quot; }}&lt;/span
+            &gt;
+          &lt;/div&gt;
+
+          &lt;div class&#x3D;&quot;mb-6&quot;&gt;
+            &lt;span class&#x3D;&quot;text-gray-400 text-sm mb-3 block&quot;&gt;{{
+              &quot;product.platform&quot; | translate
+            }}&lt;/span&gt;
+
+            &lt;!-- Platforms Skeleton --&gt;
+            &lt;div *ngIf&#x3D;&quot;game?.id &#x3D;&#x3D;&#x3D; -1&quot; class&#x3D;&quot;grid grid-cols-3 gap-2&quot;&gt;
+              &lt;div
+                class&#x3D;&quot;h-20 bg-gray-800 rounded-lg animate-pulse&quot;
+                *ngFor&#x3D;&quot;let i of [1, 2, 3, 4, 5, 6]&quot;
+              &gt;&lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;!-- Real Platforms --&gt;
+            &lt;div *ngIf&#x3D;&quot;game?.id !&#x3D;&#x3D; -1&quot; class&#x3D;&quot;grid grid-cols-3 gap-2&quot;&gt;
+              &lt;div
+                *ngFor&#x3D;&quot;let platform of sortedPlatforms&quot;
+                (click)&#x3D;&quot;
+                  isPlatformAvailable(platform.name) &amp;&amp;
+                    selectPlatform(platform.name)
+                &quot;
+                [class.border-cyan-400]&#x3D;&quot;
+                  selectedPlatform &#x3D;&#x3D;&#x3D; platform.name &amp;&amp;
+                  isPlatformAvailable(platform.name)
+                &quot;
+                [class.border-4]&#x3D;&quot;
+                  selectedPlatform &#x3D;&#x3D;&#x3D; platform.name &amp;&amp;
+                  isPlatformAvailable(platform.name)
+                &quot;
+                [class.scale-105]&#x3D;&quot;
+                  selectedPlatform &#x3D;&#x3D;&#x3D; platform.name &amp;&amp;
+                  isPlatformAvailable(platform.name)
+                &quot;
+                [class.opacity-30]&#x3D;&quot;!isPlatformAvailable(platform.name)&quot;
+                [class.cursor-not-allowed]&#x3D;&quot;!isPlatformAvailable(platform.name)&quot;
+                [class.cursor-pointer]&#x3D;&quot;isPlatformAvailable(platform.name)&quot;
+                [style.background-color]&#x3D;&quot;
+                  selectedPlatform &#x3D;&#x3D;&#x3D; platform.name &amp;&amp;
+                  isPlatformAvailable(platform.name)
+                    ? &#x27;rgb(55, 65, 81)&#x27;
+                    : &#x27;&#x27;
+                &quot;
+                class&#x3D;&quot;bg-gray-800 hover:bg-gray-700 p-3 rounded-lg transition-all border-2 border-gray-700 flex items-center justify-center transform duration-150 active:scale-95&quot;
+              &gt;
+                &lt;img
+                  [src]&#x3D;&quot;platform.image&quot;
+                  [alt]&#x3D;&quot;platform.name&quot;
+                  class&#x3D;&quot;w-14 h-14 object-contain&quot;
+                /&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div class&#x3D;&quot;space-y-3&quot;&gt;
+            &lt;!-- Stock Skeleton --&gt;
+            &lt;div
+              *ngIf&#x3D;&quot;game?.id &#x3D;&#x3D;&#x3D; -1&quot;
+              class&#x3D;&quot;h-5 w-24 bg-gray-800 rounded animate-pulse mb-6 mx-auto&quot;
+            &gt;&lt;/div&gt;
+
+            &lt;div
+              *ngIf&#x3D;&quot;game &amp;&amp; game.id !&#x3D;&#x3D; -1 &amp;&amp; selectedPlatform&quot;
+              class&#x3D;&quot;flex items-center justify-center gap-2 mb-6&quot;
+            &gt;
+              &lt;svg
+                *ngIf&#x3D;&quot;getStockForPlatform(selectedPlatform) &gt; 20&quot;
+                xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+                class&#x3D;&quot;h-5 w-5 text-green-500&quot;
+                viewBox&#x3D;&quot;0 0 20 20&quot;
+                fill&#x3D;&quot;currentColor&quot;
+              &gt;
+                &lt;path
+                  fill-rule&#x3D;&quot;evenodd&quot;
+                  d&#x3D;&quot;M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z&quot;
+                  clip-rule&#x3D;&quot;evenodd&quot;
+                /&gt;
+              &lt;/svg&gt;
+              &lt;span
+                [class.text-green-500]&#x3D;&quot;
+                  getStockForPlatform(selectedPlatform) &gt; 20
+                &quot;
+                [class.text-yellow-500]&#x3D;&quot;
+                  getStockForPlatform(selectedPlatform) &gt; 0 &amp;&amp;
+                  getStockForPlatform(selectedPlatform) &lt;&#x3D; 20
+                &quot;
+                [class.text-red-500]&#x3D;&quot;
+                  getStockForPlatform(selectedPlatform) &#x3D;&#x3D;&#x3D; 0
+                &quot;
+                class&#x3D;&quot;text-sm font-bold&quot;
+              &gt;
+                &lt;span *ngIf&#x3D;&quot;getStockForPlatform(selectedPlatform) &gt; 20&quot;&gt;{{
+                  &quot;product.inStock&quot; | translate
+                }}&lt;/span&gt;
+                &lt;span
+                  *ngIf&#x3D;&quot;
+                    getStockForPlatform(selectedPlatform) &gt; 0 &amp;&amp;
+                    getStockForPlatform(selectedPlatform) &lt;&#x3D; 20
+                  &quot;
+                  &gt;{{ &quot;product.fewLeft&quot; | translate }}&lt;/span
+                &gt;
+                &lt;span *ngIf&#x3D;&quot;getStockForPlatform(selectedPlatform) &#x3D;&#x3D;&#x3D; 0&quot;&gt;{{
+                  &quot;product.outOfStock&quot; | translate
+                }}&lt;/span&gt;
+              &lt;/span&gt;
+            &lt;/div&gt;
+
+            &lt;!-- Buttons Skeleton --&gt;
+            &lt;ng-container *ngIf&#x3D;&quot;game?.id &#x3D;&#x3D;&#x3D; -1&quot;&gt;
+              &lt;div class&#x3D;&quot;w-full h-12 bg-gray-800 rounded animate-pulse&quot;&gt;&lt;/div&gt;
+              &lt;div class&#x3D;&quot;w-full h-12 bg-gray-800 rounded animate-pulse&quot;&gt;&lt;/div&gt;
+              &lt;div class&#x3D;&quot;w-full h-12 bg-gray-800 rounded animate-pulse&quot;&gt;&lt;/div&gt;
+            &lt;/ng-container&gt;
+
+            &lt;ng-container *ngIf&#x3D;&quot;game &amp;&amp; game.id !&#x3D;&#x3D; -1&quot;&gt;
+              &lt;button
+                (click)&#x3D;&quot;buyNow()&quot;
+                [disabled]&#x3D;&quot;
+                  !selectedPlatform ||
+                  getStockForPlatform(selectedPlatform) &#x3D;&#x3D;&#x3D; 0
+                &quot;
+                [class.opacity-50]&#x3D;&quot;
+                  !selectedPlatform ||
+                  getStockForPlatform(selectedPlatform) &#x3D;&#x3D;&#x3D; 0
+                &quot;
+                [class.cursor-not-allowed]&#x3D;&quot;
+                  !selectedPlatform ||
+                  getStockForPlatform(selectedPlatform) &#x3D;&#x3D;&#x3D; 0
+                &quot;
+                [class.from-green-500]&#x3D;&quot;buySuccess()&quot;
+                [class.to-green-600]&#x3D;&quot;buySuccess()&quot;
+                [class.hover:from-green-400]&#x3D;&quot;buySuccess()&quot;
+                [class.hover:to-green-500]&#x3D;&quot;buySuccess()&quot;
+                class&#x3D;&quot;w-full bg-gradient-to-r bg-cyan-400 hover:bg-cyan-300 hover:to-[#5a5a7a] text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none&quot;
+              &gt;
+                @if (buySuccess()) {
+                  &lt;svg
+                    xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+                    class&#x3D;&quot;h-5 w-5&quot;
+                    viewBox&#x3D;&quot;0 0 20 20&quot;
+                    fill&#x3D;&quot;currentColor&quot;
+                  &gt;
+                    &lt;path
+                      fill-rule&#x3D;&quot;evenodd&quot;
+                      d&#x3D;&quot;M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z&quot;
+                      clip-rule&#x3D;&quot;evenodd&quot;
+                    /&gt;
+                  &lt;/svg&gt;
+                  {{ &quot;product.goingToCart&quot; | translate }}
+                } @else {
+                  &lt;svg
+                    *ngIf&#x3D;&quot;!selectedPlatform&quot;
+                    xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+                    class&#x3D;&quot;h-5 w-5&quot;
+                    viewBox&#x3D;&quot;0 0 20 20&quot;
+                    fill&#x3D;&quot;currentColor&quot;
+                    [title]&#x3D;&quot;&#x27;tooltips.platformLocked&#x27; | translate&quot;
+                  &gt;
+                    &lt;path
+                      fill-rule&#x3D;&quot;evenodd&quot;
+                      d&#x3D;&quot;M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z&quot;
+                      clip-rule&#x3D;&quot;evenodd&quot;
+                    /&gt;
+                  &lt;/svg&gt;
+                  {{ &quot;product.buy&quot; | translate }}
+                }
+              &lt;/button&gt;
+              &lt;button
+                (click)&#x3D;&quot;addToCart()&quot;
+                [disabled]&#x3D;&quot;
+                  !selectedPlatform ||
+                  getStockForPlatform(selectedPlatform) &#x3D;&#x3D;&#x3D; 0
+                &quot;
+                [class.opacity-50]&#x3D;&quot;
+                  !selectedPlatform ||
+                  getStockForPlatform(selectedPlatform) &#x3D;&#x3D;&#x3D; 0
+                &quot;
+                [class.cursor-not-allowed]&#x3D;&quot;
+                  !selectedPlatform ||
+                  getStockForPlatform(selectedPlatform) &#x3D;&#x3D;&#x3D; 0
+                &quot;
+                [class.bg-green-600]&#x3D;&quot;addedToCartSuccess()&quot;
+                [class.hover:bg-green-500]&#x3D;&quot;addedToCartSuccess()&quot;
+                [class.bg-yellow-600]&#x3D;&quot;quantityIncreased()&quot;
+                [class.hover:bg-yellow-500]&#x3D;&quot;quantityIncreased()&quot;
+                class&#x3D;&quot;w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none&quot;
+              &gt;
+                @if (addedToCartSuccess()) {
+                  &lt;svg
+                    xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+                    class&#x3D;&quot;h-5 w-5&quot;
+                    viewBox&#x3D;&quot;0 0 20 20&quot;
+                    fill&#x3D;&quot;currentColor&quot;
+                  &gt;
+                    &lt;path
+                      fill-rule&#x3D;&quot;evenodd&quot;
+                      d&#x3D;&quot;M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z&quot;
+                      clip-rule&#x3D;&quot;evenodd&quot;
+                    /&gt;
+                  &lt;/svg&gt;
+                  {{ &quot;product.addedToCart&quot; | translate }}
+                } @else if (quantityIncreased()) {
+                  &lt;svg
+                    xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+                    class&#x3D;&quot;h-5 w-5&quot;
+                    viewBox&#x3D;&quot;0 0 20 20&quot;
+                    fill&#x3D;&quot;currentColor&quot;
+                  &gt;
+                    &lt;path
+                      fill-rule&#x3D;&quot;evenodd&quot;
+                      d&#x3D;&quot;M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z&quot;
+                      clip-rule&#x3D;&quot;evenodd&quot;
+                    /&gt;
+                  &lt;/svg&gt;
+                  {{ &quot;product.quantityIncreased&quot; | translate }}
+                } @else {
+                  {{ &quot;product.addToCart&quot; | translate }}
+                }
+              &lt;/button&gt;
+              &lt;button
+                (click)&#x3D;&quot;addToFavorites()&quot;
+                [disabled]&#x3D;&quot;!selectedPlatform&quot;
+                [class.opacity-50]&#x3D;&quot;!selectedPlatform&quot;
+                [class.cursor-not-allowed]&#x3D;&quot;!selectedPlatform&quot;
+                [class.bg-green-600]&#x3D;&quot;addedToFavoritesSuccess()&quot;
+                [class.hover:bg-green-500]&#x3D;&quot;addedToFavoritesSuccess()&quot;
+                [class.bg-red-600]&#x3D;&quot;alreadyInFavorites()&quot;
+                [class.hover:bg-red-500]&#x3D;&quot;alreadyInFavorites()&quot;
+                class&#x3D;&quot;w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none&quot;
+              &gt;
+                @if (addedToFavoritesSuccess()) {
+                  &lt;svg
+                    xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+                    class&#x3D;&quot;h-5 w-5&quot;
+                    viewBox&#x3D;&quot;0 0 20 20&quot;
+                    fill&#x3D;&quot;currentColor&quot;
+                  &gt;
+                    &lt;path
+                      fill-rule&#x3D;&quot;evenodd&quot;
+                      d&#x3D;&quot;M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z&quot;
+                      clip-rule&#x3D;&quot;evenodd&quot;
+                    /&gt;
+                  &lt;/svg&gt;
+                  {{ &quot;product.addedToFavorites&quot; | translate }}
+                } @else if (alreadyInFavorites()) {
+                  &lt;svg
+                    xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+                    class&#x3D;&quot;h-5 w-5&quot;
+                    viewBox&#x3D;&quot;0 0 20 20&quot;
+                    fill&#x3D;&quot;currentColor&quot;
+                  &gt;
+                    &lt;path
+                      fill-rule&#x3D;&quot;evenodd&quot;
+                      d&#x3D;&quot;M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z&quot;
+                      clip-rule&#x3D;&quot;evenodd&quot;
+                    /&gt;
+                  &lt;/svg&gt;
+                  {{ &quot;product.alreadyInFavorites&quot; | translate }}
+                } @else {
+                  {{ &quot;product.addToFavorites&quot; | translate }}
+                }
+              &lt;/button&gt;
+            &lt;/ng-container&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;bg-gray-900 p-6 rounded-lg&quot;&gt;
+          &lt;div
+            class&#x3D;&quot;text-sm border border-gray-500 divide-y divide-gray-500 info-list rounded-lg&quot;
+          &gt;
+            &lt;div class&#x3D;&quot;grid grid-cols-2 item&quot;&gt;
+              &lt;span
+                class&#x3D;&quot;text-gray-400 p-4 border-r border-gray-500 rounded-tl-lg&quot;
+              &gt;
+                {{ &quot;product.developer&quot; | translate }}
+              &lt;/span&gt;
+              &lt;span class&#x3D;&quot;text-right text-gray-300 p-4 rounded-tr-lg&quot;&gt;
+                &lt;span *ngIf&#x3D;&quot;game?.id !&#x3D;&#x3D; -1&quot;&gt;{{
+                  game?.Developer?.name || &quot;N/A&quot;
+                }}&lt;/span&gt;
+                &lt;div
+                  *ngIf&#x3D;&quot;game?.id &#x3D;&#x3D;&#x3D; -1&quot;
+                  class&#x3D;&quot;h-4 w-20 bg-gray-800 rounded animate-pulse ml-auto&quot;
+                &gt;&lt;/div&gt;
+              &lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;grid grid-cols-2 item&quot;&gt;
+              &lt;span class&#x3D;&quot;text-gray-400 p-4 border-r border-gray-500&quot;&gt;
+                {{ &quot;product.publisher&quot; | translate }}
+              &lt;/span&gt;
+              &lt;span class&#x3D;&quot;text-right text-gray-300 p-4&quot;&gt;
+                &lt;span *ngIf&#x3D;&quot;game?.id !&#x3D;&#x3D; -1&quot;&gt;{{
+                  game?.Publisher?.name || &quot;N/A&quot;
+                }}&lt;/span&gt;
+                &lt;div
+                  *ngIf&#x3D;&quot;game?.id &#x3D;&#x3D;&#x3D; -1&quot;
+                  class&#x3D;&quot;h-4 w-20 bg-gray-800 rounded animate-pulse ml-auto&quot;
+                &gt;&lt;/div&gt;
+              &lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;grid grid-cols-2 item&quot;&gt;
+              &lt;span class&#x3D;&quot;text-gray-400 p-4 border-r border-gray-500&quot;&gt;
+                {{ &quot;product.releaseDate&quot; | translate }}
+              &lt;/span&gt;
+              &lt;span class&#x3D;&quot;text-right text-gray-300 p-4&quot;&gt;
+                &lt;span *ngIf&#x3D;&quot;game?.id !&#x3D;&#x3D; -1&quot;&gt;{{
+                  game?.releaseDate
+                    ? (game?.releaseDate | date: &quot;dd/MM/yyyy&quot;)
+                    : &quot;N/A&quot;
+                }}&lt;/span&gt;
+                &lt;div
+                  *ngIf&#x3D;&quot;game?.id &#x3D;&#x3D;&#x3D; -1&quot;
+                  class&#x3D;&quot;h-4 w-24 bg-gray-800 rounded animate-pulse ml-auto&quot;
+                &gt;&lt;/div&gt;
+              &lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;grid grid-cols-2 item&quot;&gt;
+              &lt;span
+                class&#x3D;&quot;text-gray-400 p-4 border-r border-gray-500 rounded-bl-lg&quot;
+              &gt;
+                {{ &quot;product.refund&quot; | translate }}
+              &lt;/span&gt;
+              &lt;span class&#x3D;&quot;text-right text-gray-300 p-4 rounded-br-lg&quot;&gt;
+                &lt;span *ngIf&#x3D;&quot;game?.id !&#x3D;&#x3D; -1&quot;&gt;{{
+                  game?.isRefundable ? &quot;Si&quot; : &quot;No&quot;
+                }}&lt;/span&gt;
+                &lt;div
+                  *ngIf&#x3D;&quot;game?.id &#x3D;&#x3D;&#x3D; -1&quot;
+                  class&#x3D;&quot;h-4 w-10 bg-gray-800 rounded animate-pulse ml-auto&quot;
+                &gt;&lt;/div&gt;
+              &lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  @if (showAuthModal()) {
+    &lt;div
+      class&#x3D;&quot;fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4&quot;
+    &gt;
+      &lt;div
+        class&#x3D;&quot;bg-gray-900 rounded-xl max-w-md w-full p-6 shadow-2xl transform transition-all&quot;
+      &gt;
+        &lt;h3 class&#x3D;&quot;text-xl font-bold text-white mb-4&quot;&gt;
+          {{ &quot;authGuard.loginRequiredTitle&quot; | translate }}
+        &lt;/h3&gt;
+        &lt;p class&#x3D;&quot;text-gray-300 mb-8&quot;&gt;
+          {{ &quot;authGuard.loginRequiredMessage&quot; | translate }}
+        &lt;/p&gt;
+        &lt;div class&#x3D;&quot;flex gap-4 justify-end&quot;&gt;
+          &lt;button
+            (click)&#x3D;&quot;cancelLogin()&quot;
+            class&#x3D;&quot;px-6 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg transition-all font-medium border-0 outline-none&quot;
+          &gt;
+            {{ &quot;authGuard.cancel&quot; | translate }}
+          &lt;/button&gt;
+          &lt;button
+            (click)&#x3D;&quot;confirmLogin()&quot;
+            class&#x3D;&quot;px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg hover:from-cyan-400 hover:to-blue-400 transition-all font-medium border-0 outline-none&quot;
+          &gt;
+            {{ &quot;authGuard.login&quot; | translate }}
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  }
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./product.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 100%;
+}
+
+.info-list &gt; .item:not(:last-child) {
+  border-bottom: 1px solid #6b7280;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="flex-1 w-full bg-gray-900 text-white font-sans pb-20">  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">    <div class="mb-6">      <h1        class="text-4xl font-bold text-white mb-2"        [class.animate-pulse]="game?.id === -1"        [class.text-gray-500]="game?.id === -1"      >        {{ game?.id === -1 ? (game?.title | translate) : game?.title }}      </h1>      <div class="flex items-center gap-2 text-sm" *ngIf="game?.id === -1">        <!-- Skeleton Stars -->        <div class="flex gap-1 animate-pulse">          <div            class="w-4 h-4 bg-gray-800 rounded-full"            *ngFor="let i of [1, 2, 3, 4, 5]"          ></div>        </div>        <div class="w-8 h-4 bg-gray-800 rounded animate-pulse"></div>      </div>      <div        class="flex items-center gap-2 text-sm"        *ngIf="game && game.id !== -1"      >        <div class="flex text-white">          <svg            *ngFor="let star of getRatingStars()"            xmlns="http://www.w3.org/2000/svg"            class="h-4 w-4 fill-current"            viewBox="0 0 20 20"            [title]="\'tooltips.rating\' | translate"          >            <path              d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"            />          </svg>          <svg            *ngFor="let star of getEmptyStars()"            xmlns="http://www.w3.org/2000/svg"            class="h-4 w-4 fill-current text-gray-500"            viewBox="0 0 20 20"            [title]="\'tooltips.rating\' | translate"          >            <path              d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"            />          </svg>        </div>        <span class="text-gray-400">{{ game.rating }}</span>      </div>    </div>    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">      <div class="lg:col-span-8 space-y-8">        <div class="relative">          <div            class="aspect-video bg-black rounded-lg overflow-hidden relative group"          >            <!-- Skeleton Main Player -->            <div              *ngIf="game?.id === -1"              class="w-full h-full bg-gray-700 animate-pulse absolute inset-0 z-20 pointer-events-none"            ></div>            <ng-container *ngIf="game && game.id !== -1">              <iframe                *ngIf="mediaItems[currentMediaIndex]?.type === \'video\'"                [src]="mediaItems[currentMediaIndex].url"                class="w-full h-full transition-opacity duration-300"                frameborder="0"                scrolling="no"                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"                allowfullscreen              ></iframe>              <img                *ngIf="mediaItems[currentMediaIndex]?.type === \'image\'"                [src]="mediaItems[currentMediaIndex].url"                [alt]="mediaItems[currentMediaIndex].label"                class="w-full h-full object-contain transition-opacity duration-300"                crossorigin="anonymous"                referrerpolicy="no-referrer"              />            </ng-container>            <button              (click)="previousMedia()"              [disabled]="currentMediaIndex === 0"              [class.opacity-30]="currentMediaIndex === 0"              [class.cursor-not-allowed]="currentMediaIndex === 0"              [class.cursor-pointer]="currentMediaIndex !== 0"              [class.hover:scale-110]="currentMediaIndex !== 0"              [class.active:scale-95]="currentMediaIndex !== 0"              class="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all duration-150 **opacity-0 group-hover:opacity-100** z-50 pointer-events-auto"              [title]="\'tooltips.previousMedia\' | translate"            >              <svg                xmlns="http://www.w3.org/2000/svg"                class="h-8 w-8"                fill="none"                viewBox="0 0 24 24"                stroke="currentColor"                stroke-width="3"              >                <path                  stroke-linecap="round"                  stroke-linejoin="round"                  d="M15 19l-7-7 7-7"                />              </svg>            </button>            <button              (click)="nextMedia()"              [disabled]="currentMediaIndex === mediaItems.length - 1"              [class.opacity-30]="currentMediaIndex === mediaItems.length - 1"              [class.cursor-not-allowed]="                currentMediaIndex === mediaItems.length - 1              "              [class.cursor-pointer]="                currentMediaIndex !== mediaItems.length - 1              "              [class.hover:scale-110]="                currentMediaIndex !== mediaItems.length - 1              "              [class.active:scale-95]="                currentMediaIndex !== mediaItems.length - 1              "              class="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all duration-150 **opacity-0 group-hover:opacity-100** z-50 pointer-events-auto"              [title]="\'tooltips.nextMedia\' | translate"            >              <svg                xmlns="http://www.w3.org/2000/svg"                class="h-8 w-8"                fill="none"                viewBox="0 0 24 24"                stroke="currentColor"                stroke-width="3"              >                <path                  stroke-linecap="round"                  stroke-linejoin="round"                  d="M9 5l7 7-7 7"                />              </svg>            </button>          </div>          <div class="flex justify-center gap-2 mt-4">            <div              *ngFor="let media of mediaItems; let i = index"              (click)="selectMedia(i)"              [class.border-cyan-400]="currentMediaIndex === i"              [class.border-4]="currentMediaIndex === i"              [class.scale-105]="currentMediaIndex === i"              [class.scale-90]="currentMediaIndex !== i"              [class.opacity-50]="currentMediaIndex !== i"              class="w-24 h-16 bg-black rounded-lg overflow-hidden border-2 border-gray-700 cursor-pointer hover:border-gray-500 transition-all flex items-center justify-center transform duration-150 relative active:scale-95"            >              <!-- Skeleton -->              <div                *ngIf="game?.id === -1"                class="w-full h-full bg-gray-700 animate-pulse pointer-events-none"              ></div>              <ng-container *ngIf="game && game.id !== -1">                <img                  *ngIf="media.type === \'image\'"                  [src]="media.url"                  [alt]="media.label"                  class="w-full h-full object-cover"                  crossorigin="anonymous"                  referrerpolicy="no-referrer"                />                <div                  *ngIf="media.type === \'video\'"                  class="w-full h-full relative flex items-center justify-center"                >                  <img                    *ngIf="media.thumbnail"                    [src]="media.thumbnail"                    [alt]="media.label"                    class="w-full h-full object-cover opacity-75"                    crossorigin="anonymous"                    referrerpolicy="no-referrer"                  />                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-6 w-6 text-white absolute"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"                      clip-rule="evenodd"                    />                  </svg>                  <span *ngIf="!media.thumbnail" class="text-gray-400 text-xs"                    >▶ {{ media.label }}</span                  >                </div>              </ng-container>            </div>          </div>        </div>        <div class="text-gray-300 space-y-4 leading-relaxed text-sm">          <!-- Description Skeleton -->          <div *ngIf="game?.id === -1" class="space-y-2 animate-pulse">            <div class="h-4 bg-gray-800 rounded w-full"></div>            <div class="h-4 bg-gray-800 rounded w-full"></div>            <div class="h-4 bg-gray-800 rounded w-3/4"></div>          </div>          <!-- Real Description -->          <p            *ngIf="game && game.id !== -1"            class="whitespace-pre-line text-justify"          >            {{ game.description }}          </p>        </div>        <div class="grid grid-cols-2 gap-4">          <div class="aspect-video bg-[#1e1e1e] rounded-lg overflow-hidden">            <!-- Skeleton for Screenshot 1 -->            <div              *ngIf="game?.id === -1"              class="w-full h-full bg-gray-700 animate-pulse pointer-events-none"            ></div>            <img              *ngIf="game && game.id !== -1 && screenshot1"              [src]="screenshot1"              alt="Screenshot 1"              class="w-full h-full object-cover"              crossorigin="anonymous"              referrerpolicy="no-referrer"            />            <div              *ngIf="game && game.id !== -1 && !screenshot1"              class="w-full h-full bg-gray-800 flex items-center justify-center text-gray-600"            >              No Screenshot 1            </div>          </div>          <div class="aspect-video bg-[#1e1e1e] rounded-lg overflow-hidden">            <!-- Skeleton for Screenshot 2 -->            <div              *ngIf="game?.id === -1"              class="w-full h-full bg-gray-700 animate-pulse pointer-events-none"            ></div>            <img              *ngIf="game && game.id !== -1 && screenshot2"              [src]="screenshot2"              alt="Screenshot 2"              class="w-full h-full object-cover"              crossorigin="anonymous"              referrerpolicy="no-referrer"            />            <div              *ngIf="game && game.id !== -1 && !screenshot2"              class="w-full h-full bg-gray-800 flex items-center justify-center text-gray-600"            >              No Screenshot 2            </div>          </div>        </div>      </div>      <div class="lg:col-span-4 space-y-2">        <div class="bg-gray-900 p-6 rounded-lg -mt-7">          <!-- Price Skeleton -->          <div            *ngIf="game?.id === -1"            class="h-10 w-32 bg-gray-800 rounded animate-pulse mb-6"          ></div>          <!-- Real Price -->          <div *ngIf="game?.id !== -1" class="flex items-baseline gap-3 mb-6">            <span class="text-white text-4xl font-bold">              <span                *ngIf="                  (game?.isOnSale && game?.salePrice !== null                    ? game?.salePrice                    : game?.price) === 0                "              >                {{ "product.free" | translate }}              </span>              <span                *ngIf="                  (game?.isOnSale && game?.salePrice !== null                    ? game?.salePrice                    : game?.price) !== 0                "              >                {{                  (game?.isOnSale && game?.salePrice                    ? game?.salePrice                    : game?.price                  ) | currency: "EUR"                }}              </span>            </span>            <span              *ngIf="game?.isOnSale && game?.price && game?.price !== 0"              class="text-gray-500 line-through text-xl"              >{{ game?.price | currency: "EUR" }}</span            >          </div>          <div class="mb-6">            <span class="text-gray-400 text-sm mb-3 block">{{              "product.platform" | translate            }}</span>            <!-- Platforms Skeleton -->            <div *ngIf="game?.id === -1" class="grid grid-cols-3 gap-2">              <div                class="h-20 bg-gray-800 rounded-lg animate-pulse"                *ngFor="let i of [1, 2, 3, 4, 5, 6]"              ></div>            </div>            <!-- Real Platforms -->            <div *ngIf="game?.id !== -1" class="grid grid-cols-3 gap-2">              <div                *ngFor="let platform of sortedPlatforms"                (click)="                  isPlatformAvailable(platform.name) &&                    selectPlatform(platform.name)                "                [class.border-cyan-400]="                  selectedPlatform === platform.name &&                  isPlatformAvailable(platform.name)                "                [class.border-4]="                  selectedPlatform === platform.name &&                  isPlatformAvailable(platform.name)                "                [class.scale-105]="                  selectedPlatform === platform.name &&                  isPlatformAvailable(platform.name)                "                [class.opacity-30]="!isPlatformAvailable(platform.name)"                [class.cursor-not-allowed]="!isPlatformAvailable(platform.name)"                [class.cursor-pointer]="isPlatformAvailable(platform.name)"                [style.background-color]="                  selectedPlatform === platform.name &&                  isPlatformAvailable(platform.name)                    ? \'rgb(55, 65, 81)\'                    : \'\'                "                class="bg-gray-800 hover:bg-gray-700 p-3 rounded-lg transition-all border-2 border-gray-700 flex items-center justify-center transform duration-150 active:scale-95"              >                <img                  [src]="platform.image"                  [alt]="platform.name"                  class="w-14 h-14 object-contain"                />              </div>            </div>          </div>          <div class="space-y-3">            <!-- Stock Skeleton -->            <div              *ngIf="game?.id === -1"              class="h-5 w-24 bg-gray-800 rounded animate-pulse mb-6 mx-auto"            ></div>            <div              *ngIf="game && game.id !== -1 && selectedPlatform"              class="flex items-center justify-center gap-2 mb-6"            >              <svg                *ngIf="getStockForPlatform(selectedPlatform) > 20"                xmlns="http://www.w3.org/2000/svg"                class="h-5 w-5 text-green-500"                viewBox="0 0 20 20"                fill="currentColor"              >                <path                  fill-rule="evenodd"                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"                  clip-rule="evenodd"                />              </svg>              <span                [class.text-green-500]="                  getStockForPlatform(selectedPlatform) > 20                "                [class.text-yellow-500]="                  getStockForPlatform(selectedPlatform) > 0 &&                  getStockForPlatform(selectedPlatform) <= 20                "                [class.text-red-500]="                  getStockForPlatform(selectedPlatform) === 0                "                class="text-sm font-bold"              >                <span *ngIf="getStockForPlatform(selectedPlatform) > 20">{{                  "product.inStock" | translate                }}</span>                <span                  *ngIf="                    getStockForPlatform(selectedPlatform) > 0 &&                    getStockForPlatform(selectedPlatform) <= 20                  "                  >{{ "product.fewLeft" | translate }}</span                >                <span *ngIf="getStockForPlatform(selectedPlatform) === 0">{{                  "product.outOfStock" | translate                }}</span>              </span>            </div>            <!-- Buttons Skeleton -->            <ng-container *ngIf="game?.id === -1">              <div class="w-full h-12 bg-gray-800 rounded animate-pulse"></div>              <div class="w-full h-12 bg-gray-800 rounded animate-pulse"></div>              <div class="w-full h-12 bg-gray-800 rounded animate-pulse"></div>            </ng-container>            <ng-container *ngIf="game && game.id !== -1">              <button                (click)="buyNow()"                [disabled]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.opacity-50]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.cursor-not-allowed]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.from-green-500]="buySuccess()"                [class.to-green-600]="buySuccess()"                [class.hover:from-green-400]="buySuccess()"                [class.hover:to-green-500]="buySuccess()"                class="w-full bg-gradient-to-r bg-cyan-400 hover:bg-cyan-300 hover:to-[#5a5a7a] text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"              >                @if (buySuccess()) {                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.goingToCart" | translate }}                } @else {                  <svg                    *ngIf="!selectedPlatform"                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                    [title]="\'tooltips.platformLocked\' | translate"                  >                    <path                      fill-rule="evenodd"                      d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.buy" | translate }}                }              </button>              <button                (click)="addToCart()"                [disabled]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.opacity-50]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.cursor-not-allowed]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.bg-green-600]="addedToCartSuccess()"                [class.hover:bg-green-500]="addedToCartSuccess()"                [class.bg-yellow-600]="quantityIncreased()"                [class.hover:bg-yellow-500]="quantityIncreased()"                class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"              >                @if (addedToCartSuccess()) {                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.addedToCart" | translate }}                } @else if (quantityIncreased()) {                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.quantityIncreased" | translate }}                } @else {                  {{ "product.addToCart" | translate }}                }              </button>              <button                (click)="addToFavorites()"                [disabled]="!selectedPlatform"                [class.opacity-50]="!selectedPlatform"                [class.cursor-not-allowed]="!selectedPlatform"                [class.bg-green-600]="addedToFavoritesSuccess()"                [class.hover:bg-green-500]="addedToFavoritesSuccess()"                [class.bg-red-600]="alreadyInFavorites()"                [class.hover:bg-red-500]="alreadyInFavorites()"                class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"              >                @if (addedToFavoritesSuccess()) {                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.addedToFavorites" | translate }}                } @else if (alreadyInFavorites()) {                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.alreadyInFavorites" | translate }}                } @else {                  {{ "product.addToFavorites" | translate }}                }              </button>            </ng-container>          </div>        </div>        <div class="bg-gray-900 p-6 rounded-lg">          <div            class="text-sm border border-gray-500 divide-y divide-gray-500 info-list rounded-lg"          >            <div class="grid grid-cols-2 item">              <span                class="text-gray-400 p-4 border-r border-gray-500 rounded-tl-lg"              >                {{ "product.developer" | translate }}              </span>              <span class="text-right text-gray-300 p-4 rounded-tr-lg">                <span *ngIf="game?.id !== -1">{{                  game?.Developer?.name || "N/A"                }}</span>                <div                  *ngIf="game?.id === -1"                  class="h-4 w-20 bg-gray-800 rounded animate-pulse ml-auto"                ></div>              </span>            </div>            <div class="grid grid-cols-2 item">              <span class="text-gray-400 p-4 border-r border-gray-500">                {{ "product.publisher" | translate }}              </span>              <span class="text-right text-gray-300 p-4">                <span *ngIf="game?.id !== -1">{{                  game?.Publisher?.name || "N/A"                }}</span>                <div                  *ngIf="game?.id === -1"                  class="h-4 w-20 bg-gray-800 rounded animate-pulse ml-auto"                ></div>              </span>            </div>            <div class="grid grid-cols-2 item">              <span class="text-gray-400 p-4 border-r border-gray-500">                {{ "product.releaseDate" | translate }}              </span>              <span class="text-right text-gray-300 p-4">                <span *ngIf="game?.id !== -1">{{                  game?.releaseDate                    ? (game?.releaseDate | date: "dd/MM/yyyy")                    : "N/A"                }}</span>                <div                  *ngIf="game?.id === -1"                  class="h-4 w-24 bg-gray-800 rounded animate-pulse ml-auto"                ></div>              </span>            </div>            <div class="grid grid-cols-2 item">              <span                class="text-gray-400 p-4 border-r border-gray-500 rounded-bl-lg"              >                {{ "product.refund" | translate }}              </span>              <span class="text-right text-gray-300 p-4 rounded-br-lg">                <span *ngIf="game?.id !== -1">{{                  game?.isRefundable ? "Si" : "No"                }}</span>                <div                  *ngIf="game?.id === -1"                  class="h-4 w-10 bg-gray-800 rounded animate-pulse ml-auto"                ></div>              </span>            </div>          </div>        </div>      </div>    </div>  </div>  @if (showAuthModal()) {    <div      class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"    >      <div        class="bg-gray-900 rounded-xl max-w-md w-full p-6 shadow-2xl transform transition-all"      >        <h3 class="text-xl font-bold text-white mb-4">          {{ "authGuard.loginRequiredTitle" | translate }}        </h3>        <p class="text-gray-300 mb-8">          {{ "authGuard.loginRequiredMessage" | translate }}        </p>        <div class="flex gap-4 justify-end">          <button            (click)="cancelLogin()"            class="px-6 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg transition-all font-medium border-0 outline-none"          >            {{ "authGuard.cancel" | translate }}          </button>          <button            (click)="confirmLogin()"            class="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg hover:from-cyan-400 hover:to-blue-400 transition-all font-medium border-0 outline-none"          >            {{ "authGuard.login" | translate }}          </button>        </div>      </div>    </div>  }</div></div>'
+    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'}];
+    var DIRECTIVES = [{'name': 'CopyOnClickDirective', 'selector': '[appCopyOnClick]'},{'name': 'HighlightDirective', 'selector': '[appHighlight]'}];
+    var ACTUAL_COMPONENT = {'name': 'ProductComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ProductComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

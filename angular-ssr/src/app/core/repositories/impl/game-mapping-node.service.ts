@@ -7,16 +7,26 @@ import { Media } from '../../models/media.model';
 import { Developer } from '../../models/developer.model';
 import { Publisher } from '../../models/publisher.model';
 
+/**
+ * Servicio de mapeo para los juegos desde un backend Node.js.
+ * Realiza una transformación profunda de géneros, plataformas, medios, desarrolladora y distribuidora.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class GameMappingNodeService implements IBaseMapping<Game> {
   constructor() {}
 
+  /** Transforma una lista de juegos. */
   getAll(data: any): Game[] {
     return data.map((item: any) => this.getOne(item));
   }
 
+  /**
+   * Transforma un objeto juego de la API al modelo {@link Game}.
+   * Mapea todas las relaciones y normaliza los nombres de propiedades (case sensitivity).
+   * @param data Objeto de la API.
+   */
   getOne(data: any): Game {
     return {
       id: data.id,
@@ -80,6 +90,11 @@ export class GameMappingNodeService implements IBaseMapping<Game> {
     return this.getOne(data);
   }
 
+  /**
+   * Prepara el payload para crear un juego.
+   * Convierte objetos complejos de géneros y plataformas en arrays de IDs/nombres.
+   * @param data Modelo Game.
+   */
   setAdd(data: Game): any {
     const payload: any = {
       title: data.title,
@@ -110,6 +125,11 @@ export class GameMappingNodeService implements IBaseMapping<Game> {
     return payload;
   }
 
+  /**
+   * Prepara el payload para actualizar un juego.
+   * Limpia campos automáticos o de solo lectura.
+   * @param data Atributos a actualizar.
+   */
   setUpdate(data: any): any {
     const payload: any = { ...data };
     if (data.genres) {

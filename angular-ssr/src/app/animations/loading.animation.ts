@@ -7,7 +7,11 @@ import {
   group,
 } from '@angular/animations';
 
+/**
+ * Animación de salida (fade-out y escalado) para la pantalla de carga inicial.
+ */
 export const loadingAnimation = trigger('leaveAnimation', [
+
   transition(
     ':leave',
     [

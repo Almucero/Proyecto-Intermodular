@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
-import { SanitizeHtmlPipe } from '../../pipes/sanitize-html.pipe';
 
+/**
+ * Componente que presenta la Política de Privacidad del sitio.
+ * Contenido legal sobre el tratamiento de datos personales de los usuarios.
+ */
 @Component({
   selector: 'app-privacy',
-  imports: [RouterModule, TranslatePipe, SanitizeHtmlPipe],
+  standalone: true,
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './privacy.component.html',
   styleUrl: './privacy.component.scss',
 })
-export class PrivacyComponent {
-  ngOnInit(): void {}
-}
+export class PrivacyComponent {}

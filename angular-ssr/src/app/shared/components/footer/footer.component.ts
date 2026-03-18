@@ -7,6 +7,10 @@ import {
   LanguageService,
 } from './../../../core/services/language.service';
 
+/**
+ * Componente de pie de página (footer) de la aplicación.
+ * Proporciona enlaces rápidos, cambio de idioma y visualización del año actual.
+ */
 @Component({
   selector: 'app-footer',
   standalone: true,
@@ -16,20 +20,29 @@ import {
 })
 export class FooterComponent {
   private languageService = inject(LanguageService);
+  /** Estado global de la interfaz de usuario. */
   public uiState = inject(UiStateService);
+  /** Año actual para el copyright. */
   currentYear = new Date().getFullYear();
 
+  /** Lista de idiomas disponibles en la aplicación. */
   languages: Language[] = ['es', 'en', 'de', 'fr', 'it'];
 
+  /** Clase dinámica vinculada al estado de apertura del menú móvil. */
   @HostBinding('class.menu-open')
   get menuOpen() {
     return this.uiState.isMenuOpen();
   }
 
+  /** Obtiene el código del idioma seleccionado actualmente. */
   get currentLang(): Language {
     return this.languageService.getCurrentLang();
   }
 
+  /**
+   * Cambia el idioma de la aplicación.
+   * @param lang Nuevo idioma.
+   */
   changeLanguage(lang: Language) {
     this.languageService.setLanguage(lang);
   }

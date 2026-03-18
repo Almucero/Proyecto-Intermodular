@@ -6,7 +6,12 @@ import {
   state,
 } from '@angular/animations';
 
+/**
+ * Animación de revelado suave para elementos de la interfaz.
+ * Aplica una transición de opacidad y desplazamiento vertical (Y).
+ */
 export const revealAnimation = trigger('revealAnimation', [
+
   state(
     'hidden',
     style({

@@ -2,14 +2,19 @@ import { Injectable } from '@angular/core';
 import { IBaseMapping } from '../interfaces/base-mapping.interface';
 import { ChatSession, ChatMessage } from '../../models/chat.model';
 
+/**
+ * Servicio de mapeo para las sesiones de chat desde un backend Node.js.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class ChatMappingNodeService implements IBaseMapping<ChatSession> {
+  /** Transforma una lista de sesiones de chat de la API. */
   getAll(data: any): ChatSession[] {
     return data.map((item: any) => this.getOne(item));
   }
 
+  /** Transforma una sesión de chat única. */
   getOne(data: any): ChatSession {
     return {
       id: data.id,
@@ -22,6 +27,7 @@ export class ChatMappingNodeService implements IBaseMapping<ChatSession> {
     };
   }
 
+  /** Mapea un mensaje individual dentro de una sesión. */
   private mapMessage(data: any): ChatMessage {
     return {
       id: data.id,
@@ -44,12 +50,14 @@ export class ChatMappingNodeService implements IBaseMapping<ChatSession> {
     return this.getOne(data);
   }
 
+  /** Prepara una sesión para ser creada. */
   setAdd(data: ChatSession): any {
     return {
       title: data.title,
     };
   }
 
+  /** Prepara los cambios para actualizar una sesión. */
   setUpdate(data: any): any {
     return {
       title: data.title,

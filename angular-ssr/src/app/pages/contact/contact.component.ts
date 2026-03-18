@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { TranslatePipe } from '@ngx-translate/core';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
+/**
+ * Componente de la página de Contacto.
+ * Proporciona información y medios para que el usuario se comunique con el soporte.
+ */
 @Component({
   selector: 'app-contact',
-  imports: [RouterModule, TranslatePipe],
+  standalone: true,
+  imports: [CommonModule, TranslateModule],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss',
 })
-export class ContactComponent {
-  ngOnInit(): void {}
-}
+export class ContactComponent {}

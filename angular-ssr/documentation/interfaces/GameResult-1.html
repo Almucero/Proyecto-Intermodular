@@ -1,0 +1,700 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>game-sage documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">game-sage documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  GameResult</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/backend/modules/chat/chat.service.ts</code>
+        </p>
+
+
+
+
+        <section data-compodoc="block-index">
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#genres" 
+>
+                                            genres
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#id" 
+>
+                                            id
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#platforms" 
+>
+                                            platforms
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#price" 
+>
+                                            price
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#title" 
+>
+                                            title
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section data-compodoc="block-properties">
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="genres"></a>
+                                        <span class="name "><b>genres</b>
+                                            <a href="#genres">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>genres:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="id"></a>
+                                        <span class="name "><b>id</b>
+                                            <a href="#id">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>id:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="platforms"></a>
+                                        <span class="name "><b>platforms</b>
+                                            <a href="#platforms">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>platforms:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="price"></a>
+                                        <span class="name "><b>price</b>
+                                            <a href="#price">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>price:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="title"></a>
+                                        <span class="name "><b>title</b>
+                                            <a href="#title">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>title:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { google } from &#x27;@ai-sdk/google&#x27;;
+import { generateText, tool, stepCountIs } from &#x27;ai&#x27;;
+import { z } from &#x27;zod&#x27;;
+import { prisma } from &#x27;../../config/db&#x27;;
+
+const searchGamesInputSchema &#x3D; z.object({
+  query: z
+    .string()
+    .describe(
+      &#x27;El término de búsqueda. Si es genérico usa &quot;accion&quot; o &quot;aventura&quot; por ejemplo&#x27;,
+    ),
+});
+
+interface GameResult {
+  id: number;
+  title: string;
+  price: string;
+  genres: string;
+  platforms: string;
+}
+
+export async function getUserSessions(userId: number) {
+  return prisma.chatSession.findMany({
+    where: { userId },
+    select: {
+      id: true,
+      title: true,
+      createdAt: true,
+      updatedAt: true,
+      _count: { select: { messages: true } },
+    },
+    orderBy: { updatedAt: &#x27;desc&#x27; },
+  });
+}
+
+export async function getSession(sessionId: number, userId: number) {
+  const session &#x3D; await prisma.chatSession.findFirst({
+    where: { id: sessionId, userId },
+    select: {
+      id: true,
+      title: true,
+      createdAt: true,
+      updatedAt: true,
+      messages: {
+        select: {
+          id: true,
+          role: true,
+          content: true,
+          games: true,
+          createdAt: true,
+        },
+        orderBy: { createdAt: &#x27;asc&#x27; },
+      },
+    },
+  });
+  if (!session) {
+    throw new Error(&#x27;Sesión no encontrada&#x27;);
+  }
+  return session;
+}
+
+export async function deleteSession(sessionId: number, userId: number) {
+  const session &#x3D; await prisma.chatSession.findFirst({
+    where: { id: sessionId, userId },
+  });
+  if (!session) {
+    throw new Error(&#x27;Sesión no encontrada&#x27;);
+  }
+  await prisma.chatSession.delete({ where: { id: sessionId } });
+  return { deleted: true };
+}
+
+export async function processChat(
+  userId: number,
+  message: string,
+  sessionId?: number,
+) {
+  const foundGames: GameResult[] &#x3D; [];
+
+  let session: { id: number; title: string | null };
+
+  if (sessionId) {
+    const existing &#x3D; await prisma.chatSession.findFirst({
+      where: { id: sessionId, userId },
+      select: { id: true, title: true },
+    });
+    if (!existing) {
+      throw new Error(&#x27;Sesión no encontrada&#x27;);
+    }
+    session &#x3D; existing;
+  } else {
+    session &#x3D; await prisma.chatSession.create({
+      data: {
+        userId,
+        title: message.slice(0, 50),
+      },
+      select: { id: true, title: true },
+    });
+  }
+
+  await prisma.chatMessage.create({
+    data: {
+      sessionId: session.id,
+      role: &#x27;user&#x27;,
+      content: message,
+    },
+  });
+
+  const previousMessages &#x3D; await prisma.chatMessage.findMany({
+    where: { sessionId: session.id },
+    orderBy: { createdAt: &#x27;asc&#x27; },
+    take: 10,
+    select: { role: true, content: true },
+  });
+
+  const systemPrompt &#x3D; &#x60;
+    Eres el asistente virtual experto de la tienda &quot;GameSage&quot;, llamado &quot;Sage&quot;.
+    Tu objetivo es ayudar a usuarios a encontrar juegos en nuestro catálogo.
+    
+    TIENES ACCESO A UNA HERRAMIENTA LLAMADA &#x27;searchGames&#x27;.
+    - Si el usuario pregunta por un género, usa la herramienta con el nombre del género.
+    - Si pregunta por un juego específico, busca por el título.
+    - Si pregunta &quot;¿qué tienes?&quot;, &quot;¿qué recomiendas?&quot; o similar, busca términos generales como &quot;accion&quot; o &quot;aventura&quot;, NUNCA envíes &quot;undefined&quot; o dejes el campo vacío.
+    - Si saluda, responde amablemente sin usar herramientas.
+
+    IMPORTANTE:
+    - SIEMPRE empieza tu respuesta con una frase amable o conversacional antes de listar los juegos (ej: &quot;¡Claro! Aquí tienes algunas opciones interesantes:&quot;, &quot;¡Por supuesto! He encontrado estos títulos para ti:&quot;).
+    - SOLO puedes recomendar juegos que la herramienta &#x27;searchGames&#x27; te haya devuelto. NO inventes juegos ni recomiendes títulos que no estén en la respuesta de la herramienta.
+    - Si la herramienta devuelve una lista vacía, di honestamente que no tenemos juegos de ese tipo en este momento.
+    - Cuando encuentres juegos, menciona el nombre, una descripción breve, precio y plataformas. Usa un formato limpio (viñetas o negritas).
+    - En tus respuestas no hagas referencia textual a la herramienta &quot;searchGames&quot;.
+    - Mantén un tono entusiasta y servicial, como un vendedor experto y gamer.
+    - Te pueden llegar a hablar en cualquiera de es estos idiomas, por lo que responde acorde: Español, Ingles, Frances, Italiano, Aleman.
+  &#x60;;
+
+  const messages &#x3D; previousMessages.map(
+    (m: { role: string; content: string }) &#x3D;&gt; ({
+      role: m.role as &#x27;user&#x27; | &#x27;assistant&#x27;,
+      content: m.content,
+    }),
+  );
+
+  const tools &#x3D; {
+    searchGames: tool({
+      description:
+        &#x27;Busca videojuegos en la base de datos por nombre, género o descripción.&#x27;,
+      inputSchema: searchGamesInputSchema,
+      execute: async ({ query }) &#x3D;&gt; {
+        const cleanQuery &#x3D; query &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27; || !query ? &#x27;&#x27; : query.trim();
+        try {
+          const whereClause: any &#x3D;
+            cleanQuery &#x3D;&#x3D;&#x3D; &#x27;&#x27;
+              ? {}
+              : {
+                  OR: [
+                    { title: { contains: cleanQuery, mode: &#x27;insensitive&#x27; } },
+                    {
+                      description: {
+                        contains: cleanQuery,
+                        mode: &#x27;insensitive&#x27;,
+                      },
+                    },
+                    {
+                      genres: {
+                        some: {
+                          name: { contains: cleanQuery, mode: &#x27;insensitive&#x27; },
+                        },
+                      },
+                    },
+                  ],
+                };
+          const games &#x3D; await prisma.game.findMany({
+            where: whereClause,
+            take: 5,
+            orderBy: { id: &#x27;desc&#x27; },
+            select: {
+              id: true,
+              title: true,
+              price: true,
+              genres: { select: { name: true } },
+              platforms: { select: { name: true } },
+            },
+          });
+          if (games.length &#x3D;&#x3D;&#x3D; 0) {
+            return &#x27;No se encontraron juegos con ese criterio.&#x27;;
+          }
+          const gamesList &#x3D; games.map((g: any) &#x3D;&gt; ({
+            id: g.id,
+            title: g.title,
+            price: g.price ? g.price.toString() : &#x27;N/A&#x27;,
+            genres: g.genres
+              .map((gen: { name: string }) &#x3D;&gt; gen.name)
+              .join(&#x27;, &#x27;),
+            platforms: g.platforms
+              .map((p: { name: string }) &#x3D;&gt; p.name)
+              .join(&#x27;, &#x27;),
+          }));
+          foundGames.push(...gamesList);
+          return JSON.stringify(gamesList);
+        } catch {
+          return &#x27;Error técnico al buscar en la base de datos.&#x27;;
+        }
+      },
+    }),
+  };
+
+  let result;
+
+  try {
+    result &#x3D; await generateText({
+      model: google(&#x27;gemini-2.5-flash&#x27;),
+      system: systemPrompt,
+      messages,
+      stopWhen: stepCountIs(5),
+      tools,
+    });
+  } catch (error) {
+    try {
+      result &#x3D; await generateText({
+        model: google(&#x27;gemini-2-flash&#x27;),
+        system: systemPrompt,
+        messages,
+        stopWhen: stepCountIs(5),
+        tools,
+      });
+    } catch (error2) {
+      result &#x3D; {
+        text: &#x27;Lo siento, he alcanzado mi límite diario de consultas. Por favor, inténtalo de nuevo mañana.&#x27;,
+      };
+    }
+  }
+
+  await prisma.chatMessage.create({
+    data: {
+      sessionId: session.id,
+      role: &#x27;assistant&#x27;,
+      content: result.text,
+      games: foundGames.length &gt; 0 ? (foundGames as any) : undefined,
+    },
+  });
+
+  return {
+    sessionId: session.id,
+    text: result.text,
+    games: foundGames,
+  };
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'GameResult-1.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,2055 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>game-sage documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">game-sage documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  HeaderComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/shared/components/header/header.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Componente de cabecera (header) principal.
+Gestiona la navegación, búsqueda global, conteos de carrito/favoritos
+y despliegue del menú móvil.</p>
+
+    </p>
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-header</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
+                                <code><a href="https://angular.io/api/router/RouterModule" target="_blank" >RouterModule</a></code>
+                            <code>TranslatePipe</code>
+                                <code><a href="../components/LanguageSelectorComponent.html" target="_self" >LanguageSelectorComponent</a></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./header.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./header.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#authService" >authService</a>
+                            </li>
+                            <li>
+                                <a href="#cartCount" >cartCount</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#cartService" >cartService</a>
+                            </li>
+                            <li>
+                                <a href="#favoritesCount" >favoritesCount</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#favoriteService" >favoriteService</a>
+                            </li>
+                            <li>
+                                <a href="#isSearchPage" >isSearchPage</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#menu" >menu</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#platformId" >platformId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#router" >router</a>
+                            </li>
+                            <li>
+                                <a href="#searchActive" >searchActive</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#uiState" >uiState</a>
+                            </li>
+                            <li>
+                                <a href="#user" >user</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#closeSearch" >closeSearch</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#onClick" >onClick</a>
+                            </li>
+                            <li>
+                                <a href="#onSearch" >onSearch</a>
+                            </li>
+                            <li>
+                                <a href="#onSearchBlur" >onSearchBlur</a>
+                            </li>
+                            <li>
+                                <a href="#onSearchFocus" >onSearchFocus</a>
+                            </li>
+                            <li>
+                                <a href="#toggleMenu" >toggleMenu</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>HostListeners</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#document:click" >document:click</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/shared/components/header/header.component.ts:65</a></div>
+                            </td>
+                        </tr>
+
+            </tbody>
+        </table>
+</section>
+
+
+
+
+    <section data-compodoc="block-methods">
+    <h3>HostListeners</h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="document:click"></a>
+                    <span class="name">
+                        <span ><b>document:click</b></span>
+                        <a href="#document:click"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <i>Arguments : </i><code>'$event' </code>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>document:click(event: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="117"
+                                    class="link-to-prism">src/app/shared/components/header/header.component.ts:117</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Escucha clics en el documento para cerrar el menú si se pincha fuera.</p>
+</div>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeSearch"></a>
+                    <span class="name">
+                        <span ><b>closeSearch</b></span>
+                        <a href="#closeSearch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeSearch()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="111"
+                                    class="link-to-prism">src/app/shared/components/header/header.component.ts:111</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Cierra la barra de búsqueda.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onClick"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>onClick</b></span>
+                        <a href="#onClick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onClick(event: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;document:click&#x27;, [&#x27;$event&#x27;])<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="117"
+                                    class="link-to-prism">src/app/shared/components/header/header.component.ts:117</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Escucha clics en el documento para cerrar el menú si se pincha fuera.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSearch"></a>
+                    <span class="name">
+                        <span ><b>onSearch</b></span>
+                        <a href="#onSearch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSearch(event: KeyboardEvent)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="97"
+                                    class="link-to-prism">src/app/shared/components/header/header.component.ts:97</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Procesa la acción de búsqueda al pulsar Enter.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>KeyboardEvent</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Evento de teclado.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSearchBlur"></a>
+                    <span class="name">
+                        <span ><b>onSearchBlur</b></span>
+                        <a href="#onSearchBlur"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSearchBlur()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="81"
+                                    class="link-to-prism">src/app/shared/components/header/header.component.ts:81</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Maneja la pérdida de foco del buscador con un pequeño retardo.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSearchFocus"></a>
+                    <span class="name">
+                        <span ><b>onSearchFocus</b></span>
+                        <a href="#onSearchFocus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSearchFocus()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="76"
+                                    class="link-to-prism">src/app/shared/components/header/header.component.ts:76</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Maneja el foco en el input de búsqueda.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleMenu"></a>
+                    <span class="name">
+                        <span ><b>toggleMenu</b></span>
+                        <a href="#toggleMenu"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleMenu()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="60"
+                                    class="link-to-prism">src/app/shared/components/header/header.component.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Alterna el estado de apertura del menú lateral.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>authService</b></span>
+                        <a href="#authService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(BaseAuthenticationService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/shared/components/header/header.component.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cartCount"></a>
+                    <span class="name">
+                        <span ><b>cartCount</b></span>
+                        <a href="#cartCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>toSignal(this.cartService.cartCount$)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/shared/components/header/header.component.ts:55</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Signal con la cantidad de artículos en el carrito.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cartService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>cartService</b></span>
+                        <a href="#cartService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(CartItemService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/shared/components/header/header.component.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="favoritesCount"></a>
+                    <span class="name">
+                        <span ><b>favoritesCount</b></span>
+                        <a href="#favoritesCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>toSignal(this.favoriteService.favoritesCount$)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/shared/components/header/header.component.ts:57</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Signal con la cantidad de juegos favoritos.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="favoriteService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>favoriteService</b></span>
+                        <a href="#favoriteService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(FavoriteService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/shared/components/header/header.component.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isSearchPage"></a>
+                    <span class="name">
+                        <span ><b>isSearchPage</b></span>
+                        <a href="#isSearchPage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/shared/components/header/header.component.ts:65</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indica si el usuario está actualmente en la página de búsqueda.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="menu"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>menu</b></span>
+                        <a href="#menu"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;menu&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/shared/components/header/header.component.ts:42</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Referencia al elemento del menú para detectar clics fuera.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="platformId"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>platformId</b></span>
+                        <a href="#platformId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(PLATFORM_ID)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/shared/components/header/header.component.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="router"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>router</b></span>
+                        <a href="#router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Router)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/shared/components/header/header.component.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="searchActive"></a>
+                    <span class="name">
+                        <span ><b>searchActive</b></span>
+                        <a href="#searchActive"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/shared/components/header/header.component.ts:40</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indica si la barra de búsqueda está desplegada (móvil).</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="uiState"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>uiState</b></span>
+                        <a href="#uiState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(UiStateService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/shared/components/header/header.component.ts:49</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio de estado de la UI (menú abierto/cerrado).</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="user"></a>
+                    <span class="name">
+                        <span ><b>user</b></span>
+                        <a href="#user"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>toSignal(this.authService.user$)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/shared/components/header/header.component.ts:53</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Signal con los datos del usuario autenticado.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  ViewChild,
+  HostListener,
+  ElementRef,
+  inject,
+  PLATFORM_ID,
+} from &#x27;@angular/core&#x27;;
+import { CommonModule, isPlatformBrowser } from &#x27;@angular/common&#x27;;
+import { Router, RouterModule } from &#x27;@angular/router&#x27;;
+import { TranslatePipe } from &#x27;@ngx-translate/core&#x27;;
+import { LanguageSelectorComponent } from &#x27;../language-selector/language-selector.component&#x27;;
+import { BaseAuthenticationService } from &#x27;../../../core/services/impl/base-authentication.service&#x27;;
+import { CartItemService } from &#x27;../../../core/services/impl/cart-item.service&#x27;;
+import { FavoriteService } from &#x27;../../../core/services/impl/favorite.service&#x27;;
+import { toSignal } from &#x27;@angular/core/rxjs-interop&#x27;;
+import { slideMenuAnimation } from &#x27;../../../animations/slide-menu.animation&#x27;;
+import { UiStateService } from &#x27;../../../core/services/impl/ui-state.service&#x27;;
+
+/**
+ * Componente de cabecera (header) principal.
+ * Gestiona la navegación, búsqueda global, conteos de carrito/favoritos
+ * y despliegue del menú móvil.
+ */
+@Component({
+  selector: &#x27;app-header&#x27;,
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    TranslatePipe,
+    LanguageSelectorComponent,
+  ],
+  templateUrl: &#x27;./header.component.html&#x27;,
+  styleUrls: [&#x27;./header.component.scss&#x27;],
+  animations: [slideMenuAnimation],
+})
+export class HeaderComponent {
+  /** Indica si la barra de búsqueda está desplegada (móvil). */
+  searchActive &#x3D; false;
+  /** Referencia al elemento del menú para detectar clics fuera. */
+  @ViewChild(&#x27;menu&#x27;) menu!: ElementRef;
+
+  private authService &#x3D; inject(BaseAuthenticationService);
+  private cartService &#x3D; inject(CartItemService);
+  private favoriteService &#x3D; inject(FavoriteService);
+  private router &#x3D; inject(Router);
+  /** Servicio de estado de la UI (menú abierto/cerrado). */
+  public uiState &#x3D; inject(UiStateService);
+  private platformId &#x3D; inject(PLATFORM_ID);
+
+  /** Signal con los datos del usuario autenticado. */
+  user &#x3D; toSignal(this.authService.user$);
+  /** Signal con la cantidad de artículos en el carrito. */
+  cartCount &#x3D; toSignal(this.cartService.cartCount$);
+  /** Signal con la cantidad de juegos favoritos. */
+  favoritesCount &#x3D; toSignal(this.favoriteService.favoritesCount$);
+
+  /** Alterna el estado de apertura del menú lateral. */
+  toggleMenu(): void {
+    this.uiState.toggleMenu();
+  }
+
+  /** Indica si el usuario está actualmente en la página de búsqueda. */
+  isSearchPage &#x3D; false;
+
+  constructor() {
+    this.router.events.subscribe((event) &#x3D;&gt; {
+      if (typeof event &#x3D;&#x3D;&#x3D; &#x27;object&#x27; &amp;&amp; &#x27;url&#x27; in event) {
+        this.isSearchPage &#x3D; this.router.url.includes(&#x27;/search&#x27;);
+      }
+    });
+  }
+
+  /** Maneja el foco en el input de búsqueda. */
+  onSearchFocus(): void {
+    this.searchActive &#x3D; true;
+  }
+
+  /** Maneja la pérdida de foco del buscador con un pequeño retardo. */
+  onSearchBlur(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    setTimeout(() &#x3D;&gt; {
+      const active &#x3D; document.activeElement as HTMLElement | null;
+      if (!active || !active.closest(&#x27;.search-wrapper&#x27;)) {
+        this.searchActive &#x3D; false;
+      }
+    }, 120);
+  }
+
+  /**
+   * Procesa la acción de búsqueda al pulsar Enter.
+   * @param event Evento de teclado.
+   */
+  onSearch(event: KeyboardEvent): void {
+    if (event.key &#x3D;&#x3D;&#x3D; &#x27;Enter&#x27;) {
+      const input &#x3D; event.target as HTMLInputElement;
+      const query &#x3D; input.value.trim();
+      if (!query) {
+        this.router.navigate([&#x27;/search&#x27;], { queryParams: {} });
+      } else {
+        this.router.navigate([&#x27;/search&#x27;], { queryParams: { q: query } });
+      }
+      this.searchActive &#x3D; false;
+    }
+  }
+
+  /** Cierra la barra de búsqueda. */
+  closeSearch(): void {
+    this.searchActive &#x3D; false;
+  }
+
+  /** Escucha clics en el documento para cerrar el menú si se pincha fuera. */
+  @HostListener(&#x27;document:click&#x27;, [&#x27;$event&#x27;])
+  onClick(event: Event) {
+    if (
+      this.uiState.isMenuOpen() &amp;&amp;
+      this.menu &amp;&amp;
+      !this.menu.nativeElement.contains(event.target)
+    ) {
+      this.uiState.setMenuOpen(false);
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;header
+  [class.search-active]&#x3D;&quot;searchActive&quot;
+  [class.menu-active]&#x3D;&quot;uiState.isMenuOpen()&quot;
+  [class.search-page]&#x3D;&quot;isSearchPage&quot;
+  [class.border-none]&#x3D;&quot;uiState.isMenuOpen()&quot;
+  class&#x3D;&quot;flex-none relative flex items-center justify-between px-6 py-1 border-b border-gray-800 bg-gray-950 select-none mobile-responsive-header z-50&quot;
+&gt;
+  &lt;button
+    (click)&#x3D;&quot;toggleMenu(); $event.stopPropagation()&quot;
+    class&#x3D;&quot;p-0 bg-transparent border-none hover:opacity-80 focus:outline-none absolute left-6 top-1/2 -translate-y-1/2 z-50 transition-transform duration-150 active:scale-95&quot;
+    [class.opacity-0]&#x3D;&quot;uiState.isMenuOpen()&quot;
+    [class.pointer-events-none]&#x3D;&quot;uiState.isMenuOpen()&quot;
+    [title]&#x3D;&quot;&#x27;tooltips.menu&#x27; | translate&quot;
+  &gt;
+    &lt;img
+      src&#x3D;&quot;assets/icons/menu.png&quot;
+      alt&#x3D;&quot;Menu&quot;
+      class&#x3D;&quot;w-9 h-9 transition-transform duration-150 active:scale-95&quot;
+    /&gt;
+  &lt;/button&gt;
+  &lt;a
+    routerLink&#x3D;&quot;/&quot;
+    class&#x3D;&quot;flex items-center gap-2 text-cyan-200 font-semibold text-2xl no-underline hover:opacity-80 ml-[3.25rem] transition-transform duration-150 active:scale-95 mobile-header-logo-container&quot;
+    [style.transform]&#x3D;&quot;
+      uiState.isMenuOpen() ? &#x27;translateX(11.75rem)&#x27; : &#x27;translateX(0)&#x27;
+    &quot;
+  &gt;
+    &lt;div
+      class&#x3D;&quot;logo-glitch flex items-center gap-2 cursor-pointer transition-transform duration-150 active:scale-95&quot;
+    &gt;
+      &lt;img
+        src&#x3D;&quot;assets/branding/game_sage_logo.png&quot;
+        alt&#x3D;&quot;GameSage Logo&quot;
+        class&#x3D;&quot;w-14 h-14 object-cover rounded-xl relative top-[2px] mobile-responsive-logo&quot;
+      /&gt;
+      &lt;span class&#x3D;&quot;mobile-hide-text&quot;&gt;GameSage&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/a&gt;
+  &lt;div
+    class&#x3D;&quot;absolute left-1/2 transform -translate-x-1/2 w-1/3 mobile-search-container&quot;
+  &gt;
+    &lt;div
+      class&#x3D;&quot;search-wrapper bg-gray-800 rounded-full flex items-center p-1 pl-1&quot;
+    &gt;
+      &lt;a
+        routerLink&#x3D;&quot;/search&quot;
+        class&#x3D;&quot;flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-cyan-200 px-3 py-1.5 rounded-full no-underline duration-200 cursor-pointer transition-transform active:scale-95&quot;
+        [title]&#x3D;&quot;&#x27;menu.explore&#x27; | translate&quot;
+      &gt;
+        &lt;img
+          src&#x3D;&quot;assets/icons/search.png&quot;
+          alt&#x3D;&quot;Search&quot;
+          class&#x3D;&quot;w-4 h-4 object-contain&quot;
+        /&gt;
+        &lt;span
+          class&#x3D;&quot;text-sm font-semibold whitespace-nowrap mobile-hide-text&quot;
+          &gt;{{ &quot;menu.explore&quot; | translate }}&lt;/span
+        &gt;
+      &lt;/a&gt;
+      &lt;input
+        type&#x3D;&quot;text&quot;
+        [placeholder]&#x3D;&quot;&#x27;common.searchPlaceholder&#x27; | translate&quot;
+        class&#x3D;&quot;search-input bg-transparent outline-none text-gray-300 border-none flex-1 min-w-0&quot;
+        (focus)&#x3D;&quot;onSearchFocus()&quot;
+        (blur)&#x3D;&quot;onSearchBlur()&quot;
+        (keydown)&#x3D;&quot;onSearch($event)&quot;
+      /&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div
+    class&#x3D;&quot;header-overlay&quot;
+    aria-hidden&#x3D;&quot;true&quot;
+    (click)&#x3D;&quot;closeSearch(); uiState.isMenuOpen() &amp;&amp; toggleMenu()&quot;
+  &gt;&lt;/div&gt;
+  &lt;div class&#x3D;&quot;flex items-center gap-4 text-2xl mobile-header-icons&quot;&gt;
+    &lt;app-language-selector class&#x3D;&quot;mobile-hide tablet-hide relative z-[1001]&quot;&gt;&lt;/app-language-selector&gt;
+    &lt;button
+      class&#x3D;&quot;p-0 bg-transparent border-none hover:opacity-80 focus:outline-none transition-transform duration-150 active:scale-95&quot;
+      [title]&#x3D;&quot;&#x27;tooltips.aiChat&#x27; | translate&quot;
+    &gt;
+      &lt;a routerLink&#x3D;&quot;/aichat&quot;&gt;
+        &lt;img
+          src&#x3D;&quot;assets/icons/aichat.png&quot;
+          alt&#x3D;&quot;AI Chat&quot;
+          class&#x3D;&quot;w-9 h-9 cursor-pointer transition-transform duration-150 active:scale-95 mobile-icon-size&quot;
+        /&gt;
+      &lt;/a&gt;
+    &lt;/button&gt;
+    &lt;button
+      class&#x3D;&quot;p-0 bg-transparent border-none hover:opacity-80 focus:outline-none transition-transform duration-150 active:scale-95 relative&quot;
+      [title]&#x3D;&quot;&#x27;tooltips.favourites&#x27; | translate&quot;
+    &gt;
+      &lt;a routerLink&#x3D;&quot;/favourites&quot;&gt;
+        &lt;img
+          src&#x3D;&quot;assets/icons/favourites.png&quot;
+          alt&#x3D;&quot;Favourites&quot;
+          class&#x3D;&quot;w-9 h-9 cursor-pointer transition-transform duration-150 active:scale-95 mobile-icon-size&quot;
+        /&gt;
+        @if ((favoritesCount() || 0) &gt; 0) {
+          &lt;span
+            class&#x3D;&quot;absolute -bottom-1 right-0 text-red-500 text-sm font-black&quot;
+          &gt;
+            {{ favoritesCount() }}
+          &lt;/span&gt;
+        }
+      &lt;/a&gt;
+    &lt;/button&gt;
+    &lt;button
+      class&#x3D;&quot;p-0 bg-transparent border-none hover:opacity-80 focus:outline-none transition-transform duration-150 active:scale-95 relative&quot;
+      [title]&#x3D;&quot;&#x27;tooltips.cart&#x27; | translate&quot;
+    &gt;
+      &lt;a routerLink&#x3D;&quot;/cart&quot;&gt;
+        &lt;img
+          src&#x3D;&quot;assets/icons/cart.png&quot;
+          alt&#x3D;&quot;Shopping cart&quot;
+          class&#x3D;&quot;w-9 h-9 cursor-pointer transition-transform duration-150 active:scale-95 mobile-icon-size&quot;
+        /&gt;
+        @if ((cartCount() || 0) &gt; 0) {
+          &lt;span
+            class&#x3D;&quot;absolute -bottom-1 right-0 text-red-500 text-sm font-black&quot;
+          &gt;
+            {{ cartCount() }}
+          &lt;/span&gt;
+        }
+      &lt;/a&gt;
+    &lt;/button&gt;
+    &lt;button
+      class&#x3D;&quot;p-0 bg-transparent border-none hover:opacity-80 focus:outline-none transition-transform duration-150 active:scale-95&quot;
+      [title]&#x3D;&quot;&#x27;tooltips.userProfile&#x27; | translate&quot;
+    &gt;
+      &lt;a [routerLink]&#x3D;&quot;user() ? &#x27;/dashboard&#x27; : &#x27;/login&#x27;&quot;&gt;
+        &lt;img
+          [src]&#x3D;&quot;
+            user()?.isAdmin
+              ? &#x27;assets/icons/admin_user.png&#x27;
+              : user()?.media?.[0]?.url || &#x27;assets/icons/user.png&#x27;
+          &quot;
+          [alt]&#x3D;&quot;user()?.nickname || &#x27;User&#x27;&quot;
+          class&#x3D;&quot;w-10 h-10 rounded-full object-cover transition-transform duration-150 active:scale-95 mobile-icon-size-user&quot;
+        /&gt;
+      &lt;/a&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/header&gt;
+&lt;div
+  *ngIf&#x3D;&quot;uiState.isMenuOpen()&quot;
+  #menu
+  [@slideMenuAnimation]
+  class&#x3D;&quot;fixed top-0 left-0 h-full w-[15rem] border-gray-800 bg-gray-950 text-white z-[2000] select-none&quot;
+&gt;
+  &lt;div class&#x3D;&quot;h-16 flex items-center justify-between px-6 shrink-0&quot;&gt;
+    &lt;h2
+      class&#x3D;&quot;text-2xl font-bold text-cyan-200 cursor-pointer hover:text-cyan-100 transition-transform duration-150 active:scale-95 m-0&quot;
+      (click)&#x3D;&quot;toggleMenu()&quot;
+    &gt;
+      {{ &quot;header.menu&quot; | translate }}
+    &lt;/h2&gt;
+    &lt;button
+      (click)&#x3D;&quot;toggleMenu()&quot;
+      class&#x3D;&quot;bg-transparent border-none p-0 text-cyan-200 hover:text-cyan-100 transition-transform duration-150 active:scale-95 focus:outline-none cursor-pointer&quot;
+    &gt;
+      &lt;svg
+        xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+        class&#x3D;&quot;h-6 w-6&quot;
+        fill&#x3D;&quot;none&quot;
+        viewBox&#x3D;&quot;0 0 24 24&quot;
+        stroke&#x3D;&quot;currentColor&quot;
+      &gt;
+        &lt;path
+          stroke-linecap&#x3D;&quot;round&quot;
+          stroke-linejoin&#x3D;&quot;round&quot;
+          stroke-width&#x3D;&quot;2&quot;
+          d&#x3D;&quot;M6 18L18 6M6 6l12 12&quot;
+        /&gt;
+      &lt;/svg&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;div class&#x3D;&quot;h-px bg-white mx-6 opacity-30 shrink-0&quot;&gt;&lt;/div&gt;
+
+  &lt;div class&#x3D;&quot;p-6 pt-4 overflow-y-auto flex-1&quot;&gt;
+    &lt;a
+      routerLink&#x3D;&quot;/&quot;
+      (click)&#x3D;&quot;toggleMenu()&quot;
+      [routerLinkActiveOptions]&#x3D;&quot;{ exact: true }&quot;
+      routerLinkActive&#x3D;&quot;bg-white/10 text-cyan-300&quot;
+      class&#x3D;&quot;flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-2 p-2 rounded-xl transition-transform duration-150 active:scale-95&quot;
+    &gt;
+      &lt;svg
+        xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+        class&#x3D;&quot;h-5 w-5&quot;
+        fill&#x3D;&quot;none&quot;
+        viewBox&#x3D;&quot;0 0 24 24&quot;
+        stroke&#x3D;&quot;currentColor&quot;
+      &gt;
+        &lt;path
+          stroke-linecap&#x3D;&quot;round&quot;
+          stroke-linejoin&#x3D;&quot;round&quot;
+          stroke-width&#x3D;&quot;2&quot;
+          d&#x3D;&quot;M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6&quot;
+        /&gt;
+      &lt;/svg&gt;
+      {{ &quot;menu.home&quot; | translate }}
+    &lt;/a&gt;
+    &lt;a
+      routerLink&#x3D;&quot;/search&quot;
+      (click)&#x3D;&quot;toggleMenu()&quot;
+      routerLinkActive&#x3D;&quot;bg-white/10 text-cyan-300&quot;
+      class&#x3D;&quot;flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-2 p-2 rounded-xl transition-transform duration-150 active:scale-95&quot;
+    &gt;
+      &lt;svg
+        xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+        class&#x3D;&quot;h-5 w-5&quot;
+        fill&#x3D;&quot;none&quot;
+        viewBox&#x3D;&quot;0 0 24 24&quot;
+        stroke&#x3D;&quot;currentColor&quot;
+      &gt;
+        &lt;path
+          stroke-linecap&#x3D;&quot;round&quot;
+          stroke-linejoin&#x3D;&quot;round&quot;
+          stroke-width&#x3D;&quot;2&quot;
+          d&#x3D;&quot;M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z&quot;
+        /&gt;
+      &lt;/svg&gt;
+      {{ &quot;menu.explore&quot; | translate }}
+    &lt;/a&gt;
+    &lt;a
+      routerLink&#x3D;&quot;/settings&quot;
+      (click)&#x3D;&quot;toggleMenu()&quot;
+      routerLinkActive&#x3D;&quot;bg-white/10 text-cyan-300&quot;
+      class&#x3D;&quot;flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-2 p-2 rounded-xl transition-transform duration-150 active:scale-95&quot;
+    &gt;
+      &lt;svg
+        xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+        class&#x3D;&quot;h-5 w-5&quot;
+        fill&#x3D;&quot;none&quot;
+        viewBox&#x3D;&quot;0 0 24 24&quot;
+        stroke&#x3D;&quot;currentColor&quot;
+      &gt;
+        &lt;path
+          stroke-linecap&#x3D;&quot;round&quot;
+          stroke-linejoin&#x3D;&quot;round&quot;
+          stroke-width&#x3D;&quot;2&quot;
+          d&#x3D;&quot;M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z&quot;
+        /&gt;
+        &lt;path
+          stroke-linecap&#x3D;&quot;round&quot;
+          stroke-linejoin&#x3D;&quot;round&quot;
+          stroke-width&#x3D;&quot;2&quot;
+          d&#x3D;&quot;M15 12a3 3 0 11-6 0 3 3 0 016 0z&quot;
+        /&gt;
+      &lt;/svg&gt;
+      {{ &quot;menu.settings&quot; | translate }}
+    &lt;/a&gt;
+    &lt;a
+      routerLink&#x3D;&quot;/help&quot;
+      (click)&#x3D;&quot;toggleMenu()&quot;
+      routerLinkActive&#x3D;&quot;bg-white/10 text-cyan-300&quot;
+      class&#x3D;&quot;flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-2 p-2 rounded-xl transition-transform duration-150 active:scale-95&quot;
+    &gt;
+      &lt;svg
+        xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+        class&#x3D;&quot;h-5 w-5&quot;
+        fill&#x3D;&quot;none&quot;
+        viewBox&#x3D;&quot;0 0 24 24&quot;
+        stroke&#x3D;&quot;currentColor&quot;
+      &gt;
+        &lt;path
+          stroke-linecap&#x3D;&quot;round&quot;
+          stroke-linejoin&#x3D;&quot;round&quot;
+          stroke-width&#x3D;&quot;2&quot;
+          d&#x3D;&quot;M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z&quot;
+        /&gt;
+      &lt;/svg&gt;
+      {{ &quot;menu.help&quot; | translate }}
+    &lt;/a&gt;
+    &lt;a
+      routerLink&#x3D;&quot;/contact&quot;
+      (click)&#x3D;&quot;toggleMenu()&quot;
+      routerLinkActive&#x3D;&quot;bg-white/10 text-cyan-300&quot;
+      class&#x3D;&quot;flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-2 p-2 rounded-xl transition-transform duration-150 active:scale-95&quot;
+    &gt;
+      &lt;svg
+        xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+        class&#x3D;&quot;h-5 w-5&quot;
+        fill&#x3D;&quot;none&quot;
+        viewBox&#x3D;&quot;0 0 24 24&quot;
+        stroke&#x3D;&quot;currentColor&quot;
+      &gt;
+        &lt;path
+          stroke-linecap&#x3D;&quot;round&quot;
+          stroke-linejoin&#x3D;&quot;round&quot;
+          stroke-width&#x3D;&quot;2&quot;
+          d&#x3D;&quot;M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z&quot;
+        /&gt;
+      &lt;/svg&gt;
+      {{ &quot;menu.contact&quot; | translate }}
+    &lt;/a&gt;
+    &lt;a
+      routerLink&#x3D;&quot;/privacy&quot;
+      (click)&#x3D;&quot;toggleMenu()&quot;
+      routerLinkActive&#x3D;&quot;bg-white/10 text-cyan-300&quot;
+      class&#x3D;&quot;flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-2 p-2 rounded-xl transition-transform duration-150 active:scale-95&quot;
+    &gt;
+      &lt;svg
+        xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+        class&#x3D;&quot;h-5 w-5&quot;
+        fill&#x3D;&quot;none&quot;
+        viewBox&#x3D;&quot;0 0 24 24&quot;
+        stroke&#x3D;&quot;currentColor&quot;
+      &gt;
+        &lt;path
+          stroke-linecap&#x3D;&quot;round&quot;
+          stroke-linejoin&#x3D;&quot;round&quot;
+          stroke-width&#x3D;&quot;2&quot;
+          d&#x3D;&quot;M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z&quot;
+        /&gt;
+      &lt;/svg&gt;
+      {{ &quot;menu.privacy&quot; | translate }}
+    &lt;/a&gt;
+    &lt;a
+      routerLink&#x3D;&quot;/conditions&quot;
+      (click)&#x3D;&quot;toggleMenu()&quot;
+      routerLinkActive&#x3D;&quot;bg-white/10 text-cyan-300&quot;
+      class&#x3D;&quot;flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-2 p-2 rounded-xl transition-transform duration-150 active:scale-95&quot;
+    &gt;
+      &lt;svg
+        xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+        class&#x3D;&quot;h-5 w-5&quot;
+        fill&#x3D;&quot;none&quot;
+        viewBox&#x3D;&quot;0 0 24 24&quot;
+        stroke&#x3D;&quot;currentColor&quot;
+      &gt;
+        &lt;path
+          stroke-linecap&#x3D;&quot;round&quot;
+          stroke-linejoin&#x3D;&quot;round&quot;
+          stroke-width&#x3D;&quot;2&quot;
+          d&#x3D;&quot;M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z&quot;
+        /&gt;
+      &lt;/svg&gt;
+      {{ &quot;menu.conditions&quot; | translate }}
+    &lt;/a&gt;
+    &lt;a
+      routerLink&#x3D;&quot;/cookies&quot;
+      (click)&#x3D;&quot;toggleMenu()&quot;
+      routerLinkActive&#x3D;&quot;bg-white/10 text-cyan-300&quot;
+      class&#x3D;&quot;flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-2 p-2 rounded-xl transition-transform duration-150 active:scale-95&quot;
+    &gt;
+      &lt;svg
+        xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+        class&#x3D;&quot;h-5 w-5&quot;
+        fill&#x3D;&quot;none&quot;
+        viewBox&#x3D;&quot;0 0 24 24&quot;
+        stroke&#x3D;&quot;currentColor&quot;
+      &gt;
+        &lt;path
+          stroke-linecap&#x3D;&quot;round&quot;
+          stroke-linejoin&#x3D;&quot;round&quot;
+          stroke-width&#x3D;&quot;2&quot;
+          d&#x3D;&quot;M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z&quot;
+        /&gt;
+      &lt;/svg&gt;
+      {{ &quot;menu.cookies&quot; | translate }}
+    &lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./header.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">header {
+  --header-height: 64px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+header.menu-active {
+  box-shadow: none !important;
+}
+
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  background-color: #1f2937;
+}
+
+.search-input {
+  font-size: 0.95rem;
+  padding-left: 0.5rem;
+  height: 100%;
+  color: #fff !important;
+  background-color: transparent !important;
+  outline: none !important;
+  border: none !important;
+  appearance: none;
+  transition: all 0.2s ease;
+}
+
+.search-input::placeholder {
+  color: #9ca3af;
+  opacity: 1;
+}
+
+.search-wrapper &gt; a {
+  max-width: 140px;
+  opacity: 1;
+  margin-right: 0.5rem;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: max-width 0.5s ease-out, opacity 0.2s ease, margin 0.5s ease-out,
+    padding 0.5s ease-out;
+}
+
+header.search-active .search-wrapper &gt; a,
+header.search-page .search-wrapper &gt; a {
+  max-width: 0;
+  opacity: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+  pointer-events: none;
+  transition: opacity 0s linear, max-width 0.5s ease-out, margin 0.5s ease-out,
+    padding 0.5s ease-out;
+}
+
+.search-input {
+  min-width: 0;
+  transition: padding 0.5s ease-out;
+}
+
+header.search-active .search-input,
+header.search-page .search-input {
+  padding-left: 1rem;
+}
+
+header.search-active .search-input {
+  color: #fff !important;
+  font-weight: 700 !important;
+}
+
+header.search-active .search-wrapper,
+.search-wrapper:focus-within,
+header.search-page .search-wrapper {
+  border-color: transparent;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+}
+
+.header-overlay {
+  position: fixed;
+  top: var(--header-height, 64px);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 900;
+  backdrop-filter: blur(2px);
+}
+
+.search-wrapper:focus-within ~ .header-overlay,
+header.search-active .header-overlay,
+header.menu-active .header-overlay {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+app-language-selector {
+  position: relative;
+  z-index: 1001;
+  display: flex;
+}
+
+@keyframes glitch-hover {
+  0% {
+    transform: translate(0);
+  }
+  2% {
+    transform: translate(-1px, 1px);
+  }
+  4% {
+    transform: translate(0);
+  }
+  6% {
+    transform: translate(0);
+  }
+  8% {
+    transform: translate(1px, -1px);
+  }
+  10% {
+    transform: translate(0);
+  }
+  40% {
+    transform: translate(0);
+  }
+  42% {
+    transform: translate(-1px, 0);
+  }
+  44% {
+    transform: translate(0);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+.logo-glitch {
+  &amp;:hover {
+    img,
+    span {
+      animation: glitch-hover 2s infinite;
+    }
+    span {
+      text-shadow: 2px 0 rgba(0, 255, 255, 0.4), -2px 0 rgba(255, 0, 0, 0.4);
+    }
+
+    img {
+      filter: drop-shadow(2px 0 rgba(0, 255, 255, 0.4))
+        drop-shadow(-2px 0 rgba(255, 0, 0, 0.4));
+    }
+  }
+}
+@media (max-width: 1024px) {
+  .tablet-hide {
+    display: none !important;
+  }
+  .tablet-show {
+    display: flex !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-responsive-header {
+    height: 60px !important;
+    padding-left: 0 !important;
+    padding-right: 0.5rem !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+  }
+
+  header.mobile-responsive-header &gt; button.absolute {
+    left: 0.5rem !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
+
+  header.mobile-responsive-header &gt; button.absolute &gt; img {
+    width: 2.25rem !important;
+    height: 2.25rem !important;
+  }
+  .mobile-header-logo-container {
+    display: none !important;
+  }
+
+  .mobile-hide-text {
+    display: none !important;
+  }
+
+  .mobile-responsive-logo {
+    display: none !important;
+  }
+
+  .mobile-search-container {
+    position: static !important;
+    transform: none !important;
+    flex: 1 !important;
+    width: auto !important;
+    margin-left: 3.5rem !important;
+    margin-right: 0.25rem !important;
+
+    min-width: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  .mobile-search-container .search-wrapper {
+    width: 100% !important;
+    height: 36px !important;
+    border-radius: 9999px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 0.25rem !important;
+    overflow: hidden;
+    transition: none !important;
+  }
+
+  .mobile-search-container .search-wrapper &gt; a {
+    padding: 0 !important;
+    width: 42px !important;
+    height: 26px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 9999px !important;
+    margin-left: 3px !important;
+  }
+
+  .mobile-search-container .search-wrapper &gt; a &gt; img {
+    width: 0.95rem !important;
+    height: 0.95rem !important;
+    margin: 0 !important;
+  }
+
+  .mobile-search-container .search-input {
+    font-size: 0.95rem !important;
+    height: 100% !important;
+    padding-left: 0.5rem !important;
+  }
+
+  .mobile-header-icons {
+    gap: 0.5rem !important;
+    flex-shrink: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    height: 100% !important;
+    margin-right: 0 !important;
+  }
+
+  .mobile-header-icons button,
+  .mobile-header-icons a {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+  }
+
+  .mobile-show {
+    display: flex !important;
+  }
+
+  .mobile-hide {
+    display: none !important;
+  }
+
+  .mobile-icon-size {
+    width: 2.25rem !important;
+    height: 2.25rem !important;
+  }
+
+  .mobile-icon-size-user {
+    width: 2.25rem !important;
+    height: 2.25rem !important;
+  }
+
+  .header-overlay {
+    top: 60px !important;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><header  [class.search-active]="searchActive"  [class.menu-active]="uiState.isMenuOpen()"  [class.search-page]="isSearchPage"  [class.border-none]="uiState.isMenuOpen()"  class="flex-none relative flex items-center justify-between px-6 py-1 border-b border-gray-800 bg-gray-950 select-none mobile-responsive-header z-50">  <button    (click)="toggleMenu(); $event.stopPropagation()"    class="p-0 bg-transparent border-none hover:opacity-80 focus:outline-none absolute left-6 top-1/2 -translate-y-1/2 z-50 transition-transform duration-150 active:scale-95"    [class.opacity-0]="uiState.isMenuOpen()"    [class.pointer-events-none]="uiState.isMenuOpen()"    [title]="\'tooltips.menu\' | translate"  >    <img      src="assets/icons/menu.png"      alt="Menu"      class="w-9 h-9 transition-transform duration-150 active:scale-95"    />  </button>  <a    routerLink="/"    class="flex items-center gap-2 text-cyan-200 font-semibold text-2xl no-underline hover:opacity-80 ml-[3.25rem] transition-transform duration-150 active:scale-95 mobile-header-logo-container"    [style.transform]="      uiState.isMenuOpen() ? \'translateX(11.75rem)\' : \'translateX(0)\'    "  >    <div      class="logo-glitch flex items-center gap-2 cursor-pointer transition-transform duration-150 active:scale-95"    >      <img        src="assets/branding/game_sage_logo.png"        alt="GameSage Logo"        class="w-14 h-14 object-cover rounded-xl relative top-[2px] mobile-responsive-logo"      />      <span class="mobile-hide-text">GameSage</span>    </div>  </a>  <div    class="absolute left-1/2 transform -translate-x-1/2 w-1/3 mobile-search-container"  >    <div      class="search-wrapper bg-gray-800 rounded-full flex items-center p-1 pl-1"    >      <a        routerLink="/search"        class="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-cyan-200 px-3 py-1.5 rounded-full no-underline duration-200 cursor-pointer transition-transform active:scale-95"        [title]="\'menu.explore\' | translate"      >        <img          src="assets/icons/search.png"          alt="Search"          class="w-4 h-4 object-contain"        />        <span          class="text-sm font-semibold whitespace-nowrap mobile-hide-text"          >{{ "menu.explore" | translate }}</span        >      </a>      <input        type="text"        [placeholder]="\'common.searchPlaceholder\' | translate"        class="search-input bg-transparent outline-none text-gray-300 border-none flex-1 min-w-0"        (focus)="onSearchFocus()"        (blur)="onSearchBlur()"        (keydown)="onSearch($event)"      />    </div>  </div>  <div    class="header-overlay"    aria-hidden="true"    (click)="closeSearch(); uiState.isMenuOpen() && toggleMenu()"  ></div>  <div class="flex items-center gap-4 text-2xl mobile-header-icons">    <app-language-selector class="mobile-hide tablet-hide relative z-[1001]"></app-language-selector>    <button      class="p-0 bg-transparent border-none hover:opacity-80 focus:outline-none transition-transform duration-150 active:scale-95"      [title]="\'tooltips.aiChat\' | translate"    >      <a routerLink="/aichat">        <img          src="assets/icons/aichat.png"          alt="AI Chat"          class="w-9 h-9 cursor-pointer transition-transform duration-150 active:scale-95 mobile-icon-size"        />      </a>    </button>    <button      class="p-0 bg-transparent border-none hover:opacity-80 focus:outline-none transition-transform duration-150 active:scale-95 relative"      [title]="\'tooltips.favourites\' | translate"    >      <a routerLink="/favourites">        <img          src="assets/icons/favourites.png"          alt="Favourites"          class="w-9 h-9 cursor-pointer transition-transform duration-150 active:scale-95 mobile-icon-size"        />        @if ((favoritesCount() || 0) > 0) {          <span            class="absolute -bottom-1 right-0 text-red-500 text-sm font-black"          >            {{ favoritesCount() }}          </span>        }      </a>    </button>    <button      class="p-0 bg-transparent border-none hover:opacity-80 focus:outline-none transition-transform duration-150 active:scale-95 relative"      [title]="\'tooltips.cart\' | translate"    >      <a routerLink="/cart">        <img          src="assets/icons/cart.png"          alt="Shopping cart"          class="w-9 h-9 cursor-pointer transition-transform duration-150 active:scale-95 mobile-icon-size"        />        @if ((cartCount() || 0) > 0) {          <span            class="absolute -bottom-1 right-0 text-red-500 text-sm font-black"          >            {{ cartCount() }}          </span>        }      </a>    </button>    <button      class="p-0 bg-transparent border-none hover:opacity-80 focus:outline-none transition-transform duration-150 active:scale-95"      [title]="\'tooltips.userProfile\' | translate"    >      <a [routerLink]="user() ? \'/dashboard\' : \'/login\'">        <img          [src]="            user()?.isAdmin              ? \'assets/icons/admin_user.png\'              : user()?.media?.[0]?.url || \'assets/icons/user.png\'          "          [alt]="user()?.nickname || \'User\'"          class="w-10 h-10 rounded-full object-cover transition-transform duration-150 active:scale-95 mobile-icon-size-user"        />      </a>    </button>  </div></header><div  *ngIf="uiState.isMenuOpen()"  #menu  [@slideMenuAnimation]  class="fixed top-0 left-0 h-full w-[15rem] border-gray-800 bg-gray-950 text-white z-[2000] select-none">  <div class="h-16 flex items-center justify-between px-6 shrink-0">    <h2      class="text-2xl font-bold text-cyan-200 cursor-pointer hover:text-cyan-100 transition-transform duration-150 active:scale-95 m-0"      (click)="toggleMenu()"    >      {{ "header.menu" | translate }}    </h2>    <button      (click)="toggleMenu()"      class="bg-transparent border-none p-0 text-cyan-200 hover:text-cyan-100 transition-transform duration-150 active:scale-95 focus:outline-none cursor-pointer"    >      <svg        xmlns="http://www.w3.org/2000/svg"        class="h-6 w-6"        fill="none"        viewBox="0 0 24 24"        stroke="currentColor"      >        <path          stroke-linecap="round"          stroke-linejoin="round"          stroke-width="2"          d="M6 18L18 6M6 6l12 12"        />      </svg>    </button>  </div>  <div class="h-px bg-white mx-6 opacity-30 shrink-0"></div>  <div class="p-6 pt-4 overflow-y-auto flex-1">    <a      routerLink="/"      (click)="toggleMenu()"      [routerLinkActiveOptions]="{ exact: true }"      routerLinkActive="bg-white/10 text-cyan-300"      class="flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-2 p-2 rounded-xl transition-transform duration-150 active:scale-95"    >      <svg        xmlns="http://www.w3.org/2000/svg"        class="h-5 w-5"        fill="none"        viewBox="0 0 24 24"        stroke="currentColor"      >        <path          stroke-linecap="round"          stroke-linejoin="round"          stroke-width="2"          d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"        />      </svg>      {{ "menu.home" | translate }}    </a>    <a      routerLink="/search"      (click)="toggleMenu()"      routerLinkActive="bg-white/10 text-cyan-300"      class="flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-2 p-2 rounded-xl transition-transform duration-150 active:scale-95"    >      <svg        xmlns="http://www.w3.org/2000/svg"        class="h-5 w-5"        fill="none"        viewBox="0 0 24 24"        stroke="currentColor"      >        <path          stroke-linecap="round"          stroke-linejoin="round"          stroke-width="2"          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"        />      </svg>      {{ "menu.explore" | translate }}    </a>    <a      routerLink="/settings"      (click)="toggleMenu()"      routerLinkActive="bg-white/10 text-cyan-300"      class="flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-2 p-2 rounded-xl transition-transform duration-150 active:scale-95"    >      <svg        xmlns="http://www.w3.org/2000/svg"        class="h-5 w-5"        fill="none"        viewBox="0 0 24 24"        stroke="currentColor"      >        <path          stroke-linecap="round"          stroke-linejoin="round"          stroke-width="2"          d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"        />        <path          stroke-linecap="round"          stroke-linejoin="round"          stroke-width="2"          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"        />      </svg>      {{ "menu.settings" | translate }}    </a>    <a      routerLink="/help"      (click)="toggleMenu()"      routerLinkActive="bg-white/10 text-cyan-300"      class="flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-2 p-2 rounded-xl transition-transform duration-150 active:scale-95"    >      <svg        xmlns="http://www.w3.org/2000/svg"        class="h-5 w-5"        fill="none"        viewBox="0 0 24 24"        stroke="currentColor"      >        <path          stroke-linecap="round"          stroke-linejoin="round"          stroke-width="2"          d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"        />      </svg>      {{ "menu.help" | translate }}    </a>    <a      routerLink="/contact"      (click)="toggleMenu()"      routerLinkActive="bg-white/10 text-cyan-300"      class="flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-2 p-2 rounded-xl transition-transform duration-150 active:scale-95"    >      <svg        xmlns="http://www.w3.org/2000/svg"        class="h-5 w-5"        fill="none"        viewBox="0 0 24 24"        stroke="currentColor"      >        <path          stroke-linecap="round"          stroke-linejoin="round"          stroke-width="2"          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"        />      </svg>      {{ "menu.contact" | translate }}    </a>    <a      routerLink="/privacy"      (click)="toggleMenu()"      routerLinkActive="bg-white/10 text-cyan-300"      class="flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-2 p-2 rounded-xl transition-transform duration-150 active:scale-95"    >      <svg        xmlns="http://www.w3.org/2000/svg"        class="h-5 w-5"        fill="none"        viewBox="0 0 24 24"        stroke="currentColor"      >        <path          stroke-linecap="round"          stroke-linejoin="round"          stroke-width="2"          d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"        />      </svg>      {{ "menu.privacy" | translate }}    </a>    <a      routerLink="/conditions"      (click)="toggleMenu()"      routerLinkActive="bg-white/10 text-cyan-300"      class="flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-2 p-2 rounded-xl transition-transform duration-150 active:scale-95"    >      <svg        xmlns="http://www.w3.org/2000/svg"        class="h-5 w-5"        fill="none"        viewBox="0 0 24 24"        stroke="currentColor"      >        <path          stroke-linecap="round"          stroke-linejoin="round"          stroke-width="2"          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"        />      </svg>      {{ "menu.conditions" | translate }}    </a>    <a      routerLink="/cookies"      (click)="toggleMenu()"      routerLinkActive="bg-white/10 text-cyan-300"      class="flex items-center gap-3 text-white no-underline hover:text-cyan-300 text-base mb-2 p-2 rounded-xl transition-transform duration-150 active:scale-95"    >      <svg        xmlns="http://www.w3.org/2000/svg"        class="h-5 w-5"        fill="none"        viewBox="0 0 24 24"        stroke="currentColor"      >        <path          stroke-linecap="round"          stroke-linejoin="round"          stroke-width="2"          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"        />      </svg>      {{ "menu.cookies" | translate }}    </a>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'}];
+    var DIRECTIVES = [{'name': 'CopyOnClickDirective', 'selector': '[appCopyOnClick]'},{'name': 'HighlightDirective', 'selector': '[appHighlight]'}];
+    var ACTUAL_COMPONENT = {'name': 'HeaderComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'HeaderComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

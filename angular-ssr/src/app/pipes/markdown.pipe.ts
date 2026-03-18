@@ -2,23 +2,37 @@ import { SecurityContext } from '@angular/core';
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
+/**
+ * Tubería para renderizar sintaxis Markdown básica a HTML seguro.
+ * Soporta enlaces, negritas, cursivas y listas.
+ */
 @Pipe({
   name: 'markdown',
   standalone: true,
 })
 export class MarkdownPipe implements PipeTransform {
+  /**
+   * @param sanitizer Servicio para desinfectar contenido HTML.
+   */
   constructor(private sanitizer: DomSanitizer) {}
 
+  /**
+   * Transforma una cadena Markdown en HTML sanitizado.
+   * @param value Texto en formato Markdown.
+   * @returns HTML renderizado como cadena segura.
+   */
   transform(value: string): string {
     if (!value) return '';
 
     let html = value;
 
+    // Escapar caracteres básicos de HTML
     html = html
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
 
+    // Procesar enlaces: [texto](url)
     html = html.replace(
       /\[(.*?)\]\((.*?)\)/g,
       (_: string, text: string, url: string) => {
@@ -30,6 +44,7 @@ export class MarkdownPipe implements PipeTransform {
       },
     );
 
+    // Procesar negritas: **texto** o __texto__
     html = html.replace(
       /\*\*(.*?)\*\*/g,
       '<strong class="text-cyan-300 font-bold">$1</strong>',
@@ -40,8 +55,10 @@ export class MarkdownPipe implements PipeTransform {
       '<strong class="text-cyan-300 font-bold">$1</strong>',
     );
 
+    // Procesar cursivas: *texto*
     html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
 
+    // Procesar listas y párrafos
     const lines = html.split('\n');
     let inList = false;
     let newHtml = '';

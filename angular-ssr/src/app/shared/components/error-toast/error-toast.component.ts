@@ -3,6 +3,10 @@ import { ErrorService } from '../../../core/services/error.service';
 import { CommonModule } from '@angular/common';
 import { ErrorType } from '../../../core/models/app-error';
 
+/**
+ * Componente que muestra una notificación visual (toast) ante errores de la aplicación.
+ * Se integra con {@link ErrorService} para obtener el error actual.
+ */
 @Component({
   selector: 'app-error-toast',
   standalone: true,
@@ -11,8 +15,13 @@ import { ErrorType } from '../../../core/models/app-error';
   styleUrl: './error-toast.component.scss',
 })
 export class ErrorToastComponent {
+  /** Servicio centralizado de errores. */
   errorService = inject(ErrorService);
 
+  /**
+   * Devuelve un título descriptivo según el tipo de error.
+   * @param type Tipo de error.
+   */
   getErrorTitle(type: ErrorType): string {
     const titles: Record<string, string> = {
       auth: 'Error de Autenticación',
@@ -25,6 +34,10 @@ export class ErrorToastComponent {
     return titles[type] || 'Error';
   }
 
+  /**
+   * Devuelve la clase CSS de fondo (gradiente) basada en el tipo de error.
+   * @param type Tipo de error.
+   */
   getBackgroundClass(type: ErrorType): string {
     const classes: Record<string, string> = {
       auth: 'bg-gradient-to-br from-red-600 via-red-500 to-pink-600',

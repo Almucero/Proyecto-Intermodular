@@ -2,14 +2,22 @@ import { Injectable } from '@angular/core';
 import { IBaseMapping } from '../interfaces/base-mapping.interface';
 import { Favorite } from '../../models/favorite.model';
 
+/**
+ * Servicio de mapeo para favoritos desde un backend Node.js.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class FavoriteMappingNodeService implements IBaseMapping<Favorite> {
+  /** Transforma una lista de favoritos provenientes de la API. */
   getAll(data: any): Favorite[] {
     return data.map((item: any) => this.getOne(item));
   }
 
+  /**
+   * Transforma un único favorito de la API al modelo de la aplicación.
+   * @param data Objeto de la API.
+   */
   getOne(data: any): Favorite {
     return {
       id: data.favoriteId || data.id,
@@ -45,6 +53,7 @@ export class FavoriteMappingNodeService implements IBaseMapping<Favorite> {
     return this.getOne(data);
   }
 
+  /** Prepara un favorito para ser creado. */
   setAdd(data: Favorite): any {
     return {
       userId: data.userId,
@@ -53,6 +62,7 @@ export class FavoriteMappingNodeService implements IBaseMapping<Favorite> {
     };
   }
 
+  /** No aplicable para favoritos. */
   setUpdate(data: any): any {
     return {};
   }

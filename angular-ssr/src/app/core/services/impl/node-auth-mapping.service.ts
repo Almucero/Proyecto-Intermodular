@@ -2,12 +2,20 @@ import { Injectable } from '@angular/core';
 import { IAuthMapping } from '../interfaces/auth-mapping.interface';
 import { SignInPayload, SignUpPayload, User } from '../../models/user.model';
 
+/**
+ * Servicio encargado de mapear los datos entre los modelos de la aplicación y las respuestas/peticiones de la API.
+ * Asegura que el frontend trabaje con una estructura de datos limpia y consistente.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class NodeAuthMappingService implements IAuthMapping {
   constructor() {}
 
+  /**
+   * Prepara el payload para el inicio de sesión.
+   * @param payload Datos de entrada del formulario.
+   */
   signInPayload(payload: SignInPayload): any {
     return {
       email: payload.email,
@@ -15,6 +23,11 @@ export class NodeAuthMappingService implements IAuthMapping {
     };
   }
 
+  /**
+   * Prepara el payload para el registro de un nuevo usuario.
+   * Realiza transformaciones automáticas como generar el tag 'accountAt'.
+   * @param payload Datos del registro.
+   */
   signUpPayload(payload: SignUpPayload): any {
     return {
       name: payload.name,
@@ -26,24 +39,42 @@ export class NodeAuthMappingService implements IAuthMapping {
     };
   }
 
+  /**
+   * Genera un ID de cuenta aleatorio.
+   */
   private generateAccountId(): string {
     return 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'.replace(/[x]/g, () => {
       return ((Math.random() * 16) | 0).toString(16);
     });
   }
 
+  /**
+   * Mapea la respuesta de login al modelo User.
+   */
   signIn(response: any): User {
     return this.mapUser(response.user);
   }
 
+  /**
+   * Mapea la respuesta de registro al modelo User.
+   */
   signUp(response: any): User {
     return this.mapUser(response.user);
   }
 
+  /**
+   * Mapea el perfil del usuario al modelo User.
+   */
   me(response: any): User {
     return this.mapUser(response);
   }
 
+  /**
+   * Realiza el mapeo interno de los campos del usuario.
+   * Define propiedades computadas como 'profileImage' y 'username'.
+   * @param data Datos planos de la API.
+   * @returns Objeto de tipo User.
+   */
   private mapUser(data: any): any {
     const user: any = {
       id: data.id,

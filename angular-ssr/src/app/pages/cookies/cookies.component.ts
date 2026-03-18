@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { TranslatePipe } from '@ngx-translate/core';
-import { SanitizeHtmlPipe } from '../../pipes/sanitize-html.pipe';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
+/**
+ * Componente informativo sobre la política de Cookies.
+ * Detalla el uso de cookies propias y de terceros en la aplicación.
+ */
 @Component({
   selector: 'app-cookies',
-  imports: [RouterModule, TranslatePipe, SanitizeHtmlPipe],
+  standalone: true,
+  imports: [CommonModule, TranslateModule],
   templateUrl: './cookies.component.html',
   styleUrl: './cookies.component.scss',
 })
-export class CookiesComponent {
-  ngOnInit(): void {}
-}
+export class CookiesComponent {}

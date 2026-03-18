@@ -13,6 +13,10 @@ import { BaseService } from './base-service.service';
 import { BaseAuthenticationService } from './base-authentication.service';
 import { ICartItemService } from '../interfaces/cart-item-service.interface';
 
+/**
+ * Servicio para la gestión de los artículos del carrito de compras.
+ * Maneja la persistencia en el servidor y sincroniza el estado local (localStorage y BehaviorSubject).
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -21,8 +25,17 @@ export class CartItemService
   implements ICartItemService
 {
   private isBrowser: boolean;
+  /** Observable con el número actual de artículos en el carrito. */
   public cartCount$ = new BehaviorSubject<number>(this.getInitialCount());
 
+  /**
+   * @param repository Repositorio de base para artículos del carrito.
+   * @param http Cliente HTTP para peticiones personalizadas.
+   * @param apiUrl URL base de la API.
+   * @param resource Nombre del recurso en la API.
+   * @param auth Servicio de autenticación para obtener el token.
+   * @param platformId ID de la plataforma (Browser/Server).
+   */
   constructor(
     @Inject(CART_ITEM_REPOSITORY_TOKEN) repository: IBaseRepository<CartItem>,
     private http: HttpClient,
@@ -45,6 +58,10 @@ export class CartItemService
     });
   }
 
+  /**
+   * Obtiene la cuenta inicial del carrito desde localStorage.
+   * @returns El número de artículos guardado o 0.
+   */
   private getInitialCount(): number {
     if (typeof localStorage === 'undefined') {
       return 0;
@@ -52,6 +69,10 @@ export class CartItemService
     return parseInt(localStorage.getItem('cartCount') || '0', 10);
   }
 
+  /**
+   * Actualiza el estado local y el almacenamiento persistente del navegador.
+   * @param count Nueva cuenta de artículos.
+   */
   private updateLocalState(count: number) {
     this.cartCount$.next(count);
     if (this.isBrowser) {
@@ -59,6 +80,9 @@ export class CartItemService
     }
   }
 
+  /**
+   * Sincroniza la cuenta del carrito con los datos reales del servidor.
+   */
   refreshCount() {
     this.getAll().subscribe({
       next: (items) => this.updateLocalState(items.length),
@@ -66,6 +90,10 @@ export class CartItemService
     });
   }
 
+  /**
+   * Genera las cabeceras de autorización con el token JWT.
+   * @returns Cabeceras HTTP con Authorization Bearer.
+   */
   private getAuthHeaders(): any {
     const headers: any = {};
     const token = this.auth.getToken();
@@ -73,6 +101,11 @@ export class CartItemService
     return headers;
   }
 
+  /**
+   * Añade un artículo al carrito en el servidor y actualiza el estado local.
+   * @param entity Artículo a añadir.
+   * @returns Observable con el artículo creado.
+   */
   override add(entity: CartItem): Observable<CartItem> {
     return this.http
       .post<CartItem>(
@@ -92,6 +125,12 @@ export class CartItemService
       );
   }
 
+  /**
+   * Elimina un artículo del carrito filtrando por juego y plataforma.
+   * @param gameId ID del juego.
+   * @param platformId ID de la plataforma.
+   * @returns Observable con la respuesta de eliminación.
+   */
   deleteWithPlatform(gameId: number, platformId: number): Observable<any> {
     return this.http
       .delete<any>(
@@ -106,6 +145,13 @@ export class CartItemService
       );
   }
 
+  /**
+   * Actualiza la cantidad de un artículo existente en el carrito.
+   * @param gameId ID del juego.
+   * @param platformId ID de la plataforma.
+   * @param quantity Nueva cantidad deseada.
+   * @returns Observable con el artículo actualizado.
+   */
   updateWithPlatform(
     gameId: number,
     platformId: number,
@@ -120,6 +166,11 @@ export class CartItemService
       .pipe(tap(() => this.refreshCount()));
   }
 
+  /**
+   * Elimina un artículo por su ID interno de base de datos.
+   * @param id Identificador único del registro CartItem.
+   * @returns Observable con la entidad eliminada.
+   */
   override delete(id: string): Observable<CartItem> {
     return super.delete(id).pipe(
       tap(() => {

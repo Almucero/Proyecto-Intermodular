@@ -7,7 +7,12 @@ import {
   group,
 } from '@angular/animations';
 
+/**
+ * Animación de transición entre rutas con efecto de fundido (fade).
+ * Gestiona la salida de la página anterior y la entrada de la nueva.
+ */
 export const routeFadeAnimation = trigger('routeFadeAnimation', [
+
   transition('* <=> *', [
     query(
       ':enter',

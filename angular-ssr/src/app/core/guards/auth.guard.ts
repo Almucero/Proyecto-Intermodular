@@ -3,6 +3,11 @@ import { inject } from '@angular/core';
 import { BaseAuthenticationService } from '../services/impl/base-authentication.service';
 import { filter, map, switchMap, take } from 'rxjs';
 
+/**
+ * Guard que permite el acceso solo a usuarios autenticados.
+ * Si el usuario no está autenticado, lo redirige a la página de login
+ * guardando la URL de destino original para volver tras el inicio de sesión.
+ */
 export const authGuard: CanActivateFn = (route, state) => {
   const auth = inject(BaseAuthenticationService);
   const router = inject(Router);

@@ -11,6 +11,11 @@ import { Favorite } from '../../core/models/favorite.model';
 import { CartItem } from '../../core/models/cart-item.model';
 import { Media } from '../../core/models/media.model';
 
+/**
+ * Componente de la página de Favoritos.
+ * Muestra la lista de juegos que el usuario ha marcado como favoritos,
+ * permitiendo moverlos al carrito o eliminarlos.
+ */
 @Component({
   selector: 'app-favourites',
   standalone: true,
@@ -19,9 +24,13 @@ import { Media } from '../../core/models/media.model';
   styleUrl: './favourites.component.scss',
 })
 export class FavouritesComponent implements OnInit {
+  /** Lista de favoritos cargada. */
   favorites = signal<Favorite[]>([]);
+  /** Indica si se están cargando los datos. */
   loading = signal(true);
+  /** Almacena mensajes de error si falla la carga. */
   error = signal<string | null>(null);
+  /** Estado de autenticación del usuario. */
   isAuthenticated = signal(false);
 
   constructor(
@@ -32,6 +41,10 @@ export class FavouritesComponent implements OnInit {
     private router: Router,
   ) {}
 
+  /**
+   * Inicializa el componente verificando la autenticación
+   * y cargando la lista si el usuario está conectado.
+   */
   ngOnInit() {
     this.authService.authenticated$.subscribe((isAuth) => {
       this.isAuthenticated.set(isAuth);
@@ -43,6 +56,9 @@ export class FavouritesComponent implements OnInit {
     });
   }
 
+  /**
+   * Obtiene todos los favoritos del usuario y carga sus imágenes asociadas.
+   */
   loadFavorites() {
     this.loading.set(true);
     this.error.set(null);
@@ -72,6 +88,10 @@ export class FavouritesComponent implements OnInit {
     });
   }
 
+  /**
+   * Añade un juego favorito al carrito y lo elimina de la lista de favoritos.
+   * @param fav El objeto del favorito a procesar.
+   */
   async addToCart(fav: Favorite) {
     if (!fav.gameId || !fav.platformId) return;
     try {
@@ -86,6 +106,10 @@ export class FavouritesComponent implements OnInit {
     } catch (error) {}
   }
 
+  /**
+   * Elimina un juego de la lista de favoritos.
+   * @param fav El objeto del favorito a eliminar.
+   */
   async removeFromFavorites(fav: Favorite) {
     if (!fav.gameId || !fav.platformId) return;
     try {
@@ -100,6 +124,9 @@ export class FavouritesComponent implements OnInit {
     } catch (error) {}
   }
 
+  /**
+   * Mueve todos los juegos favoritos al carrito a la vez.
+   */
   async transferAllToCart() {
     for (const favorite of this.favorites()) {
       if (favorite.gameId && favorite.platformId) {
@@ -108,20 +135,24 @@ export class FavouritesComponent implements OnInit {
     }
   }
 
+  /** Obtiene la imagen representativa de un juego favorito. */
   getGameImage(fav: Favorite): string {
     return fav.game?.media?.[0]?.url || 'assets/images/placeholder.png';
   }
 
+  /** Obtiene el nombre del desarrollador o editor del juego. */
   getGameDeveloper(fav: Favorite): string {
     return fav.game?.Developer?.name || fav.game?.Publisher?.name || 'Unknown';
   }
 
+  /** Redirige a la página de inicio de sesión. */
   goToLogin() {
     this.router.navigate(['/login'], {
       state: { navigateTo: this.router.url },
     });
   }
 
+  /** Genera un array basado en el número total de favoritos (para iteraciones en UI). */
   get favoritesCount(): number[] {
     const count = this.favoriteService.favoritesCount$.value;
     return Array(count > 0 ? count : 1)

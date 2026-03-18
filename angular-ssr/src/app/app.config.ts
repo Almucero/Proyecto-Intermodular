@@ -95,6 +95,12 @@ import {
   withEventReplay,
 } from '@angular/platform-browser';
 
+/**
+ * Configuración global de la aplicación Angular.
+ * Define proveedores, rutas, interceptores, servicios de traducción,
+ * tokens de inyección para API y fábricas de repositorios siguiendo
+ * una arquitectura limpia y desacoplada.
+ */
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
@@ -113,10 +119,10 @@ export const appConfig: ApplicationConfig = {
       lang: 'es',
     }),
 
-    // Repository Configuration
+    // Configuración de Repositorios (Inyección de Dependencias)
     { provide: BACKEND_TOKEN, useValue: 'http' },
 
-    // Resource Names
+    // Nombres de recursos para la API
     { provide: DEVELOPER_RESOURCE_NAME_TOKEN, useValue: 'developers' },
     { provide: GAME_RESOURCE_NAME_TOKEN, useValue: 'games' },
     { provide: GENRE_RESOURCE_NAME_TOKEN, useValue: 'genres' },
@@ -133,6 +139,7 @@ export const appConfig: ApplicationConfig = {
     { provide: FAVORITE_RESOURCE_NAME_TOKEN, useValue: 'favorites' },
     { provide: CHAT_RESOURCE_NAME_TOKEN, useValue: 'sessions' },
 
+    // URLs de la API para cada recurso
     { provide: API_URL_TOKEN, useValue: `${environment.apiUrl}/api` },
     {
       provide: DEVELOPER_API_URL_TOKEN,
@@ -183,6 +190,7 @@ export const appConfig: ApplicationConfig = {
       useValue: `${environment.apiUrl}/api/chat`,
     },
 
+    // Endpoints específicos de autenticación y carga de archivos
     {
       provide: AUTH_SIGN_IN_API_URL_TOKEN,
       useValue: `${environment.apiUrl}/api/auth/login`,
@@ -200,7 +208,7 @@ export const appConfig: ApplicationConfig = {
       useValue: `${environment.apiUrl}/api/media/upload`,
     },
 
-    // Mappings
+    // Fábricas de Mappings (Transformación de datos)
     DeveloperMappingFactory,
     GameMappingFactory,
     GenreMappingFactory,
@@ -215,7 +223,7 @@ export const appConfig: ApplicationConfig = {
     ChatMappingFactory,
     AuthMappingFactory,
 
-    // Repositories
+    // Fábricas de Repositorios (Persistencia)
     DeveloperRepositoryFactory,
     GameRepositoryFactory,
     GenreRepositoryFactory,
@@ -229,7 +237,7 @@ export const appConfig: ApplicationConfig = {
     FavoriteRepositoryFactory,
     ChatRepositoryFactory,
 
-    // Services
+    // Servicios de Implementación (Business Logic)
     { provide: DeveloperService, useClass: DeveloperService },
     { provide: GameService, useClass: GameService },
     { provide: GenreService, useClass: GenreService },
