@@ -1,0 +1,1777 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>game-sage documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">game-sage documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  PlatformListComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/pages/admin/platforms/platform-list/platform-list.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Componente que muestra la lista de plataformas de videojuegos en el panel de administración.
+Permite gestionar (listar, filtrar, editar, borrar) las plataformas soportadas por el sistema.</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-platform-list</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
+                            <code>TranslateModule</code>
+                                <code><a href="../components/PlatformFormComponent.html" target="_self" >PlatformFormComponent</a></code>
+                                <code><a href="https://angular.io/api/forms/FormsModule" target="_blank" >FormsModule</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./platform-list.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./platform-list.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#filteredPlatforms" >filteredPlatforms</a>
+                            </li>
+                            <li>
+                                <a href="#isLoading" >isLoading</a>
+                            </li>
+                            <li>
+                                <a href="#platforms" >platforms</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#platformService" >platformService</a>
+                            </li>
+                            <li>
+                                <a href="#platformToDeleteId" >platformToDeleteId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#scrollContainer" >scrollContainer</a>
+                            </li>
+                            <li>
+                                <a href="#searchTerm" >searchTerm</a>
+                            </li>
+                            <li>
+                                <a href="#selectedPlatformId" >selectedPlatformId</a>
+                            </li>
+                            <li>
+                                <a href="#showBottomShadow" >showBottomShadow</a>
+                            </li>
+                            <li>
+                                <a href="#showDeleteModal" >showDeleteModal</a>
+                            </li>
+                            <li>
+                                <a href="#showModal" >showModal</a>
+                            </li>
+                            <li>
+                                <a href="#showTopShadow" >showTopShadow</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#closeDeleteModal" >closeDeleteModal</a>
+                            </li>
+                            <li>
+                                <a href="#closeModal" >closeModal</a>
+                            </li>
+                            <li>
+                                <a href="#confirmDelete" >confirmDelete</a>
+                            </li>
+                            <li>
+                                <a href="#filterPlatforms" >filterPlatforms</a>
+                            </li>
+                            <li>
+                                <a href="#loadPlatforms" >loadPlatforms</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onFormSave" >onFormSave</a>
+                            </li>
+                            <li>
+                                <a href="#onScroll" >onScroll</a>
+                            </li>
+                            <li>
+                                <a href="#openCreateModal" >openCreateModal</a>
+                            </li>
+                            <li>
+                                <a href="#openDeleteModal" >openDeleteModal</a>
+                            </li>
+                            <li>
+                                <a href="#openEditModal" >openEditModal</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeDeleteModal"></a>
+                    <span class="name">
+                        <span ><b>closeDeleteModal</b></span>
+                        <a href="#closeDeleteModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeDeleteModal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="137"
+                                    class="link-to-prism">src/app/pages/admin/platforms/platform-list/platform-list.component.ts:137</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Cierra el modal de confirmación de borrado.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeModal"></a>
+                    <span class="name">
+                        <span ><b>closeModal</b></span>
+                        <a href="#closeModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeModal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="119"
+                                    class="link-to-prism">src/app/pages/admin/platforms/platform-list/platform-list.component.ts:119</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Cierra el modal de creación/edición.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="confirmDelete"></a>
+                    <span class="name">
+                        <span ><b>confirmDelete</b></span>
+                        <a href="#confirmDelete"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>confirmDelete()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="143"
+                                    class="link-to-prism">src/app/pages/admin/platforms/platform-list/platform-list.component.ts:143</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Ejecuta la eliminación definitiva de la plataforma tras confirmar.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filterPlatforms"></a>
+                    <span class="name">
+                        <span ><b>filterPlatforms</b></span>
+                        <a href="#filterPlatforms"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>filterPlatforms()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="78"
+                                    class="link-to-prism">src/app/pages/admin/platforms/platform-list/platform-list.component.ts:78</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Filtra las plataformas localmente según el término de búsqueda introducido.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadPlatforms"></a>
+                    <span class="name">
+                        <span ><b>loadPlatforms</b></span>
+                        <a href="#loadPlatforms"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadPlatforms()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="63"
+                                    class="link-to-prism">src/app/pages/admin/platforms/platform-list/platform-list.component.ts:63</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Obtiene todas las plataformas desde el servicio y actualiza los listados.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="56"
+                                    class="link-to-prism">src/app/pages/admin/platforms/platform-list/platform-list.component.ts:56</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Carga inicial de plataformas al iniciarse el componente.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onFormSave"></a>
+                    <span class="name">
+                        <span ><b>onFormSave</b></span>
+                        <a href="#onFormSave"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onFormSave()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="125"
+                                    class="link-to-prism">src/app/pages/admin/platforms/platform-list/platform-list.component.ts:125</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Callback ejecutado tras un guardado de formulario exitoso.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onScroll"></a>
+                    <span class="name">
+                        <span ><b>onScroll</b></span>
+                        <a href="#onScroll"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onScroll()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="95"
+                                    class="link-to-prism">src/app/pages/admin/platforms/platform-list/platform-list.component.ts:95</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Maneja el evento de scroll para actualizar el estado de las sombras visuales.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openCreateModal"></a>
+                    <span class="name">
+                        <span ><b>openCreateModal</b></span>
+                        <a href="#openCreateModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openCreateModal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="107"
+                                    class="link-to-prism">src/app/pages/admin/platforms/platform-list/platform-list.component.ts:107</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Abre el modal para crear una nueva plataforma.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openDeleteModal"></a>
+                    <span class="name">
+                        <span ><b>openDeleteModal</b></span>
+                        <a href="#openDeleteModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openDeleteModal(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="131"
+                                    class="link-to-prism">src/app/pages/admin/platforms/platform-list/platform-list.component.ts:131</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Abre el modal de confirmación para eliminar una plataforma.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openEditModal"></a>
+                    <span class="name">
+                        <span ><b>openEditModal</b></span>
+                        <a href="#openEditModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openEditModal(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="113"
+                                    class="link-to-prism">src/app/pages/admin/platforms/platform-list/platform-list.component.ts:113</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Abre el modal para editar una plataforma existente.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filteredPlatforms"></a>
+                    <span class="name">
+                        <span ><b>filteredPlatforms</b></span>
+                        <a href="#filteredPlatforms"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Platform.html" target="_self" >Platform[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/pages/admin/platforms/platform-list/platform-list.component.ts:35</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Lista de plataformas filtradas según el criterio de búsqueda.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isLoading"></a>
+                    <span class="name">
+                        <span ><b>isLoading</b></span>
+                        <a href="#isLoading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/pages/admin/platforms/platform-list/platform-list.component.ts:47</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indica si la lista está cargando datos del servidor.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="platforms"></a>
+                    <span class="name">
+                        <span ><b>platforms</b></span>
+                        <a href="#platforms"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Platform.html" target="_self" >Platform[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/pages/admin/platforms/platform-list/platform-list.component.ts:33</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Lista completa de plataformas disponibles.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="platformService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>platformService</b></span>
+                        <a href="#platformService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(PlatformService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/pages/admin/platforms/platform-list/platform-list.component.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="platformToDeleteId"></a>
+                    <span class="name">
+                        <span ><b>platformToDeleteId</b></span>
+                        <a href="#platformToDeleteId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/pages/admin/platforms/platform-list/platform-list.component.ts:45</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Almacena el ID de la plataforma que se pretende eliminar.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scrollContainer"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>scrollContainer</b></span>
+                        <a href="#scrollContainer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;scrollContainer&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/pages/admin/platforms/platform-list/platform-list.component.ts:30</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Referencia al contenedor con scroll para manejar efectos visuales de sombras.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="searchTerm"></a>
+                    <span class="name">
+                        <span ><b>searchTerm</b></span>
+                        <a href="#searchTerm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/pages/admin/platforms/platform-list/platform-list.component.ts:37</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Término de búsqueda para filtrar plataformas por nombre.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedPlatformId"></a>
+                    <span class="name">
+                        <span ><b>selectedPlatformId</b></span>
+                        <a href="#selectedPlatformId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/pages/admin/platforms/platform-list/platform-list.component.ts:41</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Almacena el ID de la plataforma seleccionada para edición (null si es creación).</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showBottomShadow"></a>
+                    <span class="name">
+                        <span ><b>showBottomShadow</b></span>
+                        <a href="#showBottomShadow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/pages/admin/platforms/platform-list/platform-list.component.ts:51</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indica si debe mostrarse la sombra inferior por desplazamiento de scroll.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showDeleteModal"></a>
+                    <span class="name">
+                        <span ><b>showDeleteModal</b></span>
+                        <a href="#showDeleteModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/pages/admin/platforms/platform-list/platform-list.component.ts:43</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Controla la visibilidad del modal de confirmación de eliminación.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showModal"></a>
+                    <span class="name">
+                        <span ><b>showModal</b></span>
+                        <a href="#showModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/pages/admin/platforms/platform-list/platform-list.component.ts:39</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Controla la visibilidad del modal de creación/edición de plataformas.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showTopShadow"></a>
+                    <span class="name">
+                        <span ><b>showTopShadow</b></span>
+                        <a href="#showTopShadow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/pages/admin/platforms/platform-list/platform-list.component.ts:49</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indica si debe mostrarse la sombra superior por desplazamiento de scroll.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  inject,
+  OnInit,
+  ViewChild,
+  ElementRef,
+} from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { FormsModule } from &#x27;@angular/forms&#x27;;
+import { TranslateModule } from &#x27;@ngx-translate/core&#x27;;
+import { PlatformService } from &#x27;../../../../core/services/impl/platform.service&#x27;;
+import { Platform } from &#x27;../../../../core/models/platform.model&#x27;;
+import { PlatformFormComponent } from &#x27;../platform-form/platform-form.component&#x27;;
+
+/**
+ * Componente que muestra la lista de plataformas de videojuegos en el panel de administración.
+ * Permite gestionar (listar, filtrar, editar, borrar) las plataformas soportadas por el sistema.
+ */
+@Component({
+  selector: &#x27;app-platform-list&#x27;,
+  standalone: true,
+  imports: [CommonModule, TranslateModule, PlatformFormComponent, FormsModule],
+  templateUrl: &#x27;./platform-list.component.html&#x27;,
+  styleUrl: &#x27;./platform-list.component.scss&#x27;,
+})
+export class PlatformListComponent implements OnInit {
+  private platformService &#x3D; inject(PlatformService);
+
+  /** Referencia al contenedor con scroll para manejar efectos visuales de sombras. */
+  @ViewChild(&#x27;scrollContainer&#x27;) scrollContainer!: ElementRef;
+
+  /** Lista completa de plataformas disponibles. */
+  platforms: Platform[] &#x3D; [];
+  /** Lista de plataformas filtradas según el criterio de búsqueda. */
+  filteredPlatforms: Platform[] &#x3D; [];
+  /** Término de búsqueda para filtrar plataformas por nombre. */
+  searchTerm: string &#x3D; &#x27;&#x27;;
+  /** Controla la visibilidad del modal de creación/edición de plataformas. */
+  showModal &#x3D; false;
+  /** Almacena el ID de la plataforma seleccionada para edición (null si es creación). */
+  selectedPlatformId: number | null &#x3D; null;
+  /** Controla la visibilidad del modal de confirmación de eliminación. */
+  showDeleteModal &#x3D; false;
+  /** Almacena el ID de la plataforma que se pretende eliminar. */
+  platformToDeleteId: number | null &#x3D; null;
+  /** Indica si la lista está cargando datos del servidor. */
+  isLoading &#x3D; true;
+  /** Indica si debe mostrarse la sombra superior por desplazamiento de scroll. */
+  showTopShadow &#x3D; false;
+  /** Indica si debe mostrarse la sombra inferior por desplazamiento de scroll. */
+  showBottomShadow &#x3D; false;
+
+  /**
+   * Carga inicial de plataformas al iniciarse el componente.
+   */
+  ngOnInit(): void {
+    this.loadPlatforms();
+  }
+
+  /**
+   * Obtiene todas las plataformas desde el servicio y actualiza los listados.
+   */
+  loadPlatforms() {
+    this.isLoading &#x3D; true;
+    this.platformService.getAll().subscribe((data) &#x3D;&gt; {
+      this.platforms &#x3D; data;
+      this.filterPlatforms();
+      this.isLoading &#x3D; false;
+      setTimeout(() &#x3D;&gt; {
+        this.onScroll();
+      }, 0);
+    });
+  }
+
+  /**
+   * Filtra las plataformas localmente según el término de búsqueda introducido.
+   */
+  filterPlatforms() {
+    if (!this.searchTerm) {
+      this.filteredPlatforms &#x3D; this.platforms;
+    } else {
+      const lower &#x3D; this.searchTerm.toLowerCase();
+      this.filteredPlatforms &#x3D; this.platforms.filter((p) &#x3D;&gt;
+        p.name.toLowerCase().includes(lower),
+      );
+    }
+    setTimeout(() &#x3D;&gt; {
+      this.onScroll();
+    }, 0);
+  }
+
+  /**
+   * Maneja el evento de scroll para actualizar el estado de las sombras visuales.
+   */
+  onScroll() {
+    if (!this.scrollContainer) return;
+
+    const element &#x3D; this.scrollContainer.nativeElement;
+    this.showTopShadow &#x3D; element.scrollTop &gt; 0;
+    const atBottom &#x3D;
+      element.scrollHeight - element.scrollTop &lt;&#x3D; element.clientHeight + 1;
+    this.showBottomShadow &#x3D;
+      !atBottom &amp;&amp; element.scrollHeight &gt; element.clientHeight;
+  }
+
+  /** Abre el modal para crear una nueva plataforma. */
+  openCreateModal() {
+    this.selectedPlatformId &#x3D; null;
+    this.showModal &#x3D; true;
+  }
+
+  /** Abre el modal para editar una plataforma existente. */
+  openEditModal(id: number) {
+    this.selectedPlatformId &#x3D; id;
+    this.showModal &#x3D; true;
+  }
+
+  /** Cierra el modal de creación/edición. */
+  closeModal() {
+    this.showModal &#x3D; false;
+    this.selectedPlatformId &#x3D; null;
+  }
+
+  /** Callback ejecutado tras un guardado de formulario exitoso. */
+  onFormSave() {
+    this.closeModal();
+    this.loadPlatforms();
+  }
+
+  /** Abre el modal de confirmación para eliminar una plataforma. */
+  openDeleteModal(id: number) {
+    this.platformToDeleteId &#x3D; id;
+    this.showDeleteModal &#x3D; true;
+  }
+
+  /** Cierra el modal de confirmación de borrado. */
+  closeDeleteModal() {
+    this.showDeleteModal &#x3D; false;
+    this.platformToDeleteId &#x3D; null;
+  }
+
+  /** Ejecuta la eliminación definitiva de la plataforma tras confirmar. */
+  confirmDelete() {
+    if (this.platformToDeleteId) {
+      this.platformService
+        .delete(this.platformToDeleteId.toString())
+        .subscribe(() &#x3D;&gt; {
+          this.closeDeleteModal();
+          this.loadPlatforms();
+        });
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;bg-gray-800 rounded-lg shadow-lg p-6 h-full flex flex-col&quot;&gt;
+  &lt;div
+    class&#x3D;&quot;flex flex-col md:flex-row justify-between items-center mb-6 gap-4 flex-shrink-0&quot;
+  &gt;
+    &lt;h3 class&#x3D;&quot;text-xl font-bold text-cyan-300&quot;&gt;
+      {{ &quot;admin.platforms.title&quot; | translate }}
+    &lt;/h3&gt;
+
+    &lt;div class&#x3D;&quot;flex items-center gap-4 w-full md:w-auto&quot;&gt;
+      &lt;div class&#x3D;&quot;relative w-full md:w-64&quot;&gt;
+        &lt;input
+          type&#x3D;&quot;text&quot;
+          [(ngModel)]&#x3D;&quot;searchTerm&quot;
+          (ngModelChange)&#x3D;&quot;filterPlatforms()&quot;
+          [placeholder]&#x3D;&quot;&#x27;common.searchPlaceholder&#x27; | translate&quot;
+          class&#x3D;&quot;w-full bg-gray-700 text-white rounded-lg pl-10 pr-4 py-2 focus:outline-none transition-all border-none outline-none ring-0&quot;
+        /&gt;
+        &lt;svg
+          class&#x3D;&quot;absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4&quot;
+          xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+          fill&#x3D;&quot;none&quot;
+          viewBox&#x3D;&quot;0 0 24 24&quot;
+          stroke&#x3D;&quot;currentColor&quot;
+        &gt;
+          &lt;path
+            stroke-linecap&#x3D;&quot;round&quot;
+            stroke-linejoin&#x3D;&quot;round&quot;
+            stroke-width&#x3D;&quot;2&quot;
+            d&#x3D;&quot;M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z&quot;
+          /&gt;
+        &lt;/svg&gt;
+      &lt;/div&gt;
+
+      &lt;button
+        (click)&#x3D;&quot;openCreateModal()&quot;
+        class&#x3D;&quot;bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded border-none transition-colors flex items-center gap-2 cursor-pointer whitespace-nowrap&quot;
+      &gt;
+        + {{ &quot;admin.actions.create&quot; | translate }}
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class&#x3D;&quot;relative flex-1 min-h-0 border-t border-gray-700/50&quot;&gt;
+    &lt;div
+      class&#x3D;&quot;absolute top-12 left-0 right-2 h-32 bg-gradient-to-b from-gray-800 to-transparent z-20 pointer-events-none transition-opacity duration-300&quot;
+      [class.opacity-0]&#x3D;&quot;!showTopShadow&quot;
+      [class.opacity-100]&#x3D;&quot;showTopShadow&quot;
+    &gt;&lt;/div&gt;
+
+    &lt;div
+      #scrollContainer
+      (scroll)&#x3D;&quot;onScroll()&quot;
+      class&#x3D;&quot;overflow-y-auto h-full custom-scrollbar pb-6&quot;
+    &gt;
+      &lt;table class&#x3D;&quot;w-full text-left border-separate border-spacing-0&quot;&gt;
+        &lt;thead&gt;
+          &lt;tr class&#x3D;&quot;text-gray-400&quot;&gt;
+            &lt;th
+              class&#x3D;&quot;sticky top-0 z-30 bg-gray-800 py-3 px-4 font-bold border-b border-gray-800 w-24&quot;
+            &gt;
+              ID
+            &lt;/th&gt;
+
+            &lt;th
+              class&#x3D;&quot;sticky top-0 z-30 bg-gray-800 py-3 px-4 font-bold border-b border-gray-800&quot;
+            &gt;
+              {{ &quot;common.name&quot; | translate }}
+            &lt;/th&gt;
+
+            &lt;th
+              class&#x3D;&quot;sticky top-0 z-30 bg-gray-800 px-4 font-bold border-b border-gray-800 w-48&quot;
+            &gt;
+              &lt;span class&#x3D;&quot;pl-2&quot;&gt;
+                {{ &quot;admin.actions.title&quot; | translate }}
+              &lt;/span&gt;
+            &lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+
+        &lt;tbody&gt;
+          &lt;ng-container *ngIf&#x3D;&quot;isLoading&quot;&gt;
+            &lt;tr
+              *ngFor&#x3D;&quot;let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]&quot;
+              class&#x3D;&quot;animate-pulse&quot;
+            &gt;
+              &lt;td class&#x3D;&quot;py-3 px-4 rounded-l-lg border-t-4 border-gray-800&quot;&gt;
+                &lt;div class&#x3D;&quot;h-4 bg-gray-700 rounded w-8&quot;&gt;&lt;/div&gt;
+              &lt;/td&gt;
+
+              &lt;td class&#x3D;&quot;py-3 px-4 border-t-4 border-gray-800&quot;&gt;
+                &lt;div class&#x3D;&quot;h-4 bg-gray-700 rounded w-48&quot;&gt;&lt;/div&gt;
+              &lt;/td&gt;
+
+              &lt;td class&#x3D;&quot;py-3 px-4 rounded-r-lg border-t-4 border-gray-800&quot;&gt;
+                &lt;div class&#x3D;&quot;flex gap-2&quot;&gt;
+                  &lt;div class&#x3D;&quot;p-2&quot;&gt;
+                    &lt;div class&#x3D;&quot;h-4 w-10 bg-gray-700 rounded&quot;&gt;&lt;/div&gt;
+                  &lt;/div&gt;
+                  &lt;div class&#x3D;&quot;p-2&quot;&gt;
+                    &lt;div class&#x3D;&quot;h-4 w-10 bg-gray-700 rounded&quot;&gt;&lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/td&gt;
+            &lt;/tr&gt;
+          &lt;/ng-container&gt;
+
+          &lt;ng-container *ngIf&#x3D;&quot;!isLoading&quot;&gt;
+            &lt;tr
+              *ngFor&#x3D;&quot;let platform of filteredPlatforms&quot;
+              class&#x3D;&quot;hover:bg-gray-700 transition-colors text-gray-300 group&quot;
+            &gt;
+              &lt;td class&#x3D;&quot;py-3 px-4 rounded-l-lg border-t-4 border-gray-800&quot;&gt;
+                {{ platform.id }}
+              &lt;/td&gt;
+
+              &lt;td
+                class&#x3D;&quot;py-3 px-4 font-medium text-white border-t-4 border-gray-800&quot;
+              &gt;
+                {{ platform.name }}
+              &lt;/td&gt;
+
+              &lt;td class&#x3D;&quot;py-3 px-4 rounded-r-lg border-t-4 border-gray-800&quot;&gt;
+                &lt;div class&#x3D;&quot;flex gap-2&quot;&gt;
+                  &lt;button
+                    (click)&#x3D;&quot;openEditModal(platform.id)&quot;
+                    class&#x3D;&quot;text-cyan-400 hover:text-cyan-300 cursor-pointer p-2 bg-transparent border-none font-medium&quot;
+                  &gt;
+                    {{ &quot;admin.actions.edit&quot; | translate }}
+                  &lt;/button&gt;
+                  &lt;button
+                    (click)&#x3D;&quot;openDeleteModal(platform.id)&quot;
+                    class&#x3D;&quot;text-red-400 hover:text-red-300 bg-transparent border-none cursor-pointer p-2 font-medium&quot;
+                  &gt;
+                    {{ &quot;admin.actions.delete&quot; | translate }}
+                  &lt;/button&gt;
+                &lt;/div&gt;
+              &lt;/td&gt;
+            &lt;/tr&gt;
+          &lt;/ng-container&gt;
+
+          &lt;tr *ngIf&#x3D;&quot;!isLoading &amp;&amp; filteredPlatforms.length &#x3D;&#x3D;&#x3D; 0&quot;&gt;
+            &lt;td
+              colspan&#x3D;&quot;3&quot;
+              class&#x3D;&quot;py-8 text-center text-gray-500 italic border-t-4 border-gray-800&quot;
+            &gt;
+              {{ &quot;search.noResults&quot; | translate }}
+            &lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+
+    &lt;div
+      class&#x3D;&quot;absolute bottom-0 left-0 right-2 h-32 bg-gradient-to-t from-gray-800 to-transparent z-20 pointer-events-none transition-opacity duration-300&quot;
+      [class.opacity-0]&#x3D;&quot;!showBottomShadow&quot;
+      [class.opacity-100]&#x3D;&quot;showBottomShadow&quot;
+    &gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div
+  *ngIf&#x3D;&quot;showModal&quot;
+  class&#x3D;&quot;fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn p-4&quot;
+&gt;
+  &lt;div class&#x3D;&quot;w-full max-w-lg relative&quot;&gt;
+    &lt;app-platform-form
+      [platformId]&#x3D;&quot;selectedPlatformId&quot;
+      (save)&#x3D;&quot;onFormSave()&quot;
+      (cancel)&#x3D;&quot;closeModal()&quot;
+    &gt;&lt;/app-platform-form&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div
+  *ngIf&#x3D;&quot;showDeleteModal&quot;
+  class&#x3D;&quot;fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn p-4&quot;
+&gt;
+  &lt;div
+    class&#x3D;&quot;bg-gray-800 rounded-lg shadow-2xl p-6 max-w-sm w-full text-center&quot;
+  &gt;
+    &lt;div class&#x3D;&quot;mb-4 text-red-500&quot;&gt;
+      &lt;svg
+        xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+        class&#x3D;&quot;h-12 w-12 mx-auto&quot;
+        fill&#x3D;&quot;none&quot;
+        viewBox&#x3D;&quot;0 0 24 24&quot;
+        stroke&#x3D;&quot;currentColor&quot;
+      &gt;
+        &lt;path
+          stroke-linecap&#x3D;&quot;round&quot;
+          stroke-linejoin&#x3D;&quot;round&quot;
+          stroke-width&#x3D;&quot;2&quot;
+          d&#x3D;&quot;M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z&quot;
+        /&gt;
+      &lt;/svg&gt;
+    &lt;/div&gt;
+    &lt;h3 class&#x3D;&quot;text-xl font-bold text-white mb-2&quot;&gt;
+      {{ &quot;admin.actions.confirmTitle&quot; | translate }}
+    &lt;/h3&gt;
+    &lt;p class&#x3D;&quot;text-gray-400 mb-6&quot;&gt;
+      {{ &quot;admin.actions.confirmDeletePlatform&quot; | translate }}
+    &lt;/p&gt;
+    &lt;div class&#x3D;&quot;flex justify-center gap-3&quot;&gt;
+      &lt;button
+        (click)&#x3D;&quot;closeDeleteModal()&quot;
+        class&#x3D;&quot;bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded transition-colors border-none cursor-pointer&quot;
+      &gt;
+        {{ &quot;common.cancel&quot; | translate }}
+      &lt;/button&gt;
+      &lt;button
+        (click)&#x3D;&quot;confirmDelete()&quot;
+        class&#x3D;&quot;bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-colors border-none cursor-pointer&quot;
+      &gt;
+        {{ &quot;admin.actions.delete&quot; | translate }}
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="bg-gray-800 rounded-lg shadow-lg p-6 h-full flex flex-col">  <div    class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 flex-shrink-0"  >    <h3 class="text-xl font-bold text-cyan-300">      {{ "admin.platforms.title" | translate }}    </h3>    <div class="flex items-center gap-4 w-full md:w-auto">      <div class="relative w-full md:w-64">        <input          type="text"          [(ngModel)]="searchTerm"          (ngModelChange)="filterPlatforms()"          [placeholder]="\'common.searchPlaceholder\' | translate"          class="w-full bg-gray-700 text-white rounded-lg pl-10 pr-4 py-2 focus:outline-none transition-all border-none outline-none ring-0"        />        <svg          class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4"          xmlns="http://www.w3.org/2000/svg"          fill="none"          viewBox="0 0 24 24"          stroke="currentColor"        >          <path            stroke-linecap="round"            stroke-linejoin="round"            stroke-width="2"            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"          />        </svg>      </div>      <button        (click)="openCreateModal()"        class="bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded border-none transition-colors flex items-center gap-2 cursor-pointer whitespace-nowrap"      >        + {{ "admin.actions.create" | translate }}      </button>    </div>  </div>  <div class="relative flex-1 min-h-0 border-t border-gray-700/50">    <div      class="absolute top-12 left-0 right-2 h-32 bg-gradient-to-b from-gray-800 to-transparent z-20 pointer-events-none transition-opacity duration-300"      [class.opacity-0]="!showTopShadow"      [class.opacity-100]="showTopShadow"    ></div>    <div      #scrollContainer      (scroll)="onScroll()"      class="overflow-y-auto h-full custom-scrollbar pb-6"    >      <table class="w-full text-left border-separate border-spacing-0">        <thead>          <tr class="text-gray-400">            <th              class="sticky top-0 z-30 bg-gray-800 py-3 px-4 font-bold border-b border-gray-800 w-24"            >              ID            </th>            <th              class="sticky top-0 z-30 bg-gray-800 py-3 px-4 font-bold border-b border-gray-800"            >              {{ "common.name" | translate }}            </th>            <th              class="sticky top-0 z-30 bg-gray-800 px-4 font-bold border-b border-gray-800 w-48"            >              <span class="pl-2">                {{ "admin.actions.title" | translate }}              </span>            </th>          </tr>        </thead>        <tbody>          <ng-container *ngIf="isLoading">            <tr              *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]"              class="animate-pulse"            >              <td class="py-3 px-4 rounded-l-lg border-t-4 border-gray-800">                <div class="h-4 bg-gray-700 rounded w-8"></div>              </td>              <td class="py-3 px-4 border-t-4 border-gray-800">                <div class="h-4 bg-gray-700 rounded w-48"></div>              </td>              <td class="py-3 px-4 rounded-r-lg border-t-4 border-gray-800">                <div class="flex gap-2">                  <div class="p-2">                    <div class="h-4 w-10 bg-gray-700 rounded"></div>                  </div>                  <div class="p-2">                    <div class="h-4 w-10 bg-gray-700 rounded"></div>                  </div>                </div>              </td>            </tr>          </ng-container>          <ng-container *ngIf="!isLoading">            <tr              *ngFor="let platform of filteredPlatforms"              class="hover:bg-gray-700 transition-colors text-gray-300 group"            >              <td class="py-3 px-4 rounded-l-lg border-t-4 border-gray-800">                {{ platform.id }}              </td>              <td                class="py-3 px-4 font-medium text-white border-t-4 border-gray-800"              >                {{ platform.name }}              </td>              <td class="py-3 px-4 rounded-r-lg border-t-4 border-gray-800">                <div class="flex gap-2">                  <button                    (click)="openEditModal(platform.id)"                    class="text-cyan-400 hover:text-cyan-300 cursor-pointer p-2 bg-transparent border-none font-medium"                  >                    {{ "admin.actions.edit" | translate }}                  </button>                  <button                    (click)="openDeleteModal(platform.id)"                    class="text-red-400 hover:text-red-300 bg-transparent border-none cursor-pointer p-2 font-medium"                  >                    {{ "admin.actions.delete" | translate }}                  </button>                </div>              </td>            </tr>          </ng-container>          <tr *ngIf="!isLoading && filteredPlatforms.length === 0">            <td              colspan="3"              class="py-8 text-center text-gray-500 italic border-t-4 border-gray-800"            >              {{ "search.noResults" | translate }}            </td>          </tr>        </tbody>      </table>    </div>    <div      class="absolute bottom-0 left-0 right-2 h-32 bg-gradient-to-t from-gray-800 to-transparent z-20 pointer-events-none transition-opacity duration-300"      [class.opacity-0]="!showBottomShadow"      [class.opacity-100]="showBottomShadow"    ></div>  </div></div><div  *ngIf="showModal"  class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn p-4">  <div class="w-full max-w-lg relative">    <app-platform-form      [platformId]="selectedPlatformId"      (save)="onFormSave()"      (cancel)="closeModal()"    ></app-platform-form>  </div></div><div  *ngIf="showDeleteModal"  class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn p-4">  <div    class="bg-gray-800 rounded-lg shadow-2xl p-6 max-w-sm w-full text-center"  >    <div class="mb-4 text-red-500">      <svg        xmlns="http://www.w3.org/2000/svg"        class="h-12 w-12 mx-auto"        fill="none"        viewBox="0 0 24 24"        stroke="currentColor"      >        <path          stroke-linecap="round"          stroke-linejoin="round"          stroke-width="2"          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"        />      </svg>    </div>    <h3 class="text-xl font-bold text-white mb-2">      {{ "admin.actions.confirmTitle" | translate }}    </h3>    <p class="text-gray-400 mb-6">      {{ "admin.actions.confirmDeletePlatform" | translate }}    </p>    <div class="flex justify-center gap-3">      <button        (click)="closeDeleteModal()"        class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded transition-colors border-none cursor-pointer"      >        {{ "common.cancel" | translate }}      </button>      <button        (click)="confirmDelete()"        class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-colors border-none cursor-pointer"      >        {{ "admin.actions.delete" | translate }}      </button>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'}];
+    var DIRECTIVES = [{'name': 'CopyOnClickDirective', 'selector': '[appCopyOnClick]'},{'name': 'HighlightDirective', 'selector': '[appHighlight]'}];
+    var ACTUAL_COMPONENT = {'name': 'PlatformListComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'PlatformListComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

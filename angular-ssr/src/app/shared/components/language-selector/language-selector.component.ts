@@ -6,6 +6,10 @@ import {
   LanguageService,
 } from './../../../core/services/language.service';
 
+/**
+ * Componente que permite cambiar el idioma de la aplicación.
+ * Muestra el selector de banderas y gestiona la persistencia del idioma.
+ */
 @Component({
   selector: 'app-language-selector',
   standalone: true,
@@ -16,11 +20,16 @@ import {
 export class LanguageSelectorComponent implements OnInit {
   private languageService = inject(LanguageService);
 
+  /** Indica si el menú desplegable de idiomas está abierto. */
   isLangMenuOpen = false;
+  /** Estado de transición para la animación de cierre. */
   isClosing = false;
+  /** Ruta a la bandera que se muestra actualmente. */
   displayedFlag = '';
+  /** Indica si se está realizando un cambio de bandera (animación). */
   flagIsChanging = false;
 
+  /** Configuración de idiomas soportados con sus respectivas banderas. */
   languages: { code: Language; flag: string; name: string }[] = [
     { code: 'es', flag: 'assets/flags/espana.png', name: 'Español' },
     { code: 'en', flag: 'assets/flags/estados-unidos.png', name: 'English' },
@@ -38,16 +47,22 @@ export class LanguageSelectorComponent implements OnInit {
     }
   }
 
+  /**
+   * Obtiene la ruta de la bandera para un código de idioma.
+   * @param code Código del idioma.
+   */
   private getFlagFor(code: Language | undefined): string {
     if (!code) return 'assets/flags/espana.png';
     const current = this.languages.find((l) => l.code === code);
     return current ? current.flag : 'assets/flags/espana.png';
   }
 
+  /** Obtiene la bandera vinculada al idioma activo. */
   get currentFlag(): string {
     return this.getFlagFor(this.languageService.getCurrentLang());
   }
 
+  /** Obtiene el nombre legible del idioma activo. */
   get currentLanguageName(): string {
     const current = this.languages.find(
       (l) => l.code === this.languageService.getCurrentLang(),
@@ -55,12 +70,14 @@ export class LanguageSelectorComponent implements OnInit {
     return current ? current.name : 'Español';
   }
 
+  /** Devuelve la lista de idiomas que NO están seleccionados actualmente. */
   get availableLanguages(): { code: Language; flag: string; name: string }[] {
     return this.languages.filter(
       (l) => l.code !== this.languageService.getCurrentLang(),
     );
   }
 
+  /** Alterna la visibilidad del menú de idiomas. */
   toggleLangMenu(): void {
     if (this.isLangMenuOpen) {
       this.closeLangMenu();
@@ -70,6 +87,7 @@ export class LanguageSelectorComponent implements OnInit {
     }
   }
 
+  /** Cierra el menú con una pequeña animación. */
   closeLangMenu(): void {
     this.isClosing = true;
     setTimeout(() => {
@@ -78,6 +96,10 @@ export class LanguageSelectorComponent implements OnInit {
     }, 200);
   }
 
+  /**
+   * Cambia el idioma global de la aplicación.
+   * @param lang Código del nuevo idioma.
+   */
   setLanguage(lang: Language): void {
     this.flagIsChanging = true;
     const ms = 150;
@@ -90,6 +112,7 @@ export class LanguageSelectorComponent implements OnInit {
     this.closeLangMenu();
   }
 
+  /** Escucha clics globales para cerrar el menú si se pulsa fuera del componente. */
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event): void {
     const target = event.target as HTMLElement;

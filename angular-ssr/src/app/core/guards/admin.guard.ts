@@ -3,6 +3,10 @@ import { inject } from '@angular/core';
 import { BaseAuthenticationService } from '../services/impl/base-authentication.service';
 import { filter, map, switchMap, take } from 'rxjs';
 
+/**
+ * Guard que permite el acceso solo a usuarios con rol de administrador.
+ * Si el usuario no es administrador, lo redirige al dashboard.
+ */
 export const adminGuard: CanActivateFn = (route, state) => {
   const auth = inject(BaseAuthenticationService);
   const router = inject(Router);

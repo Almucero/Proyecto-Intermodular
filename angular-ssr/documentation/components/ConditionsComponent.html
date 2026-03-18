@@ -1,0 +1,557 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>game-sage documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">game-sage documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  ConditionsComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/pages/conditions/conditions.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Componente que muestra los Términos y Condiciones de uso de la plataforma.
+Contenido estático legal descriptivo.</p>
+
+    </p>
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-conditions</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
+                            <code>TranslateModule</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./conditions.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./conditions.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { TranslateModule } from &#x27;@ngx-translate/core&#x27;;
+
+/**
+ * Componente que muestra los Términos y Condiciones de uso de la plataforma.
+ * Contenido estático legal descriptivo.
+ */
+@Component({
+  selector: &#x27;app-conditions&#x27;,
+  standalone: true,
+  imports: [CommonModule, TranslateModule],
+  templateUrl: &#x27;./conditions.component.html&#x27;,
+  styleUrl: &#x27;./conditions.component.scss&#x27;,
+})
+export class ConditionsComponent {}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div
+  class&#x3D;&quot;flex-1 w-full bg-gray-900 text-white font-sans relative overflow-hidden&quot;
+&gt;
+  &lt;div class&#x3D;&quot;max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 mb-20 relative z-10&quot;&gt;
+    &lt;div
+      class&#x3D;&quot;max-w-4xl mx-auto bg-gray-800/60 backdrop-blur-md border border-gray-700/50 rounded-3xl p-8 md:p-12 shadow-2xl&quot;
+    &gt;
+      &lt;div class&#x3D;&quot;text-center mb-12&quot;&gt;
+        &lt;h2
+          class&#x3D;&quot;text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-cyan-300 mb-4 pb-2&quot;
+        &gt;
+          {{ &quot;conditionsScreen.title&quot; | translate }}
+        &lt;/h2&gt;
+        &lt;p class&#x3D;&quot;text-gray-400 font-medium&quot;&gt;
+          {{ &quot;conditionsScreen.effective_date&quot; | translate }}
+        &lt;/p&gt;
+      &lt;/div&gt;
+
+      &lt;div class&#x3D;&quot;space-y-8 text-gray-300 leading-relaxed&quot;&gt;
+        &lt;p
+          class&#x3D;&quot;text-lg border-l-4 border-cyan-500 pl-4 italic bg-gray-900/30 p-4 rounded-r-lg&quot;
+        &gt;
+          {{ &quot;conditionsScreen.intro&quot; | translate }}
+        &lt;/p&gt;
+
+        &lt;section&gt;
+          &lt;h2
+            class&#x3D;&quot;text-2xl font-bold text-white mb-4 flex items-center gap-2&quot;
+          &gt;
+            {{ &quot;conditionsScreen.section1_title&quot; | translate }}
+          &lt;/h2&gt;
+          &lt;p&gt;{{ &quot;conditionsScreen.section1_text&quot; | translate }}&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section&gt;
+          &lt;h2
+            class&#x3D;&quot;text-2xl font-bold text-white mb-4 flex items-center gap-2&quot;
+          &gt;
+            {{ &quot;conditionsScreen.section2_title&quot; | translate }}
+          &lt;/h2&gt;
+          &lt;p class&#x3D;&quot;mb-4&quot;&gt;
+            {{ &quot;conditionsScreen.section2_intro&quot; | translate }}
+          &lt;/p&gt;
+          &lt;ul class&#x3D;&quot;space-y-3 mb-4&quot;&gt;
+            &lt;li class&#x3D;&quot;flex gap-3 items-start&quot;&gt;
+              &lt;span class&#x3D;&quot;text-cyan-500 mt-1.5&quot;&gt;•&lt;/span&gt;
+              &lt;span&gt;{{ &quot;conditionsScreen.section2_list.0&quot; | translate }}&lt;/span&gt;
+            &lt;/li&gt;
+            &lt;li class&#x3D;&quot;flex gap-3 items-start&quot;&gt;
+              &lt;span class&#x3D;&quot;text-cyan-500 mt-1.5&quot;&gt;•&lt;/span&gt;
+              &lt;span&gt;{{ &quot;conditionsScreen.section2_list.1&quot; | translate }}&lt;/span&gt;
+            &lt;/li&gt;
+            &lt;li class&#x3D;&quot;flex gap-3 items-start&quot;&gt;
+              &lt;span class&#x3D;&quot;text-cyan-500 mt-1.5&quot;&gt;•&lt;/span&gt;
+              &lt;span&gt;{{ &quot;conditionsScreen.section2_list.2&quot; | translate }}&lt;/span&gt;
+            &lt;/li&gt;
+            &lt;li class&#x3D;&quot;flex gap-3 items-start&quot;&gt;
+              &lt;span class&#x3D;&quot;text-cyan-500 mt-1.5&quot;&gt;•&lt;/span&gt;
+              &lt;span&gt;{{ &quot;conditionsScreen.section2_list.3&quot; | translate }}&lt;/span&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+          &lt;div
+            class&#x3D;&quot;bg-blue-900/20 border border-blue-500/30 rounded-lg p-4 text-blue-200 text-sm&quot;
+          &gt;
+            {{ &quot;conditionsScreen.section2_notice&quot; | translate }}
+          &lt;/div&gt;
+        &lt;/section&gt;
+
+        &lt;section&gt;
+          &lt;h2
+            class&#x3D;&quot;text-2xl font-bold text-white mb-4 flex items-center gap-2&quot;
+          &gt;
+            {{ &quot;conditionsScreen.section3_title&quot; | translate }}
+          &lt;/h2&gt;
+          &lt;p class&#x3D;&quot;mb-4&quot;&gt;
+            {{ &quot;conditionsScreen.section3_intro&quot; | translate }}
+          &lt;/p&gt;
+          &lt;ul class&#x3D;&quot;space-y-3&quot;&gt;
+            &lt;li class&#x3D;&quot;flex gap-3 items-start&quot;&gt;
+              &lt;span class&#x3D;&quot;text-cyan-500 mt-1.5&quot;&gt;•&lt;/span&gt;
+              &lt;span&gt;{{ &quot;conditionsScreen.section3_list.0&quot; | translate }}&lt;/span&gt;
+            &lt;/li&gt;
+            &lt;li class&#x3D;&quot;flex gap-3 items-start&quot;&gt;
+              &lt;span class&#x3D;&quot;text-cyan-500 mt-1.5&quot;&gt;•&lt;/span&gt;
+              &lt;span&gt;{{ &quot;conditionsScreen.section3_list.1&quot; | translate }}&lt;/span&gt;
+            &lt;/li&gt;
+            &lt;li class&#x3D;&quot;flex gap-3 items-start&quot;&gt;
+              &lt;span class&#x3D;&quot;text-cyan-500 mt-1.5&quot;&gt;•&lt;/span&gt;
+              &lt;span&gt;{{ &quot;conditionsScreen.section3_list.2&quot; | translate }}&lt;/span&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/section&gt;
+
+        &lt;section&gt;
+          &lt;h2
+            class&#x3D;&quot;text-2xl font-bold text-white mb-4 flex items-center gap-2&quot;
+          &gt;
+            {{ &quot;conditionsScreen.section4_title&quot; | translate }}
+          &lt;/h2&gt;
+          &lt;p&gt;{{ &quot;conditionsScreen.section4_text&quot; | translate }}&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section&gt;
+          &lt;h2
+            class&#x3D;&quot;text-2xl font-bold text-white mb-4 flex items-center gap-2&quot;
+          &gt;
+            {{ &quot;conditionsScreen.section5_title&quot; | translate }}
+          &lt;/h2&gt;
+          &lt;p&gt;{{ &quot;conditionsScreen.section5_text&quot; | translate }}&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section&gt;
+          &lt;h2
+            class&#x3D;&quot;text-2xl font-bold text-white mb-4 flex items-center gap-2&quot;
+          &gt;
+            {{ &quot;conditionsScreen.section6_title&quot; | translate }}
+          &lt;/h2&gt;
+          &lt;p class&#x3D;&quot;mb-4&quot;&gt;
+            {{ &quot;conditionsScreen.section6_intro&quot; | translate }}
+          &lt;/p&gt;
+          &lt;ul class&#x3D;&quot;space-y-3 mb-4&quot;&gt;
+            &lt;li class&#x3D;&quot;flex gap-3 items-start&quot;&gt;
+              &lt;span class&#x3D;&quot;text-cyan-500 mt-1.5&quot;&gt;•&lt;/span&gt;
+              &lt;span&gt;{{ &quot;conditionsScreen.section6_list.0&quot; | translate }}&lt;/span&gt;
+            &lt;/li&gt;
+            &lt;li class&#x3D;&quot;flex gap-3 items-start&quot;&gt;
+              &lt;span class&#x3D;&quot;text-cyan-500 mt-1.5&quot;&gt;•&lt;/span&gt;
+              &lt;span&gt;{{ &quot;conditionsScreen.section6_list.1&quot; | translate }}&lt;/span&gt;
+            &lt;/li&gt;
+            &lt;li class&#x3D;&quot;flex gap-3 items-start&quot;&gt;
+              &lt;span class&#x3D;&quot;text-cyan-500 mt-1.5&quot;&gt;•&lt;/span&gt;
+              &lt;span&gt;{{ &quot;conditionsScreen.section6_list.2&quot; | translate }}&lt;/span&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+          &lt;p class&#x3D;&quot;text-gray-400 italic&quot;&gt;
+            {{ &quot;conditionsScreen.section6_notice&quot; | translate }}
+          &lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section&gt;
+          &lt;h2
+            class&#x3D;&quot;text-2xl font-bold text-white mb-4 flex items-center gap-2&quot;
+          &gt;
+            {{ &quot;conditionsScreen.section7_title&quot; | translate }}
+          &lt;/h2&gt;
+          &lt;p&gt;{{ &quot;conditionsScreen.section7_text&quot; | translate }}&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section&gt;
+          &lt;h2
+            class&#x3D;&quot;text-2xl font-bold text-white mb-4 flex items-center gap-2&quot;
+          &gt;
+            {{ &quot;conditionsScreen.section8_title&quot; | translate }}
+          &lt;/h2&gt;
+          &lt;p&gt;{{ &quot;conditionsScreen.section8_text&quot; | translate }}&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section&gt;
+          &lt;h2
+            class&#x3D;&quot;text-2xl font-bold text-white mb-4 flex items-center gap-2&quot;
+          &gt;
+            {{ &quot;conditionsScreen.section9_title&quot; | translate }}
+          &lt;/h2&gt;
+          &lt;p&gt;{{ &quot;conditionsScreen.section9_text&quot; | translate }}&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section&gt;
+          &lt;h2
+            class&#x3D;&quot;text-2xl font-bold text-white mb-4 flex items-center gap-2&quot;
+          &gt;
+            {{ &quot;conditionsScreen.section10_title&quot; | translate }}
+          &lt;/h2&gt;
+          &lt;p&gt;
+            {{ &quot;conditionsScreen.section10_text&quot; | translate }}
+            &lt;a
+              href&#x3D;&quot;mailto:info.gamesage@gmail.com&quot;
+              onclick&#x3D;&quot;
+                window.open(
+                  &#x27;https://mail.google.com/mail/?view&#x3D;cm&amp;to&#x3D;info.gamesage@gmail.com&#x27;,
+                  &#x27;_blank&#x27;,
+                );
+                return false;
+              &quot;
+              class&#x3D;&quot;text-cyan-400 hover:text-cyan-300 underline transition-colors&quot;
+            &gt;
+              info.gamesage&amp;#64;gmail.com
+            &lt;/a&gt;
+          &lt;/p&gt;
+        &lt;/section&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div  class="flex-1 w-full bg-gray-900 text-white font-sans relative overflow-hidden">  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 mb-20 relative z-10">    <div      class="max-w-4xl mx-auto bg-gray-800/60 backdrop-blur-md border border-gray-700/50 rounded-3xl p-8 md:p-12 shadow-2xl"    >      <div class="text-center mb-12">        <h2          class="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-cyan-300 mb-4 pb-2"        >          {{ "conditionsScreen.title" | translate }}        </h2>        <p class="text-gray-400 font-medium">          {{ "conditionsScreen.effective_date" | translate }}        </p>      </div>      <div class="space-y-8 text-gray-300 leading-relaxed">        <p          class="text-lg border-l-4 border-cyan-500 pl-4 italic bg-gray-900/30 p-4 rounded-r-lg"        >          {{ "conditionsScreen.intro" | translate }}        </p>        <section>          <h2            class="text-2xl font-bold text-white mb-4 flex items-center gap-2"          >            {{ "conditionsScreen.section1_title" | translate }}          </h2>          <p>{{ "conditionsScreen.section1_text" | translate }}</p>        </section>        <section>          <h2            class="text-2xl font-bold text-white mb-4 flex items-center gap-2"          >            {{ "conditionsScreen.section2_title" | translate }}          </h2>          <p class="mb-4">            {{ "conditionsScreen.section2_intro" | translate }}          </p>          <ul class="space-y-3 mb-4">            <li class="flex gap-3 items-start">              <span class="text-cyan-500 mt-1.5">•</span>              <span>{{ "conditionsScreen.section2_list.0" | translate }}</span>            </li>            <li class="flex gap-3 items-start">              <span class="text-cyan-500 mt-1.5">•</span>              <span>{{ "conditionsScreen.section2_list.1" | translate }}</span>            </li>            <li class="flex gap-3 items-start">              <span class="text-cyan-500 mt-1.5">•</span>              <span>{{ "conditionsScreen.section2_list.2" | translate }}</span>            </li>            <li class="flex gap-3 items-start">              <span class="text-cyan-500 mt-1.5">•</span>              <span>{{ "conditionsScreen.section2_list.3" | translate }}</span>            </li>          </ul>          <div            class="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4 text-blue-200 text-sm"          >            {{ "conditionsScreen.section2_notice" | translate }}          </div>        </section>        <section>          <h2            class="text-2xl font-bold text-white mb-4 flex items-center gap-2"          >            {{ "conditionsScreen.section3_title" | translate }}          </h2>          <p class="mb-4">            {{ "conditionsScreen.section3_intro" | translate }}          </p>          <ul class="space-y-3">            <li class="flex gap-3 items-start">              <span class="text-cyan-500 mt-1.5">•</span>              <span>{{ "conditionsScreen.section3_list.0" | translate }}</span>            </li>            <li class="flex gap-3 items-start">              <span class="text-cyan-500 mt-1.5">•</span>              <span>{{ "conditionsScreen.section3_list.1" | translate }}</span>            </li>            <li class="flex gap-3 items-start">              <span class="text-cyan-500 mt-1.5">•</span>              <span>{{ "conditionsScreen.section3_list.2" | translate }}</span>            </li>          </ul>        </section>        <section>          <h2            class="text-2xl font-bold text-white mb-4 flex items-center gap-2"          >            {{ "conditionsScreen.section4_title" | translate }}          </h2>          <p>{{ "conditionsScreen.section4_text" | translate }}</p>        </section>        <section>          <h2            class="text-2xl font-bold text-white mb-4 flex items-center gap-2"          >            {{ "conditionsScreen.section5_title" | translate }}          </h2>          <p>{{ "conditionsScreen.section5_text" | translate }}</p>        </section>        <section>          <h2            class="text-2xl font-bold text-white mb-4 flex items-center gap-2"          >            {{ "conditionsScreen.section6_title" | translate }}          </h2>          <p class="mb-4">            {{ "conditionsScreen.section6_intro" | translate }}          </p>          <ul class="space-y-3 mb-4">            <li class="flex gap-3 items-start">              <span class="text-cyan-500 mt-1.5">•</span>              <span>{{ "conditionsScreen.section6_list.0" | translate }}</span>            </li>            <li class="flex gap-3 items-start">              <span class="text-cyan-500 mt-1.5">•</span>              <span>{{ "conditionsScreen.section6_list.1" | translate }}</span>            </li>            <li class="flex gap-3 items-start">              <span class="text-cyan-500 mt-1.5">•</span>              <span>{{ "conditionsScreen.section6_list.2" | translate }}</span>            </li>          </ul>          <p class="text-gray-400 italic">            {{ "conditionsScreen.section6_notice" | translate }}          </p>        </section>        <section>          <h2            class="text-2xl font-bold text-white mb-4 flex items-center gap-2"          >            {{ "conditionsScreen.section7_title" | translate }}          </h2>          <p>{{ "conditionsScreen.section7_text" | translate }}</p>        </section>        <section>          <h2            class="text-2xl font-bold text-white mb-4 flex items-center gap-2"          >            {{ "conditionsScreen.section8_title" | translate }}          </h2>          <p>{{ "conditionsScreen.section8_text" | translate }}</p>        </section>        <section>          <h2            class="text-2xl font-bold text-white mb-4 flex items-center gap-2"          >            {{ "conditionsScreen.section9_title" | translate }}          </h2>          <p>{{ "conditionsScreen.section9_text" | translate }}</p>        </section>        <section>          <h2            class="text-2xl font-bold text-white mb-4 flex items-center gap-2"          >            {{ "conditionsScreen.section10_title" | translate }}          </h2>          <p>            {{ "conditionsScreen.section10_text" | translate }}            <a              href="mailto:info.gamesage@gmail.com"              onclick="                window.open(                  \'https://mail.google.com/mail/?view=cm&to=info.gamesage@gmail.com\',                  \'_blank\',                );                return false;              "              class="text-cyan-400 hover:text-cyan-300 underline transition-colors"            >              info.gamesage&#64;gmail.com            </a>          </p>        </section>      </div>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'}];
+    var DIRECTIVES = [{'name': 'CopyOnClickDirective', 'selector': '[appCopyOnClick]'},{'name': 'HighlightDirective', 'selector': '[appHighlight]'}];
+    var ACTUAL_COMPONENT = {'name': 'ConditionsComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ConditionsComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

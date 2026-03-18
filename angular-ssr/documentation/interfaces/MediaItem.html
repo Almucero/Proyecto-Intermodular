@@ -1,0 +1,908 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>game-sage documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">game-sage documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  MediaItem</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/pages/product/product.component.ts</code>
+        </p>
+
+
+
+
+        <section data-compodoc="block-index">
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#label" 
+>
+                                            label
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#thumbnail" 
+>
+                                            thumbnail
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#type" 
+>
+                                            type
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#url" 
+>
+                                            url
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section data-compodoc="block-properties">
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="label"></a>
+                                        <span class="name "><b>label</b>
+                                            <a href="#label">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>label:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="thumbnail"></a>
+                                        <span class="name "><b>thumbnail</b>
+                                            <a href="#thumbnail">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>thumbnail:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="type"></a>
+                                        <span class="name "><b>type</b>
+                                            <a href="#type">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>type:     <code>&quot;video&quot; | &quot;image&quot;</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>&quot;video&quot; | &quot;image&quot;</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="url"></a>
+                                        <span class="name "><b>url</b>
+                                            <a href="#url">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>url:     <code>string | SafeResourceUrl</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>string | SafeResourceUrl</code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, signal, Inject } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { TranslatePipe, TranslateModule } from &#x27;@ngx-translate/core&#x27;;
+import { ActivatedRoute, Router } from &#x27;@angular/router&#x27;;
+import { DomSanitizer, SafeResourceUrl } from &#x27;@angular/platform-browser&#x27;;
+import { GameService } from &#x27;../../core/services/impl/game.service&#x27;;
+import { MediaService } from &#x27;../../core/services/impl/media.service&#x27;;
+import { CartItemService } from &#x27;../../core/services/impl/cart-item.service&#x27;;
+import { FavoriteService } from &#x27;../../core/services/impl/favorite.service&#x27;;
+import { BaseAuthenticationService } from &#x27;../../core/services/impl/base-authentication.service&#x27;;
+import { CartItem } from &#x27;../../core/models/cart-item.model&#x27;;
+import { Favorite } from &#x27;../../core/models/favorite.model&#x27;;
+import { Game } from &#x27;../../core/models/game.model&#x27;;
+
+interface MediaItem {
+  type: &#x27;video&#x27; | &#x27;image&#x27;;
+  label: string;
+  url?: string | SafeResourceUrl;
+  thumbnail?: string;
+}
+
+/**
+ * Componente de la página de detalle de un producto (juego).
+ * Muestra información exhaustiva, galería de medios (vídeo/imágenes),
+ * selección de plataformas y opciones de compra/favoritos.
+ */
+@Component({
+  selector: &#x27;app-product&#x27;,
+  standalone: true,
+  imports: [CommonModule, TranslateModule],
+  templateUrl: &#x27;./product.component.html&#x27;,
+  styleUrls: [&#x27;./product.component.scss&#x27;],
+})
+export class ProductComponent implements OnInit {
+  /** Objeto del juego cargado. */
+  game: Game | null &#x3D; this.createPlaceholder();
+  /** Plataforma seleccionada actualmente por el usuario. */
+  selectedPlatform: string | null &#x3D; null;
+  /** Índice del medio (vídeo/imagen) que se muestra en el visor principal. */
+  currentMediaIndex: number &#x3D; 0;
+  /** Lista de elementos multimedia procesados para el visor. */
+  mediaItems: MediaItem[] &#x3D; [];
+
+  /** Estados para notificaciones visuales y modales. */
+  showAuthModal &#x3D; signal(false);
+  isAuthenticated &#x3D; signal(false);
+  addedToCartSuccess &#x3D; signal(false);
+  addedToFavoritesSuccess &#x3D; signal(false);
+  buySuccess &#x3D; signal(false);
+  quantityIncreased &#x3D; signal(false);
+  alreadyInCart &#x3D; signal(false);
+  alreadyInFavorites &#x3D; signal(false);
+
+  /** Configuración estática de todas las plataformas soportadas. */
+  allPlatforms &#x3D; [
+    {
+      name: &#x27;PC&#x27;,
+      image: &#x27;assets/images/platforms/pc.png&#x27;,
+      stockKey: &#x27;stockPc&#x27; as const,
+    },
+    {
+      name: &#x27;PS5&#x27;,
+      image: &#x27;assets/images/platforms/ps5.png&#x27;,
+      stockKey: &#x27;stockPs5&#x27; as const,
+    },
+    {
+      name: &#x27;Xbox Series X&#x27;,
+      image: &#x27;assets/images/platforms/xbox-series-x.png&#x27;,
+      stockKey: &#x27;stockXboxX&#x27; as const,
+    },
+    {
+      name: &#x27;Switch&#x27;,
+      image: &#x27;assets/images/platforms/switch.png&#x27;,
+      stockKey: &#x27;stockSwitch&#x27; as const,
+    },
+    {
+      name: &#x27;PS4&#x27;,
+      image: &#x27;assets/images/platforms/ps4.png&#x27;,
+      stockKey: &#x27;stockPs4&#x27; as const,
+    },
+    {
+      name: &#x27;Xbox One&#x27;,
+      image: &#x27;assets/images/platforms/xbox-one.png&#x27;,
+      stockKey: &#x27;stockXboxOne&#x27; as const,
+    },
+  ];
+
+  /** Devuelve las plataformas ordenadas, priorizando las que tienen stock. */
+  get sortedPlatforms() {
+    return [...this.allPlatforms].sort((a, b) &#x3D;&gt; {
+      const aAvailable &#x3D; this.isPlatformAvailable(a.name);
+      const bAvailable &#x3D; this.isPlatformAvailable(b.name);
+      if (aAvailable &#x3D;&#x3D;&#x3D; bAvailable) return 0;
+      return aAvailable ? -1 : 1;
+    });
+  }
+
+  /** Obtiene la URL de la imagen de portada de la lista de medios. */
+  get coverImage(): string | undefined {
+    return this.game?.media?.find((m) &#x3D;&gt;
+      m.altText?.toLowerCase().includes(&#x27;cover&#x27;),
+    )?.url;
+  }
+
+  /** Obtiene la URL de la primera captura de pantalla. */
+  get screenshot1(): string | undefined {
+    return this.game?.media?.find(
+      (m) &#x3D;&gt;
+        m.altText?.toLowerCase().includes(&#x27;screenshot1&#x27;) ||
+        m.altText?.toLowerCase().includes(&#x27;screenshot 1&#x27;),
+    )?.url;
+  }
+
+  /** Obtiene la URL de la segunda captura de pantalla. */
+  get screenshot2(): string | undefined {
+    return this.game?.media?.find(
+      (m) &#x3D;&gt;
+        m.altText?.toLowerCase().includes(&#x27;screenshot2&#x27;) ||
+        m.altText?.toLowerCase().includes(&#x27;screenshot 2&#x27;),
+    )?.url;
+  }
+
+  constructor(
+    @Inject(ActivatedRoute) private route: ActivatedRoute,
+    private gameService: GameService,
+    private mediaService: MediaService,
+    private sanitizer: DomSanitizer,
+    private cartItemService: CartItemService,
+    private favoriteService: FavoriteService,
+    private authService: BaseAuthenticationService,
+    @Inject(Router) private router: Router,
+  ) {}
+
+  /**
+   * Inicializa el componente cargando el juego según el ID de la ruta.
+   */
+  ngOnInit(): void {
+    this.game &#x3D; this.createPlaceholder();
+    this.buildMediaItems();
+
+    const id &#x3D; this.route.snapshot.paramMap.get(&#x27;id&#x27;);
+    if (id) {
+      this.loadGame(id);
+    }
+
+    this.authService.authenticated$.subscribe((isAuth) &#x3D;&gt; {
+      this.isAuthenticated.set(isAuth);
+    });
+  }
+
+  /** Crea un objeto juego vacío para el estado inicial de carga. */
+  createPlaceholder(): Game {
+    return {
+      id: -1,
+      title: &#x27;common.loading&#x27;,
+      description: &#x27;...&#x27;,
+      price: 0,
+      rating: 0,
+      releaseDate: new Date(),
+      stockPc: 0,
+      stockPs5: 0,
+      stockXboxX: 0,
+      stockSwitch: 0,
+      stockPs4: 0,
+      stockXboxOne: 0,
+      numberOfSales: 0,
+      isOnSale: false,
+      isRefundable: false,
+      media: [],
+      platforms: [],
+    } as unknown as Game;
+  }
+
+  /**
+   * Carga los datos del juego y sus medios asociados.
+   * Selecciona automáticamente la plataforma si solo hay una disponible.
+   * @param id ID del juego.
+   */
+  loadGame(id: string): void {
+    this.gameService.getById(id).subscribe((game) &#x3D;&gt; {
+      if (game) {
+        this.mediaService.getAll({}).subscribe((allMedia) &#x3D;&gt; {
+          game.media &#x3D; allMedia.filter((m) &#x3D;&gt; m.gameId &#x3D;&#x3D;&#x3D; game.id);
+          this.game &#x3D; game;
+          this.buildMediaItems();
+
+          const availablePlatforms &#x3D; this.allPlatforms.filter((platform) &#x3D;&gt;
+            this.isPlatformAvailable(platform.name),
+          );
+
+          if (availablePlatforms.length &#x3D;&#x3D;&#x3D; 1) {
+            this.selectedPlatform &#x3D; availablePlatforms[0].name;
+          }
+        });
+      }
+    });
+  }
+
+  /**
+   * Construye la lista de medios para el visor (vídeo de YouTube + capturas).
+   */
+  buildMediaItems(): void {
+    if (!this.game) return;
+
+    this.mediaItems &#x3D; [];
+
+    if (this.game.id &#x3D;&#x3D;&#x3D; -1) {
+      this.mediaItems.push({
+        type: &#x27;image&#x27;,
+        label: &#x27;Loading...&#x27;,
+        url: &#x27;assets/images/placeholder.jpg&#x27;,
+      });
+      return;
+    }
+
+    if (this.game.videoUrl) {
+      const isImage &#x3D; this.game.videoUrl.match(/\.(jpeg|jpg|gif|png|webp|avif|svg)$/i) !&#x3D; null;
+
+      if (isImage) {
+        this.mediaItems.push({
+          type: &#x27;image&#x27;,
+          label: &#x27;Video (Image)&#x27;,
+          url: this.game.videoUrl,
+        });
+      } else {
+        const videoId &#x3D; this.getVideoId(this.game.videoUrl);
+        const embedUrl &#x3D; this.convertToEmbedUrl(this.game.videoUrl);
+        const thumbnailUrl &#x3D; videoId
+          ? &#x60;https://img.youtube.com/vi/${videoId}/maxresdefault.jpg&#x60;
+          : undefined;
+
+        this.mediaItems.push({
+          type: &#x27;video&#x27;,
+          label: &#x27;Video&#x27;,
+          url: this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl),
+          thumbnail: thumbnailUrl,
+        });
+      }
+    }
+
+    if (this.coverImage) {
+      this.mediaItems.push({
+        type: &#x27;image&#x27;,
+        label: &#x27;Cover&#x27;,
+        url: this.coverImage,
+      });
+    }
+  }
+
+  /** Obtiene la cantidad de stock para una plataforma específica. */
+  getStockForPlatform(platformName: string | null): number {
+    if (!this.game || !platformName) return 0;
+    const platform &#x3D; this.allPlatforms.find((p) &#x3D;&gt; p.name &#x3D;&#x3D;&#x3D; platformName);
+    if (!platform) return 0;
+    return (this.game as any)[platform.stockKey] || 0;
+  }
+
+  /** Obtiene el ID numérico de la plataforma seleccionada. */
+  getSelectedPlatformId(): number | null {
+    if (!this.selectedPlatform || !this.game?.platforms) return null;
+    const platform &#x3D; this.game.platforms.find(
+      (p) &#x3D;&gt; p.name &#x3D;&#x3D;&#x3D; this.selectedPlatform,
+    );
+    return platform?.id || null;
+  }
+
+  /** Verifica si el usuario está autenticado, mostrando un modal si no lo está. */
+  checkAuth(): boolean {
+    if (!this.isAuthenticated()) {
+      this.showAuthModal.set(true);
+      return false;
+    }
+    return true;
+  }
+
+  /** Redirige al login tras confirmación en el modal. */
+  confirmLogin() {
+    this.showAuthModal.set(false);
+    this.router.navigate([&#x27;/login&#x27;], {
+      state: { navigateTo: this.router.url },
+    });
+  }
+
+  /** Cierra el modal de autenticación. */
+  cancelLogin() {
+    this.showAuthModal.set(false);
+  }
+
+  /**
+   * Añade el producto al carrito para la plataforma seleccionada.
+   */
+  addToCart() {
+    if (!this.game || !this.checkAuth() || !this.selectedPlatform) return;
+
+    const platformId &#x3D; this.getSelectedPlatformId();
+    if (!platformId) return;
+
+    this.cartItemService.getAll().subscribe({
+      next: (items) &#x3D;&gt; {
+        const existingItem &#x3D; items.find(
+          (item) &#x3D;&gt;
+            Number(item.gameId) &#x3D;&#x3D;&#x3D; Number(this.game!.id) &amp;&amp;
+            Number(item.platformId) &#x3D;&#x3D;&#x3D; platformId,
+        );
+
+        this.cartItemService
+          .add({
+            gameId: Number(this.game!.id),
+            platformId,
+            quantity: 1,
+          } as CartItem)
+          .subscribe({
+            next: () &#x3D;&gt; {
+              if (existingItem) {
+                this.quantityIncreased.set(true);
+                setTimeout(() &#x3D;&gt; this.quantityIncreased.set(false), 2000);
+              } else {
+                this.addedToCartSuccess.set(true);
+                setTimeout(() &#x3D;&gt; this.addedToCartSuccess.set(false), 2000);
+              }
+            },
+            error: (err) &#x3D;&gt; {
+              if (err.status &#x3D;&#x3D;&#x3D; 401) {
+                this.router.navigate([&#x27;/login&#x27;]);
+              }
+            },
+          });
+      },
+    });
+  }
+
+  /** Incrementa la cantidad de un artículo ya existente en el carrito. */
+  private increaseQuantity(platformId: number) {
+    if (!this.game) return;
+    this.cartItemService.getAll().subscribe({
+      next: (items) &#x3D;&gt; {
+        const existingItem &#x3D; items.find(
+          (item) &#x3D;&gt;
+            item.gameId &#x3D;&#x3D;&#x3D; this.game!.id &amp;&amp; item.platformId &#x3D;&#x3D;&#x3D; platformId,
+        );
+        if (existingItem) {
+          this.cartItemService
+            .updateWithPlatform(
+              this.game!.id,
+              platformId,
+              existingItem.quantity + 1,
+            )
+            .subscribe({
+              next: () &#x3D;&gt; {
+                this.quantityIncreased.set(true);
+                setTimeout(() &#x3D;&gt; this.quantityIncreased.set(false), 2000);
+              },
+            });
+        }
+      },
+    });
+  }
+
+  /** Añade el producto a la lista de favoritos. */
+  addToFavorites() {
+    if (!this.game || !this.checkAuth() || !this.selectedPlatform) return;
+
+    const platformId &#x3D; this.getSelectedPlatformId();
+    if (!platformId) return;
+
+    this.favoriteService
+      .add({ gameId: Number(this.game.id), platformId } as Favorite)
+      .subscribe({
+        next: () &#x3D;&gt; {
+          this.addedToFavoritesSuccess.set(true);
+          setTimeout(() &#x3D;&gt; this.addedToFavoritesSuccess.set(false), 2000);
+        },
+        error: (err) &#x3D;&gt; {
+          if (err.status &#x3D;&#x3D;&#x3D; 401) {
+            this.router.navigate([&#x27;/login&#x27;]);
+          } else if (err.status &#x3D;&#x3D;&#x3D; 409) {
+            this.alreadyInFavorites.set(true);
+            setTimeout(() &#x3D;&gt; this.alreadyInFavorites.set(false), 3000);
+          }
+        },
+      });
+  }
+
+  /**
+   * Añade al carrito y redirige inmediatamente a la página de pago/carrito.
+   */
+  buyNow() {
+    if (!this.game || !this.checkAuth() || !this.selectedPlatform) return;
+
+    const platformId &#x3D; this.getSelectedPlatformId();
+    if (!platformId) return;
+
+    this.cartItemService
+      .add({
+        gameId: Number(this.game.id),
+        platformId,
+        quantity: 1,
+      } as CartItem)
+      .subscribe({
+        next: () &#x3D;&gt; {
+          this.buySuccess.set(true);
+          setTimeout(() &#x3D;&gt; {
+            this.buySuccess.set(false);
+            this.router.navigate([&#x27;/cart&#x27;]);
+          }, 500);
+        },
+        error: (err) &#x3D;&gt; {
+          if (err.status &#x3D;&#x3D;&#x3D; 401) {
+            this.router.navigate([&#x27;/login&#x27;]);
+          } else if (err.status &#x3D;&#x3D;&#x3D; 409) {
+            this.buySuccess.set(true);
+            setTimeout(() &#x3D;&gt; {
+              this.buySuccess.set(false);
+              this.router.navigate([&#x27;/cart&#x27;]);
+            }, 500);
+          }
+        },
+      });
+  }
+
+  /** Comprueba si el juego está disponible para una plataforma dada. */
+  isPlatformAvailable(platformName: string): boolean {
+    return this.game?.platforms?.some((p) &#x3D;&gt; p.name &#x3D;&#x3D;&#x3D; platformName) || false;
+  }
+
+  /** Selecciona o deselecciona una plataforma. */
+  selectPlatform(platform: string): void {
+    this.selectedPlatform &#x3D;
+      this.selectedPlatform &#x3D;&#x3D;&#x3D; platform ? null : platform;
+  }
+
+  /** Retrocede al medio anterior en el visor. */
+  previousMedia(): void {
+    if (this.currentMediaIndex &gt; 0) {
+      this.currentMediaIndex--;
+    }
+  }
+
+  /** Avanza al siguiente medio en el visor. */
+  nextMedia(): void {
+    if (this.currentMediaIndex &lt; this.mediaItems.length - 1) {
+      this.currentMediaIndex++;
+    }
+  }
+
+  /** Selecciona un medio específico por su índice. */
+  selectMedia(index: number): void {
+    this.currentMediaIndex &#x3D; index;
+  }
+
+  /** Calcula cuántas estrellas llenas mostrar en el rating. */
+  getRatingStars(): number[] {
+    const rating &#x3D; this.game?.rating || 0;
+    const fullStars &#x3D; Math.floor(rating);
+    return Array(fullStars).fill(0);
+  }
+
+  /** Calcula cuántas estrellas vacías mostrar en el rating. */
+  getEmptyStars(): number[] {
+    const rating &#x3D; this.game?.rating || 0;
+    const fullStars &#x3D; Math.floor(rating);
+    const emptyStars &#x3D; 5 - fullStars;
+    return Array(emptyStars).fill(0);
+  }
+
+  /** Extrae el ID de vídeo de una URL de YouTube. */
+  private getVideoId(url: string): string | null {
+    const videoIdMatch &#x3D; url.match(/[?&amp;]v&#x3D;([^&amp;]+)/);
+    return videoIdMatch ? videoIdMatch[1] : null;
+  }
+
+  /** Convierte una URL de YouTube estándar en una URL de inserción (embed) segura. */
+  private convertToEmbedUrl(url: string): string {
+    const videoId &#x3D; this.getVideoId(url);
+    if (videoId) {
+      const origin &#x3D; typeof window !&#x3D;&#x3D; &#x27;undefined&#x27; ? window.location.origin : &#x27;&#x27;;
+      const originParam &#x3D; origin ? &#x60;&amp;origin&#x3D;${encodeURIComponent(origin)}&#x60; : &#x27;&#x27;;
+      return &#x60;https://www.youtube-nocookie.com/embed/${videoId}?autoplay&#x3D;1&amp;mute&#x3D;1&amp;modestbranding&#x3D;1&amp;rel&#x3D;0&amp;showinfo&#x3D;0&amp;iv_load_policy&#x3D;3&amp;enablejsapi&#x3D;1${originParam}&#x60;;
+    }
+    return url;
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'MediaItem.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

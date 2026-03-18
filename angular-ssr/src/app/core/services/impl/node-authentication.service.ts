@@ -14,11 +14,26 @@ import {
 @Injectable({
   providedIn: 'root',
 })
+/**
+ * Implementación de {@link BaseAuthenticationService} para una API basada en Node.js/Express.
+ * Gestiona el almacenamiento de tokens JWT en localStorage/sessionStorage y la comunicación con los endpoints de auth.
+ */
+@Injectable({
+  providedIn: 'root',
+})
 export class NodeAuthenticationService extends BaseAuthenticationService {
   private readonly AUTH_KEY = 'AUTH_TOKEN';
   private rememberMeActive = false;
   private isBrowser: boolean;
 
+  /**
+   * @param http Cliente HTTP para realizar peticiones.
+   * @param authMapping Mapeador para adaptar respuestas de la API.
+   * @param signInUrl URL del endpoint de inicio de sesión.
+   * @param signUpUrl URL del endpoint de registro.
+   * @param meUrl URL del endpoint para obtener el perfil del usuario actual.
+   * @param platformId ID de la plataforma (Browser/Server).
+   */
   constructor(
     protected http: HttpClient,
     @Inject(AUTH_MAPPING_TOKEN) protected override authMapping: IAuthMapping,
@@ -31,6 +46,10 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
+  /**
+   * Intenta recuperar la sesión del usuario al cargar la aplicación.
+   * Si existe un token válido, obtiene los datos del usuario.
+   */
   public autoLogin() {
     if (!this.isBrowser) {
       this._ready.next(true);
@@ -53,6 +72,10 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
     }
   }
 
+  /**
+   * Recupera el token JWT almacenado.
+   * @returns El token o null si no existe o no se está en el navegador.
+   */
   public getToken(): string | null {
     if (!this.isBrowser) {
       return null;
@@ -63,6 +86,11 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
     );
   }
 
+  /**
+   * Realiza el inicio de sesión.
+   * @param authPayload Datos de acceso (email, password).
+   * @param rememberMe Si es true, el token se guarda en localStorage (permanente).
+   */
   signIn(authPayload: any, rememberMe: boolean = false): Observable<any> {
     const payload = this.authMapping.signInPayload(authPayload);
     return this.http.post(this.signInUrl, payload).pipe(
@@ -74,6 +102,10 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
     );
   }
 
+  /**
+   * Registra un nuevo usuario en la plataforma.
+   * @param registerPayload Datos del registro.
+   */
   signUp(registerPayload: any): Observable<any> {
     const payload = this.authMapping.signUpPayload(registerPayload);
     return this.http.post(this.signUpUrl, payload).pipe(
@@ -85,6 +117,9 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
     );
   }
 
+  /**
+   * Cierra la sesión y limpia el almacenamiento local.
+   */
   signOut(): Observable<any> {
     if (this.isBrowser) {
       localStorage.removeItem(this.AUTH_KEY);
@@ -98,6 +133,9 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
     });
   }
 
+  /**
+   * Obtiene los datos del usuario autenticado actualmente desde la API.
+   */
   me(): Observable<any> {
     const token = this.getToken();
     const headers: any = token ? { Authorization: `Bearer ${token}` } : {};
@@ -110,6 +148,9 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
     );
   }
 
+  /**
+   * Devuelve el usuario actual en una Promesa.
+   */
   getCurrentUser(): Promise<any> {
     return new Promise((resolve, reject) => {
       const user = this._user.getValue();
@@ -124,6 +165,11 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
     });
   }
 
+  /**
+   * Guarda el token en el almacenamiento correspondiente.
+   * @param token Token JWT recibido.
+   * @param rememberMe Determina si usar localStorage o sessionStorage.
+   */
   private saveToken(token: string, rememberMe: boolean) {
     if (!this.isBrowser) {
       return;

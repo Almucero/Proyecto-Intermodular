@@ -19,6 +19,11 @@ interface MediaItem {
   thumbnail?: string;
 }
 
+/**
+ * Componente de la página de detalle de un producto (juego).
+ * Muestra información exhaustiva, galería de medios (vídeo/imágenes),
+ * selección de plataformas y opciones de compra/favoritos.
+ */
 @Component({
   selector: 'app-product',
   standalone: true,
@@ -27,10 +32,16 @@ interface MediaItem {
   styleUrls: ['./product.component.scss'],
 })
 export class ProductComponent implements OnInit {
+  /** Objeto del juego cargado. */
   game: Game | null = this.createPlaceholder();
+  /** Plataforma seleccionada actualmente por el usuario. */
   selectedPlatform: string | null = null;
+  /** Índice del medio (vídeo/imagen) que se muestra en el visor principal. */
   currentMediaIndex: number = 0;
+  /** Lista de elementos multimedia procesados para el visor. */
   mediaItems: MediaItem[] = [];
+
+  /** Estados para notificaciones visuales y modales. */
   showAuthModal = signal(false);
   isAuthenticated = signal(false);
   addedToCartSuccess = signal(false);
@@ -40,6 +51,7 @@ export class ProductComponent implements OnInit {
   alreadyInCart = signal(false);
   alreadyInFavorites = signal(false);
 
+  /** Configuración estática de todas las plataformas soportadas. */
   allPlatforms = [
     {
       name: 'PC',
@@ -73,6 +85,7 @@ export class ProductComponent implements OnInit {
     },
   ];
 
+  /** Devuelve las plataformas ordenadas, priorizando las que tienen stock. */
   get sortedPlatforms() {
     return [...this.allPlatforms].sort((a, b) => {
       const aAvailable = this.isPlatformAvailable(a.name);
@@ -82,12 +95,14 @@ export class ProductComponent implements OnInit {
     });
   }
 
+  /** Obtiene la URL de la imagen de portada de la lista de medios. */
   get coverImage(): string | undefined {
     return this.game?.media?.find((m) =>
       m.altText?.toLowerCase().includes('cover'),
     )?.url;
   }
 
+  /** Obtiene la URL de la primera captura de pantalla. */
   get screenshot1(): string | undefined {
     return this.game?.media?.find(
       (m) =>
@@ -96,6 +111,7 @@ export class ProductComponent implements OnInit {
     )?.url;
   }
 
+  /** Obtiene la URL de la segunda captura de pantalla. */
   get screenshot2(): string | undefined {
     return this.game?.media?.find(
       (m) =>
@@ -115,6 +131,9 @@ export class ProductComponent implements OnInit {
     @Inject(Router) private router: Router,
   ) {}
 
+  /**
+   * Inicializa el componente cargando el juego según el ID de la ruta.
+   */
   ngOnInit(): void {
     this.game = this.createPlaceholder();
     this.buildMediaItems();
@@ -129,6 +148,7 @@ export class ProductComponent implements OnInit {
     });
   }
 
+  /** Crea un objeto juego vacío para el estado inicial de carga. */
   createPlaceholder(): Game {
     return {
       id: -1,
@@ -151,6 +171,11 @@ export class ProductComponent implements OnInit {
     } as unknown as Game;
   }
 
+  /**
+   * Carga los datos del juego y sus medios asociados.
+   * Selecciona automáticamente la plataforma si solo hay una disponible.
+   * @param id ID del juego.
+   */
   loadGame(id: string): void {
     this.gameService.getById(id).subscribe((game) => {
       if (game) {
@@ -171,6 +196,9 @@ export class ProductComponent implements OnInit {
     });
   }
 
+  /**
+   * Construye la lista de medios para el visor (vídeo de YouTube + capturas).
+   */
   buildMediaItems(): void {
     if (!this.game) return;
 
@@ -219,6 +247,7 @@ export class ProductComponent implements OnInit {
     }
   }
 
+  /** Obtiene la cantidad de stock para una plataforma específica. */
   getStockForPlatform(platformName: string | null): number {
     if (!this.game || !platformName) return 0;
     const platform = this.allPlatforms.find((p) => p.name === platformName);
@@ -226,6 +255,7 @@ export class ProductComponent implements OnInit {
     return (this.game as any)[platform.stockKey] || 0;
   }
 
+  /** Obtiene el ID numérico de la plataforma seleccionada. */
   getSelectedPlatformId(): number | null {
     if (!this.selectedPlatform || !this.game?.platforms) return null;
     const platform = this.game.platforms.find(
@@ -234,6 +264,7 @@ export class ProductComponent implements OnInit {
     return platform?.id || null;
   }
 
+  /** Verifica si el usuario está autenticado, mostrando un modal si no lo está. */
   checkAuth(): boolean {
     if (!this.isAuthenticated()) {
       this.showAuthModal.set(true);
@@ -242,6 +273,7 @@ export class ProductComponent implements OnInit {
     return true;
   }
 
+  /** Redirige al login tras confirmación en el modal. */
   confirmLogin() {
     this.showAuthModal.set(false);
     this.router.navigate(['/login'], {
@@ -249,10 +281,14 @@ export class ProductComponent implements OnInit {
     });
   }
 
+  /** Cierra el modal de autenticación. */
   cancelLogin() {
     this.showAuthModal.set(false);
   }
 
+  /**
+   * Añade el producto al carrito para la plataforma seleccionada.
+   */
   addToCart() {
     if (!this.game || !this.checkAuth() || !this.selectedPlatform) return;
 
@@ -293,6 +329,7 @@ export class ProductComponent implements OnInit {
     });
   }
 
+  /** Incrementa la cantidad de un artículo ya existente en el carrito. */
   private increaseQuantity(platformId: number) {
     if (!this.game) return;
     this.cartItemService.getAll().subscribe({
@@ -319,6 +356,7 @@ export class ProductComponent implements OnInit {
     });
   }
 
+  /** Añade el producto a la lista de favoritos. */
   addToFavorites() {
     if (!this.game || !this.checkAuth() || !this.selectedPlatform) return;
 
@@ -343,6 +381,9 @@ export class ProductComponent implements OnInit {
       });
   }
 
+  /**
+   * Añade al carrito y redirige inmediatamente a la página de pago/carrito.
+   */
   buyNow() {
     if (!this.game || !this.checkAuth() || !this.selectedPlatform) return;
 
@@ -377,37 +418,44 @@ export class ProductComponent implements OnInit {
       });
   }
 
+  /** Comprueba si el juego está disponible para una plataforma dada. */
   isPlatformAvailable(platformName: string): boolean {
     return this.game?.platforms?.some((p) => p.name === platformName) || false;
   }
 
+  /** Selecciona o deselecciona una plataforma. */
   selectPlatform(platform: string): void {
     this.selectedPlatform =
       this.selectedPlatform === platform ? null : platform;
   }
 
+  /** Retrocede al medio anterior en el visor. */
   previousMedia(): void {
     if (this.currentMediaIndex > 0) {
       this.currentMediaIndex--;
     }
   }
 
+  /** Avanza al siguiente medio en el visor. */
   nextMedia(): void {
     if (this.currentMediaIndex < this.mediaItems.length - 1) {
       this.currentMediaIndex++;
     }
   }
 
+  /** Selecciona un medio específico por su índice. */
   selectMedia(index: number): void {
     this.currentMediaIndex = index;
   }
 
+  /** Calcula cuántas estrellas llenas mostrar en el rating. */
   getRatingStars(): number[] {
     const rating = this.game?.rating || 0;
     const fullStars = Math.floor(rating);
     return Array(fullStars).fill(0);
   }
 
+  /** Calcula cuántas estrellas vacías mostrar en el rating. */
   getEmptyStars(): number[] {
     const rating = this.game?.rating || 0;
     const fullStars = Math.floor(rating);
@@ -415,11 +463,13 @@ export class ProductComponent implements OnInit {
     return Array(emptyStars).fill(0);
   }
 
+  /** Extrae el ID de vídeo de una URL de YouTube. */
   private getVideoId(url: string): string | null {
     const videoIdMatch = url.match(/[?&]v=([^&]+)/);
     return videoIdMatch ? videoIdMatch[1] : null;
   }
 
+  /** Convierte una URL de YouTube estándar en una URL de inserción (embed) segura. */
   private convertToEmbedUrl(url: string): string {
     const videoId = this.getVideoId(url);
     if (videoId) {

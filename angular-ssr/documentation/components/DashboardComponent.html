@@ -1,0 +1,2778 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>game-sage documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">game-sage documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  DashboardComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/pages/dashboard/dashboard.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Componente del Panel de Control (Dashboard) del Usuario.
+Permite gestionar el perfil personal, direcciones, visualizar compras completadas
+y solicitar reembolsos.</p>
+
+    </p>
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-user</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
+                                <code><a href="https://angular.io/api/forms/FormsModule" target="_blank" >FormsModule</a></code>
+                                <code><a href="https://angular.io/api/router/RouterModule" target="_blank" >RouterModule</a></code>
+                            <code>TranslatePipe</code>
+                                <code><a href="../directives/CopyOnClickDirective.html" target="_self" >CopyOnClickDirective</a></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./dashboard.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./dashboard.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#address" >address</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#auth" >auth</a>
+                            </li>
+                            <li>
+                                <a href="#balance" >balance</a>
+                            </li>
+                            <li>
+                                <a href="#editableUser" >editableUser</a>
+                            </li>
+                            <li>
+                                <a href="#isEditing" >isEditing</a>
+                            </li>
+                            <li>
+                                <a href="#isRefundModalOpen" >isRefundModalOpen</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#mediaService" >mediaService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#platformId" >platformId</a>
+                            </li>
+                            <li>
+                                <a href="#points" >points</a>
+                            </li>
+                            <li>
+                                <a href="#previewImageUrl" >previewImageUrl</a>
+                            </li>
+                            <li>
+                                <a href="#purchases" >purchases</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#purchaseService" >purchaseService</a>
+                            </li>
+                            <li>
+                                <a href="#refundError" >refundError</a>
+                            </li>
+                            <li>
+                                <a href="#refundReason" >refundReason</a>
+                            </li>
+                            <li>
+                                <a href="#returns" >returns</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#router" >router</a>
+                            </li>
+                            <li>
+                                <a href="#selectedImageFile" >selectedImageFile</a>
+                            </li>
+                            <li>
+                                <a href="#selectedPurchaseId" >selectedPurchaseId</a>
+                            </li>
+                            <li>
+                                <a href="#user" >user</a>
+                            </li>
+                            <li>
+                                <a href="#userHandle" >userHandle</a>
+                            </li>
+                            <li>
+                                <a href="#userId" >userId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#userService" >userService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#clearImagePreview" >clearImagePreview</a>
+                            </li>
+                            <li>
+                                <a href="#closeRefundModal" >closeRefundModal</a>
+                            </li>
+                            <li>
+                                <a href="#confirmRefund" >confirmRefund</a>
+                            </li>
+                            <li>
+                                <a href="#onFileSelected" >onFileSelected</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#onLogout" >onLogout</a>
+                            </li>
+                            <li>
+                                <a href="#openRefundModal" >openRefundModal</a>
+                            </li>
+                            <li>
+                                <a href="#saveChanges" >saveChanges</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#saveUserData" >saveUserData</a>
+                            </li>
+                            <li>
+                                <a href="#toggleEdit" >toggleEdit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#uploadImageThenSaveUser" >uploadImageThenSaveUser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#uploadNewImageThenSaveUser" >uploadNewImageThenSaveUser</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#profileImage" >profileImage</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="110" class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:110</a></div>
+                            </td>
+                        </tr>
+
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clearImagePreview"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>clearImagePreview</b></span>
+                        <a href="#clearImagePreview"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>clearImagePreview()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="144"
+                                    class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:144</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Limpia la previsualización de imagen y libera recursos de URL.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeRefundModal"></a>
+                    <span class="name">
+                        <span ><b>closeRefundModal</b></span>
+                        <a href="#closeRefundModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeRefundModal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="250"
+                                    class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:250</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Cierra el modal de reembolso y limpia su estado.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="confirmRefund"></a>
+                    <span class="name">
+                        <span ><b>confirmRefund</b></span>
+                        <a href="#confirmRefund"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>confirmRefund()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="261"
+                                    class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:261</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Valida y envía la solicitud de reembolso al servidor.
+Recarga la página tras una operación exitosa para refrescar los datos.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onFileSelected"></a>
+                    <span class="name">
+                        <span ><b>onFileSelected</b></span>
+                        <a href="#onFileSelected"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onFileSelected(event: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="224"
+                                    class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:224</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Maneja el evento de selección de archivo por parte del usuario.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onLogout"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>onLogout</b></span>
+                        <a href="#onLogout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onLogout()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="235"
+                                    class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:235</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Cierra la sesión del usuario y redirige a la página principal.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openRefundModal"></a>
+                    <span class="name">
+                        <span ><b>openRefundModal</b></span>
+                        <a href="#openRefundModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openRefundModal(purchaseId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="242"
+                                    class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:242</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Abre el modal para solicitar un reembolso de una compra específica.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>purchaseId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saveChanges"></a>
+                    <span class="name">
+                        <span ><b>saveChanges</b></span>
+                        <a href="#saveChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>saveChanges()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="156"
+                                    class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:156</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Guarda los cambios realizados en el perfil.
+Si se seleccionó una nueva imagen, primero la sube y luego actualiza el usuario.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saveUserData"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>saveUserData</b></span>
+                        <a href="#saveUserData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>saveUserData()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="170"
+                                    class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:170</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Envía la actualización de los datos textuales del usuario al servidor.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleEdit"></a>
+                    <span class="name">
+                        <span ><b>toggleEdit</b></span>
+                        <a href="#toggleEdit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleEdit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="133"
+                                    class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:133</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Activa o desactiva el modo de edición de perfil.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="uploadImageThenSaveUser"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>uploadImageThenSaveUser</b></span>
+                        <a href="#uploadImageThenSaveUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>uploadImageThenSaveUser()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="197"
+                                    class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:197</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Gestiona el reemplazo de la imagen de perfil: elimina la antigua y sube la nueva.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="uploadNewImageThenSaveUser"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>uploadNewImageThenSaveUser</b></span>
+                        <a href="#uploadNewImageThenSaveUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>uploadNewImageThenSaveUser()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="214"
+                                    class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:214</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Sube el archivo de imagen seleccionado al servidor.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="address"></a>
+                    <span class="name">
+                        <span ><b>address</b></span>
+                        <a href="#address"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    line1: &#x27;&#x27;,
+    line2: &#x27;&#x27;,
+    city: &#x27;&#x27;,
+    region: &#x27;&#x27;,
+    postalCode: &#x27;&#x27;,
+    country: &#x27;&#x27;,
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:73</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Estructura para gestionar la dirección de envío del usuario.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="auth"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>auth</b></span>
+                        <a href="#auth"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(BaseAuthenticationService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="balance"></a>
+                    <span class="name">
+                        <span ><b>balance</b></span>
+                        <a href="#balance"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:83</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Saldo disponible en la cuenta del usuario (simulado).</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="editableUser"></a>
+                    <span class="name">
+                        <span ><b>editableUser</b></span>
+                        <a href="#editableUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:90</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Copia temporal de los datos del usuario para edición sin afectar al original hasta guardar.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isEditing"></a>
+                    <span class="name">
+                        <span ><b>isEditing</b></span>
+                        <a href="#isEditing"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:88</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indica si el formulario de perfil está en modo edición.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isRefundModalOpen"></a>
+                    <span class="name">
+                        <span ><b>isRefundModalOpen</b></span>
+                        <a href="#isRefundModalOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:59</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Controla la visibilidad del modal de solicitud de reembolso.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mediaService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>mediaService</b></span>
+                        <a href="#mediaService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(MediaService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="platformId"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>platformId</b></span>
+                        <a href="#platformId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(PLATFORM_ID)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="points"></a>
+                    <span class="name">
+                        <span ><b>points</b></span>
+                        <a href="#points"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>250</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:85</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Puntos de fidelidad acumulados por el usuario.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="previewImageUrl"></a>
+                    <span class="name">
+                        <span ><b>previewImageUrl</b></span>
+                        <a href="#previewImageUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:95</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>URL temporal para la previsualización de la nueva imagen de perfil.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="purchases"></a>
+                    <span class="name">
+                        <span ><b>purchases</b></span>
+                        <a href="#purchases"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>toSignal(this.purchaseService.getAll({ status: &#x27;completed&#x27; }), {
+    initialValue: [],
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:50</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal con la lista de compras completadas satisfactoriamente.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="purchaseService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>purchaseService</b></span>
+                        <a href="#purchaseService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(PurchaseService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:43</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="refundError"></a>
+                    <span class="name">
+                        <span ><b>refundError</b></span>
+                        <a href="#refundError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:65</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Mensaje de error relacionado con el proceso de reembolso.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="refundReason"></a>
+                    <span class="name">
+                        <span ><b>refundReason</b></span>
+                        <a href="#refundReason"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(&#x27;&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:63</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Almacena el motivo del reembolso introducido por el usuario.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="returns"></a>
+                    <span class="name">
+                        <span ><b>returns</b></span>
+                        <a href="#returns"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>toSignal(this.purchaseService.getAll({ status: &#x27;refunded&#x27; }), {
+    initialValue: [],
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:54</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal con la lista de compras que han sido reembolsadas.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="router"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>router</b></span>
+                        <a href="#router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Router)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedImageFile"></a>
+                    <span class="name">
+                        <span ><b>selectedImageFile</b></span>
+                        <a href="#selectedImageFile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>File | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:93</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Archivo de imagen seleccionado para la foto de perfil.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedPurchaseId"></a>
+                    <span class="name">
+                        <span ><b>selectedPurchaseId</b></span>
+                        <a href="#selectedPurchaseId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;number | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:61</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Almacena el ID de la compra seleccionada para el reembolso.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="user"></a>
+                    <span class="name">
+                        <span ><b>user</b></span>
+                        <a href="#user"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>toSignal(this.auth.user$)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:48</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal que contiene los datos del usuario autenticado.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="userHandle"></a>
+                    <span class="name">
+                        <span ><b>userHandle</b></span>
+                        <a href="#userHandle"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:68</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Identificador visual del usuario (ej: @usuario).</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="userId"></a>
+                    <span class="name">
+                        <span ><b>userId</b></span>
+                        <a href="#userId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:70</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>ID interno de la cuenta del usuario.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="userService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>userService</b></span>
+                        <a href="#userService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(UserService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-accessors">
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="profileImage"></a>
+                        <span class="name"><b>profileImage</b><a href="#profileImage"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>profileImage()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="101" class="link-to-prism">src/app/pages/dashboard/dashboard.component.ts:101</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Obtiene la URL de la imagen de perfil, priorizando la previsualización local,
+luego la imagen de la cuenta y finalmente un icono por defecto.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  computed,
+  effect,
+  inject,
+  signal,
+  PLATFORM_ID,
+} from &#x27;@angular/core&#x27;;
+import { toSignal } from &#x27;@angular/core/rxjs-interop&#x27;;
+import { CommonModule, isPlatformBrowser } from &#x27;@angular/common&#x27;;
+import { Router, RouterModule } from &#x27;@angular/router&#x27;;
+import { FormsModule } from &#x27;@angular/forms&#x27;;
+import { TranslatePipe } from &#x27;@ngx-translate/core&#x27;;
+import { CopyOnClickDirective } from &#x27;../../directives/copy-on-click.directive&#x27;;
+import { BaseAuthenticationService } from &#x27;../../core/services/impl/base-authentication.service&#x27;;
+import { UserService } from &#x27;../../core/services/impl/user.service&#x27;;
+import { MediaService } from &#x27;../../core/services/impl/media.service&#x27;;
+import { PurchaseService } from &#x27;../../core/services/impl/purchase.service&#x27;;
+import { User } from &#x27;../../core/models/user.model&#x27;;
+
+/**
+ * Componente del Panel de Control (Dashboard) del Usuario.
+ * Permite gestionar el perfil personal, direcciones, visualizar compras completadas
+ * y solicitar reembolsos.
+ */
+@Component({
+  selector: &#x27;app-user&#x27;,
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    TranslatePipe,
+    CopyOnClickDirective,
+  ],
+  templateUrl: &#x27;./dashboard.component.html&#x27;,
+  styleUrls: [&#x27;./dashboard.component.scss&#x27;],
+})
+export class DashboardComponent {
+  private auth &#x3D; inject(BaseAuthenticationService);
+  private userService &#x3D; inject(UserService);
+  private mediaService &#x3D; inject(MediaService);
+  private purchaseService &#x3D; inject(PurchaseService);
+  private router &#x3D; inject(Router);
+  private platformId &#x3D; inject(PLATFORM_ID);
+
+  /** Señal que contiene los datos del usuario autenticado. */
+  user &#x3D; toSignal(this.auth.user$);
+  /** Señal con la lista de compras completadas satisfactoriamente. */
+  purchases &#x3D; toSignal(this.purchaseService.getAll({ status: &#x27;completed&#x27; }), {
+    initialValue: [],
+  });
+  /** Señal con la lista de compras que han sido reembolsadas. */
+  returns &#x3D; toSignal(this.purchaseService.getAll({ status: &#x27;refunded&#x27; }), {
+    initialValue: [],
+  });
+
+  /** Controla la visibilidad del modal de solicitud de reembolso. */
+  isRefundModalOpen &#x3D; signal(false);
+  /** Almacena el ID de la compra seleccionada para el reembolso. */
+  selectedPurchaseId &#x3D; signal&lt;number | null&gt;(null);
+  /** Almacena el motivo del reembolso introducido por el usuario. */
+  refundReason &#x3D; signal(&#x27;&#x27;);
+  /** Mensaje de error relacionado con el proceso de reembolso. */
+  refundError &#x3D; signal&lt;string | null&gt;(null);
+
+  /** Identificador visual del usuario (ej: @usuario). */
+  userHandle &#x3D; &#x27;&#x27;;
+  /** ID interno de la cuenta del usuario. */
+  userId &#x3D; &#x27;&#x27;;
+
+  /** Estructura para gestionar la dirección de envío del usuario. */
+  address &#x3D; {
+    line1: &#x27;&#x27;,
+    line2: &#x27;&#x27;,
+    city: &#x27;&#x27;,
+    region: &#x27;&#x27;,
+    postalCode: &#x27;&#x27;,
+    country: &#x27;&#x27;,
+  };
+
+  /** Saldo disponible en la cuenta del usuario (simulado). */
+  balance &#x3D; 0;
+  /** Puntos de fidelidad acumulados por el usuario. */
+  points &#x3D; 250;
+
+  /** Indica si el formulario de perfil está en modo edición. */
+  isEditing &#x3D; false;
+  /** Copia temporal de los datos del usuario para edición sin afectar al original hasta guardar. */
+  editableUser: any &#x3D; {};
+
+  /** Archivo de imagen seleccionado para la foto de perfil. */
+  selectedImageFile: File | null &#x3D; null;
+  /** URL temporal para la previsualización de la nueva imagen de perfil. */
+  previewImageUrl: string | null &#x3D; null;
+
+  /**
+   * Obtiene la URL de la imagen de perfil, priorizando la previsualización local,
+   * luego la imagen de la cuenta y finalmente un icono por defecto.
+   */
+  get profileImage(): string {
+    if (this.previewImageUrl) {
+      return this.previewImageUrl;
+    }
+    const u &#x3D; this.user();
+    if (u &amp;&amp; u.media &amp;&amp; u.media.length &gt; 0) {
+      return u.media[0].url;
+    }
+    return &#x27;assets/icons/user.png&#x27;;
+  }
+
+  constructor() {
+    /**
+     * Sincroniza los datos editables cuando cambia el usuario autenticado.
+     */
+    effect(() &#x3D;&gt; {
+      const u &#x3D; this.user();
+      if (u) {
+        this.editableUser &#x3D; { ...u };
+        if (u.accountAt) this.userHandle &#x3D; u.accountAt;
+        if (u.accountId) this.userId &#x3D; u.accountId;
+        if (u.addressLine1) this.address.line1 &#x3D; u.addressLine1;
+        if (u.addressLine2) this.address.line2 &#x3D; u.addressLine2;
+        if (u.city) this.address.city &#x3D; u.city;
+        if (u.region) this.address.region &#x3D; u.region;
+        if (u.postalCode) this.address.postalCode &#x3D; u.postalCode;
+        if (u.country) this.address.country &#x3D; u.country;
+      }
+    });
+  }
+
+  /** Activa o desactiva el modo de edición de perfil. */
+  toggleEdit() {
+    this.isEditing &#x3D; !this.isEditing;
+    if (this.isEditing) {
+      const currentUser &#x3D; this.user();
+      this.editableUser &#x3D; { ...currentUser };
+    } else {
+      this.clearImagePreview();
+    }
+  }
+
+  /** Limpia la previsualización de imagen y libera recursos de URL. */
+  private clearImagePreview() {
+    if (this.previewImageUrl) {
+      URL.revokeObjectURL(this.previewImageUrl);
+    }
+    this.previewImageUrl &#x3D; null;
+    this.selectedImageFile &#x3D; null;
+  }
+
+  /**
+   * Guarda los cambios realizados en el perfil.
+   * Si se seleccionó una nueva imagen, primero la sube y luego actualiza el usuario.
+   */
+  saveChanges() {
+    const currentUser &#x3D; this.user();
+    if (currentUser &amp;&amp; currentUser.id) {
+      if (this.selectedImageFile) {
+        this.uploadImageThenSaveUser();
+      } else {
+        this.saveUserData();
+      }
+    }
+  }
+
+  /**
+   * Envía la actualización de los datos textuales del usuario al servidor.
+   */
+  private saveUserData() {
+    const updatedUser: Partial&lt;User&gt; &#x3D; {
+      name: this.editableUser.name,
+      surname: this.editableUser.surname,
+      email: this.editableUser.email,
+      nickname: this.editableUser.nickname,
+      addressLine1: this.address.line1,
+      addressLine2: this.address.line2,
+      city: this.address.city,
+      region: this.address.region,
+      postalCode: this.address.postalCode,
+      country: this.address.country,
+    };
+
+    this.userService.update(&#x27;me&#x27;, updatedUser as User).subscribe({
+      next: (user) &#x3D;&gt; {
+        this.auth.me().subscribe();
+        this.isEditing &#x3D; false;
+        this.clearImagePreview();
+      },
+      error: () &#x3D;&gt; {},
+    });
+  }
+
+  /**
+   * Gestiona el reemplazo de la imagen de perfil: elimina la antigua y sube la nueva.
+   */
+  private uploadImageThenSaveUser() {
+    const currentUser &#x3D; this.user();
+
+    if (currentUser?.media &amp;&amp; currentUser.media.length &gt; 0) {
+      const oldMediaId &#x3D; currentUser.media[0].id;
+      this.mediaService.delete(oldMediaId.toString()).subscribe({
+        next: () &#x3D;&gt; this.uploadNewImageThenSaveUser(),
+        error: () &#x3D;&gt; this.uploadNewImageThenSaveUser(),
+      });
+    } else {
+      this.uploadNewImageThenSaveUser();
+    }
+  }
+
+  /**
+   * Sube el archivo de imagen seleccionado al servidor.
+   */
+  private uploadNewImageThenSaveUser() {
+    if (!this.selectedImageFile) return;
+
+    this.mediaService.upload(this.selectedImageFile).subscribe({
+      next: () &#x3D;&gt; this.saveUserData(),
+      error: () &#x3D;&gt; this.saveUserData(),
+    });
+  }
+
+  /** Maneja el evento de selección de archivo por parte del usuario. */
+  onFileSelected(event: Event) {
+    const input &#x3D; event.target as HTMLInputElement;
+    if (input.files &amp;&amp; input.files[0]) {
+      const file &#x3D; input.files[0];
+      this.clearImagePreview();
+      this.selectedImageFile &#x3D; file;
+      this.previewImageUrl &#x3D; URL.createObjectURL(file);
+    }
+  }
+
+  /** Cierra la sesión del usuario y redirige a la página principal. */
+  async onLogout() {
+    this.auth.signOut().subscribe(() &#x3D;&gt; {
+      this.router.navigate([&#x27;/&#x27;]);
+    });
+  }
+
+  /** Abre el modal para solicitar un reembolso de una compra específica. */
+  openRefundModal(purchaseId: number) {
+    this.selectedPurchaseId.set(purchaseId);
+    this.refundReason.set(&#x27;&#x27;);
+    this.refundError.set(null);
+    this.isRefundModalOpen.set(true);
+  }
+
+  /** Cierra el modal de reembolso y limpia su estado. */
+  closeRefundModal() {
+    this.isRefundModalOpen.set(false);
+    this.selectedPurchaseId.set(null);
+    this.refundReason.set(&#x27;&#x27;);
+    this.refundError.set(null);
+  }
+
+  /**
+   * Valida y envía la solicitud de reembolso al servidor.
+   * Recarga la página tras una operación exitosa para refrescar los datos.
+   */
+  confirmRefund() {
+    const id &#x3D; this.selectedPurchaseId();
+    const reason &#x3D; this.refundReason();
+
+    if (!id) return;
+    if (!reason || reason.trim().length &lt; 10) {
+      this.refundError.set(&#x27;dashboard.reasonTooShort&#x27;);
+      return;
+    }
+
+    this.purchaseService.refund(id, reason).subscribe({
+      next: () &#x3D;&gt; {
+        if (isPlatformBrowser(this.platformId)) {
+          window.location.reload();
+        }
+      },
+      error: () &#x3D;&gt; {
+        this.refundError.set(&#x27;dashboard.refundError&#x27;);
+      },
+    });
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;flex-1 w-full bg-gray-900 text-white font-sans pb-20&quot;&gt;
+  &lt;div class&#x3D;&quot;max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10&quot;&gt;
+    &lt;h1 class&#x3D;&quot;text-3xl font-bold text-center text-cyan-200 mb-12&quot;&gt;
+      {{ &quot;dashboard.user&quot; | translate }}
+    &lt;/h1&gt;
+    &lt;div class&#x3D;&quot;flex flex-col lg:flex-row gap-8 lg:gap-0 lg:items-stretch&quot;&gt;
+      &lt;div class&#x3D;&quot;flex-none lg:w-1/4 flex flex-col items-center lg:pr-15&quot;&gt;
+        &lt;div class&#x3D;&quot;relative group&quot;&gt;
+          &lt;div
+            class&#x3D;&quot;relative w-48 h-48 rounded-full overflow-hidden ring-4 ring-white shadow-2xl&quot;
+          &gt;
+            &lt;img
+              [src]&#x3D;&quot;profileImage&quot;
+              alt&#x3D;&quot;User&quot;
+              class&#x3D;&quot;w-full h-full object-cover&quot;
+            /&gt;
+          &lt;/div&gt;
+          &lt;button
+            *ngIf&#x3D;&quot;isEditing&quot;
+            (click)&#x3D;&quot;fileInput.click()&quot;
+            class&#x3D;&quot;absolute bottom-0 right-0 bg-cyan-400 hover:bg-cyan-300 text-white p-3 rounded-full shadow-lg transition-transform transform hover:scale-110 focus:outline-none active:scale-95&quot;
+            [title]&#x3D;&quot;&#x27;tooltips.changeProfileImage&#x27; | translate&quot;
+          &gt;
+            &lt;img src&#x3D;&quot;assets/icons/camera.png&quot; alt&#x3D;&quot;camera&quot; class&#x3D;&quot;w-10 h-10&quot; /&gt;
+          &lt;/button&gt;
+          &lt;input
+            #fileInput
+            type&#x3D;&quot;file&quot;
+            class&#x3D;&quot;hidden&quot;
+            accept&#x3D;&quot;image/*&quot;
+            (change)&#x3D;&quot;onFileSelected($event)&quot;
+          /&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;hidden lg:flex flex-none items-center lg:px-0&quot;&gt;
+        &lt;div class&#x3D;&quot;w-0.5 h-full bg-white&quot;&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;flex-1 space-y-8 lg:pl-12&quot;&gt;
+        &lt;div&gt;
+          &lt;h2 class&#x3D;&quot;text-3xl font-bold text-white&quot;&gt;
+            {{ user()?.nickname | translate }}
+          &lt;/h2&gt;
+          &lt;div class&#x3D;&quot;flex items-center gap-2 text-gray-400 mt-1&quot;&gt;
+            &lt;span&gt;{{ userHandle }}&lt;/span&gt;
+            &lt;img
+              src&#x3D;&quot;assets/icons/copy.png&quot;
+              alt&#x3D;&quot;copy&quot;
+              class&#x3D;&quot;w-4 h-4 cursor-pointer hover:opacity-80 transition-transform duration-150 active:scale-95&quot;
+              [appCopyOnClick]&#x3D;&quot;userHandle&quot;
+              [title]&#x3D;&quot;&#x27;tooltips.copyUsername&#x27; | translate&quot;
+            /&gt;
+          &lt;/div&gt;
+          &lt;div class&#x3D;&quot;flex items-center gap-2 text-gray-500 text-sm mt-1&quot;&gt;
+            &lt;span&gt;ID: {{ userId }}&lt;/span&gt;
+            &lt;img
+              src&#x3D;&quot;assets/icons/copy.png&quot;
+              alt&#x3D;&quot;copy&quot;
+              class&#x3D;&quot;w-4 h-4 cursor-pointer hover:opacity-80 transition-transform duration-150 active:scale-95&quot;
+              [appCopyOnClick]&#x3D;&quot;userId&quot;
+              [title]&#x3D;&quot;&#x27;tooltips.copyId&#x27; | translate&quot;
+            /&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;section&gt;
+          &lt;h3 class&#x3D;&quot;text-xl font-bold text-white mb-6&quot;&gt;
+            {{ &quot;dashboard.accountInfo&quot; | translate }}
+          &lt;/h3&gt;
+          &lt;div class&#x3D;&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;&gt;
+            &lt;div&gt;
+              &lt;div class&#x3D;&quot;relative&quot;&gt;
+                &lt;input
+                  type&#x3D;&quot;text&quot;
+                  [(ngModel)]&#x3D;&quot;editableUser.nickname&quot;
+                  [readonly]&#x3D;&quot;!isEditing&quot;
+                  [class.bg-gray-800]&#x3D;&quot;!isEditing&quot;
+                  [class.bg-gray-700]&#x3D;&quot;isEditing&quot;
+                  class&#x3D;&quot;w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors&quot;
+                /&gt;
+                &lt;label
+                  class&#x3D;&quot;absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white&quot;
+                  &gt;{{ &quot;dashboard.displayName&quot; | translate }}&lt;/label
+                &gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+              &lt;div class&#x3D;&quot;relative&quot;&gt;
+                &lt;input
+                  type&#x3D;&quot;text&quot;
+                  [(ngModel)]&#x3D;&quot;editableUser.email&quot;
+                  [readonly]&#x3D;&quot;!isEditing&quot;
+                  [class.bg-gray-800]&#x3D;&quot;!isEditing&quot;
+                  [class.bg-gray-700]&#x3D;&quot;isEditing&quot;
+                  class&#x3D;&quot;w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors&quot;
+                /&gt;
+                &lt;label
+                  class&#x3D;&quot;absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white&quot;
+                  &gt;{{ &quot;dashboard.emailAddress&quot; | translate }}&lt;/label
+                &gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/section&gt;
+
+        &lt;section&gt;
+          &lt;h3 class&#x3D;&quot;text-xl font-bold text-white mb-2&quot;&gt;
+            {{ &quot;dashboard.personalData&quot; | translate }}
+          &lt;/h3&gt;
+          &lt;p class&#x3D;&quot;text-gray-500 text-sm mb-6&quot;&gt;
+            {{ &quot;dashboard.personalDataNote&quot; | translate }}
+            &lt;a
+              routerLink&#x3D;&quot;/privacy&quot;
+              class&#x3D;&quot;text-cyan-400 underline hover:text-cyan-300 transition-transform duration-150 active:scale-95&quot;
+              &gt;{{ &quot;dashboard.privacyPolicy&quot; | translate }}&lt;/a
+            &gt;
+          &lt;/p&gt;
+          &lt;div class&#x3D;&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;&gt;
+            &lt;div class&#x3D;&quot;relative&quot;&gt;
+              &lt;input
+                type&#x3D;&quot;text&quot;
+                [(ngModel)]&#x3D;&quot;editableUser.name&quot;
+                [readonly]&#x3D;&quot;!isEditing&quot;
+                [class.bg-gray-800]&#x3D;&quot;!isEditing&quot;
+                [class.bg-gray-700]&#x3D;&quot;isEditing&quot;
+                class&#x3D;&quot;w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors&quot;
+              /&gt;
+              &lt;label
+                class&#x3D;&quot;absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white&quot;
+                &gt;{{ &quot;dashboard.name&quot; | translate }}&lt;/label
+              &gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;relative&quot;&gt;
+              &lt;input
+                type&#x3D;&quot;text&quot;
+                [(ngModel)]&#x3D;&quot;editableUser.surname&quot;
+                [readonly]&#x3D;&quot;!isEditing&quot;
+                [class.bg-gray-800]&#x3D;&quot;!isEditing&quot;
+                [class.bg-gray-700]&#x3D;&quot;isEditing&quot;
+                class&#x3D;&quot;w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors&quot;
+              /&gt;
+              &lt;label
+                class&#x3D;&quot;absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white&quot;
+                &gt;{{ &quot;dashboard.surname&quot; | translate }}&lt;/label
+              &gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/section&gt;
+
+        &lt;section&gt;
+          &lt;h3 class&#x3D;&quot;text-xl font-bold text-white mb-6&quot;&gt;
+            {{ &quot;dashboard.address&quot; | translate }}
+          &lt;/h3&gt;
+          &lt;div class&#x3D;&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;&gt;
+            &lt;div class&#x3D;&quot;relative&quot;&gt;
+              &lt;input
+                type&#x3D;&quot;text&quot;
+                [(ngModel)]&#x3D;&quot;address.line1&quot;
+                [readonly]&#x3D;&quot;!isEditing&quot;
+                [class.bg-gray-800]&#x3D;&quot;!isEditing&quot;
+                [class.bg-gray-700]&#x3D;&quot;isEditing&quot;
+                class&#x3D;&quot;w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors&quot;
+              /&gt;
+              &lt;label
+                class&#x3D;&quot;absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white&quot;
+                &gt;{{ &quot;dashboard.addressLine1&quot; | translate }}&lt;/label
+              &gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;relative&quot;&gt;
+              &lt;input
+                type&#x3D;&quot;text&quot;
+                [(ngModel)]&#x3D;&quot;address.line2&quot;
+                [readonly]&#x3D;&quot;!isEditing&quot;
+                [class.bg-gray-800]&#x3D;&quot;!isEditing&quot;
+                [class.bg-gray-700]&#x3D;&quot;isEditing&quot;
+                class&#x3D;&quot;w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors&quot;
+              /&gt;
+              &lt;label
+                class&#x3D;&quot;absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white&quot;
+                &gt;{{ &quot;dashboard.addressLine2&quot; | translate }}&lt;/label
+              &gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;relative&quot;&gt;
+              &lt;input
+                type&#x3D;&quot;text&quot;
+                [(ngModel)]&#x3D;&quot;address.city&quot;
+                [readonly]&#x3D;&quot;!isEditing&quot;
+                [class.bg-gray-800]&#x3D;&quot;!isEditing&quot;
+                [class.bg-gray-700]&#x3D;&quot;isEditing&quot;
+                class&#x3D;&quot;w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors&quot;
+              /&gt;
+              &lt;label
+                class&#x3D;&quot;absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white&quot;
+                &gt;{{ &quot;dashboard.city&quot; | translate }}&lt;/label
+              &gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;relative&quot;&gt;
+              &lt;input
+                type&#x3D;&quot;text&quot;
+                [(ngModel)]&#x3D;&quot;address.region&quot;
+                [readonly]&#x3D;&quot;!isEditing&quot;
+                [class.bg-gray-800]&#x3D;&quot;!isEditing&quot;
+                [class.bg-gray-700]&#x3D;&quot;isEditing&quot;
+                class&#x3D;&quot;w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors&quot;
+              /&gt;
+              &lt;label
+                class&#x3D;&quot;absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white&quot;
+                &gt;{{ &quot;dashboard.region&quot; | translate }}&lt;/label
+              &gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;relative&quot;&gt;
+              &lt;input
+                type&#x3D;&quot;text&quot;
+                [(ngModel)]&#x3D;&quot;address.postalCode&quot;
+                [readonly]&#x3D;&quot;!isEditing&quot;
+                [class.bg-gray-800]&#x3D;&quot;!isEditing&quot;
+                [class.bg-gray-700]&#x3D;&quot;isEditing&quot;
+                class&#x3D;&quot;w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors&quot;
+              /&gt;
+              &lt;label
+                class&#x3D;&quot;absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white&quot;
+                &gt;{{ &quot;dashboard.postalCode&quot; | translate }}&lt;/label
+              &gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;relative&quot;&gt;
+              &lt;input
+                type&#x3D;&quot;text&quot;
+                [(ngModel)]&#x3D;&quot;address.country&quot;
+                [readonly]&#x3D;&quot;!isEditing&quot;
+                [class.bg-gray-800]&#x3D;&quot;!isEditing&quot;
+                [class.bg-gray-700]&#x3D;&quot;isEditing&quot;
+                class&#x3D;&quot;w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors&quot;
+              /&gt;
+              &lt;label
+                class&#x3D;&quot;absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white&quot;
+                &gt;{{ &quot;dashboard.country&quot; | translate }}&lt;/label
+              &gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/section&gt;
+
+        &lt;div class&#x3D;&quot;flex items-center gap-4 justify-center lg:justify-start&quot;&gt;
+          &lt;button
+            (click)&#x3D;&quot;toggleEdit()&quot;
+            class&#x3D;&quot;border-0 bg-cyan-400 hover:bg-cyan-300 text-white font-medium py-2 px-6 rounded transition-colors duration-150 active:scale-95 focus:outline-none&quot;
+          &gt;
+            {{
+              isEditing
+                ? (&quot;dashboard.cancel&quot; | translate)
+                : (&quot;dashboard.configure&quot; | translate)
+            }}
+          &lt;/button&gt;
+
+          &lt;button
+            *ngIf&#x3D;&quot;isEditing&quot;
+            (click)&#x3D;&quot;saveChanges()&quot;
+            class&#x3D;&quot;border-0 bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded transition-colors flex items-center gap-2 duration-150 active:scale-95 focus:outline-none&quot;
+          &gt;
+            {{ &quot;dashboard.save&quot; | translate }}
+          &lt;/button&gt;
+        &lt;/div&gt;
+
+        @if (purchases().length &gt; 0) {
+          &lt;section class&#x3D;&quot;mt-4 md:mt-8&quot;&gt;
+            &lt;h3 class&#x3D;&quot;text-xl font-bold text-white mb-6&quot;&gt;
+              {{ &quot;dashboard.purchases&quot; | translate }}
+            &lt;/h3&gt;
+            &lt;div class&#x3D;&quot;space-y-4&quot;&gt;
+              @for (purchase of purchases(); track purchase.id) {
+                &lt;div class&#x3D;&quot;bg-gray-800 rounded-lg p-3 md:p-5 shadow-lg&quot;&gt;
+                  &lt;div
+                    class&#x3D;&quot;flex flex-col md:flex-row md:justify-between items-start md:items-center mb-2 md:mb-4 border-b border-gray-700 pb-2 gap-2 md:gap-0&quot;
+                  &gt;
+                    &lt;div class&#x3D;&quot;flex items-center gap-4&quot;&gt;
+                      &lt;span
+                        class&#x3D;&quot;text-gray-400 text-xs md:text-sm flex items-center gap-2&quot;
+                      &gt;
+                        📅 {{ purchase.purchasedAt | date: &quot;medium&quot; }}
+                      &lt;/span&gt;
+                      &lt;button
+                        (click)&#x3D;&quot;openRefundModal(purchase.id)&quot;
+                        class&#x3D;&quot;bg-red-500/20 hover:bg-red-500/40 text-red-400 hover:text-red-300 px-3 py-1 rounded text-xs md:text-sm font-semibold transition-colors border-0 outline-none ring-0 focus:outline-none focus:ring-0&quot;
+                      &gt;
+                        {{ &quot;dashboard.return&quot; | translate }}
+                      &lt;/button&gt;
+                    &lt;/div&gt;
+                    &lt;span class&#x3D;&quot;text-cyan-400 font-bold text-lg md:text-xl&quot;
+                      &gt;{{ purchase.totalPrice | number: &quot;1.2-2&quot; }}€&lt;/span
+                    &gt;
+                  &lt;/div&gt;
+                  &lt;div class&#x3D;&quot;space-y-2 md:space-y-3&quot;&gt;
+                    @for (item of purchase.items; track item.id) {
+                      &lt;div
+                        class&#x3D;&quot;bg-gray-700/30 rounded-lg p-3 md:p-4 flex flex-col md:flex-row gap-2 md:gap-4 items-start md:items-center hover:bg-gray-700/50 transition-colors&quot;
+                      &gt;
+                        &lt;div class&#x3D;&quot;w-full md:flex-1&quot;&gt;
+                          &lt;p
+                            class&#x3D;&quot;text-white font-bold text-base md:text-lg mb-0.5 md:mb-1&quot;
+                          &gt;
+                            {{ item.title }}
+                          &lt;/p&gt;
+                          &lt;div
+                            class&#x3D;&quot;flex flex-wrap items-center gap-2 text-xs md:text-sm text-gray-400&quot;
+                          &gt;
+                            &lt;span
+                              class&#x3D;&quot;bg-gray-900 px-2 py-0.5 rounded text-[10px] md:text-xs uppercase tracking-wider&quot;
+                              &gt;{{ item.platform?.name }}&lt;/span
+                            &gt;
+                            &lt;a
+                              [routerLink]&#x3D;&quot;[&#x27;/product&#x27;, item.id]&quot;
+                              class&#x3D;&quot;text-cyan-400 hover:text-cyan-300 hover:underline cursor-pointer flex items-center gap-1 transition-colors mt-0.5 md:mt-0&quot;
+                            &gt;
+                              {{ &quot;dashboard.viewProduct&quot; | translate }}
+                              &lt;svg
+                                xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+                                class&#x3D;&quot;h-3 w-3&quot;
+                                fill&#x3D;&quot;none&quot;
+                                viewBox&#x3D;&quot;0 0 24 24&quot;
+                                stroke&#x3D;&quot;currentColor&quot;
+                              &gt;
+                                &lt;path
+                                  stroke-linecap&#x3D;&quot;round&quot;
+                                  stroke-linejoin&#x3D;&quot;round&quot;
+                                  stroke-width&#x3D;&quot;2&quot;
+                                  d&#x3D;&quot;M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14&quot;
+                                /&gt;
+                              &lt;/svg&gt;
+                            &lt;/a&gt;
+                          &lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div
+                          class&#x3D;&quot;w-full md:w-auto flex flex-row justify-between md:justify-end items-center mt-1 md:mt-0 pt-2 md:pt-0 border-t border-gray-600 md:border-0 md:gap-4&quot;
+                        &gt;
+                          &lt;span class&#x3D;&quot;text-gray-500 text-xs text-right&quot;
+                            &gt;x{{ item.quantity }}&lt;/span
+                          &gt;
+                          &lt;span
+                            class&#x3D;&quot;text-white font-bold text-sm md:text-base text-right&quot;
+                            &gt;{{ item.purchasePrice | number: &quot;1.2-2&quot; }}€&lt;/span
+                          &gt;
+                        &lt;/div&gt;
+                      &lt;/div&gt;
+                    }
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              }
+            &lt;/div&gt;
+          &lt;/section&gt;
+        }
+        @if (returns().length &gt; 0) {
+          &lt;section class&#x3D;&quot;mt-4 md:mt-8&quot;&gt;
+            &lt;h3 class&#x3D;&quot;text-xl font-bold text-white mb-6&quot;&gt;
+              {{ &quot;dashboard.returns&quot; | translate }}
+            &lt;/h3&gt;
+            &lt;div class&#x3D;&quot;space-y-4&quot;&gt;
+              @for (ret of returns(); track ret.id) {
+                &lt;div
+                  class&#x3D;&quot;bg-gray-800 rounded-lg p-3 md:p-5 shadow-lg relative overflow-hidden&quot;
+                &gt;
+                  &lt;div
+                    class&#x3D;&quot;absolute left-0 top-0 bottom-0 w-1 bg-red-500/50&quot;
+                  &gt;&lt;/div&gt;
+
+                  &lt;div
+                    class&#x3D;&quot;flex flex-col md:flex-row md:justify-between items-start md:items-center mb-2 md:mb-4 border-b border-gray-700 pb-2 pl-3 gap-1 md:gap-0&quot;
+                  &gt;
+                    &lt;span class&#x3D;&quot;text-gray-400 text-xs md:text-sm&quot;&gt;{{
+                      ret.purchasedAt | date: &quot;medium&quot;
+                    }}&lt;/span&gt;
+                    &lt;span class&#x3D;&quot;text-red-400 font-bold text-lg md:text-xl&quot;
+                      &gt;{{ ret.totalPrice | number: &quot;1.2-2&quot; }}€&lt;/span
+                    &gt;
+                  &lt;/div&gt;
+                  &lt;div
+                    class&#x3D;&quot;mb-2 md:mb-4 bg-red-900/10 p-2 md:p-3 rounded-md text-xs md:text-sm text-red-200 ml-3 flex items-center gap-2&quot;
+                  &gt;
+                    &lt;svg
+                      xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+                      class&#x3D;&quot;h-4 w-4 md:h-5 md:w-5 text-red-400&quot;
+                      fill&#x3D;&quot;none&quot;
+                      viewBox&#x3D;&quot;0 0 24 24&quot;
+                      stroke&#x3D;&quot;currentColor&quot;
+                    &gt;
+                      &lt;path
+                        stroke-linecap&#x3D;&quot;round&quot;
+                        stroke-linejoin&#x3D;&quot;round&quot;
+                        stroke-width&#x3D;&quot;2&quot;
+                        d&#x3D;&quot;M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z&quot;
+                      /&gt;
+                    &lt;/svg&gt;
+                    &lt;span
+                      &gt;&lt;span
+                        class&#x3D;&quot;font-bold uppercase text-[10px] md:text-xs tracking-wide&quot;
+                        &gt;{{ &quot;dashboard.refundReason&quot; | translate }}:&lt;/span
+                      &gt;
+                      {{ ret.refundReason }}&lt;/span
+                    &gt;
+                  &lt;/div&gt;
+                  &lt;div class&#x3D;&quot;space-y-2 md:space-y-3 ml-3&quot;&gt;
+                    @for (item of ret.items; track item.id) {
+                      &lt;div
+                        class&#x3D;&quot;bg-gray-700/30 rounded-lg p-3 md:p-4 flex flex-col md:flex-row gap-2 md:gap-4 items-start md:items-center opacity-75 grayscale hover:grayscale-0 transition-all&quot;
+                      &gt;
+                        &lt;div class&#x3D;&quot;w-full md:flex-1&quot;&gt;
+                          &lt;p
+                            class&#x3D;&quot;text-white font-bold text-base md:text-lg mb-0.5 md:mb-1&quot;
+                          &gt;
+                            {{ item.title }}
+                          &lt;/p&gt;
+                          &lt;div
+                            class&#x3D;&quot;flex flex-wrap items-center gap-2 text-xs md:text-sm text-gray-400&quot;
+                          &gt;
+                            &lt;span
+                              class&#x3D;&quot;bg-gray-900 px-2 py-0.5 rounded text-[10px] md:text-xs uppercase tracking-wider&quot;
+                              &gt;{{ item.platform?.name }}&lt;/span
+                            &gt;
+                            &lt;a
+                              [routerLink]&#x3D;&quot;[&#x27;/product&#x27;, item.id]&quot;
+                              class&#x3D;&quot;text-cyan-400 hover:text-cyan-300 hover:underline cursor-pointer flex items-center gap-1 transition-colors mt-0.5 md:mt-0&quot;
+                            &gt;
+                              {{ &quot;dashboard.viewProduct&quot; | translate }}
+                            &lt;/a&gt;
+                          &lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div
+                          class&#x3D;&quot;w-full md:w-auto flex flex-row justify-between md:justify-end items-center mt-1 md:mt-0 pt-2 md:pt-0 border-t border-gray-600 md:border-0 md:gap-4&quot;
+                        &gt;
+                          &lt;span class&#x3D;&quot;text-gray-500 text-xs text-right&quot;
+                            &gt;x{{ item.quantity }}&lt;/span
+                          &gt;
+                          &lt;span
+                            class&#x3D;&quot;text-gray-400 font-bold line-through decoration-red-500/50 text-sm md:text-base text-right&quot;
+                          &gt;
+                            {{ item.purchasePrice | number: &quot;1.2-2&quot; }}€
+                          &lt;/span&gt;
+                        &lt;/div&gt;
+                      &lt;/div&gt;
+                    }
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              }
+            &lt;/div&gt;
+          &lt;/section&gt;
+        }
+
+        &lt;!--Ya que no tiene funcionalidad actual, se deja en comentado por ahora--&gt;
+        &lt;!-- &lt;section&gt;
+          &lt;h3 class&#x3D;&quot;text-xl font-bold text-white mb-6&quot;&gt;
+            {{ &quot;dashboard.payments&quot; | translate }}
+          &lt;/h3&gt;
+          &lt;div class&#x3D;&quot;flex gap-12 mb-6&quot;&gt;
+            &lt;div class&#x3D;&quot;text-center&quot;&gt;
+              &lt;p class&#x3D;&quot;text-gray-300 text-lg&quot;&gt;
+                {{ &quot;dashboard.balance&quot; | translate }}
+              &lt;/p&gt;
+              &lt;p class&#x3D;&quot;text-white text-2xl font-bold&quot;&gt;{{ balance }}€&lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;text-center&quot;&gt;
+              &lt;p class&#x3D;&quot;text-gray-300 text-lg&quot;&gt;
+                {{ &quot;dashboard.pointsBalance&quot; | translate }}
+              &lt;/p&gt;
+              &lt;p class&#x3D;&quot;text-white text-2xl font-bold&quot;&gt;{{ points }}pt&lt;/p&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;button
+            class&#x3D;&quot;border-0 bg-cyan-400 hover:bg-cyan-300 text-white font-medium px-4 py-2 rounded mb-8 transition-colors duration-150 active:scale-95 focus:outline-none&quot;
+          &gt;
+            {{ &quot;dashboard.addFunds&quot; | translate }}
+          &lt;/button&gt;
+
+          &lt;h4 class&#x3D;&quot;text-lg font-medium text-white mb-4&quot;&gt;
+            {{ &quot;dashboard.paymentMethods&quot; | translate }}
+          &lt;/h4&gt;
+          &lt;div
+            class&#x3D;&quot;bg-gray-800 rounded-md p-3 flex items-center justify-between mb-8&quot;
+          &gt;
+            &lt;div class&#x3D;&quot;flex items-center gap-3&quot;&gt;
+              &lt;img
+                src&#x3D;&quot;assets/icons/card.png&quot;
+                alt&#x3D;&quot;card&quot;
+                class&#x3D;&quot;w-10 h-14 cursor-pointer transition-transform duration-150 active:scale-95&quot;
+                [title]&#x3D;&quot;&#x27;tooltips.paymentCard&#x27; | translate&quot;
+              /&gt;
+              &lt;span class&#x3D;&quot;text-white font-mono text-lg&quot;&gt;**** 2156&lt;/span&gt;
+              &lt;span class&#x3D;&quot;text-gray-400 text-sm&quot;&gt;{{
+                &quot;dashboard.defaultPayment&quot; | translate
+              }}&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;img
+              src&#x3D;&quot;assets/icons/menu.png&quot;
+              alt&#x3D;&quot;mini_menu&quot;
+              class&#x3D;&quot;w-8 h-8 cursor-pointer transition-transform duration-150 active:scale-95&quot;
+              [title]&#x3D;&quot;&#x27;tooltips.paymentOptions&#x27; | translate&quot;
+            /&gt;
+          &lt;/div&gt;
+
+          &lt;h4 class&#x3D;&quot;text-lg font-medium text-white mb-4&quot;&gt;
+            {{ &quot;dashboard.addPaymentMethod&quot; | translate }}
+          &lt;/h4&gt;
+          &lt;div class&#x3D;&quot;space-y-3&quot;&gt;
+            &lt;button
+              class&#x3D;&quot;border-0 w-full flex items-center gap-3 bg-gray-800 hover:bg-gray-700 rounded-md p-3 transition-colors text-left duration-150 active:scale-95 focus:outline-none&quot;
+            &gt;
+              &lt;img
+                src&#x3D;&quot;assets/icons/card.png&quot;
+                alt&#x3D;&quot;card&quot;
+                class&#x3D;&quot;w-10 h-14 cursor-pointer&quot;
+              /&gt;
+              &lt;span class&#x3D;&quot;text-white&quot;&gt;{{
+                &quot;dashboard.creditCard&quot; | translate
+              }}&lt;/span&gt;
+            &lt;/button&gt;
+            &lt;button
+              class&#x3D;&quot;border-0 w-full flex items-center gap-3 bg-gray-800 hover:bg-gray-700 rounded-md p-3 transition-colors text-left duration-150 active:scale-95 focus:outline-none&quot;
+            &gt;
+              &lt;img
+                src&#x3D;&quot;assets/icons/card.png&quot;
+                alt&#x3D;&quot;card&quot;
+                class&#x3D;&quot;w-10 h-14 cursor-pointer&quot;
+              /&gt;
+              &lt;span class&#x3D;&quot;text-white&quot;&gt;PayPal&lt;/span&gt;
+            &lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/section&gt; --&gt;
+
+        &lt;div class&#x3D;&quot;flex justify-center lg:justify-start pt-6&quot;&gt;
+          &lt;button
+            (click)&#x3D;&quot;onLogout()&quot;
+            class&#x3D;&quot;border-0 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-6 rounded transition-colors flex items-center gap-2 duration-150 active:scale-95 focus:outline-none&quot;
+          &gt;
+            &lt;span&gt;{{ &quot;dashboard.logout&quot; | translate }}&lt;/span&gt;
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+@if (isRefundModalOpen()) {
+  &lt;div
+    class&#x3D;&quot;fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4&quot;
+  &gt;
+    &lt;div class&#x3D;&quot;bg-gray-900 rounded-xl max-w-md w-full p-6 shadow-2xl&quot;&gt;
+      &lt;h3 class&#x3D;&quot;text-xl font-bold text-white mb-4&quot;&gt;
+        {{ &quot;dashboard.refundReasonTitle&quot; | translate }}
+      &lt;/h3&gt;
+
+      &lt;div class&#x3D;&quot;mb-4&quot;&gt;
+        &lt;textarea
+          [ngModel]&#x3D;&quot;refundReason()&quot;
+          (ngModelChange)&#x3D;&quot;refundReason.set($event)&quot;
+          rows&#x3D;&quot;4&quot;
+          class&#x3D;&quot;w-full bg-gray-800 rounded-lg p-3 text-white transition-colors resize-none placeholder-gray-500 border-0 outline-none ring-0 focus:outline-none focus:ring-0&quot;
+          [placeholder]&#x3D;&quot;&#x27;dashboard.refundReasonPlaceholder&#x27; | translate&quot;
+        &gt;&lt;/textarea&gt;
+        @if (refundError()) {
+          &lt;p class&#x3D;&quot;text-red-400 text-sm mt-2&quot;&gt;
+            {{ refundError() | translate }}
+          &lt;/p&gt;
+        }
+      &lt;/div&gt;
+
+      &lt;div class&#x3D;&quot;flex justify-end gap-3&quot;&gt;
+        &lt;button
+          (click)&#x3D;&quot;closeRefundModal()&quot;
+          class&#x3D;&quot;px-4 py-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition-colors border-0 outline-none ring-0 focus:outline-none focus:ring-0&quot;
+        &gt;
+          {{ &quot;dashboard.refundCancel&quot; | translate }}
+        &lt;/button&gt;
+        &lt;button
+          (click)&#x3D;&quot;confirmRefund()&quot;
+          [disabled]&#x3D;&quot;!refundReason() || refundReason().length &lt; 10&quot;
+          class&#x3D;&quot;px-4 py-2 rounded-lg bg-red-500 text-white font-bold hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed border-0 outline-none ring-0 focus:outline-none focus:ring-0&quot;
+        &gt;
+          {{ &quot;dashboard.refundAccept&quot; | translate }}
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./dashboard.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 100%;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #1f2937 inset !important;
+  -webkit-text-fill-color: #d1d5db !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+input[readonly]:-webkit-autofill,
+input[readonly]:-webkit-autofill:hover,
+input[readonly]:-webkit-autofill:focus,
+input[readonly]:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #1f2937 inset !important;
+  -webkit-text-fill-color: #d1d5db !important;
+}
+
+input.bg-gray-700:-webkit-autofill,
+input.bg-gray-700:-webkit-autofill:hover,
+input.bg-gray-700:-webkit-autofill:focus,
+input.bg-gray-700:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #374151 inset !important;
+  -webkit-text-fill-color: #d1d5db !important;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="flex-1 w-full bg-gray-900 text-white font-sans pb-20">  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">    <h1 class="text-3xl font-bold text-center text-cyan-200 mb-12">      {{ "dashboard.user" | translate }}    </h1>    <div class="flex flex-col lg:flex-row gap-8 lg:gap-0 lg:items-stretch">      <div class="flex-none lg:w-1/4 flex flex-col items-center lg:pr-15">        <div class="relative group">          <div            class="relative w-48 h-48 rounded-full overflow-hidden ring-4 ring-white shadow-2xl"          >            <img              [src]="profileImage"              alt="User"              class="w-full h-full object-cover"            />          </div>          <button            *ngIf="isEditing"            (click)="fileInput.click()"            class="absolute bottom-0 right-0 bg-cyan-400 hover:bg-cyan-300 text-white p-3 rounded-full shadow-lg transition-transform transform hover:scale-110 focus:outline-none active:scale-95"            [title]="\'tooltips.changeProfileImage\' | translate"          >            <img src="assets/icons/camera.png" alt="camera" class="w-10 h-10" />          </button>          <input            #fileInput            type="file"            class="hidden"            accept="image/*"            (change)="onFileSelected($event)"          />        </div>      </div>      <div class="hidden lg:flex flex-none items-center lg:px-0">        <div class="w-0.5 h-full bg-white"></div>      </div>      <div class="flex-1 space-y-8 lg:pl-12">        <div>          <h2 class="text-3xl font-bold text-white">            {{ user()?.nickname | translate }}          </h2>          <div class="flex items-center gap-2 text-gray-400 mt-1">            <span>{{ userHandle }}</span>            <img              src="assets/icons/copy.png"              alt="copy"              class="w-4 h-4 cursor-pointer hover:opacity-80 transition-transform duration-150 active:scale-95"              [appCopyOnClick]="userHandle"              [title]="\'tooltips.copyUsername\' | translate"            />          </div>          <div class="flex items-center gap-2 text-gray-500 text-sm mt-1">            <span>ID: {{ userId }}</span>            <img              src="assets/icons/copy.png"              alt="copy"              class="w-4 h-4 cursor-pointer hover:opacity-80 transition-transform duration-150 active:scale-95"              [appCopyOnClick]="userId"              [title]="\'tooltips.copyId\' | translate"            />          </div>        </div>        <section>          <h3 class="text-xl font-bold text-white mb-6">            {{ "dashboard.accountInfo" | translate }}          </h3>          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">            <div>              <div class="relative">                <input                  type="text"                  [(ngModel)]="editableUser.nickname"                  [readonly]="!isEditing"                  [class.bg-gray-800]="!isEditing"                  [class.bg-gray-700]="isEditing"                  class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors"                />                <label                  class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white"                  >{{ "dashboard.displayName" | translate }}</label                >              </div>            </div>            <div>              <div class="relative">                <input                  type="text"                  [(ngModel)]="editableUser.email"                  [readonly]="!isEditing"                  [class.bg-gray-800]="!isEditing"                  [class.bg-gray-700]="isEditing"                  class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors"                />                <label                  class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white"                  >{{ "dashboard.emailAddress" | translate }}</label                >              </div>            </div>          </div>        </section>        <section>          <h3 class="text-xl font-bold text-white mb-2">            {{ "dashboard.personalData" | translate }}          </h3>          <p class="text-gray-500 text-sm mb-6">            {{ "dashboard.personalDataNote" | translate }}            <a              routerLink="/privacy"              class="text-cyan-400 underline hover:text-cyan-300 transition-transform duration-150 active:scale-95"              >{{ "dashboard.privacyPolicy" | translate }}</a            >          </p>          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">            <div class="relative">              <input                type="text"                [(ngModel)]="editableUser.name"                [readonly]="!isEditing"                [class.bg-gray-800]="!isEditing"                [class.bg-gray-700]="isEditing"                class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors"              />              <label                class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white"                >{{ "dashboard.name" | translate }}</label              >            </div>            <div class="relative">              <input                type="text"                [(ngModel)]="editableUser.surname"                [readonly]="!isEditing"                [class.bg-gray-800]="!isEditing"                [class.bg-gray-700]="isEditing"                class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors"              />              <label                class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white"                >{{ "dashboard.surname" | translate }}</label              >            </div>          </div>        </section>        <section>          <h3 class="text-xl font-bold text-white mb-6">            {{ "dashboard.address" | translate }}          </h3>          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">            <div class="relative">              <input                type="text"                [(ngModel)]="address.line1"                [readonly]="!isEditing"                [class.bg-gray-800]="!isEditing"                [class.bg-gray-700]="isEditing"                class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors"              />              <label                class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white"                >{{ "dashboard.addressLine1" | translate }}</label              >            </div>            <div class="relative">              <input                type="text"                [(ngModel)]="address.line2"                [readonly]="!isEditing"                [class.bg-gray-800]="!isEditing"                [class.bg-gray-700]="isEditing"                class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors"              />              <label                class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white"                >{{ "dashboard.addressLine2" | translate }}</label              >            </div>            <div class="relative">              <input                type="text"                [(ngModel)]="address.city"                [readonly]="!isEditing"                [class.bg-gray-800]="!isEditing"                [class.bg-gray-700]="isEditing"                class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors"              />              <label                class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white"                >{{ "dashboard.city" | translate }}</label              >            </div>            <div class="relative">              <input                type="text"                [(ngModel)]="address.region"                [readonly]="!isEditing"                [class.bg-gray-800]="!isEditing"                [class.bg-gray-700]="isEditing"                class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors"              />              <label                class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white"                >{{ "dashboard.region" | translate }}</label              >            </div>            <div class="relative">              <input                type="text"                [(ngModel)]="address.postalCode"                [readonly]="!isEditing"                [class.bg-gray-800]="!isEditing"                [class.bg-gray-700]="isEditing"                class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors"              />              <label                class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white"                >{{ "dashboard.postalCode" | translate }}</label              >            </div>            <div class="relative">              <input                type="text"                [(ngModel)]="address.country"                [readonly]="!isEditing"                [class.bg-gray-800]="!isEditing"                [class.bg-gray-700]="isEditing"                class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors"              />              <label                class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white"                >{{ "dashboard.country" | translate }}</label              >            </div>          </div>        </section>        <div class="flex items-center gap-4 justify-center lg:justify-start">          <button            (click)="toggleEdit()"            class="border-0 bg-cyan-400 hover:bg-cyan-300 text-white font-medium py-2 px-6 rounded transition-colors duration-150 active:scale-95 focus:outline-none"          >            {{              isEditing                ? ("dashboard.cancel" | translate)                : ("dashboard.configure" | translate)            }}          </button>          <button            *ngIf="isEditing"            (click)="saveChanges()"            class="border-0 bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded transition-colors flex items-center gap-2 duration-150 active:scale-95 focus:outline-none"          >            {{ "dashboard.save" | translate }}          </button>        </div>        @if (purchases().length > 0) {          <section class="mt-4 md:mt-8">            <h3 class="text-xl font-bold text-white mb-6">              {{ "dashboard.purchases" | translate }}            </h3>            <div class="space-y-4">              @for (purchase of purchases(); track purchase.id) {                <div class="bg-gray-800 rounded-lg p-3 md:p-5 shadow-lg">                  <div                    class="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-2 md:mb-4 border-b border-gray-700 pb-2 gap-2 md:gap-0"                  >                    <div class="flex items-center gap-4">                      <span                        class="text-gray-400 text-xs md:text-sm flex items-center gap-2"                      >                        📅 {{ purchase.purchasedAt | date: "medium" }}                      </span>                      <button                        (click)="openRefundModal(purchase.id)"                        class="bg-red-500/20 hover:bg-red-500/40 text-red-400 hover:text-red-300 px-3 py-1 rounded text-xs md:text-sm font-semibold transition-colors border-0 outline-none ring-0 focus:outline-none focus:ring-0"                      >                        {{ "dashboard.return" | translate }}                      </button>                    </div>                    <span class="text-cyan-400 font-bold text-lg md:text-xl"                      >{{ purchase.totalPrice | number: "1.2-2" }}€</span                    >                  </div>                  <div class="space-y-2 md:space-y-3">                    @for (item of purchase.items; track item.id) {                      <div                        class="bg-gray-700/30 rounded-lg p-3 md:p-4 flex flex-col md:flex-row gap-2 md:gap-4 items-start md:items-center hover:bg-gray-700/50 transition-colors"                      >                        <div class="w-full md:flex-1">                          <p                            class="text-white font-bold text-base md:text-lg mb-0.5 md:mb-1"                          >                            {{ item.title }}                          </p>                          <div                            class="flex flex-wrap items-center gap-2 text-xs md:text-sm text-gray-400"                          >                            <span                              class="bg-gray-900 px-2 py-0.5 rounded text-[10px] md:text-xs uppercase tracking-wider"                              >{{ item.platform?.name }}</span                            >                            <a                              [routerLink]="[\'/product\', item.id]"                              class="text-cyan-400 hover:text-cyan-300 hover:underline cursor-pointer flex items-center gap-1 transition-colors mt-0.5 md:mt-0"                            >                              {{ "dashboard.viewProduct" | translate }}                              <svg                                xmlns="http://www.w3.org/2000/svg"                                class="h-3 w-3"                                fill="none"                                viewBox="0 0 24 24"                                stroke="currentColor"                              >                                <path                                  stroke-linecap="round"                                  stroke-linejoin="round"                                  stroke-width="2"                                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"                                />                              </svg>                            </a>                          </div>                        </div>                        <div                          class="w-full md:w-auto flex flex-row justify-between md:justify-end items-center mt-1 md:mt-0 pt-2 md:pt-0 border-t border-gray-600 md:border-0 md:gap-4"                        >                          <span class="text-gray-500 text-xs text-right"                            >x{{ item.quantity }}</span                          >                          <span                            class="text-white font-bold text-sm md:text-base text-right"                            >{{ item.purchasePrice | number: "1.2-2" }}€</span                          >                        </div>                      </div>                    }                  </div>                </div>              }            </div>          </section>        }        @if (returns().length > 0) {          <section class="mt-4 md:mt-8">            <h3 class="text-xl font-bold text-white mb-6">              {{ "dashboard.returns" | translate }}            </h3>            <div class="space-y-4">              @for (ret of returns(); track ret.id) {                <div                  class="bg-gray-800 rounded-lg p-3 md:p-5 shadow-lg relative overflow-hidden"                >                  <div                    class="absolute left-0 top-0 bottom-0 w-1 bg-red-500/50"                  ></div>                  <div                    class="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-2 md:mb-4 border-b border-gray-700 pb-2 pl-3 gap-1 md:gap-0"                  >                    <span class="text-gray-400 text-xs md:text-sm">{{                      ret.purchasedAt | date: "medium"                    }}</span>                    <span class="text-red-400 font-bold text-lg md:text-xl"                      >{{ ret.totalPrice | number: "1.2-2" }}€</span                    >                  </div>                  <div                    class="mb-2 md:mb-4 bg-red-900/10 p-2 md:p-3 rounded-md text-xs md:text-sm text-red-200 ml-3 flex items-center gap-2"                  >                    <svg                      xmlns="http://www.w3.org/2000/svg"                      class="h-4 w-4 md:h-5 md:w-5 text-red-400"                      fill="none"                      viewBox="0 0 24 24"                      stroke="currentColor"                    >                      <path                        stroke-linecap="round"                        stroke-linejoin="round"                        stroke-width="2"                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"                      />                    </svg>                    <span                      ><span                        class="font-bold uppercase text-[10px] md:text-xs tracking-wide"                        >{{ "dashboard.refundReason" | translate }}:</span                      >                      {{ ret.refundReason }}</span                    >                  </div>                  <div class="space-y-2 md:space-y-3 ml-3">                    @for (item of ret.items; track item.id) {                      <div                        class="bg-gray-700/30 rounded-lg p-3 md:p-4 flex flex-col md:flex-row gap-2 md:gap-4 items-start md:items-center opacity-75 grayscale hover:grayscale-0 transition-all"                      >                        <div class="w-full md:flex-1">                          <p                            class="text-white font-bold text-base md:text-lg mb-0.5 md:mb-1"                          >                            {{ item.title }}                          </p>                          <div                            class="flex flex-wrap items-center gap-2 text-xs md:text-sm text-gray-400"                          >                            <span                              class="bg-gray-900 px-2 py-0.5 rounded text-[10px] md:text-xs uppercase tracking-wider"                              >{{ item.platform?.name }}</span                            >                            <a                              [routerLink]="[\'/product\', item.id]"                              class="text-cyan-400 hover:text-cyan-300 hover:underline cursor-pointer flex items-center gap-1 transition-colors mt-0.5 md:mt-0"                            >                              {{ "dashboard.viewProduct" | translate }}                            </a>                          </div>                        </div>                        <div                          class="w-full md:w-auto flex flex-row justify-between md:justify-end items-center mt-1 md:mt-0 pt-2 md:pt-0 border-t border-gray-600 md:border-0 md:gap-4"                        >                          <span class="text-gray-500 text-xs text-right"                            >x{{ item.quantity }}</span                          >                          <span                            class="text-gray-400 font-bold line-through decoration-red-500/50 text-sm md:text-base text-right"                          >                            {{ item.purchasePrice | number: "1.2-2" }}€                          </span>                        </div>                      </div>                    }                  </div>                </div>              }            </div>          </section>        }        <!--Ya que no tiene funcionalidad actual, se deja en comentado por ahora-->        <!-- <section>          <h3 class="text-xl font-bold text-white mb-6">            {{ "dashboard.payments" | translate }}          </h3>          <div class="flex gap-12 mb-6">            <div class="text-center">              <p class="text-gray-300 text-lg">                {{ "dashboard.balance" | translate }}              </p>              <p class="text-white text-2xl font-bold">{{ balance }}€</p>            </div>            <div class="text-center">              <p class="text-gray-300 text-lg">                {{ "dashboard.pointsBalance" | translate }}              </p>              <p class="text-white text-2xl font-bold">{{ points }}pt</p>            </div>          </div>          <button            class="border-0 bg-cyan-400 hover:bg-cyan-300 text-white font-medium px-4 py-2 rounded mb-8 transition-colors duration-150 active:scale-95 focus:outline-none"          >            {{ "dashboard.addFunds" | translate }}          </button>          <h4 class="text-lg font-medium text-white mb-4">            {{ "dashboard.paymentMethods" | translate }}          </h4>          <div            class="bg-gray-800 rounded-md p-3 flex items-center justify-between mb-8"          >            <div class="flex items-center gap-3">              <img                src="assets/icons/card.png"                alt="card"                class="w-10 h-14 cursor-pointer transition-transform duration-150 active:scale-95"                [title]="\'tooltips.paymentCard\' | translate"              />              <span class="text-white font-mono text-lg">**** 2156</span>              <span class="text-gray-400 text-sm">{{                "dashboard.defaultPayment" | translate              }}</span>            </div>            <img              src="assets/icons/menu.png"              alt="mini_menu"              class="w-8 h-8 cursor-pointer transition-transform duration-150 active:scale-95"              [title]="\'tooltips.paymentOptions\' | translate"            />          </div>          <h4 class="text-lg font-medium text-white mb-4">            {{ "dashboard.addPaymentMethod" | translate }}          </h4>          <div class="space-y-3">            <button              class="border-0 w-full flex items-center gap-3 bg-gray-800 hover:bg-gray-700 rounded-md p-3 transition-colors text-left duration-150 active:scale-95 focus:outline-none"            >              <img                src="assets/icons/card.png"                alt="card"                class="w-10 h-14 cursor-pointer"              />              <span class="text-white">{{                "dashboard.creditCard" | translate              }}</span>            </button>            <button              class="border-0 w-full flex items-center gap-3 bg-gray-800 hover:bg-gray-700 rounded-md p-3 transition-colors text-left duration-150 active:scale-95 focus:outline-none"            >              <img                src="assets/icons/card.png"                alt="card"                class="w-10 h-14 cursor-pointer"              />              <span class="text-white">PayPal</span>            </button>          </div>        </section> -->        <div class="flex justify-center lg:justify-start pt-6">          <button            (click)="onLogout()"            class="border-0 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-6 rounded transition-colors flex items-center gap-2 duration-150 active:scale-95 focus:outline-none"          >            <span>{{ "dashboard.logout" | translate }}</span>          </button>        </div>      </div>    </div>  </div></div>@if (isRefundModalOpen()) {  <div    class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"  >    <div class="bg-gray-900 rounded-xl max-w-md w-full p-6 shadow-2xl">      <h3 class="text-xl font-bold text-white mb-4">        {{ "dashboard.refundReasonTitle" | translate }}      </h3>      <div class="mb-4">        <textarea          [ngModel]="refundReason()"          (ngModelChange)="refundReason.set($event)"          rows="4"          class="w-full bg-gray-800 rounded-lg p-3 text-white transition-colors resize-none placeholder-gray-500 border-0 outline-none ring-0 focus:outline-none focus:ring-0"          [placeholder]="\'dashboard.refundReasonPlaceholder\' | translate"        ></textarea>        @if (refundError()) {          <p class="text-red-400 text-sm mt-2">            {{ refundError() | translate }}          </p>        }      </div>      <div class="flex justify-end gap-3">        <button          (click)="closeRefundModal()"          class="px-4 py-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition-colors border-0 outline-none ring-0 focus:outline-none focus:ring-0"        >          {{ "dashboard.refundCancel" | translate }}        </button>        <button          (click)="confirmRefund()"          [disabled]="!refundReason() || refundReason().length < 10"          class="px-4 py-2 rounded-lg bg-red-500 text-white font-bold hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed border-0 outline-none ring-0 focus:outline-none focus:ring-0"        >          {{ "dashboard.refundAccept" | translate }}        </button>      </div>    </div>  </div>}</div>'
+    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'}];
+    var DIRECTIVES = [{'name': 'CopyOnClickDirective', 'selector': '[appCopyOnClick]'},{'name': 'HighlightDirective', 'selector': '[appHighlight]'}];
+    var ACTUAL_COMPONENT = {'name': 'DashboardComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'DashboardComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

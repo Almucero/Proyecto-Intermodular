@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { TranslatePipe } from '@ngx-translate/core';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
+/**
+ * Componente que muestra los Términos y Condiciones de uso de la plataforma.
+ * Contenido estático legal descriptivo.
+ */
 @Component({
   selector: 'app-conditions',
-  imports: [RouterModule, TranslatePipe],
+  standalone: true,
+  imports: [CommonModule, TranslateModule],
   templateUrl: './conditions.component.html',
   styleUrl: './conditions.component.scss',
 })
-export class ConditionsComponent {
-  ngOnInit(): void {}
-}
+export class ConditionsComponent {}

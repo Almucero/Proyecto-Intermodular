@@ -16,6 +16,10 @@ import { MediaService } from '../../core/services/impl/media.service';
 import { Game } from '../../core/models/game.model';
 import { CarouselComponent } from '../../shared/components/carousel/carousel.component';
 
+/**
+ * Componente de la página de inicio (Landing Page).
+ * Presenta juegos destacados, ofertas, categorías y efectos visuales de parallax.
+ */
 @Component({
   selector: 'app-home',
   imports: [CommonModule, RouterModule, TranslatePipe, CarouselComponent],
@@ -23,6 +27,7 @@ import { CarouselComponent } from '../../shared/components/carousel/carousel.com
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+  /** Capas para el efecto parallax del banner. */
   @ViewChild('backgroundLayer') backgroundLayer!: ElementRef;
   @ViewChild('jokerLayer') jokerLayer!: ElementRef;
   @ViewChild('titleLayer') titleLayer!: ElementRef;
@@ -30,6 +35,7 @@ export class HomeComponent implements OnInit {
   @ViewChild('bottomLayer') bottomLayer!: ElementRef;
   @ViewChild('mainContent') mainContent!: ElementRef;
 
+  /** Lista de géneros principales para el menú de categorías. */
   genres = [
     { value: 'Accion', key: 'genres.action' },
     { value: 'Aventura', key: 'genres.adventure' },
@@ -41,6 +47,7 @@ export class HomeComponent implements OnInit {
     { value: 'Carreras', key: 'genres.racing' },
   ];
 
+  /** Lista completa de todos los géneros disponibles. */
   allGenres = [
     { value: 'Accion', key: 'genres.action' },
     { value: 'Aventura', key: 'genres.adventure' },
@@ -64,11 +71,16 @@ export class HomeComponent implements OnInit {
     { value: 'Educativo', key: 'genres.educational' },
   ];
 
+  /** Géneros que se muestran en el menú desplegable 'Más'. */
   otherGenres: { value: string; key: string }[] = [];
+  /** Indica si se muestra el menú desplegable de géneros. */
   showAllGenres = false;
+  /** Estado de transición para el cierre del menú de géneros. */
   isClosingGenreDropdown = false;
+  /** Indica si se está visualizando en un dispositivo móvil. */
   isMobile = false;
 
+  /** Listas de juegos cargados para las diferentes secciones. */
   bestSellers: Game[] = this.createPlaceholders();
   onSaleGames: Game[] = this.createPlaceholders();
   topRatedGames: Game[] = this.createPlaceholders();
@@ -82,6 +94,9 @@ export class HomeComponent implements OnInit {
     private mediaService: MediaService,
   ) {}
 
+  /**
+   * Inicializa el componente, configurando géneros y cargando los juegos.
+   */
   ngOnInit(): void {
     this.checkScreenSize();
     this.otherGenres = this.allGenres.filter(
@@ -90,11 +105,13 @@ export class HomeComponent implements OnInit {
     this.loadGames();
   }
 
+  /** Escucha cambios en el tamaño de la ventana. */
   @HostListener('window:resize', [])
   onResize() {
     this.checkScreenSize();
   }
 
+  /** Determina si la pantalla es móvil o escritorio. */
   private checkScreenSize() {
     if (!isPlatformBrowser(this.platformId)) {
       return;
@@ -102,6 +119,7 @@ export class HomeComponent implements OnInit {
     this.isMobile = window.innerWidth <= 768;
   }
 
+  /** Géneros visibles en la barra principal según el dispositivo. */
   get visibleGenres() {
     if (this.isMobile) {
       return this.genres.slice(0, 3);
@@ -109,6 +127,7 @@ export class HomeComponent implements OnInit {
     return this.genres;
   }
 
+  /** Elementos a mostrar en el desplegable de géneros. */
   get dropdownItems() {
     if (this.isMobile) {
       const hiddenMainGenres = this.genres.slice(3);
@@ -117,6 +136,10 @@ export class HomeComponent implements OnInit {
     return this.otherGenres;
   }
 
+  /**
+   * Maneja el desplazamiento de la ventana para aplicar el efecto parallax
+   * a las diferentes capas del banner.
+   */
   @HostListener('window:scroll')
   onWindowScroll(): void {
     if (!isPlatformBrowser(this.platformId)) {
@@ -175,6 +198,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  /** Alterna la visibilidad del desplegable de géneros. */
   toggleAllGenres(): void {
     if (this.showAllGenres) {
       this.closeGenreDropdown();
@@ -184,6 +208,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  /** Cierra el desplegable de géneros con animación. */
   closeGenreDropdown(): void {
     this.isClosingGenreDropdown = true;
     setTimeout(() => {
@@ -192,6 +217,10 @@ export class HomeComponent implements OnInit {
     }, 150);
   }
 
+  /**
+   * Carga la lista de juegos y los clasifica en las diferentes secciones.
+   * Incluye la carga de medios asociados a cada juego.
+   */
   loadGames() {
     this.gameService.getAll({}).subscribe((games) => {
       this.mediaService.getAll({}).subscribe((allMedia) => {
@@ -215,14 +244,17 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  /** Navega a la página de detalle de un producto. */
   goToProduct(id: number) {
     this.router.navigate(['/product', id]);
   }
 
+  /** Navega a la página de búsqueda filtrando por género. */
   goToGenres(nombre: string) {
     this.router.navigate(['/search'], { queryParams: { genre: nombre } });
   }
 
+  /** Crea una lista de juegos 'placeholder' para estados de carga. */
   createPlaceholders(): Game[] {
     return Array(20).fill({
       id: -1,
@@ -244,6 +276,7 @@ export class HomeComponent implements OnInit {
     } as unknown as Game);
   }
 
+  /** Escucha clics fuera para cerrar el menú de géneros. */
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event): void {
     const target = event.target as HTMLElement;

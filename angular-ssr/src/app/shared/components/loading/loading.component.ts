@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 
+/**
+ * Componente que muestra un indicador de carga (spinner) global o local.
+ */
 @Component({
   selector: 'app-loading',
   imports: [],

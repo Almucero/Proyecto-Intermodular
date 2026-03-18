@@ -2,16 +2,26 @@ import { Injectable } from '@angular/core';
 import { IBaseMapping } from '../interfaces/base-mapping.interface';
 import { User } from '../../models/user.model';
 
+/**
+ * Servicio de mapeo para usuarios desde un backend Node.js.
+ * Maneja propiedades computadas como el nombre de usuario y la imagen de perfil.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class UserMappingNodeService implements IBaseMapping<User> {
   constructor() {}
 
+  /** Transforma una lista de usuarios de la API. */
   getAll(data: any): User[] {
     return data.map((item: any) => this.getOne(item));
   }
 
+  /**
+   * Transforma un objeto usuario de la API al modelo {@link User}.
+   * Define getters dinámicos para `profileImage` y `username` para compatibilidad.
+   * @param data Objeto de la API.
+   */
   getOne(data: any): User {
     const user: any = {
       id: data.id,
@@ -65,6 +75,7 @@ export class UserMappingNodeService implements IBaseMapping<User> {
     return this.getOne(data);
   }
 
+  /** Prepara un nuevo usuario para el registro. */
   setAdd(data: User): any {
     return {
       name: data.name,
@@ -82,6 +93,7 @@ export class UserMappingNodeService implements IBaseMapping<User> {
     };
   }
 
+  /** Prepara los datos para actualizar el perfil del usuario. */
   setUpdate(data: any): any {
     const payload: any = {};
     if (data.name !== undefined) payload.name = data.name;

@@ -21,6 +21,11 @@ import { loadingAnimation } from './animations/loading.animation';
 import { revealAnimation } from './animations/reveal.animation';
 import { headerRevealAnimation } from './animations/header-reveal.animation';
 
+/**
+ * Componente raíz de la aplicación GameSage.
+ * Gestiona el estado global inicial, la carga (loading screen), el login automático,
+ * y las animaciones de transición entre rutas.
+ */
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -42,11 +47,16 @@ import { headerRevealAnimation } from './animations/header-reveal.animation';
   ],
 })
 export class AppComponent {
+  /** Título de la aplicación. */
   title = 'GameSage';
+  /** Controla la visibilidad de la pantalla de carga inicial. */
   public isLoading = true;
+  /** Duración de la animación de salida del loader. */
   public exitAnimationDuration = '800ms';
+  /** Marca de tiempo de inicio para calcular el tiempo de carga. */
   private startTime = Date.now();
 
+  /** Indica si la ruta actual es la página de inicio. */
   public isHomePage = false;
 
   private authService = inject(BaseAuthenticationService);
@@ -57,6 +67,9 @@ export class AppComponent {
   private platformId = inject(PLATFORM_ID);
   private document = inject(DOCUMENT);
 
+  /**
+   * Inicializa la aplicación, gestiona el auto-login y el estado de la pantalla de carga.
+   */
   constructor() {
     this.authService.autoLogin();
 
@@ -87,6 +100,9 @@ export class AppComponent {
         }
       });
 
+    /**
+     * Sincroniza el scroll del body con el estado del menú hamburguesa (mobile).
+     */
     effect(() => {
       if (!isPlatformBrowser(this.platformId)) {
         return;
@@ -99,6 +115,10 @@ export class AppComponent {
     });
   }
 
+  /**
+   * Prepara los datos de animación para la ruta activa.
+   * @param outlet Salida de enrutado activa.
+   */
   prepareRoute(outlet: RouterOutlet) {
     return (
       outlet &&

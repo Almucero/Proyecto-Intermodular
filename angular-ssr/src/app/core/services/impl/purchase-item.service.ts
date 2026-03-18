@@ -5,6 +5,9 @@ import type { IBaseRepository } from '../../repositories/interfaces/base-reposit
 import { PurchaseItem } from '../../models/purchase-item.model';
 import { IPurchaseItemService } from '../interfaces/purchase-item-service.interface';
 
+/**
+ * Servicio para la gestión de artículos individuales dentro de un pedido de compra.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -12,6 +15,9 @@ export class PurchaseItemService
   extends BaseService<PurchaseItem>
   implements IPurchaseItemService
 {
+  /**
+   * @param repository Repositorio de artículos de compra inyectado.
+   */
   constructor(
     @Inject(PURCHASE_ITEM_REPOSITORY_TOKEN)
     repository: IBaseRepository<PurchaseItem>,

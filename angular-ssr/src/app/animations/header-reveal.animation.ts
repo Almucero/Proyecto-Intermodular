@@ -6,7 +6,12 @@ import {
   state,
 } from '@angular/animations';
 
+/**
+ * Animación de revelado para el encabezado (header).
+ * Desplaza el header desde arriba hacia su posición original.
+ */
 export const headerRevealAnimation = trigger('headerRevealAnimation', [
+
   state(
     'hidden',
     style({

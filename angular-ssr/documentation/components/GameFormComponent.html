@@ -1,0 +1,3519 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>game-sage documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">game-sage documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  GameFormComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/pages/admin/games/game-form/game-form.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Componente de formulario para la creación y edición de videojuegos.
+Maneja datos complejos incluyendo relaciones con desarrolladores, editores,
+géneros, plataformas y subida de imágenes.</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
+                    <code><a href="https://angular.io/api/core/AfterViewInit" target="_blank" >AfterViewInit</a></code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-game-form</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
+                                <code><a href="https://angular.io/api/forms/ReactiveFormsModule" target="_blank" >ReactiveFormsModule</a></code>
+                                <code><a href="https://angular.io/api/forms/FormsModule" target="_blank" >FormsModule</a></code>
+                            <code>TranslateModule</code>
+                                <code><a href="../components/FileUploadComponent.html" target="_self" >FileUploadComponent</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./game-form.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./game-form.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#cdRef" >cdRef</a>
+                            </li>
+                            <li>
+                                <a href="#currentImageUrl" >currentImageUrl</a>
+                            </li>
+                            <li>
+                                <a href="#developers" >developers</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#developerService" >developerService</a>
+                            </li>
+                            <li>
+                                <a href="#errorMessage" >errorMessage</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#fb" >fb</a>
+                            </li>
+                            <li>
+                                <a href="#form" >form</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#gameService" >gameService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#genreContainer" >genreContainer</a>
+                            </li>
+                            <li>
+                                <a href="#genres" >genres</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#genreService" >genreService</a>
+                            </li>
+                            <li>
+                                <a href="#isEditMode" >isEditMode</a>
+                            </li>
+                            <li>
+                                <a href="#newDevName" >newDevName</a>
+                            </li>
+                            <li>
+                                <a href="#newGenreName" >newGenreName</a>
+                            </li>
+                            <li>
+                                <a href="#newPlatformName" >newPlatformName</a>
+                            </li>
+                            <li>
+                                <a href="#newPubName" >newPubName</a>
+                            </li>
+                            <li>
+                                <a href="#platforms" >platforms</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#platformService" >platformService</a>
+                            </li>
+                            <li>
+                                <a href="#publishers" >publishers</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#publisherService" >publisherService</a>
+                            </li>
+                            <li>
+                                <a href="#showDevModal" >showDevModal</a>
+                            </li>
+                            <li>
+                                <a href="#showGenreBottomShadow" >showGenreBottomShadow</a>
+                            </li>
+                            <li>
+                                <a href="#showGenreModal" >showGenreModal</a>
+                            </li>
+                            <li>
+                                <a href="#showGenreTopShadow" >showGenreTopShadow</a>
+                            </li>
+                            <li>
+                                <a href="#showPlatformModal" >showPlatformModal</a>
+                            </li>
+                            <li>
+                                <a href="#showPubModal" >showPubModal</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#checkScrolls" >checkScrolls</a>
+                            </li>
+                            <li>
+                                <a href="#getGenreMaskStyle" >getGenreMaskStyle</a>
+                            </li>
+                            <li>
+                                <a href="#isGenreSelected" >isGenreSelected</a>
+                            </li>
+                            <li>
+                                <a href="#isPlatformSelected" >isPlatformSelected</a>
+                            </li>
+                            <li>
+                                <a href="#loadDependencies" >loadDependencies</a>
+                            </li>
+                            <li>
+                                <a href="#loadGame" >loadGame</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterViewInit" >ngAfterViewInit</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onCancel" >onCancel</a>
+                            </li>
+                            <li>
+                                <a href="#onGenreChange" >onGenreChange</a>
+                            </li>
+                            <li>
+                                <a href="#onGenreScroll" >onGenreScroll</a>
+                            </li>
+                            <li>
+                                <a href="#onPlatformChange" >onPlatformChange</a>
+                            </li>
+                            <li>
+                                <a href="#onSubmit" >onSubmit</a>
+                            </li>
+                            <li>
+                                <a href="#quickCreateDeveloper" >quickCreateDeveloper</a>
+                            </li>
+                            <li>
+                                <a href="#quickCreateGenre" >quickCreateGenre</a>
+                            </li>
+                            <li>
+                                <a href="#quickCreatePlatform" >quickCreatePlatform</a>
+                            </li>
+                            <li>
+                                <a href="#quickCreatePublisher" >quickCreatePublisher</a>
+                            </li>
+                            <li>
+                                <a href="#resetForm" >resetForm</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#id" >id</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#cancel" >cancel</a>
+                            </li>
+                            <li>
+                                <a href="#save" >save</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(mediaRepository: <a href="../interfaces/IMediaRepository.html" target="_self">IMediaRepository</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:68</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>mediaRepository</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../interfaces/IMediaRepository.html" target="_self" >IMediaRepository</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="id"></a>
+                        <b>id</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:75</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>ID del juego a editar (null si es creación).</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+    <section data-compodoc="block-outputs">
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cancel"></a>
+                        <b>cancel</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:79</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Evento emitido al cancelar la operación.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="save"></a>
+                        <b>save</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:77</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Evento emitido tras guardar con éxito.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkScrolls"></a>
+                    <span class="name">
+                        <span ><b>checkScrolls</b></span>
+                        <a href="#checkScrolls"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>checkScrolls()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="361"
+                                    class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:361</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Lanza la verificación de estados de scroll con un pequeño retardo.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getGenreMaskStyle"></a>
+                    <span class="name">
+                        <span ><b>getGenreMaskStyle</b></span>
+                        <a href="#getGenreMaskStyle"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getGenreMaskStyle()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="382"
+                                    class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:382</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Calcula el estilo CSS de máscara para los gradientes de scroll en géneros.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isGenreSelected"></a>
+                    <span class="name">
+                        <span ><b>isGenreSelected</b></span>
+                        <a href="#isGenreSelected"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isGenreSelected(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="306"
+                                    class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:306</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Comprueba si un género está seleccionado actualmente.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isPlatformSelected"></a>
+                    <span class="name">
+                        <span ><b>isPlatformSelected</b></span>
+                        <a href="#isPlatformSelected"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isPlatformSelected(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="311"
+                                    class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:311</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Comprueba si una plataforma está seleccionada actualmente.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadDependencies"></a>
+                    <span class="name">
+                        <span ><b>loadDependencies</b></span>
+                        <a href="#loadDependencies"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadDependencies()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="210"
+                                    class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:210</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Carga todas las listas necesarias (desarrolladores, editores, géneros, plataformas).</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadGame"></a>
+                    <span class="name">
+                        <span ><b>loadGame</b></span>
+                        <a href="#loadGame"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadGame(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="180"
+                                    class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:180</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Carga los datos de un juego específico para su edición.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewInit"></a>
+                    <span class="name">
+                        <span ><b>ngAfterViewInit</b></span>
+                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="159"
+                                    class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:159</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Realiza comprobaciones visuales después de que la vista se haya cargado.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <span ><b>ngOnChanges</b></span>
+                        <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="146"
+                                    class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:146</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Detecta cambios en el ID de entrada para conmutar entre creación y edición.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>changes</td>
+                                            <td>
+                                                            <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="134"
+                                    class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:134</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Inicializa dependencias y carga datos iniciales.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onCancel"></a>
+                    <span class="name">
+                        <span ><b>onCancel</b></span>
+                        <a href="#onCancel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onCancel()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="356"
+                                    class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:356</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Cancela la edición y cierra el formulario.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onGenreChange"></a>
+                    <span class="name">
+                        <span ><b>onGenreChange</b></span>
+                        <a href="#onGenreChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onGenreChange(e: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, genreId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="278"
+                                    class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:278</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Maneja la selección/deselección de géneros (multiselect).</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>e</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>genreId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onGenreScroll"></a>
+                    <span class="name">
+                        <span ><b>onGenreScroll</b></span>
+                        <a href="#onGenreScroll"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onGenreScroll()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="369"
+                                    class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:369</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Gestiona la visibilidad de las sombras superior e inferior en la lista de géneros.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onPlatformChange"></a>
+                    <span class="name">
+                        <span ><b>onPlatformChange</b></span>
+                        <a href="#onPlatformChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onPlatformChange(e: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, platformId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="292"
+                                    class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:292</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Maneja la selección/deselección de plataformas (multiselect).</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>e</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>platformId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSubmit"></a>
+                    <span class="name">
+                        <span ><b>onSubmit</b></span>
+                        <a href="#onSubmit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSubmit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="319"
+                                    class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:319</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Procesa el envío del formulario.
+Si hay imagen nueva, la sube primero y luego guarda el juego.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="quickCreateDeveloper"></a>
+                    <span class="name">
+                        <span ><b>quickCreateDeveloper</b></span>
+                        <a href="#quickCreateDeveloper"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>quickCreateDeveloper()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="227"
+                                    class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:227</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Crea rápidamente un nuevo desarrollador y lo selecciona.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="quickCreateGenre"></a>
+                    <span class="name">
+                        <span ><b>quickCreateGenre</b></span>
+                        <a href="#quickCreateGenre"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>quickCreateGenre()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="251"
+                                    class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:251</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Crea rápidamente un nuevo género y lo añade a la selección.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="quickCreatePlatform"></a>
+                    <span class="name">
+                        <span ><b>quickCreatePlatform</b></span>
+                        <a href="#quickCreatePlatform"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>quickCreatePlatform()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="265"
+                                    class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:265</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Crea rápidamente una nueva plataforma y la añade a la selección.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="quickCreatePublisher"></a>
+                    <span class="name">
+                        <span ><b>quickCreatePublisher</b></span>
+                        <a href="#quickCreatePublisher"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>quickCreatePublisher()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="239"
+                                    class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:239</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Crea rápidamente un nuevo editor y lo selecciona.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resetForm"></a>
+                    <span class="name">
+                        <span ><b>resetForm</b></span>
+                        <a href="#resetForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resetForm()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="164"
+                                    class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:164</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Restablece el formulario a sus valores por defecto.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cdRef"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>cdRef</b></span>
+                        <a href="#cdRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ChangeDetectorRef)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:65</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentImageUrl"></a>
+                    <span class="name">
+                        <span ><b>currentImageUrl</b></span>
+                        <a href="#currentImageUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="117" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:117</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>URL de la imagen actual del juego (para edición).</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="developers"></a>
+                    <span class="name">
+                        <span ><b>developers</b></span>
+                        <a href="#developers"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Developer.html" target="_self" >Developer[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="112" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:112</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Listas de opciones cargadas desde el servidor para los selectores.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="developerService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>developerService</b></span>
+                        <a href="#developerService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(DeveloperService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:61</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="errorMessage"></a>
+                    <span class="name">
+                        <span ><b>errorMessage</b></span>
+                        <a href="#errorMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="109" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:109</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Mensaje de error para mostrar en la interfaz.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fb"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>fb</b></span>
+                        <a href="#fb"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(FormBuilder)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="form"></a>
+                    <span class="name">
+                        <span ><b>form</b></span>
+                        <a href="#form"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.fb.group({
+    title: [&#x27;&#x27;, [Validators.required]],
+    description: [&#x27;&#x27;],
+    price: [0, [Validators.required, Validators.min(0)]],
+    isOnSale: [false],
+    salePrice: [0],
+    isRefundable: [true],
+    numberOfSales: [0],
+    stockPc: [0],
+    stockPs5: [0],
+    stockXboxX: [0],
+    stockSwitch: [0],
+    stockPs4: [0],
+    stockXboxOne: [0],
+    videoUrl: [&#x27;&#x27;],
+    rating: [0],
+    releaseDate: [&#x27;&#x27;],
+    developerId: [null, [Validators.required]],
+    publisherId: [null, [Validators.required]],
+    genreIds: [[], [Validators.required]],
+    platformIds: [[], [Validators.required]],
+    image: [null],
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:82</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Grupo de formularios reactivos con validaciones.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="gameService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>gameService</b></span>
+                        <a href="#gameService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(GameService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="genreContainer"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>genreContainer</b></span>
+                        <a href="#genreContainer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;genreContainer&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:68</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Referencia al contenedor de géneros para gestionar efectos de scroll.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="genres"></a>
+                    <span class="name">
+                        <span ><b>genres</b></span>
+                        <a href="#genres"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Genre.html" target="_self" >Genre[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="114" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:114</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="genreService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>genreService</b></span>
+                        <a href="#genreService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(GenreService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:63</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isEditMode"></a>
+                    <span class="name">
+                        <span ><b>isEditMode</b></span>
+                        <a href="#isEditMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="107" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:107</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indica si el formulario está en modo edición de un registro existente.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="newDevName"></a>
+                    <span class="name">
+                        <span ><b>newDevName</b></span>
+                        <a href="#newDevName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="121" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:121</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="newGenreName"></a>
+                    <span class="name">
+                        <span ><b>newGenreName</b></span>
+                        <a href="#newGenreName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="125" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:125</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="newPlatformName"></a>
+                    <span class="name">
+                        <span ><b>newPlatformName</b></span>
+                        <a href="#newPlatformName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="127" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:127</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="newPubName"></a>
+                    <span class="name">
+                        <span ><b>newPubName</b></span>
+                        <a href="#newPubName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="123" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:123</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="platforms"></a>
+                    <span class="name">
+                        <span ><b>platforms</b></span>
+                        <a href="#platforms"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Platform.html" target="_self" >Platform[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="115" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:115</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="platformService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>platformService</b></span>
+                        <a href="#platformService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(PlatformService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:64</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="publishers"></a>
+                    <span class="name">
+                        <span ><b>publishers</b></span>
+                        <a href="#publishers"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Publisher.html" target="_self" >Publisher[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="113" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:113</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="publisherService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>publisherService</b></span>
+                        <a href="#publisherService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(PublisherService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:62</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showDevModal"></a>
+                    <span class="name">
+                        <span ><b>showDevModal</b></span>
+                        <a href="#showDevModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="120" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:120</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Estados para controlar la visibilidad de mini-modales de creación rápida.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showGenreBottomShadow"></a>
+                    <span class="name">
+                        <span ><b>showGenreBottomShadow</b></span>
+                        <a href="#showGenreBottomShadow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="131" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:131</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showGenreModal"></a>
+                    <span class="name">
+                        <span ><b>showGenreModal</b></span>
+                        <a href="#showGenreModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="124" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:124</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showGenreTopShadow"></a>
+                    <span class="name">
+                        <span ><b>showGenreTopShadow</b></span>
+                        <a href="#showGenreTopShadow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="130" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:130</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Control de sombras visuales para la lista de géneros con scroll.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showPlatformModal"></a>
+                    <span class="name">
+                        <span ><b>showPlatformModal</b></span>
+                        <a href="#showPlatformModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="126" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:126</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showPubModal"></a>
+                    <span class="name">
+                        <span ><b>showPubModal</b></span>
+                        <a href="#showPubModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="122" class="link-to-prism">src/app/pages/admin/games/game-form/game-form.component.ts:122</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  inject,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+  ChangeDetectorRef,
+} from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  FormsModule,
+  Validators,
+} from &#x27;@angular/forms&#x27;;
+import { TranslateModule } from &#x27;@ngx-translate/core&#x27;;
+import { GameService } from &#x27;../../../../core/services/impl/game.service&#x27;;
+import { DeveloperService } from &#x27;../../../../core/services/impl/developer.service&#x27;;
+import { PublisherService } from &#x27;../../../../core/services/impl/publisher.service&#x27;;
+import { GenreService } from &#x27;../../../../core/services/impl/genre.service&#x27;;
+import { PlatformService } from &#x27;../../../../core/services/impl/platform.service&#x27;;
+import { Game } from &#x27;../../../../core/models/game.model&#x27;;
+import { Developer } from &#x27;../../../../core/models/developer.model&#x27;;
+import { Publisher } from &#x27;../../../../core/models/publisher.model&#x27;;
+import { Genre } from &#x27;../../../../core/models/genre.model&#x27;;
+import { Platform } from &#x27;../../../../core/models/platform.model&#x27;;
+import { switchMap, of, forkJoin, Observable } from &#x27;rxjs&#x27;;
+import { FileUploadComponent } from &#x27;../../../../shared/components/file-upload/file-upload.component&#x27;;
+import { IMediaRepository } from &#x27;../../../../core/repositories/interfaces/media-repository.interface&#x27;;
+import { MEDIA_REPOSITORY_TOKEN } from &#x27;../../../../core/repositories/repository.tokens&#x27;;
+import { Inject } from &#x27;@angular/core&#x27;;
+
+/**
+ * Componente de formulario para la creación y edición de videojuegos.
+ * Maneja datos complejos incluyendo relaciones con desarrolladores, editores,
+ * géneros, plataformas y subida de imágenes.
+ */
+@Component({
+  selector: &#x27;app-game-form&#x27;,
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    TranslateModule,
+    FileUploadComponent,
+  ],
+  templateUrl: &#x27;./game-form.component.html&#x27;,
+  styleUrl: &#x27;./game-form.component.scss&#x27;,
+})
+export class GameFormComponent implements OnInit, OnChanges, AfterViewInit {
+  private fb &#x3D; inject(FormBuilder);
+  private gameService &#x3D; inject(GameService);
+  private developerService &#x3D; inject(DeveloperService);
+  private publisherService &#x3D; inject(PublisherService);
+  private genreService &#x3D; inject(GenreService);
+  private platformService &#x3D; inject(PlatformService);
+  private cdRef &#x3D; inject(ChangeDetectorRef);
+
+  /** Referencia al contenedor de géneros para gestionar efectos de scroll. */
+  @ViewChild(&#x27;genreContainer&#x27;) genreContainer!: ElementRef;
+
+  constructor(
+    @Inject(MEDIA_REPOSITORY_TOKEN) private mediaRepository: IMediaRepository,
+  ) {}
+
+  /** ID del juego a editar (null si es creación). */
+  @Input() id: number | null &#x3D; null;
+  /** Evento emitido tras guardar con éxito. */
+  @Output() save &#x3D; new EventEmitter&lt;void&gt;();
+  /** Evento emitido al cancelar la operación. */
+  @Output() cancel &#x3D; new EventEmitter&lt;void&gt;();
+
+  /** Grupo de formularios reactivos con validaciones. */
+  form: FormGroup &#x3D; this.fb.group({
+    title: [&#x27;&#x27;, [Validators.required]],
+    description: [&#x27;&#x27;],
+    price: [0, [Validators.required, Validators.min(0)]],
+    isOnSale: [false],
+    salePrice: [0],
+    isRefundable: [true],
+    numberOfSales: [0],
+    stockPc: [0],
+    stockPs5: [0],
+    stockXboxX: [0],
+    stockSwitch: [0],
+    stockPs4: [0],
+    stockXboxOne: [0],
+    videoUrl: [&#x27;&#x27;],
+    rating: [0],
+    releaseDate: [&#x27;&#x27;],
+    developerId: [null, [Validators.required]],
+    publisherId: [null, [Validators.required]],
+    genreIds: [[], [Validators.required]],
+    platformIds: [[], [Validators.required]],
+    image: [null],
+  });
+
+  /** Indica si el formulario está en modo edición de un registro existente. */
+  isEditMode &#x3D; false;
+  /** Mensaje de error para mostrar en la interfaz. */
+  errorMessage: string | null &#x3D; null;
+
+  /** Listas de opciones cargadas desde el servidor para los selectores. */
+  developers: Developer[] &#x3D; [];
+  publishers: Publisher[] &#x3D; [];
+  genres: Genre[] &#x3D; [];
+  platforms: Platform[] &#x3D; [];
+  /** URL de la imagen actual del juego (para edición). */
+  currentImageUrl: string | null &#x3D; null;
+
+  /** Estados para controlar la visibilidad de mini-modales de creación rápida. */
+  showDevModal &#x3D; false;
+  newDevName &#x3D; &#x27;&#x27;;
+  showPubModal &#x3D; false;
+  newPubName &#x3D; &#x27;&#x27;;
+  showGenreModal &#x3D; false;
+  newGenreName &#x3D; &#x27;&#x27;;
+  showPlatformModal &#x3D; false;
+  newPlatformName &#x3D; &#x27;&#x27;;
+
+  /** Control de sombras visuales para la lista de géneros con scroll. */
+  showGenreTopShadow &#x3D; false;
+  showGenreBottomShadow &#x3D; false;
+
+  /** Inicializa dependencias y carga datos iniciales. */
+  ngOnInit(): void {
+    this.loadDependencies();
+    if (this.id) {
+      this.isEditMode &#x3D; true;
+      this.loadGame(this.id);
+    } else {
+      this.isEditMode &#x3D; false;
+      this.resetForm();
+    }
+  }
+
+  /** Detecta cambios en el ID de entrada para conmutar entre creación y edición. */
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes[&#x27;id&#x27;]) {
+      if (this.id) {
+        this.isEditMode &#x3D; true;
+        this.loadGame(this.id);
+      } else {
+        this.isEditMode &#x3D; false;
+        this.resetForm();
+      }
+    }
+  }
+
+  /** Realiza comprobaciones visuales después de que la vista se haya cargado. */
+  ngAfterViewInit() {
+    this.checkScrolls();
+  }
+
+  /** Restablece el formulario a sus valores por defecto. */
+  resetForm() {
+    this.form.reset({
+      isRefundable: true,
+      numberOfSales: 0,
+      stockPc: 0,
+      stockPs5: 0,
+      stockXboxX: 0,
+      stockSwitch: 0,
+      stockPs4: 0,
+      stockXboxOne: 0,
+      price: 0,
+    });
+    this.currentImageUrl &#x3D; null;
+  }
+
+  /** Carga los datos de un juego específico para su edición. */
+  loadGame(id: number) {
+    this.gameService.getById(id.toString()).subscribe((game) &#x3D;&gt; {
+      if (game) {
+        const formattedDate &#x3D; game.releaseDate
+          ? game.releaseDate.split(&#x27;T&#x27;)[0]
+          : &#x27;&#x27;;
+        this.form.patchValue({
+          ...game,
+          releaseDate: formattedDate,
+          developerId:
+            game.developerId ||
+            game.Developer?.id ||
+            (game as any).developer?.id,
+          publisherId:
+            game.publisherId ||
+            game.Publisher?.id ||
+            (game as any).publisher?.id,
+          genreIds: game.genres?.map((g) &#x3D;&gt; g.id) || [],
+          platformIds: game.platforms?.map((p) &#x3D;&gt; p.id) || [],
+        });
+        if (game.media &amp;&amp; game.media.length &gt; 0) {
+          this.currentImageUrl &#x3D; game.media[0].url;
+        } else {
+          this.currentImageUrl &#x3D; null;
+        }
+      }
+    });
+  }
+
+  /** Carga todas las listas necesarias (desarrolladores, editores, géneros, plataformas). */
+  loadDependencies() {
+    forkJoin({
+      devs: this.developerService.getAll(),
+      pubs: this.publisherService.getAll(),
+      genres: this.genreService.getAll(),
+      platforms: this.platformService.getAll(),
+    }).subscribe((data) &#x3D;&gt; {
+      this.developers &#x3D; data.devs;
+      this.publishers &#x3D; data.pubs;
+      this.genres &#x3D; data.genres;
+      this.platforms &#x3D; data.platforms;
+
+      this.checkScrolls();
+    });
+  }
+
+  /** Crea rápidamente un nuevo desarrollador y lo selecciona. */
+  quickCreateDeveloper() {
+    if (!this.newDevName.trim()) return;
+    const newDev: Developer &#x3D; { id: 0, name: this.newDevName };
+    this.developerService.add(newDev).subscribe((dev) &#x3D;&gt; {
+      this.developers &#x3D; [...this.developers, dev];
+      this.form.patchValue({ developerId: dev.id });
+      this.showDevModal &#x3D; false;
+      this.newDevName &#x3D; &#x27;&#x27;;
+    });
+  }
+
+  /** Crea rápidamente un nuevo editor y lo selecciona. */
+  quickCreatePublisher() {
+    if (!this.newPubName.trim()) return;
+    const newPub: Publisher &#x3D; { id: 0, name: this.newPubName };
+    this.publisherService.add(newPub).subscribe((pub) &#x3D;&gt; {
+      this.publishers &#x3D; [...this.publishers, pub];
+      this.form.patchValue({ publisherId: pub.id });
+      this.showPubModal &#x3D; false;
+      this.newPubName &#x3D; &#x27;&#x27;;
+    });
+  }
+
+  /** Crea rápidamente un nuevo género y lo añade a la selección. */
+  quickCreateGenre() {
+    if (!this.newGenreName.trim()) return;
+    const newGenre: Genre &#x3D; { id: 0, name: this.newGenreName };
+    this.genreService.add(newGenre).subscribe((g) &#x3D;&gt; {
+      this.genres &#x3D; [...this.genres, g];
+      const currentIds &#x3D; this.form.get(&#x27;genreIds&#x27;)?.value || [];
+      this.form.patchValue({ genreIds: [...currentIds, g.id] });
+      this.showGenreModal &#x3D; false;
+      this.newGenreName &#x3D; &#x27;&#x27;;
+      this.checkScrolls();
+    });
+  }
+
+  /** Crea rápidamente una nueva plataforma y la añade a la selección. */
+  quickCreatePlatform() {
+    if (!this.newPlatformName.trim()) return;
+    const newPlatform: Platform &#x3D; { id: 0, name: this.newPlatformName };
+    this.platformService.add(newPlatform).subscribe((p) &#x3D;&gt; {
+      this.platforms &#x3D; [...this.platforms, p];
+      const currentIds &#x3D; this.form.get(&#x27;platformIds&#x27;)?.value || [];
+      this.form.patchValue({ platformIds: [...currentIds, p.id] });
+      this.showPlatformModal &#x3D; false;
+      this.newPlatformName &#x3D; &#x27;&#x27;;
+    });
+  }
+
+  /** Maneja la selección/deselección de géneros (multiselect). */
+  onGenreChange(e: any, genreId: number) {
+    const currentIds: number[] &#x3D; this.form.get(&#x27;genreIds&#x27;)?.value || [];
+    if (e.target.checked) {
+      if (!currentIds.includes(genreId)) {
+        this.form.patchValue({ genreIds: [...currentIds, genreId] });
+      }
+    } else {
+      this.form.patchValue({
+        genreIds: currentIds.filter((id) &#x3D;&gt; id !&#x3D;&#x3D; genreId),
+      });
+    }
+  }
+
+  /** Maneja la selección/deselección de plataformas (multiselect). */
+  onPlatformChange(e: any, platformId: number) {
+    const currentIds: number[] &#x3D; this.form.get(&#x27;platformIds&#x27;)?.value || [];
+    if (e.target.checked) {
+      if (!currentIds.includes(platformId)) {
+        this.form.patchValue({ platformIds: [...currentIds, platformId] });
+      }
+    } else {
+      this.form.patchValue({
+        platformIds: currentIds.filter((id) &#x3D;&gt; id !&#x3D;&#x3D; platformId),
+      });
+    }
+  }
+
+  /** Comprueba si un género está seleccionado actualmente. */
+  isGenreSelected(id: number): boolean {
+    return (this.form.get(&#x27;genreIds&#x27;)?.value || []).includes(id);
+  }
+
+  /** Comprueba si una plataforma está seleccionada actualmente. */
+  isPlatformSelected(id: number): boolean {
+    return (this.form.get(&#x27;platformIds&#x27;)?.value || []).includes(id);
+  }
+
+  /**
+   * Procesa el envío del formulario.
+   * Si hay imagen nueva, la sube primero y luego guarda el juego.
+   */
+  onSubmit() {
+    if (this.form.invalid) return;
+
+    const file &#x3D; this.form.get(&#x27;image&#x27;)?.value;
+
+    let uploadRequest$: Observable&lt;any&gt; &#x3D; of(null);
+    if (file instanceof File) {
+      uploadRequest$ &#x3D; this.mediaRepository.upload(file);
+    }
+
+    uploadRequest$
+      .pipe(
+        switchMap((uploadedMedia: any) &#x3D;&gt; {
+          const formVal &#x3D; this.form.value;
+          const gameData: Game &#x3D; {
+            id: this.id ? this.id : 0,
+            ...formVal,
+            genres: formVal.genreIds.map((id: number) &#x3D;&gt; ({ id })),
+            platforms: formVal.platformIds.map((id: number) &#x3D;&gt; ({ id })),
+          };
+
+          if (uploadedMedia) {
+            gameData.media &#x3D; [uploadedMedia];
+          }
+
+          return this.isEditMode
+            ? this.gameService.update(this.id!.toString(), gameData)
+            : this.gameService.add(gameData);
+        }),
+      )
+      .subscribe({
+        next: () &#x3D;&gt; this.save.emit(),
+        error: (err: any) &#x3D;&gt; (this.errorMessage &#x3D; &#x27;Error saving game&#x27;),
+      });
+  }
+
+  /** Cancela la edición y cierra el formulario. */
+  onCancel() {
+    this.cancel.emit();
+  }
+
+  /** Lanza la verificación de estados de scroll con un pequeño retardo. */
+  checkScrolls() {
+    setTimeout(() &#x3D;&gt; {
+      this.onGenreScroll();
+      this.cdRef.detectChanges();
+    }, 50);
+  }
+
+  /** Gestiona la visibilidad de las sombras superior e inferior en la lista de géneros. */
+  onGenreScroll() {
+    if (!this.genreContainer) return;
+    const element &#x3D; this.genreContainer.nativeElement;
+
+    this.showGenreTopShadow &#x3D; element.scrollTop &gt; 0;
+
+    const atBottom &#x3D;
+      element.scrollHeight - element.scrollTop &lt;&#x3D; element.clientHeight + 1;
+    this.showGenreBottomShadow &#x3D;
+      !atBottom &amp;&amp; element.scrollHeight &gt; element.clientHeight;
+  }
+
+  /** Calcula el estilo CSS de máscara para los gradientes de scroll en géneros. */
+  getGenreMaskStyle(): string {
+    const top &#x3D; this.showGenreTopShadow ? &#x27;transparent&#x27; : &#x27;black&#x27;;
+    const bottom &#x3D; this.showGenreBottomShadow ? &#x27;transparent&#x27; : &#x27;black&#x27;;
+    const gradient &#x3D; &#x60;linear-gradient(to bottom, ${top} 0%, black 40%, black 60%, ${bottom} 100%)&#x60;;
+    return &#x60;${gradient}, linear-gradient(black, black)&#x60;;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div
+  class&#x3D;&quot;relative flex flex-col bg-gray-800 rounded-xl shadow-2xl max-w-4xl mx-auto border-none max-h-[70vh] overflow-hidden&quot;
+&gt;
+  &lt;div class&#x3D;&quot;flex-1 overflow-y-auto p-8 custom-scrollbar relative&quot;&gt;
+    &lt;form
+      [formGroup]&#x3D;&quot;form&quot;
+      (ngSubmit)&#x3D;&quot;onSubmit()&quot;
+      class&#x3D;&quot;grid grid-cols-1 lg:grid-cols-2 gap-8 items-start&quot;
+    &gt;
+      &lt;div class&#x3D;&quot;space-y-6&quot;&gt;
+        &lt;div class&#x3D;&quot;group&quot;&gt;
+          &lt;label
+            for&#x3D;&quot;title&quot;
+            class&#x3D;&quot;block text-gray-400 text-sm font-medium mb-2 uppercase tracking-wider&quot;
+            &gt;{{ &quot;common.title&quot; | translate }}&lt;/label
+          &gt;
+          &lt;input
+            type&#x3D;&quot;text&quot;
+            id&#x3D;&quot;title&quot;
+            formControlName&#x3D;&quot;title&quot;
+            class&#x3D;&quot;w-full h-14 min-h-[3.5rem] max-h-[3.5rem] bg-gray-900/30 text-white rounded-lg px-4 border-none focus:ring-1 focus:ring-cyan-500 focus:outline-none&quot;
+            [placeholder]&#x3D;&quot;&#x27;admin.games.enterTitle&#x27; | translate&quot;
+            [class.border-red-500]&#x3D;&quot;
+              form.get(&#x27;title&#x27;)?.touched &amp;&amp; form.get(&#x27;title&#x27;)?.invalid
+            &quot;
+          /&gt;
+          &lt;div
+            *ngIf&#x3D;&quot;form.get(&#x27;title&#x27;)?.touched &amp;&amp; form.get(&#x27;title&#x27;)?.invalid&quot;
+            class&#x3D;&quot;text-red-400 text-xs mt-1&quot;
+          &gt;
+            {{ &quot;errors.required&quot; | translate }}
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;grid grid-cols-2 gap-4&quot;&gt;
+          &lt;div class&#x3D;&quot;group&quot;&gt;
+            &lt;label
+              for&#x3D;&quot;price&quot;
+              class&#x3D;&quot;block text-gray-400 text-sm font-medium mb-2 uppercase tracking-wider&quot;
+              &gt;{{ &quot;common.price&quot; | translate }}&lt;/label
+            &gt;
+            &lt;div class&#x3D;&quot;relative&quot;&gt;
+              &lt;span
+                class&#x3D;&quot;absolute left-4 top-1/2 -translate-y-1/2 text-gray-500&quot;
+                &gt;€&lt;/span
+              &gt;
+              &lt;input
+                type&#x3D;&quot;number&quot;
+                id&#x3D;&quot;price&quot;
+                formControlName&#x3D;&quot;price&quot;
+                class&#x3D;&quot;w-full h-14 min-h-[3.5rem] max-h-[3.5rem] bg-gray-900/30 text-white rounded-lg pr-4 pl-10 border-none focus:ring-1 focus:ring-cyan-500 focus:outline-none&quot;
+              /&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div class&#x3D;&quot;group&quot;&gt;
+            &lt;label
+              for&#x3D;&quot;rating&quot;
+              class&#x3D;&quot;block text-gray-400 text-sm font-medium mb-2 uppercase tracking-wider&quot;
+              &gt;Rating&lt;/label
+            &gt;
+            &lt;div class&#x3D;&quot;relative&quot;&gt;
+              &lt;span
+                class&#x3D;&quot;absolute left-4 top-1/2 -translate-y-1/2 text-yellow-500 text-lg&quot;
+                &gt;★&lt;/span
+              &gt;
+              &lt;input
+                type&#x3D;&quot;number&quot;
+                id&#x3D;&quot;rating&quot;
+                formControlName&#x3D;&quot;rating&quot;
+                class&#x3D;&quot;w-full h-14 min-h-[3.5rem] max-h-[3.5rem] bg-gray-900/30 text-white rounded-lg pr-4 pl-10 border-none focus:ring-1 focus:ring-cyan-500 focus:outline-none&quot;
+                min&#x3D;&quot;0&quot;
+                max&#x3D;&quot;100&quot;
+              /&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;group&quot;&gt;
+          &lt;label
+            for&#x3D;&quot;developerId&quot;
+            class&#x3D;&quot;block text-gray-400 text-sm font-medium mb-2 uppercase tracking-wider&quot;
+            &gt;{{ &quot;admin.games.developer&quot; | translate }}&lt;/label
+          &gt;
+          &lt;div class&#x3D;&quot;grid grid-cols-[1fr_auto] gap-2 h-14&quot;&gt;
+            &lt;div
+              class&#x3D;&quot;bg-gray-900/30 rounded-lg px-4 flex items-center h-full focus-within:ring-1 focus-within:ring-cyan-500 transition-all&quot;
+            &gt;
+              &lt;select
+                id&#x3D;&quot;developerId&quot;
+                formControlName&#x3D;&quot;developerId&quot;
+                class&#x3D;&quot;w-full h-full bg-transparent text-white border-none focus:ring-0 focus:outline-none appearance-none cursor-pointer&quot;
+              &gt;
+                &lt;option [ngValue]&#x3D;&quot;null&quot; class&#x3D;&quot;text-gray-500&quot;&gt;
+                  {{ &quot;admin.games.selectDeveloper&quot; | translate }}
+                &lt;/option&gt;
+                &lt;option *ngFor&#x3D;&quot;let dev of developers&quot; [ngValue]&#x3D;&quot;dev.id&quot;&gt;
+                  {{ dev.name }}
+                &lt;/option&gt;
+              &lt;/select&gt;
+            &lt;/div&gt;
+            &lt;button
+              type&#x3D;&quot;button&quot;
+              (click)&#x3D;&quot;showDevModal &#x3D; true&quot;
+              class&#x3D;&quot;h-full aspect-square bg-gray-700 hover:bg-gray-600 text-cyan-400 rounded-lg border-none flex items-center justify-center transition-colors&quot;
+            &gt;
+              &lt;svg
+                xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+                fill&#x3D;&quot;none&quot;
+                viewBox&#x3D;&quot;0 0 24 24&quot;
+                stroke-width&#x3D;&quot;2.5&quot;
+                stroke&#x3D;&quot;currentColor&quot;
+                class&#x3D;&quot;w-6 h-6&quot;
+              &gt;
+                &lt;path
+                  stroke-linecap&#x3D;&quot;round&quot;
+                  stroke-linejoin&#x3D;&quot;round&quot;
+                  d&#x3D;&quot;M12 4.5v15m7.5-7.5h-15&quot;
+                /&gt;
+              &lt;/svg&gt;
+            &lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;group&quot;&gt;
+          &lt;label
+            for&#x3D;&quot;publisherId&quot;
+            class&#x3D;&quot;block text-gray-400 text-sm font-medium mb-2 uppercase tracking-wider&quot;
+            &gt;{{ &quot;admin.games.publisher&quot; | translate }}&lt;/label
+          &gt;
+          &lt;div class&#x3D;&quot;grid grid-cols-[1fr_auto] gap-2 h-14&quot;&gt;
+            &lt;div
+              class&#x3D;&quot;bg-gray-900/30 rounded-lg px-4 flex items-center h-full focus-within:ring-1 focus-within:ring-cyan-500 transition-all&quot;
+            &gt;
+              &lt;select
+                id&#x3D;&quot;publisherId&quot;
+                formControlName&#x3D;&quot;publisherId&quot;
+                class&#x3D;&quot;w-full h-full bg-transparent text-white border-none focus:ring-0 focus:outline-none appearance-none cursor-pointer&quot;
+              &gt;
+                &lt;option [ngValue]&#x3D;&quot;null&quot; class&#x3D;&quot;text-gray-500&quot;&gt;
+                  {{ &quot;admin.games.selectPublisher&quot; | translate }}
+                &lt;/option&gt;
+                &lt;option *ngFor&#x3D;&quot;let pub of publishers&quot; [ngValue]&#x3D;&quot;pub.id&quot;&gt;
+                  {{ pub.name }}
+                &lt;/option&gt;
+              &lt;/select&gt;
+            &lt;/div&gt;
+            &lt;button
+              type&#x3D;&quot;button&quot;
+              (click)&#x3D;&quot;showPubModal &#x3D; true&quot;
+              class&#x3D;&quot;h-full aspect-square bg-gray-700 hover:bg-gray-600 text-cyan-400 rounded-lg border-none flex items-center justify-center transition-colors&quot;
+            &gt;
+              &lt;svg
+                xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+                fill&#x3D;&quot;none&quot;
+                viewBox&#x3D;&quot;0 0 24 24&quot;
+                stroke-width&#x3D;&quot;2.5&quot;
+                stroke&#x3D;&quot;currentColor&quot;
+                class&#x3D;&quot;w-6 h-6&quot;
+              &gt;
+                &lt;path
+                  stroke-linecap&#x3D;&quot;round&quot;
+                  stroke-linejoin&#x3D;&quot;round&quot;
+                  d&#x3D;&quot;M12 4.5v15m7.5-7.5h-15&quot;
+                /&gt;
+              &lt;/svg&gt;
+            &lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;group&quot;&gt;
+          &lt;label
+            class&#x3D;&quot;block text-gray-400 text-sm font-medium mb-2 uppercase tracking-wider&quot;
+            &gt;{{ &quot;admin.games.videoUrl&quot; | translate }}&lt;/label
+          &gt;
+          &lt;input
+            type&#x3D;&quot;text&quot;
+            formControlName&#x3D;&quot;videoUrl&quot;
+            class&#x3D;&quot;w-full h-14 min-h-[3.5rem] max-h-[3.5rem] bg-gray-900/30 text-white rounded-lg px-4 border-none focus:ring-1 focus:ring-cyan-500 focus:outline-none placeholder-gray-600&quot;
+            [placeholder]&#x3D;&quot;&#x27;admin.games.enterVideoUrl&#x27; | translate&quot;
+          /&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;group&quot;&gt;
+          &lt;label
+            class&#x3D;&quot;block text-gray-400 text-sm font-medium mb-2 uppercase tracking-wider&quot;
+            &gt;{{ &quot;admin.games.releaseDate&quot; | translate }}&lt;/label
+          &gt;
+          &lt;input
+            type&#x3D;&quot;date&quot;
+            formControlName&#x3D;&quot;releaseDate&quot;
+            class&#x3D;&quot;w-full h-14 min-h-[3.5rem] max-h-[3.5rem] bg-gray-900/30 text-white rounded-lg px-4 border-none focus:ring-1 focus:ring-cyan-500 focus:outline-none&quot;
+          /&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;group&quot;&gt;
+          &lt;label
+            class&#x3D;&quot;block text-gray-400 text-sm font-medium mb-2 uppercase tracking-wider&quot;
+          &gt;
+            {{ &quot;common.image&quot; | translate }}
+          &lt;/label&gt;
+          &lt;app-file-upload
+            formControlName&#x3D;&quot;image&quot;
+            [acceptedMimeTypes]&#x3D;&quot;[&#x27;image/png&#x27;, &#x27;image/jpeg&#x27;, &#x27;image/webp&#x27;]&quot;
+            [initialUrl]&#x3D;&quot;currentImageUrl&quot;
+            [placeholder]&#x3D;&quot;&#x27;admin.games.uploadPlaceholder&#x27; | translate&quot;
+          &gt;&lt;/app-file-upload&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class&#x3D;&quot;space-y-6&quot;&gt;
+        &lt;div class&#x3D;&quot;group&quot;&gt;
+          &lt;div class&#x3D;&quot;flex justify-between items-center mb-2&quot;&gt;
+            &lt;label
+              class&#x3D;&quot;block text-gray-400 text-sm font-medium uppercase tracking-wider&quot;
+              &gt;{{ &quot;admin.games.genre&quot; | translate }}&lt;/label
+            &gt;
+            &lt;button
+              type&#x3D;&quot;button&quot;
+              (click)&#x3D;&quot;showGenreModal &#x3D; true&quot;
+              class&#x3D;&quot;px-3 py-1 bg-gray-700 hover:bg-gray-600 text-cyan-400 rounded-lg border-none text-xs font-bold uppercase tracking-wide flex items-center gap-1 cursor-pointer&quot;
+            &gt;
+              + {{ &quot;admin.games.new&quot; | translate }}
+            &lt;/button&gt;
+          &lt;/div&gt;
+
+          &lt;div
+            class&#x3D;&quot;relative bg-gray-900/30 rounded-xl h-60 border-none overflow-hidden&quot;
+          &gt;
+            &lt;div
+              #genreContainer
+              (scroll)&#x3D;&quot;onGenreScroll()&quot;
+              [style.mask-image]&#x3D;&quot;getGenreMaskStyle()&quot;
+              [style.-webkit-mask-image]&#x3D;&quot;getGenreMaskStyle()&quot;
+              [style.mask-size]&#x3D;&quot;&#x27;calc(100% - 14px) 100%, 14px 100%&#x27;&quot;
+              [style.-webkit-mask-size]&#x3D;&quot;&#x27;calc(100% - 14px) 100%, 14px 100%&#x27;&quot;
+              [style.mask-position]&#x3D;&quot;&#x27;0 0, 100% 0&#x27;&quot;
+              [style.-webkit-mask-position]&#x3D;&quot;&#x27;0 0, 100% 0&#x27;&quot;
+              [style.mask-repeat]&#x3D;&quot;&#x27;no-repeat, no-repeat&#x27;&quot;
+              [style.-webkit-mask-repeat]&#x3D;&quot;&#x27;no-repeat, no-repeat&#x27;&quot;
+              class&#x3D;&quot;h-full overflow-y-auto p-4 custom-scrollbar grid grid-cols-2 gap-2 relative z-10&quot;
+            &gt;
+              &lt;label
+                *ngFor&#x3D;&quot;let genre of genres&quot;
+                class&#x3D;&quot;flex items-center gap-3 p-2 rounded hover:bg-gray-800/50 cursor-pointer group transition-colors&quot;
+              &gt;
+                &lt;div class&#x3D;&quot;relative flex items-center justify-center w-5 h-5&quot;&gt;
+                  &lt;input
+                    type&#x3D;&quot;checkbox&quot;
+                    [checked]&#x3D;&quot;isGenreSelected(genre.id)&quot;
+                    (change)&#x3D;&quot;onGenreChange($event, genre.id)&quot;
+                    class&#x3D;&quot;peer appearance-none w-full h-full rounded border-none bg-gray-700 checked:bg-cyan-600 hover:bg-gray-600 checked:hover:bg-cyan-600 transition-colors cursor-pointer z-0&quot;
+                  /&gt;
+                  &lt;svg
+                    class&#x3D;&quot;absolute w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity z-10&quot;
+                    xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+                    viewBox&#x3D;&quot;0 0 24 24&quot;
+                    fill&#x3D;&quot;none&quot;
+                    stroke&#x3D;&quot;currentColor&quot;
+                    stroke-width&#x3D;&quot;3&quot;
+                    stroke-linecap&#x3D;&quot;round&quot;
+                    stroke-linejoin&#x3D;&quot;round&quot;
+                  &gt;
+                    &lt;polyline points&#x3D;&quot;20 6 9 17 4 12&quot;&gt;&lt;/polyline&gt;
+                  &lt;/svg&gt;
+                &lt;/div&gt;
+                &lt;span
+                  class&#x3D;&quot;text-gray-400 group-hover:text-cyan-100 text-sm select-none&quot;
+                  &gt;{{ genre.name }}&lt;/span
+                &gt;
+              &lt;/label&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;group&quot;&gt;
+          &lt;div class&#x3D;&quot;flex justify-between items-center mb-2&quot;&gt;
+            &lt;label
+              class&#x3D;&quot;block text-gray-400 text-sm font-medium uppercase tracking-wider&quot;
+              &gt;{{ &quot;admin.games.platform&quot; | translate }}&lt;/label
+            &gt;
+            &lt;button
+              type&#x3D;&quot;button&quot;
+              (click)&#x3D;&quot;showPlatformModal &#x3D; true&quot;
+              class&#x3D;&quot;px-3 py-1 bg-gray-700 hover:bg-gray-600 text-cyan-400 rounded-lg border-none text-xs font-bold uppercase tracking-wide flex items-center gap-1 cursor-pointer&quot;
+            &gt;
+              + {{ &quot;admin.games.new&quot; | translate }}
+            &lt;/button&gt;
+          &lt;/div&gt;
+
+          &lt;div
+            class&#x3D;&quot;bg-gray-900/30 p-4 rounded-xl border-none grid grid-cols-2 gap-2&quot;
+          &gt;
+            &lt;label
+              *ngFor&#x3D;&quot;let platform of platforms&quot;
+              class&#x3D;&quot;flex items-center gap-3 p-2 rounded hover:bg-gray-800/50 cursor-pointer group transition-colors&quot;
+            &gt;
+              &lt;div class&#x3D;&quot;relative flex items-center justify-center w-5 h-5&quot;&gt;
+                &lt;input
+                  type&#x3D;&quot;checkbox&quot;
+                  [checked]&#x3D;&quot;isPlatformSelected(platform.id)&quot;
+                  (change)&#x3D;&quot;onPlatformChange($event, platform.id)&quot;
+                  class&#x3D;&quot;peer appearance-none w-full h-full rounded border-none bg-gray-700 checked:bg-cyan-600 hover:bg-gray-600 checked:hover:bg-cyan-600 transition-colors cursor-pointer z-0&quot;
+                /&gt;
+                &lt;svg
+                  class&#x3D;&quot;absolute w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity z-10&quot;
+                  xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+                  viewBox&#x3D;&quot;0 0 24 24&quot;
+                  fill&#x3D;&quot;none&quot;
+                  stroke&#x3D;&quot;currentColor&quot;
+                  stroke-width&#x3D;&quot;3&quot;
+                  stroke-linecap&#x3D;&quot;round&quot;
+                  stroke-linejoin&#x3D;&quot;round&quot;
+                &gt;
+                  &lt;polyline points&#x3D;&quot;20 6 9 17 4 12&quot;&gt;&lt;/polyline&gt;
+                &lt;/svg&gt;
+              &lt;/div&gt;
+              &lt;span
+                class&#x3D;&quot;text-gray-400 group-hover:text-cyan-100 text-sm select-none&quot;
+                &gt;{{ platform.name }}&lt;/span
+              &gt;
+            &lt;/label&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;group&quot;&gt;
+          &lt;div class&#x3D;&quot;flex items-center mb-2&quot;&gt;
+            &lt;label
+              class&#x3D;&quot;block text-gray-400 text-sm font-medium uppercase tracking-wider&quot;
+              &gt;{{ &quot;admin.games.stock&quot; | translate }}&lt;/label
+            &gt;
+          &lt;/div&gt;
+          &lt;div
+            class&#x3D;&quot;bg-gray-900/30 p-4 rounded-xl border-none grid grid-cols-3 gap-4&quot;
+          &gt;
+            &lt;div
+              class&#x3D;&quot;group&quot;
+              *ngFor&#x3D;&quot;
+                let platform of [
+                  &#x27;Pc&#x27;,
+                  &#x27;Ps5&#x27;,
+                  &#x27;XboxX&#x27;,
+                  &#x27;Switch&#x27;,
+                  &#x27;Ps4&#x27;,
+                  &#x27;XboxOne&#x27;,
+                ]
+              &quot;
+            &gt;
+              &lt;label
+                class&#x3D;&quot;text-gray-500 text-xs uppercase mb-1 block tracking-tight whitespace-nowrap overflow-hidden text-ellipsis&quot;
+                &gt;Stock {{ platform }}&lt;/label
+              &gt;
+              &lt;input
+                type&#x3D;&quot;number&quot;
+                formControlName&#x3D;&quot;stock{{ platform }}&quot;
+                class&#x3D;&quot;w-full bg-gray-800 text-white text-center rounded p-2 border-none focus:outline-none text-sm&quot;
+              /&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div
+          class&#x3D;&quot;bg-gray-900/30 p-4 rounded-xl border-none flex flex-col gap-4&quot;
+        &gt;
+          &lt;label class&#x3D;&quot;flex items-center gap-3 cursor-pointer group&quot;&gt;
+            &lt;div class&#x3D;&quot;relative flex items-center justify-center w-5 h-5&quot;&gt;
+              &lt;input
+                type&#x3D;&quot;checkbox&quot;
+                formControlName&#x3D;&quot;isOnSale&quot;
+                class&#x3D;&quot;peer appearance-none w-full h-full rounded border-none bg-gray-700 checked:bg-green-500 hover:bg-gray-600 transition-colors cursor-pointer z-0&quot;
+              /&gt;
+              &lt;svg
+                class&#x3D;&quot;absolute w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity z-10&quot;
+                xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
+                viewBox&#x3D;&quot;0 0 24 24&quot;
+                fill&#x3D;&quot;none&quot;
+                stroke&#x3D;&quot;currentColor&quot;
+                stroke-width&#x3D;&quot;3&quot;
+                stroke-linecap&#x3D;&quot;round&quot;
+                stroke-linejoin&#x3D;&quot;round&quot;
+              &gt;
+                &lt;polyline points&#x3D;&quot;20 6 9 17 4 12&quot;&gt;&lt;/polyline&gt;
+              &lt;/svg&gt;
+            &lt;/div&gt;
+            &lt;span class&#x3D;&quot;text-gray-300 font-medium group-hover:text-white&quot;&gt;{{
+              &quot;admin.games.isOnSale&quot; | translate
+            }}&lt;/span&gt;
+          &lt;/label&gt;
+
+          &lt;div *ngIf&#x3D;&quot;form.get(&#x27;isOnSale&#x27;)?.value&quot; class&#x3D;&quot;animate-fadeIn&quot;&gt;
+            &lt;label
+              class&#x3D;&quot;text-gray-400 text-sm font-medium uppercase tracking-wider mb-2 block&quot;
+              &gt;{{ &quot;admin.games.salePrice&quot; | translate }}&lt;/label
+            &gt;
+            &lt;div class&#x3D;&quot;relative&quot;&gt;
+              &lt;span
+                class&#x3D;&quot;absolute left-4 top-1/2 -translate-y-1/2 text-green-500 font-bold&quot;
+                &gt;€&lt;/span
+              &gt;
+              &lt;input
+                type&#x3D;&quot;number&quot;
+                formControlName&#x3D;&quot;salePrice&quot;
+                placeholder&#x3D;&quot;0.00&quot;
+                class&#x3D;&quot;w-full h-14 min-h-[3.5rem] max-h-[3.5rem] bg-gray-800 text-green-400 font-bold rounded-lg pr-4 pl-10 border-none focus:outline-none&quot;
+              /&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div
+        class&#x3D;&quot;col-span-1 lg:col-span-2 flex justify-center gap-4 border-none&quot;
+      &gt;
+        &lt;div
+          *ngIf&#x3D;&quot;errorMessage&quot;
+          class&#x3D;&quot;flex-1 text-red-400 bg-red-900/20 px-4 py-2 rounded border border-red-800 flex items-center&quot;
+        &gt;
+          &lt;span class&#x3D;&quot;mr-2&quot;&gt;⚠&lt;/span&gt; {{ errorMessage }}
+        &lt;/div&gt;
+
+        &lt;button
+          type&#x3D;&quot;button&quot;
+          (click)&#x3D;&quot;onCancel()&quot;
+          class&#x3D;&quot;px-6 py-3 rounded-lg bg-gray-700 hover:bg-gray-600 text-gray-200 font-medium transition-colors border-none cursor-pointer&quot;
+        &gt;
+          {{ &quot;common.cancel&quot; | translate }}
+        &lt;/button&gt;
+        &lt;button
+          type&#x3D;&quot;submit&quot;
+          [disabled]&#x3D;&quot;form.invalid&quot;
+          class&#x3D;&quot;px-8 py-3 rounded-lg border-none bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold shadow-lg shadow-cyan-900/50 transition-all transform hover:-translate-y-0.5 cursor-pointer&quot;
+        &gt;
+          {{ &quot;common.save&quot; | translate }}
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/form&gt;
+  &lt;/div&gt;
+
+  &lt;div
+    *ngIf&#x3D;&quot;showDevModal&quot;
+    class&#x3D;&quot;fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn&quot;
+  &gt;
+    &lt;div
+      class&#x3D;&quot;bg-gray-800 p-8 rounded-2xl shadow-2xl w-96 border-none transform transition-all scale-100&quot;
+    &gt;
+      &lt;h4
+        class&#x3D;&quot;text-xl font-bold text-white mb-6 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent&quot;
+      &gt;
+        {{ &quot;admin.games.newDeveloper&quot; | translate }}
+      &lt;/h4&gt;
+      &lt;input
+        type&#x3D;&quot;text&quot;
+        [(ngModel)]&#x3D;&quot;newDevName&quot;
+        [ngModelOptions]&#x3D;&quot;{ standalone: true }&quot;
+        class&#x3D;&quot;w-full bg-gray-700 text-white rounded-xl p-4 border-none mb-6 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all&quot;
+        [placeholder]&#x3D;&quot;&#x27;admin.games.enterName&#x27; | translate&quot;
+      /&gt;
+      &lt;div class&#x3D;&quot;flex justify-end gap-3&quot;&gt;
+        &lt;button
+          (click)&#x3D;&quot;showDevModal &#x3D; false&quot;
+          class&#x3D;&quot;text-gray-400 hover:text-white px-4 py-2 font-medium transition-colors rounded-xl border-none outline-none focus:outline-none&quot;
+        &gt;
+          {{ &quot;common.cancel&quot; | translate }}
+        &lt;/button&gt;
+        &lt;button
+          (click)&#x3D;&quot;quickCreateDeveloper()&quot;
+          class&#x3D;&quot;bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded-xl font-bold shadow-lg shadow-cyan-900/50 transition-colors border-none outline-none focus:outline-none&quot;
+        &gt;
+          {{ &quot;admin.actions.create&quot; | translate }}
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div
+    *ngIf&#x3D;&quot;showPubModal&quot;
+    class&#x3D;&quot;fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn&quot;
+  &gt;
+    &lt;div class&#x3D;&quot;bg-gray-800 p-8 rounded-2xl shadow-2xl w-96 border-none&quot;&gt;
+      &lt;h4
+        class&#x3D;&quot;text-xl font-bold text-white mb-6 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent&quot;
+      &gt;
+        {{ &quot;admin.games.newPublisher&quot; | translate }}
+      &lt;/h4&gt;
+      &lt;input
+        type&#x3D;&quot;text&quot;
+        [(ngModel)]&#x3D;&quot;newPubName&quot;
+        [ngModelOptions]&#x3D;&quot;{ standalone: true }&quot;
+        class&#x3D;&quot;w-full bg-gray-700 text-white rounded-xl p-4 border-none mb-6 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all&quot;
+        [placeholder]&#x3D;&quot;&#x27;admin.games.enterName&#x27; | translate&quot;
+      /&gt;
+      &lt;div class&#x3D;&quot;flex justify-end gap-3&quot;&gt;
+        &lt;button
+          (click)&#x3D;&quot;showPubModal &#x3D; false&quot;
+          class&#x3D;&quot;text-gray-400 hover:text-white px-4 py-2 font-medium transition-colors rounded-xl border-none outline-none focus:outline-none&quot;
+        &gt;
+          {{ &quot;common.cancel&quot; | translate }}
+        &lt;/button&gt;
+        &lt;button
+          (click)&#x3D;&quot;quickCreatePublisher()&quot;
+          class&#x3D;&quot;bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded-xl font-bold shadow-lg shadow-cyan-900/50 transition-colors border-none outline-none focus:outline-none&quot;
+        &gt;
+          {{ &quot;admin.actions.create&quot; | translate }}
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div
+    *ngIf&#x3D;&quot;showGenreModal&quot;
+    class&#x3D;&quot;fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn&quot;
+  &gt;
+    &lt;div class&#x3D;&quot;bg-gray-800 p-8 rounded-2xl shadow-2xl w-96 border-none&quot;&gt;
+      &lt;h4 class&#x3D;&quot;text-xl font-bold text-white mb-6&quot;&gt;
+        {{ &quot;admin.games.newGenre&quot; | translate }}
+      &lt;/h4&gt;
+      &lt;input
+        type&#x3D;&quot;text&quot;
+        [(ngModel)]&#x3D;&quot;newGenreName&quot;
+        [ngModelOptions]&#x3D;&quot;{ standalone: true }&quot;
+        class&#x3D;&quot;w-full bg-gray-700 text-white rounded-xl p-4 border-none mb-6 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all&quot;
+        [placeholder]&#x3D;&quot;&#x27;admin.games.enterName&#x27; | translate&quot;
+      /&gt;
+      &lt;div class&#x3D;&quot;flex justify-end gap-3&quot;&gt;
+        &lt;button
+          (click)&#x3D;&quot;showGenreModal &#x3D; false&quot;
+          class&#x3D;&quot;text-gray-400 hover:text-white px-4 py-2 font-medium rounded-xl border-none outline-none focus:outline-none&quot;
+        &gt;
+          {{ &quot;common.cancel&quot; | translate }}
+        &lt;/button&gt;
+        &lt;button
+          (click)&#x3D;&quot;quickCreateGenre()&quot;
+          class&#x3D;&quot;bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded-xl font-bold shadow-lg transition-colors border-none outline-none focus:outline-none&quot;
+        &gt;
+          {{ &quot;admin.actions.create&quot; | translate }}
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div
+    *ngIf&#x3D;&quot;showPlatformModal&quot;
+    class&#x3D;&quot;fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn&quot;
+  &gt;
+    &lt;div class&#x3D;&quot;bg-gray-800 p-8 rounded-2xl shadow-2xl w-96 border-none&quot;&gt;
+      &lt;h4 class&#x3D;&quot;text-xl font-bold text-white mb-6&quot;&gt;
+        {{ &quot;admin.games.newPlatform&quot; | translate }}
+      &lt;/h4&gt;
+      &lt;input
+        type&#x3D;&quot;text&quot;
+        [(ngModel)]&#x3D;&quot;newPlatformName&quot;
+        [ngModelOptions]&#x3D;&quot;{ standalone: true }&quot;
+        class&#x3D;&quot;w-full bg-gray-700 text-white rounded-xl p-4 border-none mb-6 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all&quot;
+        [placeholder]&#x3D;&quot;&#x27;admin.games.enterName&#x27; | translate&quot;
+      /&gt;
+      &lt;div class&#x3D;&quot;flex justify-end gap-3&quot;&gt;
+        &lt;button
+          (click)&#x3D;&quot;showPlatformModal &#x3D; false&quot;
+          class&#x3D;&quot;text-gray-400 hover:text-white px-4 py-2 font-medium rounded-xl border-none outline-none focus:outline-none&quot;
+        &gt;
+          {{ &quot;common.cancel&quot; | translate }}
+        &lt;/button&gt;
+        &lt;button
+          (click)&#x3D;&quot;quickCreatePlatform()&quot;
+          class&#x3D;&quot;bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded-xl font-bold shadow-lg transition-colors border-none outline-none focus:outline-none&quot;
+        &gt;
+          {{ &quot;admin.actions.create&quot; | translate }}
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div
+    class&#x3D;&quot;absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-gray-800 to-transparent pointer-events-none z-10&quot;
+  &gt;&lt;/div&gt;
+  &lt;div
+    class&#x3D;&quot;absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-gray-800 to-transparent pointer-events-none z-10&quot;
+  &gt;&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div  class="relative flex flex-col bg-gray-800 rounded-xl shadow-2xl max-w-4xl mx-auto border-none max-h-[70vh] overflow-hidden">  <div class="flex-1 overflow-y-auto p-8 custom-scrollbar relative">    <form      [formGroup]="form"      (ngSubmit)="onSubmit()"      class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start"    >      <div class="space-y-6">        <div class="group">          <label            for="title"            class="block text-gray-400 text-sm font-medium mb-2 uppercase tracking-wider"            >{{ "common.title" | translate }}</label          >          <input            type="text"            id="title"            formControlName="title"            class="w-full h-14 min-h-[3.5rem] max-h-[3.5rem] bg-gray-900/30 text-white rounded-lg px-4 border-none focus:ring-1 focus:ring-cyan-500 focus:outline-none"            [placeholder]="\'admin.games.enterTitle\' | translate"            [class.border-red-500]="              form.get(\'title\')?.touched && form.get(\'title\')?.invalid            "          />          <div            *ngIf="form.get(\'title\')?.touched && form.get(\'title\')?.invalid"            class="text-red-400 text-xs mt-1"          >            {{ "errors.required" | translate }}          </div>        </div>        <div class="grid grid-cols-2 gap-4">          <div class="group">            <label              for="price"              class="block text-gray-400 text-sm font-medium mb-2 uppercase tracking-wider"              >{{ "common.price" | translate }}</label            >            <div class="relative">              <span                class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"                >€</span              >              <input                type="number"                id="price"                formControlName="price"                class="w-full h-14 min-h-[3.5rem] max-h-[3.5rem] bg-gray-900/30 text-white rounded-lg pr-4 pl-10 border-none focus:ring-1 focus:ring-cyan-500 focus:outline-none"              />            </div>          </div>          <div class="group">            <label              for="rating"              class="block text-gray-400 text-sm font-medium mb-2 uppercase tracking-wider"              >Rating</label            >            <div class="relative">              <span                class="absolute left-4 top-1/2 -translate-y-1/2 text-yellow-500 text-lg"                >★</span              >              <input                type="number"                id="rating"                formControlName="rating"                class="w-full h-14 min-h-[3.5rem] max-h-[3.5rem] bg-gray-900/30 text-white rounded-lg pr-4 pl-10 border-none focus:ring-1 focus:ring-cyan-500 focus:outline-none"                min="0"                max="100"              />            </div>          </div>        </div>        <div class="group">          <label            for="developerId"            class="block text-gray-400 text-sm font-medium mb-2 uppercase tracking-wider"            >{{ "admin.games.developer" | translate }}</label          >          <div class="grid grid-cols-[1fr_auto] gap-2 h-14">            <div              class="bg-gray-900/30 rounded-lg px-4 flex items-center h-full focus-within:ring-1 focus-within:ring-cyan-500 transition-all"            >              <select                id="developerId"                formControlName="developerId"                class="w-full h-full bg-transparent text-white border-none focus:ring-0 focus:outline-none appearance-none cursor-pointer"              >                <option [ngValue]="null" class="text-gray-500">                  {{ "admin.games.selectDeveloper" | translate }}                </option>                <option *ngFor="let dev of developers" [ngValue]="dev.id">                  {{ dev.name }}                </option>              </select>            </div>            <button              type="button"              (click)="showDevModal = true"              class="h-full aspect-square bg-gray-700 hover:bg-gray-600 text-cyan-400 rounded-lg border-none flex items-center justify-center transition-colors"            >              <svg                xmlns="http://www.w3.org/2000/svg"                fill="none"                viewBox="0 0 24 24"                stroke-width="2.5"                stroke="currentColor"                class="w-6 h-6"              >                <path                  stroke-linecap="round"                  stroke-linejoin="round"                  d="M12 4.5v15m7.5-7.5h-15"                />              </svg>            </button>          </div>        </div>        <div class="group">          <label            for="publisherId"            class="block text-gray-400 text-sm font-medium mb-2 uppercase tracking-wider"            >{{ "admin.games.publisher" | translate }}</label          >          <div class="grid grid-cols-[1fr_auto] gap-2 h-14">            <div              class="bg-gray-900/30 rounded-lg px-4 flex items-center h-full focus-within:ring-1 focus-within:ring-cyan-500 transition-all"            >              <select                id="publisherId"                formControlName="publisherId"                class="w-full h-full bg-transparent text-white border-none focus:ring-0 focus:outline-none appearance-none cursor-pointer"              >                <option [ngValue]="null" class="text-gray-500">                  {{ "admin.games.selectPublisher" | translate }}                </option>                <option *ngFor="let pub of publishers" [ngValue]="pub.id">                  {{ pub.name }}                </option>              </select>            </div>            <button              type="button"              (click)="showPubModal = true"              class="h-full aspect-square bg-gray-700 hover:bg-gray-600 text-cyan-400 rounded-lg border-none flex items-center justify-center transition-colors"            >              <svg                xmlns="http://www.w3.org/2000/svg"                fill="none"                viewBox="0 0 24 24"                stroke-width="2.5"                stroke="currentColor"                class="w-6 h-6"              >                <path                  stroke-linecap="round"                  stroke-linejoin="round"                  d="M12 4.5v15m7.5-7.5h-15"                />              </svg>            </button>          </div>        </div>        <div class="group">          <label            class="block text-gray-400 text-sm font-medium mb-2 uppercase tracking-wider"            >{{ "admin.games.videoUrl" | translate }}</label          >          <input            type="text"            formControlName="videoUrl"            class="w-full h-14 min-h-[3.5rem] max-h-[3.5rem] bg-gray-900/30 text-white rounded-lg px-4 border-none focus:ring-1 focus:ring-cyan-500 focus:outline-none placeholder-gray-600"            [placeholder]="\'admin.games.enterVideoUrl\' | translate"          />        </div>        <div class="group">          <label            class="block text-gray-400 text-sm font-medium mb-2 uppercase tracking-wider"            >{{ "admin.games.releaseDate" | translate }}</label          >          <input            type="date"            formControlName="releaseDate"            class="w-full h-14 min-h-[3.5rem] max-h-[3.5rem] bg-gray-900/30 text-white rounded-lg px-4 border-none focus:ring-1 focus:ring-cyan-500 focus:outline-none"          />        </div>        <div class="group">          <label            class="block text-gray-400 text-sm font-medium mb-2 uppercase tracking-wider"          >            {{ "common.image" | translate }}          </label>          <app-file-upload            formControlName="image"            [acceptedMimeTypes]="[\'image/png\', \'image/jpeg\', \'image/webp\']"            [initialUrl]="currentImageUrl"            [placeholder]="\'admin.games.uploadPlaceholder\' | translate"          ></app-file-upload>        </div>      </div>      <div class="space-y-6">        <div class="group">          <div class="flex justify-between items-center mb-2">            <label              class="block text-gray-400 text-sm font-medium uppercase tracking-wider"              >{{ "admin.games.genre" | translate }}</label            >            <button              type="button"              (click)="showGenreModal = true"              class="px-3 py-1 bg-gray-700 hover:bg-gray-600 text-cyan-400 rounded-lg border-none text-xs font-bold uppercase tracking-wide flex items-center gap-1 cursor-pointer"            >              + {{ "admin.games.new" | translate }}            </button>          </div>          <div            class="relative bg-gray-900/30 rounded-xl h-60 border-none overflow-hidden"          >            <div              #genreContainer              (scroll)="onGenreScroll()"              [style.mask-image]="getGenreMaskStyle()"              [style.-webkit-mask-image]="getGenreMaskStyle()"              [style.mask-size]="\'calc(100% - 14px) 100%, 14px 100%\'"              [style.-webkit-mask-size]="\'calc(100% - 14px) 100%, 14px 100%\'"              [style.mask-position]="\'0 0, 100% 0\'"              [style.-webkit-mask-position]="\'0 0, 100% 0\'"              [style.mask-repeat]="\'no-repeat, no-repeat\'"              [style.-webkit-mask-repeat]="\'no-repeat, no-repeat\'"              class="h-full overflow-y-auto p-4 custom-scrollbar grid grid-cols-2 gap-2 relative z-10"            >              <label                *ngFor="let genre of genres"                class="flex items-center gap-3 p-2 rounded hover:bg-gray-800/50 cursor-pointer group transition-colors"              >                <div class="relative flex items-center justify-center w-5 h-5">                  <input                    type="checkbox"                    [checked]="isGenreSelected(genre.id)"                    (change)="onGenreChange($event, genre.id)"                    class="peer appearance-none w-full h-full rounded border-none bg-gray-700 checked:bg-cyan-600 hover:bg-gray-600 checked:hover:bg-cyan-600 transition-colors cursor-pointer z-0"                  />                  <svg                    class="absolute w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity z-10"                    xmlns="http://www.w3.org/2000/svg"                    viewBox="0 0 24 24"                    fill="none"                    stroke="currentColor"                    stroke-width="3"                    stroke-linecap="round"                    stroke-linejoin="round"                  >                    <polyline points="20 6 9 17 4 12"></polyline>                  </svg>                </div>                <span                  class="text-gray-400 group-hover:text-cyan-100 text-sm select-none"                  >{{ genre.name }}</span                >              </label>            </div>          </div>        </div>        <div class="group">          <div class="flex justify-between items-center mb-2">            <label              class="block text-gray-400 text-sm font-medium uppercase tracking-wider"              >{{ "admin.games.platform" | translate }}</label            >            <button              type="button"              (click)="showPlatformModal = true"              class="px-3 py-1 bg-gray-700 hover:bg-gray-600 text-cyan-400 rounded-lg border-none text-xs font-bold uppercase tracking-wide flex items-center gap-1 cursor-pointer"            >              + {{ "admin.games.new" | translate }}            </button>          </div>          <div            class="bg-gray-900/30 p-4 rounded-xl border-none grid grid-cols-2 gap-2"          >            <label              *ngFor="let platform of platforms"              class="flex items-center gap-3 p-2 rounded hover:bg-gray-800/50 cursor-pointer group transition-colors"            >              <div class="relative flex items-center justify-center w-5 h-5">                <input                  type="checkbox"                  [checked]="isPlatformSelected(platform.id)"                  (change)="onPlatformChange($event, platform.id)"                  class="peer appearance-none w-full h-full rounded border-none bg-gray-700 checked:bg-cyan-600 hover:bg-gray-600 checked:hover:bg-cyan-600 transition-colors cursor-pointer z-0"                />                <svg                  class="absolute w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity z-10"                  xmlns="http://www.w3.org/2000/svg"                  viewBox="0 0 24 24"                  fill="none"                  stroke="currentColor"                  stroke-width="3"                  stroke-linecap="round"                  stroke-linejoin="round"                >                  <polyline points="20 6 9 17 4 12"></polyline>                </svg>              </div>              <span                class="text-gray-400 group-hover:text-cyan-100 text-sm select-none"                >{{ platform.name }}</span              >            </label>          </div>        </div>        <div class="group">          <div class="flex items-center mb-2">            <label              class="block text-gray-400 text-sm font-medium uppercase tracking-wider"              >{{ "admin.games.stock" | translate }}</label            >          </div>          <div            class="bg-gray-900/30 p-4 rounded-xl border-none grid grid-cols-3 gap-4"          >            <div              class="group"              *ngFor="                let platform of [                  \'Pc\',                  \'Ps5\',                  \'XboxX\',                  \'Switch\',                  \'Ps4\',                  \'XboxOne\',                ]              "            >              <label                class="text-gray-500 text-xs uppercase mb-1 block tracking-tight whitespace-nowrap overflow-hidden text-ellipsis"                >Stock {{ platform }}</label              >              <input                type="number"                formControlName="stock{{ platform }}"                class="w-full bg-gray-800 text-white text-center rounded p-2 border-none focus:outline-none text-sm"              />            </div>          </div>        </div>        <div          class="bg-gray-900/30 p-4 rounded-xl border-none flex flex-col gap-4"        >          <label class="flex items-center gap-3 cursor-pointer group">            <div class="relative flex items-center justify-center w-5 h-5">              <input                type="checkbox"                formControlName="isOnSale"                class="peer appearance-none w-full h-full rounded border-none bg-gray-700 checked:bg-green-500 hover:bg-gray-600 transition-colors cursor-pointer z-0"              />              <svg                class="absolute w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity z-10"                xmlns="http://www.w3.org/2000/svg"                viewBox="0 0 24 24"                fill="none"                stroke="currentColor"                stroke-width="3"                stroke-linecap="round"                stroke-linejoin="round"              >                <polyline points="20 6 9 17 4 12"></polyline>              </svg>            </div>            <span class="text-gray-300 font-medium group-hover:text-white">{{              "admin.games.isOnSale" | translate            }}</span>          </label>          <div *ngIf="form.get(\'isOnSale\')?.value" class="animate-fadeIn">            <label              class="text-gray-400 text-sm font-medium uppercase tracking-wider mb-2 block"              >{{ "admin.games.salePrice" | translate }}</label            >            <div class="relative">              <span                class="absolute left-4 top-1/2 -translate-y-1/2 text-green-500 font-bold"                >€</span              >              <input                type="number"                formControlName="salePrice"                placeholder="0.00"                class="w-full h-14 min-h-[3.5rem] max-h-[3.5rem] bg-gray-800 text-green-400 font-bold rounded-lg pr-4 pl-10 border-none focus:outline-none"              />            </div>          </div>        </div>      </div>      <div        class="col-span-1 lg:col-span-2 flex justify-center gap-4 border-none"      >        <div          *ngIf="errorMessage"          class="flex-1 text-red-400 bg-red-900/20 px-4 py-2 rounded border border-red-800 flex items-center"        >          <span class="mr-2">⚠</span> {{ errorMessage }}        </div>        <button          type="button"          (click)="onCancel()"          class="px-6 py-3 rounded-lg bg-gray-700 hover:bg-gray-600 text-gray-200 font-medium transition-colors border-none cursor-pointer"        >          {{ "common.cancel" | translate }}        </button>        <button          type="submit"          [disabled]="form.invalid"          class="px-8 py-3 rounded-lg border-none bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold shadow-lg shadow-cyan-900/50 transition-all transform hover:-translate-y-0.5 cursor-pointer"        >          {{ "common.save" | translate }}        </button>      </div>    </form>  </div>  <div    *ngIf="showDevModal"    class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn"  >    <div      class="bg-gray-800 p-8 rounded-2xl shadow-2xl w-96 border-none transform transition-all scale-100"    >      <h4        class="text-xl font-bold text-white mb-6 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"      >        {{ "admin.games.newDeveloper" | translate }}      </h4>      <input        type="text"        [(ngModel)]="newDevName"        [ngModelOptions]="{ standalone: true }"        class="w-full bg-gray-700 text-white rounded-xl p-4 border-none mb-6 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all"        [placeholder]="\'admin.games.enterName\' | translate"      />      <div class="flex justify-end gap-3">        <button          (click)="showDevModal = false"          class="text-gray-400 hover:text-white px-4 py-2 font-medium transition-colors rounded-xl border-none outline-none focus:outline-none"        >          {{ "common.cancel" | translate }}        </button>        <button          (click)="quickCreateDeveloper()"          class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded-xl font-bold shadow-lg shadow-cyan-900/50 transition-colors border-none outline-none focus:outline-none"        >          {{ "admin.actions.create" | translate }}        </button>      </div>    </div>  </div>  <div    *ngIf="showPubModal"    class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn"  >    <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl w-96 border-none">      <h4        class="text-xl font-bold text-white mb-6 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"      >        {{ "admin.games.newPublisher" | translate }}      </h4>      <input        type="text"        [(ngModel)]="newPubName"        [ngModelOptions]="{ standalone: true }"        class="w-full bg-gray-700 text-white rounded-xl p-4 border-none mb-6 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all"        [placeholder]="\'admin.games.enterName\' | translate"      />      <div class="flex justify-end gap-3">        <button          (click)="showPubModal = false"          class="text-gray-400 hover:text-white px-4 py-2 font-medium transition-colors rounded-xl border-none outline-none focus:outline-none"        >          {{ "common.cancel" | translate }}        </button>        <button          (click)="quickCreatePublisher()"          class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded-xl font-bold shadow-lg shadow-cyan-900/50 transition-colors border-none outline-none focus:outline-none"        >          {{ "admin.actions.create" | translate }}        </button>      </div>    </div>  </div>  <div    *ngIf="showGenreModal"    class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn"  >    <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl w-96 border-none">      <h4 class="text-xl font-bold text-white mb-6">        {{ "admin.games.newGenre" | translate }}      </h4>      <input        type="text"        [(ngModel)]="newGenreName"        [ngModelOptions]="{ standalone: true }"        class="w-full bg-gray-700 text-white rounded-xl p-4 border-none mb-6 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all"        [placeholder]="\'admin.games.enterName\' | translate"      />      <div class="flex justify-end gap-3">        <button          (click)="showGenreModal = false"          class="text-gray-400 hover:text-white px-4 py-2 font-medium rounded-xl border-none outline-none focus:outline-none"        >          {{ "common.cancel" | translate }}        </button>        <button          (click)="quickCreateGenre()"          class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded-xl font-bold shadow-lg transition-colors border-none outline-none focus:outline-none"        >          {{ "admin.actions.create" | translate }}        </button>      </div>    </div>  </div>  <div    *ngIf="showPlatformModal"    class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 animate-fadeIn"  >    <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl w-96 border-none">      <h4 class="text-xl font-bold text-white mb-6">        {{ "admin.games.newPlatform" | translate }}      </h4>      <input        type="text"        [(ngModel)]="newPlatformName"        [ngModelOptions]="{ standalone: true }"        class="w-full bg-gray-700 text-white rounded-xl p-4 border-none mb-6 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all"        [placeholder]="\'admin.games.enterName\' | translate"      />      <div class="flex justify-end gap-3">        <button          (click)="showPlatformModal = false"          class="text-gray-400 hover:text-white px-4 py-2 font-medium rounded-xl border-none outline-none focus:outline-none"        >          {{ "common.cancel" | translate }}        </button>        <button          (click)="quickCreatePlatform()"          class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded-xl font-bold shadow-lg transition-colors border-none outline-none focus:outline-none"        >          {{ "admin.actions.create" | translate }}        </button>      </div>    </div>  </div>  <div    class="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-gray-800 to-transparent pointer-events-none z-10"  ></div>  <div    class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-gray-800 to-transparent pointer-events-none z-10"  ></div></div></div>'
+    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'}];
+    var DIRECTIVES = [{'name': 'CopyOnClickDirective', 'selector': '[appCopyOnClick]'},{'name': 'HighlightDirective', 'selector': '[appHighlight]'}];
+    var ACTUAL_COMPONENT = {'name': 'GameFormComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'GameFormComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -12,6 +12,10 @@ import { DeveloperService } from '../../../../core/services/impl/developer.servi
 import { Developer } from '../../../../core/models/developer.model';
 import { DeveloperFormComponent } from '../developer-form/developer-form.component';
 
+/**
+ * Componente que muestra la lista de desarrolladores de videojuegos en el panel de administración.
+ * Permite buscar, filtrar, editar y eliminar desarrolladores de la base de datos.
+ */
 @Component({
   selector: 'app-developer-list',
   standalone: true,
@@ -22,23 +26,40 @@ import { DeveloperFormComponent } from '../developer-form/developer-form.compone
 export class DeveloperListComponent implements OnInit {
   private developerService = inject(DeveloperService);
 
+  /** Referencia al contenedor con scroll para efectos visuales de sombras. */
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
 
+  /** Lista completa de desarrolladores. */
   developers: Developer[] = [];
+  /** Lista de desarrolladores que coinciden con el criterio de búsqueda. */
   filteredDevelopers: Developer[] = [];
+  /** Término de búsqueda para filtrar desarrolladores por nombre. */
   searchTerm: string = '';
+  /** Controla la visibilidad del modal para añadir o editar un desarrollador. */
   showModal = false;
+  /** ID del desarrollador seleccionado para su edición (null para creación). */
   selectedDeveloperId: number | null = null;
+  /** Controla la visibilidad del modal de confirmación de borrado. */
   showDeleteModal = false;
+  /** ID del desarrollador que se ha marcado para eliminar. */
   developerToDeleteId: number | null = null;
+  /** Indica si los datos se están cargando actualmente. */
   isLoading = true;
+  /** Indica si se debe mostrar la sombra superior en el listado. */
   showTopShadow = false;
+  /** Indica si se debe mostrar la sombra inferior en el listado. */
   showBottomShadow = false;
 
+  /**
+   * Carga inicial de los desarrolladores al activar el componente.
+   */
   ngOnInit(): void {
     this.loadDevelopers();
   }
 
+  /**
+   * Obtiene todos los desarrolladores desde el servicio y actualiza la vista.
+   */
   loadDevelopers() {
     this.isLoading = true;
     this.developerService.getAll().subscribe((data) => {
@@ -51,6 +72,9 @@ export class DeveloperListComponent implements OnInit {
     });
   }
 
+  /**
+   * Filtra la lista de desarrolladores en base al término de búsqueda.
+   */
   filterDevelopers() {
     if (!this.searchTerm) {
       this.filteredDevelopers = this.developers;
@@ -65,6 +89,9 @@ export class DeveloperListComponent implements OnInit {
     }, 0);
   }
 
+  /**
+   * Actualiza el estado de las sombras visuales basándose en el desplazamiento del scroll.
+   */
   onScroll() {
     if (!this.scrollContainer) return;
 
@@ -76,36 +103,43 @@ export class DeveloperListComponent implements OnInit {
       !atBottom && element.scrollHeight > element.clientHeight;
   }
 
+  /** Abre el modal para crear un desarrollador nuevo. */
   openCreateModal() {
     this.selectedDeveloperId = null;
     this.showModal = true;
   }
 
+  /** Abre el modal para editar un desarrollador existente. */
   openEditModal(id: number) {
     this.selectedDeveloperId = id;
     this.showModal = true;
   }
 
+  /** Cierra el modal de creación/edición de desarrolladores. */
   closeModal() {
     this.showModal = false;
     this.selectedDeveloperId = null;
   }
 
+  /** Callback ejecutado tras un guardado exitoso en el formulario. */
   onFormSave() {
     this.closeModal();
     this.loadDevelopers();
   }
 
+  /** Abre el modal de confirmación para eliminar un desarrollador. */
   openDeleteModal(id: number) {
     this.developerToDeleteId = id;
     this.showDeleteModal = true;
   }
 
+  /** Cierra el modal de confirmación de borrado. */
   closeDeleteModal() {
     this.showDeleteModal = false;
     this.developerToDeleteId = null;
   }
 
+  /** Ejecuta el borrado del desarrollador tras la confirmación del usuario. */
   confirmDelete() {
     if (this.developerToDeleteId) {
       this.developerService

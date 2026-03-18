@@ -18,6 +18,9 @@ import { User } from '../models/user.model';
 import { IAuthMapping } from '../services/interfaces/auth-mapping.interface';
 import { IMediaRepository } from './interfaces/media-repository.interface';
 
+// --- Tokens para nombres de recursos ---
+
+/** Token para el nombre del recurso genérico. */
 export const RESOURCE_NAME_TOKEN = new InjectionToken<string>('ResourceName');
 export const DEVELOPER_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
   'DeveloperResourceName',
@@ -41,50 +44,75 @@ export const USER_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
   'UserResourceName',
 );
 
+// --- Tokens para repositorios ---
+
+/** Token para el repositorio genérico. */
 export const REPOSITORY_TOKEN = new InjectionToken<IBaseRepository<any>>(
   'REPOSITORY_TOKEN',
 );
+/** Token para el repositorio de desarrolladoras. */
 export const DEVELOPER_REPOSITORY_TOKEN =
   new InjectionToken<IDeveloperRepository>('IDeveloperRepository');
+/** Token para el repositorio de medios. */
 export const MEDIA_REPOSITORY_TOKEN = new InjectionToken<IMediaRepository>(
   'IMediaRepository',
 );
+/** Token para el repositorio de juegos. */
 export const GAME_REPOSITORY_TOKEN = new InjectionToken<IGameRepository>(
   'IGameRepository',
 );
+/** Token para el repositorio de géneros. */
 export const GENRE_REPOSITORY_TOKEN = new InjectionToken<IGenreRepository>(
   'IGenreRepository',
 );
+/** Token para el repositorio de plataformas. */
 export const PLATFORM_REPOSITORY_TOKEN =
   new InjectionToken<IPlatformRepository>('IPlatformRepository');
+/** Token para el repositorio de distribuidoras. */
 export const PUBLISHER_REPOSITORY_TOKEN =
   new InjectionToken<IPublisherRepository>('IPublisherRepository');
+/** Token para el repositorio de usuarios. */
 export const USER_REPOSITORY_TOKEN = new InjectionToken<IUserRepository>(
   'IUserRepository',
 );
 
+// --- Tokens para URLs de la API ---
+
+/** Token para la URL base de la API. */
 export const API_URL_TOKEN = new InjectionToken<string>('ApiUrl');
+/** Token para la URL de la API de desarrolladoras. */
 export const DEVELOPER_API_URL_TOKEN = new InjectionToken<string>(
   'DeveloperApiUrl',
 );
+/** Token para la URL de la API de medios. */
 export const MEDIA_API_URL_TOKEN = new InjectionToken<string>('MediaApiUrl');
+/** Token para la URL de la API de juegos. */
 export const GAME_API_URL_TOKEN = new InjectionToken<string>('GameApiUrl');
+/** Token para la URL de la API de géneros. */
 export const GENRE_API_URL_TOKEN = new InjectionToken<string>('GenreApiUrl');
+/** Token para la URL de la API de plataformas. */
 export const PLATFORM_API_URL_TOKEN = new InjectionToken<string>(
   'PlatformApiUrl',
 );
+/** Token para la URL de la API de distribuidoras. */
 export const PUBLISHER_API_URL_TOKEN = new InjectionToken<string>(
   'PublisherApiUrl',
 );
+/** Token para la URL de la API de usuarios. */
 export const USER_API_URL_TOKEN = new InjectionToken<string>('UserApiUrl');
+/** Token para la URL de inicio de sesión. */
 export const AUTH_SIGN_IN_API_URL_TOKEN = new InjectionToken<string>(
   'AuthSignInApiUrl',
 );
+/** Token para la URL de registro. */
 export const AUTH_SIGN_UP_API_URL_TOKEN = new InjectionToken<string>(
   'AuthSignUpApiUrl',
 );
+/** Token para la URL de obtención de datos del usuario autenticado. */
 export const AUTH_ME_API_URL_TOKEN = new InjectionToken<string>('AuthMeApiUrl');
+/** Token para la URL de subida de archivos. */
 export const UPLOAD_API_URL_TOKEN = new InjectionToken<string>('UploadApiUrl');
+/** Token para la URL de la API de chat. */
 export const CHAT_API_URL_TOKEN = new InjectionToken<string>('ChatApiUrl');
 
 export const REPOSITORY_MAPPING_TOKEN = new InjectionToken<IBaseMapping<any>>(

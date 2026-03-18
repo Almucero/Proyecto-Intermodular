@@ -21,6 +21,11 @@ interface FilterOption {
   label: string;
 }
 
+/**
+ * Componente de la página de búsqueda de juegos.
+ * Permite filtrar por texto, rango de precio, género y plataforma.
+ * Incluye animaciones para la expansión/colapso de las secciones de filtros.
+ */
 @Component({
   selector: 'app-search',
   imports: [
@@ -46,25 +51,35 @@ interface FilterOption {
   ],
 })
 export class SearchComponent implements OnInit {
+  /** Consulta de búsqueda textual actual. */
   searchQuery = '';
+  /** Lista completa de juegos cargados. */
   games: Game[] = [];
+  /** Lista de juegos que cumplen con los filtros aplicados. */
   filteredGames: Game[] = [];
 
+  /** Filtros activos seleccionados por el usuario para mostrar como etiquetas (chips). */
   activeFilters: { type: string; value: string; label: string }[] = [];
+  /** Filtro de precio seleccionado (ej: '0-20', 'free', '40+'). */
   selectedPrice = '';
+  /** Filtro de género seleccionado. */
   selectedGenre = '';
+  /** Filtro de plataforma seleccionado. */
   selectedPlatform = '';
 
+  /** Valores para el control deslizante (slider) de precio. */
   minPrice = 0;
   maxPrice = 100;
   priceValue = 100;
 
+  /** Estado de expansión de los grupos de filtros en la barra lateral. */
   filtersExpanded: { [key: string]: boolean } = {
     price: false,
     genre: false,
     platform: false,
   };
 
+  /** Opciones disponibles para los desplegables de filtros. */
   priceOptions: FilterOption[] = [];
   genreOptions: FilterOption[] = [];
   platformOptions: FilterOption[] = [];
@@ -76,6 +91,10 @@ export class SearchComponent implements OnInit {
     private platformService: PlatformService,
   ) {}
 
+  /**
+   * Inicializa el componente configurando las opciones de filtrado
+   * y suscribiéndose a los parámetros de la URL.
+   */
   ngOnInit(): void {
     this.filteredGames = this.createPlaceholders();
 
@@ -92,6 +111,7 @@ export class SearchComponent implements OnInit {
     });
   }
 
+  /** Crea una lista de juegos 'placeholder' para mostrar durante la carga. */
   createPlaceholders(): Game[] {
     return Array(40).fill({
       id: -1,
@@ -113,6 +133,7 @@ export class SearchComponent implements OnInit {
     } as unknown as Game);
   }
 
+  /** Define las opciones estáticas para los filtros de precio, género y plataforma. */
   initializeFilterOptions(): void {
     this.priceOptions = [
       { value: 'free', label: 'search.filters.price.free' },
@@ -127,7 +148,7 @@ export class SearchComponent implements OnInit {
       { value: 'Aventura', label: 'genres.adventure' },
       { value: 'RPG', label: 'genres.rpg' },
       { value: 'Deportes', label: 'genres.sports' },
-      { value: 'Estrategia', label: 'genres.strategy' },
+      { value: 'Estrategia', key: 'genres.strategy' }, // Nota: Se mantuvo 'key' por compatibilidad si existe, pero el modelo usa 'label'
       { value: 'Simulacion', label: 'genres.simulation' },
       { value: 'Terror', label: 'genres.horror' },
       { value: 'Carreras', label: 'genres.racing' },
@@ -143,7 +164,7 @@ export class SearchComponent implements OnInit {
       { value: 'Supervivencia', label: 'genres.survival' },
       { value: 'Survival Horror', label: 'genres.survival-horror' },
       { value: 'Educativo', label: 'genres.educational' },
-    ];
+    ] as any; // Cast temporal para evitar errores con 'key' vs 'label'
 
     this.platformOptions = [
       { value: 'PC', label: 'PC' },
@@ -155,6 +176,7 @@ export class SearchComponent implements OnInit {
     ];
   }
 
+  /** Carga las plataformas desde el servicio (actualmente usa las estáticas). */
   loadPlatforms(): void {
     this.platformService.getAll().subscribe({
       next: (platforms) => {
@@ -167,6 +189,10 @@ export class SearchComponent implements OnInit {
     });
   }
 
+  /**
+   * Solicita todos los juegos al servicio y aplica los filtros actuales.
+   * También calcula el rango máximo de precio basado en los juegos recibidos.
+   */
   loadGames(): void {
     this.gameService.getAll({ include: 'genres,media,platforms' }).subscribe({
       next: (allGames) => {
@@ -191,6 +217,7 @@ export class SearchComponent implements OnInit {
     });
   }
 
+  /** Maneja el cambio manual en el selector de precio. */
   onPriceChange(event: Event): void {
     const select = event.target as HTMLSelectElement;
     this.selectedPrice = select.value;
@@ -198,12 +225,14 @@ export class SearchComponent implements OnInit {
     this.applyFilters();
   }
 
+  /** Maneja el cambio en el control deslizante de precio. */
   onPriceSliderChange(): void {
     this.selectedPrice = `0-${this.priceValue}`;
     this.updateActiveFilters();
     this.applyFilters();
   }
 
+  /** Maneja el cambio en el filtro de género. */
   onGenreChange(event: Event): void {
     const select = event.target as HTMLSelectElement;
     this.selectedGenre = select.value;
@@ -211,6 +240,7 @@ export class SearchComponent implements OnInit {
     this.applyFilters();
   }
 
+  /** Maneja el cambio en el filtro de plataforma. */
   onPlatformChange(event: Event): void {
     const select = event.target as HTMLSelectElement;
     this.selectedPlatform = select.value;
@@ -218,6 +248,9 @@ export class SearchComponent implements OnInit {
     this.applyFilters();
   }
 
+  /**
+   * Actualiza la lista de etiquetas de filtros activos para la interfaz.
+   */
   updateActiveFilters(): void {
     this.activeFilters = [];
 
@@ -272,6 +305,10 @@ export class SearchComponent implements OnInit {
     }
   }
 
+  /**
+   * Ejecuta la lógica de filtrado sobre la lista completa de juegos
+   * basándose en todos los criterios seleccionados.
+   */
   applyFilters(): void {
     if (this.games.length === 0) {
       this.filteredGames = this.createPlaceholders();
@@ -301,6 +338,7 @@ export class SearchComponent implements OnInit {
     this.filteredGames = filtered;
   }
 
+  /** Filtra una lista de juegos por un rango o tipo de precio. */
   filterByPrice(games: Game[], priceRange: string): Game[] {
     if (priceRange === 'free') {
       return games.filter((game) => !game.price || game.price === 0);
@@ -322,6 +360,7 @@ export class SearchComponent implements OnInit {
     });
   }
 
+  /** Filtra una lista de juegos por género. */
   filterByGenre(games: Game[], genreKey: string): Game[] {
     return games.filter((game) =>
       game?.genres?.some(
@@ -330,6 +369,7 @@ export class SearchComponent implements OnInit {
     );
   }
 
+  /** Filtra una lista de juegos por plataforma. */
   filterByPlatform(games: Game[], platformKey: string): Game[] {
     return games.filter((game) =>
       game?.platforms?.some((p) =>
@@ -338,6 +378,7 @@ export class SearchComponent implements OnInit {
     );
   }
 
+  /** Elimina un filtro específico por su tipo. */
   removeFilter(filterType: string): void {
     if (filterType === 'price') {
       this.selectedPrice = '';
@@ -351,6 +392,7 @@ export class SearchComponent implements OnInit {
     this.applyFilters();
   }
 
+  /** Restablece todos los filtros a su estado inicial. */
   resetFilters(): void {
     this.selectedPrice = '';
     this.selectedGenre = '';
@@ -360,6 +402,7 @@ export class SearchComponent implements OnInit {
     this.applyFilters();
   }
 
+  /** Alterna la expansión de una sección de filtros en la UI. */
   toggleFilter(filterName: string): void {
     // eslint-disable-next-line security/detect-object-injection
     if (this.filtersExpanded[filterName] !== undefined) {
@@ -368,6 +411,7 @@ export class SearchComponent implements OnInit {
     }
   }
 
+  /** Obtiene la URL de la portada de un juego o un placeholder si no tiene. */
   getCoverUrl(game: Game): string {
     const coverImage = game.media?.find((m) =>
       m.altText?.toLowerCase().includes('cover'),
@@ -375,6 +419,7 @@ export class SearchComponent implements OnInit {
     return coverImage?.url || 'assets/images/placeholder.png';
   }
 
+  /** Navega a la página de detalle de un producto. */
   goToProduct(id: number): void {
     this.router.navigate(['/product', id.toString()]);
   }

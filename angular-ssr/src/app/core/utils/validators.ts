@@ -1,5 +1,11 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
+/**
+ * Validador personalizado para comprobar la fortaleza de la contraseña.
+ * Requiere al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.
+ * @param control Control de formulario a validar.
+ * @returns Error de validación si no cumple los requisitos, o null si es válida.
+ */
 export function passwordValidator(
   control: AbstractControl,
 ): ValidationErrors | null {
@@ -12,6 +18,11 @@ export function passwordValidator(
     : { passwordStrength: 'La contraseña no cumple con los requisitos' };
 }
 
+/**
+ * Validador de grupo para asegurar que dos campos de contraseña coinciden.
+ * @param group Grupo de formulario (o control) que contiene los campos 'password' y 'password2'.
+ * @returns Error 'passwordsMismatch' si no coinciden, o null si son iguales.
+ */
 export function passwordsMatchValidator(
   group: AbstractControl,
 ): ValidationErrors | null {

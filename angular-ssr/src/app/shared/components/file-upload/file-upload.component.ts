@@ -52,33 +52,42 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
   ],
 })
 export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
+  /** Lista de tipos MIME permitidos (ej: ['image/png', 'image/jpeg']). */
   @Input() acceptedMimeTypes: string[] = ['*/*'];
 
+  /** Clave de traducción para el texto de sugerencia. */
   @Input() placeholder: string = 'common.upload.dragHere';
 
+  /** Tamaño máximo permitido en MegaBytes. */
   @Input() maxSizeInMB: number = 10;
+  /** Permite establecer una URL inicial para mostrar una previsualización existente. */
   @Input() set initialUrl(url: string | null | undefined) {
     if (url) {
       this.previewUrl.set(url);
     }
   }
 
+  /** Signal que almacena el archivo seleccionado actualmente. */
   selectedFile = signal<File | null>(null);
 
   private translate = inject(TranslateService);
 
+  /** URL para la previsualización del archivo (data URL o blob URL). */
   previewUrl = signal<string | null>(null);
 
-  /** URL sanitizada para PDFs (necesaria para iframes) */
+  /** URL sanitizada específicamente para la vista previa de archivos PDF. */
   safePdfUrl = signal<SafeResourceUrl | null>(null);
 
+  /** Indica si hay un archivo siendo arrastrado sobre el componente. */
   isDragging = signal<boolean>(false);
 
+  /** Mensaje de error de validación (tipo incorrecto, tamaño excedido, etc.). */
   error = signal<string | null>(null);
 
+  /** Indica si el componente está en modo solo lectura. */
   disabled = false;
 
-  /** URL blob creada con createObjectURL que debe ser liberada */
+  /** URL blob (object URL) interna para previsualizaciones. */
   private blobUrl: string | null = null;
 
   private sanitizer = inject(DomSanitizer);
@@ -88,7 +97,8 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   private onTouched: () => void = () => {};
 
   /**
-   * Escribe un valor en el componente (desde el FormControl).
+   * Implementación de writeValue para ControlValueAccessor.
+   * Recibe el valor (archivo) desde el formulario.
    */
   writeValue(file: File | null): void {
     if (file) {
@@ -99,30 +109,20 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
     }
   }
 
-  /**
-   * Registra la función de callback para cambios de valor.
-   */
   registerOnChange(fn: (file: File | null) => void): void {
     this.onChange = fn;
   }
 
-  /**
-   * Registra la función de callback para el evento touched.
-   */
   registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
 
-  /**
-   * Establece el estado deshabilitado del componente.
-   */
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 
   /**
-   * Maneja el evento click en el área de drop.
-   * Abre el selector de archivos del sistema.
+   * Abre el selector de archivos nativo del navegador.
    */
   onAreaClick(): void {
     if (this.disabled || !isPlatformBrowser(this.platformId)) return;
@@ -138,9 +138,7 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
     input.click();
   }
 
-  /**
-   * Maneja el evento dragover.
-   */
+  /** Maneja el inicio del arrastre sobre el componente. */
   onDragOver(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
@@ -149,9 +147,7 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
     }
   }
 
-  /**
-   * Maneja el evento dragleave.
-   */
+  /** Maneja cuando el arrastre sale del área del componente. */
   onDragLeave(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
@@ -159,14 +155,10 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   }
 
   /**
-   * Maneja el evento drop de archivos.
+   * Maneja el evento de soltar archivos (drop).
+   * Procesa el primer archivo soltado si no está deshabilitado.
    */
   onDrop(event: DragEvent): void {
-    //
-    // - `event.preventDefault()`: Previene el comportamiento por defecto del navegador, que normalmente abriría el archivo arrastrado en vez de permitir que el componente lo gestione.
-    // - `event.stopPropagation()`: Detiene la propagación del evento hacia otros elementos padres. Esto asegura que solo el componente maneje el evento y evita efectos no deseados en elementos contenedores en la jerarquía del DOM.
-    //
-    // Ambas llamadas son necesarias para proporcionar una experiencia de usuario consistente y controlar totalmente el flujo de arrastrar y soltar archivos en el componente.
     event.preventDefault();
     event.stopPropagation();
     this.isDragging.set(false);
@@ -180,8 +172,9 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   }
 
   /**
-   * Procesa el archivo seleccionado.
-   * Valida tipo MIME, tamaño y genera preview.
+   * Procesa, valida y genera la previsualización del archivo.
+   * Notifica el cambio al formulario reactivo.
+   * @param file Archivo a procesar.
    */
   private handleFile(file: File): void {
     this.error.set(null);
@@ -208,9 +201,7 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
     this.onTouched();
   }
 
-  /**
-   * Valida que el tipo MIME del archivo sea aceptado.
-   */
+  /** Valida el tipo MIME contra la lista blanca. */
   private validateMimeType(file: File): boolean {
     if (this.acceptedMimeTypes.includes('*/*')) return true;
 
@@ -223,22 +214,16 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
     });
   }
 
-  /**
-   * Valida el tamaño del archivo.
-   */
+  /** Valida que el archivo no supere el tamaño máximo. */
   private validateSize(file: File): boolean {
     const maxSizeInBytes = this.maxSizeInMB * 1024 * 1024;
     return file.size <= maxSizeInBytes;
   }
 
   /**
-   * Genera una preview del archivo si es posible.
-   *
-   * Para imágenes: Usa FileReader.readAsDataURL() para crear una data URL.
-   * Para PDFs: Usa URL.createObjectURL() para crear una blob URL que funciona mejor con iframes.
-   *
-   * Las blob URLs son más eficientes y no tienen las restricciones de seguridad
-   * que pueden tener las data URLs en iframes.
+   * Genera la previsualización del archivo.
+   * Usa FileReader para imágenes y object URLs para PDFs.
+   * @param file Archivo del que generar la preview.
    */
   private generatePreview(file: File): void {
     this.revokeBlobUrl();
@@ -263,7 +248,7 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   }
 
   /**
-   * Limpia el archivo seleccionado y libera recursos.
+   * Resetea el componente, eliminando el archivo seleccionado y liberando memoria.
    */
   clearFile(): void {
     this.revokeBlobUrl();
@@ -274,10 +259,7 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
     this.onChange(null);
   }
 
-  /**
-   * Libera la URL blob para evitar memory leaks.
-   * Las blob URLs deben ser revocadas manualmente cuando ya no se necesiten.
-   */
+  /** Cancela la URL del objeto blob para evitar fugas de memoria. */
   private revokeBlobUrl(): void {
     if (this.blobUrl) {
       URL.revokeObjectURL(this.blobUrl);
@@ -285,30 +267,24 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
     }
   }
 
-  /**
-   * Lifecycle hook que se ejecuta al destruir el componente.
-   * Importante para liberar la URL blob y evitar memory leaks.
-   */
+  /** Limpia recursos al destruir el componente. */
   ngOnDestroy(): void {
     this.revokeBlobUrl();
   }
 
-  /**
-   * Determina si el archivo actual es una imagen.
-   */
+  /** Indica si hay una imagen cargada. */
   isImage(): boolean {
     return this.selectedFile()?.type.startsWith('image/') || false;
   }
 
-  /**
-   * Determina si el archivo actual es un PDF.
-   */
+  /** Indica si hay un PDF cargado. */
   isPDF(): boolean {
     return this.selectedFile()?.type === 'application/pdf' || false;
   }
 
   /**
-   * Formatea el tamaño del archivo para visualización.
+   * Formatea el tamaño en bytes a una cadena legible (KB, MB, etc.).
+   * @param bytes Tamaño en bytes.
    */
   formatFileSize(bytes: number): string {
     if (bytes === 0) return '0 Bytes';
@@ -320,7 +296,7 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   }
 
   /**
-   * Obtiene un icono según el tipo de archivo.
+   * Obtiene un emoji descriptivo según el tipo de archivo.
    */
   getFileIcon(): string {
     const file = this.selectedFile();

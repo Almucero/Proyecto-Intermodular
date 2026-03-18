@@ -98,6 +98,14 @@ import { NodeAuthMappingService } from '../services/impl/node-auth-mapping.servi
 import { BaseMediaService } from '../services/impl/base-media.service';
 import { MediaRepositoryHttpService } from './impl/media-repository-http.service';
 
+/**
+ * Fábrica para crear instancias de repositorios base.
+ * Dependiendo del backend configurado (http, local-storage, etc.), devuelve la implementación correspondiente.
+ * @template T Tipo de modelo.
+ * @param token Token de inyección del repositorio.
+ * @param dependencies Lista de dependencias necesarias para la factoría.
+ * @returns Proveedor de factoría para Angular.
+ */
 export function createBaseRepositoryFactory<T extends Model>(
   token: InjectionToken<IBaseRepository<T>>,
   dependencies: any[],
@@ -131,6 +139,15 @@ export function createBaseRepositoryFactory<T extends Model>(
   };
 }
 
+/**
+ * Fábrica para crear instancias de mapeadores base.
+ * Los mapeadores se encargan de la transformación de datos entre la API y los modelos de la aplicación.
+ * @template T Tipo de modelo.
+ * @param token Token de inyección del mapeador.
+ * @param dependencies Dependencias (normalmente el token del backend).
+ * @param modelType Identificador del tipo de modelo para decidir qué servicio de mapeo instanciar.
+ * @returns Proveedor de factoría para Angular.
+ */
 export function createBaseMappingFactory<T extends Model>(
   token: InjectionToken<IBaseMapping<T>>,
   dependencies: any[],
@@ -191,6 +208,11 @@ export function createBaseMappingFactory<T extends Model>(
   };
 }
 
+/**
+ * Fábrica para crear el mapeador de autenticación.
+ * @param token Token de inyección.
+ * @param dependencies Dependencias.
+ */
 export function createBaseAuthMappingFactory(
   token: InjectionToken<IAuthMapping>,
   dependencies: any[],

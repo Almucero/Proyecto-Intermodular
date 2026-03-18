@@ -14,6 +14,10 @@ import {
 } from '../repository.tokens';
 import { Observable, map, switchMap } from 'rxjs';
 
+/**
+ * Repositorio HTTP especializado para la gestión de medios.
+ * Extiende {@link BaseRepositoryHttpService} y añade soporte para la subida de archivos (upload).
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -21,6 +25,14 @@ export class MediaRepositoryHttpService
   extends BaseRepositoryHttpService<Media>
   implements IMediaRepository
 {
+  /**
+   * @param http Cliente HTTP.
+   * @param auth Servicio de autenticación.
+   * @param apiUrl URL base de la API.
+   * @param resource Recurso de medios.
+   * @param mapping Mapeador de medios.
+   * @param uploadUrl URL específica para la subida de archivos.
+   */
   constructor(
     protected override http: HttpClient,
     @Inject(AUTH_TOKEN) protected override auth: IAuthentication,
@@ -33,6 +45,12 @@ export class MediaRepositoryHttpService
     super(http, auth, apiUrl, resource, mapping);
   }
 
+  /**
+   * Sube un archivo al servidor.
+   * Utiliza FormData para enviar el archivo y asocia el ID del usuario actual si está autenticado.
+   * @param file Archivo físico a subir.
+   * @returns Observable con el modelo Media resultante.
+   */
   upload(file: File): Observable<Media> {
     const formData = new FormData();
     formData.append('file', file);

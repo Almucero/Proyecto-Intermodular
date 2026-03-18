@@ -13,6 +13,10 @@ import { BaseService } from './base-service.service';
 import { BaseAuthenticationService } from './base-authentication.service';
 import { IFavoriteService } from '../interfaces/favorite-service.interface';
 
+/**
+ * Servicio para la gestión de los juegos favoritos del usuario.
+ * Sincroniza el estado de favoritos entre el servidor y la interfaz (BehaviorSubject y localStorage).
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -21,8 +25,17 @@ export class FavoriteService
   implements IFavoriteService
 {
   private isBrowser: boolean;
+  /** Observable con el número total de favoritos del usuario actual. */
   public favoritesCount$ = new BehaviorSubject<number>(this.getInitialCount());
 
+  /**
+   * @param repository Repositorio base para favoritos.
+   * @param http Cliente HTTP para operaciones personalizadas.
+   * @param apiUrl URL base de la API.
+   * @param resource Nombre del recurso de favoritos en la API.
+   * @param auth Servicio de autenticación.
+   * @param platformId ID de la plataforma de ejecución.
+   */
   constructor(
     @Inject(FAVORITE_REPOSITORY_TOKEN) repository: IBaseRepository<Favorite>,
     private http: HttpClient,
@@ -45,6 +58,9 @@ export class FavoriteService
     });
   }
 
+  /**
+   * Recupera la cuenta inicial de favoritos desde el almacenamiento persistente.
+   */
   private getInitialCount(): number {
     if (typeof localStorage === 'undefined') {
       return 0;
@@ -52,6 +68,10 @@ export class FavoriteService
     return parseInt(localStorage.getItem('favoritesCount') || '0', 10);
   }
 
+  /**
+   * Actualiza el estado local y el almacenamiento del navegador.
+   * @param count Nueva cantidad de favoritos.
+   */
   private updateLocalState(count: number) {
     this.favoritesCount$.next(count);
     if (this.isBrowser) {
@@ -59,6 +79,9 @@ export class FavoriteService
     }
   }
 
+  /**
+   * Refresca la cuenta de favoritos consultando al servidor.
+   */
   refreshCount() {
     this.getAll().subscribe({
       next: (items) => this.updateLocalState(items.length),
@@ -66,6 +89,9 @@ export class FavoriteService
     });
   }
 
+  /**
+   * Obtiene las cabeceras de autenticación necesarias.
+   */
   private getAuthHeaders(): any {
     const headers: any = {};
     const token = this.auth.getToken();
@@ -73,6 +99,11 @@ export class FavoriteService
     return headers;
   }
 
+  /**
+   * Añade un juego a la lista de favoritos.
+   * @param entity Objeto favorito a crear.
+   * @returns Observable con el favorito creado.
+   */
   override add(entity: Favorite): Observable<Favorite> {
     return this.http
       .post<Favorite>(
@@ -88,6 +119,12 @@ export class FavoriteService
       );
   }
 
+  /**
+   * Elimina un favorito especificando juego y plataforma.
+   * @param gameId ID del juego.
+   * @param platformId ID de la plataforma.
+   * @returns Observable con la respuesta de eliminación.
+   */
   deleteWithPlatform(gameId: number, platformId: number): Observable<any> {
     return this.http
       .delete<any>(
@@ -102,6 +139,11 @@ export class FavoriteService
       );
   }
 
+  /**
+   * Elimina un favorito por su ID.
+   * @param id ID único del registro de favorito.
+   * @returns Observable con la entidad eliminada.
+   */
   override delete(id: string): Observable<Favorite> {
     return super.delete(id).pipe(
       tap(() => {
