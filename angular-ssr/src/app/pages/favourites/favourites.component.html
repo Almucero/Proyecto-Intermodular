@@ -201,4 +201,9 @@
       </button>
     </div>
   }
+  @if (isAuthenticated() && loading() && favoritesCount.length > 0) {
+    <div class="mt-8 text-center animate-pulse pointer-events-none">
+      <div class="h-12 w-full max-w-xs mx-auto bg-gray-700 rounded-lg"></div>
+    </div>
+  }
 </div>

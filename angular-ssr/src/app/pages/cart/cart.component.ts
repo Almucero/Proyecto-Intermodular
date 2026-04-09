@@ -213,8 +213,8 @@ export class CartComponent implements OnInit {
 
   /** Genera una secuencia para representar el conteo de artículos (uso en UI). */
   get cartItemsCount(): number[] {
-    const count = this.cartItemService.cartCount$.value;
-    return Array(count > 0 ? count : 1)
+    const count = Math.max(this.cartItemService.cartCount$.value ?? 0, 0);
+    return Array(count)
       .fill(0)
       .map((x, i) => i + 1);
   }

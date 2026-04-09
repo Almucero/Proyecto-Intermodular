@@ -370,7 +370,11 @@ npm install
 npm audit fix --omit=dev
 ```
 
-Se instalan las dependencias de `package.json` y las devDependencies (Angular CLI, Prisma, Jest, etc.). Puede tardar varios minutos. `npm audit fix --omit=dev` corrige vulnerabilidades conocidas en las dependencias de producción, omitiendo las de desarrollo (para evitar conflictos conocidos con herramientas como ESLint).
+Se instalan las dependencias de `package.json` y las devDependencies (Angular CLI, Prisma, Jest, etc.). Puede tardar varios minutos.
+
+Con las versiones fijadas actualmente en este repositorio, una instalación limpia debería finalizar con `0 vulnerabilities` tras `npm install`.
+
+Se mantiene igualmente `npm audit fix --omit=dev` como paso recomendado por si en tu entorno concreto aparece alguna alerta puntual (por caché local, mirrors o cambios recientes del ecosistema), corrigiendo vulnerabilidades conocidas en dependencias de producción y omitiendo las de desarrollo.
 
 **Si en Windows PowerShell aparece** *"running scripts is disabled on this system"* al ejecutar `npm`:
 

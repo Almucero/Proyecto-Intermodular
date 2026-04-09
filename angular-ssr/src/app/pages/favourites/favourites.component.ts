@@ -154,8 +154,8 @@ export class FavouritesComponent implements OnInit {
 
   /** Genera un array basado en el número total de favoritos (para iteraciones en UI). */
   get favoritesCount(): number[] {
-    const count = this.favoriteService.favoritesCount$.value;
-    return Array(count > 0 ? count : 1)
+    const count = Math.max(this.favoriteService.favoritesCount$.value ?? 0, 0);
+    return Array(count)
       .fill(0)
       .map((x, i) => i + 1);
   }
