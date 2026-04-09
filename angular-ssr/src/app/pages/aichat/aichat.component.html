@@ -189,7 +189,7 @@
     >
       @if (messages.length === 0) {
         <div
-          class="h-full flex flex-col items-center pt-6 md:pt-0 md:justify-center text-gray-400 space-y-2 md:space-y-4"
+          class="h-full flex flex-col items-center pt-6 md:pt-10 md:justify-start lg:pt-0 lg:justify-center text-gray-400 space-y-2 md:space-y-4"
         >
           <div
             class="p-2 bg-gray-800 rounded-full mb-2 shadow-lg shadow-cyan-900/20"
@@ -200,7 +200,7 @@
               class="h-16 w-16 object-contain"
             />
           </div>
-          <h3 class="text-xl font-semibold text-gray-200">
+          <h3 class="w-full text-center text-xl font-semibold text-gray-200">
             {{
               "aichat.welcome_title"
                 | translate: { name: userName ? ", " + userName : "" }

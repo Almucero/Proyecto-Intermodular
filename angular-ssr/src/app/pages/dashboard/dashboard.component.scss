@@ -29,3 +29,21 @@ input.bg-gray-700:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px #374151 inset !important;
   -webkit-text-fill-color: #d1d5db !important;
 }
+
+.mobile-center-text {
+  text-align: left;
+}
+
+.mobile-center-row {
+  justify-content: flex-start;
+}
+
+@media (max-width: 767px) {
+  .mobile-center-text {
+    text-align: center;
+  }
+
+  .mobile-center-row {
+    justify-content: center;
+  }
+}

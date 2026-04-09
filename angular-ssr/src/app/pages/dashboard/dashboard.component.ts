@@ -1,5 +1,10 @@
 import {
+  AfterViewInit,
   Component,
+  ElementRef,
+  OnDestroy,
+  QueryList,
+  ViewChildren,
   computed,
   effect,
   inject,
@@ -17,6 +22,7 @@ import { UserService } from '../../core/services/impl/user.service';
 import { MediaService } from '../../core/services/impl/media.service';
 import { PurchaseService } from '../../core/services/impl/purchase.service';
 import { User } from '../../core/models/user.model';
+import { Subscription } from 'rxjs';
 
 /**
  * Componente del Panel de Control (Dashboard) del Usuario.
@@ -36,7 +42,7 @@ import { User } from '../../core/models/user.model';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent {
+export class DashboardComponent implements AfterViewInit, OnDestroy {
   private auth = inject(BaseAuthenticationService);
   private userService = inject(UserService);
   private mediaService = inject(MediaService);
@@ -93,6 +99,10 @@ export class DashboardComponent {
   selectedImageFile: File | null = null;
   /** URL temporal para la previsualización de la nueva imagen de perfil. */
   previewImageUrl: string | null = null;
+  @ViewChildren('actionSizeButton')
+  private actionSizeButtons!: QueryList<ElementRef<HTMLButtonElement>>;
+  private actionButtonsChangesSubscription?: Subscription;
+  private readonly resizeHandler = () => this.syncActionButtonsWidth();
 
   /**
    * Obtiene la URL de la imagen de perfil, priorizando la previsualización local,
@@ -129,6 +139,24 @@ export class DashboardComponent {
     });
   }
 
+  ngAfterViewInit() {
+    if (!isPlatformBrowser(this.platformId)) return;
+    this.actionButtonsChangesSubscription = this.actionSizeButtons.changes.subscribe(
+      () => {
+        setTimeout(() => this.syncActionButtonsWidth(), 0);
+      },
+    );
+    window.addEventListener('resize', this.resizeHandler);
+    setTimeout(() => this.syncActionButtonsWidth(), 0);
+  }
+
+  ngOnDestroy() {
+    if (isPlatformBrowser(this.platformId)) {
+      window.removeEventListener('resize', this.resizeHandler);
+    }
+    this.actionButtonsChangesSubscription?.unsubscribe();
+  }
+
   /** Activa o desactiva el modo de edición de perfil. */
   toggleEdit() {
     this.isEditing = !this.isEditing;
@@ -137,6 +165,9 @@ export class DashboardComponent {
       this.editableUser = { ...currentUser };
     } else {
       this.clearImagePreview();
+    }
+    if (isPlatformBrowser(this.platformId)) {
+      setTimeout(() => this.syncActionButtonsWidth(), 0);
     }
   }
 
@@ -277,6 +308,21 @@ export class DashboardComponent {
       error: () => {
         this.refundError.set('dashboard.refundError');
       },
+    });
+  }
+
+  private syncActionButtonsWidth() {
+    const buttons =
+      this.actionSizeButtons?.toArray().map((btn) => btn.nativeElement) ?? [];
+    if (buttons.length === 0) return;
+    buttons.forEach((button) => {
+      button.style.width = 'auto';
+    });
+    const maxWidth = Math.max(
+      ...buttons.map((button) => Math.ceil(button.getBoundingClientRect().width)),
+    );
+    buttons.forEach((button) => {
+      button.style.width = `${maxWidth}px`;
     });
   }
 }

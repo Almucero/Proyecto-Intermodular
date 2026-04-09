@@ -1,6 +1,6 @@
-<div class="flex-1 w-full bg-gray-900 text-white font-sans pb-20">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
-    <h1 class="text-3xl font-bold text-center text-cyan-200 mb-12">
+<div class="flex-1 w-full bg-gray-900 text-white font-sans py-8 pb-10 md:pb-14 lg:pb-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h1 class="text-3xl font-bold text-center text-cyan-200 mb-8">
       {{ "dashboard.user" | translate }}
     </h1>
     <div class="flex flex-col lg:flex-row gap-8 lg:gap-0 lg:items-stretch">
@@ -37,21 +37,25 @@
       </div>
       <div class="flex-1 space-y-8 lg:pl-12">
         <div>
-          <h2 class="text-3xl font-bold text-white">
-            {{ user()?.nickname | translate }}
+          <h2 class="text-3xl font-bold text-white text-left mobile-center-text">
+            {{ user()?.name || "-" }}
           </h2>
-          <div class="flex items-center gap-2 text-gray-400 mt-1">
-            <span>{{ userHandle }}</span>
+          <div
+            class="flex items-center justify-start gap-2 text-gray-400 mt-1 mobile-center-row"
+          >
+            <span>{{ user()?.nickname || userHandle || "-" }}</span>
             <img
               src="assets/icons/copy.png"
               alt="copy"
               class="w-4 h-4 cursor-pointer hover:opacity-80 transition-transform duration-150 active:scale-95"
-              [appCopyOnClick]="userHandle"
+              [appCopyOnClick]="user()?.nickname || userHandle"
               [title]="'tooltips.copyUsername' | translate"
             />
           </div>
-          <div class="flex items-center gap-2 text-gray-500 text-sm mt-1">
-            <span>ID: {{ userId }}</span>
+          <div
+            class="flex items-center justify-start gap-2 text-gray-500 text-sm mt-1 mobile-center-row"
+          >
+            <span>ID: {{ userId || "-" }}</span>
             <img
               src="assets/icons/copy.png"
               alt="copy"
@@ -63,7 +67,7 @@
         </div>
 
         <section>
-          <h3 class="text-xl font-bold text-white mb-6">
+          <h3 class="text-xl font-bold text-white mb-6 text-left mobile-center-text">
             {{ "dashboard.accountInfo" | translate }}
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -103,10 +107,10 @@
         </section>
 
         <section>
-          <h3 class="text-xl font-bold text-white mb-2">
+          <h3 class="text-xl font-bold text-white mb-2 text-left mobile-center-text">
             {{ "dashboard.personalData" | translate }}
           </h3>
-          <p class="text-gray-500 text-sm mb-6">
+          <p class="text-gray-500 text-sm mb-6 text-left mobile-center-text">
             {{ "dashboard.personalDataNote" | translate }}
             <a
               routerLink="/privacy"
@@ -147,7 +151,7 @@
         </section>
 
         <section>
-          <h3 class="text-xl font-bold text-white mb-6">
+          <h3 class="text-xl font-bold text-white mb-6 text-left mobile-center-text">
             {{ "dashboard.address" | translate }}
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -238,30 +242,34 @@
           </div>
         </section>
 
-        <div class="flex items-center gap-4 justify-center lg:justify-start">
-          <button
-            (click)="toggleEdit()"
-            class="border-0 bg-cyan-400 hover:bg-cyan-300 text-white font-medium py-2 px-6 rounded transition-colors duration-150 active:scale-95 focus:outline-none"
-          >
-            {{
-              isEditing
-                ? ("dashboard.cancel" | translate)
-                : ("dashboard.configure" | translate)
-            }}
-          </button>
+        <div class="mt-12 lg:mt-8 flex justify-center lg:justify-start">
+          <div class="inline-flex flex-col gap-2 lg:flex-row lg:gap-4">
+            <button
+              #actionSizeButton
+              (click)="toggleEdit()"
+              class="border-0 bg-cyan-400 hover:bg-cyan-300 text-white font-medium py-2 px-6 rounded transition-colors duration-150 active:scale-95 focus:outline-none"
+            >
+              {{
+                isEditing
+                  ? ("dashboard.cancel" | translate)
+                  : ("dashboard.configure" | translate)
+              }}
+            </button>
 
-          <button
-            *ngIf="isEditing"
-            (click)="saveChanges()"
-            class="border-0 bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded transition-colors flex items-center gap-2 duration-150 active:scale-95 focus:outline-none"
-          >
-            {{ "dashboard.save" | translate }}
-          </button>
+            <button
+              #actionSizeButton
+              *ngIf="isEditing"
+              (click)="saveChanges()"
+              class="border-0 bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded transition-colors flex items-center justify-center gap-2 duration-150 active:scale-95 focus:outline-none"
+            >
+              {{ "dashboard.save" | translate }}
+            </button>
+          </div>
         </div>
 
         @if (purchases().length > 0) {
           <section class="mt-4 md:mt-8">
-            <h3 class="text-xl font-bold text-white mb-6">
+            <h3 class="text-xl font-bold text-white mb-6 text-left mobile-center-text">
               {{ "dashboard.purchases" | translate }}
             </h3>
             <div class="space-y-4">
@@ -348,7 +356,7 @@
         }
         @if (returns().length > 0) {
           <section class="mt-4 md:mt-8">
-            <h3 class="text-xl font-bold text-white mb-6">
+            <h3 class="text-xl font-bold text-white mb-6 text-left mobile-center-text">
               {{ "dashboard.returns" | translate }}
             </h3>
             <div class="space-y-4">
@@ -523,10 +531,11 @@
           </div>
         </section> -->
 
-        <div class="flex justify-center lg:justify-start pt-6">
+        <div class="mt-2 mb-2 flex justify-center lg:justify-start">
           <button
+            #actionSizeButton
             (click)="onLogout()"
-            class="border-0 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-6 rounded transition-colors flex items-center gap-2 duration-150 active:scale-95 focus:outline-none"
+            class="border-0 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-6 rounded transition-colors flex items-center justify-center gap-2 duration-150 active:scale-95 focus:outline-none"
           >
             <span>{{ "dashboard.logout" | translate }}</span>
           </button>

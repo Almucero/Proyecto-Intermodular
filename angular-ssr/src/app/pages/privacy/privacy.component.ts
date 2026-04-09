@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
+import { SanitizeHtmlPipe } from '../../pipes/sanitize-html.pipe';
 
 /**
  * Componente que presenta la Política de Privacidad del sitio.
@@ -9,7 +10,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 @Component({
   selector: 'app-privacy',
   standalone: true,
-  imports: [CommonModule, TranslatePipe],
+  imports: [CommonModule, TranslatePipe, SanitizeHtmlPipe],
   templateUrl: './privacy.component.html',
   styleUrl: './privacy.component.scss',
 })
