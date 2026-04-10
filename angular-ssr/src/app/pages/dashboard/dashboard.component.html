@@ -76,6 +76,7 @@
                 <input
                   type="text"
                   [(ngModel)]="editableUser.nickname"
+                  [placeholder]="'dashboard.placeholders.displayName' | translate"
                   [readonly]="!isEditing"
                   [class.bg-gray-800]="!isEditing"
                   [class.bg-gray-700]="isEditing"
@@ -92,6 +93,7 @@
                 <input
                   type="text"
                   [(ngModel)]="editableUser.email"
+                  [placeholder]="'dashboard.placeholders.emailAddress' | translate"
                   [readonly]="!isEditing"
                   [class.bg-gray-800]="!isEditing"
                   [class.bg-gray-700]="isEditing"
@@ -123,6 +125,7 @@
               <input
                 type="text"
                 [(ngModel)]="editableUser.name"
+                [placeholder]="'dashboard.placeholders.name' | translate"
                 [readonly]="!isEditing"
                 [class.bg-gray-800]="!isEditing"
                 [class.bg-gray-700]="isEditing"
@@ -137,6 +140,7 @@
               <input
                 type="text"
                 [(ngModel)]="editableUser.surname"
+                [placeholder]="'dashboard.placeholders.surname' | translate"
                 [readonly]="!isEditing"
                 [class.bg-gray-800]="!isEditing"
                 [class.bg-gray-700]="isEditing"
@@ -159,6 +163,7 @@
               <input
                 type="text"
                 [(ngModel)]="address.line1"
+                [placeholder]="'dashboard.placeholders.addressLine1' | translate"
                 [readonly]="!isEditing"
                 [class.bg-gray-800]="!isEditing"
                 [class.bg-gray-700]="isEditing"
@@ -173,6 +178,7 @@
               <input
                 type="text"
                 [(ngModel)]="address.line2"
+                [placeholder]="'dashboard.placeholders.addressLine2' | translate"
                 [readonly]="!isEditing"
                 [class.bg-gray-800]="!isEditing"
                 [class.bg-gray-700]="isEditing"
@@ -187,6 +193,7 @@
               <input
                 type="text"
                 [(ngModel)]="address.city"
+                [placeholder]="'dashboard.placeholders.city' | translate"
                 [readonly]="!isEditing"
                 [class.bg-gray-800]="!isEditing"
                 [class.bg-gray-700]="isEditing"
@@ -201,6 +208,7 @@
               <input
                 type="text"
                 [(ngModel)]="address.region"
+                [placeholder]="'dashboard.placeholders.region' | translate"
                 [readonly]="!isEditing"
                 [class.bg-gray-800]="!isEditing"
                 [class.bg-gray-700]="isEditing"
@@ -215,6 +223,7 @@
               <input
                 type="text"
                 [(ngModel)]="address.postalCode"
+                [placeholder]="'dashboard.placeholders.postalCode' | translate"
                 [readonly]="!isEditing"
                 [class.bg-gray-800]="!isEditing"
                 [class.bg-gray-700]="isEditing"
@@ -229,6 +238,7 @@
               <input
                 type="text"
                 [(ngModel)]="address.country"
+                [placeholder]="'dashboard.placeholders.country' | translate"
                 [readonly]="!isEditing"
                 [class.bg-gray-800]="!isEditing"
                 [class.bg-gray-700]="isEditing"

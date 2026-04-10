@@ -181,6 +181,7 @@ Contenido legal sobre el tratamiento de datos personales de los usuarios.</p>
                 <td class="col-md-9">
                                 <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
                             <code>TranslatePipe</code>
+                            <code>SanitizeHtmlPipe</code>
                 </td>
             </tr>
 
@@ -222,6 +223,7 @@ Contenido legal sobre el tratamiento de datos personales de los usuarios.</p>
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component } from &#x27;@angular/core&#x27;;
 import { CommonModule } from &#x27;@angular/common&#x27;;
 import { TranslatePipe } from &#x27;@ngx-translate/core&#x27;;
+import { SanitizeHtmlPipe } from &#x27;../../pipes/sanitize-html.pipe&#x27;;
 
 /**
  * Componente que presenta la Política de Privacidad del sitio.
@@ -230,7 +232,7 @@ import { TranslatePipe } from &#x27;@ngx-translate/core&#x27;;
 @Component({
   selector: &#x27;app-privacy&#x27;,
   standalone: true,
-  imports: [CommonModule, TranslatePipe],
+  imports: [CommonModule, TranslatePipe, SanitizeHtmlPipe],
   templateUrl: &#x27;./privacy.component.html&#x27;,
   styleUrl: &#x27;./privacy.component.scss&#x27;,
 })

@@ -1,6 +1,8 @@
 import {
+  AfterViewInit,
   Component,
   OnInit,
+  OnDestroy,
   HostListener,
   ViewChild,
   ElementRef,
@@ -26,7 +28,7 @@ import { CarouselComponent } from '../../shared/components/carousel/carousel.com
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Capas para el efecto parallax del banner. */
   @ViewChild('backgroundLayer') backgroundLayer!: ElementRef;
   @ViewChild('jokerLayer') jokerLayer!: ElementRef;
@@ -89,6 +91,19 @@ export class HomeComponent implements OnInit {
   private http = inject(HttpClient);
   private platformId = inject(PLATFORM_ID);
 
+  private targetScrollY = 0;
+  private lastTargetScrollY = 0;
+  private rafId: number | null = null;
+  private current = {
+    backgroundY: 0,
+    bottomY: 0,
+    mainContentY: 0,
+    charactersY: 0,
+    horizontalX: 0,
+    blurBackground: 0,
+    blurCharacters: 0,
+  };
+
   constructor(
     private gameService: GameService,
     private mediaService: MediaService,
@@ -103,6 +118,25 @@ export class HomeComponent implements OnInit {
       (genre) => !this.genres.some((g) => g.value === genre.value),
     );
     this.loadGames();
+    if (isPlatformBrowser(this.platformId)) {
+      this.targetScrollY = window.scrollY || 0;
+    }
+  }
+
+  ngAfterViewInit(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    this.targetScrollY = window.scrollY || 0;
+    this.lastTargetScrollY = this.targetScrollY;
+    this.startParallaxLoop();
+  }
+
+  ngOnDestroy(): void {
+    if (this.rafId !== null && isPlatformBrowser(this.platformId)) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = null;
+    }
   }
 
   /** Escucha cambios en el tamaño de la ventana. */
@@ -145,7 +179,22 @@ export class HomeComponent implements OnInit {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
-    const scrollPosition = window.scrollY;
+    this.targetScrollY = window.scrollY || 0;
+    this.startParallaxLoop();
+  }
+
+  private startParallaxLoop() {
+    if (this.rafId !== null) return;
+    const tick = () => {
+      this.rafId = requestAnimationFrame(tick);
+      this.renderParallaxFrame();
+    };
+    this.rafId = requestAnimationFrame(tick);
+  }
+
+  private renderParallaxFrame() {
+    const scrollPosition = this.targetScrollY;
+    const scrollingUp = this.targetScrollY < this.lastTargetScrollY;
 
     const backgroundSpeed = 0.8;
     const charactersSpeed = 0.4;
@@ -153,49 +202,116 @@ export class HomeComponent implements OnInit {
     const mainContentSpeed = 0.05;
 
     const maxBlurBackground = 5;
-    const blurBackgroundAmount = Math.min(
+    const blurBackgroundTarget = Math.min(
       scrollPosition * 0.005,
       maxBlurBackground,
     );
     const maxBlurCharacters = 2;
-    const blurCharactersAmount = Math.min(
+    const blurCharactersTarget = Math.min(
       scrollPosition * 0.003,
       maxBlurCharacters,
     );
-    const horizontalMovement = Math.sin(scrollPosition * 0.0005) * 50;
+    const horizontalTarget = Math.sin(scrollPosition * 0.0005) * 50;
 
-    const backgroundParallaxOffset = scrollPosition * backgroundSpeed;
-    const bottomParallaxOffset = scrollPosition * bottomSpeed;
-    const mainContentOffset = scrollPosition * mainContentSpeed;
+    const backgroundTarget = scrollPosition * backgroundSpeed;
+    const bottomTarget = scrollPosition * bottomSpeed;
+    const mainContentTarget = scrollPosition * mainContentSpeed;
+    const charactersTarget = scrollPosition * charactersSpeed;
+
+    const ease = 0.16;
+    const easeFast = 0.38;
+    const backgroundEase = scrollingUp ? easeFast : ease;
+    this.current.backgroundY = this.lerp(
+      this.current.backgroundY,
+      backgroundTarget,
+      backgroundEase,
+    );
+    if (scrollingUp && Math.abs(backgroundTarget - this.current.backgroundY) > 240) {
+      this.current.backgroundY = backgroundTarget;
+    }
+    this.current.bottomY = this.lerp(this.current.bottomY, bottomTarget, ease);
+    this.current.mainContentY = this.lerp(
+      this.current.mainContentY,
+      mainContentTarget,
+      ease,
+    );
+    this.current.charactersY = this.lerp(
+      this.current.charactersY,
+      charactersTarget,
+      ease,
+    );
+    this.current.horizontalX = this.lerp(
+      this.current.horizontalX,
+      horizontalTarget,
+      ease,
+    );
+    this.current.blurBackground = this.lerp(
+      this.current.blurBackground,
+      blurBackgroundTarget,
+      0.22,
+    );
+    this.current.blurCharacters = this.lerp(
+      this.current.blurCharacters,
+      blurCharactersTarget,
+      0.22,
+    );
+
+    const bgY = this.current.backgroundY;
+    const bottomY = this.current.bottomY;
+    const mainY = this.current.mainContentY;
+    const charY = this.current.charactersY;
+    const x = this.current.horizontalX;
+    const blurBg = this.current.blurBackground;
+    const blurChars = this.current.blurCharacters;
 
     if (this.backgroundLayer) {
-      this.backgroundLayer.nativeElement.style.transform = `translateY(${backgroundParallaxOffset}px)`;
-      this.backgroundLayer.nativeElement.style.filter = `blur(${blurBackgroundAmount}px)`;
+      const el = this.backgroundLayer.nativeElement as HTMLElement;
+      el.style.transform = `translate3d(0, ${bgY - 120}px, 0)`;
+      el.style.filter = `blur(${blurBg}px)`;
     }
     if (this.jokerLayer) {
-      this.jokerLayer.nativeElement.style.transform = `translate3d(${-horizontalMovement}px, ${
-        scrollPosition * charactersSpeed
-      }px, 0)`;
-      this.jokerLayer.nativeElement.style.filter = `drop-shadow(0 0 15px #ffffff) blur(${blurCharactersAmount}px)`;
+      const el = this.jokerLayer.nativeElement as HTMLElement;
+      el.style.transform = `translate3d(${-x}px, ${charY}px, 0)`;
+      el.style.filter = `drop-shadow(0 0 15px #ffffff) blur(${blurChars}px)`;
     }
     if (this.geraltLayer) {
-      this.geraltLayer.nativeElement.style.transform = `translate3d(${horizontalMovement}px, ${
-        scrollPosition * charactersSpeed
-      }px, 0)`;
-      this.geraltLayer.nativeElement.style.filter = `drop-shadow(0 0 15px #ffffff) blur(${blurCharactersAmount}px)`;
+      const el = this.geraltLayer.nativeElement as HTMLElement;
+      el.style.transform = `translate3d(${x}px, ${charY}px, 0)`;
+      el.style.filter = `drop-shadow(0 0 15px #ffffff) blur(${blurChars}px)`;
     }
     if (this.titleLayer) {
-      this.titleLayer.nativeElement.style.transform = `translate3d(-50%, calc(-50% + ${
-        scrollPosition * charactersSpeed
-      }px), 0)`;
-      this.titleLayer.nativeElement.style.filter = `drop-shadow(0 0 15px #ffffff) blur(${blurCharactersAmount}px)`;
+      const el = this.titleLayer.nativeElement as HTMLElement;
+      el.style.transform = `translate(-50%, -50%) translate3d(0, ${charY}px, 0)`;
+      el.style.filter = `drop-shadow(0 0 15px #ffffff) blur(${blurChars}px)`;
     }
     if (this.bottomLayer) {
-      this.bottomLayer.nativeElement.style.transform = `translateY(${bottomParallaxOffset}px)`;
+      const el = this.bottomLayer.nativeElement as HTMLElement;
+      el.style.transform = `translate3d(0, ${bottomY}px, 0)`;
     }
     if (this.mainContent) {
-      this.mainContent.nativeElement.style.transform = `translateY(${mainContentOffset}px)`;
+      const el = this.mainContent.nativeElement as HTMLElement;
+      el.style.transform = `translate3d(0, ${mainY}px, 0)`;
     }
+
+    this.lastTargetScrollY = this.targetScrollY;
+
+    const done =
+      Math.abs(backgroundTarget - this.current.backgroundY) < 0.05 &&
+      Math.abs(bottomTarget - this.current.bottomY) < 0.05 &&
+      Math.abs(mainContentTarget - this.current.mainContentY) < 0.05 &&
+      Math.abs(charactersTarget - this.current.charactersY) < 0.05 &&
+      Math.abs(horizontalTarget - this.current.horizontalX) < 0.05 &&
+      Math.abs(blurBackgroundTarget - this.current.blurBackground) < 0.02 &&
+      Math.abs(blurCharactersTarget - this.current.blurCharacters) < 0.02;
+
+    if (done && this.rafId !== null) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = null;
+    }
+  }
+
+  private lerp(current: number, target: number, alpha: number) {
+    return current + (target - current) * alpha;
   }
 
   /** Alterna la visibilidad del desplegable de géneros. */

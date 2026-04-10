@@ -181,6 +181,7 @@ Detalla el uso de cookies propias y de terceros en la aplicación.</p>
                 <td class="col-md-9">
                                 <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
                             <code>TranslateModule</code>
+                            <code>SanitizeHtmlPipe</code>
                 </td>
             </tr>
 
@@ -222,6 +223,7 @@ Detalla el uso de cookies propias y de terceros en la aplicación.</p>
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component } from &#x27;@angular/core&#x27;;
 import { CommonModule } from &#x27;@angular/common&#x27;;
 import { TranslateModule } from &#x27;@ngx-translate/core&#x27;;
+import { SanitizeHtmlPipe } from &#x27;../../pipes/sanitize-html.pipe&#x27;;
 
 /**
  * Componente informativo sobre la política de Cookies.
@@ -230,7 +232,7 @@ import { TranslateModule } from &#x27;@ngx-translate/core&#x27;;
 @Component({
   selector: &#x27;app-cookies&#x27;,
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, SanitizeHtmlPipe],
   templateUrl: &#x27;./cookies.component.html&#x27;,
   styleUrl: &#x27;./cookies.component.scss&#x27;,
 })

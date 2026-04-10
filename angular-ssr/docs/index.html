@@ -130,7 +130,9 @@
 <li><a href="#arrancar-el-proyecto-desde-cero">Arrancar el proyecto desde cero</a></li>
 <li><a href="#configuraci%C3%B3n-variables-de-entorno">Configuración (variables de entorno)</a></li>
 <li><a href="#environments-de-angular-srcenvironments">Environments de Angular</a></li>
+<li><a href="#exportaci%C3%B3n-de-bbdd-a-excel-power-bi">Exportación de BBDD a Excel (Power BI)</a></li>
 <li><a href="#comandos-disponibles">Comandos disponibles</a></li>
+<li><a href="#documentaci%C3%B3n-compodoc">Documentación (Compodoc)</a></li>
 <li><a href="#comandos-m%C3%A1s-%C3%BAtiles-resumen">Comandos más útiles (resumen)</a></li>
 </ul>
 <hr>
@@ -396,7 +398,9 @@
 <h3>6. Instalar dependencias</h3>
 <p>En la raíz del proyecto ejecutar:</p>
 <b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm install
-npm audit fix --omit=dev</code></pre></div><p>Se instalan las dependencias de <code>package.json</code> y las devDependencies (Angular CLI, Prisma, Jest, etc.). Puede tardar varios minutos. <code>npm audit fix --omit=dev</code> corrige vulnerabilidades conocidas en las dependencias de producción, omitiendo las de desarrollo (para evitar conflictos conocidos con herramientas como ESLint).</p>
+npm audit fix --omit=dev</code></pre></div><p>Se instalan las dependencias de <code>package.json</code> y las devDependencies (Angular CLI, Prisma, Jest, etc.). Puede tardar varios minutos.</p>
+<p>Con las versiones fijadas actualmente en este repositorio, una instalación limpia debería finalizar con <code>0 vulnerabilities</code> tras <code>npm install</code>.</p>
+<p>Se mantiene igualmente <code>npm audit fix --omit=dev</code> como paso recomendado por si en tu entorno concreto aparece alguna alerta puntual (por caché local, mirrors o cambios recientes del ecosistema), corrigiendo vulnerabilidades conocidas en dependencias de producción y omitiendo las de desarrollo.</p>
 <p><strong>Si en Windows PowerShell aparece</strong> <em>&quot;running scripts is disabled on this system&quot;</em> al ejecutar <code>npm</code>:</p>
 <ul>
 <li>Usa el ejecutable en formato cmd: <code>npm.cmd install</code> y <code>npm.cmd audit fix --omit=dev</code> (y en general <code>npm.cmd</code> en lugar de <code>npm</code> para el resto de comandos), o</li>
@@ -447,6 +451,24 @@ npm run serve:ssr</code></pre></div><hr>
 <li><code>apiUrl: &#39;&#39;</code></li>
 </ul>
 <p>Con <code>apiUrl</code> vacío, todas las URLs de API construidas en <code>src/app/app.config.ts</code> quedan como rutas relativas (<code>/api/...</code>). Esto permite que el frontend funcione correctamente en SSR y despliegues sin necesitar reconfigurar URLs absolutas.</p>
+<hr>
+<h2>Exportación de BBDD a Excel (Power BI)</h2>
+<p>Script: <code>src/backend/scripts/exportToExcel.py</code></p>
+<h3>Requisitos (Python)</h3>
+<ul>
+<li>Python 3.9 o superior</li>
+<li><code>POSTGRES_PRISMA_URL</code> configurada en <code>.env</code></li>
+</ul>
+<h3>Uso</h3>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">py -3 src/backend/scripts/exportToExcel.py</code></pre></div><p>El comando usa <code>POSTGRES_PRISMA_URL</code> de tu <code>.env</code>.
+Si faltan dependencias, el script intenta instalarlas automaticamente y, si no puede, te indica el comando exacto para resolverlo.</p>
+<p>Opcional:</p>
+<ul>
+<li><code>--write-mode replace</code> para sobrescribir siempre <code>backend-data/postgres_export.xlsx</code>.</li>
+<li><code>--write-mode incremental</code> (por defecto) para guardar en <code>backend-data/exports/postgres_export_1.xlsx</code>, <code>postgres_export_2.xlsx</code>, etc.</li>
+<li><code>--schema public</code> para elegir esquema.</li>
+<li><code>--output ruta/archivo.xlsx</code> para salida personalizada.</li>
+</ul>
 <hr>
 <h2>Comandos disponibles</h2>
 <p>Los comandos están definidos en <code>package.json</code>. Para un arranque desde cero completo, ver la sección <strong>Arrancar el proyecto desde cero</strong>.</p>
@@ -504,15 +526,22 @@ npm run serve:ssr</code></pre></div><hr>
 <li><code>npx prisma generate</code></li>
 <li><code>npx prisma db push</code></li>
 </ul>
+<h3>Documentación (Compodoc)</h3>
+<ul>
+<li><strong><code>npm run docs</code></strong>: levanta la documentación web de Compodoc en local (usando <code>docs/</code>).</li>
+<li><strong><code>npm run docs:build</code></strong>: genera la documentación de Compodoc en la carpeta <code>docs/</code>.</li>
+<li><strong><code>npm run docs:serve</code></strong>: levanta la documentación web de Compodoc en local para abrirla en el navegador (usando <code>docs/</code>).</li>
+</ul>
 <h3>Utilidades</h3>
 <ul>
 <li><strong><code>npm run audit</code></strong>: ejecuta <code>npm audit --audit-level=high --omit=dev</code> para revisar vulnerabilidades en dependencias de producción (OWASP A06).</li>
 <li><strong><code>npm run lint</code></strong>: ejecuta el análisis estático de código buscando vulnerabilidades de seguridad (vía ESLint y plugin de seguridad).</li>
 <li><strong><code>npm audit fix --omit=dev</code></strong>: corrige vulnerabilidades en dependencias de producción (recomendado tras <code>npm install</code>).</li>
+<li><strong><code>py -3 src/backend/scripts/exportToExcel.py</code></strong>: exporta tablas PostgreSQL a un unico Excel para analisis en Power BI (por defecto en <code>backend-data</code>, modo incremental).</li>
 <li><strong><code>npm run watch</code></strong>: build en watch (config development).</li>
 <li><strong><code>npm run format</code></strong>: formateo con Prettier.</li>
 <li><strong><code>npm run clean</code></strong>: borra <code>dist</code>, <code>logs</code>, <code>coverage</code>.</li>
-<li><strong><code>npm run clean:full</code></strong>: borra <code>dist</code>, <code>node_modules</code>, <code>logs</code>, <code>coverage</code>.</li>
+<li><strong><code>npm run clean:full</code></strong>: borra <code>dist</code>, <code>node_modules</code>, <code>logs</code>, <code>coverage</code>, <code>docs</code>, <code>documentation</code> y <code>.venv</code>.</li>
 <li><strong><code>npm run reinstall</code></strong>: reinstalación completa (<code>clean:full</code> + <code>npm install</code>); después ejecutar <code>npm audit fix --omit=dev</code>.</li>
 </ul>
 <hr>

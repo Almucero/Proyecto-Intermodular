@@ -35,6 +35,11 @@ body {
   height: auto;
   filter: drop-shadow(0 0 10px rgba(100, 231, 249, 0.5));
   animation: logo-pulse 2s infinite ease-in-out;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-drag: none;
 }
 
 .glitch-text {
@@ -45,6 +50,10 @@ body {
   color: #64e7f9;
   position: relative;
   margin: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .glitch-text::before,
