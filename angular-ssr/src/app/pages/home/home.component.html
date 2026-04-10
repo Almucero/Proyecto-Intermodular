@@ -6,12 +6,12 @@
       class="background mobile-hide tablet-hide pointer-events-none select-none"
       draggable="false"
     />
-    <img #jokerLayer src="assets/images/joker.png" class="joker mobile-hide tablet-hide pointer-events-none select-none" draggable="false" />
+    <img #jokerLayer src="assets/images/joker.png" class="joker mobile-hide tablet-hide tablet-landscape-hide pointer-events-none select-none" draggable="false" />
     <img #titleLayer src="assets/images/titulo.png" class="titulo pointer-events-none select-none" draggable="false" />
     <img
       #geraltLayer
       src="assets/images/geralt.avif"
-      class="geralt mobile-hide tablet-hide pointer-events-none select-none"
+      class="geralt mobile-hide tablet-hide tablet-landscape-hide pointer-events-none select-none"
       draggable="false"
     />
     <img #bottomLayer src="assets/images/bottom.png" class="bottom pointer-events-none select-none" draggable="false" />
@@ -24,7 +24,7 @@
       <h2
         class="text-4xl font-bold font-cinzel text-cyan-300 mb-4 text-center difuminadoTexto mobile-title"
       >
-        -- {{ "genres.title" | translate }} --
+        ── {{ "genres.title" | translate }} ──
       </h2>
       <section class="relative z-50 genres-section">
         <div
@@ -71,10 +71,9 @@
                 </button>
                 <div
                   *ngIf="showAllGenres"
-                  class="absolute top-full left-1/2 -translate-x-1/2 mt-4 bg-gray-800 rounded-lg shadow-xl border border-gray-700 max-h-80 overflow-y-auto z-[99999] scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800 genre-dropdown-menu"
+                  class="absolute top-full left-1/2 -translate-x-1/2 mt-4 bg-gray-800 rounded-lg shadow-xl max-h-80 overflow-y-auto z-[99999] scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800 genre-dropdown-menu genre-dropdown-min-width"
                   [class.animate-fadeIn]="!isClosingGenreDropdown"
                   [class.animate-fadeOut]="isClosingGenreDropdown"
-                  class="genre-dropdown-min-width"
                 >
                   <div class="flex flex-col py-1">
                     <button

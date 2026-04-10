@@ -359,6 +359,19 @@
     "returns": "Returns",
     "refundReason": "Reason",
     "viewProduct": "View product page"
+    ,
+    "placeholders": {
+      "displayName": "Enter your display name",
+      "emailAddress": "Enter your email address",
+      "name": "Enter your name",
+      "surname": "Enter your surname",
+      "addressLine1": "Enter your address (line 1)",
+      "addressLine2": "Enter your address (line 2)",
+      "city": "Enter your city",
+      "region": "Enter your region/state",
+      "postalCode": "Enter your postal code",
+      "country": "Enter your country"
+    }
   },
   "tooltips": {
     "menu": "Open menu",
@@ -387,7 +400,13 @@
     "paymentOptions": "Payment options",
     "uploadFile": "Upload file",
     "deleteFile": "Delete file",
-    "closeNotification": "Close notification"
+    "closeNotification": "Close notification",
+    "copied": "Copied",
+    "footerX": "Follow us on X",
+    "footerYouTube": "Watch videos on YouTube",
+    "footerLinkedIn": "Connect on LinkedIn",
+    "footerInstagram": "Follow us on Instagram",
+    "footerFacebook": "Follow us on Facebook"
   },
   "footer": {
     "text": "GameSage. All rights reserved."

@@ -157,6 +157,8 @@ Presenta juegos destacados, ofertas, categorías y efectos visuales de parallax.
     </p>
     <p class="comment">
                     <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/AfterViewInit" target="_blank" >AfterViewInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
     </p>
 
 
@@ -242,6 +244,10 @@ Presenta juegos destacados, ofertas, categorías y efectos visuales de parallax.
                                 <a href="#bottomLayer" >bottomLayer</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#current" >current</a>
+                            </li>
+                            <li>
                                 <a href="#genres" >genres</a>
                             </li>
                             <li>
@@ -263,6 +269,10 @@ Presenta juegos destacados, ofertas, categorías y efectos visuales de parallax.
                                 <a href="#jokerLayer" >jokerLayer</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#lastTargetScrollY" >lastTargetScrollY</a>
+                            </li>
+                            <li>
                                     <span class="modifier"></span>
                                 <a href="#mainContent" >mainContent</a>
                             </li>
@@ -278,10 +288,18 @@ Presenta juegos destacados, ofertas, categorías y efectos visuales de parallax.
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
+                                <a href="#rafId" >rafId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#router" >router</a>
                             </li>
                             <li>
                                 <a href="#showAllGenres" >showAllGenres</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#targetScrollY" >targetScrollY</a>
                             </li>
                             <li>
                                     <span class="modifier"></span>
@@ -319,7 +337,17 @@ Presenta juegos destacados, ofertas, categorías y efectos visuales de parallax.
                                 <a href="#goToProduct" >goToProduct</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#lerp" >lerp</a>
+                            </li>
+                            <li>
                                 <a href="#loadGames" >loadGames</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterViewInit" >ngAfterViewInit</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
                             </li>
                             <li>
                                 <a href="#ngOnInit" >ngOnInit</a>
@@ -335,6 +363,14 @@ Presenta juegos destacados, ofertas, categorías y efectos visuales de parallax.
                             <li>
                                     <span class="modifier"></span>
                                 <a href="#onWindowScroll" >onWindowScroll</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#renderParallaxFrame" >renderParallaxFrame</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#startParallaxLoop" >startParallaxLoop</a>
                             </li>
                             <li>
                                 <a href="#toggleAllGenres" >toggleAllGenres</a>
@@ -399,7 +435,7 @@ Presenta juegos destacados, ofertas, categorías y efectos visuales de parallax.
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">src/app/pages/home/home.component.ts:90</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="105" class="link-to-prism">src/app/pages/home/home.component.ts:105</a></div>
                             </td>
                         </tr>
 
@@ -478,8 +514,8 @@ Presenta juegos destacados, ofertas, categorías y efectos visuales de parallax.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="281"
-                                    class="link-to-prism">src/app/pages/home/home.component.ts:281</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="397"
+                                    class="link-to-prism">src/app/pages/home/home.component.ts:397</a></div>
                         </td>
                     </tr>
 
@@ -513,8 +549,8 @@ Presenta juegos destacados, ofertas, categorías y efectos visuales de parallax.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="110"
-                                    class="link-to-prism">src/app/pages/home/home.component.ts:110</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="144"
+                                    class="link-to-prism">src/app/pages/home/home.component.ts:144</a></div>
                         </td>
                     </tr>
 
@@ -548,8 +584,8 @@ Presenta juegos destacados, ofertas, categorías y efectos visuales de parallax.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="144"
-                                    class="link-to-prism">src/app/pages/home/home.component.ts:144</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="178"
+                                    class="link-to-prism">src/app/pages/home/home.component.ts:178</a></div>
                         </td>
                     </tr>
 
@@ -592,8 +628,8 @@ a las diferentes capas del banner.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="115"
-                                    class="link-to-prism">src/app/pages/home/home.component.ts:115</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="149"
+                                    class="link-to-prism">src/app/pages/home/home.component.ts:149</a></div>
                         </td>
                     </tr>
 
@@ -631,8 +667,8 @@ a las diferentes capas del banner.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="212"
-                                    class="link-to-prism">src/app/pages/home/home.component.ts:212</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="328"
+                                    class="link-to-prism">src/app/pages/home/home.component.ts:328</a></div>
                         </td>
                     </tr>
 
@@ -670,8 +706,8 @@ a las diferentes capas del banner.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="258"
-                                    class="link-to-prism">src/app/pages/home/home.component.ts:258</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="374"
+                                    class="link-to-prism">src/app/pages/home/home.component.ts:374</a></div>
                         </td>
                     </tr>
 
@@ -709,8 +745,8 @@ a las diferentes capas del banner.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="253"
-                                    class="link-to-prism">src/app/pages/home/home.component.ts:253</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="369"
+                                    class="link-to-prism">src/app/pages/home/home.component.ts:369</a></div>
                         </td>
                     </tr>
 
@@ -778,8 +814,8 @@ a las diferentes capas del banner.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="248"
-                                    class="link-to-prism">src/app/pages/home/home.component.ts:248</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="364"
+                                    class="link-to-prism">src/app/pages/home/home.component.ts:364</a></div>
                         </td>
                     </tr>
 
@@ -831,6 +867,99 @@ a las diferentes capas del banner.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="lerp"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>lerp</b></span>
+                        <a href="#lerp"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>lerp(current: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, target: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, alpha: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="313"
+                                    class="link-to-prism">src/app/pages/home/home.component.ts:313</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>current</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>target</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>alpha</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="loadGames"></a>
                     <span class="name">
                         <span ><b>loadGames</b></span>
@@ -847,8 +976,8 @@ a las diferentes capas del banner.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="224"
-                                    class="link-to-prism">src/app/pages/home/home.component.ts:224</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="340"
+                                    class="link-to-prism">src/app/pages/home/home.component.ts:340</a></div>
                         </td>
                     </tr>
 
@@ -858,6 +987,80 @@ a las diferentes capas del banner.</p>
                         <div class="io-description"><p>Carga la lista de juegos y los clasifica en las diferentes secciones.
 Incluye la carga de medios asociados a cada juego.</p>
 </div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewInit"></a>
+                    <span class="name">
+                        <span ><b>ngAfterViewInit</b></span>
+                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="126"
+                                    class="link-to-prism">src/app/pages/home/home.component.ts:126</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="135"
+                                    class="link-to-prism">src/app/pages/home/home.component.ts:135</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -887,8 +1090,8 @@ Incluye la carga de medios asociados a cada juego.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="100"
-                                    class="link-to-prism">src/app/pages/home/home.component.ts:100</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="115"
+                                    class="link-to-prism">src/app/pages/home/home.component.ts:115</a></div>
                         </td>
                     </tr>
 
@@ -935,8 +1138,8 @@ Incluye la carga de medios asociados a cada juego.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="281"
-                                    class="link-to-prism">src/app/pages/home/home.component.ts:281</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="397"
+                                    class="link-to-prism">src/app/pages/home/home.component.ts:397</a></div>
                         </td>
                     </tr>
 
@@ -1013,8 +1216,8 @@ Incluye la carga de medios asociados a cada juego.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="110"
-                                    class="link-to-prism">src/app/pages/home/home.component.ts:110</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="144"
+                                    class="link-to-prism">src/app/pages/home/home.component.ts:144</a></div>
                         </td>
                     </tr>
 
@@ -1061,8 +1264,8 @@ Incluye la carga de medios asociados a cada juego.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="144"
-                                    class="link-to-prism">src/app/pages/home/home.component.ts:144</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="178"
+                                    class="link-to-prism">src/app/pages/home/home.component.ts:178</a></div>
                         </td>
                     </tr>
 
@@ -1072,6 +1275,84 @@ Incluye la carga de medios asociados a cada juego.</p>
                         <div class="io-description"><p>Maneja el desplazamiento de la ventana para aplicar el efecto parallax
 a las diferentes capas del banner.</p>
 </div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="renderParallaxFrame"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>renderParallaxFrame</b></span>
+                        <a href="#renderParallaxFrame"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>renderParallaxFrame()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="195"
+                                    class="link-to-prism">src/app/pages/home/home.component.ts:195</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="startParallaxLoop"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>startParallaxLoop</b></span>
+                        <a href="#startParallaxLoop"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>startParallaxLoop()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="186"
+                                    class="link-to-prism">src/app/pages/home/home.component.ts:186</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -1101,8 +1382,8 @@ a las diferentes capas del banner.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="202"
-                                    class="link-to-prism">src/app/pages/home/home.component.ts:202</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="318"
+                                    class="link-to-prism">src/app/pages/home/home.component.ts:318</a></div>
                         </td>
                     </tr>
 
@@ -1171,7 +1452,7 @@ a las diferentes capas del banner.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/pages/home/home.component.ts:51</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/pages/home/home.component.ts:53</a></div>
                         </td>
                     </tr>
 
@@ -1213,7 +1494,7 @@ a las diferentes capas del banner.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/pages/home/home.component.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/pages/home/home.component.ts:33</a></div>
                         </td>
                     </tr>
 
@@ -1250,7 +1531,7 @@ a las diferentes capas del banner.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">src/app/pages/home/home.component.ts:84</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">src/app/pages/home/home.component.ts:86</a></div>
                         </td>
                     </tr>
 
@@ -1292,7 +1573,47 @@ a las diferentes capas del banner.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/pages/home/home.component.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/pages/home/home.component.ts:37</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="current"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>current</b></span>
+                        <a href="#current"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    backgroundY: 0,
+    bottomY: 0,
+    mainContentY: 0,
+    charactersY: 0,
+    horizontalX: 0,
+    blurBackground: 0,
+    blurCharacters: 0,
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">src/app/pages/home/home.component.ts:97</a></div>
                         </td>
                     </tr>
 
@@ -1332,7 +1653,7 @@ a las diferentes capas del banner.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/pages/home/home.component.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/pages/home/home.component.ts:41</a></div>
                         </td>
                     </tr>
 
@@ -1374,7 +1695,7 @@ a las diferentes capas del banner.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/pages/home/home.component.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/pages/home/home.component.ts:36</a></div>
                         </td>
                     </tr>
 
@@ -1406,7 +1727,7 @@ a las diferentes capas del banner.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">src/app/pages/home/home.component.ts:89</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">src/app/pages/home/home.component.ts:91</a></div>
                         </td>
                     </tr>
 
@@ -1437,7 +1758,7 @@ a las diferentes capas del banner.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/pages/home/home.component.ts:79</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">src/app/pages/home/home.component.ts:81</a></div>
                         </td>
                     </tr>
 
@@ -1474,7 +1795,7 @@ a las diferentes capas del banner.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">src/app/pages/home/home.component.ts:81</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">src/app/pages/home/home.component.ts:83</a></div>
                         </td>
                     </tr>
 
@@ -1516,7 +1837,39 @@ a las diferentes capas del banner.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/pages/home/home.component.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/pages/home/home.component.ts:34</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="lastTargetScrollY"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>lastTargetScrollY</b></span>
+                        <a href="#lastTargetScrollY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">src/app/pages/home/home.component.ts:95</a></div>
                         </td>
                     </tr>
 
@@ -1552,7 +1905,7 @@ a las diferentes capas del banner.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/pages/home/home.component.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/pages/home/home.component.ts:38</a></div>
                         </td>
                     </tr>
 
@@ -1583,7 +1936,7 @@ a las diferentes capas del banner.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/app/pages/home/home.component.ts:85</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">src/app/pages/home/home.component.ts:87</a></div>
                         </td>
                     </tr>
 
@@ -1614,7 +1967,7 @@ a las diferentes capas del banner.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/app/pages/home/home.component.ts:75</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/pages/home/home.component.ts:77</a></div>
                         </td>
                     </tr>
 
@@ -1652,7 +2005,39 @@ a las diferentes capas del banner.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">src/app/pages/home/home.component.ts:90</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">src/app/pages/home/home.component.ts:92</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="rafId"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>rafId</b></span>
+                        <a href="#rafId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">src/app/pages/home/home.component.ts:96</a></div>
                         </td>
                     </tr>
 
@@ -1684,7 +2069,7 @@ a las diferentes capas del banner.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">src/app/pages/home/home.component.ts:88</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">src/app/pages/home/home.component.ts:90</a></div>
                         </td>
                     </tr>
 
@@ -1715,7 +2100,7 @@ a las diferentes capas del banner.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/pages/home/home.component.ts:77</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/pages/home/home.component.ts:79</a></div>
                         </td>
                     </tr>
 
@@ -1725,6 +2110,38 @@ a las diferentes capas del banner.</p>
 </div>
                 </td>
             </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="targetScrollY"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>targetScrollY</b></span>
+                        <a href="#targetScrollY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">src/app/pages/home/home.component.ts:94</a></div>
+                        </td>
+                    </tr>
+
 
         </tbody>
     </table>
@@ -1757,7 +2174,7 @@ a las diferentes capas del banner.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/pages/home/home.component.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/pages/home/home.component.ts:35</a></div>
                         </td>
                     </tr>
 
@@ -1788,7 +2205,7 @@ a las diferentes capas del banner.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">src/app/pages/home/home.component.ts:86</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">src/app/pages/home/home.component.ts:88</a></div>
                         </td>
                     </tr>
 
@@ -1817,7 +2234,7 @@ a las diferentes capas del banner.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="123" class="link-to-prism">src/app/pages/home/home.component.ts:123</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="157" class="link-to-prism">src/app/pages/home/home.component.ts:157</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1846,7 +2263,7 @@ a las diferentes capas del banner.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="131" class="link-to-prism">src/app/pages/home/home.component.ts:131</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="165" class="link-to-prism">src/app/pages/home/home.component.ts:165</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1865,8 +2282,10 @@ a las diferentes capas del banner.</p>
 
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  AfterViewInit,
   Component,
   OnInit,
+  OnDestroy,
   HostListener,
   ViewChild,
   ElementRef,
@@ -1892,7 +2311,7 @@ import { CarouselComponent } from &#x27;../../shared/components/carousel/carouse
   templateUrl: &#x27;./home.component.html&#x27;,
   styleUrls: [&#x27;./home.component.scss&#x27;],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Capas para el efecto parallax del banner. */
   @ViewChild(&#x27;backgroundLayer&#x27;) backgroundLayer!: ElementRef;
   @ViewChild(&#x27;jokerLayer&#x27;) jokerLayer!: ElementRef;
@@ -1955,6 +2374,19 @@ export class HomeComponent implements OnInit {
   private http &#x3D; inject(HttpClient);
   private platformId &#x3D; inject(PLATFORM_ID);
 
+  private targetScrollY &#x3D; 0;
+  private lastTargetScrollY &#x3D; 0;
+  private rafId: number | null &#x3D; null;
+  private current &#x3D; {
+    backgroundY: 0,
+    bottomY: 0,
+    mainContentY: 0,
+    charactersY: 0,
+    horizontalX: 0,
+    blurBackground: 0,
+    blurCharacters: 0,
+  };
+
   constructor(
     private gameService: GameService,
     private mediaService: MediaService,
@@ -1969,6 +2401,25 @@ export class HomeComponent implements OnInit {
       (genre) &#x3D;&gt; !this.genres.some((g) &#x3D;&gt; g.value &#x3D;&#x3D;&#x3D; genre.value),
     );
     this.loadGames();
+    if (isPlatformBrowser(this.platformId)) {
+      this.targetScrollY &#x3D; window.scrollY || 0;
+    }
+  }
+
+  ngAfterViewInit(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    this.targetScrollY &#x3D; window.scrollY || 0;
+    this.lastTargetScrollY &#x3D; this.targetScrollY;
+    this.startParallaxLoop();
+  }
+
+  ngOnDestroy(): void {
+    if (this.rafId !&#x3D;&#x3D; null &amp;&amp; isPlatformBrowser(this.platformId)) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId &#x3D; null;
+    }
   }
 
   /** Escucha cambios en el tamaño de la ventana. */
@@ -2011,7 +2462,22 @@ export class HomeComponent implements OnInit {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
-    const scrollPosition &#x3D; window.scrollY;
+    this.targetScrollY &#x3D; window.scrollY || 0;
+    this.startParallaxLoop();
+  }
+
+  private startParallaxLoop() {
+    if (this.rafId !&#x3D;&#x3D; null) return;
+    const tick &#x3D; () &#x3D;&gt; {
+      this.rafId &#x3D; requestAnimationFrame(tick);
+      this.renderParallaxFrame();
+    };
+    this.rafId &#x3D; requestAnimationFrame(tick);
+  }
+
+  private renderParallaxFrame() {
+    const scrollPosition &#x3D; this.targetScrollY;
+    const scrollingUp &#x3D; this.targetScrollY &lt; this.lastTargetScrollY;
 
     const backgroundSpeed &#x3D; 0.8;
     const charactersSpeed &#x3D; 0.4;
@@ -2019,49 +2485,116 @@ export class HomeComponent implements OnInit {
     const mainContentSpeed &#x3D; 0.05;
 
     const maxBlurBackground &#x3D; 5;
-    const blurBackgroundAmount &#x3D; Math.min(
+    const blurBackgroundTarget &#x3D; Math.min(
       scrollPosition * 0.005,
       maxBlurBackground,
     );
     const maxBlurCharacters &#x3D; 2;
-    const blurCharactersAmount &#x3D; Math.min(
+    const blurCharactersTarget &#x3D; Math.min(
       scrollPosition * 0.003,
       maxBlurCharacters,
     );
-    const horizontalMovement &#x3D; Math.sin(scrollPosition * 0.0005) * 50;
+    const horizontalTarget &#x3D; Math.sin(scrollPosition * 0.0005) * 50;
 
-    const backgroundParallaxOffset &#x3D; scrollPosition * backgroundSpeed;
-    const bottomParallaxOffset &#x3D; scrollPosition * bottomSpeed;
-    const mainContentOffset &#x3D; scrollPosition * mainContentSpeed;
+    const backgroundTarget &#x3D; scrollPosition * backgroundSpeed;
+    const bottomTarget &#x3D; scrollPosition * bottomSpeed;
+    const mainContentTarget &#x3D; scrollPosition * mainContentSpeed;
+    const charactersTarget &#x3D; scrollPosition * charactersSpeed;
+
+    const ease &#x3D; 0.16;
+    const easeFast &#x3D; 0.38;
+    const backgroundEase &#x3D; scrollingUp ? easeFast : ease;
+    this.current.backgroundY &#x3D; this.lerp(
+      this.current.backgroundY,
+      backgroundTarget,
+      backgroundEase,
+    );
+    if (scrollingUp &amp;&amp; Math.abs(backgroundTarget - this.current.backgroundY) &gt; 240) {
+      this.current.backgroundY &#x3D; backgroundTarget;
+    }
+    this.current.bottomY &#x3D; this.lerp(this.current.bottomY, bottomTarget, ease);
+    this.current.mainContentY &#x3D; this.lerp(
+      this.current.mainContentY,
+      mainContentTarget,
+      ease,
+    );
+    this.current.charactersY &#x3D; this.lerp(
+      this.current.charactersY,
+      charactersTarget,
+      ease,
+    );
+    this.current.horizontalX &#x3D; this.lerp(
+      this.current.horizontalX,
+      horizontalTarget,
+      ease,
+    );
+    this.current.blurBackground &#x3D; this.lerp(
+      this.current.blurBackground,
+      blurBackgroundTarget,
+      0.22,
+    );
+    this.current.blurCharacters &#x3D; this.lerp(
+      this.current.blurCharacters,
+      blurCharactersTarget,
+      0.22,
+    );
+
+    const bgY &#x3D; this.current.backgroundY;
+    const bottomY &#x3D; this.current.bottomY;
+    const mainY &#x3D; this.current.mainContentY;
+    const charY &#x3D; this.current.charactersY;
+    const x &#x3D; this.current.horizontalX;
+    const blurBg &#x3D; this.current.blurBackground;
+    const blurChars &#x3D; this.current.blurCharacters;
 
     if (this.backgroundLayer) {
-      this.backgroundLayer.nativeElement.style.transform &#x3D; &#x60;translateY(${backgroundParallaxOffset}px)&#x60;;
-      this.backgroundLayer.nativeElement.style.filter &#x3D; &#x60;blur(${blurBackgroundAmount}px)&#x60;;
+      const el &#x3D; this.backgroundLayer.nativeElement as HTMLElement;
+      el.style.transform &#x3D; &#x60;translate3d(0, ${bgY - 120}px, 0)&#x60;;
+      el.style.filter &#x3D; &#x60;blur(${blurBg}px)&#x60;;
     }
     if (this.jokerLayer) {
-      this.jokerLayer.nativeElement.style.transform &#x3D; &#x60;translate3d(${-horizontalMovement}px, ${
-        scrollPosition * charactersSpeed
-      }px, 0)&#x60;;
-      this.jokerLayer.nativeElement.style.filter &#x3D; &#x60;drop-shadow(0 0 15px #ffffff) blur(${blurCharactersAmount}px)&#x60;;
+      const el &#x3D; this.jokerLayer.nativeElement as HTMLElement;
+      el.style.transform &#x3D; &#x60;translate3d(${-x}px, ${charY}px, 0)&#x60;;
+      el.style.filter &#x3D; &#x60;drop-shadow(0 0 15px #ffffff) blur(${blurChars}px)&#x60;;
     }
     if (this.geraltLayer) {
-      this.geraltLayer.nativeElement.style.transform &#x3D; &#x60;translate3d(${horizontalMovement}px, ${
-        scrollPosition * charactersSpeed
-      }px, 0)&#x60;;
-      this.geraltLayer.nativeElement.style.filter &#x3D; &#x60;drop-shadow(0 0 15px #ffffff) blur(${blurCharactersAmount}px)&#x60;;
+      const el &#x3D; this.geraltLayer.nativeElement as HTMLElement;
+      el.style.transform &#x3D; &#x60;translate3d(${x}px, ${charY}px, 0)&#x60;;
+      el.style.filter &#x3D; &#x60;drop-shadow(0 0 15px #ffffff) blur(${blurChars}px)&#x60;;
     }
     if (this.titleLayer) {
-      this.titleLayer.nativeElement.style.transform &#x3D; &#x60;translate3d(-50%, calc(-50% + ${
-        scrollPosition * charactersSpeed
-      }px), 0)&#x60;;
-      this.titleLayer.nativeElement.style.filter &#x3D; &#x60;drop-shadow(0 0 15px #ffffff) blur(${blurCharactersAmount}px)&#x60;;
+      const el &#x3D; this.titleLayer.nativeElement as HTMLElement;
+      el.style.transform &#x3D; &#x60;translate(-50%, -50%) translate3d(0, ${charY}px, 0)&#x60;;
+      el.style.filter &#x3D; &#x60;drop-shadow(0 0 15px #ffffff) blur(${blurChars}px)&#x60;;
     }
     if (this.bottomLayer) {
-      this.bottomLayer.nativeElement.style.transform &#x3D; &#x60;translateY(${bottomParallaxOffset}px)&#x60;;
+      const el &#x3D; this.bottomLayer.nativeElement as HTMLElement;
+      el.style.transform &#x3D; &#x60;translate3d(0, ${bottomY}px, 0)&#x60;;
     }
     if (this.mainContent) {
-      this.mainContent.nativeElement.style.transform &#x3D; &#x60;translateY(${mainContentOffset}px)&#x60;;
+      const el &#x3D; this.mainContent.nativeElement as HTMLElement;
+      el.style.transform &#x3D; &#x60;translate3d(0, ${mainY}px, 0)&#x60;;
     }
+
+    this.lastTargetScrollY &#x3D; this.targetScrollY;
+
+    const done &#x3D;
+      Math.abs(backgroundTarget - this.current.backgroundY) &lt; 0.05 &amp;&amp;
+      Math.abs(bottomTarget - this.current.bottomY) &lt; 0.05 &amp;&amp;
+      Math.abs(mainContentTarget - this.current.mainContentY) &lt; 0.05 &amp;&amp;
+      Math.abs(charactersTarget - this.current.charactersY) &lt; 0.05 &amp;&amp;
+      Math.abs(horizontalTarget - this.current.horizontalX) &lt; 0.05 &amp;&amp;
+      Math.abs(blurBackgroundTarget - this.current.blurBackground) &lt; 0.02 &amp;&amp;
+      Math.abs(blurCharactersTarget - this.current.blurCharacters) &lt; 0.02;
+
+    if (done &amp;&amp; this.rafId !&#x3D;&#x3D; null) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId &#x3D; null;
+    }
+  }
+
+  private lerp(current: number, target: number, alpha: number) {
+    return current + (target - current) * alpha;
   }
 
   /** Alterna la visibilidad del desplegable de géneros. */
@@ -2165,12 +2698,12 @@ export class HomeComponent implements OnInit {
       class&#x3D;&quot;background mobile-hide tablet-hide pointer-events-none select-none&quot;
       draggable&#x3D;&quot;false&quot;
     /&gt;
-    &lt;img #jokerLayer src&#x3D;&quot;assets/images/joker.png&quot; class&#x3D;&quot;joker mobile-hide tablet-hide pointer-events-none select-none&quot; draggable&#x3D;&quot;false&quot; /&gt;
+    &lt;img #jokerLayer src&#x3D;&quot;assets/images/joker.png&quot; class&#x3D;&quot;joker mobile-hide tablet-hide tablet-landscape-hide pointer-events-none select-none&quot; draggable&#x3D;&quot;false&quot; /&gt;
     &lt;img #titleLayer src&#x3D;&quot;assets/images/titulo.png&quot; class&#x3D;&quot;titulo pointer-events-none select-none&quot; draggable&#x3D;&quot;false&quot; /&gt;
     &lt;img
       #geraltLayer
       src&#x3D;&quot;assets/images/geralt.avif&quot;
-      class&#x3D;&quot;geralt mobile-hide tablet-hide pointer-events-none select-none&quot;
+      class&#x3D;&quot;geralt mobile-hide tablet-hide tablet-landscape-hide pointer-events-none select-none&quot;
       draggable&#x3D;&quot;false&quot;
     /&gt;
     &lt;img #bottomLayer src&#x3D;&quot;assets/images/bottom.png&quot; class&#x3D;&quot;bottom pointer-events-none select-none&quot; draggable&#x3D;&quot;false&quot; /&gt;
@@ -2183,7 +2716,7 @@ export class HomeComponent implements OnInit {
       &lt;h2
         class&#x3D;&quot;text-4xl font-bold font-cinzel text-cyan-300 mb-4 text-center difuminadoTexto mobile-title&quot;
       &gt;
-        -- {{ &quot;genres.title&quot; | translate }} --
+        ── {{ &quot;genres.title&quot; | translate }} ──
       &lt;/h2&gt;
       &lt;section class&#x3D;&quot;relative z-50 genres-section&quot;&gt;
         &lt;div
@@ -2230,10 +2763,9 @@ export class HomeComponent implements OnInit {
                 &lt;/button&gt;
                 &lt;div
                   *ngIf&#x3D;&quot;showAllGenres&quot;
-                  class&#x3D;&quot;absolute top-full left-1/2 -translate-x-1/2 mt-4 bg-gray-800 rounded-lg shadow-xl border border-gray-700 max-h-80 overflow-y-auto z-[99999] scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800 genre-dropdown-menu&quot;
+                  class&#x3D;&quot;absolute top-full left-1/2 -translate-x-1/2 mt-4 bg-gray-800 rounded-lg shadow-xl max-h-80 overflow-y-auto z-[99999] scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800 genre-dropdown-menu genre-dropdown-min-width&quot;
                   [class.animate-fadeIn]&#x3D;&quot;!isClosingGenreDropdown&quot;
                   [class.animate-fadeOut]&#x3D;&quot;isClosingGenreDropdown&quot;
-                  class&#x3D;&quot;genre-dropdown-min-width&quot;
                 &gt;
                   &lt;div class&#x3D;&quot;flex flex-col py-1&quot;&gt;
                     &lt;button
@@ -2299,6 +2831,7 @@ export class HomeComponent implements OnInit {
   margin-top: -32px;
   position: relative;
   z-index: 10;
+  will-change: transform;
 }
 
 @keyframes slideDown {
@@ -2407,6 +2940,13 @@ export class HomeComponent implements OnInit {
   -ms-user-select: none;
 }
 
+/* En desktop usamos el fondo animado (backgroundLayer). */
+@media (min-width: 1025px) {
+  .contenedor-imagenes {
+    background-image: none;
+  }
+}
+
 .contenedor-imagenes img {
   position: absolute;
   pointer-events: none;
@@ -2414,16 +2954,17 @@ export class HomeComponent implements OnInit {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+  will-change: transform, filter;
 }
 
 .background {
   position: absolute;
   left: 0;
   width: 100%;
-  height: 50vh;
+  height: calc(50vh + 240px);
   z-index: 0;
   object-fit: cover;
-  top: 64px;
+  top: 0;
 }
 
 .joker,
@@ -2511,6 +3052,16 @@ export class HomeComponent implements OnInit {
   }
 }
 
+/* iPad landscape only (hide side characters to avoid covering title) */
+@media (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) and (device-width: 1024px) and (device-height: 768px),
+  (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) and (device-width: 1112px) and (device-height: 834px),
+  (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) and (device-width: 1194px) and (device-height: 834px),
+  (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) and (device-width: 1366px) and (device-height: 1024px) {
+  .tablet-landscape-hide {
+    display: none !important;
+  }
+}
+
 @media (max-width: 768px) {
   .mobile-hide {
     display: none !important;
@@ -2587,6 +3138,15 @@ export class HomeComponent implements OnInit {
 .genre-dropdown-min-width {
   min-width: 200px;
 }
+
+@media (min-width: 769px) {
+  .genre-dropdown-menu {
+    left: auto !important;
+    right: 0.75rem !important;
+    transform: none !important;
+    max-width: min(320px, calc(100vw - 2rem)) !important;
+  }
+}
 </code></pre>
     </div>
 
@@ -2615,7 +3175,7 @@ export class HomeComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="flex-1 w-full bg-gray-900 text-white font-sans pb-20">  <div class="contenedor-imagenes pointer-events-none select-none">    <img      #backgroundLayer      src="assets/images/fondo.webp"      class="background mobile-hide tablet-hide pointer-events-none select-none"      draggable="false"    />    <img #jokerLayer src="assets/images/joker.png" class="joker mobile-hide tablet-hide pointer-events-none select-none" draggable="false" />    <img #titleLayer src="assets/images/titulo.png" class="titulo pointer-events-none select-none" draggable="false" />    <img      #geraltLayer      src="assets/images/geralt.avif"      class="geralt mobile-hide tablet-hide pointer-events-none select-none"      draggable="false"    />    <img #bottomLayer src="assets/images/bottom.png" class="bottom pointer-events-none select-none" draggable="false" />  </div>  <div    #mainContent    class="flex-1 flex flex-col justify-between pb-4 content-wrapper bg-gray-900"  >    <section class="mt-0 flex-none w-full">      <h2        class="text-4xl font-bold font-cinzel text-cyan-300 mb-4 text-center difuminadoTexto mobile-title"      >        -- {{ "genres.title" | translate }} --      </h2>      <section class="relative z-50 genres-section">        <div          class="flex flex-wrap justify-center items-center gap-3 py-1 px-4 pr-10 max-w-full genres-wrapper"        >          <div            *ngFor="let gen of visibleGenres; let isLast = last"            class="relative flex items-center"          >            <span              class="w-auto min-w-[8rem] px-6 py-2 bg-gray-800 hover:bg-cyan-500 hover:text-white transition rounded-full cursor-pointer text-sm sm:text-base text-center truncate duration-150 active:scale-95 mobile-pill"              (click)="goToGenres(gen.value)"              [title]="gen.key | translate"            >              {{ gen.key | translate }}            </span>            <div              *ngIf="isLast"              class="absolute left-full top-1/2 -translate-y-1/2 ml-3 z-10 genre-dropdown-container"            >              <div class="relative inline-flex items-center">                <button                  (click)="toggleAllGenres(); $event.stopPropagation()"                  class="flex items-center justify-center w-8 h-8 rounded-full text-cyan-300 hover:text-cyan-400 hover:bg-white/5 transition-all duration-150 active:scale-95 bg-transparent border-none cursor-pointer"                >                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-6 w-6 transition-transform duration-300"                    [class.rotate-180]="                      showAllGenres && !isClosingGenreDropdown                    "                    fill="none"                    viewBox="0 0 24 24"                    stroke="currentColor"                  >                    <path                      stroke-linecap="round"                      stroke-linejoin="round"                      stroke-width="2"                      d="M19 9l-7 7-7-7"                    />                  </svg>                </button>                <div                  *ngIf="showAllGenres"                  class="absolute top-full left-1/2 -translate-x-1/2 mt-4 bg-gray-800 rounded-lg shadow-xl border border-gray-700 max-h-80 overflow-y-auto z-[99999] scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800 genre-dropdown-menu"                  [class.animate-fadeIn]="!isClosingGenreDropdown"                  [class.animate-fadeOut]="isClosingGenreDropdown"                  class="genre-dropdown-min-width"                >                  <div class="flex flex-col py-1">                    <button                      *ngFor="let gen of dropdownItems"                      (click)="goToGenres(gen.value); closeGenreDropdown()"                      class="px-4 py-2 hover:bg-gray-800 text-left bg-transparent border-none transition-colors duration-150 active:scale-95 text-white cursor-pointer whitespace-nowrap genre-dropdown-item"                    >                      {{ gen.key | translate }}                    </button>                  </div>                </div>              </div>            </div>          </div>        </div>      </section>    </section>    <hr class="w-11/12 mx-auto border-t-2 border-white/50" />    <div class="flex-col justify-evenly min-h-3">      <app-carousel        [title]="\'home.bestSellers\'"        [items]="bestSellers"        sectionId="masVendidos"        (itemClick)="goToProduct($event)"      ></app-carousel>      <hr class="w-11/12 mx-auto border-t-2 border-white/50 my-6" />      <app-carousel        [title]="\'home.offers\'"        [items]="onSaleGames"        sectionId="ofertas"        (itemClick)="goToProduct($event)"      ></app-carousel>      <hr class="w-11/12 mx-auto border-t-2 border-white/50 my-6" />      <app-carousel        [title]="\'home.topRated\'"        [items]="topRatedGames"        sectionId="mejorValorados"        (itemClick)="goToProduct($event)"      ></app-carousel>    </div>  </div></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="flex-1 w-full bg-gray-900 text-white font-sans pb-20">  <div class="contenedor-imagenes pointer-events-none select-none">    <img      #backgroundLayer      src="assets/images/fondo.webp"      class="background mobile-hide tablet-hide pointer-events-none select-none"      draggable="false"    />    <img #jokerLayer src="assets/images/joker.png" class="joker mobile-hide tablet-hide tablet-landscape-hide pointer-events-none select-none" draggable="false" />    <img #titleLayer src="assets/images/titulo.png" class="titulo pointer-events-none select-none" draggable="false" />    <img      #geraltLayer      src="assets/images/geralt.avif"      class="geralt mobile-hide tablet-hide tablet-landscape-hide pointer-events-none select-none"      draggable="false"    />    <img #bottomLayer src="assets/images/bottom.png" class="bottom pointer-events-none select-none" draggable="false" />  </div>  <div    #mainContent    class="flex-1 flex flex-col justify-between pb-4 content-wrapper bg-gray-900"  >    <section class="mt-0 flex-none w-full">      <h2        class="text-4xl font-bold font-cinzel text-cyan-300 mb-4 text-center difuminadoTexto mobile-title"      >        ── {{ "genres.title" | translate }} ──      </h2>      <section class="relative z-50 genres-section">        <div          class="flex flex-wrap justify-center items-center gap-3 py-1 px-4 pr-10 max-w-full genres-wrapper"        >          <div            *ngFor="let gen of visibleGenres; let isLast = last"            class="relative flex items-center"          >            <span              class="w-auto min-w-[8rem] px-6 py-2 bg-gray-800 hover:bg-cyan-500 hover:text-white transition rounded-full cursor-pointer text-sm sm:text-base text-center truncate duration-150 active:scale-95 mobile-pill"              (click)="goToGenres(gen.value)"              [title]="gen.key | translate"            >              {{ gen.key | translate }}            </span>            <div              *ngIf="isLast"              class="absolute left-full top-1/2 -translate-y-1/2 ml-3 z-10 genre-dropdown-container"            >              <div class="relative inline-flex items-center">                <button                  (click)="toggleAllGenres(); $event.stopPropagation()"                  class="flex items-center justify-center w-8 h-8 rounded-full text-cyan-300 hover:text-cyan-400 hover:bg-white/5 transition-all duration-150 active:scale-95 bg-transparent border-none cursor-pointer"                >                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-6 w-6 transition-transform duration-300"                    [class.rotate-180]="                      showAllGenres && !isClosingGenreDropdown                    "                    fill="none"                    viewBox="0 0 24 24"                    stroke="currentColor"                  >                    <path                      stroke-linecap="round"                      stroke-linejoin="round"                      stroke-width="2"                      d="M19 9l-7 7-7-7"                    />                  </svg>                </button>                <div                  *ngIf="showAllGenres"                  class="absolute top-full left-1/2 -translate-x-1/2 mt-4 bg-gray-800 rounded-lg shadow-xl max-h-80 overflow-y-auto z-[99999] scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800 genre-dropdown-menu genre-dropdown-min-width"                  [class.animate-fadeIn]="!isClosingGenreDropdown"                  [class.animate-fadeOut]="isClosingGenreDropdown"                >                  <div class="flex flex-col py-1">                    <button                      *ngFor="let gen of dropdownItems"                      (click)="goToGenres(gen.value); closeGenreDropdown()"                      class="px-4 py-2 hover:bg-gray-800 text-left bg-transparent border-none transition-colors duration-150 active:scale-95 text-white cursor-pointer whitespace-nowrap genre-dropdown-item"                    >                      {{ gen.key | translate }}                    </button>                  </div>                </div>              </div>            </div>          </div>        </div>      </section>    </section>    <hr class="w-11/12 mx-auto border-t-2 border-white/50" />    <div class="flex-col justify-evenly min-h-3">      <app-carousel        [title]="\'home.bestSellers\'"        [items]="bestSellers"        sectionId="masVendidos"        (itemClick)="goToProduct($event)"      ></app-carousel>      <hr class="w-11/12 mx-auto border-t-2 border-white/50 my-6" />      <app-carousel        [title]="\'home.offers\'"        [items]="onSaleGames"        sectionId="ofertas"        (itemClick)="goToProduct($event)"      ></app-carousel>      <hr class="w-11/12 mx-auto border-t-2 border-white/50 my-6" />      <app-carousel        [title]="\'home.topRated\'"        [items]="topRatedGames"        sectionId="mejorValorados"        (itemClick)="goToProduct($event)"      ></app-carousel>    </div>  </div></div></div>'
     var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'}];
     var DIRECTIVES = [{'name': 'CopyOnClickDirective', 'selector': '[appCopyOnClick]'},{'name': 'HighlightDirective', 'selector': '[appHighlight]'}];
     var ACTUAL_COMPONENT = {'name': 'HomeComponent'};

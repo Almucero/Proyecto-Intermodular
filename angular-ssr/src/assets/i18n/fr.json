@@ -360,6 +360,19 @@
     "reasonTooShort": "Le motif doit comporter au moins 10 caractères.",
     "refundReason": "Motif",
     "viewProduct": "Voir le produit"
+    ,
+    "placeholders": {
+      "displayName": "Saisissez votre nom d’affichage",
+      "emailAddress": "Saisissez votre adresse e-mail",
+      "name": "Saisissez votre prénom",
+      "surname": "Saisissez votre nom",
+      "addressLine1": "Saisissez votre adresse (ligne 1)",
+      "addressLine2": "Saisissez votre adresse (ligne 2)",
+      "city": "Saisissez votre ville",
+      "region": "Saisissez votre région/département",
+      "postalCode": "Saisissez votre code postal",
+      "country": "Saisissez votre pays"
+    }
   },
   "tooltips": {
     "menu": "Ouvrir le menu",
@@ -388,7 +401,13 @@
     "paymentOptions": "Options de paiement",
     "uploadFile": "Télécharger un fichier",
     "deleteFile": "Supprimer le fichier",
-    "closeNotification": "Fermer la notification"
+    "closeNotification": "Fermer la notification",
+    "copied": "Copié",
+    "footerX": "Suivez-nous sur X",
+    "footerYouTube": "Voir des vidéos sur YouTube",
+    "footerLinkedIn": "Connectez-vous sur LinkedIn",
+    "footerInstagram": "Suivez-nous sur Instagram",
+    "footerFacebook": "Suivez-nous sur Facebook"
   },
   "footer": {
     "text": "GameSage. Tous droits réservés."

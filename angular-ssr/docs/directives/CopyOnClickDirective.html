@@ -183,8 +183,16 @@ Cambia temporalmente el color de fondo para dar feedback visual.</p>
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#animateCopyIcon" >animateCopyIcon</a>
+                            </li>
+                            <li>
                                     <span class="modifier"></span>
                                 <a href="#onClick" >onClick</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#showCopiedPopup" >showCopiedPopup</a>
                             </li>
                         </ul>
                     </td>
@@ -232,12 +240,12 @@ Cambia temporalmente el color de fondo para dar feedback visual.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(el: <a href="https://angular.io/api/core/ElementRef" target="_blank">ElementRef</a>, platformId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a>)</code>
+<code>constructor(el: <a href="https://angular.io/api/core/ElementRef" target="_blank">ElementRef</a>, translate: TranslateService, platformId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/directives/copy-on-click.directive.ts:21</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/directives/copy-on-click.directive.ts:22</a></div>
                             </td>
                         </tr>
 
@@ -269,6 +277,20 @@ Cambia temporalmente el color de fondo para dar feedback visual.</p>
                                                         <td>
                                                                 <p>Referencia al elemento del DOM.</p>
 
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>translate</td>
+                                                  
+                                                        <td>
+                                                                    <code>TranslateService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
                                                         </td>
                                                 </tr>
                                                 <tr>
@@ -319,7 +341,7 @@ Cambia temporalmente el color de fondo para dar feedback visual.</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/directives/copy-on-click.directive.ts:21</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/directives/copy-on-click.directive.ts:22</a></div>
                             </td>
                         </tr>
                 <tr>
@@ -351,8 +373,8 @@ Cambia temporalmente el color de fondo para dar feedback visual.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">src/app/directives/copy-on-click.directive.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">src/app/directives/copy-on-click.directive.ts:38</a></div>
                 </td>
             </tr>
 
@@ -373,6 +395,45 @@ Copia el texto al portapapeles y cambia el fondo a verde momentáneamente.</p>
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="animateCopyIcon"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>animateCopyIcon</b></span>
+                        <a href="#animateCopyIcon"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>animateCopyIcon()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="50"
+                                    class="link-to-prism">src/app/directives/copy-on-click.directive.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -402,8 +463,8 @@ Copia el texto al portapapeles y cambia el fondo a verde momentáneamente.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="36"
-                                    class="link-to-prism">src/app/directives/copy-on-click.directive.ts:36</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="38"
+                                    class="link-to-prism">src/app/directives/copy-on-click.directive.ts:38</a></div>
                         </td>
                     </tr>
 
@@ -413,6 +474,45 @@ Copia el texto al portapapeles y cambia el fondo a verde momentáneamente.</p>
                         <div class="io-description"><p>Maneja el evento de clic en el elemento.
 Copia el texto al portapapeles y cambia el fondo a verde momentáneamente.</p>
 </div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showCopiedPopup"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>showCopiedPopup</b></span>
+                        <a href="#showCopiedPopup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>showCopiedPopup()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="64"
+                                    class="link-to-prism">src/app/directives/copy-on-click.directive.ts:64</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -438,6 +538,7 @@ Copia el texto al portapapeles y cambia el fondo a verde momentáneamente.</p>
   Inject,
 } from &#x27;@angular/core&#x27;;
 import { isPlatformBrowser } from &#x27;@angular/common&#x27;;
+import { TranslateService } from &#x27;@ngx-translate/core&#x27;;
 
 /**
  * Directiva para copiar texto al portapapeles al hacer clic.
@@ -457,6 +558,7 @@ export class CopyOnClickDirective {
    */
   constructor(
     private el: ElementRef,
+    private translate: TranslateService,
     @Inject(PLATFORM_ID) private platformId: Object,
   ) {}
 
@@ -471,13 +573,53 @@ export class CopyOnClickDirective {
     const textToCopy &#x3D; this.appCopyOnClick || this.el.nativeElement.innerText;
 
     navigator.clipboard.writeText(textToCopy).then(() &#x3D;&gt; {
-      const originalBg &#x3D; this.el.nativeElement.style.backgroundColor;
-      this.el.nativeElement.style.backgroundColor &#x3D; &#x27;#4caf50&#x27;;
-
-      setTimeout(() &#x3D;&gt; {
-        this.el.nativeElement.style.backgroundColor &#x3D; originalBg;
-      }, 300);
+      this.animateCopyIcon();
+      this.showCopiedPopup();
     });
+  }
+
+  private animateCopyIcon() {
+    const element &#x3D; this.el.nativeElement as HTMLElement;
+    const originalTransition &#x3D; element.style.transition;
+    const originalTransform &#x3D; element.style.transform;
+    element.style.transition &#x3D; &#x27;transform 160ms ease&#x27;;
+    element.style.transform &#x3D; &#x27;scale(1.22)&#x27;;
+    setTimeout(() &#x3D;&gt; {
+      element.style.transform &#x3D; originalTransform;
+      setTimeout(() &#x3D;&gt; {
+        element.style.transition &#x3D; originalTransition;
+      }, 170);
+    }, 160);
+  }
+
+  private showCopiedPopup() {
+    const element &#x3D; this.el.nativeElement as HTMLElement;
+    const rect &#x3D; element.getBoundingClientRect();
+    const popup &#x3D; document.createElement(&#x27;span&#x27;);
+    popup.textContent &#x3D; this.translate.instant(&#x27;tooltips.copied&#x27;);
+    popup.style.position &#x3D; &#x27;fixed&#x27;;
+    popup.style.left &#x3D; &#x60;${rect.right + 8}px&#x60;;
+    popup.style.top &#x3D; &#x60;${rect.top + rect.height / 2}px&#x60;;
+    popup.style.transform &#x3D; &#x27;translateY(-50%)&#x27;;
+    popup.style.background &#x3D; &#x27;rgba(17, 24, 39, 0.95)&#x27;;
+    popup.style.border &#x3D; &#x27;1px solid rgba(34, 211, 238, 0.45)&#x27;;
+    popup.style.borderRadius &#x3D; &#x27;6px&#x27;;
+    popup.style.padding &#x3D; &#x27;4px 8px&#x27;;
+    popup.style.fontSize &#x3D; &#x27;11px&#x27;;
+    popup.style.fontWeight &#x3D; &#x27;600&#x27;;
+    popup.style.color &#x3D; &#x27;#67e8f9&#x27;;
+    popup.style.zIndex &#x3D; &#x27;99999&#x27;;
+    popup.style.pointerEvents &#x3D; &#x27;none&#x27;;
+    popup.style.opacity &#x3D; &#x27;0&#x27;;
+    popup.style.transition &#x3D; &#x27;opacity 120ms ease&#x27;;
+    document.body.appendChild(popup);
+    requestAnimationFrame(() &#x3D;&gt; {
+      popup.style.opacity &#x3D; &#x27;1&#x27;;
+    });
+    setTimeout(() &#x3D;&gt; {
+      popup.style.opacity &#x3D; &#x27;0&#x27;;
+      setTimeout(() &#x3D;&gt; popup.remove(), 130);
+    }, 850);
   }
 }
 </code></pre>

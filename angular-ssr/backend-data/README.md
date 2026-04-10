@@ -1,4 +1,6 @@
-## Datos de seed del backend
+# Backend Data
+
+## Datos de seed y exports del backend
 
 El directorio `backend-data/` contiene todos los ficheros de datos y media utilizados por los scripts de seed y limpieza del backend.
 
@@ -6,6 +8,8 @@ Estructura recomendada:
 
 ```text
 backend-data/
+├── exports/
+│   └── postgres_export_1.xlsx  (exports para Power BI, incremental por defecto)
 ├── json/
 │   ├── platforms.json       (plataformas)
 │   ├── genres.json          (géneros)
@@ -23,8 +27,15 @@ Los scripts relevantes son:
 
 - `npm run seed:data`: limpia los datos de negocio de la base de datos (sin tocar Cloudinary), crea todas las entidades a partir de estos JSON y, si existen las carpetas de media bajo `backend-data/backend-media`, sube imágenes a Cloudinary.
 - `npm run clean:data`: limpia todos los datos (incluyendo media en Cloudinary) sin depender de los ficheros JSON.
+- `py -3 src/backend/scripts/exportToExcel.py`: exporta tablas PostgreSQL a Excel en `backend-data/exports/` (`postgres_export_1.xlsx`, `postgres_export_2.xlsx`, etc.).
 
-### Media (imágenes)
+## Exports para Power BI
+
+- La carpeta `backend-data/exports/` se usa para guardar los `.xlsx` generados por el script de exportación.
+- En modo incremental (por defecto), cada ejecución crea un archivo nuevo con sufijo numérico.
+- Si usas `--write-mode replace`, el archivo se guarda como `backend-data/postgres_export.xlsx` y se sobrescribe en cada ejecución.
+
+## Media (imágenes)
 
 - **Imágenes de juegos**  
   Se organizan en subcarpetas dentro de `backend-data/backend-media/gameImages/`.  
@@ -50,7 +61,7 @@ Los scripts relevantes son:
 
   Solo se utiliza el **primer archivo encontrado** en cada carpeta como avatar principal.
 
-#### Reglas de nombres y normalización en Cloudinary
+### Reglas de nombres y normalización en Cloudinary
 
 1. **Juegos** → carpeta con el nombre exacto del juego (`game.title`).  
 2. **Usuarios** → carpeta con el nombre exacto del usuario (`user.name`) o `accountAt`.  
@@ -71,4 +82,3 @@ Se convierte en Cloudinary en algo equivalente a:
 ```text
 gameImages/god-of-war-ragnarok/cover.webp
 ```
-

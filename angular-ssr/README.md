@@ -33,7 +33,9 @@ El proyecto está pensado para ofrecer una experiencia completa de principio a f
 - [Arrancar el proyecto desde cero](#arrancar-el-proyecto-desde-cero)
 - [Configuración (variables de entorno)](#configuración-variables-de-entorno)
 - [Environments de Angular](#environments-de-angular-srcenvironments)
+- [Exportación de BBDD a Excel (Power BI)](#exportación-de-bbdd-a-excel-power-bi)
 - [Comandos disponibles](#comandos-disponibles)
+- [Documentación (Compodoc)](#documentación-compodoc)
 - [Comandos más útiles (resumen)](#comandos-más-útiles-resumen)
 
 ---
@@ -482,6 +484,33 @@ Con `apiUrl` vacío, todas las URLs de API construidas en `src/app/app.config.ts
 
 ---
 
+## Exportación de BBDD a Excel (Power BI)
+
+Script: `src/backend/scripts/exportToExcel.py`
+
+### Requisitos (Python)
+
+- Python 3.9 o superior
+- `POSTGRES_PRISMA_URL` configurada en `.env`
+
+### Uso
+
+```bash
+py -3 src/backend/scripts/exportToExcel.py
+```
+
+El comando usa `POSTGRES_PRISMA_URL` de tu `.env`.
+Si faltan dependencias, el script intenta instalarlas automaticamente y, si no puede, te indica el comando exacto para resolverlo.
+
+Opcional:
+
+- `--write-mode replace` para sobrescribir siempre `backend-data/postgres_export.xlsx`.
+- `--write-mode incremental` (por defecto) para guardar en `backend-data/exports/postgres_export_1.xlsx`, `postgres_export_2.xlsx`, etc.
+- `--schema public` para elegir esquema.
+- `--output ruta/archivo.xlsx` para salida personalizada.
+
+---
+
 ## Comandos disponibles
 
 Los comandos están definidos en `package.json`. Para un arranque desde cero completo, ver la sección **Arrancar el proyecto desde cero**.
@@ -550,15 +579,22 @@ Tras instalar dependencias (`npm install`) conviene ejecutar **`npm audit fix --
 - `npx prisma generate`
 - `npx prisma db push`
 
+### Documentación (Compodoc)
+
+- **`npm run docs`**: levanta la documentación web de Compodoc en local (usando `docs/`).
+- **`npm run docs:build`**: genera la documentación de Compodoc en la carpeta `docs/`.
+- **`npm run docs:serve`**: levanta la documentación web de Compodoc en local para abrirla en el navegador (usando `docs/`).
+
 ### Utilidades
 
 - **`npm run audit`**: ejecuta `npm audit --audit-level=high --omit=dev` para revisar vulnerabilidades en dependencias de producción (OWASP A06).
 - **`npm run lint`**: ejecuta el análisis estático de código buscando vulnerabilidades de seguridad (vía ESLint y plugin de seguridad).
 - **`npm audit fix --omit=dev`**: corrige vulnerabilidades en dependencias de producción (recomendado tras `npm install`).
+- **`py -3 src/backend/scripts/exportToExcel.py`**: exporta tablas PostgreSQL a un unico Excel para analisis en Power BI (por defecto en `backend-data`, modo incremental).
 - **`npm run watch`**: build en watch (config development).
 - **`npm run format`**: formateo con Prettier.
 - **`npm run clean`**: borra `dist`, `logs`, `coverage`.
-- **`npm run clean:full`**: borra `dist`, `node_modules`, `logs`, `coverage`.
+- **`npm run clean:full`**: borra `dist`, `node_modules`, `logs`, `coverage`, `docs`, `documentation` y `.venv`.
 - **`npm run reinstall`**: reinstalación completa (`clean:full` + `npm install`); después ejecutar `npm audit fix --omit=dev`.
 
 ---
