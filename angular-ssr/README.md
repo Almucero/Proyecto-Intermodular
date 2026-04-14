@@ -433,10 +433,10 @@ Compilar la aplicación (frontend + servidor):
 npm run build:ssr
 ```
 
-Al finalizar, arrancar el servidor:
+Al finalizar, arrancar el servidor SSR compilado (modo estable):
 
 ```bash
-npm run serve:ssr
+npm run serve:ssr:prod
 ```
 
 El servidor quedará escuchando en `http://localhost:<PORT>` (por defecto 3000). Ahí se sirve la web y la API (`/api/*`). Abrir el navegador en esa URL para usar la aplicación.
@@ -452,7 +452,7 @@ npx prisma generate
 npx prisma migrate deploy
 npm run seed:admin
 npm run build:ssr
-npm run serve:ssr
+npm run serve:ssr:prod
 ```
 
 ---
@@ -517,7 +517,7 @@ Los comandos están definidos en `package.json`. Para un arranque desde cero com
 
 ### Desarrollo
 
-*Nota: Los comandos `start`, `dev` y `serve:ssr` ejecutan automáticamente `node scripts/free-port.mjs <puerto>` antes de arrancar para liberar los puertos 3000 o 4200 solo si están en uso, evitando conflictos sin generar ruido en la consola.*
+*Nota: Los comandos `start`, `dev`, `serve:ssr`, `serve:ssr:prod` y `dev:ssr` ejecutan automáticamente `node scripts/free-port.mjs <puerto>` cuando corresponde para liberar los puertos 3000 o 4200 solo si están en uso, evitando conflictos sin generar ruido en la consola.*
 
 - **`npm start`**  
   Ejecuta `ng serve` (desarrollo de frontend en modo SPA).
@@ -529,10 +529,13 @@ Los comandos están definidos en `package.json`. Para un arranque desde cero com
   Alias de `npm run dev:backend`.
 
 - **`npm run serve:ssr`**  
+  Modo desarrollo SSR con recarga automática: compila en `watch` y reinicia el servidor SSR cuando cambia `dist`.
+
+- **`npm run serve:ssr:prod`**  
   Ejecuta el servidor SSR compilado desde `dist/game-sage/server/server.mjs` (con 8GB de memoria asignada).
 
 - **`npm run start:ssr`**  
-  Alias de `npm run serve:ssr`.
+  Alias de `npm run serve:ssr:prod`.
 
 ### Build
 
@@ -614,7 +617,7 @@ npm audit fix --omit=dev
 
 ```bash
 npm run build:ssr
-npm run serve:ssr
+npm run serve:ssr:prod
 ```
 
 - **Desarrollo de API (sin reconstruir SSR)**:
