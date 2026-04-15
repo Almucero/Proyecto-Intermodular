@@ -419,8 +419,8 @@ npm audit fix --omit=dev</code></pre></div><p>Se instalan las dependencias de <c
 <b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run seed:data</code></pre></div><p>Ejecuta primero una limpieza y luego el seed completo. Requiere que las variables de Cloudinary y, si aplica, la ruta de media local estén configuradas (ver documentación de los scripts en <code>src/backend/scripts/</code>).</p>
 <h3>10. Build y ejecución del servidor SSR</h3>
 <p>Compilar la aplicación (frontend + servidor):</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run build:ssr</code></pre></div><p>Al finalizar, arrancar el servidor:</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run serve:ssr</code></pre></div><p>El servidor quedará escuchando en <code>http://localhost:&lt;PORT&gt;</code> (por defecto 3000). Ahí se sirve la web y la API (<code>/api/*</code>). Abrir el navegador en esa URL para usar la aplicación.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run build:ssr</code></pre></div><p>Al finalizar, arrancar el servidor SSR compilado (modo estable):</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run serve:ssr:prod</code></pre></div><p>El servidor quedará escuchando en <code>http://localhost:&lt;PORT&gt;</code> (por defecto 3000). Ahí se sirve la web y la API (<code>/api/*</code>). Abrir el navegador en esa URL para usar la aplicación.</p>
 <h3>Resumen mínimo (con Node y BD ya listas)</h3>
 <b>Example :</b><div><pre class="line-numbers"><code class="language-bash">cp .env.example .env
 # Editar .env con BD, Cloudinary, JWT, etc.
@@ -430,7 +430,7 @@ npx prisma generate
 npx prisma migrate deploy
 npm run seed:admin
 npm run build:ssr
-npm run serve:ssr</code></pre></div><hr>
+npm run serve:ssr:prod</code></pre></div><hr>
 <h2>Configuración (variables de entorno)</h2>
 <p>Las variables de entorno se definen en <code>.env</code> (ver plantilla en <code>.env.example</code>) y se cargan con <code>dotenv</code> desde <code>src/backend/config/env.ts</code>. En ese fichero se valida la presencia de variables críticas y se tipan para consumo interno.</p>
 <p>Variables habituales:</p>
@@ -473,7 +473,7 @@ Si faltan dependencias, el script intenta instalarlas automaticamente y, si no p
 <h2>Comandos disponibles</h2>
 <p>Los comandos están definidos en <code>package.json</code>. Para un arranque desde cero completo, ver la sección <strong>Arrancar el proyecto desde cero</strong>.</p>
 <h3>Desarrollo</h3>
-<p><em>Nota: Los comandos <code>start</code>, <code>dev</code> y <code>serve:ssr</code> ejecutan automáticamente <code>node scripts/free-port.mjs &lt;puerto&gt;</code> antes de arrancar para liberar los puertos 3000 o 4200 solo si están en uso, evitando conflictos sin generar ruido en la consola.</em></p>
+<p><em>Nota: Los comandos <code>start</code>, <code>dev</code>, <code>serve:ssr</code>, <code>serve:ssr:prod</code> y <code>dev:ssr</code> ejecutan automáticamente <code>node scripts/free-port.mjs &lt;puerto&gt;</code> cuando corresponde para liberar los puertos 3000 o 4200 solo si están en uso, evitando conflictos sin generar ruido en la consola.</em></p>
 <ul>
 <li><p><strong><code>npm start</code></strong><br>Ejecuta <code>ng serve</code> (desarrollo de frontend en modo SPA).</p>
 </li>
@@ -481,9 +481,11 @@ Si faltan dependencias, el script intenta instalarlas automaticamente y, si no p
 </li>
 <li><p><strong><code>npm run dev</code></strong><br>Alias de <code>npm run dev:backend</code>.</p>
 </li>
-<li><p><strong><code>npm run serve:ssr</code></strong><br>Ejecuta el servidor SSR compilado desde <code>dist/game-sage/server/server.mjs</code> (con 8GB de memoria asignada).</p>
+<li><p><strong><code>npm run serve:ssr</code></strong><br>Modo desarrollo SSR con recarga automática: compila en <code>watch</code> y reinicia el servidor SSR cuando cambia <code>dist</code>.</p>
 </li>
-<li><p><strong><code>npm run start:ssr</code></strong><br>Alias de <code>npm run serve:ssr</code>.</p>
+<li><p><strong><code>npm run serve:ssr:prod</code></strong><br>Ejecuta el servidor SSR compilado desde <code>dist/game-sage/server/server.mjs</code> (con 8GB de memoria asignada).</p>
+</li>
+<li><p><strong><code>npm run start:ssr</code></strong><br>Alias de <code>npm run serve:ssr:prod</code>.</p>
 </li>
 </ul>
 <h3>Build</h3>
@@ -555,7 +557,7 @@ npm audit fix --omit=dev</code></pre></div><ul>
 <li><strong>Build SSR + ejecución local</strong>:</li>
 </ul>
 <b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run build:ssr
-npm run serve:ssr</code></pre></div><ul>
+npm run serve:ssr:prod</code></pre></div><ul>
 <li><strong>Desarrollo de API (sin reconstruir SSR)</strong>:</li>
 </ul>
 <b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run dev:backend</code></pre></div><ul>

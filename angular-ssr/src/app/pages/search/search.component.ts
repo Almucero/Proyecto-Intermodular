@@ -416,7 +416,7 @@ export class SearchComponent implements OnInit {
     const coverImage = game.media?.find((m) =>
       m.altText?.toLowerCase().includes('cover'),
     );
-    return coverImage?.url || 'assets/images/placeholder.png';
+    return coverImage?.url || 'assets/images/ui/placeholder.webp';
   }
 
   /** Navega a la página de detalle de un producto. */

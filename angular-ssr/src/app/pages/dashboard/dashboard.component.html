@@ -67,7 +67,7 @@
         </div>
 
         <section>
-          <h3 class="text-xl font-bold text-white mb-6 text-left mobile-center-text">
+          <h3 class="text-xl font-bold text-white mb-6 text-left">
             {{ "dashboard.accountInfo" | translate }}
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -109,10 +109,10 @@
         </section>
 
         <section>
-          <h3 class="text-xl font-bold text-white mb-2 text-left mobile-center-text">
+          <h3 class="text-xl font-bold text-white mb-2 text-left">
             {{ "dashboard.personalData" | translate }}
           </h3>
-          <p class="text-gray-500 text-sm mb-6 text-left mobile-center-text">
+          <p class="text-gray-500 text-sm mb-6 text-left">
             {{ "dashboard.personalDataNote" | translate }}
             <a
               routerLink="/privacy"
@@ -155,7 +155,7 @@
         </section>
 
         <section>
-          <h3 class="text-xl font-bold text-white mb-6 text-left mobile-center-text">
+          <h3 class="text-xl font-bold text-white mb-6 text-left">
             {{ "dashboard.address" | translate }}
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -252,7 +252,7 @@
           </div>
         </section>
 
-        <div class="mt-12 lg:mt-8 flex justify-center lg:justify-start">
+        <div class="mt-12 lg:mt-8 flex justify-start">
           <div class="inline-flex flex-col gap-2 lg:flex-row lg:gap-4">
             <button
               #actionSizeButton
@@ -279,7 +279,7 @@
 
         @if (purchases().length > 0) {
           <section class="mt-4 md:mt-8">
-            <h3 class="text-xl font-bold text-white mb-6 text-left mobile-center-text">
+            <h3 class="text-xl font-bold text-white mb-6 text-left">
               {{ "dashboard.purchases" | translate }}
             </h3>
             <div class="space-y-4">
@@ -292,7 +292,7 @@
                       <span
                         class="text-gray-400 text-xs md:text-sm flex items-center gap-2"
                       >
-                        📅 {{ purchase.purchasedAt | date: "medium" }}
+                        📅 {{ formatPurchaseDate(purchase.purchasedAt) }}
                       </span>
                       <button
                         (click)="openRefundModal(purchase.id)"
@@ -366,7 +366,7 @@
         }
         @if (returns().length > 0) {
           <section class="mt-4 md:mt-8">
-            <h3 class="text-xl font-bold text-white mb-6 text-left mobile-center-text">
+            <h3 class="text-xl font-bold text-white mb-6 text-left">
               {{ "dashboard.returns" | translate }}
             </h3>
             <div class="space-y-4">
@@ -381,9 +381,9 @@
                   <div
                     class="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-2 md:mb-4 border-b border-gray-700 pb-2 pl-3 gap-1 md:gap-0"
                   >
-                    <span class="text-gray-400 text-xs md:text-sm">{{
-                      ret.purchasedAt | date: "medium"
-                    }}</span>
+                    <span class="text-gray-400 text-xs md:text-sm flex items-center gap-2">
+                      📅 {{ formatPurchaseDate(ret.purchasedAt) }}
+                    </span>
                     <span class="text-red-400 font-bold text-lg md:text-xl"
                       >{{ ret.totalPrice | number: "1.2-2" }}€</span
                     >
@@ -436,6 +436,20 @@
                               class="text-cyan-400 hover:text-cyan-300 hover:underline cursor-pointer flex items-center gap-1 transition-colors mt-0.5 md:mt-0"
                             >
                               {{ "dashboard.viewProduct" | translate }}
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-3 w-3"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                />
+                              </svg>
                             </a>
                           </div>
                         </div>
@@ -541,7 +555,7 @@
           </div>
         </section> -->
 
-        <div class="mt-2 mb-2 flex justify-center lg:justify-start">
+        <div class="mt-16 lg:mt-10 mb-2 flex justify-center lg:justify-start">
           <button
             #actionSizeButton
             (click)="onLogout()"

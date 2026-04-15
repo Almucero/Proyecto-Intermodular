@@ -15,7 +15,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { CopyOnClickDirective } from '../../directives/copy-on-click.directive';
 import { BaseAuthenticationService } from '../../core/services/impl/base-authentication.service';
 import { UserService } from '../../core/services/impl/user.service';
@@ -49,6 +49,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   private purchaseService = inject(PurchaseService);
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
+  private translate = inject(TranslateService);
 
   /** Señal que contiene los datos del usuario autenticado. */
   user = toSignal(this.auth.user$);
@@ -324,5 +325,34 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     buttons.forEach((button) => {
       button.style.width = `${maxWidth}px`;
     });
+  }
+
+  formatPurchaseDate(value: Date | string | null | undefined): string {
+    if (!value) return '-';
+    const date = value instanceof Date ? value : new Date(value);
+    if (Number.isNaN(date.getTime())) return '-';
+    const lang = this.translate.currentLang || this.translate.getDefaultLang() || 'es';
+    const monthNames: Record<string, string[]> = {
+      es: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+      en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      fr: ['janv', 'févr', 'mars', 'avr', 'mai', 'juin', 'juil', 'août', 'sept', 'oct', 'nov', 'déc'],
+      de: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
+      it: ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'],
+    };
+    const selectedLang = monthNames[lang] ? lang : 'es';
+    const months = monthNames[selectedLang];
+
+    const day = date.getDate();
+    const month = months[date.getMonth()] ?? months[0];
+    const year = date.getFullYear();
+    const hh = String(date.getHours()).padStart(2, '0');
+    const mm = String(date.getMinutes()).padStart(2, '0');
+    const ss = String(date.getSeconds()).padStart(2, '0');
+
+    if (selectedLang === 'en') {
+      return `${month} ${day}, ${year}, ${hh}:${mm}:${ss}`;
+    }
+
+    return `${day} ${month} ${year}, ${hh}:${mm}:${ss}`;
   }
 }

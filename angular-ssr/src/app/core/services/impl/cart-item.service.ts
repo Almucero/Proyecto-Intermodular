@@ -13,6 +13,12 @@ import { BaseService } from './base-service.service';
 import { BaseAuthenticationService } from './base-authentication.service';
 import { ICartItemService } from '../interfaces/cart-item-service.interface';
 
+export interface CheckoutSessionResponse {
+  clientSecret: string;
+  sessionId: string;
+  publishableKey: string;
+}
+
 /**
  * Servicio para la gestión de los artículos del carrito de compras.
  * Maneja la persistencia en el servidor y sincroniza el estado local (localStorage y BehaviorSubject).
@@ -164,6 +170,22 @@ export class CartItemService
         { headers: this.getAuthHeaders() },
       )
       .pipe(tap(() => this.refreshCount()));
+  }
+
+  createCheckoutSession(locale?: string): Observable<CheckoutSessionResponse> {
+    return this.http.post<CheckoutSessionResponse>(
+      `${this.apiUrl}/${this.resource}/checkout-session`,
+      locale ? { locale } : {},
+      { headers: this.getAuthHeaders() },
+    );
+  }
+
+  confirmCheckoutSession(sessionId: string): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/${this.resource}/checkout/confirm`,
+      { sessionId },
+      { headers: this.getAuthHeaders() },
+    );
   }
 
   /**

@@ -18,10 +18,10 @@ export function applySecurityHeaders(req: Request, res: Response, next?: NextFun
     "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com; " +
     "img-src 'self' data: https://res.cloudinary.com https://img.youtube.com blob:; " +
     "font-src 'self' data: https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.gstatic.com; " +
-    "frame-src 'self' https://www.youtube-nocookie.com; " +
+    "frame-src 'self' https://www.youtube-nocookie.com https://js.stripe.com https://hooks.stripe.com; " +
     "frame-ancestors 'self'; " +
     "base-uri 'self'; " +
-    "form-action 'self'; " +
+    "form-action 'self' https://checkout.stripe.com https://hooks.stripe.com; " +
     "object-src 'none'; " +
     "media-src 'self' https://res.cloudinary.com blob:; " +
     "worker-src 'self' blob:; " +
@@ -29,13 +29,13 @@ export function applySecurityHeaders(req: Request, res: Response, next?: NextFun
 
   if (isProduction) {
     // Producción: script-src más estricto sin unsafe-inline/eval, upgrade-insecure-requests
-    csp += "script-src 'self' https://cdnjs.cloudflare.com https://www.gstatic.com https://generativelanguage.googleapis.com; ";
-    csp += "connect-src 'self' https://res.cloudinary.com https://generativelanguage.googleapis.com; ";
+    csp += "script-src 'self' https://cdnjs.cloudflare.com https://www.gstatic.com https://generativelanguage.googleapis.com https://js.stripe.com; ";
+    csp += "connect-src 'self' https://res.cloudinary.com https://generativelanguage.googleapis.com https://api.stripe.com https://r.stripe.com https://m.stripe.network https://js.stripe.com https://hooks.stripe.com; ";
     csp += "upgrade-insecure-requests;";
   } else {
     // Desarrollo: permite WebSocket para HMR (Hot Module Replacement) e unsafe-inline/eval para debug
-    csp += "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://www.gstatic.com https://generativelanguage.googleapis.com; ";
-    csp += "connect-src 'self' ws://localhost:* http://localhost:* https://res.cloudinary.com https://generativelanguage.googleapis.com; ";
+    csp += "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://www.gstatic.com https://generativelanguage.googleapis.com https://js.stripe.com; ";
+    csp += "connect-src 'self' ws://localhost:* http://localhost:* https://res.cloudinary.com https://generativelanguage.googleapis.com https://api.stripe.com https://r.stripe.com https://m.stripe.network https://js.stripe.com https://hooks.stripe.com; ";
   }
 
   res.setHeader('Content-Security-Policy', csp);

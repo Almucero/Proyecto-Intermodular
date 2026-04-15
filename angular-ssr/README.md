@@ -1,4 +1,4 @@
-# GameSage SSR - Plataforma de videojuegos
+﻿# GameSage SSR - Plataforma de videojuegos
 
 ## Introducción
 
@@ -13,7 +13,7 @@ El proyecto está pensado para ofrecer una experiencia completa de principio a f
   - La **API REST** bajo `/api/*` (misma URL base y mismo puerto).
 - El **frontend** consume la API exclusivamente mediante rutas **relativas** (`/api/...`), evitando dependencias de URLs absolutas.
 - **Traducción y SEO Dinámico**: El servidor Node.js (SSR) detecta el idioma del usuario (vía cabecera `Accept-Language` o cookie) e inyecta al vuelo las meta-etiquetas SEO traducidas (`description`, `keywords`, `OpenGraph`, `Twitter Cards`, etc.) y el atributo `lang` en el `index.html` antes de enviarlo al cliente. Esto permite tener una única SPA que se comporta como múltiples sitios localizados para los motores de búsqueda.
-- **Gestión de Puertos**: Los scripts de arranque (`start`, `dev`, `serve:ssr`) llaman internamente a `scripts/free-port.mjs` para liberar los puertos 4200 y 3000 solo cuando están ocupados, evitando errores `EADDRINUSE` sin mostrar mensajes innecesarios.
+- **Gestión de Puertos**: Los scripts de arranque (`start`, `dev`, `serve:ssr`, `serve:ssr:https`) llaman internamente a `scripts/free-port.mjs` para liberar puertos solo cuando están ocupados (4200, 3000 y 3443 según el comando), evitando errores `EADDRINUSE` sin mostrar mensajes innecesarios.
 - La **persistencia** se gestiona con PostgreSQL y Prisma.
 - El backend incorpora seguridad, validación y utilidades de operación (rate limit, serialización, logging).
 - La aplicación ha sido **testeada con OWASP ZAP**; se han corregido la mayoría de vulnerabilidades detectadas, salvo aquellas cuya mitigación rompería el funcionamiento de la página (por ejemplo limitaciones propias de Angular o de recursos externos).
@@ -29,6 +29,7 @@ El proyecto está pensado para ofrecer una experiencia completa de principio a f
 - [Frontend: configuración y flujo](#frontend-configuración-y-flujo)
 - [Build SSR y variable SSR_DISABLE_BACKEND](#build-ssr-y-variable-ssr_disable_backend)
 - [Rutas y endpoints relevantes](#rutas-y-endpoints-relevantes)
+- [Pagos y devoluciones (Stripe)](#pagos-y-devoluciones-stripe)
 - [Verificaciones de requisitos](#verificaciones-de-requisitos)
 - [Arrancar el proyecto desde cero](#arrancar-el-proyecto-desde-cero)
 - [Configuración (variables de entorno)](#configuración-variables-de-entorno)
@@ -56,7 +57,7 @@ El frontend está construido con **Angular** (v20) y **@angular/ssr**. El CLI de
 
 ### Express
 
-El backend HTTP está implementado con **Express** (v5). La aplicación Express se crea en `src/backend/app.ts`, se monta bajo la aplicación principal en `src/server.ts` (cuando el backend no está deshabilitado) y concentra todo el enrutado bajo `/api/*`, middlewares globales (CORS, JSON, helmet, rate limiting en producción, logging, serialización de respuestas) y el manejador de errores al final de la cadena.
+El backend HTTP está implementado con **Express** (v4). La aplicación Express se crea en `src/backend/app.ts`, se monta bajo la aplicación principal en `src/server.ts` (cuando el backend no está deshabilitado) y concentra todo el enrutado bajo `/api/*`, middlewares globales (CORS, JSON, helmet, rate limiting en producción, logging, serialización de respuestas) y el manejador de errores al final de la cadena.
 
 ### Prisma
 
@@ -274,6 +275,43 @@ Durante `ng build` con configuración SSR, Angular puede ejecutar el servidor de
 - **Chat**: `/api/chat` (sesiones y mensajes con IA).
 
 La documentación detallada de parámetros, cuerpos y respuestas está en Swagger (`/api-docs`) y en los JSDoc de cada ruta.
+
+---
+
+## Pagos y devoluciones (Stripe)
+
+La aplicación integra una pasarela de pago embebida con Stripe para cerrar compras sin salir del sitio. El flujo está diseñado para mantener consistencia entre estado de pago, carrito, compras del usuario y stock por plataforma.
+
+### Flujo de checkout embebido
+
+1. El cliente solicita una sesión con `POST /api/cart/checkout-session`.
+2. El backend valida que el carrito no esté vacío, calcula importes y crea la sesión de Stripe en `mode: payment` y `ui_mode: embedded_page`.
+3. Stripe devuelve `clientSecret`, `sessionId` y `publishableKey`, que el frontend usa para montar el checkout embebido.
+4. Tras pago completado, el frontend confirma la sesión con `POST /api/cart/checkout/confirm`.
+
+### Qué ocurre al confirmar una compra
+
+- Se valida que la sesión de Stripe esté pagada y pertenezca al usuario autenticado.
+- Se completa la compra en base de datos dentro de operaciones transaccionales.
+- Se crean registros de compra (`Purchase` y `PurchaseItem`) para que aparezcan en el historial del usuario.
+- Se descuenta stock de los juegos/plataformas comprados.
+- Se vacía el carrito del usuario para evitar duplicados tras un pago correcto.
+
+### Devoluciones y reembolsos
+
+- Endpoint principal de devolución: `POST /api/purchases/:id/refund`.
+- Existe compatibilidad adicional con `PATCH /api/purchases/:id` para clientes antiguos.
+- Al devolver una compra:
+  - el estado pasa a `refunded`,
+  - se incrementa de nuevo el stock por plataforma,
+  - se ajusta el contador de ventas del juego,
+  - se guarda el motivo de devolución.
+
+### Notas operativas
+
+- El checkout usa Stripe en modo test mientras se mantengan claves de test en `.env`.
+- En local, para minimizar advertencias de contexto no seguro, se recomienda `npm run serve:ssr:https` y abrir `https://localhost:3443`.
+- Stripe permite controlar idioma/locale en la creación de sesión para alinear el checkout con el idioma activo de la aplicación.
 
 ---
 
@@ -517,7 +555,7 @@ Los comandos están definidos en `package.json`. Para un arranque desde cero com
 
 ### Desarrollo
 
-*Nota: Los comandos `start`, `dev`, `serve:ssr`, `serve:ssr:prod` y `dev:ssr` ejecutan automáticamente `node scripts/free-port.mjs <puerto>` cuando corresponde para liberar los puertos 3000 o 4200 solo si están en uso, evitando conflictos sin generar ruido en la consola.*
+*Nota: Los comandos `start`, `dev`, `serve:ssr`, `serve:ssr:https`, `serve:ssr:prod`, `dev:ssr` y `dev:ssr:https` ejecutan automáticamente `node scripts/free-port.mjs <puerto>` cuando corresponde para liberar puertos de desarrollo solo si están en uso, evitando conflictos sin generar ruido en la consola.*
 
 - **`npm start`**  
   Ejecuta `ng serve` (desarrollo de frontend en modo SPA).
@@ -530,6 +568,15 @@ Los comandos están definidos en `package.json`. Para un arranque desde cero com
 
 - **`npm run serve:ssr`**  
   Modo desarrollo SSR con recarga automática: compila en `watch` y reinicia el servidor SSR cuando cambia `dist`.
+
+- **`npm run serve:ssr:https`**  
+  Igual que `serve:ssr`, pero además levanta un proxy HTTPS local (`https://localhost:3443 -> http://localhost:3000`) para pruebas en contexto seguro (por ejemplo Stripe en local).
+  
+  Consideraciones reales de este modo:
+  - El servidor SSR real sigue escuchando en `http://localhost:3000`; para navegar la app debes abrir `https://localhost:3443`.
+  - Puede aparecer aviso de certificado local/autofirmado del navegador (depende del equipo/navegador).
+  - Puede fallar la primera navegación en Chrome si hay estado previo de error/certificado (`chrome-error://chromewebdata`); abrir una pestaña nueva y acceder directamente a `https://localhost:3443`.
+  - Para desarrollo general, `serve:ssr` (HTTP) suele ser más estable y simple.
 
 - **`npm run serve:ssr:prod`**  
   Ejecuta el servidor SSR compilado desde `dist/game-sage/server/server.mjs` (con 8GB de memoria asignada).
@@ -599,6 +646,13 @@ Tras instalar dependencias (`npm install`) conviene ejecutar **`npm audit fix --
 - **`npm run clean`**: borra `dist`, `logs`, `coverage`.
 - **`npm run clean:full`**: borra `dist`, `node_modules`, `logs`, `coverage`, `docs`, `documentation` y `.venv`.
 - **`npm run reinstall`**: reinstalación completa (`clean:full` + `npm install`); después ejecutar `npm audit fix --omit=dev`.
+
+### Stripe en local (nota práctica)
+
+- Si usas HTTP (`npm run serve:ssr`), Stripe puede mostrar el aviso:
+  - `You may test your Stripe.js integration over HTTP. However, live Stripe.js integrations must use HTTPS.`
+- Es un aviso esperado en desarrollo local HTTP; no bloquea el flujo de pruebas en test mode.
+- Para minimizarlo en local, usar `npm run serve:ssr:https` y abrir `https://localhost:3443`.
 
 ---
 

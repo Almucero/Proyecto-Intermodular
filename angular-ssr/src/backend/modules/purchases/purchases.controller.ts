@@ -21,6 +21,10 @@ const refundSchema = z.object({
     .min(5, 'La razón debe tener al menos 5 caracteres')
     .max(500),
 });
+const refundPatchSchema = z.object({
+  reason: z.string().min(5).max(500).optional(),
+  refundReason: z.string().min(5).max(500).optional(),
+});
 
 const purchaseIdSchema = z.object({
   id: z.coerce.number().int().positive('ID inválido'),
@@ -168,6 +172,56 @@ export async function refundPurchaseCtrl(
       logger.error('Error in refundPurchaseCtrl:', error);
     } else {
       logger.error('Error in refundPurchaseCtrl');
+    }
+    res.status(500).json({ message: 'Error al procesar el reembolso' });
+  }
+}
+
+export async function refundPurchasePatchCompatCtrl(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const user = req.user!;
+    const paramsParsed = purchaseIdSchema.safeParse({ id: req.params.id });
+    const bodyParsed = refundPatchSchema.safeParse(req.body);
+
+    if (!paramsParsed.success) {
+      return res.status(400).json({
+        message: 'ID inválido',
+        errors: paramsParsed.error.issues,
+      });
+    }
+
+    if (!bodyParsed.success) {
+      return res.status(400).json({
+        message: 'Datos de entrada inválidos',
+        errors: bodyParsed.error.issues,
+      });
+    }
+
+    const reason = bodyParsed.data.reason ?? bodyParsed.data.refundReason;
+    if (!reason || reason.trim().length < 5) {
+      return res.status(400).json({
+        message: 'Datos de entrada inválidos',
+        errors: [{ path: ['reason'], message: 'La razón es requerida' }],
+      });
+    }
+
+    const purchase = await refundPurchase(user.sub, paramsParsed.data.id, reason);
+    res.json(purchase);
+  } catch (error: any) {
+    if (error.message === 'Compra no encontrada') {
+      return res.status(404).json({ message: error.message });
+    }
+    if (error.message === 'Esta compra ya ha sido reembolsada') {
+      return res.status(400).json({ message: error.message });
+    }
+    if (env.NODE_ENV !== 'production') {
+      logger.error('Error in refundPurchasePatchCompatCtrl:', error);
+    } else {
+      logger.error('Error in refundPurchasePatchCompatCtrl');
     }
     res.status(500).json({ message: 'Error al procesar el reembolso' });
   }

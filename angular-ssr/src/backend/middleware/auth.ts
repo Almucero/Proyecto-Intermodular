@@ -12,7 +12,7 @@ declare global {
   }
 }
 
-export async function auth(req: Request, res: Response, next: NextFunction) {
+export function auth(req: Request, res: Response, next: NextFunction) {
   applySecurityHeaders(req, res);
   applyNoCacheHeaders(res);
   
@@ -28,38 +28,49 @@ export async function auth(req: Request, res: Response, next: NextFunction) {
     return res.status(401).json({ message: 'No autorizado' });
   }
 
+  let payload: any;
   try {
-    const payload = jwt.verify(token, env.JWT_SECRET, {
+    payload = jwt.verify(token, env.JWT_SECRET, {
       issuer: env.JWT_ISSUER,
       audience: env.JWT_AUDIENCE,
     });
-
-    if (
-      typeof payload !== 'object' ||
-      payload === null ||
-      !('sub' in payload) ||
-      !('email' in payload) ||
-      typeof payload.sub !== 'number' ||
-      typeof payload.email !== 'string'
-    ) {
-      return res.status(401).json({ message: 'Token inválido' });
-    }
-
-    const userInfo = await findUserAuthInfo(payload.sub);
-    if (userInfo?.passwordChangedAt && typeof (payload as any).iat === 'number') {
-      const changedAt = Math.floor(new Date(userInfo.passwordChangedAt).getTime() / 1000);
-      if ((payload as any).iat < changedAt) {
-        return res.status(401).json({ message: 'Token expirado. Vuelve a iniciar sesión' });
-      }
-    }
-
-    req.user = {
-      sub: payload.sub,
-      email: payload.email,
-      isAdmin: (payload as any).isAdmin ?? false,
-    };
-    next();
-  } catch (error) {
+  } catch {
     return res.status(401).json({ message: 'Token inválido' });
   }
+
+  if (
+    typeof payload !== 'object' ||
+    payload === null ||
+    !('sub' in payload) ||
+    !('email' in payload) ||
+    typeof payload.sub !== 'number' ||
+    typeof payload.email !== 'string'
+  ) {
+    return res.status(401).json({ message: 'Token inválido' });
+  }
+
+  void findUserAuthInfo(payload.sub)
+    .then((userInfo) => {
+      if (userInfo?.passwordChangedAt && typeof payload.iat === 'number') {
+        const changedAt = Math.floor(
+          new Date(userInfo.passwordChangedAt).getTime() / 1000,
+        );
+        if (payload.iat < changedAt) {
+          res
+            .status(401)
+            .json({ message: 'Token expirado. Vuelve a iniciar sesión' });
+          return;
+        }
+      }
+
+      req.user = {
+        sub: payload.sub,
+        email: payload.email,
+        isAdmin: payload.isAdmin ?? false,
+      };
+      next();
+    })
+    .catch(() => {
+      res.status(401).json({ message: 'Token inválido' });
+    });
 }

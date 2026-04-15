@@ -62,7 +62,7 @@ export class CarouselComponent implements AfterViewInit {
    */
   getCoverUrl(game: Game): string {
     if (!game.media || game.media.length === 0) {
-      return 'assets/images/placeholder.png';
+      return 'assets/images/ui/placeholder.webp';
     }
     const cover = game.media.find((m) =>
       m.originalName?.toLowerCase().includes('cover'),

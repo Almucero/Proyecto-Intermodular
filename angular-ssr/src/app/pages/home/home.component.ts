@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  NgZone,
   OnInit,
   OnDestroy,
   HostListener,
@@ -107,6 +108,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private gameService: GameService,
     private mediaService: MediaService,
+    private ngZone: NgZone,
   ) {}
 
   /**
@@ -185,11 +187,13 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private startParallaxLoop() {
     if (this.rafId !== null) return;
-    const tick = () => {
+    this.ngZone.runOutsideAngular(() => {
+      const tick = () => {
+        this.rafId = requestAnimationFrame(tick);
+        this.renderParallaxFrame();
+      };
       this.rafId = requestAnimationFrame(tick);
-      this.renderParallaxFrame();
-    };
-    this.rafId = requestAnimationFrame(tick);
+    });
   }
 
   private renderParallaxFrame() {

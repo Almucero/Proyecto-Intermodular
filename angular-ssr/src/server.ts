@@ -29,6 +29,20 @@ const getSetupMessage = (err: unknown): string | null => {
   return msg;
 };
 
+const getSeoTranslationForLang = (
+  lang: string,
+  seoTranslations: Record<
+    string,
+    { desc: string; keys: string; ogTitle: string; ogDesc: string }
+  >,
+) => {
+  if (lang === 'en') return seoTranslations.en;
+  if (lang === 'fr') return seoTranslations.fr;
+  if (lang === 'de') return seoTranslations.de;
+  if (lang === 'it') return seoTranslations.it;
+  return seoTranslations.es;
+};
+
 const handleSetupError = (err: unknown): void => {
   const short = getSetupMessage(err);
   if (short) {
@@ -149,7 +163,7 @@ const processAngularResponse = async (req: express.Request, res: express.Respons
       }
     };
 
-    const t = seoTranslations[lang] || seoTranslations['es'];
+    const t = getSeoTranslationForLang(lang, seoTranslations);
 
     html = html.replace(/<html lang="[^"]*"/, `<html lang="${lang}"`);
     html = html.replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${t.desc}">`);
@@ -197,9 +211,9 @@ const setupAngularMiddleware = () => {
     }),
   );
   app.use((req, res, next) => {
-    return Promise.resolve(angularApp.handle(req))
+    Promise.resolve(angularApp.handle(req))
       .then((response) => processAngularResponse(req, res, next, response))
-      .catch(next);
+      .catch((error) => next(error));
   });
 };
 

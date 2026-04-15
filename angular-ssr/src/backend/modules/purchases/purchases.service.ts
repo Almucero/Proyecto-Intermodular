@@ -1,6 +1,34 @@
 import { prisma } from '../../config/db';
 import { Prisma } from '@prisma/client';
 
+type StockField =
+  | 'stockPc'
+  | 'stockPs5'
+  | 'stockXboxX'
+  | 'stockSwitch'
+  | 'stockPs4'
+  | 'stockXboxOne';
+
+function getStockFieldByPlatformName(platformName: string): StockField {
+  const normalized = platformName.trim().toLowerCase();
+  if (normalized === 'pc') return 'stockPc';
+  if (normalized === 'ps5' || normalized === 'playstation 5') return 'stockPs5';
+  if (normalized === 'xbox x' || normalized === 'xbox series x') return 'stockXboxX';
+  if (normalized === 'switch' || normalized === 'nintendo switch') return 'stockSwitch';
+  if (normalized === 'ps4' || normalized === 'playstation 4') return 'stockPs4';
+  if (normalized === 'xbox one') return 'stockXboxOne';
+  throw new Error(`Plataforma no soportada para control de stock: ${platformName}`);
+}
+
+function getGameStockByField(game: any, stockField: StockField): number {
+  if (stockField === 'stockPc') return Number(game.stockPc ?? 0);
+  if (stockField === 'stockPs5') return Number(game.stockPs5 ?? 0);
+  if (stockField === 'stockXboxX') return Number(game.stockXboxX ?? 0);
+  if (stockField === 'stockSwitch') return Number(game.stockSwitch ?? 0);
+  if (stockField === 'stockPs4') return Number(game.stockPs4 ?? 0);
+  return Number(game.stockXboxOne ?? 0);
+}
+
 export async function completePurchase(userId: number, cartItemIds: number[]) {
   if (cartItemIds.length === 0) {
     throw new Error('Debe proporcionar al menos un artículo del carrito');
@@ -20,53 +48,84 @@ export async function completePurchase(userId: number, cartItemIds: number[]) {
 
   const totalPrice = cartItems.reduce(
     (sum: any, item: any) => {
-      const gamePrice = item.game.price || new (Prisma as any).Decimal(0);
+      const gamePrice =
+        item.game.isOnSale && item.game.salePrice !== null
+          ? item.game.salePrice
+          : item.game.price || new (Prisma as any).Decimal(0);
       return (sum as any).add(gamePrice.mul(item.quantity));
     },
     new (Prisma as any).Decimal(0),
   );
 
-  const purchase = await prisma.purchase.create({
-    data: {
-      userId,
-      totalPrice,
-      status: 'completed',
-      items: {
-        create: cartItems.map((item: any) => ({
-          gameId: item.gameId,
-          platformId: item.platformId,
-          price: item.game.price || new (Prisma as any).Decimal(0),
-          quantity: item.quantity,
-        })),
+  const purchase = await prisma.$transaction(async (tx) => {
+    for (const item of cartItems) {
+      const stockField = getStockFieldByPlatformName(item.platform.name);
+      const currentStock = getGameStockByField(item.game, stockField);
+      if (currentStock < item.quantity) {
+        throw new Error(
+          `Stock insuficiente para ${item.game.title} en ${item.platform.name}`,
+        );
+      }
+    }
+
+    for (const item of cartItems) {
+      const stockField = getStockFieldByPlatformName(item.platform.name);
+      await tx.game.update({
+        where: { id: item.gameId },
+        data: {
+          [stockField]: { decrement: item.quantity },
+          numberOfSales: { increment: item.quantity },
+        } as any,
+      });
+    }
+
+    const createdPurchase = await tx.purchase.create({
+      data: {
+        userId,
+        totalPrice,
+        status: 'completed',
+        items: {
+          create: cartItems.map((item: any) => ({
+            gameId: item.gameId,
+            platformId: item.platformId,
+            price:
+              item.game.isOnSale && item.game.salePrice !== null
+                ? item.game.salePrice
+                : item.game.price || new (Prisma as any).Decimal(0),
+            quantity: item.quantity,
+          })),
+        },
       },
-    },
-    include: {
-      items: {
-        include: {
-          game: {
-            select: {
-              id: true,
-              title: true,
-              price: true,
-              rating: true,
+      include: {
+        items: {
+          include: {
+            game: {
+              select: {
+                id: true,
+                title: true,
+                price: true,
+                rating: true,
+              },
             },
-          },
-          platform: {
-            select: {
-              id: true,
-              name: true,
+            platform: {
+              select: {
+                id: true,
+                name: true,
+              },
             },
           },
         },
       },
-    },
-  });
+    });
 
-  await prisma.cartItem.deleteMany({
-    where: {
-      id: { in: cartItemIds },
-      userId,
-    },
+    await tx.cartItem.deleteMany({
+      where: {
+        id: { in: cartItemIds },
+        userId,
+      },
+    });
+
+    return createdPurchase;
   });
 
   return {
@@ -198,47 +257,73 @@ export async function refundPurchase(
   purchaseId: number,
   reason: string,
 ) {
-  const purchase = await prisma.purchase.findFirst({
-    where: {
-      id: purchaseId,
-      userId,
-    },
-  });
-
-  if (!purchase) {
-    throw new Error('Compra no encontrada');
-  }
-
-  if (purchase.status === 'refunded') {
-    throw new Error('Esta compra ya ha sido reembolsada');
-  }
-
-  const updated = await prisma.purchase.update({
-    where: { id: purchaseId },
-    data: {
-      status: 'refunded',
-      refundReason: reason,
-    },
-    include: {
-      items: {
-        include: {
-          game: {
-            select: {
-              id: true,
-              title: true,
-              price: true,
-              rating: true,
-            },
-          },
-          platform: {
-            select: {
-              id: true,
-              name: true,
+  const updated = await prisma.$transaction(async (tx) => {
+    const purchase = await tx.purchase.findFirst({
+      where: {
+        id: purchaseId,
+        userId,
+      },
+      include: {
+        items: {
+          include: {
+            platform: {
+              select: {
+                id: true,
+                name: true,
+              },
             },
           },
         },
       },
-    },
+    });
+
+    if (!purchase) {
+      throw new Error('Compra no encontrada');
+    }
+
+    if (purchase.status === 'refunded') {
+      throw new Error('Esta compra ya ha sido reembolsada');
+    }
+
+    for (const item of purchase.items) {
+      const stockField = getStockFieldByPlatformName(item.platform.name);
+      await tx.game.update({
+        where: { id: item.gameId },
+        data: {
+          [stockField]: { increment: item.quantity },
+          numberOfSales: { decrement: item.quantity },
+        } as any,
+      });
+    }
+
+    return tx.purchase.update({
+      where: { id: purchaseId },
+      data: {
+        status: 'refunded',
+        refundReason: reason,
+        purchasedAt: new Date(),
+      },
+      include: {
+        items: {
+          include: {
+            game: {
+              select: {
+                id: true,
+                title: true,
+                price: true,
+                rating: true,
+              },
+            },
+            platform: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
+      },
+    });
   });
 
   return {

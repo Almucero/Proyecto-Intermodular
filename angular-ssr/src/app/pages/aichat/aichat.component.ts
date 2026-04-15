@@ -85,6 +85,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   /** Temporizadores para ocultar las barras de scroll tras inactividad. */
   private sidebarActivityTimer: any;
   private mainActivityTimer: any;
+  private viewSyncQueued = false;
 
   /** Alterna la visibilidad de la barra lateral móvil. */
   toggleMobileSidebar() {
@@ -138,16 +139,31 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   /** Limpia clases específicas del body al salir del chat. */
   ngOnDestroy(): void {
     this.renderer.removeClass(this.document.body, 'chat-mode');
+    if (this.sidebarActivityTimer) {
+      clearTimeout(this.sidebarActivityTimer);
+    }
+    if (this.mainActivityTimer) {
+      clearTimeout(this.mainActivityTimer);
+    }
   }
 
   /** Gestiona el scroll automático y la visibilidad de fades tras cada ciclo de detección de cambios. */
   ngAfterViewChecked(): void {
-    if (this.shouldScrollToBottomFlag) {
-      this.scrollToBottom();
-      this.shouldScrollToBottomFlag = false;
-    }
-    this.checkMainScroll();
-    this.checkSidebarScroll();
+    this.scheduleViewSync();
+  }
+
+  private scheduleViewSync() {
+    if (this.viewSyncQueued) return;
+    this.viewSyncQueued = true;
+    queueMicrotask(() => {
+      this.viewSyncQueued = false;
+      if (this.shouldScrollToBottomFlag) {
+        this.scrollToBottom();
+        this.shouldScrollToBottomFlag = false;
+      }
+      this.checkMainScroll();
+      this.checkSidebarScroll();
+    });
   }
 
   /** Muestra la barra de scroll de la lateral al entrar el ratón. */

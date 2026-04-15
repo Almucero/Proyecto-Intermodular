@@ -1,9 +1,15 @@
 import { Inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base-service.service';
-import { PURCHASE_REPOSITORY_TOKEN } from '../../repositories/repository.tokens';
+import {
+  API_URL_TOKEN,
+  PURCHASE_REPOSITORY_TOKEN,
+  PURCHASE_RESOURCE_NAME_TOKEN,
+} from '../../repositories/repository.tokens';
 import type { IBaseRepository } from '../../repositories/interfaces/base-repository.interface';
 import { Purchase } from '../../models/purchase.model';
 import { IPurchaseService } from '../interfaces/purchase-service.interface';
+import { BaseAuthenticationService } from './base-authentication.service';
 
 /**
  * Servicio para la gestión de compras y transacciones.
@@ -21,8 +27,19 @@ export class PurchaseService
    */
   constructor(
     @Inject(PURCHASE_REPOSITORY_TOKEN) repository: IBaseRepository<Purchase>,
+    private http: HttpClient,
+    @Inject(API_URL_TOKEN) private apiUrl: string,
+    @Inject(PURCHASE_RESOURCE_NAME_TOKEN) private resource: string,
+    private auth: BaseAuthenticationService,
   ) {
     super(repository);
+  }
+
+  private getAuthHeaders(): any {
+    const headers: any = {};
+    const token = this.auth.getToken();
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+    return headers;
   }
 
   /**
@@ -32,9 +49,10 @@ export class PurchaseService
    * @returns Observable con la compra actualizada (estado 'refunded').
    */
   refund(id: number, reason: string) {
-    return this.update(id.toString(), {
-      status: 'refunded',
-      refundReason: reason,
-    } as any);
+    return this.http.post<Purchase>(
+      `${this.apiUrl}/${this.resource}/${id}/refund`,
+      { reason },
+      { headers: this.getAuthHeaders() },
+    );
   }
 }

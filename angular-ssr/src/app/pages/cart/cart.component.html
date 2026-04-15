@@ -1,4 +1,4 @@
-<div class="flex-1 w-full bg-gray-900 text-white font-sans py-8">
+<div class="cart-page-container flex-1 w-full bg-gray-900 text-white font-sans py-8">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
     <h1 class="text-3xl font-bold text-cyan-300 mb-8 text-center">
       {{ "cart.title" | translate }}
@@ -263,6 +263,48 @@
           </div>
         </div>
       }
+
     }
   </div>
+  @if (checkoutModalOpen()) {
+    <div
+      class="checkout-modal-overlay"
+      (click)="closeCheckoutModal()"
+      [style.--checkout-header-height.px]="checkoutHeaderHeight()"
+      [style.--checkout-footer-height.px]="checkoutFooterHeight()"
+    >
+      <div
+        class="checkout-modal-content"
+        (click)="$event.stopPropagation()"
+        [style.height.px]="checkoutModalHeight() ?? null"
+        [style.max-height.px]="checkoutModalHeight() ?? null"
+      >
+        <span class="checkout-corner-title">{{ "cart.buy" | translate }}</span>
+        <button
+          type="button"
+          class="checkout-modal-close"
+          (click)="closeCheckoutModal()"
+          aria-label="Close"
+        >
+          ×
+        </button>
+        @if (error()) {
+          <div class="checkout-error">{{ error() }}</div>
+        }
+        <div class="checkout-embed-shell" (scroll)="onCheckoutEmbedScroll()">
+          <div
+            class="checkout-embed-fade checkout-embed-fade-top"
+            [class.checkout-embed-fade-hidden]="!showCheckoutTopFade()"
+          ></div>
+          <div class="checkout-embed-frame">
+            <div id="stripe-checkout-embedded"></div>
+          </div>
+          <div
+            class="checkout-embed-fade checkout-embed-fade-bottom"
+            [class.checkout-embed-fade-hidden]="!showCheckoutBottomFade()"
+          ></div>
+        </div>
+      </div>
+    </div>
+  }
 </div>

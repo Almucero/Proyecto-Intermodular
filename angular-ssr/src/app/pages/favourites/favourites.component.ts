@@ -137,7 +137,7 @@ export class FavouritesComponent implements OnInit {
 
   /** Obtiene la imagen representativa de un juego favorito. */
   getGameImage(fav: Favorite): string {
-    return fav.game?.media?.[0]?.url || 'assets/images/placeholder.png';
+    return fav.game?.media?.[0]?.url || 'assets/images/ui/placeholder.webp';
   }
 
   /** Obtiene el nombre del desarrollador o editor del juego. */

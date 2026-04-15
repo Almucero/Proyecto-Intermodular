@@ -4,6 +4,7 @@ import {
   checkoutCtrl,
   getUserPurchasesCtrl,
   getPurchaseCtrl,
+  refundPurchasePatchCompatCtrl,
   refundPurchaseCtrl,
 } from './purchases.controller';
 
@@ -182,5 +183,6 @@ router.get('/:id', auth, getPurchaseCtrl);
  *               $ref: '#/components/schemas/Error'
  */
 router.post('/:id/refund', auth, refundPurchaseCtrl);
+router.patch('/:id', auth, refundPurchasePatchCompatCtrl);
 
 export default router;
