@@ -10,6 +10,7 @@ import {
   ChangeDetectorRef,
   PLATFORM_ID,
   Inject,
+  NgZone,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import type { Game } from '../../../core/models/game.model';
@@ -56,6 +57,7 @@ export class GameCardComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     private cdr: ChangeDetectorRef,
+    private ngZone: NgZone,
     @Inject(PLATFORM_ID) private platformId: Object,
   ) {}
 
@@ -103,15 +105,22 @@ export class GameCardComponent implements AfterViewInit, OnDestroy {
    */
   startLoop(): void {
     const runCycle = () => {
-      this.isMoving = false;
-      this.cdr.detectChanges();
-      this.startTimeout = setTimeout(() => {
-        this.isMoving = true;
+      this.ngZone.run(() => {
+        this.isMoving = false;
         this.cdr.detectChanges();
+      });
+      this.startTimeout = setTimeout(() => {
+        this.ngZone.run(() => {
+          this.isMoving = true;
+          this.cdr.detectChanges();
+        });
       }, this.START_DELAY_MS);
     };
-    runCycle();
-    this.loopInterval = setInterval(runCycle, this.CYCLE_DURATION_MS);
+
+    this.ngZone.runOutsideAngular(() => {
+      runCycle();
+      this.loopInterval = setInterval(runCycle, this.CYCLE_DURATION_MS);
+    });
   }
 
   /** Maneja el clic en la tarjeta y emite el ID del juego. */

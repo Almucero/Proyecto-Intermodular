@@ -268,6 +268,9 @@
                             <a href="#config" title="src/app/app.config.server.ts" ><b>config</b>&nbsp;&nbsp;&nbsp;(src/.../app.config.server.ts)</a>
                         </li>
                         <li>
+                            <a href="#confirmCheckoutSchema" title="src/backend/modules/cart/cart.controller.ts" ><b>confirmCheckoutSchema</b>&nbsp;&nbsp;&nbsp;(src/.../cart.controller.ts)</a>
+                        </li>
+                        <li>
                             <a href="#corsOptions" title="src/backend/app.ts" ><b>corsOptions</b>&nbsp;&nbsp;&nbsp;(src/.../app.ts)</a>
                         </li>
                         <li>
@@ -404,6 +407,9 @@
                         </li>
                         <li>
                             <a href="#GenreRepositoryFactory" title="src/app/core/repositories/repository.factory.ts" ><b>GenreRepositoryFactory</b>&nbsp;&nbsp;&nbsp;(src/.../repository.factory.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#getSeoTranslationForLang" title="src/server.ts" ><b>getSeoTranslationForLang</b>&nbsp;&nbsp;&nbsp;(src/.../server.ts)</a>
                         </li>
                         <li>
                             <a href="#getSessionCtrl" title="src/backend/modules/chat/chat.controller.ts" ><b>getSessionCtrl</b>&nbsp;&nbsp;&nbsp;(src/.../chat.controller.ts)</a>
@@ -674,6 +680,9 @@
                         </li>
                         <li>
                             <a href="#STRING_KEYS" title="src/backend/config/env.ts" ><b>STRING_KEYS</b>&nbsp;&nbsp;&nbsp;(src/.../env.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#stripe" title="src/backend/modules/cart/cart.service.ts" ><b>stripe</b>&nbsp;&nbsp;&nbsp;(src/.../cart.service.ts)</a>
                         </li>
                         <li>
                             <a href="#swaggerSecurityHeaders" title="src/backend/app.ts" ><b>swaggerSecurityHeaders</b>&nbsp;&nbsp;&nbsp;(src/.../app.ts)</a>
@@ -2699,6 +2708,44 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getSeoTranslationForLang"></a>
+                    <span class="name">
+                        <span ><b>getSeoTranslationForLang</b></span>
+                        <a href="#getSeoTranslationForLang"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(
+  lang: string,
+  seoTranslations: Record&lt;
+    string,
+    { desc: string; keys: string; ogTitle: string; ogDesc: string }
+  &gt;,
+) &#x3D;&gt; {
+  if (lang &#x3D;&#x3D;&#x3D; &#x27;en&#x27;) return seoTranslations.en;
+  if (lang &#x3D;&#x3D;&#x3D; &#x27;fr&#x27;) return seoTranslations.fr;
+  if (lang &#x3D;&#x3D;&#x3D; &#x27;de&#x27;) return seoTranslations.de;
+  if (lang &#x3D;&#x3D;&#x3D; &#x27;it&#x27;) return seoTranslations.it;
+  return seoTranslations.es;
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getSetupMessage"></a>
                     <span class="name">
                         <span ><b>getSetupMessage</b></span>
@@ -2898,7 +2945,7 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
       }
     };
 
-    const t &#x3D; seoTranslations[lang] || seoTranslations[&#x27;es&#x27;];
+    const t &#x3D; getSeoTranslationForLang(lang, seoTranslations);
 
     html &#x3D; html.replace(/&lt;html lang&#x3D;&quot;[^&quot;]*&quot;/, &#x60;&lt;html lang&#x3D;&quot;${lang}&quot;&#x60;);
     html &#x3D; html.replace(/&lt;meta name&#x3D;&quot;description&quot; content&#x3D;&quot;[^&quot;]*&quot;&gt;/, &#x60;&lt;meta name&#x3D;&quot;description&quot; content&#x3D;&quot;${t.desc}&quot;&gt;&#x60;);
@@ -3056,9 +3103,9 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
     }),
   );
   app.use((req, res, next) &#x3D;&gt; {
-    return Promise.resolve(angularApp.handle(req))
+    Promise.resolve(angularApp.handle(req))
       .then((response) &#x3D;&gt; processAngularResponse(req, res, next, response))
-      .catch(next);
+      .catch((error) &#x3D;&gt; next(error));
   });
 }</code>
                     </td>
@@ -6909,6 +6956,68 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
         </tbody>
     </table>
 </section>
+    <h3>src/backend/modules/cart/cart.controller.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="confirmCheckoutSchema"></a>
+                    <span class="name">
+                        <span ><b>confirmCheckoutSchema</b></span>
+                        <a href="#confirmCheckoutSchema"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>z.object({
+  sessionId: z.string().min(1, &#x27;sessionId es requerido&#x27;),
+})</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="gameIdSchema"></a>
+                    <span class="name">
+                        <span ><b>gameIdSchema</b></span>
+                        <a href="#gameIdSchema"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>z.object({
+  gameId: z.coerce
+    .number()
+    .int()
+    .positive(&#x27;gameId debe ser un número positivo&#x27;),
+})</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
     <h3>src/backend/modules/developers/developers.schema.ts</h3>
     <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
@@ -7412,6 +7521,8 @@ Si el usuario es administrador, lo redirige al panel de administración.</p>
   CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY!,
   CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET!,
   GOOGLE_GENERATIVE_AI_API_KEY: process.env.GOOGLE_GENERATIVE_AI_API_KEY!,
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY!,
+  STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY!,
   ADMIN_EMAILS: process.env.ADMIN_EMAILS!,
   ADMIN_PASSWORDS: process.env.ADMIN_PASSWORDS!,
   ADMIN_NAMES: process.env.ADMIN_NAMES!,
@@ -7503,6 +7614,8 @@ Si el usuario es administrador, lo redirige al panel de administración.</p>
   &#x27;CLOUDINARY_API_KEY&#x27;,
   &#x27;CLOUDINARY_API_SECRET&#x27;,
   &#x27;GOOGLE_GENERATIVE_AI_API_KEY&#x27;,
+  &#x27;STRIPE_SECRET_KEY&#x27;,
+  &#x27;STRIPE_PUBLISHABLE_KEY&#x27;,
   &#x27;ADMIN_EMAILS&#x27;,
   &#x27;ADMIN_PASSWORDS&#x27;,
   &#x27;ADMIN_NAMES&#x27;,
@@ -7571,40 +7684,6 @@ Si el usuario es administrador, lo redirige al panel de administración.</p>
   production: false,
   apiUrl: &#x27;&#x27;,
 }</code>
-                    </td>
-                </tr>
-
-
-        </tbody>
-    </table>
-</section>
-    <h3>src/backend/modules/cart/cart.controller.ts</h3>
-    <section data-compodoc="block-properties">
-    <h3></h3>    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="gameIdSchema"></a>
-                    <span class="name">
-                        <span ><b>gameIdSchema</b></span>
-                        <a href="#gameIdSchema"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>z.object({
-  gameId: z.coerce
-    .number()
-    .int()
-    .positive(&#x27;gameId debe ser un número positivo&#x27;),
-})</code>
                     </td>
                 </tr>
 
@@ -8839,6 +8918,35 @@ Desplaza el menú desde la izquierda (-100% a 0).</p>
 </div>
                 </td>
             </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/backend/modules/cart/cart.service.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stripe"></a>
+                    <span class="name">
+                        <span ><b>stripe</b></span>
+                        <a href="#stripe"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Stripe(env.STRIPE_SECRET_KEY)</code>
+                    </td>
+                </tr>
+
 
         </tbody>
     </table>

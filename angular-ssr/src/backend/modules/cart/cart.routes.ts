@@ -6,6 +6,8 @@ import {
   removeFromCartCtrl,
   updateCartQuantityCtrl,
   clearCartCtrl,
+  createCheckoutSessionCtrl,
+  confirmCheckoutSessionCtrl,
 } from './cart.controller';
 
 const router = Router();
@@ -194,5 +196,62 @@ router.patch('/:gameId', auth, updateCartQuantityCtrl);
  *               $ref: '#/components/schemas/Error'
  */
 router.delete('/', auth, clearCartCtrl);
+
+/**
+ * @swagger
+ * /api/cart/checkout-session:
+ *   post:
+ *     summary: Crear sesión de Stripe Checkout para el carrito actual
+ *     tags: [Cart]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Datos para renderizar Stripe Checkout embebido
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 clientSecret:
+ *                   type: string
+ *                 sessionId:
+ *                   type: string
+ *                 publishableKey:
+ *                   type: string
+ *       400:
+ *         description: Carrito vacío o precios inválidos
+ *       500:
+ *         description: Error interno del servidor
+ */
+router.post('/checkout-session', auth, createCheckoutSessionCtrl);
+
+/**
+ * @swagger
+ * /api/cart/checkout/confirm:
+ *   post:
+ *     summary: Confirmar pago de Stripe y completar compra
+ *     tags: [Cart]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [sessionId]
+ *             properties:
+ *               sessionId:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Compra registrada, stock descontado y carrito vaciado
+ *       400:
+ *         description: Sesión inválida/no pagada o sin artículos pendientes
+ *       500:
+ *         description: Error interno del servidor
+ */
+router.post('/checkout/confirm', auth, confirmCheckoutSessionCtrl);
 
 export default router;

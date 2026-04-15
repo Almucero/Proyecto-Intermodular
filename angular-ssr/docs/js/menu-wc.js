@@ -331,6 +331,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/ChatSession.html" data-type="entity-link" >ChatSession</a>
                             </li>
                             <li class="link">
+                                <a href="interfaces/CheckoutSessionResponse.html" data-type="entity-link" >CheckoutSessionResponse</a>
+                            </li>
+                            <li class="link">
                                 <a href="interfaces/Developer.html" data-type="entity-link" >Developer</a>
                             </li>
                             <li class="link">

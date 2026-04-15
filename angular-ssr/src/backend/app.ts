@@ -26,14 +26,16 @@ import { prisma } from './config/db';
 
 const originalConsoleWarn = console.warn.bind(console);
 console.warn = (...args: unknown[]) => {
-  const first = typeof args[0] === 'string' ? args[0] : '';
+  const joined = args
+    .filter((arg): arg is string => typeof arg === 'string')
+    .join(' ');
 
   if (
-    first.startsWith(
+    joined.includes(
       'router deprecated handlers that are Promise-like are deprecated',
     ) ||
-    first.startsWith('Cleanup error:') ||
-    first.startsWith('No purchase ID available')
+    joined.includes('Cleanup error:') ||
+    joined.includes('No purchase ID available')
   ) {
     return;
   }
@@ -122,7 +124,6 @@ app.use((req, res, next) => {
   };
 
   if (hasNullByte(req.query) || hasNullByte(req.params) || hasNullByte(req.body)) {
-    // eslint-disable-next-line security/detect-possible-timing-attacks
     res.status(400).json({ message: 'Caracteres no válidos detectados' });
     return;
   }
@@ -152,31 +153,33 @@ app.get('/api/diagnostic', (_req, res) =>
   res.json({ ok: true, msg: 'Backend is alive' }),
 );
 
-app.get('/sitemap-products.xml', async (req, res) => {
-  try {
-    const games = await prisma.game.findMany({
+app.get('/sitemap-products.xml', (req, res) => {
+  void prisma.game
+    .findMany({
       select: { id: true, releaseDate: true },
-      orderBy: { id: 'desc' }
-    });
-
-    let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
-    for (const game of games) {
-      const lastMod = game.releaseDate ? new Date(game.releaseDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0];
-      xml += `
+      orderBy: { id: 'desc' },
+    })
+    .then((games: Array<{ id: number; releaseDate: Date | null }>) => {
+      let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+      for (const game of games) {
+        const lastMod = game.releaseDate
+          ? new Date(game.releaseDate).toISOString().split('T')[0]
+          : new Date().toISOString().split('T')[0];
+        xml += `
   <url>
     <loc>https://game-sage.vercel.app/product/${game.id}</loc>
     <lastmod>${lastMod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>`;
-    }
-    xml += `\n</urlset>`;
-
-    res.header('Content-Type', 'application/xml');
-    res.send(xml);
-  } catch (error) {
-    res.status(500).end();
-  }
+      }
+      xml += `\n</urlset>`;
+      res.header('Content-Type', 'application/xml');
+      res.send(xml);
+    })
+    .catch(() => {
+      res.status(500).end();
+    });
 });
 
 const swaggerSecurityHeaders = (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -246,6 +249,9 @@ app.use('/api/favorites', favoritesRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/purchases', purchasesRoutes);
 app.use('/api/chat', chatRoutes);
+app.use('/api', (_req, res) =>
+  res.status(404).json({ message: 'Endpoint API no encontrado' }),
+);
 
 app.use(errorHandler);
 

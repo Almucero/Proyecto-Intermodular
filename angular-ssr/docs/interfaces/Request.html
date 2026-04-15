@@ -233,7 +233,7 @@ declare global {
   }
 }
 
-export async function auth(req: Request, res: Response, next: NextFunction) {
+export function auth(req: Request, res: Response, next: NextFunction) {
   applySecurityHeaders(req, res);
   applyNoCacheHeaders(res);
   
@@ -249,40 +249,51 @@ export async function auth(req: Request, res: Response, next: NextFunction) {
     return res.status(401).json({ message: &#x27;No autorizado&#x27; });
   }
 
+  let payload: any;
   try {
-    const payload &#x3D; jwt.verify(token, env.JWT_SECRET, {
+    payload &#x3D; jwt.verify(token, env.JWT_SECRET, {
       issuer: env.JWT_ISSUER,
       audience: env.JWT_AUDIENCE,
     });
-
-    if (
-      typeof payload !&#x3D;&#x3D; &#x27;object&#x27; ||
-      payload &#x3D;&#x3D;&#x3D; null ||
-      !(&#x27;sub&#x27; in payload) ||
-      !(&#x27;email&#x27; in payload) ||
-      typeof payload.sub !&#x3D;&#x3D; &#x27;number&#x27; ||
-      typeof payload.email !&#x3D;&#x3D; &#x27;string&#x27;
-    ) {
-      return res.status(401).json({ message: &#x27;Token inválido&#x27; });
-    }
-
-    const userInfo &#x3D; await findUserAuthInfo(payload.sub);
-    if (userInfo?.passwordChangedAt &amp;&amp; typeof (payload as any).iat &#x3D;&#x3D;&#x3D; &#x27;number&#x27;) {
-      const changedAt &#x3D; Math.floor(new Date(userInfo.passwordChangedAt).getTime() / 1000);
-      if ((payload as any).iat &lt; changedAt) {
-        return res.status(401).json({ message: &#x27;Token expirado. Vuelve a iniciar sesión&#x27; });
-      }
-    }
-
-    req.user &#x3D; {
-      sub: payload.sub,
-      email: payload.email,
-      isAdmin: (payload as any).isAdmin ?? false,
-    };
-    next();
-  } catch (error) {
+  } catch {
     return res.status(401).json({ message: &#x27;Token inválido&#x27; });
   }
+
+  if (
+    typeof payload !&#x3D;&#x3D; &#x27;object&#x27; ||
+    payload &#x3D;&#x3D;&#x3D; null ||
+    !(&#x27;sub&#x27; in payload) ||
+    !(&#x27;email&#x27; in payload) ||
+    typeof payload.sub !&#x3D;&#x3D; &#x27;number&#x27; ||
+    typeof payload.email !&#x3D;&#x3D; &#x27;string&#x27;
+  ) {
+    return res.status(401).json({ message: &#x27;Token inválido&#x27; });
+  }
+
+  void findUserAuthInfo(payload.sub)
+    .then((userInfo) &#x3D;&gt; {
+      if (userInfo?.passwordChangedAt &amp;&amp; typeof payload.iat &#x3D;&#x3D;&#x3D; &#x27;number&#x27;) {
+        const changedAt &#x3D; Math.floor(
+          new Date(userInfo.passwordChangedAt).getTime() / 1000,
+        );
+        if (payload.iat &lt; changedAt) {
+          res
+            .status(401)
+            .json({ message: &#x27;Token expirado. Vuelve a iniciar sesión&#x27; });
+          return;
+        }
+      }
+
+      req.user &#x3D; {
+        sub: payload.sub,
+        email: payload.email,
+        isAdmin: payload.isAdmin ?? false,
+      };
+      next();
+    })
+    .catch(() &#x3D;&gt; {
+      res.status(401).json({ message: &#x27;Token inválido&#x27; });
+    });
 }
 </code></pre>
     </div>

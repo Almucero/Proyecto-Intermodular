@@ -3,18 +3,27 @@ import { z } from 'zod';
 import { updateCartQuantitySchema, addToCartSchema } from './cart.schema';
 import {
   addToCart,
+  confirmCheckoutSession,
+  createCheckoutSession,
   removeFromCart,
   updateQuantity,
   getUserCart,
   clearCart,
 } from './cart.service';
-import { logger } from '../../utils/logger';
 
 const gameIdSchema = z.object({
   gameId: z.coerce
     .number()
     .int()
     .positive('gameId debe ser un número positivo'),
+});
+
+const confirmCheckoutSchema = z.object({
+  sessionId: z.string().min(1, 'sessionId es requerido'),
+});
+
+const createCheckoutSessionSchema = z.object({
+  locale: z.string().trim().min(2).max(20).optional(),
 });
 
 export async function addToCartCtrl(
@@ -35,9 +44,6 @@ export async function addToCartCtrl(
 
     const cartItem = await addToCart(user.sub, gameId, platformId, quantity);
 
-    logger.info(
-      `User ${user.sub} added game ${gameId} (platform ${platformId}) to cart (qty: ${quantity})`,
-    );
     res.status(201).json(cartItem);
   } catch (error: any) {
     if (error.code === 'P2002') {
@@ -46,9 +52,6 @@ export async function addToCartCtrl(
         if (bodyParsed.success) {
           const { gameId, quantity, platformId } = bodyParsed.data;
           const cartItem = await addToCart(user.sub, gameId, platformId, quantity);
-          logger.info(
-            `User ${user.sub} added game ${gameId} (platform ${platformId}) to cart (qty: ${quantity}) - retry after conflict`,
-          );
           return res.status(201).json(cartItem);
         }
       } catch (retryError: any) {
@@ -90,9 +93,6 @@ export async function removeFromCartCtrl(
 
     const result = await removeFromCart(user.sub, gameId, platformId);
 
-    logger.info(
-      `User ${user.sub} removed game ${gameId} (platform ${platformId}) from cart`,
-    );
     res.status(200).json(result);
   } catch (error: any) {
     if (error.code === 'P2025') {
@@ -132,9 +132,6 @@ export async function updateCartQuantityCtrl(
       quantity,
     );
 
-    logger.info(
-      `User ${user.sub} updated cart item ${gameId} (platform ${platformId}) quantity to ${quantity}`,
-    );
     res.status(200).json(cartItem);
   } catch (error: any) {
     if (error.code === 'P2025') {
@@ -175,9 +172,68 @@ export async function clearCartCtrl(
 
     await clearCart(user.sub);
 
-    logger.info(`User ${user.sub} cleared cart`);
     res.status(200).json({ message: 'Carrito vaciado' });
   } catch (error) {
+    next(error);
+  }
+}
+
+export async function createCheckoutSessionCtrl(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const user = req.user!;
+    const bodyParsed = createCheckoutSessionSchema.safeParse(req.body);
+    if (!bodyParsed.success) {
+      return res.status(400).json({ errors: bodyParsed.error.flatten() });
+    }
+    const protocol =
+      (req.headers['x-forwarded-proto'] as string) ||
+      (req.secure ? 'https' : 'http');
+    const host = req.get('host');
+    const origin = `${protocol}://${host}`;
+    const session = await createCheckoutSession(
+      user.sub,
+      origin,
+      bodyParsed.data.locale,
+    );
+    res.status(200).json(session);
+  } catch (error: any) {
+    if (
+      error.message === 'El carrito está vacío' ||
+      error.message?.startsWith('Precio inválido para') ||
+      error.message === 'No se pudo crear la sesión de pago embebida'
+    ) {
+      return res.status(400).json({ message: error.message });
+    }
+    next(error);
+  }
+}
+
+export async function confirmCheckoutSessionCtrl(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const user = req.user!;
+    const parsed = confirmCheckoutSchema.safeParse(req.body);
+    if (!parsed.success) {
+      return res.status(400).json({ errors: parsed.error.flatten() });
+    }
+    const purchase = await confirmCheckoutSession(user.sub, parsed.data.sessionId);
+    res.status(200).json(purchase);
+  } catch (error: any) {
+    if (
+      error.message === 'La sesión de pago no está completada' ||
+      error.message === 'La sesión de pago no pertenece al usuario autenticado' ||
+      error.message === 'No hay artículos pendientes de compra' ||
+      error.message?.startsWith('Stock insuficiente para')
+    ) {
+      return res.status(400).json({ message: error.message });
+    }
     next(error);
   }
 }

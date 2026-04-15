@@ -55,32 +55,32 @@ export class ProductComponent implements OnInit {
   allPlatforms = [
     {
       name: 'PC',
-      image: 'assets/images/platforms/pc.png',
+      image: 'assets/images/platforms/pc.webp',
       stockKey: 'stockPc' as const,
     },
     {
       name: 'PS5',
-      image: 'assets/images/platforms/ps5.png',
+      image: 'assets/images/platforms/ps5.webp',
       stockKey: 'stockPs5' as const,
     },
     {
       name: 'Xbox Series X',
-      image: 'assets/images/platforms/xbox-series-x.png',
+      image: 'assets/images/platforms/xbox-series-x.webp',
       stockKey: 'stockXboxX' as const,
     },
     {
       name: 'Switch',
-      image: 'assets/images/platforms/switch.png',
+      image: 'assets/images/platforms/switch.webp',
       stockKey: 'stockSwitch' as const,
     },
     {
       name: 'PS4',
-      image: 'assets/images/platforms/ps4.png',
+      image: 'assets/images/platforms/ps4.webp',
       stockKey: 'stockPs4' as const,
     },
     {
       name: 'Xbox One',
-      image: 'assets/images/platforms/xbox-one.png',
+      image: 'assets/images/platforms/xbox-one.webp',
       stockKey: 'stockXboxOne' as const,
     },
   ];
@@ -208,7 +208,7 @@ export class ProductComponent implements OnInit {
       this.mediaItems.push({
         type: 'image',
         label: 'Loading...',
-        url: 'assets/images/placeholder.jpg',
+        url: 'assets/images/ui/placeholder.webp',
       });
       return;
     }
