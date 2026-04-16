@@ -55,6 +55,17 @@ export class GameCardComponent implements AfterViewInit, OnDestroy {
   private loopInterval: any;
   private startTimeout: any;
 
+  /** Referencia al wrapper de la imagen para aplicar el tilt. */
+  @ViewChild('tiltInner') tiltInnerElement?: ElementRef<HTMLElement>;
+  private tiltSupported = false;
+  private tiltRafId: number | null = null;
+  private tiltCurrentX = 0;
+  private tiltCurrentY = 0;
+  private tiltTargetX = 0;
+  private tiltTargetY = 0;
+  private tiltMaxRotateDeg = 8;
+  private tiltMaxTranslatePx = 6;
+
   constructor(
     private cdr: ChangeDetectorRef,
     private ngZone: NgZone,
@@ -67,6 +78,7 @@ export class GameCardComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       window.requestAnimationFrame(() => this.initAnimationLogic());
+      this.tiltSupported = true;
     }
   }
 
@@ -74,6 +86,7 @@ export class GameCardComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.loopInterval) clearInterval(this.loopInterval);
     if (this.startTimeout) clearTimeout(this.startTimeout);
+    if (this.tiltRafId !== null) cancelAnimationFrame(this.tiltRafId);
   }
 
   /**
@@ -126,5 +139,90 @@ export class GameCardComponent implements AfterViewInit, OnDestroy {
   /** Maneja el clic en la tarjeta y emite el ID del juego. */
   onClick(): void {
     this.cardClick.emit(this.game.id);
+  }
+
+  onTiltMove(e: MouseEvent): void {
+    if (!this.tiltSupported || this.game.id === -1) return;
+    if (e.buttons === 1) return;
+
+    const tiltInnerEl = this.tiltInnerElement?.nativeElement;
+    if (!tiltInnerEl) return;
+
+    const rootEl = tiltInnerEl.parentElement;
+    if (!rootEl) return;
+
+    const rect = rootEl.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+
+    const normalizedX = (x - 0.5) * 2; // [-1, 1]
+    const normalizedY = (y - 0.5) * 2; // [-1, 1]
+
+    this.tiltTargetX = Math.max(-1, Math.min(1, normalizedX));
+    this.tiltTargetY = Math.max(-1, Math.min(1, normalizedY));
+    this.startTiltAnimation(rootEl as HTMLElement);
+  }
+
+  onTiltLeave(): void {
+    const el = this.tiltInnerElement?.nativeElement;
+    if (!el) return;
+
+    const targetEl = el.parentElement as HTMLElement | null;
+    if (!targetEl) return;
+
+    this.tiltTargetX = 0;
+    this.tiltTargetY = 0;
+    this.startTiltAnimation(targetEl);
+  }
+
+  private startTiltAnimation(targetEl: HTMLElement): void {
+    if (this.tiltRafId !== null) return;
+
+    const smoothFactor = 0.14; // Progresivo (lerp) para evitar saltos
+    const stopThreshold = 0.0015;
+
+    const step = () => {
+      const dx = this.tiltTargetX - this.tiltCurrentX;
+      const dy = this.tiltTargetY - this.tiltCurrentY;
+
+      this.tiltCurrentX += dx * smoothFactor;
+      this.tiltCurrentY += dy * smoothFactor;
+
+      const depth = Math.max(
+        Math.abs(this.tiltCurrentX),
+        Math.abs(this.tiltCurrentY),
+      );
+
+      const rotateY = this.tiltCurrentX * this.tiltMaxRotateDeg;
+      const rotateX = -this.tiltCurrentY * this.tiltMaxRotateDeg;
+      const translateX = this.tiltCurrentX * this.tiltMaxTranslatePx;
+      const translateY = this.tiltCurrentY * this.tiltMaxTranslatePx;
+
+      const scale = 1 + depth * 0.06;
+      const shadowX = this.tiltCurrentX * 10;
+      const shadowY = this.tiltCurrentY * 12;
+      const blur = 18 + depth * 22;
+      const alpha = 0.18 + depth * 0.18;
+
+      targetEl.style.transition = 'transform 0ms linear, box-shadow 0ms linear';
+      targetEl.style.transform = `perspective(800px) scale(${scale}) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translate(${translateX}px, ${translateY}px)`;
+      targetEl.style.boxShadow = `${shadowX}px ${shadowY + 10}px ${blur}px rgba(0,0,0,${alpha})`;
+
+      if (Math.abs(dx) < stopThreshold && Math.abs(dy) < stopThreshold) {
+        this.tiltRafId = null;
+        this.tiltCurrentX = this.tiltTargetX;
+        this.tiltCurrentY = this.tiltTargetY;
+        if (this.tiltTargetX === 0 && this.tiltTargetY === 0) {
+          targetEl.style.boxShadow = '';
+          targetEl.style.transform =
+            'perspective(800px) rotateX(0deg) rotateY(0deg) translate(0px, 0px)';
+        }
+        return;
+      }
+
+      this.tiltRafId = window.requestAnimationFrame(step);
+    };
+
+    this.tiltRafId = window.requestAnimationFrame(step);
   }
 }

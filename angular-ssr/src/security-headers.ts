@@ -16,7 +16,7 @@ export function applySecurityHeaders(req: Request, res: Response, next?: NextFun
   // Content Security Policy
   let csp = "default-src 'self'; " +
     "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com; " +
-    "img-src 'self' data: https://res.cloudinary.com https://img.youtube.com blob:; " +
+    "img-src 'self' data: https://res.cloudinary.com https://img.youtube.com https://upload.wikimedia.org blob:; " +
     "font-src 'self' data: https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.gstatic.com; " +
     "frame-src 'self' https://www.youtube-nocookie.com https://js.stripe.com https://hooks.stripe.com; " +
     "frame-ancestors 'self'; " +

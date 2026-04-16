@@ -8,6 +8,8 @@
   <div
     class="h-32 bg-gray-700 rounded-xl overflow-hidden shadow-md md:group-hover:scale-105 transition-transform duration-300 relative mobile-responsive-image"
     [class.animate-pulse]="game.id === -1"
+    (mousemove)="onTiltMove($event)"
+    (mouseleave)="onTiltLeave()"
   >
     <ng-container *ngIf="game.id !== -1">
       <img
@@ -15,13 +17,18 @@
         src="assets/images/ui/sale.webp"
         class="absolute top-0 left-0 w-16 h-16 z-30 pointer-events-none"
       />
-      <img
-        [src]="coverUrl"
-        [alt]="game.title"
-        class="w-full h-full object-cover pointer-events-none absolute inset-0 z-10"
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer"
-      />
+      <div
+        #tiltInner
+        class="game-card-tilt-inner absolute inset-0 z-10 pointer-events-none"
+      >
+        <img
+          [src]="coverUrl"
+          [alt]="game.title"
+          class="w-full h-full object-cover pointer-events-none"
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        />
+      </div>
     </ng-container>
   </div>
 

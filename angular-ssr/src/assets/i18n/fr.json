@@ -39,6 +39,8 @@
   },
   "admin": {
     "title": "Admin",
+    "unavailableTitle": "Acces indisponible",
+    "desktopOnly": "Les options d'administration sont disponibles uniquement en mode bureau.",
     "menu": {
       "genres": "Genres",
       "developers": "Développeurs",
