@@ -27,6 +27,11 @@
   }
 }
 
+.game-card-tilt-inner {
+  transform-origin: center;
+  will-change: transform;
+}
+
 @keyframes scroll-linear {
   0% {
     transform: translateX(0);

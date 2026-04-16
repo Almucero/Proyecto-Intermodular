@@ -1,4 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { BaseAuthenticationService } from '../../core/services/impl/base-authentication.service';
@@ -17,11 +18,28 @@ import { BaseAuthenticationService } from '../../core/services/impl/base-authent
 export class AdminComponent implements OnInit {
   private auth = inject(BaseAuthenticationService);
   private router = inject(Router);
+  private platformId = inject(PLATFORM_ID);
+  isDesktopAdminView = true;
 
   /**
    * Inicialización del componente de administración.
    */
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.updateViewportMode();
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.updateViewportMode();
+  }
+
+  private updateViewportMode() {
+    if (!isPlatformBrowser(this.platformId)) {
+      this.isDesktopAdminView = true;
+      return;
+    }
+    this.isDesktopAdminView = window.innerWidth >= 1024;
+  }
 
   /**
    * Cierra la sesión del administrador y redirige a la página de inicio de sesión.

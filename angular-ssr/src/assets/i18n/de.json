@@ -41,6 +41,8 @@
   },
   "admin": {
     "title": "Admin",
+    "unavailableTitle": "Zugriff nicht verfugbar",
+    "desktopOnly": "Die Administratoroptionen sind nur im Desktopmodus verfugbar.",
     "menu": {
       "genres": "Genres",
       "developers": "Entwickler",

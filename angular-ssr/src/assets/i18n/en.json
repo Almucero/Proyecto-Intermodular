@@ -40,6 +40,8 @@
   },
   "admin": {
     "title": "Admin",
+    "unavailableTitle": "Access unavailable",
+    "desktopOnly": "Administrator options are available only in desktop mode.",
     "menu": {
       "genres": "Genres",
       "developers": "Developers",

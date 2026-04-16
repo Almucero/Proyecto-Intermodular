@@ -2,8 +2,8 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { BaseAuthenticationService } from './base-authentication.service';
 import { IAuthMapping } from '../interfaces/auth-mapping.interface';
-import { HttpClient } from '@angular/common/http';
-import { Observable, map, tap } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, map, retry, tap, throwError, timer } from 'rxjs';
 import {
   AUTH_MAPPING_TOKEN,
   AUTH_SIGN_IN_API_URL_TOKEN,
@@ -25,6 +25,7 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
   private readonly AUTH_KEY = 'AUTH_TOKEN';
   private rememberMeActive = false;
   private isBrowser: boolean;
+  private autoLoginStarted = false;
 
   /**
    * @param http Cliente HTTP para realizar peticiones.
@@ -44,6 +45,7 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
   ) {
     super(authMapping);
     this.isBrowser = isPlatformBrowser(this.platformId);
+    this.autoLogin();
   }
 
   /**
@@ -51,14 +53,37 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
    * Si existe un token válido, obtiene los datos del usuario.
    */
   public autoLogin() {
+    if (this.autoLoginStarted) {
+      return;
+    }
+    this.autoLoginStarted = true;
+
     if (!this.isBrowser) {
       this._ready.next(true);
       return;
     }
-    const token = localStorage.getItem(this.AUTH_KEY);
+    const token = this.getToken();
 
     if (token) {
-      this.me().subscribe({
+      this.me()
+        .pipe(
+          retry({
+            count: 5,
+            delay: (error, retryCount) => {
+              const httpError = error as HttpErrorResponse;
+              const shouldRetry =
+                httpError?.status === 401 ||
+                httpError?.status === 0 ||
+                httpError?.status >= 500;
+              if (!shouldRetry) {
+                return throwError(() => error);
+              }
+              const retryDelayMs = Math.min(1000 * retryCount, 3000);
+              return timer(retryDelayMs);
+            },
+          }),
+        )
+        .subscribe({
         next: () => {
           this._ready.next(true);
         },
@@ -66,7 +91,7 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
           this.signOut();
           this._ready.next(true);
         },
-      });
+        });
     } else {
       this._ready.next(true);
     }
