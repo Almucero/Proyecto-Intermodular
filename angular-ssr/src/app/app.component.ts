@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { ErrorToastComponent } from './shared/components/error-toast/error-toast.component';
-import { LanguageService } from './core/services/language.service';
 import { BaseAuthenticationService } from './core/services/impl/base-authentication.service';
 import { routeFadeAnimation } from './animations/route-fade.animation';
 import { UiStateService } from './core/services/impl/ui-state.service';
@@ -20,6 +19,7 @@ import { FooterComponent } from './shared/components/footer/footer.component';
 import { loadingAnimation } from './animations/loading.animation';
 import { revealAnimation } from './animations/reveal.animation';
 import { headerRevealAnimation } from './animations/header-reveal.animation';
+import { PageTitleService } from './core/services/page-title.service';
 
 /**
  * Componente raíz de la aplicación GameSage.
@@ -60,12 +60,12 @@ export class AppComponent {
   public isHomePage = false;
 
   private authService = inject(BaseAuthenticationService);
-  private languageService = inject(LanguageService);
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
   private uiState = inject(UiStateService);
   private platformId = inject(PLATFORM_ID);
   private document = inject(DOCUMENT);
+  private pageTitleService = inject(PageTitleService);
 
   /**
    * Inicializa la aplicación, gestiona el auto-login y el estado de la pantalla de carga.
@@ -98,7 +98,10 @@ export class AppComponent {
         if (isPlatformBrowser(this.platformId)) {
           window.scrollTo(0, 0);
         }
+        this.pageTitleService.updateFromRoute(this.router.url);
       });
+
+    this.pageTitleService.updateFromRoute(this.router.url);
 
     /**
      * Sincroniza el scroll del body con el estado del menú hamburguesa (mobile).

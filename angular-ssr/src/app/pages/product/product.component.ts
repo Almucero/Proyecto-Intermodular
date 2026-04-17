@@ -12,6 +12,7 @@ import { CartItem } from '../../core/models/cart-item.model';
 import { Favorite } from '../../core/models/favorite.model';
 import { Game } from '../../core/models/game.model';
 import { LocalizedCurrencyPipe } from '../../shared/pipes/localized-currency.pipe';
+import { PageTitleService } from '../../core/services/page-title.service';
 
 interface MediaItem {
   type: 'video' | 'image';
@@ -130,6 +131,7 @@ export class ProductComponent implements OnInit {
     private favoriteService: FavoriteService,
     private authService: BaseAuthenticationService,
     @Inject(Router) private router: Router,
+    private pageTitleService: PageTitleService,
   ) {}
 
   /**
@@ -183,6 +185,7 @@ export class ProductComponent implements OnInit {
         this.mediaService.getAll({}).subscribe((allMedia) => {
           game.media = allMedia.filter((m) => m.gameId === game.id);
           this.game = game;
+          this.pageTitleService.setProductTitle(game.title);
           this.buildMediaItems();
 
           const availablePlatforms = this.allPlatforms.filter((platform) =>
