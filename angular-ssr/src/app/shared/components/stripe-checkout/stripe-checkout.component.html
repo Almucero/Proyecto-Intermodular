@@ -1,0 +1,43 @@
+@if (open) {
+  <div
+    class="checkout-modal-overlay"
+    (click)="requestClose()"
+    [style.--checkout-header-height.px]="checkoutHeaderHeight()"
+    [style.--checkout-footer-height.px]="checkoutFooterHeight()"
+  >
+    <div
+      class="checkout-modal-content"
+      (click)="$event.stopPropagation()"
+      [style.height.px]="checkoutModalHeight() ?? null"
+      [style.max-height.px]="checkoutModalHeight() ?? null"
+    >
+      <div class="checkout-modal-header">
+        <span class="checkout-corner-title">{{ titleKey | translate }}</span>
+        <button
+          type="button"
+          class="checkout-modal-close"
+          (click)="requestClose()"
+          aria-label="Close"
+        >
+          ×
+        </button>
+      </div>
+      @if (error()) {
+        <div class="checkout-error">{{ error() }}</div>
+      }
+      <div class="checkout-embed-shell" (scroll)="onCheckoutEmbedScroll()">
+        <div
+          class="checkout-embed-fade checkout-embed-fade-top"
+          [class.checkout-embed-fade-hidden]="!showCheckoutTopFade()"
+        ></div>
+        <div class="checkout-embed-frame">
+          <div [id]="getEmbeddedContainerId()"></div>
+        </div>
+        <div
+          class="checkout-embed-fade checkout-embed-fade-bottom"
+          [class.checkout-embed-fade-hidden]="!showCheckoutBottomFade()"
+        ></div>
+      </div>
+    </div>
+  </div>
+}

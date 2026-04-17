@@ -27,6 +27,29 @@
   "header": {
     "menu": "Menú"
   },
+  "pageTitle": {
+    "home": "Página de inicio",
+    "login": "Iniciar sesión",
+    "register": "Registro",
+    "dashboard": "Panel de usuario",
+    "product": "Detalle del juego",
+    "aichat": "Chat IA",
+    "favourites": "Favoritos",
+    "cart": "Cesta",
+    "settings": "Ajustes",
+    "help": "Ayuda",
+    "contact": "Contacto",
+    "privacy": "Políticas de privacidad",
+    "conditions": "Términos y condiciones",
+    "cookies": "Configuración de cookies",
+    "search": "Búsqueda",
+    "admin": "Administración",
+    "adminGenres": "Administración - Géneros",
+    "adminDevelopers": "Administración - Desarrolladores",
+    "adminPlatforms": "Administración - Plataformas",
+    "adminPublishers": "Administración - Editores",
+    "adminGames": "Administración - Juegos"
+  },
   "menu": {
     "home": "Inicio",
     "explore": "Explorar",

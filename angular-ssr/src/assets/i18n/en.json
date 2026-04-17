@@ -27,6 +27,29 @@
   "header": {
     "menu": "Menu"
   },
+  "pageTitle": {
+    "home": "Home",
+    "login": "Login",
+    "register": "Register",
+    "dashboard": "User Dashboard",
+    "product": "Game Details",
+    "aichat": "AI Chat",
+    "favourites": "Favorites",
+    "cart": "Cart",
+    "settings": "Settings",
+    "help": "Help",
+    "contact": "Contact",
+    "privacy": "Privacy Policy",
+    "conditions": "Terms & Conditions",
+    "cookies": "Cookie Settings",
+    "search": "Search",
+    "admin": "Administration",
+    "adminGenres": "Administration - Genres",
+    "adminDevelopers": "Administration - Developers",
+    "adminPlatforms": "Administration - Platforms",
+    "adminPublishers": "Administration - Publishers",
+    "adminGames": "Administration - Games"
+  },
   "menu": {
     "home": "Home",
     "explore": "Explore",
