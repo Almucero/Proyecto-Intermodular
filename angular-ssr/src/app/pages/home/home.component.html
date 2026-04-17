@@ -35,8 +35,12 @@
             class="relative flex items-center"
           >
             <span
-              class="w-auto min-w-[8rem] px-6 py-2 bg-gray-800 hover:bg-cyan-500 hover:text-white transition rounded-full cursor-pointer text-sm sm:text-base text-center truncate duration-150 active:scale-95 mobile-pill"
+              #genrePill
+              class="genre-pill w-auto min-w-[8rem] px-6 py-2 bg-gray-800 hover:bg-cyan-500 hover:text-white transition-all duration-500 ease-out rounded-full cursor-pointer text-sm sm:text-base text-center truncate active:scale-95 mobile-pill"
               (click)="goToGenres(gen.value)"
+              (mouseenter)="onGenreTiltEnter(gen.value, genrePill)"
+              (mousemove)="onGenreTiltMove($event, gen.value, genrePill)"
+              (mouseleave)="onGenreTiltLeave(gen.value, genrePill)"
               [title]="gen.key | translate"
             >
               {{ gen.key | translate }}

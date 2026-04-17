@@ -98,14 +98,14 @@
               <div class="flex flex-col items-start w-full mb-1">
                 @if (fav.game?.isOnSale && fav.game?.salePrice !== null) {
                   <span class="text-xs text-gray-400 line-through"
-                    >{{ fav.game?.price }}€</span
+                    >{{ fav.game?.price | localizedCurrency: "none" }}</span
                   >
                   <p class="text-2xl font-bold text-cyan-400">
-                    {{ fav.game?.salePrice }}€
+                    {{ fav.game?.salePrice | localizedCurrency }}
                   </p>
                 } @else {
                   <p class="text-2xl font-bold text-cyan-400">
-                    {{ fav.game?.price }}€
+                    {{ fav.game?.price | localizedCurrency }}
                   </p>
                 }
               </div>
@@ -158,14 +158,14 @@
               <div class="flex items-baseline gap-2">
                 @if (fav.game?.isOnSale && fav.game?.salePrice !== null) {
                   <p class="text-3xl font-bold text-cyan-400">
-                    {{ fav.game?.salePrice }}€
+                    {{ fav.game?.salePrice | localizedCurrency }}
                   </p>
                   <span class="text-white line-through text-lg"
-                    >{{ fav.game?.price }}€</span
+                    >{{ fav.game?.price | localizedCurrency: "none" }}</span
                   >
                 } @else {
                   <p class="text-3xl font-bold text-cyan-400">
-                    {{ fav.game?.price }}€
+                    {{ fav.game?.price | localizedCurrency }}
                   </p>
                 }
               </div>

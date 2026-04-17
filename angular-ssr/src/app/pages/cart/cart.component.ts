@@ -12,6 +12,7 @@ import { firstValueFrom } from 'rxjs';
 import { StripeEmbeddedCheckout, loadStripe } from '@stripe/stripe-js';
 import type { CheckoutSessionResponse } from '../../core/services/impl/cart-item.service';
 import { LanguageService } from '../../core/services/language.service';
+import { LocalizedCurrencyPipe } from '../../shared/pipes/localized-currency.pipe';
 
 /**
  * Componente de la página del Carrito de Compras.
@@ -21,7 +22,7 @@ import { LanguageService } from '../../core/services/language.service';
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, TranslateModule, RouterLink],
+  imports: [CommonModule, TranslateModule, RouterLink, LocalizedCurrencyPipe],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss',
 })

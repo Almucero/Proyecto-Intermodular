@@ -15,6 +15,7 @@ import {
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import type { Game } from '../../../core/models/game.model';
 import { TranslatePipe } from '@ngx-translate/core';
+import { LocalizedCurrencyPipe } from '../../pipes/localized-currency.pipe';
 
 /**
  * Componente de tarjeta para mostrar un juego individual.
@@ -24,7 +25,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 @Component({
   selector: 'app-game-card',
   standalone: true,
-  imports: [CommonModule, TranslatePipe],
+  imports: [CommonModule, TranslatePipe, LocalizedCurrencyPipe],
   templateUrl: './game-card.component.html',
   styleUrl: './game-card.component.scss',
 })
@@ -57,14 +58,17 @@ export class GameCardComponent implements AfterViewInit, OnDestroy {
 
   /** Referencia al wrapper de la imagen para aplicar el tilt. */
   @ViewChild('tiltInner') tiltInnerElement?: ElementRef<HTMLElement>;
+  @ViewChild('tiltShell') tiltShellElement?: ElementRef<HTMLElement>;
   private tiltSupported = false;
   private tiltRafId: number | null = null;
   private tiltCurrentX = 0;
   private tiltCurrentY = 0;
   private tiltTargetX = 0;
   private tiltTargetY = 0;
-  private tiltMaxRotateDeg = 8;
-  private tiltMaxTranslatePx = 6;
+  private tiltHoverCurrent = 0;
+  private tiltHoverTarget = 0;
+  private tiltMaxRotateDeg = 5;
+  private tiltMaxTranslatePx = 3.5;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -145,13 +149,10 @@ export class GameCardComponent implements AfterViewInit, OnDestroy {
     if (!this.tiltSupported || this.game.id === -1) return;
     if (e.buttons === 1) return;
 
-    const tiltInnerEl = this.tiltInnerElement?.nativeElement;
-    if (!tiltInnerEl) return;
+    const shellEl = this.tiltShellElement?.nativeElement;
+    if (!shellEl) return;
 
-    const rootEl = tiltInnerEl.parentElement;
-    if (!rootEl) return;
-
-    const rect = rootEl.getBoundingClientRect();
+    const rect = shellEl.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top) / rect.height;
 
@@ -160,33 +161,42 @@ export class GameCardComponent implements AfterViewInit, OnDestroy {
 
     this.tiltTargetX = Math.max(-1, Math.min(1, normalizedX));
     this.tiltTargetY = Math.max(-1, Math.min(1, normalizedY));
-    this.startTiltAnimation(rootEl as HTMLElement);
+    this.startTiltAnimation(shellEl);
+  }
+
+  onTiltEnter(): void {
+    if (!this.tiltSupported || this.game.id === -1) return;
+    const shellEl = this.tiltShellElement?.nativeElement;
+    if (!shellEl) return;
+    this.tiltHoverTarget = 1;
+    this.startTiltAnimation(shellEl);
   }
 
   onTiltLeave(): void {
-    const el = this.tiltInnerElement?.nativeElement;
-    if (!el) return;
+    const shellEl = this.tiltShellElement?.nativeElement;
+    if (!shellEl) return;
 
-    const targetEl = el.parentElement as HTMLElement | null;
-    if (!targetEl) return;
-
+    this.tiltHoverTarget = 0;
     this.tiltTargetX = 0;
     this.tiltTargetY = 0;
-    this.startTiltAnimation(targetEl);
+    this.startTiltAnimation(shellEl);
   }
 
   private startTiltAnimation(targetEl: HTMLElement): void {
     if (this.tiltRafId !== null) return;
 
-    const smoothFactor = 0.14; // Progresivo (lerp) para evitar saltos
-    const stopThreshold = 0.0015;
+    const smoothFactor = 0.18;
+    const hoverSmoothFactor = 0.22;
+    const stopThreshold = 0.001;
 
     const step = () => {
       const dx = this.tiltTargetX - this.tiltCurrentX;
       const dy = this.tiltTargetY - this.tiltCurrentY;
+      const dh = this.tiltHoverTarget - this.tiltHoverCurrent;
 
       this.tiltCurrentX += dx * smoothFactor;
       this.tiltCurrentY += dy * smoothFactor;
+      this.tiltHoverCurrent += dh * hoverSmoothFactor;
 
       const depth = Math.max(
         Math.abs(this.tiltCurrentX),
@@ -198,22 +208,33 @@ export class GameCardComponent implements AfterViewInit, OnDestroy {
       const translateX = this.tiltCurrentX * this.tiltMaxTranslatePx;
       const translateY = this.tiltCurrentY * this.tiltMaxTranslatePx;
 
-      const scale = 1 + depth * 0.06;
-      const shadowX = this.tiltCurrentX * 10;
-      const shadowY = this.tiltCurrentY * 12;
-      const blur = 18 + depth * 22;
-      const alpha = 0.18 + depth * 0.18;
+      const scale = 1 + this.tiltHoverCurrent * 0.022;
+      const baseShadowX = 0;
+      const baseShadowY = 3;
+      const blur = 12;
+      const alpha = 0.45;
+      const shadowX = baseShadowX + translateX;
+      const shadowY = baseShadowY + Math.max(translateY, 0) * 0.7;
 
       targetEl.style.transition = 'transform 0ms linear, box-shadow 0ms linear';
       targetEl.style.transform = `perspective(800px) scale(${scale}) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translate(${translateX}px, ${translateY}px)`;
-      targetEl.style.boxShadow = `${shadowX}px ${shadowY + 10}px ${blur}px rgba(0,0,0,${alpha})`;
+      targetEl.style.boxShadow = `${shadowX}px ${shadowY + 1}px ${blur}px rgba(0,0,0,${alpha})`;
 
-      if (Math.abs(dx) < stopThreshold && Math.abs(dy) < stopThreshold) {
+      if (
+        Math.abs(dx) < stopThreshold &&
+        Math.abs(dy) < stopThreshold &&
+        Math.abs(dh) < stopThreshold
+      ) {
         this.tiltRafId = null;
         this.tiltCurrentX = this.tiltTargetX;
         this.tiltCurrentY = this.tiltTargetY;
-        if (this.tiltTargetX === 0 && this.tiltTargetY === 0) {
-          targetEl.style.boxShadow = '';
+        this.tiltHoverCurrent = this.tiltHoverTarget;
+        if (
+          this.tiltHoverTarget === 0 &&
+          this.tiltTargetX === 0 &&
+          this.tiltTargetY === 0
+        ) {
+          targetEl.style.boxShadow = '0 4px 12px rgba(0,0,0,0.45)';
           targetEl.style.transform =
             'perspective(800px) rotateX(0deg) rotateY(0deg) translate(0px, 0px)';
         }

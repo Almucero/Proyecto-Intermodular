@@ -11,6 +11,7 @@ import { BaseAuthenticationService } from '../../core/services/impl/base-authent
 import { CartItem } from '../../core/models/cart-item.model';
 import { Favorite } from '../../core/models/favorite.model';
 import { Game } from '../../core/models/game.model';
+import { LocalizedCurrencyPipe } from '../../shared/pipes/localized-currency.pipe';
 
 interface MediaItem {
   type: 'video' | 'image';
@@ -27,7 +28,7 @@ interface MediaItem {
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, LocalizedCurrencyPipe],
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss'],
 })

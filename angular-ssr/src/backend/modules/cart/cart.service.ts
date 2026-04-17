@@ -229,6 +229,11 @@ export async function createCheckoutSession(
   const stripeLocale = allowedLocales.includes(normalizedLocale as AllowedLocale)
     ? (normalizedLocale as AllowedLocale)
     : 'auto';
+  const checkoutCurrency = stripeLocale === 'en' ? 'usd' : 'eur';
+  const eurToUsdRate =
+    Number.isFinite(env.EUR_TO_USD_RATE) && env.EUR_TO_USD_RATE > 0
+      ? env.EUR_TO_USD_RATE
+      : 1.08;
 
   const cartItems = await prisma.cartItem.findMany({
     where: { userId },
@@ -265,7 +270,9 @@ export async function createCheckoutSession(
         item.game.isOnSale && item.game.salePrice !== null
           ? Number(item.game.salePrice)
           : Number(item.game.price);
-      const unitAmount = Math.round(unitPrice * 100);
+      const convertedUnitPrice =
+        checkoutCurrency === 'usd' ? unitPrice * eurToUsdRate : unitPrice;
+      const unitAmount = Math.round(convertedUnitPrice * 100);
 
       if (!Number.isFinite(unitAmount) || unitAmount <= 0) {
         throw new Error(`Precio inválido para ${item.game.title}`);
@@ -274,7 +281,7 @@ export async function createCheckoutSession(
       return {
         quantity: item.quantity,
         price_data: {
-          currency: 'eur',
+          currency: checkoutCurrency,
           unit_amount: unitAmount,
           product_data: {
             name: item.game.title,
