@@ -1,4 +1,11 @@
-import { Component, inject, HostListener, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  HostListener,
+  OnInit,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import {
@@ -19,6 +26,7 @@ import {
 })
 export class LanguageSelectorComponent implements OnInit {
   private languageService = inject(LanguageService);
+  @ViewChild('triggerButton') triggerButton?: ElementRef<HTMLButtonElement>;
 
   /** Indica si el menú desplegable de idiomas está abierto. */
   isLangMenuOpen = false;
@@ -82,6 +90,7 @@ export class LanguageSelectorComponent implements OnInit {
     if (this.isLangMenuOpen) {
       this.closeLangMenu();
     } else {
+      this.blurTrigger();
       this.isLangMenuOpen = true;
       this.isClosing = false;
     }
@@ -93,6 +102,7 @@ export class LanguageSelectorComponent implements OnInit {
     setTimeout(() => {
       this.isLangMenuOpen = false;
       this.isClosing = false;
+      this.blurTrigger();
     }, 200);
   }
 
@@ -120,6 +130,18 @@ export class LanguageSelectorComponent implements OnInit {
       if (this.isLangMenuOpen) {
         this.closeLangMenu();
       }
+      this.blurTrigger();
+    }
+  }
+
+  private blurTrigger(): void {
+    const btn = this.triggerButton?.nativeElement;
+    if (btn) {
+      btn.blur();
+    }
+    const active = document.activeElement;
+    if (active instanceof HTMLElement && active.closest('app-language-selector')) {
+      active.blur();
     }
   }
 }

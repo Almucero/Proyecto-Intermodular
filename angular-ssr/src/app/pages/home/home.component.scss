@@ -225,6 +225,12 @@
   margin-bottom: 1.5rem;
 }
 
+.genre-pill {
+  transform-origin: center;
+  will-change: transform, box-shadow;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+}
+
 @media (max-width: 1024px) {
   .tablet-hide {
     display: none !important;

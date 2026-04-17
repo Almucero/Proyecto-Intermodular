@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ChatService } from '../../core/services/impl/chat.service';
+import { LocalizedCurrencyPipe } from '../../shared/pipes/localized-currency.pipe';
 import {
   ChatSession,
   ChatMessage,
@@ -36,6 +37,7 @@ import { BaseAuthenticationService } from '../../core/services/impl/base-authent
     FormsModule,
     TranslatePipe,
     MarkdownPipe,
+    LocalizedCurrencyPipe,
   ],
   templateUrl: './aichat.component.html',
   styleUrl: './aichat.component.scss',

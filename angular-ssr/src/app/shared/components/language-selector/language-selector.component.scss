@@ -33,3 +33,11 @@
   border: none !important;
   outline: none !important;
 }
+
+:host button,
+:host button:focus,
+:host button:focus-visible,
+:host button:active {
+  outline: none !important;
+  box-shadow: none !important;
+}

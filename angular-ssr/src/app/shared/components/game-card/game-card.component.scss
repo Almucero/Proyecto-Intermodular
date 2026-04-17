@@ -1,3 +1,11 @@
+.game-card-tilt-shell {
+  transform-origin: center;
+  will-change: transform, box-shadow;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+
 .title-container {
   overflow: hidden;
   position: relative;

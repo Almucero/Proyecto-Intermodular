@@ -6,8 +6,10 @@
   (click)="onClick()"
 >
   <div
-    class="h-32 bg-gray-700 rounded-xl overflow-hidden shadow-md md:group-hover:scale-105 transition-transform duration-300 relative mobile-responsive-image"
+    #tiltShell
+    class="game-card-tilt-shell h-32 bg-gray-700 rounded-xl overflow-hidden relative mobile-responsive-image"
     [class.animate-pulse]="game.id === -1"
+    (mouseenter)="onTiltEnter()"
     (mousemove)="onTiltMove($event)"
     (mouseleave)="onTiltLeave()"
   >
@@ -33,7 +35,7 @@
   </div>
 
   <div
-    class="mt-2 flex justify-between items-center text-sm font-medium text-gray-300 group-hover:text-white transition-colors overflow-hidden mobile-responsive-info"
+    class="mt-2 flex justify-between items-center text-sm font-medium text-gray-300 overflow-hidden mobile-responsive-info"
   >
     <div
       class="flex-1 min-w-0 mr-2 title-container h-5 flex items-center"
@@ -47,7 +49,7 @@
       <span
         *ngIf="game.id !== -1"
         #gameTitle
-        class="inline-block text-left whitespace-nowrap long-text-animate"
+        class="inline-block text-left whitespace-nowrap long-text-animate text-gray-300 group-hover:text-white transition-colors duration-500 ease-out"
         [class.animate-running]="isMoving && hasOverflow"
         [title]="game.title"
       >
@@ -55,7 +57,7 @@
       </span>
     </div>
 
-    <span class="whitespace-nowrap flex-shrink-0 flex items-center">
+    <span class="whitespace-nowrap flex-shrink-0 flex items-center text-gray-300 group-hover:text-white transition-colors duration-500 ease-out">
       <div
         *ngIf="game.id === -1"
         class="h-4 w-12 bg-gray-700 rounded animate-pulse"
@@ -70,15 +72,26 @@
         >
           {{ "product.free" | translate }}
         </span>
-        <span
+        <ng-container
           *ngIf="
             (game.isOnSale && game.salePrice !== null
               ? game.salePrice
               : game.price) !== 0
           "
         >
-          {{ (game.isOnSale ? game.salePrice : game.price) | currency: "EUR" }}
-        </span>
+          <span
+            *ngIf="game.isOnSale && game.salePrice !== null"
+            class="flex items-center gap-1.5"
+          >
+            <span>{{ game.salePrice | localizedCurrency }}</span>
+            <span class="text-gray-400 line-through text-xs">
+              {{ game.price | localizedCurrency: "none" }}
+            </span>
+          </span>
+          <span *ngIf="!game.isOnSale || game.salePrice === null">
+            {{ game.price | localizedCurrency }}
+          </span>
+        </ng-container>
       </ng-container>
     </span>
   </div>

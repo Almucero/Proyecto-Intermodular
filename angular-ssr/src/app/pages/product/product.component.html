@@ -297,14 +297,14 @@
                   (game?.isOnSale && game?.salePrice
                     ? game?.salePrice
                     : game?.price
-                  ) | currency: "EUR"
+                  ) | localizedCurrency
                 }}
               </span>
             </span>
             <span
               *ngIf="game?.isOnSale && game?.price && game?.price !== 0"
               class="text-gray-500 line-through text-xl"
-              >{{ game?.price | currency: "EUR" }}</span
+              >{{ game?.price | localizedCurrency }}</span
             >
           </div>
 

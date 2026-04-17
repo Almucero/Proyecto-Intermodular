@@ -7,6 +7,7 @@ import { PlatformService } from '../../core/services/impl/platform.service';
 import { Game } from '../../core/models/game.model';
 import { GameCardComponent } from '../../shared/components/game-card/game-card.component';
 import { FormsModule } from '@angular/forms';
+import { CurrencyService } from '../../core/services/currency.service';
 
 import {
   trigger,
@@ -89,6 +90,7 @@ export class SearchComponent implements OnInit {
     private router: Router,
     private gameService: GameService,
     private platformService: PlatformService,
+    private currencyService: CurrencyService,
   ) {}
 
   /**
@@ -262,7 +264,7 @@ export class SearchComponent implements OnInit {
         this.activeFilters.push({
           type: 'price',
           value: this.selectedPrice,
-          label: `Max: ${this.priceValue}€`,
+          label: `Max: ${this.formatPrice(this.priceValue)}`,
         });
       } else {
         const priceOption = this.priceOptions.find(
@@ -422,5 +424,17 @@ export class SearchComponent implements OnInit {
   /** Navega a la página de detalle de un producto. */
   goToProduct(id: number): void {
     this.router.navigate(['/product', id.toString()]);
+  }
+
+  formatPrice(value: number): string {
+    const converted = this.currencyService.convertFromEur(value);
+    const code = this.currencyService.getCurrencyCode();
+    const locale = this.currencyService.getLocaleCode();
+    return new Intl.NumberFormat(locale, {
+      style: 'currency',
+      currency: code,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(converted);
   }
 }

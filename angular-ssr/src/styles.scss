@@ -63,3 +63,16 @@ body.chat-mode {
     background-color: #6b7280;
   }
 }
+
+/* Unifica transiciones hover en elementos interactivos de toda la app. */
+:where(
+    button,
+    a,
+    [role="button"],
+    [class*="cursor-pointer"],
+    [class*="hover:"]
+  ) {
+  transition-property: all !important;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1) !important;
+  transition-duration: 500ms !important;
+}

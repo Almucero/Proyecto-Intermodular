@@ -84,4 +84,5 @@ export const env = {
   ADMIN_EMAILS: process.env.ADMIN_EMAILS!,
   ADMIN_PASSWORDS: process.env.ADMIN_PASSWORDS!,
   ADMIN_NAMES: process.env.ADMIN_NAMES!,
+  EUR_TO_USD_RATE: Number(process.env.EUR_TO_USD_RATE || '1.08'),
 };

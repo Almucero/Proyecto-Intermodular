@@ -10,6 +10,7 @@ import { BaseAuthenticationService } from '../../core/services/impl/base-authent
 import { Favorite } from '../../core/models/favorite.model';
 import { CartItem } from '../../core/models/cart-item.model';
 import { Media } from '../../core/models/media.model';
+import { LocalizedCurrencyPipe } from '../../shared/pipes/localized-currency.pipe';
 
 /**
  * Componente de la página de Favoritos.
@@ -19,7 +20,7 @@ import { Media } from '../../core/models/media.model';
 @Component({
   selector: 'app-favourites',
   standalone: true,
-  imports: [CommonModule, TranslateModule, RouterLink],
+  imports: [CommonModule, TranslateModule, RouterLink, LocalizedCurrencyPipe],
   templateUrl: './favourites.component.html',
   styleUrl: './favourites.component.scss',
 })

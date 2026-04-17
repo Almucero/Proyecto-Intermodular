@@ -95,6 +95,21 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   private targetScrollY = 0;
   private lastTargetScrollY = 0;
   private rafId: number | null = null;
+  private genreTiltStates = new Map<
+    string,
+    {
+      el: HTMLElement;
+      rafId: number | null;
+      currentX: number;
+      currentY: number;
+      targetX: number;
+      targetY: number;
+      hoverCurrent: number;
+      hoverTarget: number;
+    }
+  >();
+  private genreTiltMaxRotateDeg = 5;
+  private genreTiltMaxTranslatePx = 3.5;
   private current = {
     backgroundY: 0,
     bottomY: 0,
@@ -139,6 +154,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       cancelAnimationFrame(this.rafId);
       this.rafId = null;
     }
+    this.genreTiltStates.forEach((state) => {
+      if (state.rafId !== null) cancelAnimationFrame(state.rafId);
+    });
+    this.genreTiltStates.clear();
   }
 
   /** Escucha cambios en el tamaño de la ventana. */
@@ -372,6 +391,113 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Navega a la página de búsqueda filtrando por género. */
   goToGenres(nombre: string) {
     this.router.navigate(['/search'], { queryParams: { genre: nombre } });
+  }
+
+  onGenreTiltEnter(key: string, el: HTMLElement): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const state = this.ensureGenreTiltState(key, el);
+    state.hoverTarget = 1;
+    this.startGenreTiltAnimation(state);
+  }
+
+  onGenreTiltMove(event: MouseEvent, key: string, el: HTMLElement): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    if (event.buttons === 1) return;
+    const state = this.ensureGenreTiltState(key, el);
+    const rect = el.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width;
+    const y = (event.clientY - rect.top) / rect.height;
+    state.targetX = Math.max(-1, Math.min(1, (x - 0.5) * 2));
+    state.targetY = Math.max(-1, Math.min(1, (y - 0.5) * 2));
+    this.startGenreTiltAnimation(state);
+  }
+
+  onGenreTiltLeave(key: string, el: HTMLElement): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const state = this.ensureGenreTiltState(key, el);
+    state.hoverTarget = 0;
+    state.targetX = 0;
+    state.targetY = 0;
+    this.startGenreTiltAnimation(state);
+  }
+
+  private ensureGenreTiltState(key: string, el: HTMLElement) {
+    const existing = this.genreTiltStates.get(key);
+    if (existing) {
+      existing.el = el;
+      return existing;
+    }
+    const created = {
+      el,
+      rafId: null as number | null,
+      currentX: 0,
+      currentY: 0,
+      targetX: 0,
+      targetY: 0,
+      hoverCurrent: 0,
+      hoverTarget: 0,
+    };
+    this.genreTiltStates.set(key, created);
+    return created;
+  }
+
+  private startGenreTiltAnimation(state: {
+    el: HTMLElement;
+    rafId: number | null;
+    currentX: number;
+    currentY: number;
+    targetX: number;
+    targetY: number;
+    hoverCurrent: number;
+    hoverTarget: number;
+  }): void {
+    if (state.rafId !== null) return;
+
+    const smoothFactor = 0.18;
+    const hoverSmoothFactor = 0.22;
+    const stopThreshold = 0.001;
+
+    const step = () => {
+      const dx = state.targetX - state.currentX;
+      const dy = state.targetY - state.currentY;
+      const dh = state.hoverTarget - state.hoverCurrent;
+
+      state.currentX += dx * smoothFactor;
+      state.currentY += dy * smoothFactor;
+      state.hoverCurrent += dh * hoverSmoothFactor;
+
+      const rotateY = state.currentX * this.genreTiltMaxRotateDeg;
+      const rotateX = -state.currentY * this.genreTiltMaxRotateDeg;
+      const translateX = state.currentX * this.genreTiltMaxTranslatePx;
+      const translateY = state.currentY * this.genreTiltMaxTranslatePx;
+      const scale = 1 + state.hoverCurrent * 0.022;
+      const shadowX = translateX;
+      const shadowY = 3 + Math.max(translateY, 0) * 0.7;
+
+      state.el.style.transform = `perspective(800px) scale(${scale}) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translate(${translateX}px, ${translateY}px)`;
+      state.el.style.boxShadow = `${shadowX}px ${shadowY + 1}px 12px rgba(0,0,0,0.45)`;
+
+      if (
+        Math.abs(dx) < stopThreshold &&
+        Math.abs(dy) < stopThreshold &&
+        Math.abs(dh) < stopThreshold
+      ) {
+        state.rafId = null;
+        state.currentX = state.targetX;
+        state.currentY = state.targetY;
+        state.hoverCurrent = state.hoverTarget;
+        if (state.hoverTarget === 0 && state.targetX === 0 && state.targetY === 0) {
+          state.el.style.transform =
+            'perspective(800px) rotateX(0deg) rotateY(0deg) translate(0px, 0px)';
+          state.el.style.boxShadow = '0 4px 12px rgba(0,0,0,0.45)';
+        }
+        return;
+      }
+
+      state.rafId = requestAnimationFrame(step);
+    };
+
+    state.rafId = requestAnimationFrame(step);
   }
 
   /** Crea una lista de juegos 'placeholder' para estados de carga. */
