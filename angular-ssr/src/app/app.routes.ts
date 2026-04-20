@@ -31,85 +31,69 @@ export const routes: Routes = [
     path: '',
     component: HomeComponent,
     pathMatch: 'full',
-    data: { animation: 'HomePage' },
   },
   {
     path: 'login',
     component: LoginComponent,
-    data: { animation: 'LoginPage' },
   },
   {
     path: 'register',
     component: RegisterComponent,
-    data: { animation: 'RegisterPage' },
   },
   {
     path: 'dashboard',
     component: DashboardComponent,
     canActivate: [authGuard, customerGuard],
-    data: { animation: 'DashboardPage' },
   },
   {
     path: 'product/:id',
     component: ProductComponent,
-    data: { animation: 'ProductPage' },
   },
 
   {
     path: 'aichat',
     component: AIChatComponent,
-    data: { animation: 'AIChatPage' },
   },
   {
     path: 'favourites',
     component: FavouritesComponent,
-    data: { animation: 'FavouritesPage' },
   },
   {
     path: 'cart',
     component: CartComponent,
-    data: { animation: 'CartPage' },
   },
   {
     path: 'settings',
     component: SettingsComponent,
-    data: { animation: 'SettingsPage' },
   },
   {
     path: 'help',
     component: HelpComponent,
-    data: { animation: 'HelpPage' },
   },
   {
     path: 'contact',
     component: ContactComponent,
-    data: { animation: 'ContactPage' },
   },
   {
     path: 'privacy',
     component: PrivacyComponent,
-    data: { animation: 'PrivacyPage' },
   },
   {
     path: 'conditions',
     component: ConditionsComponent,
-    data: { animation: 'ConditionsPage' },
   },
   {
     path: 'cookies',
     component: CookiesComponent,
-    data: { animation: 'CookiesPage' },
   },
   {
     path: 'search',
     component: SearchComponent,
-    data: { animation: 'SearchPage' },
   },
   {
     path: 'admin',
     component: AdminComponent,
     canActivate: [authGuard, adminGuard],
-    data: { animation: 'AdminPage' },
     children: [
       { path: '', redirectTo: 'genres', pathMatch: 'full' },
       {
