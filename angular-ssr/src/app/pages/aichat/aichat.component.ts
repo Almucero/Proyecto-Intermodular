@@ -4,11 +4,9 @@ import {
   OnDestroy,
   ViewChild,
   ElementRef,
-  AfterViewChecked,
-  Renderer2,
-  Inject,
+  AfterViewInit,
+  NgZone,
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
 import { MarkdownPipe } from '../../pipes/markdown.pipe';
 import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -42,7 +40,7 @@ import { BaseAuthenticationService } from '../../core/services/impl/base-authent
   templateUrl: './aichat.component.html',
   styleUrl: './aichat.component.scss',
 })
-export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   /** Referencia al contenedor de mensajes para el scroll automático. */
   @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
   /** Referencia al contenedor de la barra lateral para efectos de scroll. */
@@ -103,9 +101,8 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     private chatService: ChatService,
     private router: Router,
     private authService: BaseAuthenticationService,
-    private renderer: Renderer2,
-    @Inject(DOCUMENT) private document: Document,
     private translateService: TranslateService,
+    private ngZone: NgZone,
   ) {}
 
   /**
@@ -114,9 +111,6 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
       window.scrollTo(0, 0);
-    }
-    if (this.document.body) {
-      this.renderer.addClass(this.document.body, 'chat-mode');
     }
 
     this.authService.user$.subscribe((user) => {
@@ -140,7 +134,6 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   /** Limpia clases específicas del body al salir del chat. */
   ngOnDestroy(): void {
-    this.renderer.removeClass(this.document.body, 'chat-mode');
     if (this.sidebarActivityTimer) {
       clearTimeout(this.sidebarActivityTimer);
     }
@@ -149,22 +142,25 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
-  /** Gestiona el scroll automático y la visibilidad de fades tras cada ciclo de detección de cambios. */
-  ngAfterViewChecked(): void {
+  ngAfterViewInit(): void {
     this.scheduleViewSync();
   }
 
   private scheduleViewSync() {
     if (this.viewSyncQueued) return;
     this.viewSyncQueued = true;
-    queueMicrotask(() => {
-      this.viewSyncQueued = false;
-      if (this.shouldScrollToBottomFlag) {
-        this.scrollToBottom();
-        this.shouldScrollToBottomFlag = false;
-      }
-      this.checkMainScroll();
-      this.checkSidebarScroll();
+    this.ngZone.runOutsideAngular(() => {
+      requestAnimationFrame(() => {
+        this.ngZone.run(() => {
+          this.viewSyncQueued = false;
+          if (this.shouldScrollToBottomFlag) {
+            this.scrollToBottom();
+            this.shouldScrollToBottomFlag = false;
+          }
+          this.checkMainScroll();
+          this.checkSidebarScroll();
+        });
+      });
     });
   }
 
@@ -272,9 +268,11 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       next: (sessions) => {
         this.sessions = sessions;
         this.loadingSessions = false;
+        this.scheduleViewSync();
       },
       error: () => {
         this.loadingSessions = false;
+        this.scheduleViewSync();
       },
     });
   }
@@ -284,6 +282,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (!this.checkAuth()) return;
     this.currentSession = null;
     this.messages = [];
+    this.scheduleViewSync();
   }
 
   /** Selecciona una sesión de historial y carga sus mensajes. */
@@ -297,6 +296,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.messages = fullSession.messages || [];
         this.messages.forEach((msg) => this.processMessageLinks(msg));
         this.shouldScrollToBottomFlag = true;
+        this.scheduleViewSync();
       },
       error: () => {},
     });
@@ -333,6 +333,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     };
     this.messages.push(userMsg);
     this.shouldScrollToBottomFlag = true;
+    this.scheduleViewSync();
     const payload = {
       message: this.userInput,
       sessionId: this.currentSession?.id,
@@ -357,6 +358,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.messages.push(aiMsg);
         this.shouldScrollToBottomFlag = true;
         this.isLoading = false;
+        this.scheduleViewSync();
       },
       error: () => {
         this.isLoading = false;
@@ -365,6 +367,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewChecked {
           content: 'Lo siento, ha ocurrido un error al procesar tu mensaje.',
         });
         this.shouldScrollToBottomFlag = true;
+        this.scheduleViewSync();
       },
     });
   }

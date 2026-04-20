@@ -5,10 +5,16 @@ import {
   effect,
   PLATFORM_ID,
 } from '@angular/core';
-import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
+import {
+  RouterOutlet,
+  Router,
+  NavigationEnd,
+  NavigationStart,
+  NavigationCancel,
+  NavigationError,
+} from '@angular/router';
 import { ErrorToastComponent } from './shared/components/error-toast/error-toast.component';
 import { BaseAuthenticationService } from './core/services/impl/base-authentication.service';
-import { routeFadeAnimation } from './animations/route-fade.animation';
 import { UiStateService } from './core/services/impl/ui-state.service';
 import { forkJoin, timer } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
@@ -40,7 +46,6 @@ import { PageTitleService } from './core/services/page-title.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   animations: [
-    routeFadeAnimation,
     loadingAnimation,
     revealAnimation,
     headerRevealAnimation,
@@ -58,6 +63,11 @@ export class AppComponent {
 
   /** Indica si la ruta actual es la página de inicio. */
   public isHomePage = false;
+  /** Controla el estado visual del contenedor durante navegación. */
+  public isRouteHidden = false;
+  public isRouteEntering = false;
+  private routeFadeTimer: ReturnType<typeof setTimeout> | null = null;
+  private readonly routeFadeDurationMs = 650;
 
   private authService = inject(BaseAuthenticationService);
   private cdr = inject(ChangeDetectorRef);
@@ -92,14 +102,45 @@ export class AppComponent {
       });
     }
 
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        if (isPlatformBrowser(this.platformId)) {
-          window.scrollTo(0, 0);
+    this.router.events.subscribe((event) => {
+      if (!isPlatformBrowser(this.platformId)) {
+        if (event instanceof NavigationEnd) {
+          this.pageTitleService.updateFromRoute(this.router.url);
         }
+        return;
+      }
+
+      if (event instanceof NavigationStart) {
+        if (this.routeFadeTimer) {
+          clearTimeout(this.routeFadeTimer);
+          this.routeFadeTimer = null;
+        }
+        this.isRouteEntering = false;
+        this.isRouteHidden = true;
+      }
+
+      if (event instanceof NavigationEnd) {
+        window.scrollTo(0, 0);
         this.pageTitleService.updateFromRoute(this.router.url);
-      });
+        requestAnimationFrame(() => {
+          this.isRouteHidden = false;
+          this.isRouteEntering = true;
+          this.routeFadeTimer = setTimeout(() => {
+            this.isRouteEntering = false;
+            this.routeFadeTimer = null;
+          }, this.routeFadeDurationMs);
+        });
+      }
+
+      if (event instanceof NavigationCancel || event instanceof NavigationError) {
+        if (this.routeFadeTimer) {
+          clearTimeout(this.routeFadeTimer);
+          this.routeFadeTimer = null;
+        }
+        this.isRouteHidden = false;
+        this.isRouteEntering = false;
+      }
+    });
 
     this.pageTitleService.updateFromRoute(this.router.url);
 
@@ -116,17 +157,5 @@ export class AppComponent {
         this.document.body.style.overflow = '';
       }
     });
-  }
-
-  /**
-   * Prepara los datos de animación para la ruta activa.
-   * @param outlet Salida de enrutado activa.
-   */
-  prepareRoute(outlet: RouterOutlet) {
-    return (
-      outlet &&
-      outlet.activatedRouteData &&
-      outlet.activatedRouteData['animation']
-    );
   }
 }
