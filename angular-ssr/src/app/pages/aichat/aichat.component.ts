@@ -66,6 +66,8 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   userAvatar: string | null = null;
   /** Indica si las sesiones se están cargando inicialmente. */
   loadingSessions: boolean = true;
+  private readonly chatSessionsCountStorageKey = 'chatSessionsCount';
+  cachedSessionsCount = 0;
 
   /** Controla el estado de la barra lateral en dispositivos móviles. */
   isMobileSidebarOpen = false;
@@ -113,6 +115,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
       window.scrollTo(0, 0);
     }
 
+    this.cachedSessionsCount = this.getInitialSessionsCount();
     this.authService.user$.subscribe((user) => {
       this.userName = user?.nickname || user?.name || '';
       if (user && user.media && user.media.length > 0) {
@@ -128,6 +131,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
       } else {
         this.sessions = [];
         this.loadingSessions = false;
+        this.updateCachedSessionsCount(0);
       }
     });
   }
@@ -268,6 +272,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
       next: (sessions) => {
         this.sessions = sessions;
         this.loadingSessions = false;
+        this.updateCachedSessionsCount(sessions.length);
         this.scheduleViewSync();
       },
       error: () => {
@@ -310,6 +315,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
     this.chatService.deleteSession(session.id).subscribe({
       next: () => {
         this.sessions = this.sessions.filter((s) => s.id !== session.id);
+        this.updateCachedSessionsCount(this.sessions.length);
         if (this.currentSession?.id === session.id) {
           this.startNewChat();
         }
@@ -435,5 +441,28 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
         `[${game.title}](/product/${game.id})`,
       );
     });
+  }
+
+  get recentSessionsCount(): number[] {
+    const count = Math.max(this.cachedSessionsCount ?? 0, 0);
+    return Array(count)
+      .fill(0)
+      .map((x, i) => i + 1);
+  }
+
+  private getInitialSessionsCount(): number {
+    if (typeof localStorage === 'undefined') {
+      return 0;
+    }
+    return parseInt(localStorage.getItem(this.chatSessionsCountStorageKey) || '0', 10);
+  }
+
+  private updateCachedSessionsCount(count: number): void {
+    const safeCount = Math.max(count, 0);
+    this.cachedSessionsCount = safeCount;
+    if (typeof localStorage === 'undefined') {
+      return;
+    }
+    localStorage.setItem(this.chatSessionsCountStorageKey, safeCount.toString());
   }
 }
