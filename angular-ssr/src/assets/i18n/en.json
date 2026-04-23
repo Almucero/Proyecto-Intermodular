@@ -341,7 +341,11 @@
     "releaseDate": "Release Date",
     "refund": "Refund",
     "cover": "Cover",
-    "image": "Image"
+    "image": "Image",
+    "similarGames": "Similar games",
+    "sameStudioGames": "Same studio or publisher",
+    "relatedGenres": "Related genres",
+    "topOnPlatforms": "Top on compatible platforms"
   },
   "dashboard": {
     "user": "User",

@@ -1,4 +1,5 @@
 <div class="flex-1 w-full bg-gray-900 text-white font-sans pb-20">
+  <div [class.product-content-blurred]="isScreenshotModalOpen()">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
     <div class="mb-6">
       <h1
@@ -232,7 +233,8 @@
               *ngIf="game && game.id !== -1 && screenshot1"
               [src]="screenshot1"
               alt="Screenshot 1"
-              class="w-full h-full object-cover"
+              class="w-full h-full object-cover cursor-zoom-in transition-transform duration-200 hover:scale-105"
+              (click)="openScreenshotModal(screenshot1)"
               crossorigin="anonymous"
               referrerpolicy="no-referrer"
             />
@@ -253,7 +255,8 @@
               *ngIf="game && game.id !== -1 && screenshot2"
               [src]="screenshot2"
               alt="Screenshot 2"
-              class="w-full h-full object-cover"
+              class="w-full h-full object-cover cursor-zoom-in transition-transform duration-200 hover:scale-105"
+              (click)="openScreenshotModal(screenshot2)"
               crossorigin="anonymous"
               referrerpolicy="no-referrer"
             />
@@ -643,7 +646,78 @@
         </div>
       </div>
     </div>
+
+    <section
+      class="mt-12 pt-6 border-t border-white/10"
+      *ngIf="loadingRecommendations || recommendationSections.length > 0"
+    >
+      <div class="product-similar-carousel-scale space-y-6">
+        <app-carousel
+          *ngIf="loadingRecommendations"
+          [title]="'product.similarGames'"
+          [items]="recommendationSkeletonSections[0].items"
+          sectionId="similar-games-skeleton"
+        ></app-carousel>
+        <app-carousel
+          *ngIf="loadingRecommendations"
+          [title]="'product.sameStudioGames'"
+          [items]="recommendationSkeletonSections[1].items"
+          sectionId="same-studio-games-skeleton"
+        ></app-carousel>
+        <app-carousel
+          *ngIf="loadingRecommendations"
+          [title]="'product.relatedGenres'"
+          [items]="recommendationSkeletonSections[2].items"
+          sectionId="related-genres-games-skeleton"
+        ></app-carousel>
+        <app-carousel
+          *ngIf="loadingRecommendations"
+          [title]="'product.topOnPlatforms'"
+          [items]="recommendationSkeletonSections[3].items"
+          sectionId="top-platform-games-skeleton"
+        ></app-carousel>
+        <ng-container *ngIf="!loadingRecommendations">
+          <app-carousel
+            *ngFor="let section of recommendationSections"
+            [title]="section.titleKey"
+            [items]="section.items"
+            [sectionId]="section.sectionId"
+            (itemClick)="goToProduct($event)"
+          ></app-carousel>
+        </ng-container>
+      </div>
+    </section>
   </div>
+  </div>
+
+  @if (isScreenshotModalOpen() && screenshotModalImage()) {
+    <div
+      class="fixed inset-x-0 top-16 bottom-0 bg-black/70 backdrop-blur-sm z-[1200] flex items-center justify-center p-4 md:p-6"
+      (click)="closeScreenshotModal()"
+    >
+      <div
+        class="relative max-w-4xl max-h-full w-full flex items-center justify-center screenshot-modal-enter"
+        (click)="$event.stopPropagation()"
+      >
+        <button
+          class="absolute -top-3 -right-3 md:top-3 md:right-3 w-10 h-10 rounded-full bg-black/70 hover:bg-black/85 text-white border-none outline-none cursor-pointer flex items-center justify-center transition-colors z-10"
+          (click)="closeScreenshotModal()"
+          aria-label="Close screenshot preview"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M18 6L6 18" />
+          </svg>
+        </button>
+        <img
+          [src]="screenshotModalImage()!"
+          alt="Screenshot preview"
+          class="max-w-full max-h-[calc(100vh-11rem)] object-contain rounded-lg shadow-2xl"
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        />
+      </div>
+    </div>
+  }
 
   @if (showAuthModal()) {
     <div
@@ -675,4 +749,12 @@
       </div>
     </div>
   }
+
+  <app-stripe-modal
+    [open]="checkoutModalOpen()"
+    [titleKey]="'product.buy'"
+    [directCheckoutPayload]="directCheckoutPayload()"
+    (closed)="closeCheckoutModal()"
+    (completed)="onCheckoutCompleted()"
+  ></app-stripe-modal>
 </div>

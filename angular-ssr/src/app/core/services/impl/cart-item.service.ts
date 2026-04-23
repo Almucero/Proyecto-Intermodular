@@ -19,6 +19,12 @@ export interface CheckoutSessionResponse {
   publishableKey: string;
 }
 
+export interface DirectCheckoutSessionPayload {
+  gameId: number;
+  platformId: number;
+  locale?: string;
+}
+
 /**
  * Servicio para la gestión de los artículos del carrito de compras.
  * Maneja la persistencia en el servidor y sincroniza el estado local (localStorage y BehaviorSubject).
@@ -180,9 +186,27 @@ export class CartItemService
     );
   }
 
+  createDirectCheckoutSession(
+    payload: DirectCheckoutSessionPayload,
+  ): Observable<CheckoutSessionResponse> {
+    return this.http.post<CheckoutSessionResponse>(
+      `${this.apiUrl}/${this.resource}/direct-checkout-session`,
+      payload,
+      { headers: this.getAuthHeaders() },
+    );
+  }
+
   confirmCheckoutSession(sessionId: string): Observable<any> {
     return this.http.post(
       `${this.apiUrl}/${this.resource}/checkout/confirm`,
+      { sessionId },
+      { headers: this.getAuthHeaders() },
+    );
+  }
+
+  confirmDirectCheckoutSession(sessionId: string): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/${this.resource}/direct-checkout/confirm`,
       { sessionId },
       { headers: this.getAuthHeaders() },
     );

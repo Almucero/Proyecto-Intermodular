@@ -319,7 +319,11 @@
     "releaseDate": "Date de sortie",
     "refund": "Remboursement",
     "cover": "Couverture",
-    "image": "Image"
+    "image": "Image",
+    "similarGames": "Jeux similaires",
+    "sameStudioGames": "Meme studio ou editeur",
+    "relatedGenres": "Genres associes",
+    "topOnPlatforms": "Top sur plateformes compatibles"
   },
   "dashboard": {
     "user": "Utilisateur",

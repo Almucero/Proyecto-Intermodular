@@ -18,6 +18,7 @@ import { LanguageService } from '../../../core/services/language.service';
 import {
   CartItemService,
   CheckoutSessionResponse,
+  DirectCheckoutSessionPayload,
 } from '../../../core/services/impl/cart-item.service';
 
 @Component({
@@ -30,6 +31,7 @@ import {
 export class StripeModalComponent implements OnChanges, OnDestroy {
   @Input() open = false;
   @Input() titleKey = 'cart.buy';
+  @Input() directCheckoutPayload: DirectCheckoutSessionPayload | null = null;
   @Output() closed = new EventEmitter<void>();
   @Output() completed = new EventEmitter<void>();
 
@@ -105,8 +107,13 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
       this.setPageScrollLocked(true);
       this.lockCheckoutModalInitialSize();
       const checkoutLocale = this.getStripeCheckoutLocale();
+      const payload = this.directCheckoutPayload
+        ? { ...this.directCheckoutPayload, locale: checkoutLocale }
+        : null;
       const response = await firstValueFrom(
-        this.cartItemService.createCheckoutSession(checkoutLocale),
+        payload
+          ? this.cartItemService.createDirectCheckoutSession(payload)
+          : this.cartItemService.createCheckoutSession(checkoutLocale),
       );
       if (!this.isValidCheckoutSessionResponse(response)) {
         throw new Error('Respuesta inválida al crear la sesión de pago');
@@ -300,8 +307,14 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
 
   private async finalizeEmbeddedCheckout(sessionId: string): Promise<void> {
     try {
-      await firstValueFrom(this.cartItemService.confirmCheckoutSession(sessionId));
-      this.cartItemService.refreshCount();
+      if (this.directCheckoutPayload) {
+        await firstValueFrom(
+          this.cartItemService.confirmDirectCheckoutSession(sessionId),
+        );
+      } else {
+        await firstValueFrom(this.cartItemService.confirmCheckoutSession(sessionId));
+        this.cartItemService.refreshCount();
+      }
       this.error.set(null);
       this.completed.emit();
     } catch (error) {

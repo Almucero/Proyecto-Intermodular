@@ -1,4 +1,12 @@
-import { Component, OnInit, signal, Inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  signal,
+  Inject,
+  HostListener,
+  Renderer2,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe, TranslateModule } from '@ngx-translate/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,12 +21,22 @@ import { Favorite } from '../../core/models/favorite.model';
 import { Game } from '../../core/models/game.model';
 import { LocalizedCurrencyPipe } from '../../shared/pipes/localized-currency.pipe';
 import { PageTitleService } from '../../core/services/page-title.service';
+import { DOCUMENT } from '@angular/common';
+import { CarouselComponent } from '../../shared/components/carousel/carousel.component';
+import { StripeModalComponent } from '../../shared/components/stripe-checkout/stripe-checkout.component';
+import { Subscription } from 'rxjs';
 
 interface MediaItem {
   type: 'video' | 'image';
   label: string;
   url?: string | SafeResourceUrl;
   thumbnail?: string;
+}
+
+interface RecommendationSection {
+  titleKey: string;
+  sectionId: string;
+  items: Game[];
 }
 
 /**
@@ -29,11 +47,17 @@ interface MediaItem {
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [CommonModule, TranslateModule, LocalizedCurrencyPipe],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    LocalizedCurrencyPipe,
+    CarouselComponent,
+    StripeModalComponent,
+  ],
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss'],
 })
-export class ProductComponent implements OnInit {
+export class ProductComponent implements OnInit, OnDestroy {
   /** Objeto del juego cargado. */
   game: Game | null = this.createPlaceholder();
   /** Plataforma seleccionada actualmente por el usuario. */
@@ -42,6 +66,10 @@ export class ProductComponent implements OnInit {
   currentMediaIndex: number = 0;
   /** Lista de elementos multimedia procesados para el visor. */
   mediaItems: MediaItem[] = [];
+  recommendationSections: RecommendationSection[] = [];
+  recommendationSkeletonSections: RecommendationSection[] = this.createRecommendationSkeletons();
+  loadingRecommendations = true;
+  private routeSub?: Subscription;
 
   /** Estados para notificaciones visuales y modales. */
   showAuthModal = signal(false);
@@ -52,6 +80,10 @@ export class ProductComponent implements OnInit {
   quantityIncreased = signal(false);
   alreadyInCart = signal(false);
   alreadyInFavorites = signal(false);
+  isScreenshotModalOpen = signal(false);
+  screenshotModalImage = signal<string | null>(null);
+  checkoutModalOpen = signal(false);
+  directCheckoutPayload = signal<{ gameId: number; platformId: number } | null>(null);
 
   /** Configuración estática de todas las plataformas soportadas. */
   allPlatforms = [
@@ -132,6 +164,8 @@ export class ProductComponent implements OnInit {
     private authService: BaseAuthenticationService,
     @Inject(Router) private router: Router,
     private pageTitleService: PageTitleService,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document,
   ) {}
 
   /**
@@ -140,15 +174,30 @@ export class ProductComponent implements OnInit {
   ngOnInit(): void {
     this.game = this.createPlaceholder();
     this.buildMediaItems();
-
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.loadGame(id);
-    }
+    this.routeSub = this.route.paramMap.subscribe((params) => {
+      const id = params.get('id');
+      if (id) {
+        this.game = this.createPlaceholder();
+        this.buildMediaItems();
+        this.recommendationSections = [];
+        this.recommendationSkeletonSections = this.createRecommendationSkeletons();
+        this.loadingRecommendations = true;
+        this.currentMediaIndex = 0;
+        this.selectedPlatform = null;
+        this.loadGame(id);
+      }
+    });
 
     this.authService.authenticated$.subscribe((isAuth) => {
       this.isAuthenticated.set(isAuth);
     });
+  }
+
+  ngOnDestroy(): void {
+    this.routeSub?.unsubscribe();
+    this.renderer.removeStyle(this.document.body, 'overflow');
+    this.checkoutModalOpen.set(false);
+    this.directCheckoutPayload.set(null);
   }
 
   /** Crea un objeto juego vacío para el estado inicial de carga. */
@@ -174,12 +223,63 @@ export class ProductComponent implements OnInit {
     } as unknown as Game;
   }
 
+  private createCarouselPlaceholders(count = 20): Game[] {
+    return Array(count).fill({
+      id: -1,
+      title: 'common.loading',
+      description: '',
+      price: 0,
+      rating: 0,
+      releaseDate: new Date(),
+      stockPc: 0,
+      stockPs5: 0,
+      stockXboxX: 0,
+      stockSwitch: 0,
+      stockPs4: 0,
+      stockXboxOne: 0,
+      numberOfSales: 0,
+      isOnSale: false,
+      isRefundable: false,
+      media: [],
+      platforms: [],
+    } as unknown as Game);
+  }
+
+  private createRecommendationSkeletons(): RecommendationSection[] {
+    const placeholders = this.createCarouselPlaceholders();
+    return [
+      {
+        titleKey: 'product.similarGames',
+        sectionId: 'similar-games',
+        items: placeholders,
+      },
+      {
+        titleKey: 'product.sameStudioGames',
+        sectionId: 'same-studio-games',
+        items: placeholders,
+      },
+      {
+        titleKey: 'product.relatedGenres',
+        sectionId: 'related-genres-games',
+        items: placeholders,
+      },
+      {
+        titleKey: 'product.topOnPlatforms',
+        sectionId: 'top-platform-games',
+        items: placeholders,
+      },
+    ];
+  }
+
   /**
    * Carga los datos del juego y sus medios asociados.
    * Selecciona automáticamente la plataforma si solo hay una disponible.
    * @param id ID del juego.
    */
   loadGame(id: string): void {
+    this.loadingRecommendations = true;
+    this.recommendationSections = [];
+    this.recommendationSkeletonSections = this.createRecommendationSkeletons();
     this.gameService.getById(id).subscribe((game) => {
       if (game) {
         this.mediaService.getAll({}).subscribe((allMedia) => {
@@ -187,6 +287,7 @@ export class ProductComponent implements OnInit {
           this.game = game;
           this.pageTitleService.setProductTitle(game.title);
           this.buildMediaItems();
+          this.loadRecommendationCarousels(game, allMedia);
 
           const availablePlatforms = this.allPlatforms.filter((platform) =>
             this.isPlatformAvailable(platform.name),
@@ -198,6 +299,194 @@ export class ProductComponent implements OnInit {
         });
       }
     });
+  }
+
+  private loadRecommendationCarousels(baseGame: Game, allMedia: any[]): void {
+    this.gameService.getAll({}).subscribe({
+      next: (allGames) => {
+        const mediaByGameId = new Map<number, any[]>();
+        for (const media of allMedia) {
+          if (typeof media.gameId !== 'number') continue;
+          if (!mediaByGameId.has(media.gameId)) {
+            mediaByGameId.set(media.gameId, []);
+          }
+          mediaByGameId.get(media.gameId)!.push(media);
+        }
+
+        const candidates = allGames
+          .filter((g) => g.id !== baseGame.id)
+          .map((g) => ({
+            ...g,
+            media: mediaByGameId.get(g.id) ?? [],
+          }));
+
+        const popularFallback = [...candidates].sort(
+          (a, b) =>
+            (b.numberOfSales ?? 0) - (a.numberOfSales ?? 0) ||
+            (b.rating ?? 0) - (a.rating ?? 0),
+        );
+        const usedIds = new Set<number>();
+        const takeUnique = (items: Game[], amount: number): Game[] => {
+          const picked: Game[] = [];
+          for (const game of items) {
+            if (picked.length >= amount) break;
+            if (usedIds.has(game.id)) continue;
+            picked.push(game);
+            usedIds.add(game.id);
+          }
+          return picked;
+        };
+        const fillWithFallback = (primary: Game[], amount: number): Game[] => {
+          const picked = takeUnique(primary, amount);
+          if (picked.length < amount) {
+            picked.push(...takeUnique(popularFallback, amount - picked.length));
+          }
+          return picked;
+        };
+
+        const similarRanked = candidates
+          .map((candidate) => ({
+            game: candidate,
+            score: this.scoreSimilarity(baseGame, candidate),
+          }))
+          .filter((x) => x.score > 0)
+          .sort((a, b) => {
+            if (b.score !== a.score) return b.score - a.score;
+            return (
+              (b.game.numberOfSales ?? 0) - (a.game.numberOfSales ?? 0) ||
+              (b.game.rating ?? 0) - (a.game.rating ?? 0)
+            );
+          })
+          .map((x) => x.game);
+        const similarGames = fillWithFallback(similarRanked, 20);
+
+        const sameStudioPool = candidates
+          .filter(
+            (g) =>
+              (baseGame.developerId && g.developerId === baseGame.developerId) ||
+              (baseGame.publisherId && g.publisherId === baseGame.publisherId),
+          )
+          .sort(
+            (a, b) =>
+              (b.numberOfSales ?? 0) - (a.numberOfSales ?? 0) ||
+              (b.rating ?? 0) - (a.rating ?? 0),
+          );
+        const sameStudioGames = fillWithFallback(sameStudioPool, 20);
+
+        const baseGenres = new Set(
+          (baseGame.genres ?? []).map((g) => g.name.toLowerCase().trim()),
+        );
+        const relatedGenresPool = candidates
+          .filter((g) =>
+            (g.genres ?? []).some((genre) =>
+              baseGenres.has(genre.name.toLowerCase().trim()),
+            ),
+          )
+          .sort(
+            (a, b) =>
+              (b.rating ?? 0) - (a.rating ?? 0) ||
+              (b.numberOfSales ?? 0) - (a.numberOfSales ?? 0),
+          );
+        const relatedGenresGames = fillWithFallback(relatedGenresPool, 20);
+
+        const basePlatforms = new Set(
+          (baseGame.platforms ?? []).map((p) => p.name.toLowerCase().trim()),
+        );
+        const topOnPlatformsPool = candidates
+          .filter((g) =>
+            (g.platforms ?? []).some((platform) =>
+              basePlatforms.has(platform.name.toLowerCase().trim()),
+            ),
+          )
+          .sort(
+            (a, b) =>
+              (b.numberOfSales ?? 0) - (a.numberOfSales ?? 0) ||
+              (b.rating ?? 0) - (a.rating ?? 0),
+          );
+        const topOnPlatformsGames = fillWithFallback(topOnPlatformsPool, 20);
+
+        const sections: RecommendationSection[] = [
+          {
+            titleKey: 'product.similarGames',
+            sectionId: 'similar-games',
+            items: similarGames,
+          },
+          {
+            titleKey: 'product.sameStudioGames',
+            sectionId: 'same-studio-games',
+            items: sameStudioGames,
+          },
+          {
+            titleKey: 'product.relatedGenres',
+            sectionId: 'related-genres-games',
+            items: relatedGenresGames,
+          },
+          {
+            titleKey: 'product.topOnPlatforms',
+            sectionId: 'top-platform-games',
+            items: topOnPlatformsGames,
+          },
+        ];
+
+        this.recommendationSections = sections;
+        this.loadingRecommendations = false;
+      },
+      error: () => {
+        this.recommendationSections = [];
+        this.loadingRecommendations = false;
+      },
+    });
+  }
+
+  private scoreSimilarity(base: Game, candidate: Game): number {
+    let score = 0;
+
+    if (base.developerId && candidate.developerId === base.developerId) {
+      score += 4;
+    }
+
+    if (base.publisherId && candidate.publisherId === base.publisherId) {
+      score += 3;
+    }
+
+    const baseGenres = new Set(
+      (base.genres ?? []).map((g) => g.name.toLowerCase().trim()),
+    );
+    const candidateGenres = new Set(
+      (candidate.genres ?? []).map((g) => g.name.toLowerCase().trim()),
+    );
+    let sharedGenres = 0;
+    for (const genre of baseGenres) {
+      if (candidateGenres.has(genre)) sharedGenres++;
+    }
+    score += sharedGenres * 3;
+
+    const basePlatforms = new Set(
+      (base.platforms ?? []).map((p) => p.name.toLowerCase().trim()),
+    );
+    const candidatePlatforms = new Set(
+      (candidate.platforms ?? []).map((p) => p.name.toLowerCase().trim()),
+    );
+    let sharedPlatforms = 0;
+    for (const platform of basePlatforms) {
+      if (candidatePlatforms.has(platform)) sharedPlatforms++;
+    }
+    score += sharedPlatforms * 2;
+
+    const basePrice = (base.isOnSale ? base.salePrice : base.price) ?? 0;
+    const candidatePrice =
+      (candidate.isOnSale ? candidate.salePrice : candidate.price) ?? 0;
+    const priceDiff = Math.abs(basePrice - candidatePrice);
+    if (priceDiff <= 5) score += 2;
+    else if (priceDiff <= 15) score += 1;
+
+    const baseRating = base.rating ?? 0;
+    const candidateRating = candidate.rating ?? 0;
+    if (Math.abs(baseRating - candidateRating) <= 0.7) score += 1;
+
+    if (base.isOnSale && candidate.isOnSale) score += 1;
+
+    return score;
   }
 
   /**
@@ -288,6 +577,19 @@ export class ProductComponent implements OnInit {
   /** Cierra el modal de autenticación. */
   cancelLogin() {
     this.showAuthModal.set(false);
+  }
+
+  openScreenshotModal(imageUrl: string): void {
+    if (!imageUrl) return;
+    this.screenshotModalImage.set(imageUrl);
+    this.isScreenshotModalOpen.set(true);
+    this.renderer.setStyle(this.document.body, 'overflow', 'hidden');
+  }
+
+  closeScreenshotModal(): void {
+    this.isScreenshotModalOpen.set(false);
+    this.screenshotModalImage.set(null);
+    this.renderer.removeStyle(this.document.body, 'overflow');
   }
 
   /**
@@ -386,40 +688,34 @@ export class ProductComponent implements OnInit {
   }
 
   /**
-   * Añade al carrito y redirige inmediatamente a la página de pago/carrito.
+   * Prepara compra individual y abre Stripe directamente.
    */
   buyNow() {
     if (!this.game || !this.checkAuth() || !this.selectedPlatform) return;
 
     const platformId = this.getSelectedPlatformId();
     if (!platformId) return;
+    this.directCheckoutPayload.set({
+      gameId: Number(this.game.id),
+      platformId,
+    });
+    this.buySuccess.set(true);
+    setTimeout(() => this.buySuccess.set(false), 500);
+    this.checkoutModalOpen.set(true);
+  }
 
-    this.cartItemService
-      .add({
-        gameId: Number(this.game.id),
-        platformId,
-        quantity: 1,
-      } as CartItem)
-      .subscribe({
-        next: () => {
-          this.buySuccess.set(true);
-          setTimeout(() => {
-            this.buySuccess.set(false);
-            this.router.navigate(['/cart']);
-          }, 500);
-        },
-        error: (err) => {
-          if (err.status === 401) {
-            this.router.navigate(['/login']);
-          } else if (err.status === 409) {
-            this.buySuccess.set(true);
-            setTimeout(() => {
-              this.buySuccess.set(false);
-              this.router.navigate(['/cart']);
-            }, 500);
-          }
-        },
-      });
+  closeCheckoutModal(): void {
+    this.checkoutModalOpen.set(false);
+    this.directCheckoutPayload.set(null);
+  }
+
+  onCheckoutCompleted(): void {
+    this.checkoutModalOpen.set(false);
+    this.directCheckoutPayload.set(null);
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.loadGame(id);
+    }
   }
 
   /** Comprueba si el juego está disponible para una plataforma dada. */
@@ -452,6 +748,20 @@ export class ProductComponent implements OnInit {
     this.currentMediaIndex = index;
   }
 
+  goToProduct(id: number): void {
+    if (!Number.isFinite(id) || id <= 0) return;
+    if (this.game?.id !== id) {
+      this.game = this.createPlaceholder();
+      this.buildMediaItems();
+      this.recommendationSections = [];
+      this.recommendationSkeletonSections = this.createRecommendationSkeletons();
+      this.loadingRecommendations = true;
+      this.currentMediaIndex = 0;
+      this.selectedPlatform = null;
+    }
+    this.router.navigateByUrl(`/product/${id}`);
+  }
+
   /** Calcula cuántas estrellas llenas mostrar en el rating. */
   getRatingStars(): number[] {
     const rating = this.game?.rating || 0;
@@ -482,5 +792,12 @@ export class ProductComponent implements OnInit {
       return `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&enablejsapi=1${originParam}`;
     }
     return url;
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscapePressed(): void {
+    if (this.isScreenshotModalOpen()) {
+      this.closeScreenshotModal();
+    }
   }
 }
