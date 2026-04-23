@@ -1,9 +1,15 @@
 <div class="flex-1 w-full bg-gray-900 text-white font-sans pb-20">
   <div class="contenedor-imagenes pointer-events-none select-none">
     <img
+      #backgroundFallbackLayer
+      src="assets/images/hero/fondo.webp"
+      class="background background-static pointer-events-none select-none"
+      draggable="false"
+    />
+    <img
       #backgroundLayer
       src="assets/images/hero/fondo.webp"
-      class="background mobile-hide tablet-hide pointer-events-none select-none"
+      class="background background-dynamic mobile-hide tablet-hide pointer-events-none select-none"
       draggable="false"
     />
     <img #jokerLayer src="assets/images/hero/joker.webp" class="joker mobile-hide tablet-hide tablet-landscape-hide pointer-events-none select-none" draggable="false" />
