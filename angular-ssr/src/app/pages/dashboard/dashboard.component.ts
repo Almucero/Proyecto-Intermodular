@@ -54,13 +54,11 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   /** Señal que contiene los datos del usuario autenticado. */
   user = toSignal(this.auth.user$);
   /** Señal con la lista de compras completadas satisfactoriamente. */
-  purchases = toSignal(this.purchaseService.getAll({ status: 'completed' }), {
-    initialValue: [],
-  });
+  purchases = signal<any[]>([]);
   /** Señal con la lista de compras que han sido reembolsadas. */
-  returns = toSignal(this.purchaseService.getAll({ status: 'refunded' }), {
-    initialValue: [],
-  });
+  returns = signal<any[]>([]);
+  purchasesLoading = signal(true);
+  returnsLoading = signal(true);
 
   /** Controla la visibilidad del modal de solicitud de reembolso. */
   isRefundModalOpen = signal(false);
@@ -103,6 +101,8 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   @ViewChildren('actionSizeButton')
   private actionSizeButtons!: QueryList<ElementRef<HTMLButtonElement>>;
   private actionButtonsChangesSubscription?: Subscription;
+  private purchasesSubscription?: Subscription;
+  private returnsSubscription?: Subscription;
   private readonly resizeHandler = () => this.syncActionButtonsWidth();
 
   /**
@@ -138,6 +138,9 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
         if (u.country) this.address.country = u.country;
       }
     });
+
+    this.loadPurchases();
+    this.loadReturns();
   }
 
   ngAfterViewInit() {
@@ -156,6 +159,42 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       window.removeEventListener('resize', this.resizeHandler);
     }
     this.actionButtonsChangesSubscription?.unsubscribe();
+    this.purchasesSubscription?.unsubscribe();
+    this.returnsSubscription?.unsubscribe();
+  }
+
+  private loadPurchases() {
+    this.purchasesLoading.set(true);
+    this.purchasesSubscription?.unsubscribe();
+    this.purchasesSubscription = this.purchaseService
+      .getAll({ status: 'completed' })
+      .subscribe({
+        next: (data) => {
+          this.purchases.set(data);
+          this.purchasesLoading.set(false);
+        },
+        error: () => {
+          this.purchases.set([]);
+          this.purchasesLoading.set(false);
+        },
+      });
+  }
+
+  private loadReturns() {
+    this.returnsLoading.set(true);
+    this.returnsSubscription?.unsubscribe();
+    this.returnsSubscription = this.purchaseService
+      .getAll({ status: 'refunded' })
+      .subscribe({
+        next: (data) => {
+          this.returns.set(data);
+          this.returnsLoading.set(false);
+        },
+        error: () => {
+          this.returns.set([]);
+          this.returnsLoading.set(false);
+        },
+      });
   }
 
   /** Activa o desactiva el modo de edición de perfil. */
