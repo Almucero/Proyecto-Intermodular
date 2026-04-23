@@ -76,7 +76,7 @@ export class CarouselComponent implements AfterViewInit {
    * @param id ID del juego.
    */
   onItemClick(id: number): void {
-    if (!this.isDragging) {
+    if (!this.isDragging && Number.isFinite(id) && id > 0) {
       this.itemClick.emit(id);
     }
   }

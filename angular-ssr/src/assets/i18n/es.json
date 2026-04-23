@@ -342,7 +342,11 @@
     "releaseDate": "Lanzamiento",
     "refund": "Rembolso",
     "cover": "Portada",
-    "image": "Imagen"
+    "image": "Imagen",
+    "similarGames": "Juegos similares",
+    "sameStudioGames": "Mismo estudio o editora",
+    "relatedGenres": "Mismos géneros",
+    "topOnPlatforms": "Top en plataformas compatibles"
   },
   "dashboard": {
     "user": "Usuario",

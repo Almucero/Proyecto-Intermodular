@@ -318,7 +318,11 @@
     "releaseDate": "Veröffentlichung",
     "refund": "Rückerstattung",
     "cover": "Cover",
-    "image": "Bild"
+    "image": "Bild",
+    "similarGames": "Ahnliche Spiele",
+    "sameStudioGames": "Gleiches Studio oder gleicher Publisher",
+    "relatedGenres": "Verwandte Genres",
+    "topOnPlatforms": "Top auf kompatiblen Plattformen"
   },
   "dashboard": {
     "user": "Benutzer",

@@ -8,6 +8,8 @@ import {
   clearCartCtrl,
   createCheckoutSessionCtrl,
   confirmCheckoutSessionCtrl,
+  createDirectCheckoutSessionCtrl,
+  confirmDirectCheckoutSessionCtrl,
 } from './cart.controller';
 
 const router = Router();
@@ -225,6 +227,7 @@ router.delete('/', auth, clearCartCtrl);
  *         description: Error interno del servidor
  */
 router.post('/checkout-session', auth, createCheckoutSessionCtrl);
+router.post('/direct-checkout-session', auth, createDirectCheckoutSessionCtrl);
 
 /**
  * @swagger
@@ -253,5 +256,6 @@ router.post('/checkout-session', auth, createCheckoutSessionCtrl);
  *         description: Error interno del servidor
  */
 router.post('/checkout/confirm', auth, confirmCheckoutSessionCtrl);
+router.post('/direct-checkout/confirm', auth, confirmDirectCheckoutSessionCtrl);
 
 export default router;
