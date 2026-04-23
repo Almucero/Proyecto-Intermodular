@@ -6,12 +6,11 @@
   (click)="onClick()"
 >
   <div
-    #tiltShell
+    appTilt3D
+    [tiltEnabled]="game.id !== -1"
+    [tiltImageScale]="1.03"
     class="game-card-tilt-shell h-32 bg-gray-700 rounded-xl overflow-hidden relative mobile-responsive-image"
     [class.animate-pulse]="game.id === -1"
-    (mouseenter)="onTiltEnter()"
-    (mousemove)="onTiltMove($event)"
-    (mouseleave)="onTiltLeave()"
   >
     <ng-container *ngIf="game.id !== -1">
       <img
@@ -19,18 +18,13 @@
         src="assets/images/ui/sale.webp"
         class="absolute top-0 left-0 w-16 h-16 z-30 pointer-events-none"
       />
-      <div
-        #tiltInner
-        class="game-card-tilt-inner absolute inset-0 z-10 pointer-events-none"
-      >
-        <img
-          [src]="coverUrl"
-          [alt]="game.title"
-          class="w-full h-full object-cover pointer-events-none"
-          crossorigin="anonymous"
-          referrerpolicy="no-referrer"
-        />
-      </div>
+      <img
+        [src]="coverUrl"
+        [alt]="game.title"
+        class="game-card-cover-image absolute inset-0 z-10 w-full h-full object-cover pointer-events-none"
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+      />
     </ng-container>
   </div>
 

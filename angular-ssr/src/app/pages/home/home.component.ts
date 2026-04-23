@@ -31,6 +31,7 @@ import { CarouselComponent } from '../../shared/components/carousel/carousel.com
 })
 export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Capas para el efecto parallax del banner. */
+  @ViewChild('backgroundFallbackLayer') backgroundFallbackLayer!: ElementRef;
   @ViewChild('backgroundLayer') backgroundLayer!: ElementRef;
   @ViewChild('jokerLayer') jokerLayer!: ElementRef;
   @ViewChild('titleLayer') titleLayer!: ElementRef;
@@ -290,6 +291,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.backgroundLayer) {
       const el = this.backgroundLayer.nativeElement as HTMLElement;
       el.style.transform = `translate3d(0, ${bgY - 120}px, 0)`;
+      el.style.filter = `blur(${blurBg}px)`;
+    }
+    if (this.backgroundFallbackLayer) {
+      const el = this.backgroundFallbackLayer.nativeElement as HTMLElement;
       el.style.filter = `blur(${blurBg}px)`;
     }
     if (this.jokerLayer) {

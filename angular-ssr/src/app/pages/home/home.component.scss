@@ -111,19 +111,10 @@
   width: 100%;
   height: calc(60vh + 64px);
   overflow: hidden;
-  background-image: url("/assets/images/hero/fondo.webp");
-  background-size: cover;
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-}
-
-/* En desktop usamos el fondo animado (backgroundLayer). */
-@media (min-width: 1025px) {
-  .contenedor-imagenes {
-    background-image: none;
-  }
 }
 
 .contenedor-imagenes img {
@@ -141,16 +132,23 @@
   left: 0;
   width: 100%;
   height: calc(50vh + 240px);
-  z-index: 0;
   object-fit: cover;
   top: 0;
+}
+
+.background-static {
+  z-index: 0;
+}
+
+.background-dynamic {
+  z-index: 1;
 }
 
 .joker,
 .geralt,
 .titulo {
   height: 40vh;
-  z-index: 1;
+  z-index: 2;
   filter: drop-shadow(0 0 10px #ffffff);
 }
 
@@ -214,7 +212,7 @@
   width: 100%;
   height: 80vh;
   bottom: 0;
-  z-index: 2;
+  z-index: 3;
   filter: drop-shadow(0 0 20px #ffffff);
 }
 
