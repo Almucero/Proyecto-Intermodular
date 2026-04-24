@@ -59,6 +59,30 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   returns = signal<any[]>([]);
   purchasesLoading = signal(true);
   returnsLoading = signal(true);
+  purchasesSkeletonCount = signal(2);
+  returnsSkeletonCount = signal(2);
+  purchaseItemsSkeletonCount = signal(2);
+  returnItemsSkeletonCount = signal(2);
+  purchaseSkeletonCards = computed(() =>
+    this.buildSkeletonRange(this.purchasesSkeletonCount()),
+  );
+  returnSkeletonCards = computed(() =>
+    this.buildSkeletonRange(this.returnsSkeletonCount()),
+  );
+  purchaseSkeletonItems = computed(() =>
+    this.buildSkeletonRange(this.purchaseItemsSkeletonCount()),
+  );
+  returnSkeletonItems = computed(() =>
+    this.buildSkeletonRange(this.returnItemsSkeletonCount()),
+  );
+  private minSkeletonDelayDone = signal(false);
+  dashboardLoading = computed(
+    () =>
+      !this.minSkeletonDelayDone() ||
+      !this.user() ||
+      this.purchasesLoading() ||
+      this.returnsLoading(),
+  );
 
   /** Controla la visibilidad del modal de solicitud de reembolso. */
   isRefundModalOpen = signal(false);
@@ -104,6 +128,12 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   private purchasesSubscription?: Subscription;
   private returnsSubscription?: Subscription;
   private readonly resizeHandler = () => this.syncActionButtonsWidth();
+  private skeletonDelayTimeoutId: ReturnType<typeof setTimeout> | null = null;
+  private readonly purchasesSkeletonCacheKey = 'dashboard.purchasesSkeletonCount';
+  private readonly returnsSkeletonCacheKey = 'dashboard.returnsSkeletonCount';
+  private readonly purchaseItemsSkeletonCacheKey =
+    'dashboard.purchaseItemsSkeletonCount';
+  private readonly returnItemsSkeletonCacheKey = 'dashboard.returnItemsSkeletonCount';
 
   /**
    * Obtiene la URL de la imagen de perfil, priorizando la previsualización local,
@@ -141,6 +171,8 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
 
     this.loadPurchases();
     this.loadReturns();
+    this.startMinimumSkeletonDelay();
+    this.loadSkeletonCountsFromCache();
   }
 
   ngAfterViewInit() {
@@ -161,6 +193,18 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     this.actionButtonsChangesSubscription?.unsubscribe();
     this.purchasesSubscription?.unsubscribe();
     this.returnsSubscription?.unsubscribe();
+    if (this.skeletonDelayTimeoutId) {
+      clearTimeout(this.skeletonDelayTimeoutId);
+      this.skeletonDelayTimeoutId = null;
+    }
+  }
+
+  private startMinimumSkeletonDelay() {
+    this.minSkeletonDelayDone.set(false);
+    this.skeletonDelayTimeoutId = setTimeout(() => {
+      this.minSkeletonDelayDone.set(true);
+      this.skeletonDelayTimeoutId = null;
+    }, 1200);
   }
 
   private loadPurchases() {
@@ -171,6 +215,25 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       .subscribe({
         next: (data) => {
           this.purchases.set(data);
+          const cards = this.normalizeSkeletonCount(
+            data.length,
+            1,
+            4,
+            this.purchasesSkeletonCount(),
+          );
+          const avgItems =
+            data.length > 0
+              ? Math.round(
+                  data.reduce(
+                    (acc, purchase) => acc + (Array.isArray(purchase.items) ? purchase.items.length : 0),
+                    0,
+                  ) / data.length,
+                )
+              : this.purchaseItemsSkeletonCount();
+          const items = this.normalizeSkeletonCount(avgItems, 1, 4, 2);
+          this.purchasesSkeletonCount.set(cards);
+          this.purchaseItemsSkeletonCount.set(items);
+          this.persistSkeletonCounts();
           this.purchasesLoading.set(false);
         },
         error: () => {
@@ -188,6 +251,25 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       .subscribe({
         next: (data) => {
           this.returns.set(data);
+          const cards = this.normalizeSkeletonCount(
+            data.length,
+            1,
+            4,
+            this.returnsSkeletonCount(),
+          );
+          const avgItems =
+            data.length > 0
+              ? Math.round(
+                  data.reduce(
+                    (acc, purchase) => acc + (Array.isArray(purchase.items) ? purchase.items.length : 0),
+                    0,
+                  ) / data.length,
+                )
+              : this.returnItemsSkeletonCount();
+          const items = this.normalizeSkeletonCount(avgItems, 1, 4, 2);
+          this.returnsSkeletonCount.set(cards);
+          this.returnItemsSkeletonCount.set(items);
+          this.persistSkeletonCounts();
           this.returnsLoading.set(false);
         },
         error: () => {
@@ -364,6 +446,59 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     buttons.forEach((button) => {
       button.style.width = `${maxWidth}px`;
     });
+  }
+
+  private buildSkeletonRange(count: number): number[] {
+    return Array.from({ length: Math.max(0, count) }, (_, i) => i + 1);
+  }
+
+  private normalizeSkeletonCount(
+    value: number,
+    min: number,
+    max: number,
+    fallback: number,
+  ): number {
+    const candidate = Number.isFinite(value) && value > 0 ? Math.round(value) : fallback;
+    return Math.min(max, Math.max(min, candidate));
+  }
+
+  private loadSkeletonCountsFromCache(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const purchasesCount = Number(localStorage.getItem(this.purchasesSkeletonCacheKey));
+    const returnsCount = Number(localStorage.getItem(this.returnsSkeletonCacheKey));
+    const purchaseItemsCount = Number(
+      localStorage.getItem(this.purchaseItemsSkeletonCacheKey),
+    );
+    const returnItemsCount = Number(localStorage.getItem(this.returnItemsSkeletonCacheKey));
+    this.purchasesSkeletonCount.set(
+      this.normalizeSkeletonCount(purchasesCount, 1, 4, this.purchasesSkeletonCount()),
+    );
+    this.returnsSkeletonCount.set(
+      this.normalizeSkeletonCount(returnsCount, 1, 4, this.returnsSkeletonCount()),
+    );
+    this.purchaseItemsSkeletonCount.set(
+      this.normalizeSkeletonCount(purchaseItemsCount, 1, 4, this.purchaseItemsSkeletonCount()),
+    );
+    this.returnItemsSkeletonCount.set(
+      this.normalizeSkeletonCount(returnItemsCount, 1, 4, this.returnItemsSkeletonCount()),
+    );
+  }
+
+  private persistSkeletonCounts(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    localStorage.setItem(
+      this.purchasesSkeletonCacheKey,
+      String(this.purchasesSkeletonCount()),
+    );
+    localStorage.setItem(this.returnsSkeletonCacheKey, String(this.returnsSkeletonCount()));
+    localStorage.setItem(
+      this.purchaseItemsSkeletonCacheKey,
+      String(this.purchaseItemsSkeletonCount()),
+    );
+    localStorage.setItem(
+      this.returnItemsSkeletonCacheKey,
+      String(this.returnItemsSkeletonCount()),
+    );
   }
 
   formatPurchaseDate(value: Date | string | null | undefined): string {

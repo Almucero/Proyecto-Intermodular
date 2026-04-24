@@ -83,6 +83,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   isClosingGenreDropdown = false;
   /** Indica si se está visualizando en un dispositivo móvil. */
   isMobile = false;
+  hideSideCharacters = false;
 
   /** Listas de juegos cargados para las diferentes secciones. */
   bestSellers: Game[] = this.createPlaceholders();
@@ -120,6 +121,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     blurBackground: 0,
     blurCharacters: 0,
   };
+  private overlapCheckFrame = 0;
+  private sideCharactersHideLocked = false;
+  private lastViewportKey = '';
 
   constructor(
     private gameService: GameService,
@@ -147,6 +151,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.targetScrollY = window.scrollY || 0;
     this.lastTargetScrollY = this.targetScrollY;
+    this.requestSideCharactersVisibilityCheck();
     this.startParallaxLoop();
   }
 
@@ -165,6 +170,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   @HostListener('window:resize', [])
   onResize() {
     this.checkScreenSize();
+    this.requestSideCharactersVisibilityCheck();
+  }
+
+  @HostListener('window:orientationchange', [])
+  onOrientationChange() {
+    this.requestSideCharactersVisibilityCheck();
   }
 
   /** Determina si la pantalla es móvil o escritorio. */
@@ -321,6 +332,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       el.style.transform = `translate3d(0, ${mainY}px, 0)`;
     }
 
+    this.overlapCheckFrame++;
+    if (this.overlapCheckFrame % 8 === 0) {
+      this.updateSideCharactersVisibility();
+    }
+
     this.lastTargetScrollY = this.targetScrollY;
 
     const done =
@@ -340,6 +356,88 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private lerp(current: number, target: number, alpha: number) {
     return current + (target - current) * alpha;
+  }
+
+  private requestSideCharactersVisibilityCheck() {
+    if (!isPlatformBrowser(this.platformId)) return;
+    this.refreshSideCharactersLockForViewport();
+    this.updateSideCharactersVisibility();
+    requestAnimationFrame(() => {
+      this.updateSideCharactersVisibility();
+      requestAnimationFrame(() => this.updateSideCharactersVisibility());
+    });
+    setTimeout(() => this.updateSideCharactersVisibility(), 120);
+  }
+
+  private refreshSideCharactersLockForViewport() {
+    const viewportKey = `${window.innerWidth}x${window.innerHeight}`;
+    if (viewportKey !== this.lastViewportKey) {
+      this.lastViewportKey = viewportKey;
+      this.sideCharactersHideLocked = false;
+    }
+  }
+
+  updateSideCharactersVisibility() {
+    if (!isPlatformBrowser(this.platformId)) return;
+    if (!this.jokerLayer || !this.geraltLayer || !this.titleLayer) return;
+    this.refreshSideCharactersLockForViewport();
+
+    if (this.sideCharactersHideLocked) {
+      this.hideSideCharacters = true;
+      return;
+    }
+
+    const titleRect = (this.titleLayer.nativeElement as HTMLElement).getBoundingClientRect();
+    const jokerRect = (this.jokerLayer.nativeElement as HTMLElement).getBoundingClientRect();
+    const geraltRect = (this.geraltLayer.nativeElement as HTMLElement).getBoundingClientRect();
+
+    if (titleRect.width <= 0 || titleRect.height <= 0) {
+      return;
+    }
+
+    const shrinkRect = (rect: DOMRect, xInsetPercent: number, yInsetPercent: number) => {
+      const xInset = rect.width * xInsetPercent;
+      const yInset = rect.height * yInsetPercent;
+      return {
+        left: rect.left + xInset,
+        right: rect.right - xInset,
+        top: rect.top + yInset,
+        bottom: rect.bottom - yInset,
+      };
+    };
+
+    const titleCore = shrinkRect(titleRect, 0.18, 0.22);
+    const jokerCore = shrinkRect(jokerRect, 0.2, 0.12);
+    const geraltCore = shrinkRect(geraltRect, 0.2, 0.12);
+
+    const expandRect = (
+      rect: { left: number; right: number; top: number; bottom: number },
+      xPad: number,
+      yPad: number,
+    ) => ({
+      left: rect.left - xPad,
+      right: rect.right + xPad,
+      top: rect.top - yPad,
+      bottom: rect.bottom + yPad,
+    });
+
+    const intersects = (
+      a: { left: number; right: number; top: number; bottom: number },
+      b: { left: number; right: number; top: number; bottom: number },
+    ) => !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
+
+    const enterTitleZone = expandRect(titleCore, 14, 10);
+    const exitTitleZone = expandRect(titleCore, 32, 22);
+    const zone = this.hideSideCharacters ? exitTitleZone : enterTitleZone;
+
+    const jokerZone = expandRect(jokerCore, 10, 8);
+    const geraltZone = expandRect(geraltCore, 10, 8);
+
+    const shouldHide = intersects(jokerZone, zone) || intersects(geraltZone, zone);
+    this.hideSideCharacters = shouldHide;
+    if (shouldHide) {
+      this.sideCharactersHideLocked = true;
+    }
   }
 
   /** Alterna la visibilidad del desplegable de géneros. */

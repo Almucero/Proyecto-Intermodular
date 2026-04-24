@@ -678,7 +678,9 @@
         ></app-carousel>
         <ng-container *ngIf="!loadingRecommendations">
           <app-carousel
-            *ngFor="let section of recommendationSections"
+            *ngFor="let section of recommendationSections; let i = index"
+            [class.hidden]="i === recommendationSections.length - 1"
+            [class.md:block]="i === recommendationSections.length - 1"
             [title]="section.titleKey"
             [items]="section.items"
             [sectionId]="section.sectionId"
