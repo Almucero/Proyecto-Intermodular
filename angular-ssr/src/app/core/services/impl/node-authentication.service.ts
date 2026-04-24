@@ -1,4 +1,4 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, NgZone, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { BaseAuthenticationService } from './base-authentication.service';
 import { IAuthMapping } from '../interfaces/auth-mapping.interface';
@@ -11,13 +11,6 @@ import {
   AUTH_ME_API_URL_TOKEN,
 } from '../../repositories/repository.tokens';
 
-@Injectable({
-  providedIn: 'root',
-})
-/**
- * Implementación de {@link BaseAuthenticationService} para una API basada en Node.js/Express.
- * Gestiona el almacenamiento de tokens JWT en localStorage/sessionStorage y la comunicación con los endpoints de auth.
- */
 @Injectable({
   providedIn: 'root',
 })
@@ -42,17 +35,17 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
     @Inject(AUTH_SIGN_UP_API_URL_TOKEN) protected signUpUrl: string,
     @Inject(AUTH_ME_API_URL_TOKEN) protected meUrl: string,
     @Inject(PLATFORM_ID) private platformId: Object,
+    private ngZone: NgZone,
   ) {
     super(authMapping);
     this.isBrowser = isPlatformBrowser(this.platformId);
-    this.autoLogin();
   }
 
   /**
    * Intenta recuperar la sesión del usuario al cargar la aplicación.
    * Si existe un token válido, obtiene los datos del usuario.
    */
-  public autoLogin() {
+  public autoLogin(startDelayMs: number = 0) {
     if (this.autoLoginStarted) {
       return;
     }
@@ -62,39 +55,59 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
       this._ready.next(true);
       return;
     }
-    const token = this.getToken();
 
-    if (token) {
-      this.me()
-        .pipe(
-          retry({
-            count: 5,
-            delay: (error, retryCount) => {
-              const httpError = error as HttpErrorResponse;
-              const shouldRetry =
-                httpError?.status === 401 ||
-                httpError?.status === 0 ||
-                httpError?.status >= 500;
-              if (!shouldRetry) {
-                return throwError(() => error);
-              }
-              const retryDelayMs = Math.min(1000 * retryCount, 3000);
-              return timer(retryDelayMs);
+    const runAutoLogin = () => {
+      const token = this.getToken();
+      if (!token) {
+        this._ready.next(true);
+        return;
+      }
+
+      this.ngZone.runOutsideAngular(() => {
+        this.me()
+          .pipe(
+            retry({
+              count: 5,
+              delay: (error, retryCount) => {
+                const httpError = error as HttpErrorResponse;
+                const isTransientError = httpError?.status === 0 || httpError?.status >= 500;
+                if (!isTransientError) {
+                  return throwError(() => error);
+                }
+                const retryDelayMs = Math.min(500 * 2 ** (retryCount - 1), 8000);
+                return timer(retryDelayMs);
+              },
+            }),
+          )
+          .subscribe({
+            next: () => {
+              this.ngZone.run(() => {
+                this._ready.next(true);
+              });
             },
-          }),
-        )
-        .subscribe({
-        next: () => {
-          this._ready.next(true);
-        },
-        error: () => {
-          this.signOut();
-          this._ready.next(true);
-        },
+            error: (error) => {
+              this.ngZone.run(() => {
+                const httpError = error as HttpErrorResponse;
+                if (httpError?.status === 401 || httpError?.status === 403) {
+                  this.signOut();
+                } else {
+                  this._authenticated.next(false);
+                  this._user.next(undefined);
+                }
+                this._ready.next(true);
+              });
+            },
+          });
         });
-    } else {
-      this._ready.next(true);
+    };
+
+    if (startDelayMs > 0) {
+      this.ngZone.runOutsideAngular(() => {
+        setTimeout(runAutoLogin, startDelayMs);
+      });
+      return;
     }
+    runAutoLogin();
   }
 
   /**

@@ -1,4 +1,4 @@
-﻿# GameSage SSR - Plataforma de videojuegos
+# GameSage SSR - Plataforma de videojuegos
 
 ## Introducción
 
@@ -319,7 +319,7 @@ La aplicación integra una pasarela de pago embebida con Stripe para cerrar comp
 
 Antes de ejecutar determinados comandos (build, serve, dev, tests, seeds, etc.), el proyecto ejecuta comprobaciones previas que evitan fallos confusos y muestran errores legibles.
 
-- **`scripts/check-npm-install.mjs`**: Comprueba que exista `node_modules` y binarios necesarios (Angular CLI, Prisma). Si no se ha ejecutado `npm install` o la carpeta está incompleta, se muestra un único error indicando que debe ejecutarse `npm install` antes de continuar.
+- **`scripts/check-toolchain.mjs`**: Comprueba que exista `node_modules` y binarios necesarios (Angular CLI, Prisma). Si faltan dependencias o herramientas de build, muestra el comando recomendado según el estado actual (`npm run setup:secure` o `npm install --include=dev --no-audit`).
 
 - **`scripts/check-prisma.mjs`**: Comprueba que el cliente de Prisma esté generado (existe `node_modules/@prisma/client/index.d.ts`). Si no se ha ejecutado `npx prisma generate`, se muestra un error claro antes de que el compilador de TypeScript falle con mensajes sobre campos o tipos faltantes.
 
@@ -406,19 +406,14 @@ Guardar el archivo. Sin estas variables, el backend no arrancará (env.ts lanza 
 En la raíz del proyecto ejecutar:
 
 ```bash
-npm install
-npm audit fix --omit=dev
+npm run setup:secure
 ```
 
-Se instalan las dependencias de `package.json` y las devDependencies (Angular CLI, Prisma, Jest, etc.). Puede tardar varios minutos.
-
-Con las versiones fijadas actualmente en este repositorio, una instalación limpia debería finalizar con `0 vulnerabilities` tras `npm install`.
-
-Se mantiene igualmente `npm audit fix --omit=dev` como paso recomendado por si en tu entorno concreto aparece alguna alerta puntual (por caché local, mirrors o cambios recientes del ecosistema), corrigiendo vulnerabilidades conocidas en dependencias de producción y omitiendo las de desarrollo.
+`npm run setup:secure` instala dependencias con `--no-audit`, aplica correcciones de seguridad en dependencias de producción, restaura automáticamente las devDependencies necesarias para compilar y testear, y finaliza validando `0 vulnerabilities` para producción (`npm audit --omit=dev`).
 
 **Si en Windows PowerShell aparece** *"running scripts is disabled on this system"* al ejecutar `npm`:
 
-- Usa el ejecutable en formato cmd: `npm.cmd install` y `npm.cmd audit fix --omit=dev` (y en general `npm.cmd` en lugar de `npm` para el resto de comandos), o
+- Usa el ejecutable en formato cmd: `npm.cmd run setup:secure` (y en general `npm.cmd` en lugar de `npm` para el resto de comandos), o
 - Abre PowerShell como administrador y ejecuta: `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine` para permitir scripts locales como `npm.ps1`.
 
 ### 7. Prisma: generar cliente y migrar
@@ -484,8 +479,7 @@ El servidor quedará escuchando en `http://localhost:<PORT>` (por defecto 3000).
 ```bash
 cp .env.example .env
 # Editar .env con BD, Cloudinary, JWT, etc.
-npm install
-npm audit fix --omit=dev
+npm run setup:secure
 npx prisma generate
 npx prisma migrate deploy
 npm run seed:admin
@@ -598,7 +592,7 @@ Los comandos están definidos en `package.json`. Para un arranque desde cero com
   - `seed:admin`
   - `build:ssr`
 
-Tras instalar dependencias (`npm install`) conviene ejecutar **`npm audit fix --omit=dev`** para resolver vulnerabilidades reportadas por npm.
+Tras una clonación o reinstalación, usa **`npm run setup:secure`** para dejar el entorno listo y con validación de `0 vulnerabilities` en producción.
 
 ### Tests
 
@@ -639,13 +633,14 @@ Tras instalar dependencias (`npm install`) conviene ejecutar **`npm audit fix --
 
 - **`npm run audit`**: ejecuta `npm audit --audit-level=high --omit=dev` para revisar vulnerabilidades en dependencias de producción (OWASP A06).
 - **`npm run lint`**: ejecuta el análisis estático de código buscando vulnerabilidades de seguridad (vía ESLint y plugin de seguridad).
-- **`npm audit fix --omit=dev`**: corrige vulnerabilidades en dependencias de producción (recomendado tras `npm install`).
+- **`npm run audit:fix:prod`**: corrige vulnerabilidades en dependencias de producción, restaura devDependencies y valida `npm audit --omit=dev` al final.
+- **`npm run setup:secure`**: flujo recomendado tras clonar; instala dependencias y deja el entorno listo para build con validación de seguridad de producción.
 - **`py -3 src/backend/scripts/exportToExcel.py`**: exporta tablas PostgreSQL a un unico Excel para analisis en Power BI (por defecto en `backend-data`, modo incremental).
 - **`npm run watch`**: build en watch (config development).
 - **`npm run format`**: formateo con Prettier.
 - **`npm run clean`**: borra `dist`, `logs`, `coverage`.
 - **`npm run clean:full`**: borra `dist`, `node_modules`, `logs`, `coverage`, `docs`, `documentation` y `.venv`.
-- **`npm run reinstall`**: reinstalación completa (`clean:full` + `npm install`); después ejecutar `npm audit fix --omit=dev`.
+- **`npm run reinstall`**: reinstalación completa (`clean:full` + `npm install`); después ejecutar `npm run setup:secure`.
 
 ### Stripe en local (nota práctica)
 
@@ -663,8 +658,7 @@ Los siguientes comandos cubren la mayoría de flujos habituales:
 - **Instalación y corrección de vulnerabilidades** (tras clonar o cambiar de rama):
 
 ```bash
-npm install
-npm audit fix --omit=dev
+npm run setup:secure
 ```
 
 - **Build SSR + ejecución local**:
