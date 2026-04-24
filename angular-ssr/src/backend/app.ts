@@ -189,8 +189,11 @@ const swaggerSecurityHeaders = (req: express.Request, res: express.Response, nex
   next();
 };
 
+app.get('/api-docs', swaggerSecurityHeaders, (_req, res) => {
+  res.redirect(302, '/api-docs/');
+});
 app.use('/api-docs', swaggerSecurityHeaders, swaggerUi.serve);
-app.get('/api-docs', swaggerSecurityHeaders, (req, res, next) => {
+app.get('/api-docs/', swaggerSecurityHeaders, (req, res, next) => {
   applySecurityHeaders(req, res);
   applyNoCacheHeaders(res);
   

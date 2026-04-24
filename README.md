@@ -105,6 +105,6 @@ El sistema se compone de:
 
 ### Angular SSR + API (Web desplegada): [https://gamingsage.vercel.app/](https://gamingsage.vercel.app/)
 
-### Swagger (API REST): [https://gamingsage.vercel.app/api-docs](https://gamingsage.vercel.app/api-docs)
+### Swagger (API REST): [https://gamingsage.vercel.app/api-docs/](https://gamingsage.vercel.app/api-docs/)
 
-### Compodoc (Documentación técnica): [https://gamingsage.vercel.app/docs](https://gamingsage.vercel.app/docs)
+### Compodoc (Documentación técnica): [https://gamingsage.vercel.app/docs/](https://gamingsage.vercel.app/docs/)
