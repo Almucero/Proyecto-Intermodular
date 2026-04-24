@@ -161,6 +161,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             <li class="link">
                                 <a href="components/SettingsComponent.html" data-type="entity-link" >SettingsComponent</a>
                             </li>
+                            <li class="link">
+                                <a href="components/StripeModalComponent.html" data-type="entity-link" >StripeModalComponent</a>
+                            </li>
                         </ul>
                     </li>
                         <li class="chapter">
@@ -176,6 +179,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 </li>
                                 <li class="link">
                                     <a href="directives/HighlightDirective.html" data-type="entity-link" >HighlightDirective</a>
+                                </li>
+                                <li class="link">
+                                    <a href="directives/Tilt3DDirective.html" data-type="entity-link" >Tilt3DDirective</a>
                                 </li>
                             </ul>
                         </li>
@@ -225,6 +231,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <a href="injectables/ChatService.html" data-type="entity-link" >ChatService</a>
                                 </li>
                                 <li class="link">
+                                    <a href="injectables/CurrencyService.html" data-type="entity-link" >CurrencyService</a>
+                                </li>
+                                <li class="link">
                                     <a href="injectables/DeveloperMappingNodeService.html" data-type="entity-link" >DeveloperMappingNodeService</a>
                                 </li>
                                 <li class="link">
@@ -271,6 +280,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 </li>
                                 <li class="link">
                                     <a href="injectables/NodeRepositoryService.html" data-type="entity-link" >NodeRepositoryService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="injectables/PageTitleService.html" data-type="entity-link" >PageTitleService</a>
                                 </li>
                                 <li class="link">
                                     <a href="injectables/PlatformMappingNodeService.html" data-type="entity-link" >PlatformMappingNodeService</a>
@@ -335,6 +347,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="interfaces/Developer.html" data-type="entity-link" >Developer</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/DirectCheckoutSessionPayload.html" data-type="entity-link" >DirectCheckoutSessionPayload</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/Favorite.html" data-type="entity-link" >Favorite</a>
@@ -463,6 +478,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/PurchaseItem.html" data-type="entity-link" >PurchaseItem</a>
                             </li>
                             <li class="link">
+                                <a href="interfaces/RecommendationSection.html" data-type="entity-link" >RecommendationSection</a>
+                            </li>
+                            <li class="link">
                                 <a href="interfaces/Request.html" data-type="entity-link" >Request</a>
                             </li>
                             <li class="link">
@@ -492,6 +510,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             <ul class="links collapse " ${ isNormalMode ? 'id="pipes-links"' : 'id="xs-pipes-links"' }>
                                 <li class="link">
                                     <a href="pipes/CapitalizePipe.html" data-type="entity-link" >CapitalizePipe</a>
+                                </li>
+                                <li class="link">
+                                    <a href="pipes/LocalizedCurrencyPipe.html" data-type="entity-link" >LocalizedCurrencyPipe</a>
                                 </li>
                                 <li class="link">
                                     <a href="pipes/MarkdownPipe.html" data-type="entity-link" >MarkdownPipe</a>

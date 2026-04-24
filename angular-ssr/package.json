@@ -29,7 +29,7 @@
     "reinstall": "npm run clean:full && npm install",
     "audit": "node scripts/check-npm-install.mjs && npm audit --audit-level=high --omit=dev",
     "lint": "eslint src",
-    "vercel-build": "node scripts/check-npm-install.mjs && npx prisma generate && npm run build:ssr",
+    "vercel-build": "node scripts/check-npm-install.mjs && npx prisma generate && npm run docs:build && npm run build:ssr && node scripts/copy-docs-to-browser.mjs",
     "postinstall": "npx prisma generate",
     "docs": "npm run docs:serve",
     "docs:serve": "compodoc -p tsconfig.doc.json -s --output docs",

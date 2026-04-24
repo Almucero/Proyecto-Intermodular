@@ -295,6 +295,9 @@ Incluye animaciones para la expansión/colapso de las secciones de filtros.</p>
                                 <a href="#filterByPrice" >filterByPrice</a>
                             </li>
                             <li>
+                                <a href="#formatPrice" >formatPrice</a>
+                            </li>
+                            <li>
                                 <a href="#getCoverUrl" >getCoverUrl</a>
                             </li>
                             <li>
@@ -354,12 +357,12 @@ Incluye animaciones para la expansión/colapso de las secciones de filtros.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, gameService: <a href="../injectables/GameService.html" target="_self">GameService</a>, platformService: <a href="../injectables/PlatformService.html" target="_self">PlatformService</a>)</code>
+<code>constructor(route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, gameService: <a href="../injectables/GameService.html" target="_self">GameService</a>, platformService: <a href="../injectables/PlatformService.html" target="_self">PlatformService</a>, currencyService: <a href="../injectables/CurrencyService.html" target="_self">CurrencyService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/app/pages/search/search.component.ts:85</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">src/app/pages/search/search.component.ts:86</a></div>
                             </td>
                         </tr>
 
@@ -424,6 +427,18 @@ Incluye animaciones para la expansión/colapso de las secciones de filtros.</p>
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>currencyService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/CurrencyService.html" target="_self" >CurrencyService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -462,8 +477,8 @@ Incluye animaciones para la expansión/colapso de las secciones de filtros.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="312"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:312</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="314"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:314</a></div>
                         </td>
                     </tr>
 
@@ -502,8 +517,8 @@ basándose en todos los criterios seleccionados.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="115"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:115</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="117"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:117</a></div>
                         </td>
                     </tr>
 
@@ -541,8 +556,8 @@ basándose en todos los criterios seleccionados.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="364"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:364</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="366"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:366</a></div>
                         </td>
                     </tr>
 
@@ -622,8 +637,8 @@ basándose en todos los criterios seleccionados.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="373"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:373</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="375"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:375</a></div>
                         </td>
                     </tr>
 
@@ -703,8 +718,8 @@ basándose en todos los criterios seleccionados.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="342"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:342</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="344"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:344</a></div>
                         </td>
                     </tr>
 
@@ -768,6 +783,73 @@ basándose en todos los criterios seleccionados.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="formatPrice"></a>
+                    <span class="name">
+                        <span ><b>formatPrice</b></span>
+                        <a href="#formatPrice"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>formatPrice(value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="429"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:429</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getCoverUrl"></a>
                     <span class="name">
                         <span ><b>getCoverUrl</b></span>
@@ -784,8 +866,8 @@ basándose en todos los criterios seleccionados.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="415"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:415</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="417"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:417</a></div>
                         </td>
                     </tr>
 
@@ -853,8 +935,8 @@ basándose en todos los criterios seleccionados.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="423"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:423</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="425"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:425</a></div>
                         </td>
                     </tr>
 
@@ -922,8 +1004,8 @@ basándose en todos los criterios seleccionados.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="137"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:137</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="139"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:139</a></div>
                         </td>
                     </tr>
 
@@ -961,8 +1043,8 @@ basándose en todos los criterios seleccionados.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="196"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:196</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="198"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:198</a></div>
                         </td>
                     </tr>
 
@@ -1001,8 +1083,8 @@ También calcula el rango máximo de precio basado en los juegos recibidos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="180"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:180</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="182"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:182</a></div>
                         </td>
                     </tr>
 
@@ -1040,8 +1122,8 @@ También calcula el rango máximo de precio basado en los juegos recibidos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="98"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:98</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="100"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:100</a></div>
                         </td>
                     </tr>
 
@@ -1080,8 +1162,8 @@ y suscribiéndose a los parámetros de la URL.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="236"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:236</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="238"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:238</a></div>
                         </td>
                     </tr>
 
@@ -1149,8 +1231,8 @@ y suscribiéndose a los parámetros de la URL.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="244"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:244</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="246"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:246</a></div>
                         </td>
                     </tr>
 
@@ -1218,8 +1300,8 @@ y suscribiéndose a los parámetros de la URL.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="221"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:221</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="223"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:223</a></div>
                         </td>
                     </tr>
 
@@ -1287,8 +1369,8 @@ y suscribiéndose a los parámetros de la URL.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="229"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:229</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="231"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:231</a></div>
                         </td>
                     </tr>
 
@@ -1326,8 +1408,8 @@ y suscribiéndose a los parámetros de la URL.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="382"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:382</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="384"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:384</a></div>
                         </td>
                     </tr>
 
@@ -1395,8 +1477,8 @@ y suscribiéndose a los parámetros de la URL.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="396"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:396</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="398"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:398</a></div>
                         </td>
                     </tr>
 
@@ -1434,8 +1516,8 @@ y suscribiéndose a los parámetros de la URL.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="406"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:406</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="408"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:408</a></div>
                         </td>
                     </tr>
 
@@ -1503,8 +1585,8 @@ y suscribiéndose a los parámetros de la URL.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="254"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:254</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="256"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:256</a></div>
                         </td>
                     </tr>
 
@@ -1552,7 +1634,7 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/pages/search/search.component.ts:62</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/pages/search/search.component.ts:63</a></div>
                         </td>
                     </tr>
 
@@ -1589,7 +1671,7 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/pages/search/search.component.ts:59</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/pages/search/search.component.ts:60</a></div>
                         </td>
                     </tr>
 
@@ -1630,7 +1712,7 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">src/app/pages/search/search.component.ts:76</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/pages/search/search.component.ts:77</a></div>
                         </td>
                     </tr>
 
@@ -1667,7 +1749,7 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/pages/search/search.component.ts:57</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/pages/search/search.component.ts:58</a></div>
                         </td>
                     </tr>
 
@@ -1704,7 +1786,7 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">src/app/pages/search/search.component.ts:84</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/app/pages/search/search.component.ts:85</a></div>
                         </td>
                     </tr>
 
@@ -1735,7 +1817,7 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/app/pages/search/search.component.ts:72</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">src/app/pages/search/search.component.ts:73</a></div>
                         </td>
                     </tr>
 
@@ -1766,7 +1848,7 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">src/app/pages/search/search.component.ts:71</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/app/pages/search/search.component.ts:72</a></div>
                         </td>
                     </tr>
 
@@ -1803,7 +1885,7 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/app/pages/search/search.component.ts:85</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">src/app/pages/search/search.component.ts:86</a></div>
                         </td>
                     </tr>
 
@@ -1834,7 +1916,7 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">src/app/pages/search/search.component.ts:83</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">src/app/pages/search/search.component.ts:84</a></div>
                         </td>
                     </tr>
 
@@ -1871,7 +1953,7 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">src/app/pages/search/search.component.ts:73</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/app/pages/search/search.component.ts:74</a></div>
                         </td>
                     </tr>
 
@@ -1902,7 +1984,7 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/pages/search/search.component.ts:55</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/pages/search/search.component.ts:56</a></div>
                         </td>
                     </tr>
 
@@ -1939,7 +2021,7 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/pages/search/search.component.ts:66</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/pages/search/search.component.ts:67</a></div>
                         </td>
                     </tr>
 
@@ -1976,7 +2058,7 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/app/pages/search/search.component.ts:68</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/pages/search/search.component.ts:69</a></div>
                         </td>
                     </tr>
 
@@ -2013,7 +2095,7 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/app/pages/search/search.component.ts:64</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/pages/search/search.component.ts:65</a></div>
                         </td>
                     </tr>
 
@@ -2041,6 +2123,7 @@ import { PlatformService } from &#x27;../../core/services/impl/platform.service&
 import { Game } from &#x27;../../core/models/game.model&#x27;;
 import { GameCardComponent } from &#x27;../../shared/components/game-card/game-card.component&#x27;;
 import { FormsModule } from &#x27;@angular/forms&#x27;;
+import { CurrencyService } from &#x27;../../core/services/currency.service&#x27;;
 
 import {
   trigger,
@@ -2123,6 +2206,7 @@ export class SearchComponent implements OnInit {
     private router: Router,
     private gameService: GameService,
     private platformService: PlatformService,
+    private currencyService: CurrencyService,
   ) {}
 
   /**
@@ -2296,7 +2380,7 @@ export class SearchComponent implements OnInit {
         this.activeFilters.push({
           type: &#x27;price&#x27;,
           value: this.selectedPrice,
-          label: &#x60;Max: ${this.priceValue}€&#x60;,
+          label: &#x60;Max: ${this.formatPrice(this.priceValue)}&#x60;,
         });
       } else {
         const priceOption &#x3D; this.priceOptions.find(
@@ -2457,6 +2541,18 @@ export class SearchComponent implements OnInit {
   goToProduct(id: number): void {
     this.router.navigate([&#x27;/product&#x27;, id.toString()]);
   }
+
+  formatPrice(value: number): string {
+    const converted &#x3D; this.currencyService.convertFromEur(value);
+    const code &#x3D; this.currencyService.getCurrencyCode();
+    const locale &#x3D; this.currencyService.getLocaleCode();
+    return new Intl.NumberFormat(locale, {
+      style: &#x27;currency&#x27;,
+      currency: code,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(converted);
+  }
 }
 </code></pre>
     </div>
@@ -2586,7 +2682,7 @@ export class SearchComponent implements OnInit {
 
                   &lt;div class&#x3D;&quot;pt-2 border-t border-gray-800&quot;&gt;
                     &lt;label class&#x3D;&quot;block text-sm text-gray-400 mb-2&quot;
-                      &gt;Max: {{ priceValue }}€&lt;/label
+                      &gt;Max: {{ formatPrice(priceValue) }}&lt;/label
                     &gt;
                     &lt;input
                       type&#x3D;&quot;range&quot;
@@ -2599,8 +2695,8 @@ export class SearchComponent implements OnInit {
                     &lt;div
                       class&#x3D;&quot;flex justify-between text-xs text-gray-500 mt-1&quot;
                     &gt;
-                      &lt;span&gt;{{ minPrice }}€&lt;/span&gt;
-                      &lt;span&gt;{{ maxPrice }}€&lt;/span&gt;
+                      &lt;span&gt;{{ formatPrice(minPrice) }}&lt;/span&gt;
+                      &lt;span&gt;{{ formatPrice(maxPrice) }}&lt;/span&gt;
                     &lt;/div&gt;
                   &lt;/div&gt;
                 &lt;/div&gt;
@@ -2759,9 +2855,9 @@ export class SearchComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="flex-1 w-full bg-gray-900 text-white font-sans pb-20">  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">    <div class="flex flex-col sm:flex-row gap-8">      <div class="flex-1 order-2 sm:order-1">        <div          *ngIf="filteredGames.length > 0"          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-24 search-results-grid"        >          <app-game-card            *ngFor="let game of filteredGames"            [game]="game"            [coverUrl]="getCoverUrl(game)"            [fullWidth]="true"            (cardClick)="goToProduct($event)"          ></app-game-card>        </div>        <div          *ngIf="filteredGames.length === 0"          class="text-center text-gray-400 py-20"        >          <p class="text-xl">{{ "search.noResults" | translate }}</p>        </div>      </div>      <div class="w-full sm:w-80 order-1 sm:order-2 sticky top-24 h-fit">        <div class="bg-gray-900 rounded-lg p-4">          <div class="flex items-center justify-between mb-4">            <h3 class="text-xl font-bold text-white">              {{ "search.title" | translate }}              <span *ngIf="activeFilters.length > 0"                >({{ activeFilters.length }})</span              >            </h3>            <button              *ngIf="activeFilters.length > 0"              (click)="resetFilters()"              class="text-cyan-400 hover:text-cyan-300 text-base capitalize font-medium transition-colors reset-button-style appearance-none cursor-pointer"            >              {{ "search.reset" | translate }}            </button>          </div>          <div            *ngIf="activeFilters.length > 0"            class="flex flex-wrap gap-2 mb-6"          >            <div              *ngFor="let filter of activeFilters"              class="bg-gray-800 border border-gray-700 text-gray-300 px-3 py-1 rounded-full text-sm flex items-center gap-2"            >              <span>{{ filter.label | translate }}</span>              <button                (click)="removeFilter(filter.type)"                class="hover:text-white transition-colors filter-button-style appearance-none cursor-pointer flex items-center justify-center"                [title]="\'search.removeFilter\' | translate"              >                &times;              </button>            </div>          </div>          <div class="space-y-4">            <div class="border border-gray-800 rounded-lg overflow-hidden">              <button                (click)="toggleFilter(\'price\')"                class="w-full flex items-center justify-between p-4 bg-gray-900 transition-colors focus:outline-none filter-toggle-button ring-0"                [class.hover:bg-gray-800]="!filtersExpanded[\'price\']"              >                <span class="font-medium text-gray-300">{{                  "search.filters.price.label" | translate                }}</span>                <span                  class="transform transition-transform duration-200"                  [class.rotate-180]="filtersExpanded[\'price\']"                >                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"                      clip-rule="evenodd"                    />                  </svg>                </span>              </button>              <div                *ngIf="filtersExpanded[\'price\']"                [@expandCollapse]                class="px-4 pb-4 bg-gray-900"              >                <hr class="border-white mb-4" />                <div class="space-y-4">                  <div class="space-y-2">                    <div                      *ngFor="let option of priceOptions"                      (click)="                        selectedPrice = option.value;                        updateActiveFilters();                        applyFilters()                      "                      class="cursor-pointer flex items-center justify-between group"                      [class.text-cyan-400]="selectedPrice === option.value"                      [class.text-gray-400]="selectedPrice !== option.value"                    >                      <span                        class="group-hover:text-cyan-400 transition-colors"                        >{{ option.label | translate }}</span                      >                      <span                        *ngIf="selectedPrice === option.value"                        class="text-cyan-400"                        >&check;</span                      >                    </div>                  </div>                  <div class="pt-2 border-t border-gray-800">                    <label class="block text-sm text-gray-400 mb-2"                      >Max: {{ priceValue }}€</label                    >                    <input                      type="range"                      [min]="minPrice"                      [max]="maxPrice"                      [(ngModel)]="priceValue"                      (change)="onPriceSliderChange()"                      class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-cyan-500"                    />                    <div                      class="flex justify-between text-xs text-gray-500 mt-1"                    >                      <span>{{ minPrice }}€</span>                      <span>{{ maxPrice }}€</span>                    </div>                  </div>                </div>              </div>            </div>            <div class="border border-gray-800 rounded-lg overflow-hidden">              <button                (click)="toggleFilter(\'genre\')"                class="w-full flex items-center justify-between p-4 bg-gray-900 transition-colors focus:outline-none filter-toggle-button ring-0"                [class.hover:bg-gray-800]="!filtersExpanded[\'genre\']"              >                <span class="font-medium text-gray-300">{{                  "search.filters.genre.label" | translate                }}</span>                <span                  class="transform transition-transform duration-200"                  [class.rotate-180]="filtersExpanded[\'genre\']"                >                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"                      clip-rule="evenodd"                    />                  </svg>                </span>              </button>              <div                *ngIf="filtersExpanded[\'genre\']"                [@expandCollapse]                class="px-4 pb-4 bg-gray-900"              >                <hr class="border-white mb-4" />                <div class="space-y-2">                  <div                    *ngFor="let option of genreOptions"                    (click)="                      selectedGenre = option.value;                      updateActiveFilters();                      applyFilters()                    "                    class="cursor-pointer flex items-center justify-between group"                    [class.text-cyan-400]="selectedGenre === option.value"                    [class.text-gray-400]="selectedGenre !== option.value"                  >                    <span class="group-hover:text-cyan-400 transition-colors">{{                      option.label | translate                    }}</span>                    <span                      *ngIf="selectedGenre === option.value"                      class="text-cyan-400"                      >&check;</span                    >                  </div>                </div>              </div>            </div>            <div class="border border-gray-800 rounded-lg overflow-hidden">              <button                (click)="toggleFilter(\'platform\')"                class="w-full flex items-center justify-between p-4 bg-gray-900 transition-colors focus:outline-none filter-toggle-button ring-0"                [class.hover:bg-gray-800]="!filtersExpanded[\'platform\']"              >                <span class="font-medium text-gray-300">{{                  "search.filters.platform.label" | translate                }}</span>                <span                  class="transform transition-transform duration-200"                  [class.rotate-180]="filtersExpanded[\'platform\']"                >                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"                      clip-rule="evenodd"                    />                  </svg>                </span>              </button>              <div                *ngIf="filtersExpanded[\'platform\']"                [@expandCollapse]                class="px-4 pb-4 bg-gray-900"              >                <hr class="border-white mb-4" />                <div class="space-y-2">                  <div                    *ngFor="let option of platformOptions"                    (click)="                      selectedPlatform = option.value;                      updateActiveFilters();                      applyFilters()                    "                    class="cursor-pointer flex items-center justify-between group"                    [class.text-cyan-400]="selectedPlatform === option.value"                    [class.text-gray-400]="selectedPlatform !== option.value"                  >                    <span class="group-hover:text-cyan-400 transition-colors">{{                      option.label                    }}</span>                    <span                      *ngIf="selectedPlatform === option.value"                      class="text-cyan-400"                      >&check;</span                    >                  </div>                </div>              </div>            </div>          </div>        </div>      </div>    </div>  </div></div></div>'
-    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'}];
-    var DIRECTIVES = [{'name': 'CopyOnClickDirective', 'selector': '[appCopyOnClick]'},{'name': 'HighlightDirective', 'selector': '[appHighlight]'}];
+        var COMPONENT_TEMPLATE = '<div><div class="flex-1 w-full bg-gray-900 text-white font-sans pb-20">  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">    <div class="flex flex-col sm:flex-row gap-8">      <div class="flex-1 order-2 sm:order-1">        <div          *ngIf="filteredGames.length > 0"          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-24 search-results-grid"        >          <app-game-card            *ngFor="let game of filteredGames"            [game]="game"            [coverUrl]="getCoverUrl(game)"            [fullWidth]="true"            (cardClick)="goToProduct($event)"          ></app-game-card>        </div>        <div          *ngIf="filteredGames.length === 0"          class="text-center text-gray-400 py-20"        >          <p class="text-xl">{{ "search.noResults" | translate }}</p>        </div>      </div>      <div class="w-full sm:w-80 order-1 sm:order-2 sticky top-24 h-fit">        <div class="bg-gray-900 rounded-lg p-4">          <div class="flex items-center justify-between mb-4">            <h3 class="text-xl font-bold text-white">              {{ "search.title" | translate }}              <span *ngIf="activeFilters.length > 0"                >({{ activeFilters.length }})</span              >            </h3>            <button              *ngIf="activeFilters.length > 0"              (click)="resetFilters()"              class="text-cyan-400 hover:text-cyan-300 text-base capitalize font-medium transition-colors reset-button-style appearance-none cursor-pointer"            >              {{ "search.reset" | translate }}            </button>          </div>          <div            *ngIf="activeFilters.length > 0"            class="flex flex-wrap gap-2 mb-6"          >            <div              *ngFor="let filter of activeFilters"              class="bg-gray-800 border border-gray-700 text-gray-300 px-3 py-1 rounded-full text-sm flex items-center gap-2"            >              <span>{{ filter.label | translate }}</span>              <button                (click)="removeFilter(filter.type)"                class="hover:text-white transition-colors filter-button-style appearance-none cursor-pointer flex items-center justify-center"                [title]="\'search.removeFilter\' | translate"              >                &times;              </button>            </div>          </div>          <div class="space-y-4">            <div class="border border-gray-800 rounded-lg overflow-hidden">              <button                (click)="toggleFilter(\'price\')"                class="w-full flex items-center justify-between p-4 bg-gray-900 transition-colors focus:outline-none filter-toggle-button ring-0"                [class.hover:bg-gray-800]="!filtersExpanded[\'price\']"              >                <span class="font-medium text-gray-300">{{                  "search.filters.price.label" | translate                }}</span>                <span                  class="transform transition-transform duration-200"                  [class.rotate-180]="filtersExpanded[\'price\']"                >                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"                      clip-rule="evenodd"                    />                  </svg>                </span>              </button>              <div                *ngIf="filtersExpanded[\'price\']"                [@expandCollapse]                class="px-4 pb-4 bg-gray-900"              >                <hr class="border-white mb-4" />                <div class="space-y-4">                  <div class="space-y-2">                    <div                      *ngFor="let option of priceOptions"                      (click)="                        selectedPrice = option.value;                        updateActiveFilters();                        applyFilters()                      "                      class="cursor-pointer flex items-center justify-between group"                      [class.text-cyan-400]="selectedPrice === option.value"                      [class.text-gray-400]="selectedPrice !== option.value"                    >                      <span                        class="group-hover:text-cyan-400 transition-colors"                        >{{ option.label | translate }}</span                      >                      <span                        *ngIf="selectedPrice === option.value"                        class="text-cyan-400"                        >&check;</span                      >                    </div>                  </div>                  <div class="pt-2 border-t border-gray-800">                    <label class="block text-sm text-gray-400 mb-2"                      >Max: {{ formatPrice(priceValue) }}</label                    >                    <input                      type="range"                      [min]="minPrice"                      [max]="maxPrice"                      [(ngModel)]="priceValue"                      (change)="onPriceSliderChange()"                      class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-cyan-500"                    />                    <div                      class="flex justify-between text-xs text-gray-500 mt-1"                    >                      <span>{{ formatPrice(minPrice) }}</span>                      <span>{{ formatPrice(maxPrice) }}</span>                    </div>                  </div>                </div>              </div>            </div>            <div class="border border-gray-800 rounded-lg overflow-hidden">              <button                (click)="toggleFilter(\'genre\')"                class="w-full flex items-center justify-between p-4 bg-gray-900 transition-colors focus:outline-none filter-toggle-button ring-0"                [class.hover:bg-gray-800]="!filtersExpanded[\'genre\']"              >                <span class="font-medium text-gray-300">{{                  "search.filters.genre.label" | translate                }}</span>                <span                  class="transform transition-transform duration-200"                  [class.rotate-180]="filtersExpanded[\'genre\']"                >                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"                      clip-rule="evenodd"                    />                  </svg>                </span>              </button>              <div                *ngIf="filtersExpanded[\'genre\']"                [@expandCollapse]                class="px-4 pb-4 bg-gray-900"              >                <hr class="border-white mb-4" />                <div class="space-y-2">                  <div                    *ngFor="let option of genreOptions"                    (click)="                      selectedGenre = option.value;                      updateActiveFilters();                      applyFilters()                    "                    class="cursor-pointer flex items-center justify-between group"                    [class.text-cyan-400]="selectedGenre === option.value"                    [class.text-gray-400]="selectedGenre !== option.value"                  >                    <span class="group-hover:text-cyan-400 transition-colors">{{                      option.label | translate                    }}</span>                    <span                      *ngIf="selectedGenre === option.value"                      class="text-cyan-400"                      >&check;</span                    >                  </div>                </div>              </div>            </div>            <div class="border border-gray-800 rounded-lg overflow-hidden">              <button                (click)="toggleFilter(\'platform\')"                class="w-full flex items-center justify-between p-4 bg-gray-900 transition-colors focus:outline-none filter-toggle-button ring-0"                [class.hover:bg-gray-800]="!filtersExpanded[\'platform\']"              >                <span class="font-medium text-gray-300">{{                  "search.filters.platform.label" | translate                }}</span>                <span                  class="transform transition-transform duration-200"                  [class.rotate-180]="filtersExpanded[\'platform\']"                >                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"                      clip-rule="evenodd"                    />                  </svg>                </span>              </button>              <div                *ngIf="filtersExpanded[\'platform\']"                [@expandCollapse]                class="px-4 pb-4 bg-gray-900"              >                <hr class="border-white mb-4" />                <div class="space-y-2">                  <div                    *ngFor="let option of platformOptions"                    (click)="                      selectedPlatform = option.value;                      updateActiveFilters();                      applyFilters()                    "                    class="cursor-pointer flex items-center justify-between group"                    [class.text-cyan-400]="selectedPlatform === option.value"                    [class.text-gray-400]="selectedPlatform !== option.value"                  >                    <span class="group-hover:text-cyan-400 transition-colors">{{                      option.label                    }}</span>                    <span                      *ngIf="selectedPlatform === option.value"                      class="text-cyan-400"                      >&check;</span                    >                  </div>                </div>              </div>            </div>          </div>        </div>      </div>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'StripeModalComponent', 'selector': 'app-stripe-modal'}];
+    var DIRECTIVES = [{'name': 'CopyOnClickDirective', 'selector': '[appCopyOnClick]'},{'name': 'HighlightDirective', 'selector': '[appHighlight]'},{'name': 'Tilt3DDirective', 'selector': '[appTilt3D]'}];
     var ACTUAL_COMPONENT = {'name': 'SearchComponent'};
 </script>
 <script src="../js/tree.js"></script>

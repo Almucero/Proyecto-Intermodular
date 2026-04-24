@@ -168,6 +168,10 @@ Permite listar compras y gestionar reembolsos.</p>
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getAuthHeaders" >getAuthHeaders</a>
+                            </li>
+                            <li>
                                 <a href="#refund" >refund</a>
                             </li>
                             <li>
@@ -203,12 +207,12 @@ Permite listar compras y gestionar reembolsos.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(repository: IBaseRepository<Purchase>)</code>
+<code>constructor(repository: IBaseRepository<Purchase>, http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, apiUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, resource: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, auth: <a href="../injectables/BaseAuthenticationService.html" target="_self">BaseAuthenticationService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/core/services/impl/purchase.service.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/core/services/impl/purchase.service.ts:24</a></div>
                             </td>
                         </tr>
 
@@ -242,6 +246,62 @@ Permite listar compras y gestionar reembolsos.</p>
 
                                                         </td>
                                                 </tr>
+                                                <tr>
+                                                        <td>http</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/common/http/HttpClient" target="_blank" >HttpClient</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>apiUrl</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>resource</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>auth</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/BaseAuthenticationService.html" target="_self" >BaseAuthenticationService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                        </td>
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -256,6 +316,45 @@ Permite listar compras y gestionar reembolsos.</p>
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAuthHeaders"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getAuthHeaders</b></span>
+                        <a href="#getAuthHeaders"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getAuthHeaders()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="38"
+                                    class="link-to-prism">src/app/core/services/impl/purchase.service.ts:38</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -276,8 +375,8 @@ Permite listar compras y gestionar reembolsos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="34"
-                                    class="link-to-prism">src/app/core/services/impl/purchase.service.ts:34</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="51"
+                                    class="link-to-prism">src/app/core/services/impl/purchase.service.ts:51</a></div>
                         </td>
                     </tr>
 
@@ -775,11 +874,17 @@ Permite listar compras y gestionar reembolsos.</p>
 
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable } from &#x27;@angular/core&#x27;;
+import { HttpClient } from &#x27;@angular/common/http&#x27;;
 import { BaseService } from &#x27;./base-service.service&#x27;;
-import { PURCHASE_REPOSITORY_TOKEN } from &#x27;../../repositories/repository.tokens&#x27;;
+import {
+  API_URL_TOKEN,
+  PURCHASE_REPOSITORY_TOKEN,
+  PURCHASE_RESOURCE_NAME_TOKEN,
+} from &#x27;../../repositories/repository.tokens&#x27;;
 import type { IBaseRepository } from &#x27;../../repositories/interfaces/base-repository.interface&#x27;;
 import { Purchase } from &#x27;../../models/purchase.model&#x27;;
 import { IPurchaseService } from &#x27;../interfaces/purchase-service.interface&#x27;;
+import { BaseAuthenticationService } from &#x27;./base-authentication.service&#x27;;
 
 /**
  * Servicio para la gestión de compras y transacciones.
@@ -797,8 +902,19 @@ export class PurchaseService
    */
   constructor(
     @Inject(PURCHASE_REPOSITORY_TOKEN) repository: IBaseRepository&lt;Purchase&gt;,
+    private http: HttpClient,
+    @Inject(API_URL_TOKEN) private apiUrl: string,
+    @Inject(PURCHASE_RESOURCE_NAME_TOKEN) private resource: string,
+    private auth: BaseAuthenticationService,
   ) {
     super(repository);
+  }
+
+  private getAuthHeaders(): any {
+    const headers: any &#x3D; {};
+    const token &#x3D; this.auth.getToken();
+    if (token) headers[&#x27;Authorization&#x27;] &#x3D; &#x60;Bearer ${token}&#x60;;
+    return headers;
   }
 
   /**
@@ -808,10 +924,11 @@ export class PurchaseService
    * @returns Observable con la compra actualizada (estado &#x27;refunded&#x27;).
    */
   refund(id: number, reason: string) {
-    return this.update(id.toString(), {
-      status: &#x27;refunded&#x27;,
-      refundReason: reason,
-    } as any);
+    return this.http.post&lt;Purchase&gt;(
+      &#x60;${this.apiUrl}/${this.resource}/${id}/refund&#x60;,
+      { reason },
+      { headers: this.getAuthHeaders() },
+    );
   }
 }
 </code></pre>

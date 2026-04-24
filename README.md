@@ -103,4 +103,10 @@ El sistema se compone de:
 
 ### Figma Móvil: [https://www.figma.com/proto/...](https://www.figma.com/proto/8WRYpwCvkO9wDyGhu57rel/App-venta-de-videojuegos?node-id=567-2837&p=f&t=a0jbOffYZnVYoZLL-0&scaling=scale-down&content-scaling=fixed&page-id=16%3A2973&starting-point-node-id=567%3A2837)
 
-### URL del proyecto unificado (Angular SSR + API): [https://gamingsage.vercel.app/](https://gamingsage.vercel.app/)
+### Angular SSR + API: [https://gamingsage.vercel.app/](https://gamingsage.vercel.app/)
+
+### Swagger (API REST): [https://gamingsage.vercel.app/api-docs](https://gamingsage.vercel.app/api-docs)
+
+### Compodoc (documentación técnica en Vercel): [https://gamingsage.vercel.app/docs](https://gamingsage.vercel.app/docs)
+
+### Compodoc local (modo desarrollo): tras `npm run docs:serve` -> [http://localhost:8080](http://localhost:8080)

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
+import { take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -37,17 +38,25 @@ export class PageTitleService {
   }
 
   private apply(): void {
+    const key = this.resolveRouteTitleKey(this.currentUrl);
     if (this.isProductRoute(this.currentUrl) && this.currentProductTitle) {
-      const productLabel = this.translate('pageTitle.product');
+      const productLabel = this.translateOrDefault('pageTitle.product', 'Producto');
       this.title.setTitle(
         `${this.brand} - ${this.currentProductTitle} | ${productLabel}`,
       );
+      this.translateAsync('pageTitle.product', 'Producto', (resolvedProductLabel) => {
+        this.title.setTitle(
+          `${this.brand} - ${this.currentProductTitle} | ${resolvedProductLabel}`,
+        );
+      });
       return;
     }
 
-    const key = this.resolveRouteTitleKey(this.currentUrl);
-    const pageTitle = this.translate(key);
+    const pageTitle = this.translateOrDefault(key, 'Inicio');
     this.title.setTitle(`${this.brand} - ${pageTitle}`);
+    this.translateAsync(key, 'Inicio', (resolvedTitle) => {
+      this.title.setTitle(`${this.brand} - ${resolvedTitle}`);
+    });
   }
 
   private resolveRouteTitleKey(url: string): string {
@@ -75,12 +84,34 @@ export class PageTitleService {
     return 'pageTitle.home';
   }
 
-  private translate(key: string): string {
+  private translateOrDefault(key: string, defaultValue: string): string {
     const value = this.translateService.instant(key);
     if (typeof value === 'string' && value !== key) {
       return value;
     }
-    return this.translateService.instant('pageTitle.home');
+    return defaultValue;
+  }
+
+  private translateAsync(
+    key: string,
+    defaultValue: string,
+    callback: (value: string) => void,
+  ): void {
+    this.translateService
+      .get(key)
+      .pipe(take(1))
+      .subscribe({
+        next: (value) => {
+          if (typeof value === 'string' && value !== key) {
+            callback(value);
+            return;
+          }
+          callback(defaultValue);
+        },
+        error: () => {
+          callback(defaultValue);
+        },
+      });
   }
 
   private isProductRoute(url: string): boolean {

@@ -97,7 +97,7 @@
                    <div class="content-data">
 
 
-<h1>GameSage SSR - Plataforma de videojuegos</h1>
+<p>﻿# GameSage SSR - Plataforma de videojuegos</p>
 <h2>Introducción</h2>
 <p>GameSage es una plataforma web centrada en videojuegos que integra en un solo proyecto el frontend, el backend y la base de datos. La aplicación está construida como una <strong>aplicación Angular con renderizado en servidor (SSR)</strong> y un <strong>backend HTTP</strong> que se ejecuta en el mismo proceso Node.js, de modo que no hace falta desplegar por separado una SPA y una API: un único servidor atiende tanto las páginas web como las peticiones a la API REST.</p>
 <p>El proyecto está pensado para ofrecer una experiencia completa de principio a fin: catálogo de juegos, usuarios y autenticación, carrito y compras, favoritos, subida de imágenes (media), y un chat asistido por IA. Todo ello con persistencia en PostgreSQL, documentación de la API (Swagger), tests de integración del backend y posibilidad de despliegue en entornos como Vercel. Esta documentación describe la arquitectura, el flujo de ejecución, la estructura del código y los pasos para arrancar el proyecto desde cero o trabajar con él en desarrollo.</p>
@@ -110,7 +110,7 @@
 </li>
 <li>El <strong>frontend</strong> consume la API exclusivamente mediante rutas <strong>relativas</strong> (<code>/api/...</code>), evitando dependencias de URLs absolutas.</li>
 <li><strong>Traducción y SEO Dinámico</strong>: El servidor Node.js (SSR) detecta el idioma del usuario (vía cabecera <code>Accept-Language</code> o cookie) e inyecta al vuelo las meta-etiquetas SEO traducidas (<code>description</code>, <code>keywords</code>, <code>OpenGraph</code>, <code>Twitter Cards</code>, etc.) y el atributo <code>lang</code> en el <code>index.html</code> antes de enviarlo al cliente. Esto permite tener una única SPA que se comporta como múltiples sitios localizados para los motores de búsqueda.</li>
-<li><strong>Gestión de Puertos</strong>: Los scripts de arranque (<code>start</code>, <code>dev</code>, <code>serve:ssr</code>) llaman internamente a <code>scripts/free-port.mjs</code> para liberar los puertos 4200 y 3000 solo cuando están ocupados, evitando errores <code>EADDRINUSE</code> sin mostrar mensajes innecesarios.</li>
+<li><strong>Gestión de Puertos</strong>: Los scripts de arranque (<code>start</code>, <code>dev</code>, <code>serve:ssr</code>, <code>serve:ssr:https</code>) llaman internamente a <code>scripts/free-port.mjs</code> para liberar puertos solo cuando están ocupados (4200, 3000 y 3443 según el comando), evitando errores <code>EADDRINUSE</code> sin mostrar mensajes innecesarios.</li>
 <li>La <strong>persistencia</strong> se gestiona con PostgreSQL y Prisma.</li>
 <li>El backend incorpora seguridad, validación y utilidades de operación (rate limit, serialización, logging).</li>
 <li>La aplicación ha sido <strong>testeada con OWASP ZAP</strong>; se han corregido la mayoría de vulnerabilidades detectadas, salvo aquellas cuya mitigación rompería el funcionamiento de la página (por ejemplo limitaciones propias de Angular o de recursos externos).</li>
@@ -126,6 +126,7 @@
 <li><a href="#frontend-configuraci%C3%B3n-y-flujo">Frontend: configuración y flujo</a></li>
 <li><a href="#build-ssr-y-variable-ssr_disable_backend">Build SSR y variable SSR_DISABLE_BACKEND</a></li>
 <li><a href="#rutas-y-endpoints-relevantes">Rutas y endpoints relevantes</a></li>
+<li><a href="#pagos-y-devoluciones-stripe">Pagos y devoluciones (Stripe)</a></li>
 <li><a href="#verificaciones-de-requisitos">Verificaciones de requisitos</a></li>
 <li><a href="#arrancar-el-proyecto-desde-cero">Arrancar el proyecto desde cero</a></li>
 <li><a href="#configuraci%C3%B3n-variables-de-entorno">Configuración (variables de entorno)</a></li>
@@ -144,7 +145,7 @@
 <h3>Angular y SSR</h3>
 <p>El frontend está construido con <strong>Angular</strong> (v20) y <strong>@angular/ssr</strong>. El CLI de Angular está configurado con <code>outputMode: &quot;server&quot;</code> y un entry point de servidor (<code>src/server.ts</code>), de modo que el build genera tanto el bundle del navegador como el del servidor. En el servidor se utiliza <code>AngularNodeAppEngine</code> de <code>@angular/ssr/node</code> para renderizar las rutas de la aplicación en Node y devolver HTML, mejorando el SEO y la percepción de carga inicial.</p>
 <h3>Express</h3>
-<p>El backend HTTP está implementado con <strong>Express</strong> (v5). La aplicación Express se crea en <code>src/backend/app.ts</code>, se monta bajo la aplicación principal en <code>src/server.ts</code> (cuando el backend no está deshabilitado) y concentra todo el enrutado bajo <code>/api/*</code>, middlewares globales (CORS, JSON, helmet, rate limiting en producción, logging, serialización de respuestas) y el manejador de errores al final de la cadena.</p>
+<p>El backend HTTP está implementado con <strong>Express</strong> (v4). La aplicación Express se crea en <code>src/backend/app.ts</code>, se monta bajo la aplicación principal en <code>src/server.ts</code> (cuando el backend no está deshabilitado) y concentra todo el enrutado bajo <code>/api/*</code>, middlewares globales (CORS, JSON, helmet, rate limiting en producción, logging, serialización de respuestas) y el manejador de errores al final de la cadena.</p>
 <h3>Prisma</h3>
 <p>El acceso a datos se realiza mediante <strong>Prisma</strong>. El esquema está en <code>prisma/schema.prisma</code> y define los modelos (User, Game, Developer, Publisher, Genre, Platform, Media, Favorite, CartItem, Purchase, PurchaseItem, ChatSession, ChatMessage) y sus relaciones. La URL de conexión se obtiene de la variable de entorno <code>POSTGRES_PRISMA_URL</code>. Las migraciones se gestionan con <code>prisma migrate</code>; el cliente se genera con <code>prisma generate</code> y se usa en los servicios del backend.</p>
 <h3>Cloudinary</h3>
@@ -319,6 +320,42 @@
 </ul>
 <p>La documentación detallada de parámetros, cuerpos y respuestas está en Swagger (<code>/api-docs</code>) y en los JSDoc de cada ruta.</p>
 <hr>
+<h2>Pagos y devoluciones (Stripe)</h2>
+<p>La aplicación integra una pasarela de pago embebida con Stripe para cerrar compras sin salir del sitio. El flujo está diseñado para mantener consistencia entre estado de pago, carrito, compras del usuario y stock por plataforma.</p>
+<h3>Flujo de checkout embebido</h3>
+<ol>
+<li>El cliente solicita una sesión con <code>POST /api/cart/checkout-session</code>.</li>
+<li>El backend valida que el carrito no esté vacío, calcula importes y crea la sesión de Stripe en <code>mode: payment</code> y <code>ui_mode: embedded_page</code>.</li>
+<li>Stripe devuelve <code>clientSecret</code>, <code>sessionId</code> y <code>publishableKey</code>, que el frontend usa para montar el checkout embebido.</li>
+<li>Tras pago completado, el frontend confirma la sesión con <code>POST /api/cart/checkout/confirm</code>.</li>
+</ol>
+<h3>Qué ocurre al confirmar una compra</h3>
+<ul>
+<li>Se valida que la sesión de Stripe esté pagada y pertenezca al usuario autenticado.</li>
+<li>Se completa la compra en base de datos dentro de operaciones transaccionales.</li>
+<li>Se crean registros de compra (<code>Purchase</code> y <code>PurchaseItem</code>) para que aparezcan en el historial del usuario.</li>
+<li>Se descuenta stock de los juegos/plataformas comprados.</li>
+<li>Se vacía el carrito del usuario para evitar duplicados tras un pago correcto.</li>
+</ul>
+<h3>Devoluciones y reembolsos</h3>
+<ul>
+<li>Endpoint principal de devolución: <code>POST /api/purchases/:id/refund</code>.</li>
+<li>Existe compatibilidad adicional con <code>PATCH /api/purchases/:id</code> para clientes antiguos.</li>
+<li>Al devolver una compra:<ul>
+<li>el estado pasa a <code>refunded</code>,</li>
+<li>se incrementa de nuevo el stock por plataforma,</li>
+<li>se ajusta el contador de ventas del juego,</li>
+<li>se guarda el motivo de devolución.</li>
+</ul>
+</li>
+</ul>
+<h3>Notas operativas</h3>
+<ul>
+<li>El checkout usa Stripe en modo test mientras se mantengan claves de test en <code>.env</code>.</li>
+<li>En local, para minimizar advertencias de contexto no seguro, se recomienda <code>npm run serve:ssr:https</code> y abrir <code>https://localhost:3443</code>.</li>
+<li>Stripe permite controlar idioma/locale en la creación de sesión para alinear el checkout con el idioma activo de la aplicación.</li>
+</ul>
+<hr>
 <h2>Verificaciones de requisitos</h2>
 <p>Antes de ejecutar determinados comandos (build, serve, dev, tests, seeds, etc.), el proyecto ejecuta comprobaciones previas que evitan fallos confusos y muestran errores legibles.</p>
 <ul>
@@ -473,7 +510,7 @@ Si faltan dependencias, el script intenta instalarlas automaticamente y, si no p
 <h2>Comandos disponibles</h2>
 <p>Los comandos están definidos en <code>package.json</code>. Para un arranque desde cero completo, ver la sección <strong>Arrancar el proyecto desde cero</strong>.</p>
 <h3>Desarrollo</h3>
-<p><em>Nota: Los comandos <code>start</code>, <code>dev</code>, <code>serve:ssr</code>, <code>serve:ssr:prod</code> y <code>dev:ssr</code> ejecutan automáticamente <code>node scripts/free-port.mjs &lt;puerto&gt;</code> cuando corresponde para liberar los puertos 3000 o 4200 solo si están en uso, evitando conflictos sin generar ruido en la consola.</em></p>
+<p><em>Nota: Los comandos <code>start</code>, <code>dev</code>, <code>serve:ssr</code>, <code>serve:ssr:https</code>, <code>serve:ssr:prod</code>, <code>dev:ssr</code> y <code>dev:ssr:https</code> ejecutan automáticamente <code>node scripts/free-port.mjs &lt;puerto&gt;</code> cuando corresponde para liberar puertos de desarrollo solo si están en uso, evitando conflictos sin generar ruido en la consola.</em></p>
 <ul>
 <li><p><strong><code>npm start</code></strong><br>Ejecuta <code>ng serve</code> (desarrollo de frontend en modo SPA).</p>
 </li>
@@ -482,6 +519,15 @@ Si faltan dependencias, el script intenta instalarlas automaticamente y, si no p
 <li><p><strong><code>npm run dev</code></strong><br>Alias de <code>npm run dev:backend</code>.</p>
 </li>
 <li><p><strong><code>npm run serve:ssr</code></strong><br>Modo desarrollo SSR con recarga automática: compila en <code>watch</code> y reinicia el servidor SSR cuando cambia <code>dist</code>.</p>
+</li>
+<li><p><strong><code>npm run serve:ssr:https</code></strong><br>Igual que <code>serve:ssr</code>, pero además levanta un proxy HTTPS local (<code>https://localhost:3443 -&gt; http://localhost:3000</code>) para pruebas en contexto seguro (por ejemplo Stripe en local).</p>
+<p>Consideraciones reales de este modo:</p>
+<ul>
+<li>El servidor SSR real sigue escuchando en <code>http://localhost:3000</code>; para navegar la app debes abrir <code>https://localhost:3443</code>.</li>
+<li>Puede aparecer aviso de certificado local/autofirmado del navegador (depende del equipo/navegador).</li>
+<li>Puede fallar la primera navegación en Chrome si hay estado previo de error/certificado (<code>chrome-error://chromewebdata</code>); abrir una pestaña nueva y acceder directamente a <code>https://localhost:3443</code>.</li>
+<li>Para desarrollo general, <code>serve:ssr</code> (HTTP) suele ser más estable y simple.</li>
+</ul>
 </li>
 <li><p><strong><code>npm run serve:ssr:prod</code></strong><br>Ejecuta el servidor SSR compilado desde <code>dist/game-sage/server/server.mjs</code> (con 8GB de memoria asignada).</p>
 </li>
@@ -545,6 +591,15 @@ Si faltan dependencias, el script intenta instalarlas automaticamente y, si no p
 <li><strong><code>npm run clean</code></strong>: borra <code>dist</code>, <code>logs</code>, <code>coverage</code>.</li>
 <li><strong><code>npm run clean:full</code></strong>: borra <code>dist</code>, <code>node_modules</code>, <code>logs</code>, <code>coverage</code>, <code>docs</code>, <code>documentation</code> y <code>.venv</code>.</li>
 <li><strong><code>npm run reinstall</code></strong>: reinstalación completa (<code>clean:full</code> + <code>npm install</code>); después ejecutar <code>npm audit fix --omit=dev</code>.</li>
+</ul>
+<h3>Stripe en local (nota práctica)</h3>
+<ul>
+<li>Si usas HTTP (<code>npm run serve:ssr</code>), Stripe puede mostrar el aviso:<ul>
+<li><code>You may test your Stripe.js integration over HTTP. However, live Stripe.js integrations must use HTTPS.</code></li>
+</ul>
+</li>
+<li>Es un aviso esperado en desarrollo local HTTP; no bloquea el flujo de pruebas en test mode.</li>
+<li>Para minimizarlo en local, usar <code>npm run serve:ssr:https</code> y abrir <code>https://localhost:3443</code>.</li>
 </ul>
 <hr>
 <h2>Comandos más útiles (resumen)</h2>
