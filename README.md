@@ -1,7 +1,7 @@
 # Proyecto Intermodular: GameSage
 
 Proyecto intermodular desarrollado en el segundo curso del CFGS en Desarrollo de Aplicaciones Multiplataforma.  
-Participantes: **Rosario González** y **Álvaro Jiménez**.
+Participantes: **[Rosario González](#rosario-gonzález)** y **[Álvaro Jiménez](#álvaro-jiménez)**
 
 GameSage reúne en un solo proyecto todo lo aprendido durante el curso, integrando una arquitectura moderna basada en la nube, aplicación web con renderizado en servidor (SSR), backend HTTP unificado, desarrollo móvil nativo y diseño UI/UX.
 
@@ -103,12 +103,8 @@ El sistema se compone de:
 
 ### Figma Móvil: [https://www.figma.com/proto/...](https://www.figma.com/proto/8WRYpwCvkO9wDyGhu57rel/App-venta-de-videojuegos?node-id=567-2837&p=f&t=a0jbOffYZnVYoZLL-0&scaling=scale-down&content-scaling=fixed&page-id=16%3A2973&starting-point-node-id=567%3A2837)
 
-### URL del proyecto unificado (Angular SSR + API): [https://gamingsage.vercel.app/](https://gamingsage.vercel.app/)
+### Angular SSR + API (Web desplegada): [https://gamingsage.vercel.app/](https://gamingsage.vercel.app/)
 
- 
+### Swagger (API REST): [https://gamingsage.vercel.app/api-docs](https://gamingsage.vercel.app/api-docs)
 
-
-
-
-
-
+### Compodoc (Documentación técnica): [https://gamingsage.vercel.app/docs](https://gamingsage.vercel.app/docs)
