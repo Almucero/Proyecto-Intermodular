@@ -127,6 +127,28 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
     );
   }
 
+  signInWithGoogle(idToken: string, rememberMe: boolean = false): Observable<any> {
+    const googleSignInUrl = this.signInUrl.replace(/\/login$/, '/google');
+    return this.http.post(googleSignInUrl, { idToken }).pipe(
+      tap((response: any) => {
+        this.saveToken(response.token, rememberMe);
+        this._authenticated.next(true);
+        this._user.next(this.authMapping.signIn(response));
+      }),
+    );
+  }
+
+  signInWithGithub(code: string, rememberMe: boolean = false): Observable<any> {
+    const githubSignInUrl = this.signInUrl.replace(/\/login$/, '/github');
+    return this.http.post(githubSignInUrl, { code }).pipe(
+      tap((response: any) => {
+        this.saveToken(response.token, rememberMe);
+        this._authenticated.next(true);
+        this._user.next(this.authMapping.signIn(response));
+      }),
+    );
+  }
+
   /**
    * Registra un nuevo usuario en la plataforma.
    * @param registerPayload Datos del registro.

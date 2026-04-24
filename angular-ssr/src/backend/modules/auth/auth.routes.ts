@@ -1,7 +1,15 @@
 import { Router } from 'express';
 import { validate } from '../../middleware/validate';
-import { registerSchema, loginSchema } from './auth.schema';
-import { registerCtrl, loginCtrl } from './auth.controller';
+import { registerSchema, loginSchema, googleLoginSchema, githubLoginSchema } from './auth.schema';
+import {
+  registerCtrl,
+  loginCtrl,
+  googleLoginCtrl,
+  googleClientIdCtrl,
+  githubLoginCtrl,
+  githubClientIdCtrl,
+  githubPopupCallbackCtrl,
+} from './auth.controller';
 
 const router = Router();
 
@@ -78,5 +86,10 @@ router.post('/register', validate(registerSchema), registerCtrl);
  *               $ref: '#/components/schemas/Error'
  */
 router.post('/login', validate(loginSchema), loginCtrl);
+router.post('/google', validate(googleLoginSchema), googleLoginCtrl);
+router.get('/google/client-id', googleClientIdCtrl);
+router.post('/github', validate(githubLoginSchema), githubLoginCtrl);
+router.get('/github/client-id', githubClientIdCtrl);
+router.get('/github/callback', githubPopupCallbackCtrl);
 
 export default router;

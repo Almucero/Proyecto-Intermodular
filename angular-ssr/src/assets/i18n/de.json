@@ -266,7 +266,9 @@
     "passwordPlaceholder": "ihr passwort",
     "loginButton": "Anmelden",
     "rememberMe": "Angemeldet bleiben",
-    "forgotPassword": "Passwort vergessen?"
+    "forgotPassword": "Passwort vergessen?",
+    "googleButton": "Mit Google fortfahren",
+    "githubButton": "Mit GitHub fortfahren"
   },
   "register": {
     "title": "Erstellen Sie Ihr Konto",
@@ -278,7 +280,9 @@
     "surnamePlaceholder": "Ihr Nachname",
     "password2Label": "Passwort wiederholen",
     "password2Placeholder": "Passwort wiederholen",
-    "createAccountButton": "Konto erstellen"
+    "createAccountButton": "Konto erstellen",
+    "googleButton": "Mit Google fortfahren",
+    "githubButton": "Mit GitHub fortfahren"
   },
   "errors": {
     "required": "Dieses Feld ist erforderlich",
