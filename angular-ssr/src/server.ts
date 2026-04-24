@@ -7,7 +7,7 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { applySecurityHeaders, applyNoCacheHeaders } from './security-headers';
 
 const isSetupError = (err: unknown): boolean => {
@@ -207,6 +207,22 @@ const setupAngularMiddleware = () => {
   });
 
   app.use(rejectSensitiveOrNumericOnlyPath);
+  app.get('/docs', (_req, res) => {
+    res.redirect(302, '/docs/');
+  });
+  app.get('/docs/', (_req, res) => {
+    const docsIndex = join(docsFolder, 'index.html');
+    if (!existsSync(docsIndex)) {
+      res.status(404).send('Compodoc no está disponible todavía. Ejecuta npm run docs:build.');
+      return;
+    }
+    const rawHtml = readFileSync(docsIndex, 'utf8');
+    const withBase = rawHtml.includes('<base href="/docs/">')
+      ? rawHtml
+      : rawHtml.replace('<head>', '<head><base href="/docs/">');
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.send(withBase);
+  });
   app.use(
     '/docs',
     express.static(docsFolder, {
@@ -214,15 +230,12 @@ const setupAngularMiddleware = () => {
       etag: true,
       lastModified: true,
       redirect: false,
-      index: 'index.html',
+      index: false,
       setHeaders: (res) => {
         res.setHeader('Cache-Control', 'public, max-age=3600');
       },
     }),
   );
-  app.get('/docs', (_req, res) => {
-    res.redirect(302, '/docs/');
-  });
   app.use(
     express.static(browserDistFolder, {
       maxAge: '1y',
