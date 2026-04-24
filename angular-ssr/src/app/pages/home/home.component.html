@@ -9,15 +9,17 @@
     <img
       #backgroundLayer
       src="assets/images/hero/fondo.webp"
-      class="background background-dynamic mobile-hide tablet-hide pointer-events-none select-none"
+      class="background background-dynamic pointer-events-none select-none"
       draggable="false"
     />
-    <img #jokerLayer src="assets/images/hero/joker.webp" class="joker mobile-hide tablet-hide tablet-landscape-hide pointer-events-none select-none" draggable="false" />
-    <img #titleLayer src="assets/images/hero/titulo.webp" class="titulo pointer-events-none select-none" draggable="false" />
+    <img #jokerLayer src="assets/images/hero/joker.webp" class="joker pointer-events-none select-none" [class.hero-side-character-hidden]="hideSideCharacters" (load)="updateSideCharactersVisibility()" draggable="false" />
+    <img #titleLayer src="assets/images/hero/titulo.webp" class="titulo pointer-events-none select-none" (load)="updateSideCharactersVisibility()" draggable="false" />
     <img
       #geraltLayer
       src="assets/images/hero/geralt.webp"
-      class="geralt mobile-hide tablet-hide tablet-landscape-hide pointer-events-none select-none"
+      class="geralt pointer-events-none select-none"
+      [class.hero-side-character-hidden]="hideSideCharacters"
+      (load)="updateSideCharactersVisibility()"
       draggable="false"
     />
     <img #bottomLayer src="assets/images/hero/bottom.webp" class="bottom pointer-events-none select-none" draggable="false" />

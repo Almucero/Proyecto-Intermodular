@@ -787,9 +787,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   private convertToEmbedUrl(url: string): string {
     const videoId = this.getVideoId(url);
     if (videoId) {
-      const origin = typeof window !== 'undefined' ? window.location.origin : '';
-      const originParam = origin ? `&origin=${encodeURIComponent(origin)}` : '';
-      return `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&enablejsapi=1${originParam}`;
+      return `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3`;
     }
     return url;
   }
