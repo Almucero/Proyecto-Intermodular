@@ -288,7 +288,9 @@
     "passwordPlaceholder": "tu contraseña",
     "loginButton": "Iniciar sesión",
     "rememberMe": "Recuérdame",
-    "forgotPassword": "¿Has olvidado tu contraseña?"
+    "forgotPassword": "¿Has olvidado tu contraseña?",
+    "googleButton": "Continuar con Google",
+    "githubButton": "Continuar con GitHub"
   },
   "register": {
     "title": "Vamos a crear tu cuenta",
@@ -301,7 +303,9 @@
     "password2Label": "Repite tu contraseña",
     "password2Placeholder": "Repite tu contraseña",
     "createAccountButton": "Crear cuenta",
-    "backButton": "Volver"
+    "backButton": "Volver",
+    "googleButton": "Continuar con Google",
+    "githubButton": "Continuar con GitHub"
   },
   "errors": {
     "required": "Este campo es obligatorio",

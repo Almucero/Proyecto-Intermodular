@@ -264,7 +264,9 @@
     "passwordPlaceholder": "votre mot de passe",
     "loginButton": "Se connecter",
     "rememberMe": "Se souvenir de moi",
-    "forgotPassword": "Mot de passe oublié ?"
+    "forgotPassword": "Mot de passe oublié ?",
+    "googleButton": "Continuer avec Google",
+    "githubButton": "Continuer avec GitHub"
   },
   "register": {
     "title": "Créons votre compte",
@@ -273,7 +275,9 @@
     "nameLabel": "Prénom",
     "password2Placeholder": "Répétez le mot de passe",
     "createAccountButton": "Créer un compte",
-    "backButton": "Retour"
+    "backButton": "Retour",
+    "googleButton": "Continuer avec Google",
+    "githubButton": "Continuer avec GitHub"
   },
   "upload": {
     "maxSize": "Taille max:",

@@ -288,7 +288,9 @@
     "passwordPlaceholder": "your password",
     "loginButton": "Log in",
     "rememberMe": "Remember me",
-    "forgotPassword": "Forgot password?"
+    "forgotPassword": "Forgot password?",
+    "googleButton": "Continue with Google",
+    "githubButton": "Continue with GitHub"
   },
   "register": {
     "title": "Let's create your account",
@@ -300,7 +302,9 @@
     "surnamePlaceholder": "Your surname",
     "password2Label": "Repeat password",
     "password2Placeholder": "Repeat password",
-    "createAccountButton": "Create account"
+    "createAccountButton": "Create account",
+    "googleButton": "Continue with Google",
+    "githubButton": "Continue with GitHub"
   },
 
   "errors": {

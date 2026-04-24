@@ -44,6 +44,10 @@ export abstract class BaseAuthenticationService implements IAuthentication {
   abstract signIn(authPayload: any, rememberMe?: boolean): Observable<any>;
   /** Registra un nuevo usuario. */
   abstract signUp(registerPayload: any): Observable<any>;
+  /** Inicia sesión o alta con Google. */
+  abstract signInWithGoogle(idToken: string, rememberMe?: boolean): Observable<any>;
+  /** Inicia sesión o alta con GitHub. */
+  abstract signInWithGithub(code: string, rememberMe?: boolean): Observable<any>;
   /** Cierra la sesión activa. */
   abstract signOut(): Observable<any>;
   /** Obtiene la información del perfil del usuario autenticado. */

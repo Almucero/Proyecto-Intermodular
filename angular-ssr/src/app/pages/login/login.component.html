@@ -182,6 +182,70 @@
             {{ loginError }}
           </div>
         }
+        @if (googleError) {
+          <div class="mb-3 text-red-500 text-center mix-blend-color-dodge">
+            {{ googleError }}
+          </div>
+        }
+        @if (githubError) {
+          <div class="mb-3 text-red-500 text-center mix-blend-color-dodge">
+            {{ githubError }}
+          </div>
+        }
+        <div class="my-4 flex items-center gap-3">
+          <div class="h-px flex-1 bg-gray-500"></div>
+          <span class="text-xs uppercase tracking-wider text-gray-300">o</span>
+          <div class="h-px flex-1 bg-gray-500"></div>
+        </div>
+        <div class="mb-3">
+          <div
+            class="relative rounded-full w-full h-10 px-4 border border-[#5f9bff] bg-[#4285F4] hover:bg-[#1a73e8] text-white transition-transform duration-150 active:scale-95 flex items-center justify-center"
+          >
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 rounded-full bg-white">
+              <svg viewBox="0 0 48 48" class="w-4 h-4" aria-hidden="true">
+                <path fill="#EA4335" d="M24 9.5c3.54 0 6.72 1.22 9.22 3.62l6.86-6.86C35.9 2.36 30.34 0 24 0 14.64 0 6.56 5.38 2.56 13.22l7.98 6.2C12.44 13.58 17.72 9.5 24 9.5z"/>
+                <path fill="#4285F4" d="M46.5 24.5c0-1.64-.14-2.84-.44-4.1H24v7.76h12.94c-.26 1.92-1.66 4.82-4.78 6.76l7.38 5.72C43.9 36.58 46.5 31.12 46.5 24.5z"/>
+                <path fill="#FBBC05" d="M10.54 28.58A14.52 14.52 0 0 1 9.5 24c0-1.6.28-3.14.78-4.58l-7.98-6.2A23.97 23.97 0 0 0 0 24c0 3.84.92 7.48 2.56 10.78l7.98-6.2z"/>
+                <path fill="#34A853" d="M24 48c6.34 0 11.66-2.08 15.54-5.66l-7.38-5.72c-1.98 1.38-4.66 2.38-8.16 2.38-6.28 0-11.56-4.08-13.46-9.92l-7.98 6.2C6.56 42.62 14.64 48 24 48z"/>
+              </svg>
+            </span>
+            <span class="text-sm font-medium">{{ "login.googleButton" | translate }}</span>
+            <div
+              #googleLoginButtonHost
+              (click)="onGoogleSignInClick()"
+              class="absolute inset-0 opacity-0 overflow-hidden"
+            ></div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <button
+            type="button"
+            (click)="onGithubSignInClick()"
+            class="relative rounded-full w-full h-10 px-4 border border-gray-500 bg-gray-800 hover:bg-gray-700 text-white transition-transform duration-150 active:scale-95 flex items-center justify-center"
+          >
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 rounded-full bg-white">
+              <svg viewBox="0 0 24 24" class="w-4 h-4 fill-black" aria-hidden="true">
+                <path d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.93c.58.1.79-.25.79-.56v-2.15c-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.27-1.68-1.27-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.75 1.18 1.75 1.18 1.02 1.75 2.67 1.24 3.32.95.1-.74.4-1.24.72-1.53-2.55-.29-5.22-1.28-5.22-5.68 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.17a10.9 10.9 0 0 1 5.74 0c2.19-1.48 3.15-1.17 3.15-1.17.62 1.59.23 2.76.11 3.05.74.8 1.18 1.82 1.18 3.07 0 4.41-2.67 5.39-5.23 5.67.41.36.78 1.06.78 2.13v3.16c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/>
+              </svg>
+            </span>
+            <span class="text-sm font-medium">{{ "login.githubButton" | translate }}</span>
+          </button>
+        </div>
+        @if (!googleClientId) {
+          <div class="mb-3 text-xs text-gray-300 text-center">
+            Google Sign-In no configurado
+          </div>
+        }
+        @if (!githubClientId) {
+          <div class="mb-3 text-xs text-gray-300 text-center">
+            GitHub Sign-In no configurado
+          </div>
+        }
+        <div class="my-4 flex items-center gap-3">
+          <div class="h-px flex-1 bg-gray-500"></div>
+          <span class="text-xs uppercase tracking-wider text-gray-300">o</span>
+          <div class="h-px flex-1 bg-gray-500"></div>
+        </div>
         <div class="flex flex-col gap-4 mt-4 mb-3">
           <button
             class="rounded-full w-full px-4 py-2 font-medium bg-blue-400 hover:bg-blue-600 border border-blue-300 text-white transition-transform duration-150 active:scale-95"

@@ -12,13 +12,13 @@
       class="background background-dynamic pointer-events-none select-none"
       draggable="false"
     />
-    <img #jokerLayer src="assets/images/hero/joker.webp" class="joker pointer-events-none select-none" [class.hero-side-character-hidden]="hideSideCharacters" (load)="updateSideCharactersVisibility()" draggable="false" />
+    <img #jokerLayer src="assets/images/hero/joker.webp" class="joker pointer-events-none select-none" [class.hero-side-character-hidden]="sideCharactersVisibilityReady && hideSideCharacters" (load)="updateSideCharactersVisibility()" draggable="false" />
     <img #titleLayer src="assets/images/hero/titulo.webp" class="titulo pointer-events-none select-none" (load)="updateSideCharactersVisibility()" draggable="false" />
     <img
       #geraltLayer
       src="assets/images/hero/geralt.webp"
       class="geralt pointer-events-none select-none"
-      [class.hero-side-character-hidden]="hideSideCharacters"
+      [class.hero-side-character-hidden]="sideCharactersVisibilityReady && hideSideCharacters"
       (load)="updateSideCharactersVisibility()"
       draggable="false"
     />

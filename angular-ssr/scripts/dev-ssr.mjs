@@ -65,7 +65,7 @@ process.on('SIGTERM', () => shutdown(0));
 startProcess('BUILD', 'ng build --watch --configuration development --progress=false');
 startProcess(
   'SSR',
-  'nodemon -C --quiet --delay 1800ms --watch dist/game-sage/server/server.mjs --ext mjs --exec "node --max-old-space-size=8192 --disable-warning=DEP0169 dist/game-sage/server/server.mjs"',
+  'nodemon -C --quiet --delay 4500ms --watch dist/game-sage/server --ext mjs --exec "node --max-old-space-size=8192 --disable-warning=DEP0169 dist/game-sage/server/server.mjs"',
 );
 if (process.env['DEV_SSL_PROXY'] === '1') {
   startProcess('HTTPS', 'local-ssl-proxy --source 3443 --target 3000');

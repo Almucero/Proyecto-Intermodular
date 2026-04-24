@@ -265,7 +265,9 @@
     "passwordPlaceholder": "tua password",
     "loginButton": "Accedi",
     "rememberMe": "Ricordami",
-    "forgotPassword": "Password dimenticata?"
+    "forgotPassword": "Password dimenticata?",
+    "googleButton": "Continua con Google",
+    "githubButton": "Continua con GitHub"
   },
   "register": {
     "title": "Creiamo il tuo account",
@@ -273,7 +275,9 @@
     "loginLink": "Accedi",
     "nameLabel": "Nome",
     "createAccountButton": "Crea account",
-    "backButton": "Indietro"
+    "backButton": "Indietro",
+    "googleButton": "Continua con Google",
+    "githubButton": "Continua con GitHub"
   },
 
   "errors": {

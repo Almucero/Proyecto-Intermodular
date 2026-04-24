@@ -8,6 +8,10 @@ export interface IAuthentication {
   signIn(authPayload: any, rememberMe?: boolean): Observable<any>;
   /** Registra usuario. */
   signUp(registerPayload: any): Observable<any>;
+  /** Inicia sesión o registro con Google. */
+  signInWithGoogle(idToken: string, rememberMe?: boolean): Observable<any>;
+  /** Inicia sesión o registro con GitHub. */
+  signInWithGithub(code: string, rememberMe?: boolean): Observable<any>;
   /** Cierra sesión. */
   signOut(): Observable<any>;
   /** Obtiene perfil. */

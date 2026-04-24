@@ -62,6 +62,7 @@ app.use((req, res, next) => {
 app.use(
   helmet({
     contentSecurityPolicy: false,
+    crossOriginOpenerPolicy: false,
     crossOriginResourcePolicy: { policy: 'cross-origin' },
     hsts: {
       maxAge: 31536000,

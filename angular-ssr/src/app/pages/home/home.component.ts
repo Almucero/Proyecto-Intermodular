@@ -84,6 +84,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Indica si se está visualizando en un dispositivo móvil. */
   isMobile = false;
   hideSideCharacters = false;
+  sideCharactersVisibilityReady = false;
 
   /** Listas de juegos cargados para las diferentes secciones. */
   bestSellers: Game[] = this.createPlaceholders();
@@ -149,9 +150,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
+    setTimeout(() => {
+      this.sideCharactersVisibilityReady = true;
+      this.requestSideCharactersVisibilityCheck();
+    });
     this.targetScrollY = window.scrollY || 0;
     this.lastTargetScrollY = this.targetScrollY;
-    this.requestSideCharactersVisibilityCheck();
     this.startParallaxLoop();
   }
 
