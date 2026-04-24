@@ -1,6 +1,16 @@
 import type { Request, Response } from 'express';
-import { register, login, loginWithGoogle, loginWithGithub } from './auth.service';
-import { registerSchema, loginSchema, googleLoginSchema, githubLoginSchema } from './auth.schema';
+import {
+  register,
+  login,
+  loginWithGoogle,
+  loginWithGithub,
+} from './auth.service';
+import {
+  registerSchema,
+  loginSchema,
+  googleLoginSchema,
+  githubLoginSchema,
+} from './auth.schema';
 import { env } from '../../config/env';
 
 export async function registerCtrl(req: Request, res: Response) {
@@ -80,7 +90,9 @@ export function googleClientIdCtrl(_req: Request, res: Response) {
   if (!env.GOOGLE_CLIENT_ID) {
     return res.status(200).json({ enabled: false, clientId: null });
   }
-  return res.status(200).json({ enabled: true, clientId: env.GOOGLE_CLIENT_ID });
+  return res
+    .status(200)
+    .json({ enabled: true, clientId: env.GOOGLE_CLIENT_ID });
 }
 
 export async function githubLoginCtrl(req: Request, res: Response) {
@@ -100,16 +112,26 @@ export function githubClientIdCtrl(_req: Request, res: Response) {
   if (!env.GITHUB_CLIENT_ID) {
     return res.status(200).json({ enabled: false, clientId: null });
   }
-  return res.status(200).json({ enabled: true, clientId: env.GITHUB_CLIENT_ID });
+  return res
+    .status(200)
+    .json({ enabled: true, clientId: env.GITHUB_CLIENT_ID });
 }
 
 export function githubPopupCallbackCtrl(req: Request, res: Response) {
   const code = typeof req.query['code'] === 'string' ? req.query['code'] : '';
-  const state = typeof req.query['state'] === 'string' ? req.query['state'] : '';
-  const error = typeof req.query['error'] === 'string' ? req.query['error'] : '';
+  const state =
+    typeof req.query['state'] === 'string' ? req.query['state'] : '';
+  const error =
+    typeof req.query['error'] === 'string' ? req.query['error'] : '';
   const origin = `${req.protocol}://${req.get('host')}`;
 
-  const payload = JSON.stringify({ provider: 'github', code, state, error, origin });
+  const payload = JSON.stringify({
+    provider: 'github',
+    code,
+    state,
+    error,
+    origin,
+  });
   const html = `<!doctype html><html><head><meta charset="utf-8"><title>GitHub Auth</title></head><body><script>
   (function() {
     var payload = ${payload};

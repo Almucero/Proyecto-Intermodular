@@ -77,7 +77,8 @@ export class RegisterComponent implements AfterViewInit {
   private googleInitialized = false;
   googleClientId = '';
   githubClientId = '';
-  @ViewChild('googleRegisterButtonHost') googleRegisterButtonHost?: ElementRef<HTMLDivElement>;
+  @ViewChild('googleRegisterButtonHost')
+  googleRegisterButtonHost?: ElementRef<HTMLDivElement>;
   private githubAuthListener?: (event: MessageEvent) => void;
   private languageChangeSubscription?: Subscription;
 
@@ -116,10 +117,12 @@ export class RegisterComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.languageChangeSubscription = this.translate.onLangChange.subscribe(() => {
-      this.googleInitialized = false;
-      this.loadGoogleScript(true);
-    });
+    this.languageChangeSubscription = this.translate.onLangChange.subscribe(
+      () => {
+        this.googleInitialized = false;
+        this.loadGoogleScript(true);
+      },
+    );
     this.loadGoogleClientId();
     this.loadGithubClientId();
   }
@@ -188,7 +191,8 @@ export class RegisterComponent implements AfterViewInit {
       `?client_id=${encodeURIComponent(this.githubClientId)}` +
       `&redirect_uri=${encodeURIComponent(redirectUri)}` +
       `&scope=${encodeURIComponent('read:user user:email')}` +
-      `&state=${encodeURIComponent(state)}`;
+      `&state=${encodeURIComponent(state)}` +
+      `&prompt=select_account`;
 
     const popup = window.open(
       authUrl,
@@ -206,7 +210,10 @@ export class RegisterComponent implements AfterViewInit {
   private loadGoogleClientId() {
     if (!isPlatformBrowser(this.platformId)) return;
     this.http
-      .get<{ enabled: boolean; clientId: string | null }>('/api/auth/google/client-id')
+      .get<{
+        enabled: boolean;
+        clientId: string | null;
+      }>('/api/auth/google/client-id')
       .subscribe({
         next: (response) => {
           this.googleClientId = response.clientId ?? '';
@@ -223,7 +230,10 @@ export class RegisterComponent implements AfterViewInit {
   private loadGithubClientId() {
     if (!isPlatformBrowser(this.platformId)) return;
     this.http
-      .get<{ enabled: boolean; clientId: string | null }>('/api/auth/github/client-id')
+      .get<{
+        enabled: boolean;
+        clientId: string | null;
+      }>('/api/auth/github/client-id')
       .subscribe({
         next: (response) => {
           this.githubClientId = response.clientId ?? '';
@@ -280,7 +290,8 @@ export class RegisterComponent implements AfterViewInit {
 
   private initializeGoogleButton() {
     if (!isPlatformBrowser(this.platformId)) return;
-    if (!this.googleRegisterButtonHost?.nativeElement || this.googleInitialized) return;
+    if (!this.googleRegisterButtonHost?.nativeElement || this.googleInitialized)
+      return;
     if (!window.google?.accounts?.id || !this.googleClientId) return;
 
     window.__googleAuthCallback = (credential?: string) => {
@@ -304,14 +315,17 @@ export class RegisterComponent implements AfterViewInit {
       220,
       this.googleRegisterButtonHost.nativeElement.clientWidth || 320,
     );
-    window.google.accounts.id.renderButton(this.googleRegisterButtonHost.nativeElement, {
-      theme: 'filled_blue',
-      size: 'large',
-      text: 'continue_with',
-      shape: 'pill',
-      width: String(buttonWidth),
-      logo_alignment: 'left',
-    });
+    window.google.accounts.id.renderButton(
+      this.googleRegisterButtonHost.nativeElement,
+      {
+        theme: 'filled_blue',
+        size: 'large',
+        text: 'continue_with',
+        shape: 'pill',
+        width: String(buttonWidth),
+        logo_alignment: 'left',
+      },
+    );
     this.googleInitialized = true;
   }
 
@@ -354,7 +368,12 @@ export class RegisterComponent implements AfterViewInit {
         this.githubError = 'Autenticación con GitHub cancelada o fallida';
         return;
       }
-      if (!data.code || !data.state || !expectedState || data.state !== expectedState) {
+      if (
+        !data.code ||
+        !data.state ||
+        !expectedState ||
+        data.state !== expectedState
+      ) {
         this.githubError = 'No se pudo validar la autenticación con GitHub';
         return;
       }

@@ -1,6 +1,11 @@
 import { Router } from 'express';
 import { validate } from '../../middleware/validate';
-import { registerSchema, loginSchema, googleLoginSchema, githubLoginSchema } from './auth.schema';
+import {
+  registerSchema,
+  loginSchema,
+  googleLoginSchema,
+  githubLoginSchema,
+} from './auth.schema';
 import {
   registerCtrl,
   loginCtrl,

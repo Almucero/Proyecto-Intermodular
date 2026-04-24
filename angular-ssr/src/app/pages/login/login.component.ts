@@ -50,7 +50,8 @@ export class LoginComponent implements AfterViewInit {
   private googleInitialized = false;
   googleClientId = '';
   githubClientId = '';
-  @ViewChild('googleLoginButtonHost') googleLoginButtonHost?: ElementRef<HTMLDivElement>;
+  @ViewChild('googleLoginButtonHost')
+  googleLoginButtonHost?: ElementRef<HTMLDivElement>;
   private githubAuthListener?: (event: MessageEvent) => void;
   private languageChangeSubscription?: Subscription;
 
@@ -85,10 +86,12 @@ export class LoginComponent implements AfterViewInit {
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    this.languageChangeSubscription = this.translate.onLangChange.subscribe(() => {
-      this.googleInitialized = false;
-      this.loadGoogleScript(true);
-    });
+    this.languageChangeSubscription = this.translate.onLangChange.subscribe(
+      () => {
+        this.googleInitialized = false;
+        this.loadGoogleScript(true);
+      },
+    );
     this.loadGoogleClientId();
     this.loadGithubClientId();
   }
@@ -148,7 +151,8 @@ export class LoginComponent implements AfterViewInit {
       `?client_id=${encodeURIComponent(this.githubClientId)}` +
       `&redirect_uri=${encodeURIComponent(redirectUri)}` +
       `&scope=${encodeURIComponent('read:user user:email')}` +
-      `&state=${encodeURIComponent(state)}`;
+      `&state=${encodeURIComponent(state)}` +
+      `&prompt=select_account`;
 
     const popup = window.open(
       authUrl,
@@ -166,7 +170,10 @@ export class LoginComponent implements AfterViewInit {
   private loadGoogleClientId() {
     if (!isPlatformBrowser(this.platformId)) return;
     this.http
-      .get<{ enabled: boolean; clientId: string | null }>('/api/auth/google/client-id')
+      .get<{
+        enabled: boolean;
+        clientId: string | null;
+      }>('/api/auth/google/client-id')
       .subscribe({
         next: (response) => {
           this.googleClientId = response.clientId ?? '';
@@ -183,7 +190,10 @@ export class LoginComponent implements AfterViewInit {
   private loadGithubClientId() {
     if (!isPlatformBrowser(this.platformId)) return;
     this.http
-      .get<{ enabled: boolean; clientId: string | null }>('/api/auth/github/client-id')
+      .get<{
+        enabled: boolean;
+        clientId: string | null;
+      }>('/api/auth/github/client-id')
       .subscribe({
         next: (response) => {
           this.githubClientId = response.clientId ?? '';
@@ -240,7 +250,8 @@ export class LoginComponent implements AfterViewInit {
 
   private initializeGoogleButton() {
     if (!isPlatformBrowser(this.platformId)) return;
-    if (!this.googleLoginButtonHost?.nativeElement || this.googleInitialized) return;
+    if (!this.googleLoginButtonHost?.nativeElement || this.googleInitialized)
+      return;
     if (!window.google?.accounts?.id || !this.googleClientId) return;
 
     window.__googleAuthCallback = (credential?: string) => {
@@ -264,14 +275,17 @@ export class LoginComponent implements AfterViewInit {
       220,
       this.googleLoginButtonHost.nativeElement.clientWidth || 320,
     );
-    window.google.accounts.id.renderButton(this.googleLoginButtonHost.nativeElement, {
-      theme: 'filled_blue',
-      size: 'large',
-      text: 'signin_with',
-      shape: 'pill',
-      width: String(buttonWidth),
-      logo_alignment: 'left',
-    });
+    window.google.accounts.id.renderButton(
+      this.googleLoginButtonHost.nativeElement,
+      {
+        theme: 'filled_blue',
+        size: 'large',
+        text: 'signin_with',
+        shape: 'pill',
+        width: String(buttonWidth),
+        logo_alignment: 'left',
+      },
+    );
     this.googleInitialized = true;
   }
 
@@ -289,7 +303,10 @@ export class LoginComponent implements AfterViewInit {
     });
   }
 
-  private bindGithubMessageListener(stateStorageKey: string, rememberMe: boolean) {
+  private bindGithubMessageListener(
+    stateStorageKey: string,
+    rememberMe: boolean,
+  ) {
     if (!isPlatformBrowser(this.platformId)) return;
 
     if (this.githubAuthListener) {
@@ -315,7 +332,12 @@ export class LoginComponent implements AfterViewInit {
         this.githubError = 'Autenticación con GitHub cancelada o fallida';
         return;
       }
-      if (!data.code || !data.state || !expectedState || data.state !== expectedState) {
+      if (
+        !data.code ||
+        !data.state ||
+        !expectedState ||
+        data.state !== expectedState
+      ) {
         this.githubError = 'No se pudo validar la autenticación con GitHub';
         return;
       }

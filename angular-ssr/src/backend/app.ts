@@ -51,7 +51,8 @@ app.set('trust proxy', 1);
 app.use((req, res, next) => {
   applySecurityHeaders(req, res);
   if (env.NODE_ENV === 'production') {
-    const proto = req.get('x-forwarded-proto') || (req.secure ? 'https' : 'http');
+    const proto =
+      req.get('x-forwarded-proto') || (req.secure ? 'https' : 'http');
     if (proto !== 'https') {
       return res.redirect(301, `https://${req.get('host')}${req.originalUrl}`);
     }
@@ -77,7 +78,9 @@ app.use((req, res, next) => {
   next();
 });
 const corsOriginsFromEnv = env.CORS_ORIGIN
-  ? env.CORS_ORIGIN.split(',').map((o) => o.trim()).filter(Boolean)
+  ? env.CORS_ORIGIN.split(',')
+      .map((o) => o.trim())
+      .filter(Boolean)
   : [];
 const localhostOrigins = [
   `http://localhost:${env.PORT}`,
@@ -95,7 +98,9 @@ const corsOptions: cors.CorsOptions = {
     }
     if (allowedOrigins.length === 0) {
       if (env.NODE_ENV === 'production') {
-        return callback(new Error('CORS_ORIGIN debe estar configurado en producción'));
+        return callback(
+          new Error('CORS_ORIGIN debe estar configurado en producción'),
+        );
       }
       return callback(null, true);
     }
@@ -124,7 +129,11 @@ app.use((req, res, next) => {
     return false;
   };
 
-  if (hasNullByte(req.query) || hasNullByte(req.params) || hasNullByte(req.body)) {
+  if (
+    hasNullByte(req.query) ||
+    hasNullByte(req.params) ||
+    hasNullByte(req.body)
+  ) {
     res.status(400).json({ message: 'Caracteres no válidos detectados' });
     return;
   }
@@ -183,7 +192,11 @@ app.get('/sitemap-products.xml', (req, res) => {
     });
 });
 
-const swaggerSecurityHeaders = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+const swaggerSecurityHeaders = (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) => {
   applySecurityHeaders(req, res);
   applyNoCacheHeaders(res);
   next();
@@ -196,7 +209,7 @@ app.use('/api-docs', swaggerSecurityHeaders, swaggerUi.serve);
 app.get('/api-docs/', swaggerSecurityHeaders, (req, res, next) => {
   applySecurityHeaders(req, res);
   applyNoCacheHeaders(res);
-  
+
   const host = req.get('host') || '';
   const protocol =
     req.headers['x-forwarded-proto'] || (req.secure ? 'https' : 'http');

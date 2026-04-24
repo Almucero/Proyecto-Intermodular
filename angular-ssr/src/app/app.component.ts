@@ -16,8 +16,7 @@ import {
 import { ErrorToastComponent } from './shared/components/error-toast/error-toast.component';
 import { BaseAuthenticationService } from './core/services/impl/base-authentication.service';
 import { UiStateService } from './core/services/impl/ui-state.service';
-import { forkJoin, timer } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
+import { timer } from 'rxjs';
 import { LoadingComponent } from './shared/components/loading/loading.component';
 import { CommonModule, isPlatformBrowser, DOCUMENT } from '@angular/common';
 import { HeaderComponent } from './shared/components/header/header.component';
@@ -81,16 +80,9 @@ export class AppComponent {
    * Inicializa la aplicación, gestiona el auto-login y el estado de la pantalla de carga.
    */
   constructor() {
-    this.authService.autoLogin();
-
     if (isPlatformBrowser(this.platformId)) {
       const minWait$ = timer(2000);
-      const authCheck$ = this.authService.ready$.pipe(
-        filter((isReady) => isReady),
-        take(1),
-      );
-
-      forkJoin([minWait$, authCheck$]).subscribe(() => {
+      minWait$.subscribe(() => {
         const elapsedTime = Date.now() - this.startTime;
         if (elapsedTime < 200) {
           this.exitAnimationDuration = '0ms';
@@ -99,7 +91,10 @@ export class AppComponent {
 
         window.scrollTo(0, 0);
         this.isLoading = false;
+        this.authService.autoLogin(250);
       });
+    } else {
+      this.authService.autoLogin();
     }
 
     this.router.events.subscribe((event) => {

@@ -60,7 +60,16 @@
               "@opentelemetry/api",
               "@vercel/oidc"
             ],
-            "allowedCommonJsDependencies": ["cors", "ip-address", "hpp"]
+            "allowedCommonJsDependencies": [
+              "cors",
+              "ip-address",
+              "hpp",
+              "google-auth-library",
+              "debug",
+              "agent-base",
+              "node-domexception",
+              "web-streams-polyfill/dist/ponyfill.es2018.js"
+            ]
           },
           "configurations": {
             "production": {

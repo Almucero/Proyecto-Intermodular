@@ -1,4 +1,4 @@
-import { FactoryProvider, InjectionToken, PLATFORM_ID } from '@angular/core';
+import { FactoryProvider, InjectionToken, NgZone, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseRepositoryHttpService } from './impl/base-repository-http.service';
 import { IBaseRepository } from './interfaces/base-repository.interface';
@@ -291,6 +291,7 @@ export const AuthenticationServiceFactory: FactoryProvider = {
     mapping: IAuthMapping,
     http: HttpClient,
     platformId: Object,
+    ngZone: NgZone,
   ) => {
     switch (backend) {
       case 'http':
@@ -301,6 +302,7 @@ export const AuthenticationServiceFactory: FactoryProvider = {
           signUp,
           meUrl,
           platformId,
+          ngZone,
         );
       case 'local-storage':
         throw new Error('BACKEND NOT IMPLEMENTED');
@@ -316,6 +318,7 @@ export const AuthenticationServiceFactory: FactoryProvider = {
     AUTH_MAPPING_TOKEN,
     HttpClient,
     PLATFORM_ID,
+    NgZone,
   ],
 };
 

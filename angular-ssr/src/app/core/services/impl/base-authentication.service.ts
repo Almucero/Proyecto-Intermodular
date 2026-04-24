@@ -53,7 +53,7 @@ export abstract class BaseAuthenticationService implements IAuthentication {
   /** Obtiene la información del perfil del usuario autenticado. */
   abstract me(): Observable<any>;
   /** Intenta iniciar sesión automáticamente (ej. usando un token en localStorage). */
-  abstract autoLogin(): void;
+  abstract autoLogin(startDelayMs?: number): void;
   /** Recupera el token de acceso actual (JWT). */
   abstract getToken(): string | null;
 }
