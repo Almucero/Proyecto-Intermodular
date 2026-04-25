@@ -68,7 +68,7 @@ startProcess(
 );
 startProcess(
   "SSR",
-  'nodemon -C --quiet --delay 8000ms --watch dist/game-sage/server --ext mjs --exec "node --max-old-space-size=8192 --disable-warning=DEP0169 dist/game-sage/server/server.mjs"',
+  'nodemon -C --quiet --delay 12000ms --watch dist/game-sage/server --ext mjs --exec "node --max-old-space-size=8192 --disable-warning=DEP0169 dist/game-sage/server/server.mjs"',
 );
 if (process.env["DEV_SSL_PROXY"] === "1") {
   startProcess("HTTPS", "local-ssl-proxy --source 3443 --target 3000");

@@ -161,6 +161,7 @@ export class RegisterComponent implements OnInit {
     sessionStorage.setItem(this.GOOGLE_NONCE_KEY, nonce);
 
     sessionStorage.setItem(this.GOOGLE_TARGET_KEY, '/register');
+    document.cookie = `google_oauth_target=${encodeURIComponent('/register')}; path=/; SameSite=Lax; Secure`;
     const redirectUri = `${window.location.origin}/api/auth/google/callback`;
     const authUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth');
     authUrl.searchParams.set('client_id', this.googleClientId);

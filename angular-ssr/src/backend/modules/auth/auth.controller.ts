@@ -21,6 +21,24 @@ function getRequestOrigin(req: Request): string {
   return `${protocol}://${host}`;
 }
 
+function getCookieValue(req: Request, key: string): string | null {
+  const cookies = req.headers.cookie;
+  if (!cookies) return null;
+  const entries = cookies.split(';');
+  for (const entry of entries) {
+    const [rawKey, ...rest] = entry.trim().split('=');
+    if (rawKey === key) {
+      const rawValue = rest.join('=');
+      try {
+        return decodeURIComponent(rawValue);
+      } catch {
+        return rawValue;
+      }
+    }
+  }
+  return null;
+}
+
 export async function registerCtrl(req: Request, res: Response) {
   try {
     const {
@@ -105,33 +123,28 @@ export function googleClientIdCtrl(_req: Request, res: Response) {
 
 export function googleCallbackCtrl(_req: Request, res: Response) {
   const origin = getRequestOrigin(_req);
-  const html = `<!doctype html><html><head><meta charset="utf-8"><title>Google Auth</title></head><body><script>
-  (function() {
-    var target = '/login';
-    try {
-      var storedTarget = window.sessionStorage.getItem('google_oauth_target');
-      if (storedTarget && storedTarget.charAt(0) === '/') target = storedTarget;
-      window.sessionStorage.removeItem('google_oauth_target');
-    } catch (e) {}
-    var destination = new URL(target, ${JSON.stringify(origin)});
-    if (window.location.search && window.location.search.length > 1) {
-      var params = new URLSearchParams(window.location.search.slice(1));
-      params.forEach(function(value, key) {
+  const cookieTarget = getCookieValue(_req, 'google_oauth_target');
+  const safeTarget =
+    cookieTarget && cookieTarget.startsWith('/') ? cookieTarget : '/login';
+  const destination = new URL(safeTarget, origin);
+
+  if (_req.query) {
+    for (const [key, value] of Object.entries(_req.query)) {
+      if (key === '__path') {
+        continue;
+      }
+      if (typeof value === 'string') {
         destination.searchParams.set(key, value);
-      });
+      }
     }
-    if (window.location.hash && window.location.hash.length > 1) {
-      destination.hash = window.location.hash.slice(1);
-    }
-    destination.searchParams.set('_skip_loader', '1');
-    try {
-      window.sessionStorage.setItem('skip_loading_screen_once', '1');
-    } catch (e) {}
-    window.location.replace(destination.toString());
-  })();
-  </script></body></html>`;
-  res.setHeader('Content-Type', 'text/html; charset=utf-8');
-  res.send(html);
+  }
+
+  destination.searchParams.set('_skip_loader', '1');
+  res.setHeader(
+    'Set-Cookie',
+    'google_oauth_target=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=Lax',
+  );
+  res.redirect(302, destination.toString());
 }
 
 export async function githubLoginCtrl(req: Request, res: Response) {
@@ -170,14 +183,5 @@ export function githubCallbackCtrl(req: Request, res: Response) {
   if (code) redirectUrl.searchParams.set('code', code);
   if (state) redirectUrl.searchParams.set('state', state);
   if (error) redirectUrl.searchParams.set('error', error);
-  const html = `<!doctype html><html><head><meta charset="utf-8"><title>GitHub Auth</title></head><body><script>
-  (function() {
-    try {
-      window.sessionStorage.setItem('skip_loading_screen_once', '1');
-    } catch (e) {}
-    window.location.replace(${JSON.stringify(redirectUrl.toString())});
-  })();
-  </script></body></html>`;
-  res.setHeader('Content-Type', 'text/html; charset=utf-8');
-  res.send(html);
+  res.redirect(302, redirectUrl.toString());
 }

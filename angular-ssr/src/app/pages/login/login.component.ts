@@ -123,6 +123,7 @@ export class LoginComponent implements OnInit {
     sessionStorage.setItem(this.GOOGLE_REMEMBER_KEY, rememberMe ? '1' : '0');
 
     sessionStorage.setItem(this.GOOGLE_TARGET_KEY, '/login');
+    document.cookie = `google_oauth_target=${encodeURIComponent('/login')}; path=/; SameSite=Lax; Secure`;
     const redirectUri = `${window.location.origin}/api/auth/google/callback`;
     const authUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth');
     authUrl.searchParams.set('client_id', this.googleClientId);
