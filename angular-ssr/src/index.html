@@ -49,6 +49,29 @@
     <meta name="theme-color" content="#030712" />
 
     <meta name="color-scheme" content="dark only" />
+    <script>
+      window.__APP_CONFIG__ = { loadingScreenEnabled: true };
+      var skipLoadingOnce = false;
+      var skipLoadingByQuery = false;
+      try {
+        skipLoadingOnce =
+          window.sessionStorage.getItem("skip_loading_screen_once") === "1";
+        if (skipLoadingOnce) {
+          window.sessionStorage.removeItem("skip_loading_screen_once");
+        }
+      } catch (e) {}
+      try {
+        var params = new URLSearchParams(window.location.search);
+        skipLoadingByQuery = params.get("_skip_loader") === "1";
+      } catch (e) {}
+      if (
+        !window.__APP_CONFIG__.loadingScreenEnabled ||
+        skipLoadingOnce ||
+        skipLoadingByQuery
+      ) {
+        document.documentElement.classList.add("no-loading-screen");
+      }
+    </script>
     <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

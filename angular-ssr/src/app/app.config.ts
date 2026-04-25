@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withRouterConfig } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { routes } from './app.routes';
 import {
@@ -96,15 +96,20 @@ import {
 } from '@angular/platform-browser';
 
 /**
- * Configuración global de la aplicación Angular.
- * Define proveedores, rutas, interceptores, servicios de traducción,
- * tokens de inyección para API y fábricas de repositorios siguiendo
+ * Configuraciรณn global de la aplicaciรณn Angular.
+ * Define proveedores, rutas, interceptores, servicios de traducciรณn,
+ * tokens de inyecciรณn para API y fรกbricas de repositorios siguiendo
  * una arquitectura limpia y desacoplada.
  */
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes),
+    provideRouter(
+      routes,
+      withRouterConfig({
+        onSameUrlNavigation: 'reload',
+      }),
+    ),
     provideHttpClient(
       withFetch(),
       withInterceptors([serverConnectionInterceptor]),
@@ -119,7 +124,7 @@ export const appConfig: ApplicationConfig = {
       lang: 'es',
     }),
 
-    // Configuración de Repositorios (Inyección de Dependencias)
+    // Configuraciรณn de Repositorios (Inyecciรณn de Dependencias)
     { provide: BACKEND_TOKEN, useValue: 'http' },
 
     // Nombres de recursos para la API
@@ -190,7 +195,7 @@ export const appConfig: ApplicationConfig = {
       useValue: `${environment.apiUrl}/api/chat`,
     },
 
-    // Endpoints específicos de autenticación y carga de archivos
+    // Endpoints especรญficos de autenticaciรณn y carga de archivos
     {
       provide: AUTH_SIGN_IN_API_URL_TOKEN,
       useValue: `${environment.apiUrl}/api/auth/login`,
@@ -208,7 +213,7 @@ export const appConfig: ApplicationConfig = {
       useValue: `${environment.apiUrl}/api/media/upload`,
     },
 
-    // Fábricas de Mappings (Transformación de datos)
+    // Fรกbricas de Mappings (Transformaciรณn de datos)
     DeveloperMappingFactory,
     GameMappingFactory,
     GenreMappingFactory,
@@ -223,7 +228,7 @@ export const appConfig: ApplicationConfig = {
     ChatMappingFactory,
     AuthMappingFactory,
 
-    // Fábricas de Repositorios (Persistencia)
+    // Fรกbricas de Repositorios (Persistencia)
     DeveloperRepositoryFactory,
     GameRepositoryFactory,
     GenreRepositoryFactory,
@@ -237,7 +242,7 @@ export const appConfig: ApplicationConfig = {
     FavoriteRepositoryFactory,
     ChatRepositoryFactory,
 
-    // Servicios de Implementación (Business Logic)
+    // Servicios de Implementaciรณn (Business Logic)
     { provide: DeveloperService, useClass: DeveloperService },
     { provide: GameService, useClass: GameService },
     { provide: GenreService, useClass: GenreService },

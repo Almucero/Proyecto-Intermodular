@@ -18,21 +18,23 @@ export async function createUser(
   postalCode?: string | null,
   country?: string | null,
 ) {
+  const normalizedNickname =
+    (
+      nickname ??
+      name.split(' ')[0] ??
+      email.split('@')[0] ??
+      null
+    )?.trim() ?? null;
+
   return prisma.user.create({
     data: {
       email: email.trim(),
       name: name.trim(),
       surname: surname.trim(),
       passwordHash,
-      accountAt: accountAt ?? null,
-      accountId: accountId ?? null,
-      nickname:
-        (
-          nickname ??
-          name.split(' ')[0] ??
-          email.split('@')[0] ??
-          null
-        )?.trim() ?? null,
+      ...(accountAt === undefined ? {} : { accountAt: accountAt ?? null }),
+      ...(accountId === undefined ? {} : { accountId: accountId ?? null }),
+      nickname: normalizedNickname,
       addressLine1: addressLine1?.trim() ?? null,
       addressLine2: addressLine2?.trim() ?? null,
       city: city?.trim() ?? null,
@@ -64,6 +66,10 @@ export async function createUser(
 
 export async function findUserByEmail(email: string) {
   return prisma.user.findUnique({ where: { email } });
+}
+
+export async function findUserByAccountAt(accountAt: string) {
+  return prisma.user.findUnique({ where: { accountAt } });
 }
 
 export async function findUserByEmailForLogin(email: string) {

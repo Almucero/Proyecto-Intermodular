@@ -202,7 +202,7 @@ const swaggerSecurityHeaders = (
   next();
 };
 
-app.get('/api-docs', swaggerSecurityHeaders, (_req, res) => {
+app.get(/^\/api-docs$/, swaggerSecurityHeaders, (_req, res) => {
   res.redirect(302, '/api-docs/');
 });
 app.use('/api-docs', swaggerSecurityHeaders, swaggerUi.serve);

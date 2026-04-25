@@ -5,6 +5,7 @@ import { OAuth2Client } from 'google-auth-library';
 import { env } from '../../config/env';
 import {
   createUser,
+  findUserByAccountAt,
   findUserByEmail,
   findUserById,
   findUserByEmailForLogin,
@@ -13,6 +14,53 @@ import {
 } from '../users/users.service';
 
 const googleOAuthClient = new OAuth2Client(env.GOOGLE_CLIENT_ID);
+
+function splitDisplayName(fullName?: string | null): { name: string; surname: string } {
+  const normalized = (fullName ?? '').trim().replace(/\s+/g, ' ');
+  if (!normalized) {
+    return { name: 'Usuario', surname: 'Social' };
+  }
+  const parts = normalized.split(' ');
+  if (parts.length === 1) {
+    return { name: parts[0], surname: 'Social' };
+  }
+  return {
+    name: parts[0],
+    surname: parts.slice(1).join(' '),
+  };
+}
+
+function normalizeHandleCandidate(value?: string | null): string {
+  return (value ?? '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9._-]+/g, '')
+    .replace(/^[._-]+|[._-]+$/g, '');
+}
+
+async function buildUniqueAccountAt(
+  candidates: Array<string | null | undefined>,
+  email: string,
+): Promise<string> {
+  const fallback = email.split('@')[0] || `user${Date.now()}`;
+  const baseCandidate =
+    candidates
+      .map((c) => normalizeHandleCandidate(c))
+      .find((c) => c.length > 0) ??
+    normalizeHandleCandidate(fallback) ??
+    `user${Date.now()}`;
+
+  let attempt = 0;
+  while (attempt < 200) {
+    const suffix = attempt === 0 ? '' : `${attempt + 1}`;
+    const proposed = `@${baseCandidate}${suffix}`;
+    const exists = await findUserByAccountAt(proposed);
+    if (!exists) return proposed;
+    attempt += 1;
+  }
+  return `@${baseCandidate}${Date.now()}`;
+}
 
 function signUserToken(fullUser: any): string {
   return jwt.sign(
@@ -124,8 +172,16 @@ export async function loginWithGoogle(idToken: string) {
   const existingUser = await findUserByEmail(payload.email);
   let fullUser: Awaited<ReturnType<typeof findUserById>> = null;
   if (!existingUser) {
-    const fallbackName = payload.given_name || payload.name || payload.email.split('@')[0];
-    const fallbackSurname = payload.family_name || payload.name || 'Google';
+    const parsed = splitDisplayName(payload.name);
+    const fallbackName =
+      (payload.given_name || parsed.name || payload.email.split('@')[0]).trim();
+    const fallbackSurname =
+      (payload.family_name || parsed.surname || 'Google').trim();
+    const nickname = (payload.name || `${fallbackName} ${fallbackSurname}`).trim();
+    const accountAt = await buildUniqueAccountAt(
+      [payload.given_name, payload.name, payload.email.split('@')[0]],
+      payload.email,
+    );
     const passwordHash = await bcrypt.hash(
       `${randomUUID()}-${Date.now()}`,
       env.BCRYPT_SALT_ROUNDS,
@@ -135,9 +191,9 @@ export async function loginWithGoogle(idToken: string) {
       fallbackName,
       fallbackSurname,
       passwordHash,
-      null,
-      null,
-      payload.name || fallbackName,
+      accountAt,
+      undefined,
+      nickname,
       null,
       null,
       null,
@@ -244,10 +300,15 @@ export async function loginWithGithub(code: string) {
   }
 
   const fullName = (githubUser.name || '').trim();
+  const parsed = splitDisplayName(fullName);
   const fallbackName = githubUser.login || email.split('@')[0];
-  const name = fullName ? fullName.split(' ')[0] : fallbackName;
-  const surname = fullName ? fullName.split(' ').slice(1).join(' ') || 'GitHub' : 'GitHub';
+  const name = fullName ? parsed.name : fallbackName;
+  const surname = fullName ? parsed.surname || 'GitHub' : 'GitHub';
   const nickname = githubUser.login || fallbackName;
+  const accountAt = await buildUniqueAccountAt(
+    [githubUser.login, fullName, email.split('@')[0]],
+    email,
+  );
 
   const existingUser = await findUserByEmail(email);
   let fullUser: Awaited<ReturnType<typeof findUserById>> = null;
@@ -261,8 +322,8 @@ export async function loginWithGithub(code: string) {
       name,
       surname,
       passwordHash,
-      null,
-      null,
+      accountAt,
+      undefined,
       nickname,
       null,
       null,

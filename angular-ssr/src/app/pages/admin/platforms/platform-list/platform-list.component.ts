@@ -25,6 +25,7 @@ import { PlatformFormComponent } from '../platform-form/platform-form.component'
 })
 export class PlatformListComponent implements OnInit {
   private platformService = inject(PlatformService);
+  private readonly MIN_SKELETON_MS = 550;
 
   /** Referencia al contenedor con scroll para manejar efectos visuales de sombras. */
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
@@ -62,13 +63,18 @@ export class PlatformListComponent implements OnInit {
    */
   loadPlatforms() {
     this.isLoading = true;
+    const loadStartedAt = Date.now();
     this.platformService.getAll().subscribe((data) => {
-      this.platforms = data;
-      this.filterPlatforms();
-      this.isLoading = false;
+      const elapsed = Date.now() - loadStartedAt;
+      const remaining = Math.max(0, this.MIN_SKELETON_MS - elapsed);
       setTimeout(() => {
-        this.onScroll();
-      }, 0);
+        this.platforms = data;
+        this.filterPlatforms();
+        this.isLoading = false;
+        setTimeout(() => {
+          this.onScroll();
+        }, 0);
+      }, remaining);
     });
   }
 

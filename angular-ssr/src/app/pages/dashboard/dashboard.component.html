@@ -169,7 +169,7 @@
       <div class="flex-1 space-y-8 lg:pl-12">
         <div>
           <h2 class="text-3xl font-bold text-white text-left mobile-center-text">
-            {{ user()?.name || "-" }}
+            {{ ((user()?.name || "") + " " + (user()?.surname || "")).trim() || user()?.name || "-" }}
           </h2>
           <div
             class="flex items-center justify-start gap-2 text-gray-400 mt-1 mobile-center-row"

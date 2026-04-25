@@ -8,8 +8,8 @@
   ></app-loading>
   <app-header
     [@headerRevealAnimation]="{
-      value: isLoading ? 'hidden' : 'visible',
-      params: { delay: exitAnimationDuration },
+      value: headerRevealEnabled ? (isLoading ? 'hidden' : 'visible') : 'visible',
+      params: { delay: headerRevealEnabled ? exitAnimationDuration : '0ms' },
     }"
   ></app-header>
   <div
@@ -24,7 +24,7 @@
       [class.route-hidden]="isRouteHidden"
       [class.route-entering]="isRouteEntering"
     >
-      <router-outlet></router-outlet>
+      <router-outlet (activate)="onRouteActivated()"></router-outlet>
     </div>
     <app-error-toast></app-error-toast>
     <app-footer></app-footer>

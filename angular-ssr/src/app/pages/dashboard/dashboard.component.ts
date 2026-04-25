@@ -384,10 +384,10 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  /** Cierra la sesión del usuario y redirige a la página principal. */
+  /** Cierra la sesión del usuario y redirige al login. */
   async onLogout() {
     this.auth.signOut().subscribe(() => {
-      this.router.navigate(['/']);
+      this.router.navigate(['/login']);
     });
   }
 

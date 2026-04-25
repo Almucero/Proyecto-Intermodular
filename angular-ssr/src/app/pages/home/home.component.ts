@@ -265,7 +265,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       backgroundTarget,
       backgroundEase,
     );
-    if (scrollingUp && Math.abs(backgroundTarget - this.current.backgroundY) > 240) {
+    if (
+      scrollingUp &&
+      Math.abs(backgroundTarget - this.current.backgroundY) > 240
+    ) {
       this.current.backgroundY = backgroundTarget;
     }
     this.current.bottomY = this.lerp(this.current.bottomY, bottomTarget, ease);
@@ -391,15 +394,25 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
-    const titleRect = (this.titleLayer.nativeElement as HTMLElement).getBoundingClientRect();
-    const jokerRect = (this.jokerLayer.nativeElement as HTMLElement).getBoundingClientRect();
-    const geraltRect = (this.geraltLayer.nativeElement as HTMLElement).getBoundingClientRect();
+    const titleRect = (
+      this.titleLayer.nativeElement as HTMLElement
+    ).getBoundingClientRect();
+    const jokerRect = (
+      this.jokerLayer.nativeElement as HTMLElement
+    ).getBoundingClientRect();
+    const geraltRect = (
+      this.geraltLayer.nativeElement as HTMLElement
+    ).getBoundingClientRect();
 
     if (titleRect.width <= 0 || titleRect.height <= 0) {
       return;
     }
 
-    const shrinkRect = (rect: DOMRect, xInsetPercent: number, yInsetPercent: number) => {
+    const shrinkRect = (
+      rect: DOMRect,
+      xInsetPercent: number,
+      yInsetPercent: number,
+    ) => {
       const xInset = rect.width * xInsetPercent;
       const yInset = rect.height * yInsetPercent;
       return {
@@ -428,7 +441,13 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     const intersects = (
       a: { left: number; right: number; top: number; bottom: number },
       b: { left: number; right: number; top: number; bottom: number },
-    ) => !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
+    ) =>
+      !(
+        a.right < b.left ||
+        a.left > b.right ||
+        a.bottom < b.top ||
+        a.top > b.bottom
+      );
 
     const enterTitleZone = expandRect(titleCore, 14, 10);
     const exitTitleZone = expandRect(titleCore, 32, 22);
@@ -437,7 +456,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     const jokerZone = expandRect(jokerCore, 10, 8);
     const geraltZone = expandRect(geraltCore, 10, 8);
 
-    const shouldHide = intersects(jokerZone, zone) || intersects(geraltZone, zone);
+    const shouldHide =
+      intersects(jokerZone, zone) || intersects(geraltZone, zone);
     this.hideSideCharacters = shouldHide;
     if (shouldHide) {
       this.sideCharactersHideLocked = true;
@@ -593,7 +613,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         state.currentX = state.targetX;
         state.currentY = state.targetY;
         state.hoverCurrent = state.hoverTarget;
-        if (state.hoverTarget === 0 && state.targetX === 0 && state.targetY === 0) {
+        if (
+          state.hoverTarget === 0 &&
+          state.targetX === 0 &&
+          state.targetY === 0
+        ) {
           state.el.style.transform =
             'perspective(800px) rotateX(0deg) rotateY(0deg) translate(0px, 0px)';
           state.el.style.boxShadow = '0 4px 12px rgba(0,0,0,0.45)';

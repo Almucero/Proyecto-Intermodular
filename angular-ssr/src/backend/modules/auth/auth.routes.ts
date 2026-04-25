@@ -11,9 +11,10 @@ import {
   loginCtrl,
   googleLoginCtrl,
   googleClientIdCtrl,
+  googleCallbackCtrl,
   githubLoginCtrl,
   githubClientIdCtrl,
-  githubPopupCallbackCtrl,
+  githubCallbackCtrl,
 } from './auth.controller';
 
 const router = Router();
@@ -93,8 +94,9 @@ router.post('/register', validate(registerSchema), registerCtrl);
 router.post('/login', validate(loginSchema), loginCtrl);
 router.post('/google', validate(googleLoginSchema), googleLoginCtrl);
 router.get('/google/client-id', googleClientIdCtrl);
+router.get('/google/callback', googleCallbackCtrl);
 router.post('/github', validate(githubLoginSchema), githubLoginCtrl);
 router.get('/github/client-id', githubClientIdCtrl);
-router.get('/github/callback', githubPopupCallbackCtrl);
+router.get('/github/callback', githubCallbackCtrl);
 
 export default router;

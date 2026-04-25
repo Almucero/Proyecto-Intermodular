@@ -64,6 +64,7 @@ const browserDistFolder = join(import.meta.dirname, '../browser');
 const docsDistFolder = join(browserDistFolder, 'docs');
 const docsFallbackFolder = join(import.meta.dirname, '../../../docs');
 const docsFolder = existsSync(docsDistFolder) ? docsDistFolder : docsFallbackFolder;
+const isProduction = process.env['NODE_ENV'] === 'production';
 
 const app = express();
 app.disable('x-powered-by');
@@ -238,14 +239,22 @@ const setupAngularMiddleware = () => {
   );
   app.use(
     express.static(browserDistFolder, {
-      maxAge: '1y',
-      etag: true,
+      maxAge: isProduction ? '1y' : 0,
+      etag: isProduction,
       lastModified: true,
       index: false,
       redirect: false,
       setHeaders: (res, path) => {
-        if (path.match(/\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$/)) {
-          res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        const isStaticAsset = path.match(/\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$/);
+        if (!isProduction) {
+          applyNoCacheHeaders(res);
+          return;
+        }
+        if (isStaticAsset) {
+          res.setHeader(
+            'Cache-Control',
+            'public, max-age=31536000, immutable',
+          );
         } else {
           applyNoCacheHeaders(res);
         }

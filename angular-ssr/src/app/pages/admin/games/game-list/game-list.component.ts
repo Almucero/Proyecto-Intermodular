@@ -26,6 +26,7 @@ import { GameFormComponent } from '../game-form/game-form.component';
 })
 export class GameListComponent implements OnInit {
   private gameService = inject(GameService);
+  private readonly MIN_SKELETON_MS = 550;
 
   /** Referencia al contenedor con scroll para manejar efectos visuales de sombras. */
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
@@ -63,13 +64,18 @@ export class GameListComponent implements OnInit {
    */
   loadGames() {
     this.isLoading = true;
+    const loadStartedAt = Date.now();
     this.gameService.getAll().subscribe((data) => {
-      this.games = data;
-      this.filterGames();
-      this.isLoading = false;
+      const elapsed = Date.now() - loadStartedAt;
+      const remaining = Math.max(0, this.MIN_SKELETON_MS - elapsed);
       setTimeout(() => {
-        this.onScroll();
-      }, 0);
+        this.games = data;
+        this.filterGames();
+        this.isLoading = false;
+        setTimeout(() => {
+          this.onScroll();
+        }, 0);
+      }, remaining);
     });
   }
 

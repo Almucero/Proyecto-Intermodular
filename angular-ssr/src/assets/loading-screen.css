@@ -20,6 +20,14 @@ body {
   background-color: #050b14;
 }
 
+html.no-loading-screen .app-loading-screen {
+  display: none !important;
+}
+
+html.no-loading-screen app-loading {
+  display: none !important;
+}
+
 .glitch-container {
   position: relative;
   display: flex;

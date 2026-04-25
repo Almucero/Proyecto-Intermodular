@@ -25,6 +25,7 @@ import { GenreFormComponent } from '../genre-form/genre-form.component';
 })
 export class GenreListComponent implements OnInit {
   private genreService = inject(GenreService);
+  private readonly MIN_SKELETON_MS = 550;
 
   /** Referencia al contenedor con scroll para efectos visuales de sombras. */
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
@@ -62,13 +63,18 @@ export class GenreListComponent implements OnInit {
    */
   loadGenres() {
     this.isLoading = true;
+    const loadStartedAt = Date.now();
     this.genreService.getAll().subscribe((data) => {
-      this.genres = data;
-      this.filterGenres();
-      this.isLoading = false;
+      const elapsed = Date.now() - loadStartedAt;
+      const remaining = Math.max(0, this.MIN_SKELETON_MS - elapsed);
       setTimeout(() => {
-        this.onScroll();
-      }, 0);
+        this.genres = data;
+        this.filterGenres();
+        this.isLoading = false;
+        setTimeout(() => {
+          this.onScroll();
+        }, 0);
+      }, remaining);
     });
   }
 
