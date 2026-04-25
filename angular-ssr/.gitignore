@@ -68,6 +68,7 @@ logs/
 
 # Archivos generados automáticamente
 src/generated/prisma/
+src/backend/config/swagger.generated.json
 
 .vercel/
 

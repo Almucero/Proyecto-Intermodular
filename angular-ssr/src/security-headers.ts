@@ -31,7 +31,7 @@ export function applySecurityHeaders(
     "default-src 'self'; " +
     "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com https://accounts.google.com https://accounts.gstatic.com; " +
     "style-src-elem 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com https://accounts.google.com https://accounts.gstatic.com; " +
-    "img-src 'self' data: https://res.cloudinary.com https://img.youtube.com https://upload.wikimedia.org blob:; " +
+    "img-src 'self' data: https://res.cloudinary.com https://img.youtube.com https://upload.wikimedia.org https://cdn.jsdelivr.net blob:; " +
     "font-src 'self' data: https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.gstatic.com; " +
     "frame-src 'self' https://www.youtube-nocookie.com https://js.stripe.com https://hooks.stripe.com https://accounts.google.com; " +
     "frame-ancestors 'self'; " +
@@ -43,18 +43,18 @@ export function applySecurityHeaders(
     "manifest-src 'self'; ";
 
   if (isProduction) {
-    // Producción: script-src más estricto sin unsafe-inline/eval, upgrade-insecure-requests
+    // Producción: mantiene compatibilidad con scripts inline necesarios en index.html y swagger
     csp +=
-      "script-src 'self' https://cdnjs.cloudflare.com https://www.gstatic.com https://generativelanguage.googleapis.com https://js.stripe.com https://accounts.google.com https://accounts.gstatic.com; ";
+      "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.gstatic.com https://generativelanguage.googleapis.com https://js.stripe.com https://accounts.google.com https://accounts.gstatic.com; ";
     csp +=
-      "connect-src 'self' https://res.cloudinary.com https://generativelanguage.googleapis.com https://api.stripe.com https://r.stripe.com https://m.stripe.network https://js.stripe.com https://hooks.stripe.com https://accounts.google.com https://accounts.gstatic.com https://cdnjs.cloudflare.com; ";
+      "connect-src 'self' https://res.cloudinary.com https://generativelanguage.googleapis.com https://api.stripe.com https://r.stripe.com https://m.stripe.network https://js.stripe.com https://hooks.stripe.com https://accounts.google.com https://accounts.gstatic.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; ";
     csp += 'upgrade-insecure-requests;';
   } else {
     // Desarrollo: permite WebSocket para HMR (Hot Module Replacement) e unsafe-inline/eval para debug
     csp +=
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://www.gstatic.com https://generativelanguage.googleapis.com https://js.stripe.com https://accounts.google.com https://accounts.gstatic.com; ";
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.gstatic.com https://generativelanguage.googleapis.com https://js.stripe.com https://accounts.google.com https://accounts.gstatic.com; ";
     csp +=
-      "connect-src 'self' ws://localhost:* http://localhost:* https://res.cloudinary.com https://generativelanguage.googleapis.com https://api.stripe.com https://r.stripe.com https://m.stripe.network https://js.stripe.com https://hooks.stripe.com https://accounts.google.com https://accounts.gstatic.com https://cdnjs.cloudflare.com; ";
+      "connect-src 'self' ws://localhost:* http://localhost:* https://res.cloudinary.com https://generativelanguage.googleapis.com https://api.stripe.com https://r.stripe.com https://m.stripe.network https://js.stripe.com https://hooks.stripe.com https://accounts.google.com https://accounts.gstatic.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; ";
   }
 
   res.setHeader('Content-Security-Policy', csp);

@@ -2,11 +2,20 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { env } from './env';
+import { existsSync, readFileSync } from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const isProduction = env.NODE_ENV === 'production';
+const projectRoot = process.cwd();
+const toPosixPath = (value: string): string => value.replace(/\\/g, '/');
+
+const swaggerApiSources = [
+  toPosixPath(join(projectRoot, 'src/backend/modules/**/*.routes.ts')),
+  toPosixPath(join(projectRoot, 'src/backend/modules/**/*.routes.js')),
+  toPosixPath(join(__dirname, '../modules/**/*.routes.ts')),
+  toPosixPath(join(__dirname, '../modules/**/*.routes.js')),
+];
 
 const options: swaggerJsdoc.Options = {
   definition: {
@@ -1092,10 +1101,42 @@ const options: swaggerJsdoc.Options = {
     ],
   },
   apis: [
-    isProduction
-      ? join(__dirname, '../modules/**/*.routes.js')
-      : join(__dirname, '../modules/**/*.routes.ts'),
+    ...swaggerApiSources,
   ],
 };
 
-export const swaggerSpec = swaggerJsdoc(options);
+const readGeneratedSwaggerSpec = (): Record<string, unknown> | null => {
+  const candidates = [
+    join(process.cwd(), 'swagger.generated.json'),
+    join(process.cwd(), 'backend/config/swagger.generated.json'),
+    join(process.cwd(), 'src/backend/config/swagger.generated.json'),
+    join(
+      process.cwd(),
+      'dist/game-sage/server/backend/config/swagger.generated.json',
+    ),
+    join(__dirname, '../swagger.generated.json'),
+    join(__dirname, 'swagger.generated.json'),
+    join(__dirname, '../backend/config/swagger.generated.json'),
+    join(__dirname, '../../backend/config/swagger.generated.json'),
+  ];
+
+  for (const candidate of candidates) {
+    if (!existsSync(candidate)) continue;
+    try {
+      const raw = readFileSync(candidate, 'utf8');
+      return JSON.parse(raw) as Record<string, unknown>;
+    } catch {
+      continue;
+    }
+  }
+
+  return null;
+};
+
+const shouldUseGeneratedSpec =
+  process.env['VERCEL'] === '1' || env.NODE_ENV === 'production';
+const generatedSwaggerSpec = shouldUseGeneratedSpec
+  ? readGeneratedSwaggerSpec()
+  : null;
+
+export const swaggerSpec = generatedSwaggerSpec ?? swaggerJsdoc(options);

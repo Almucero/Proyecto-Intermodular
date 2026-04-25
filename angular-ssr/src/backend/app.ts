@@ -202,49 +202,90 @@ const swaggerSecurityHeaders = (
   next();
 };
 
-app.get(/^\/api-docs$/, swaggerSecurityHeaders, (_req, res) => {
-  res.redirect(302, '/api-docs/');
-});
-app.use('/api-docs', swaggerSecurityHeaders, swaggerUi.serve);
-app.get('/api-docs/', swaggerSecurityHeaders, (req, res, next) => {
-  applySecurityHeaders(req, res);
-  applyNoCacheHeaders(res);
-
+const buildSwaggerSpecForRequest = (
+  req: express.Request,
+): Record<string, unknown> => {
   const host = req.get('host') || '';
   const protocol =
     req.headers['x-forwarded-proto'] || (req.secure ? 'https' : 'http');
+  const dynamicSpec = JSON.parse(JSON.stringify(swaggerSpec)) as Record<
+    string,
+    unknown
+  >;
 
-  const dynamicSpec = JSON.parse(JSON.stringify(swaggerSpec));
+  const servers =
+    env.NODE_ENV === 'production'
+      ? [
+          {
+            url: `${protocol}://${host}/`,
+            description: 'Servidor de producción (Vercel)',
+          },
+        ]
+      : [
+          {
+            url: `http://localhost:${env.PORT}`,
+            description: 'Servidor de desarrollo',
+          },
+        ];
 
-  if (dynamicSpec.servers) {
-    if (env.NODE_ENV === 'production') {
-      dynamicSpec.servers = [
-        {
-          url: `${protocol}://${host}/`,
-          description: 'Servidor de producción (Vercel)',
-        },
-      ];
-    } else {
-      dynamicSpec.servers = [
-        {
-          url: `http://localhost:${env.PORT}`,
-          description: 'Servidor de desarrollo',
-        },
-      ];
-    }
-  }
+  dynamicSpec['servers'] = servers;
+  return dynamicSpec;
+};
+
+const swaggerAssetRedirects: Record<string, string> = {
+  'swagger-ui.css':
+    'https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui.css',
+  'swagger-ui-bundle.js':
+    'https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-bundle.js',
+  'swagger-ui-standalone-preset.js':
+    'https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-standalone-preset.js',
+  'favicon-16x16.png':
+    'https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/favicon-16x16.png',
+  'favicon-32x32.png':
+    'https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/favicon-32x32.png',
+};
+
+app.get(/^\/api-docs$/, swaggerSecurityHeaders, (_req, res) => {
+  res.redirect(302, '/api-docs/');
+});
+app.get(
+  [
+    '/swagger-ui-init.js',
+    '/swagger-ui.css',
+    '/swagger-ui-bundle.js',
+    '/swagger-ui-standalone-preset.js',
+    '/favicon-16x16.png',
+    '/favicon-32x32.png',
+  ],
+  swaggerSecurityHeaders,
+  (req, res) => {
+    const asset = req.path.replace(/^\//, '');
+    res.redirect(302, `/api-docs/${asset}`);
+  },
+);
+app.get('/api-docs/:asset', swaggerSecurityHeaders, (req, res, next) => {
+  const asset = req.params['asset'];
+  if (!asset) return next();
+  if (asset === 'swagger-ui-init.js') return next();
+  const target = swaggerAssetRedirects[asset];
+  if (!target) return next();
+  return res.redirect(302, target);
+});
+app.use('/api-docs', swaggerSecurityHeaders, swaggerUi.serve);
+app.get('/api-docs/', swaggerSecurityHeaders, (req, res, next) => {
+  const dynamicSpec = buildSwaggerSpecForRequest(req);
 
   return swaggerUi.setup(dynamicSpec, {
     customCssUrl:
-      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.0.0/swagger-ui.min.css',
+      'https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui.css',
     customJs: [
-      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.0.0/swagger-ui-bundle.js',
-      'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.0.0/swagger-ui-standalone-preset.js',
+      'https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-bundle.js',
+      'https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-standalone-preset.js',
     ],
-    customCss:
-      '.swagger-ui .topbar { display: none } .swagger-ui .scheme-container .schemes { display: flex; justify-content: space-between !important; }',
     swaggerOptions: {
       persistAuthorization: true,
+      docExpansion: 'list',
+      deepLinking: true,
     },
   })(req, res, next);
 });
