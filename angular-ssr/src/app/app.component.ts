@@ -1,7 +1,6 @@
 import {
   Component,
   inject,
-  ChangeDetectorRef,
   effect,
   PLATFORM_ID,
 } from '@angular/core';
@@ -57,42 +56,65 @@ export class AppComponent {
   public isLoading = true;
   /** Duración de la animación de salida del loader. */
   public exitAnimationDuration = '800ms';
-  /** Marca de tiempo de inicio para calcular el tiempo de carga. */
-  private startTime = Date.now();
-
-  /** Indica si la ruta actual es la página de inicio. */
-  public isHomePage = false;
   /** Controla el estado visual del contenedor durante navegación. */
   public isRouteHidden = false;
   public isRouteEntering = false;
   private routeFadeTimer: ReturnType<typeof setTimeout> | null = null;
   private readonly routeFadeDurationMs = 650;
+  private pendingInitialRouteReveal = false;
+  private shouldAnimateRouteTransition = true;
 
   private authService = inject(BaseAuthenticationService);
-  private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
   private uiState = inject(UiStateService);
   private platformId = inject(PLATFORM_ID);
   private document = inject(DOCUMENT);
   private pageTitleService = inject(PageTitleService);
+  private loadingScreenEnabled = true;
+  public headerRevealEnabled = true;
 
   /**
    * Inicializa la aplicación, gestiona el auto-login y el estado de la pantalla de carga.
    */
   constructor() {
+    const requestWantsNoLoader =
+      this.document.location?.search?.includes('_skip_loader=1') ?? false;
     if (isPlatformBrowser(this.platformId)) {
-      const minWait$ = timer(2000);
-      minWait$.subscribe(() => {
-        const elapsedTime = Date.now() - this.startTime;
-        if (elapsedTime < 200) {
-          this.exitAnimationDuration = '0ms';
-          this.cdr.detectChanges();
-        }
+      const configEnabled = Boolean(
+        (window as any).__APP_CONFIG__?.loadingScreenEnabled,
+      );
+      const noLoadingScreenClass =
+        this.document.documentElement.classList.contains('no-loading-screen');
+      this.loadingScreenEnabled =
+        configEnabled && !noLoadingScreenClass && !requestWantsNoLoader;
+      this.pendingInitialRouteReveal = noLoadingScreenClass;
+      if (this.pendingInitialRouteReveal) {
+        this.isRouteHidden = true;
+      }
+    } else {
+      this.loadingScreenEnabled = !requestWantsNoLoader;
+      this.pendingInitialRouteReveal = requestWantsNoLoader;
+      if (this.pendingInitialRouteReveal) {
+        this.isRouteHidden = true;
+      }
+    }
+    this.headerRevealEnabled = this.loadingScreenEnabled;
+    this.isLoading = this.loadingScreenEnabled;
 
+    if (isPlatformBrowser(this.platformId)) {
+      if (!this.loadingScreenEnabled) {
+        this.exitAnimationDuration = '0ms';
         window.scrollTo(0, 0);
         this.isLoading = false;
         this.authService.autoLogin(250);
-      });
+      } else {
+        const minWait$ = timer(2000);
+        minWait$.subscribe(() => {
+          window.scrollTo(0, 0);
+          this.isLoading = false;
+          this.authService.autoLogin(250);
+        });
+      }
     } else {
       this.authService.autoLogin();
     }
@@ -110,21 +132,31 @@ export class AppComponent {
           clearTimeout(this.routeFadeTimer);
           this.routeFadeTimer = null;
         }
+
+        const currentUrl = this.router.url || '';
+        const targetUrl = event.url || '';
+        const currentIsAdmin = this.isAdminRoute(currentUrl);
+        const targetIsAdmin = this.isAdminRoute(targetUrl);
+        this.shouldAnimateRouteTransition = !(currentIsAdmin && targetIsAdmin);
+
         this.isRouteEntering = false;
-        this.isRouteHidden = true;
+        if (this.shouldAnimateRouteTransition) {
+          this.isRouteHidden = true;
+        } else {
+          this.isRouteHidden = false;
+        }
       }
 
       if (event instanceof NavigationEnd) {
         window.scrollTo(0, 0);
         this.pageTitleService.updateFromRoute(this.router.url);
-        requestAnimationFrame(() => {
-          this.isRouteHidden = false;
-          this.isRouteEntering = true;
-          this.routeFadeTimer = setTimeout(() => {
-            this.isRouteEntering = false;
-            this.routeFadeTimer = null;
-          }, this.routeFadeDurationMs);
-        });
+        if (
+          this.shouldAnimateRouteTransition &&
+          this.isRouteHidden &&
+          !this.pendingInitialRouteReveal
+        ) {
+          this.triggerRouteReveal();
+        }
       }
 
       if (event instanceof NavigationCancel || event instanceof NavigationError) {
@@ -152,5 +184,44 @@ export class AppComponent {
         this.document.body.style.overflow = '';
       }
     });
+  }
+
+  private triggerRouteReveal() {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    if (!this.isRouteHidden) {
+      return;
+    }
+    if (this.routeFadeTimer) {
+      clearTimeout(this.routeFadeTimer);
+      this.routeFadeTimer = null;
+    }
+    this.isRouteEntering = false;
+    this.isRouteHidden = false;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        this.isRouteEntering = true;
+        this.routeFadeTimer = setTimeout(() => {
+          this.isRouteEntering = false;
+          this.routeFadeTimer = null;
+        }, this.routeFadeDurationMs);
+      });
+    });
+  }
+
+  public onRouteActivated() {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    if (!this.isRouteHidden && !this.pendingInitialRouteReveal) {
+      return;
+    }
+    this.pendingInitialRouteReveal = false;
+    this.triggerRouteReveal();
+  }
+
+  private isAdminRoute(url: string): boolean {
+    return /^\/admin(?:\/|$)/.test(url || '');
   }
 }

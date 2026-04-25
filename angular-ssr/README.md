@@ -27,6 +27,8 @@ El proyecto está pensado para ofrecer una experiencia completa de principio a f
 - [Estructura del backend](#estructura-del-backend)
 - [Modelo de datos (Prisma)](#modelo-de-datos-prisma)
 - [Frontend: configuración y flujo](#frontend-configuración-y-flujo)
+- [Autenticación social (Google y GitHub)](#autenticación-social-google-y-github)
+- [Funciones de administración](#funciones-de-administración)
 - [Build SSR y variable SSR_DISABLE_BACKEND](#build-ssr-y-variable-ssr_disable_backend)
 - [Rutas y endpoints relevantes](#rutas-y-endpoints-relevantes)
 - [Pagos y devoluciones (Stripe)](#pagos-y-devoluciones-stripe)
@@ -232,6 +234,55 @@ Los tokens inyectables definen nombres de recurso (games, developers, genres, et
 
 Define las rutas de la SPA: home (`/`), login, register, dashboard (protegida con authGuard y customerGuard), product/:id, aichat, favourites, cart, settings, help, contact, privacy, conditions, cookies, search, y admin (protegida con authGuard y adminGuard) con rutas hijas para gestión de géneros, desarrolladores, plataformas, editores y juegos. Las rutas de admin cargan componentes con `loadComponent` (lazy loading).
 
+### Autenticación social (Google y GitHub)
+
+La aplicación soporta autenticación y registro social con **Google** y **GitHub** usando flujo de **redirección completa**.
+
+- **Inicio del flujo en frontend**:
+  - Desde `login` y `register`, los botones sociales construyen la URL del proveedor y redirigen con `window.location.assign(...)`.
+  - El frontend solicita previamente `client_id` al backend (`/api/auth/google/client-id` y `/api/auth/github/client-id`) para no exponer configuración fija en el cliente.
+  - Se guarda estado temporal en `sessionStorage` (`state`, `nonce`, destino `target`) para validar el retorno y preservar contexto.
+- **Callback en backend**:
+  - Google vuelve a `GET /api/auth/google/callback`.
+  - GitHub vuelve a `GET /api/auth/github/callback`.
+  - Ambos callbacks generan una respuesta HTML mínima que redirige a `login` o `register` con los parámetros OAuth necesarios y marca `_skip_loader=1` para mantener una vuelta visual fluida.
+- **Procesado del retorno en frontend**:
+  - `login.component.ts` y `register.component.ts` detectan `code/state` (GitHub) o `id_token/state` (Google), validan `state`/`nonce` y completan sesión contra backend (`POST /api/auth/github` o `POST /api/auth/google`).
+  - Durante este paso se muestra una capa de procesamiento OAuth para evitar parpadeos de pantalla.
+- **Persistencia de sesión**:
+  - En social login/social register la sesión se guarda en modo persistente automáticamente (equivalente funcional a recordar sesión sin interacción adicional del usuario).
+- **Variables de entorno necesarias**:
+  - `GOOGLE_CLIENT_ID`
+  - `GITHUB_CLIENT_ID`
+  - `GITHUB_CLIENT_SECRET`
+
+### Funciones de administración
+
+El área `/admin` está pensada para gestión de catálogo y está protegida por `authGuard + adminGuard` en frontend y por `auth + adminOnly` en backend para operaciones sensibles.
+
+- **Módulos disponibles**:
+  - Géneros
+  - Desarrolladores
+  - Plataformas
+  - Publishers
+  - Juegos
+- **Operaciones soportadas**:
+  - Listado con búsqueda local y skeletons de carga.
+  - Creación y edición mediante formularios modales.
+  - Eliminación con confirmación explícita.
+- **Gestión de juegos (completa)**:
+  - Campos de negocio (precio, oferta, stock por plataforma, rating, vídeo, fecha).
+  - Relaciones con developer, publisher, genres y platforms.
+  - Subida de imagen asociada mediante módulo `media`.
+  - Alta rápida de developer/publisher/genre/platform desde el propio formulario de juego.
+- **Endpoints backend de administración**:
+  - `POST/PATCH/DELETE /api/games/:id?`
+  - `POST/PATCH/DELETE /api/developers/:id?`
+  - `POST/PATCH/DELETE /api/publishers/:id?`
+  - `POST/PATCH/DELETE /api/genres/:id?`
+  - `POST/PATCH/DELETE /api/platforms/:id?`
+  - Todas estas operaciones requieren permisos de administrador.
+
 ### Guards e interceptors
 
 - **authGuard**: Impide acceder a rutas que requieren sesión si no hay usuario autenticado (por ejemplo leyendo token o estado de auth).
@@ -267,6 +318,13 @@ Durante `ng build` con configuración SSR, Angular puede ejecutar el servidor de
   - `GET /sitemap-products.xml`: Sitemap dinámico generado desde la BD con los productos actuales.
 - **Swagger UI**: `GET /api-docs`.
 - **Auth**: `POST /api/auth/register`, `POST /api/auth/login`.
+- **Auth social**:
+  - `GET /api/auth/google/client-id`
+  - `GET /api/auth/github/client-id`
+  - `GET /api/auth/google/callback`
+  - `GET /api/auth/github/callback`
+  - `POST /api/auth/google`
+  - `POST /api/auth/github`
 - **Usuario actual**: `GET /api/users/me` (requiere JWT).
 - **Juegos**: `GET /api/games`, `GET /api/games/:id`, `POST /api/games`, `PATCH /api/games/:id`, `DELETE /api/games/:id` (creación/edición/borrado con auth y admin).
 - **Desarrolladores, editores, géneros, plataformas**: CRUD bajo `/api/developers`, `/api/publishers`, `/api/genres`, `/api/platforms`.
@@ -394,6 +452,9 @@ En la raíz del proyecto debe existir un archivo `.env`. No está versionado por
   - **BCRYPT_SALT_ROUNDS**: Número de rondas de bcrypt (ej. 10).
   - **CLOUDINARY_*** (CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET): credenciales para subida de imágenes.
   - **GOOGLE_GENERATIVE_AI_API_KEY**: API key de Google Generative AI para el chat.
+  - **GOOGLE_CLIENT_ID**: Client ID OAuth de Google para login/registro social.
+  - **GITHUB_CLIENT_ID**: Client ID OAuth de GitHub para login/registro social.
+  - **GITHUB_CLIENT_SECRET**: Secret OAuth de GitHub usado en intercambio de código por token.
   - **ADMIN_EMAILS**: Lista de correos de administradores separados por comas (ej. `admin@example.com`).
   - Opcionales: **ADMIN_PASSWORDS**, **ADMIN_NAMES** (mismo orden que los emails) para el script de seed de admins.
 
@@ -501,6 +562,7 @@ Variables habituales:
 - **Base de datos**: `POSTGRES_PRISMA_URL`
 - **Media**: `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`
 - **IA**: `GOOGLE_GENERATIVE_AI_API_KEY`
+- **Auth social**: `GOOGLE_CLIENT_ID`, `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`
 - **Administradores**: `ADMIN_EMAILS` (y opcionalmente `ADMIN_PASSWORDS`, `ADMIN_NAMES`)
 
 ---

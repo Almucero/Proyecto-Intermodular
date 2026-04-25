@@ -251,7 +251,7 @@ export async function updateGame(id: number, data: any) {
   }
 
   return await prisma.game.update({
-    where: { id: payload.id },
+    where: { id },
     data: payload,
     select: {
       id: true,

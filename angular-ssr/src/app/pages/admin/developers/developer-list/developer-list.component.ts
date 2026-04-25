@@ -25,6 +25,7 @@ import { DeveloperFormComponent } from '../developer-form/developer-form.compone
 })
 export class DeveloperListComponent implements OnInit {
   private developerService = inject(DeveloperService);
+  private readonly MIN_SKELETON_MS = 550;
 
   /** Referencia al contenedor con scroll para efectos visuales de sombras. */
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
@@ -62,13 +63,18 @@ export class DeveloperListComponent implements OnInit {
    */
   loadDevelopers() {
     this.isLoading = true;
+    const loadStartedAt = Date.now();
     this.developerService.getAll().subscribe((data) => {
-      this.developers = data;
-      this.filterDevelopers();
-      this.isLoading = false;
+      const elapsed = Date.now() - loadStartedAt;
+      const remaining = Math.max(0, this.MIN_SKELETON_MS - elapsed);
       setTimeout(() => {
-        this.onScroll();
-      }, 0);
+        this.developers = data;
+        this.filterDevelopers();
+        this.isLoading = false;
+        setTimeout(() => {
+          this.onScroll();
+        }, 0);
+      }, remaining);
     });
   }
 

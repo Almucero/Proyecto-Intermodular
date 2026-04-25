@@ -26,7 +26,6 @@ import { DeveloperService } from '../../../../core/services/impl/developer.servi
 import { PublisherService } from '../../../../core/services/impl/publisher.service';
 import { GenreService } from '../../../../core/services/impl/genre.service';
 import { PlatformService } from '../../../../core/services/impl/platform.service';
-import { Game } from '../../../../core/models/game.model';
 import { Developer } from '../../../../core/models/developer.model';
 import { Publisher } from '../../../../core/models/publisher.model';
 import { Genre } from '../../../../core/models/genre.model';
@@ -330,11 +329,10 @@ export class GameFormComponent implements OnInit, OnChanges, AfterViewInit {
       .pipe(
         switchMap((uploadedMedia: any) => {
           const formVal = this.form.value;
-          const gameData: Game = {
-            id: this.id ? this.id : 0,
+          const gameData: any = {
             ...formVal,
-            genres: formVal.genreIds.map((id: number) => ({ id })),
-            platforms: formVal.platformIds.map((id: number) => ({ id })),
+            genres: formVal.genreIds,
+            platforms: formVal.platformIds,
           };
 
           if (uploadedMedia) {

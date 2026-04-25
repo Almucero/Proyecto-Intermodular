@@ -1,8 +1,6 @@
 import {
-  AfterViewInit,
   Component,
-  ElementRef,
-  ViewChild,
+  OnInit,
   inject,
   PLATFORM_ID,
 } from '@angular/core';
@@ -17,12 +15,9 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../core/services/language.service';
 import { BaseAuthenticationService } from '../../core/services/impl/base-authentication.service';
 import { SignUpPayload } from '../../core/models/user.model';
 import { HttpClient } from '@angular/common/http';
-import { Subscription } from 'rxjs';
 
 /**
  * Validador personalizado para comprobar que las contraseñas coinciden.
@@ -61,7 +56,7 @@ function passwordMatches(control: AbstractControl): ValidationErrors | null {
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
-export class RegisterComponent implements AfterViewInit {
+export class RegisterComponent implements OnInit {
   /** Formulario reactivo de registro. */
   formRegister: FormGroup;
   /** Mensaje de error si falla el registro en el servidor. */
@@ -72,21 +67,20 @@ export class RegisterComponent implements AfterViewInit {
   submitted = false;
   /** Ruta a la que redirigir tras el login posterior al registro. */
   navigateTo: string = '';
+  isOAuthRedirectProcessing = false;
   googleError = '';
   githubError = '';
-  private googleInitialized = false;
   googleClientId = '';
   githubClientId = '';
-  @ViewChild('googleRegisterButtonHost')
-  googleRegisterButtonHost?: ElementRef<HTMLDivElement>;
-  private githubAuthListener?: (event: MessageEvent) => void;
-  private languageChangeSubscription?: Subscription;
+  private readonly GOOGLE_STATE_KEY = 'google_oauth_state_register';
+  private readonly GOOGLE_NONCE_KEY = 'google_oauth_nonce_register';
+  private readonly GOOGLE_TARGET_KEY = 'google_oauth_target';
+  private readonly GITHUB_STATE_KEY = 'github_oauth_state_register';
+  private readonly SKIP_LOADING_KEY = 'skip_loading_screen_once';
 
   private router = inject(Router);
   private auth = inject(BaseAuthenticationService);
-  private languageService = inject(LanguageService);
   private platformId = inject(PLATFORM_ID);
-  private translate = inject(TranslateService);
 
   constructor(
     private formSvc: FormBuilder,
@@ -116,22 +110,10 @@ export class RegisterComponent implements AfterViewInit {
       '/dashboard';
   }
 
-  ngAfterViewInit(): void {
-    this.languageChangeSubscription = this.translate.onLangChange.subscribe(
-      () => {
-        this.googleInitialized = false;
-        this.loadGoogleScript(true);
-      },
-    );
+  ngOnInit(): void {
+    this.processOAuthRedirect();
     this.loadGoogleClientId();
     this.loadGithubClientId();
-  }
-
-  ngOnDestroy(): void {
-    this.languageChangeSubscription?.unsubscribe();
-    if (this.githubAuthListener && isPlatformBrowser(this.platformId)) {
-      window.removeEventListener('message', this.githubAuthListener);
-    }
   }
 
   /**
@@ -169,11 +151,28 @@ export class RegisterComponent implements AfterViewInit {
 
   onGoogleSignInClick() {
     this.googleError = '';
-    if (!this.googleClientId) {
+    if (!this.googleClientId || !isPlatformBrowser(this.platformId)) {
       this.googleError = 'Google no está configurado en este entorno';
       return;
     }
-    this.loadGoogleScript();
+    const state = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    const nonce = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    sessionStorage.setItem(this.GOOGLE_STATE_KEY, state);
+    sessionStorage.setItem(this.GOOGLE_NONCE_KEY, nonce);
+
+    sessionStorage.setItem(this.GOOGLE_TARGET_KEY, '/register');
+    const redirectUri = `${window.location.origin}/api/auth/google/callback`;
+    const authUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth');
+    authUrl.searchParams.set('client_id', this.googleClientId);
+    authUrl.searchParams.set('redirect_uri', redirectUri);
+    authUrl.searchParams.set('response_type', 'id_token');
+    authUrl.searchParams.set('scope', 'openid email profile');
+    authUrl.searchParams.set('state', state);
+    authUrl.searchParams.set('nonce', nonce);
+    authUrl.searchParams.set('prompt', 'select_account');
+
+    sessionStorage.setItem(this.SKIP_LOADING_KEY, '1');
+    window.location.assign(authUrl.toString());
   }
 
   onGithubSignInClick() {
@@ -184,8 +183,8 @@ export class RegisterComponent implements AfterViewInit {
     }
 
     const state = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-    sessionStorage.setItem('github_oauth_state_register', state);
-    const redirectUri = `${window.location.origin}/api/auth/github/callback`;
+    sessionStorage.setItem(this.GITHUB_STATE_KEY, state);
+    const redirectUri = `${window.location.origin}/api/auth/github/callback?target=${encodeURIComponent('/register')}`;
     const authUrl =
       `https://github.com/login/oauth/authorize` +
       `?client_id=${encodeURIComponent(this.githubClientId)}` +
@@ -193,18 +192,8 @@ export class RegisterComponent implements AfterViewInit {
       `&scope=${encodeURIComponent('read:user user:email')}` +
       `&state=${encodeURIComponent(state)}` +
       `&prompt=select_account`;
-
-    const popup = window.open(
-      authUrl,
-      'github-oauth-register',
-      'width=540,height=720,menubar=no,toolbar=no,location=yes,status=no',
-    );
-    if (!popup) {
-      this.githubError = 'No se pudo abrir la ventana de GitHub';
-      return;
-    }
-
-    this.bindGithubMessageListener('github_oauth_state_register');
+    sessionStorage.setItem(this.SKIP_LOADING_KEY, '1');
+    window.location.assign(authUrl);
   }
 
   private loadGoogleClientId() {
@@ -217,9 +206,6 @@ export class RegisterComponent implements AfterViewInit {
       .subscribe({
         next: (response) => {
           this.googleClientId = response.clientId ?? '';
-          if (this.googleClientId) {
-            this.loadGoogleScript();
-          }
         },
         error: () => {
           this.googleError = 'No se pudo cargar configuración de Google';
@@ -244,148 +230,95 @@ export class RegisterComponent implements AfterViewInit {
       });
   }
 
-  private getGoogleLocale(): string {
-    const selectedLang =
-      this.translate.currentLang || this.translate.getDefaultLang() || 'es';
-    return ['es', 'en', 'fr', 'de', 'it'].includes(selectedLang)
-      ? selectedLang
-      : 'en';
-  }
-
-  private loadGoogleScript(forceReload = false) {
+  private processOAuthRedirect() {
     if (!isPlatformBrowser(this.platformId)) return;
-    if (!this.googleClientId) return;
-    const locale = this.getGoogleLocale();
-    const scriptSrc = `https://accounts.google.com/gsi/client?hl=${locale}`;
-    const existingScript = document.getElementById(
-      'google-identity-script',
-    ) as HTMLScriptElement | null;
-    const existingLocale = existingScript?.dataset['locale'] || '';
-
-    if (forceReload && existingScript) {
-      existingScript.remove();
-    }
-
-    if (window.google?.accounts?.id && !forceReload) {
-      this.initializeGoogleButton();
-      return;
-    }
-    if (existingScript && existingLocale === locale) return;
-    if (existingScript && existingLocale !== locale) {
-      existingScript.remove();
-    }
-
-    const script = document.createElement('script');
-    script.id = 'google-identity-script';
-    script.src = scriptSrc;
-    script.dataset['locale'] = locale;
-    script.async = true;
-    script.defer = true;
-    script.onload = () => this.initializeGoogleButton();
-    script.onerror = () => {
-      this.googleError = 'No se pudo cargar Google Sign-In';
-    };
-    document.head.appendChild(script);
-  }
-
-  private initializeGoogleButton() {
-    if (!isPlatformBrowser(this.platformId)) return;
-    if (!this.googleRegisterButtonHost?.nativeElement || this.googleInitialized)
-      return;
-    if (!window.google?.accounts?.id || !this.googleClientId) return;
-
-    window.__googleAuthCallback = (credential?: string) => {
-      this.handleGoogleCredential(credential);
-    };
-
-    if (window.__googleInitializedClientId !== this.googleClientId) {
-      window.google.accounts.id.initialize({
-        client_id: this.googleClientId,
-        callback: (response: { credential?: string }) => {
-          window.__googleAuthCallback?.(response.credential);
-        },
-        auto_select: false,
-        cancel_on_tap_outside: true,
-      });
-      window.__googleInitializedClientId = this.googleClientId;
-    }
-
-    this.googleRegisterButtonHost.nativeElement.innerHTML = '';
-    const buttonWidth = Math.max(
-      220,
-      this.googleRegisterButtonHost.nativeElement.clientWidth || 320,
+    const searchParams = new URLSearchParams(window.location.search);
+    const hashParams = new URLSearchParams(
+      window.location.hash.startsWith('#')
+        ? window.location.hash.slice(1)
+        : window.location.hash,
     );
-    window.google.accounts.id.renderButton(
-      this.googleRegisterButtonHost.nativeElement,
-      {
-        theme: 'filled_blue',
-        size: 'large',
-        text: 'continue_with',
-        shape: 'pill',
-        width: String(buttonWidth),
-        logo_alignment: 'left',
-      },
-    );
-    this.googleInitialized = true;
-  }
 
-  private handleGoogleCredential(credential?: string) {
-    if (!credential) {
-      this.googleError = 'No se recibió token de Google';
-      return;
-    }
-    this.auth.signInWithGoogle(credential, false).subscribe({
-      next: () => this.router.navigate([this.navigateTo]),
-      error: () => {
-        this.googleError = 'No se pudo completar el registro con Google';
-      },
-    });
-  }
+    const githubCode = searchParams.get('code');
+    const githubState = searchParams.get('state');
+    const githubError = searchParams.get('error');
+    if (githubCode || githubError) {
+      this.isOAuthRedirectProcessing = true;
+      const expectedState = sessionStorage.getItem(this.GITHUB_STATE_KEY);
+      sessionStorage.removeItem(this.GITHUB_STATE_KEY);
+      window.history.replaceState({}, document.title, window.location.pathname);
 
-  private bindGithubMessageListener(stateStorageKey: string) {
-    if (!isPlatformBrowser(this.platformId)) return;
-
-    if (this.githubAuthListener) {
-      window.removeEventListener('message', this.githubAuthListener);
-    }
-
-    this.githubAuthListener = (event: MessageEvent) => {
-      if (event.origin !== window.location.origin) return;
-      const data = event.data as {
-        provider?: string;
-        code?: string;
-        state?: string;
-        error?: string;
-      };
-      if (data?.provider !== 'github') return;
-
-      const expectedState = sessionStorage.getItem(stateStorageKey);
-      sessionStorage.removeItem(stateStorageKey);
-      window.removeEventListener('message', this.githubAuthListener!);
-      this.githubAuthListener = undefined;
-
-      if (data.error) {
+      if (githubError) {
+        this.isOAuthRedirectProcessing = false;
         this.githubError = 'Autenticación con GitHub cancelada o fallida';
         return;
       }
-      if (
-        !data.code ||
-        !data.state ||
-        !expectedState ||
-        data.state !== expectedState
-      ) {
+      if (!githubCode || !githubState || !expectedState || githubState !== expectedState) {
+        this.isOAuthRedirectProcessing = false;
         this.githubError = 'No se pudo validar la autenticación con GitHub';
         return;
       }
 
-      this.auth.signInWithGithub(data.code, false).subscribe({
+      this.auth.signInWithGithub(githubCode, true).subscribe({
         next: () => this.router.navigate([this.navigateTo]),
         error: () => {
+          this.isOAuthRedirectProcessing = false;
           this.githubError = 'No se pudo completar el registro con GitHub';
         },
       });
-    };
-    window.addEventListener('message', this.githubAuthListener);
+      return;
+    }
+
+    const googleIdToken = hashParams.get('id_token');
+    const googleState = hashParams.get('state');
+    const googleError = hashParams.get('error');
+    if (googleIdToken || googleError) {
+      this.isOAuthRedirectProcessing = true;
+      const expectedState = sessionStorage.getItem(this.GOOGLE_STATE_KEY);
+      const expectedNonce = sessionStorage.getItem(this.GOOGLE_NONCE_KEY);
+      sessionStorage.removeItem(this.GOOGLE_STATE_KEY);
+      sessionStorage.removeItem(this.GOOGLE_NONCE_KEY);
+      window.history.replaceState({}, document.title, window.location.pathname);
+
+      if (googleError) {
+        this.isOAuthRedirectProcessing = false;
+        this.googleError = 'Autenticación con Google cancelada o fallida';
+        return;
+      }
+      if (!googleIdToken || !googleState || !expectedState || googleState !== expectedState) {
+        this.isOAuthRedirectProcessing = false;
+        this.googleError = 'No se pudo validar la autenticación con Google';
+        return;
+      }
+
+      const tokenNonce = this.getNonceFromIdToken(googleIdToken);
+      if (!tokenNonce || !expectedNonce || tokenNonce !== expectedNonce) {
+        this.isOAuthRedirectProcessing = false;
+        this.googleError = 'No se pudo validar la autenticación con Google';
+        return;
+      }
+
+      this.auth.signInWithGoogle(googleIdToken, true).subscribe({
+        next: () => this.router.navigate([this.navigateTo]),
+        error: () => {
+          this.isOAuthRedirectProcessing = false;
+          this.googleError = 'No se pudo completar el registro con Google';
+        },
+      });
+    }
+  }
+
+  private getNonceFromIdToken(idToken: string): string | null {
+    try {
+      const parts = idToken.split('.');
+      if (parts.length < 2) return null;
+      const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+      const padded = base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), '=');
+      const payload = JSON.parse(atob(padded)) as { nonce?: string };
+      return payload.nonce ?? null;
+    } catch {
+      return null;
+    }
   }
 
   /** Redirige a la página de login. */

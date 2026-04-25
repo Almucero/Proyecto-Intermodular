@@ -16,7 +16,6 @@ import {
 })
 export class NodeAuthenticationService extends BaseAuthenticationService {
   private readonly AUTH_KEY = 'AUTH_TOKEN';
-  private rememberMeActive = false;
   private isBrowser: boolean;
   private autoLoginStarted = false;
 
@@ -234,7 +233,6 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
     if (!this.isBrowser) {
       return;
     }
-    this.rememberMeActive = rememberMe;
     if (rememberMe) {
       localStorage.setItem(this.AUTH_KEY, token);
     } else {
