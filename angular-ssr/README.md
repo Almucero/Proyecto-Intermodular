@@ -605,6 +605,33 @@ Opcional:
 
 ---
 
+## Análisis y Manipulación de Datos (Pandas)
+
+Script: `src/backend/scripts/data_analysis.py`
+
+Este script demuestra el uso intensivo de la librería Pandas para la limpieza, transformación y análisis de los datos del proyecto (ficheros JSON).
+
+### Requisitos
+- Python 3.9 o superior.
+- Librerías: `pandas`, `openpyxl`. Instalables con `python -m pip install pandas openpyxl`.
+
+### Uso
+```bash
+python src/backend/scripts/data_analysis.py
+```
+
+### Operaciones realizadas
+- **Limpieza**: Eliminación de espacios en blanco y sustitución de caracteres (tildes).
+- **Tratamiento de nulos**: Gestión de campos vacíos (ej. en direcciones).
+- **Transformaciones**: 
+  - Cálculo de stock total por juego (suma de plataformas).
+  - Cálculo de precio efectivo (considerando ofertas activas).
+  - Generación de nombres completos y enmascarado de seguridad.
+- **Búsqueda Avanzada**: Filtrado de juegos con valoración > 4.5.
+- **Salida**: Generación de un Excel multioja `backend-data/exports/processed_database.xlsx` con los resultados y una pestaña específica para la búsqueda.
+
+---
+
 ## Comandos disponibles
 
 Los comandos están definidos en `package.json`. Para un arranque desde cero completo, ver la sección **Arrancar el proyecto desde cero**.
