@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "hooks": {
+    "afterFileEdit": [
+      {
+        "command": ".cursor/hooks/lint-and-format.ps1",
+        "timeout": 30,
+        "failClosed": false
+      }
+    ],
+    "beforeShellExecution": [
+      {
+        "command": ".cursor/hooks/block-dangerous.ps1",
+        "timeout": 10,
+        "failClosed": true
+      },
+      {
+        "command": ".cursor/hooks/guard-commands.ps1",
+        "matcher": "rm -rf|git push --force|ng build --configuration production|npm publish",
+        "timeout": 10,
+        "failClosed": true
+      },
+      {
+        "command": ".cursor/hooks/validate-commit.ps1",
+        "matcher": "git commit",
+        "timeout": 10,
+        "failClosed": true
+      }
+    ],
+    "afterMCPExecution": [
+      {
+        "command": ".cursor/hooks/audit-mcp.ps1",
+        "timeout": 10,
+        "failClosed": false
+      }
+    ]
+  }
+}

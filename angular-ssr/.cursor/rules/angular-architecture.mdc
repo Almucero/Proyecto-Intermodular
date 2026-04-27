@@ -1,0 +1,42 @@
+---
+description: Convenciones modernas de arquitectura Angular para este proyecto
+alwaysApply: true
+---
+
+# Angular Architecture
+
+## Standalone components
+```typescript
+// BAD
+@Component({ selector: 'app-user' })
+export class UserComponent {}
+@NgModule({ declarations: [UserComponent] })
+export class UserModule {}
+
+// GOOD
+@Component({ selector: 'app-user', standalone: true, imports: [] })
+export class UserComponent {}
+```
+
+## Estado reactivo
+```typescript
+// BAD
+private user$ = new BehaviorSubject<User | null>(null);
+
+// GOOD
+private user = signal<User | null>(null);
+userReadonly = this.user.asReadonly();
+```
+
+## Inyeccion
+```typescript
+// BAD
+constructor(private http: HttpClient, private router: Router) {}
+
+// GOOD
+private http = inject(HttpClient);
+private router = inject(Router);
+```
+
+## Estructura
+- Mantener organizacion por `features/`, `shared/`, `core/`.

@@ -1,0 +1,18 @@
+---
+description: Estandares de testing para backend y frontend
+globs:
+  - "**/*.test.ts"
+  - "**/*.spec.ts"
+alwaysApply: false
+---
+
+# Estandares de testing
+
+- Usar patron AAA (Arrange, Act, Assert).
+- Cada test debe tener nombre claro y orientado a comportamiento.
+- Evitar dependencias entre tests.
+- Priorizar pruebas de regresion para bugs corregidos.
+- En tests backend, validar tanto codigo HTTP como estructura de respuesta.
+- No introducir mocks innecesarios si el test de integracion real es viable.
+- Si un test backend crea datos en base de datos, debe eliminar esos datos al finalizar.
+- Si un test backend modifica datos existentes, debe restaurar el estado original al finalizar.

@@ -1,0 +1,21 @@
+---
+description: Trazabilidad Jira en commits, TODOs y flujos de ticket
+alwaysApply: true
+---
+
+# Jira Integration
+
+- Para commits, usar formato `tipo(CLAVE-123): descripcion`.
+- Tipos validos: `feat|fix|refactor|docs|style|test|chore`.
+- Si hay ticket Jira en contexto, usarlo en commit y en documentacion.
+- Si no hay ticket y la tarea lo requiere, solicitar clave o crear ticket mediante MCP.
+
+## TODOs en codigo
+- Formato requerido: `TODO [CLAVE-123]: detalle`.
+- No dejar TODOs nuevos sin clave cuando exista flujo Jira activo.
+
+## Ejemplos
+```text
+feat(CURSO-3): añadir rule de trazabilidad Jira
+fix(CURSO-12): corregir memory leak en UserListComponent
+```

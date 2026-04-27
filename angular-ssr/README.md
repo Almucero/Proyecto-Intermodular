@@ -774,3 +774,21 @@ npm run build:full
 ```bash
 npm test
 ```
+
+---
+
+## Personalización de Cursor (.cursor)
+
+El repositorio incluye una base de personalización para Cursor Agent:
+
+- Rules de arquitectura, testing, backend/frontend, trazabilidad Jira y criterios de review.
+- Skills para generación de features Angular, gestión Jira, documentación Confluence, sincronización TODO-Jira, dashboard de sprint y code review.
+- Hooks para formato/lint post-edición, protección de comandos de riesgo, validación de commit y auditoría de operaciones MCP.
+- Configuración MCP para GitHub, PostgreSQL y placeholders de Jira/Atlassian Rovo.
+
+### Variables de entorno MCP esperadas
+
+- `GITHUB_TOKEN`
+- `POSTGRES_PRISMA_URL`
+- `JIRA_MCP_URL`, `JIRA_MCP_TOKEN`
+- `ATLASSIAN_ROVO_MCP_URL`, `ATLASSIAN_ROVO_TOKEN`

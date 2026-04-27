@@ -1,0 +1,19 @@
+---
+description: Estandares de documentacion tecnica, comentarios y README
+globs:
+  - "src/**/*.ts"
+  - "scripts/**/*.ts"
+  - "scripts/**/*.mjs"
+alwaysApply: false
+---
+
+# Documentacion tecnica y Compodoc
+
+- Todo cambio en codigo debe dejar documentacion tecnica adecuada en el propio codigo.
+- La documentacion debe cubrir variables relevantes, logicas complejas y funciones/modulos modificados.
+- El estilo de documentacion debe ser imparcial y tecnico, no tutorial ni conversacional.
+- Evitar comentarios triviales o redundantes.
+- La documentacion de codigo debe ser compatible con Compodoc.
+- El objetivo es no reducir la calidad media de documentacion reflejada en Compodoc.
+- Cuando se cambie logica relevante (endpoints, scripts, flujo de despliegue, seguridad, rutas), actualizar `README.md` respetando su estructura.
+- No dejar cambios funcionales significativos sin documentacion de uso/verificacion.
