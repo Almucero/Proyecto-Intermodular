@@ -1,0 +1,16 @@
+---
+description: Convenciones para API backend Express y Prisma
+globs:
+  - "src/backend/**/*.ts"
+alwaysApply: false
+---
+
+# Convenciones backend API
+
+- Validar entrada con Zod en rutas/controladores.
+- Mantener controladores delgados y mover logica a servicios.
+- Gestionar errores con codigos HTTP y mensajes coherentes.
+- No exponer secretos ni detalles internos en respuestas de error.
+- Reusar utilidades existentes para seguridad, serializacion y logging.
+- Mantener compatibilidad con contratos consumidos por frontend.
+- Si se crea una nueva tabla/modelo, crear y cablear: schema, service, controller, routes, test y actualizacion de Swagger.

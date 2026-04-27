@@ -97,7 +97,7 @@
                    <div class="content-data">
 
 
-<p>﻿# GameSage SSR - Plataforma de videojuegos</p>
+<h1>GameSage SSR - Plataforma de videojuegos</h1>
 <h2>Introducción</h2>
 <p>GameSage es una plataforma web centrada en videojuegos que integra en un solo proyecto el frontend, el backend y la base de datos. La aplicación está construida como una <strong>aplicación Angular con renderizado en servidor (SSR)</strong> y un <strong>backend HTTP</strong> que se ejecuta en el mismo proceso Node.js, de modo que no hace falta desplegar por separado una SPA y una API: un único servidor atiende tanto las páginas web como las peticiones a la API REST.</p>
 <p>El proyecto está pensado para ofrecer una experiencia completa de principio a fin: catálogo de juegos, usuarios y autenticación, carrito y compras, favoritos, subida de imágenes (media), y un chat asistido por IA. Todo ello con persistencia en PostgreSQL, documentación de la API (Swagger), tests de integración del backend y posibilidad de despliegue en entornos como Vercel. Esta documentación describe la arquitectura, el flujo de ejecución, la estructura del código y los pasos para arrancar el proyecto desde cero o trabajar con él en desarrollo.</p>
@@ -124,6 +124,8 @@
 <li><a href="#estructura-del-backend">Estructura del backend</a></li>
 <li><a href="#modelo-de-datos-prisma">Modelo de datos (Prisma)</a></li>
 <li><a href="#frontend-configuraci%C3%B3n-y-flujo">Frontend: configuración y flujo</a></li>
+<li><a href="#autenticaci%C3%B3n-social-google-y-github">Autenticación social (Google y GitHub)</a></li>
+<li><a href="#funciones-de-administraci%C3%B3n">Funciones de administración</a></li>
 <li><a href="#build-ssr-y-variable-ssr_disable_backend">Build SSR y variable SSR_DISABLE_BACKEND</a></li>
 <li><a href="#rutas-y-endpoints-relevantes">Rutas y endpoints relevantes</a></li>
 <li><a href="#pagos-y-devoluciones-stripe">Pagos y devoluciones (Stripe)</a></li>
@@ -282,6 +284,71 @@
 <p>Los tokens inyectables definen nombres de recurso (games, developers, genres, etc.), URLs base de API (todas con prefijo <code>environment.apiUrl</code> que en producción y desarrollo suele ser <code>&#39;&#39;</code>, resultando en rutas relativas <code>/api/...</code>) y factories de repositorios y mapeos. Los servicios de dominio (GameService, UserService, CartItemService, PurchaseService, FavoriteService, ChatService, etc.) y el AuthenticationService se registran aquí. También se habilita la hidratación del cliente con <code>provideClientHydration(withEventReplay())</code>.</p>
 <h3><code>src/app/app.routes.ts</code></h3>
 <p>Define las rutas de la SPA: home (<code>/</code>), login, register, dashboard (protegida con authGuard y customerGuard), product/:id, aichat, favourites, cart, settings, help, contact, privacy, conditions, cookies, search, y admin (protegida con authGuard y adminGuard) con rutas hijas para gestión de géneros, desarrolladores, plataformas, editores y juegos. Las rutas de admin cargan componentes con <code>loadComponent</code> (lazy loading).</p>
+<h3>Autenticación social (Google y GitHub)</h3>
+<p>La aplicación soporta autenticación y registro social con <strong>Google</strong> y <strong>GitHub</strong> usando flujo de <strong>redirección completa</strong>.</p>
+<ul>
+<li><strong>Inicio del flujo en frontend</strong>:<ul>
+<li>Desde <code>login</code> y <code>register</code>, los botones sociales construyen la URL del proveedor y redirigen con <code>window.location.assign(...)</code>.</li>
+<li>El frontend solicita previamente <code>client_id</code> al backend (<code>/api/auth/google/client-id</code> y <code>/api/auth/github/client-id</code>) para no exponer configuración fija en el cliente.</li>
+<li>Se guarda estado temporal en <code>sessionStorage</code> (<code>state</code>, <code>nonce</code>, destino <code>target</code>) para validar el retorno y preservar contexto.</li>
+</ul>
+</li>
+<li><strong>Callback en backend</strong>:<ul>
+<li>Google vuelve a <code>GET /api/auth/google/callback</code>.</li>
+<li>GitHub vuelve a <code>GET /api/auth/github/callback</code>.</li>
+<li>Ambos callbacks generan una respuesta HTML mínima que redirige a <code>login</code> o <code>register</code> con los parámetros OAuth necesarios y marca <code>_skip_loader=1</code> para mantener una vuelta visual fluida.</li>
+</ul>
+</li>
+<li><strong>Procesado del retorno en frontend</strong>:<ul>
+<li><code>login.component.ts</code> y <code>register.component.ts</code> detectan <code>code/state</code> (GitHub) o <code>id_token/state</code> (Google), validan <code>state</code>/<code>nonce</code> y completan sesión contra backend (<code>POST /api/auth/github</code> o <code>POST /api/auth/google</code>).</li>
+<li>Durante este paso se muestra una capa de procesamiento OAuth para evitar parpadeos de pantalla.</li>
+</ul>
+</li>
+<li><strong>Persistencia de sesión</strong>:<ul>
+<li>En social login/social register la sesión se guarda en modo persistente automáticamente (equivalente funcional a recordar sesión sin interacción adicional del usuario).</li>
+</ul>
+</li>
+<li><strong>Variables de entorno necesarias</strong>:<ul>
+<li><code>GOOGLE_CLIENT_ID</code></li>
+<li><code>GITHUB_CLIENT_ID</code></li>
+<li><code>GITHUB_CLIENT_SECRET</code></li>
+</ul>
+</li>
+</ul>
+<h3>Funciones de administración</h3>
+<p>El área <code>/admin</code> está pensada para gestión de catálogo y está protegida por <code>authGuard + adminGuard</code> en frontend y por <code>auth + adminOnly</code> en backend para operaciones sensibles.</p>
+<ul>
+<li><strong>Módulos disponibles</strong>:<ul>
+<li>Géneros</li>
+<li>Desarrolladores</li>
+<li>Plataformas</li>
+<li>Publishers</li>
+<li>Juegos</li>
+</ul>
+</li>
+<li><strong>Operaciones soportadas</strong>:<ul>
+<li>Listado con búsqueda local y skeletons de carga.</li>
+<li>Creación y edición mediante formularios modales.</li>
+<li>Eliminación con confirmación explícita.</li>
+</ul>
+</li>
+<li><strong>Gestión de juegos (completa)</strong>:<ul>
+<li>Campos de negocio (precio, oferta, stock por plataforma, rating, vídeo, fecha).</li>
+<li>Relaciones con developer, publisher, genres y platforms.</li>
+<li>Subida de imagen asociada mediante módulo <code>media</code>.</li>
+<li>Alta rápida de developer/publisher/genre/platform desde el propio formulario de juego.</li>
+</ul>
+</li>
+<li><strong>Endpoints backend de administración</strong>:<ul>
+<li><code>POST/PATCH/DELETE /api/games/:id?</code></li>
+<li><code>POST/PATCH/DELETE /api/developers/:id?</code></li>
+<li><code>POST/PATCH/DELETE /api/publishers/:id?</code></li>
+<li><code>POST/PATCH/DELETE /api/genres/:id?</code></li>
+<li><code>POST/PATCH/DELETE /api/platforms/:id?</code></li>
+<li>Todas estas operaciones requieren permisos de administrador.</li>
+</ul>
+</li>
+</ul>
 <h3>Guards e interceptors</h3>
 <ul>
 <li><strong>authGuard</strong>: Impide acceder a rutas que requieren sesión si no hay usuario autenticado (por ejemplo leyendo token o estado de auth).</li>
@@ -311,6 +378,15 @@
 </li>
 <li><strong>Swagger UI</strong>: <code>GET /api-docs</code>.</li>
 <li><strong>Auth</strong>: <code>POST /api/auth/register</code>, <code>POST /api/auth/login</code>.</li>
+<li><strong>Auth social</strong>:<ul>
+<li><code>GET /api/auth/google/client-id</code></li>
+<li><code>GET /api/auth/github/client-id</code></li>
+<li><code>GET /api/auth/google/callback</code></li>
+<li><code>GET /api/auth/github/callback</code></li>
+<li><code>POST /api/auth/google</code></li>
+<li><code>POST /api/auth/github</code></li>
+</ul>
+</li>
 <li><strong>Usuario actual</strong>: <code>GET /api/users/me</code> (requiere JWT).</li>
 <li><strong>Juegos</strong>: <code>GET /api/games</code>, <code>GET /api/games/:id</code>, <code>POST /api/games</code>, <code>PATCH /api/games/:id</code>, <code>DELETE /api/games/:id</code> (creación/edición/borrado con auth y admin).</li>
 <li><strong>Desarrolladores, editores, géneros, plataformas</strong>: CRUD bajo <code>/api/developers</code>, <code>/api/publishers</code>, <code>/api/genres</code>, <code>/api/platforms</code>.</li>
@@ -359,7 +435,7 @@
 <h2>Verificaciones de requisitos</h2>
 <p>Antes de ejecutar determinados comandos (build, serve, dev, tests, seeds, etc.), el proyecto ejecuta comprobaciones previas que evitan fallos confusos y muestran errores legibles.</p>
 <ul>
-<li><p><strong><code>scripts/check-npm-install.mjs</code></strong>: Comprueba que exista <code>node_modules</code> y binarios necesarios (Angular CLI, Prisma). Si no se ha ejecutado <code>npm install</code> o la carpeta está incompleta, se muestra un único error indicando que debe ejecutarse <code>npm install</code> antes de continuar.</p>
+<li><p><strong><code>scripts/check-toolchain.mjs</code></strong>: Comprueba que exista <code>node_modules</code> y binarios necesarios (Angular CLI, Prisma). Si faltan dependencias o herramientas de build, muestra el comando recomendado según el estado actual (<code>npm run setup:secure</code> o <code>npm install --include=dev --no-audit</code>).</p>
 </li>
 <li><p><strong><code>scripts/check-prisma.mjs</code></strong>: Comprueba que el cliente de Prisma esté generado (existe <code>node_modules/@prisma/client/index.d.ts</code>). Si no se ha ejecutado <code>npx prisma generate</code>, se muestra un error claro antes de que el compilador de TypeScript falle con mensajes sobre campos o tipos faltantes.</p>
 </li>
@@ -425,6 +501,9 @@
 <li><strong>BCRYPT_SALT_ROUNDS</strong>: Número de rondas de bcrypt (ej. 10).</li>
 <li><strong>CLOUDINARY_</strong>* (CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET): credenciales para subida de imágenes.</li>
 <li><strong>GOOGLE_GENERATIVE_AI_API_KEY</strong>: API key de Google Generative AI para el chat.</li>
+<li><strong>GOOGLE_CLIENT_ID</strong>: Client ID OAuth de Google para login/registro social.</li>
+<li><strong>GITHUB_CLIENT_ID</strong>: Client ID OAuth de GitHub para login/registro social.</li>
+<li><strong>GITHUB_CLIENT_SECRET</strong>: Secret OAuth de GitHub usado en intercambio de código por token.</li>
 <li><strong>ADMIN_EMAILS</strong>: Lista de correos de administradores separados por comas (ej. <code>admin@example.com</code>).</li>
 <li>Opcionales: <strong>ADMIN_PASSWORDS</strong>, <strong>ADMIN_NAMES</strong> (mismo orden que los emails) para el script de seed de admins.</li>
 </ul>
@@ -434,13 +513,10 @@
 <p><strong>En Vercel:</strong> configurar las mismas variables en el proyecto (Settings → Environment Variables). El build usa <code>vercel-build</code> (prisma generate + build:ssr) definido en <code>vercel.json</code>.</p>
 <h3>6. Instalar dependencias</h3>
 <p>En la raíz del proyecto ejecutar:</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm install
-npm audit fix --omit=dev</code></pre></div><p>Se instalan las dependencias de <code>package.json</code> y las devDependencies (Angular CLI, Prisma, Jest, etc.). Puede tardar varios minutos.</p>
-<p>Con las versiones fijadas actualmente en este repositorio, una instalación limpia debería finalizar con <code>0 vulnerabilities</code> tras <code>npm install</code>.</p>
-<p>Se mantiene igualmente <code>npm audit fix --omit=dev</code> como paso recomendado por si en tu entorno concreto aparece alguna alerta puntual (por caché local, mirrors o cambios recientes del ecosistema), corrigiendo vulnerabilidades conocidas en dependencias de producción y omitiendo las de desarrollo.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run setup:secure</code></pre></div><p><code>npm run setup:secure</code> instala dependencias con <code>--no-audit</code>, aplica correcciones de seguridad en dependencias de producción, restaura automáticamente las devDependencies necesarias para compilar y testear, y finaliza validando <code>0 vulnerabilities</code> para producción (<code>npm audit --omit=dev</code>).</p>
 <p><strong>Si en Windows PowerShell aparece</strong> <em>&quot;running scripts is disabled on this system&quot;</em> al ejecutar <code>npm</code>:</p>
 <ul>
-<li>Usa el ejecutable en formato cmd: <code>npm.cmd install</code> y <code>npm.cmd audit fix --omit=dev</code> (y en general <code>npm.cmd</code> en lugar de <code>npm</code> para el resto de comandos), o</li>
+<li>Usa el ejecutable en formato cmd: <code>npm.cmd run setup:secure</code> (y en general <code>npm.cmd</code> en lugar de <code>npm</code> para el resto de comandos), o</li>
 <li>Abre PowerShell como administrador y ejecuta: <code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine</code> para permitir scripts locales como <code>npm.ps1</code>.</li>
 </ul>
 <h3>7. Prisma: generar cliente y migrar</h3>
@@ -461,8 +537,7 @@ npm audit fix --omit=dev</code></pre></div><p>Se instalan las dependencias de <c
 <h3>Resumen mínimo (con Node y BD ya listas)</h3>
 <b>Example :</b><div><pre class="line-numbers"><code class="language-bash">cp .env.example .env
 # Editar .env con BD, Cloudinary, JWT, etc.
-npm install
-npm audit fix --omit=dev
+npm run setup:secure
 npx prisma generate
 npx prisma migrate deploy
 npm run seed:admin
@@ -478,6 +553,7 @@ npm run serve:ssr:prod</code></pre></div><hr>
 <li><strong>Base de datos</strong>: <code>POSTGRES_PRISMA_URL</code></li>
 <li><strong>Media</strong>: <code>CLOUDINARY_CLOUD_NAME</code>, <code>CLOUDINARY_API_KEY</code>, <code>CLOUDINARY_API_SECRET</code></li>
 <li><strong>IA</strong>: <code>GOOGLE_GENERATIVE_AI_API_KEY</code></li>
+<li><strong>Auth social</strong>: <code>GOOGLE_CLIENT_ID</code>, <code>GITHUB_CLIENT_ID</code>, <code>GITHUB_CLIENT_SECRET</code></li>
 <li><strong>Administradores</strong>: <code>ADMIN_EMAILS</code> (y opcionalmente <code>ADMIN_PASSWORDS</code>, <code>ADMIN_NAMES</code>)</li>
 </ul>
 <hr>
@@ -490,14 +566,14 @@ npm run serve:ssr:prod</code></pre></div><hr>
 <p>Con <code>apiUrl</code> vacío, todas las URLs de API construidas en <code>src/app/app.config.ts</code> quedan como rutas relativas (<code>/api/...</code>). Esto permite que el frontend funcione correctamente en SSR y despliegues sin necesitar reconfigurar URLs absolutas.</p>
 <hr>
 <h2>Exportación de BBDD a Excel (Power BI)</h2>
-<p>Script: <code>src/backend/scripts/exportToExcel.py</code></p>
+<p>Script: <code>src/backend/scripts/postgreToExcel.py</code></p>
 <h3>Requisitos (Python)</h3>
 <ul>
 <li>Python 3.9 o superior</li>
 <li><code>POSTGRES_PRISMA_URL</code> configurada en <code>.env</code></li>
 </ul>
 <h3>Uso</h3>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">py -3 src/backend/scripts/exportToExcel.py</code></pre></div><p>El comando usa <code>POSTGRES_PRISMA_URL</code> de tu <code>.env</code>.
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">py -3 src/backend/scripts/postgreToExcel.py</code></pre></div><p>El comando usa <code>POSTGRES_PRISMA_URL</code> de tu <code>.env</code>.
 Si faltan dependencias, el script intenta instalarlas automaticamente y, si no puede, te indica el comando exacto para resolverlo.</p>
 <p>Opcional:</p>
 <ul>
@@ -505,6 +581,29 @@ Si faltan dependencias, el script intenta instalarlas automaticamente y, si no p
 <li><code>--write-mode incremental</code> (por defecto) para guardar en <code>backend-data/exports/postgres_export_1.xlsx</code>, <code>postgres_export_2.xlsx</code>, etc.</li>
 <li><code>--schema public</code> para elegir esquema.</li>
 <li><code>--output ruta/archivo.xlsx</code> para salida personalizada.</li>
+</ul>
+<hr>
+<h2>Análisis y Manipulación de Datos (Pandas)</h2>
+<p>Script: <code>src/backend/scripts/jsonToExcel.py</code></p>
+<p>Este script demuestra el uso intensivo de la librería Pandas para la limpieza, transformación y análisis de los datos del proyecto (ficheros JSON).</p>
+<h3>Requisitos</h3>
+<ul>
+<li>Python 3.9 o superior.</li>
+<li>Librerías: <code>pandas</code>, <code>openpyxl</code>. Instalables con <code>python -m pip install pandas openpyxl</code>.</li>
+</ul>
+<h3>Empleo</h3>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">python src/backend/scripts/jsonToExcel.py</code></pre></div><h3>Operaciones realizadas</h3>
+<ul>
+<li><strong>Limpieza</strong>: Eliminación de espacios en blanco y sustitución de caracteres (tildes).</li>
+<li><strong>Tratamiento de nulos</strong>: Gestión de campos vacíos (ej. en direcciones).</li>
+<li><strong>Transformaciones</strong>:<ul>
+<li>Cálculo de stock total por juego (suma de plataformas).</li>
+<li>Cálculo de precio efectivo (considerando ofertas activas).</li>
+<li>Generación de nombres completos y enmascarado de seguridad.</li>
+</ul>
+</li>
+<li><strong>Búsqueda Avanzada</strong>: Filtrado de juegos con valoración &gt; 4.5.</li>
+<li><strong>Salida</strong>: Generación de un Excel multioja <code>backend-data/exports/processed_database.xlsx</code> con los resultados y una pestaña específica para la búsqueda.</li>
 </ul>
 <hr>
 <h2>Comandos disponibles</h2>
@@ -548,7 +647,7 @@ Si faltan dependencias, el script intenta instalarlas automaticamente y, si no p
 </ul>
 </li>
 </ul>
-<p>Tras instalar dependencias (<code>npm install</code>) conviene ejecutar <strong><code>npm audit fix --omit=dev</code></strong> para resolver vulnerabilidades reportadas por npm.</p>
+<p>Tras una clonación o reinstalación, usa <strong><code>npm run setup:secure</code></strong> para dejar el entorno listo y con validación de <code>0 vulnerabilities</code> en producción.</p>
 <h3>Tests</h3>
 <ul>
 <li><p><strong><code>npm test</code></strong><br>Ejecuta la suite de backend (<code>npm run test:backend</code>). Se mantiene como comando principal para CI/validación rápida.</p>
@@ -584,13 +683,14 @@ Si faltan dependencias, el script intenta instalarlas automaticamente y, si no p
 <ul>
 <li><strong><code>npm run audit</code></strong>: ejecuta <code>npm audit --audit-level=high --omit=dev</code> para revisar vulnerabilidades en dependencias de producción (OWASP A06).</li>
 <li><strong><code>npm run lint</code></strong>: ejecuta el análisis estático de código buscando vulnerabilidades de seguridad (vía ESLint y plugin de seguridad).</li>
-<li><strong><code>npm audit fix --omit=dev</code></strong>: corrige vulnerabilidades en dependencias de producción (recomendado tras <code>npm install</code>).</li>
-<li><strong><code>py -3 src/backend/scripts/exportToExcel.py</code></strong>: exporta tablas PostgreSQL a un unico Excel para analisis en Power BI (por defecto en <code>backend-data</code>, modo incremental).</li>
+<li><strong><code>npm run audit:fix:prod</code></strong>: corrige vulnerabilidades en dependencias de producción, restaura devDependencies y valida <code>npm audit --omit=dev</code> al final.</li>
+<li><strong><code>npm run setup:secure</code></strong>: flujo recomendado tras clonar; instala dependencias y deja el entorno listo para build con validación de seguridad de producción.</li>
+<li><strong><code>py -3 src/backend/scripts/postgreToExcel.py</code></strong>: exporta tablas PostgreSQL a un unico Excel para analisis en Power BI (por defecto en <code>backend-data</code>, modo incremental).</li>
 <li><strong><code>npm run watch</code></strong>: build en watch (config development).</li>
 <li><strong><code>npm run format</code></strong>: formateo con Prettier.</li>
 <li><strong><code>npm run clean</code></strong>: borra <code>dist</code>, <code>logs</code>, <code>coverage</code>.</li>
 <li><strong><code>npm run clean:full</code></strong>: borra <code>dist</code>, <code>node_modules</code>, <code>logs</code>, <code>coverage</code>, <code>docs</code>, <code>documentation</code> y <code>.venv</code>.</li>
-<li><strong><code>npm run reinstall</code></strong>: reinstalación completa (<code>clean:full</code> + <code>npm install</code>); después ejecutar <code>npm audit fix --omit=dev</code>.</li>
+<li><strong><code>npm run reinstall</code></strong>: reinstalación completa (<code>clean:full</code> + <code>npm install</code>); después ejecutar <code>npm run setup:secure</code>.</li>
 </ul>
 <h3>Stripe en local (nota práctica)</h3>
 <ul>
@@ -607,8 +707,7 @@ Si faltan dependencias, el script intenta instalarlas automaticamente y, si no p
 <ul>
 <li><strong>Instalación y corrección de vulnerabilidades</strong> (tras clonar o cambiar de rama):</li>
 </ul>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm install
-npm audit fix --omit=dev</code></pre></div><ul>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run setup:secure</code></pre></div><ul>
 <li><strong>Build SSR + ejecución local</strong>:</li>
 </ul>
 <b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run build:ssr
@@ -621,7 +720,58 @@ npm run serve:ssr:prod</code></pre></div><ul>
 <b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run build:full</code></pre></div><ul>
 <li><strong>Tests del backend (salida limpia)</strong>:</li>
 </ul>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm test</code></pre></div>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm test</code></pre></div><hr>
+<h2>Personalización de Cursor (.cursor)</h2>
+<p>El repositorio incluye una base compactada de personalización para Cursor Agent:</p>
+<ul>
+<li>Rules unificadas de arquitectura, Angular, backend, testing, documentación, release y trazabilidad Jira opcional.</li>
+<li>Skills compactas para generación de features Angular, flujos Atlassian (Jira/Confluence) y despliegue.</li>
+<li>Hooks para formato/lint post-edición, protección de comandos de riesgo y auditoría de operaciones MCP.</li>
+<li>Configuración MCP para GitHub, PostgreSQL y Jira Cloud mediante <code>uvx mcp-atlassian</code>.</li>
+</ul>
+<h3>Variables de entorno MCP esperadas</h3>
+<ul>
+<li><code>GITHUB_TOKEN</code></li>
+<li><code>POSTGRES_PRISMA_URL</code></li>
+<li><code>JIRA_URL</code></li>
+<li><code>JIRA_USERNAME</code></li>
+<li><code>JIRA_API_TOKEN</code></li>
+</ul>
+<h3>Notas para Jira</h3>
+<ul>
+<li>En Jira, las user stories y tasks deben tener siempre <code>Story Points</code>.</li>
+<li>Los <code>Story Points</code> representan horas estimadas y deben ser enteros.</li>
+<li>Los sprints no deben completarse; solo se completan las user stories y tasks internas para no perder visibilidad en backlog.</li>
+</ul>
+<h3>Activación y uso</h3>
+<ul>
+<li>Las <code>Rules</code>, <code>Skills</code>, <code>Commands</code> y <code>Hooks</code> del proyecto se cargan automáticamente al abrir el repositorio en Cursor; no requieren pasos adicionales para estar disponibles.</li>
+<li>Los hooks y reglas solo tienen efecto dentro de Cursor Agent, no fuera del editor.</li>
+<li>Lo único que requiere configuración manual adicional es <code>MCP</code>: para usar GitHub, PostgreSQL o Jira, hay que tener definidas las variables de entorno correspondientes.</li>
+<li>Si se clona el proyecto en otra máquina, basta con abrirlo en Cursor para que se detecte <code>.cursor/</code>; después solo hay que configurar las variables necesarias para los MCP que se quieran utilizar.</li>
+<li>Las variables sensibles de MCP deben mantenerse fuera del repositorio real. <code>.env</code> o variables de entorno del sistema son válidas, pero Cursor debe poder resolverlas al arrancar.</li>
+</ul>
+<h3>Sincronización de variables MCP para Cursor</h3>
+<p>En Windows, el flujo recomendado es:</p>
+<ol>
+<li>Completar las variables MCP en <code>.env</code> local.</li>
+<li>Ejecutar:</li>
+</ol>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run setup:cursor-access</code></pre></div><p>Este script instala <code>uv</code> si falta y copia las variables MCP necesarias desde <code>.env</code> al entorno de usuario de Windows para que Cursor pueda resolverlas al arrancar los servidores MCP.</p>
+<p>Variables sincronizadas:</p>
+<ul>
+<li><code>GITHUB_TOKEN</code></li>
+<li><code>POSTGRES_PRISMA_URL</code></li>
+<li><code>JIRA_URL</code></li>
+<li><code>JIRA_USERNAME</code></li>
+<li><code>JIRA_API_TOKEN</code></li>
+</ul>
+<p>Después de ejecutar el script, hay que cerrar y volver a abrir Cursor.</p>
+<h3>Requisito adicional para Jira MCP</h3>
+<p>La integración de Jira en este proyecto usa un servidor MCP local lanzado con:</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">uvx mcp-atlassian</code></pre></div><p>Por tanto, antes de usar Jira en Cursor hay que tener <code>uv</code> instalado en el sistema. En Windows:</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-powershell">powershell -c &quot;irm https://astral.sh/uv/install.ps1 | iex&quot;</code></pre></div><p>Después, verificar:</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">uv --version</code></pre></div>
 
 
 

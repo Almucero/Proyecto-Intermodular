@@ -27,7 +27,7 @@ Los scripts relevantes son:
 
 - `npm run seed:data`: limpia los datos de negocio de la base de datos (sin tocar Cloudinary), crea todas las entidades a partir de estos JSON y, si existen las carpetas de media bajo `backend-data/backend-media`, sube imágenes a Cloudinary.
 - `npm run clean:data`: limpia todos los datos (incluyendo media en Cloudinary) sin depender de los ficheros JSON.
-- `py -3 src/backend/scripts/exportToExcel.py`: exporta tablas PostgreSQL a Excel en `backend-data/exports/` (`postgres_export_1.xlsx`, `postgres_export_2.xlsx`, etc.).
+- `py -3 src/backend/scripts/postgreToExcel.py`: exporta tablas PostgreSQL a Excel en `backend-data/exports/` (`postgres_export_1.xlsx`, `postgres_export_2.xlsx`, etc.).
 
 ## Exports para Power BI
 
