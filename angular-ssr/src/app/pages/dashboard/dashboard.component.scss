@@ -47,3 +47,54 @@ input.bg-gray-700:-webkit-autofill:active {
     justify-content: center;
   }
 }
+
+.purchase-key-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.purchase-key-value {
+  flex: 0 1 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  filter: blur(4px);
+  opacity: 0.55;
+  transition: filter 220ms ease, opacity 220ms ease;
+}
+
+.purchase-key-value.is-visible {
+  filter: blur(0);
+  opacity: 1;
+}
+
+.purchase-key-toggle {
+  margin-left: 0.1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 0;
+  border-radius: 9999px;
+  background: transparent;
+  color: #67e8f9;
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease, transform 150ms ease;
+}
+
+.purchase-key-toggle:hover {
+  background: rgba(34, 211, 238, 0.12);
+  color: #a5f3fc;
+}
+
+.purchase-key-toggle:active {
+  transform: scale(0.95);
+}
+
+.purchase-key-toggle svg {
+  width: 1rem;
+  height: 1rem;
+}

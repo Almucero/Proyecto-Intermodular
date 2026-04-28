@@ -1,0 +1,15 @@
+---
+description: Fuerza respuestas breves y accionables del agente
+alwaysApply: true
+---
+
+# Formato de respuesta breve
+
+- Responder siempre de forma breve y directa.
+- Evitar explicaciones largas salvo que el usuario pida detalle.
+- Al cerrar una tarea, usar este formato minimo:
+  - Archivos tocados: lista corta de rutas.
+  - Que se hizo: 1-3 frases.
+  - Como probarlo: pasos minimos en comandos o acciones UI.
+- Si no se tocaron archivos, indicar explicitamente: "Archivos tocados: ninguno".
+- Priorizar claridad y accion por encima de contexto adicional.

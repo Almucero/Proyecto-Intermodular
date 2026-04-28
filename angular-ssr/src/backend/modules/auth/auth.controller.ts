@@ -74,9 +74,38 @@ export async function registerCtrl(req: Request, res: Response) {
     res.status(201).json(data);
   } catch (e: any) {
     if (e.message === 'Email ya registrado') {
-      return res.status(409).json({ message: e.message });
+      return res
+        .status(409)
+        .json({ code: 'ERR_AUTH_EMAIL_EXISTS', message: e.message });
     }
-    res.status(400).json({ message: e.message });
+    if (e?.code === 'P2002') {
+      const target = Array.isArray(e?.meta?.target) ? e.meta.target : [];
+      if (target.includes('accountAt')) {
+        return res.status(409).json({
+          code: 'ERR_AUTH_ACCOUNT_AT_EXISTS',
+          message: 'Nombre de usuario no disponible',
+        });
+      }
+      if (target.includes('email')) {
+        return res
+          .status(409)
+          .json({ code: 'ERR_AUTH_EMAIL_EXISTS', message: 'Email ya registrado' });
+      }
+      return res.status(409).json({
+        code: 'ERR_AUTH_REGISTER_FAILED',
+        message: 'No se pudo completar el registro',
+      });
+    }
+    if (e?.name === 'ZodError') {
+      return res.status(400).json({
+        code: 'ERR_AUTH_REGISTER_INVALID',
+        message: 'Datos de registro inválidos',
+      });
+    }
+    res.status(400).json({
+      code: 'ERR_AUTH_REGISTER_FAILED',
+      message: 'No se pudo completar el registro',
+    });
   }
 }
 

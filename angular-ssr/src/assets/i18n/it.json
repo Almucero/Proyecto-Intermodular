@@ -296,7 +296,21 @@
     "passwordMismatch": "Le password non corrispondono",
     "nameRequired": "Il nome è obbligatorio",
     "surnameRequired": "Il cognome è obbligatorio",
-    "emailAlreadyRegistered": "L'email è già registrata"
+    "emailAlreadyRegistered": "L'email è già registrata",
+    "ERR_AUTH_EMAIL_EXISTS": "L'email è già registrata",
+    "ERR_AUTH_ACCOUNT_AT_EXISTS": "Il nome utente non è disponibile",
+    "ERR_AUTH_REGISTER_INVALID": "I dati di registrazione non sono validi",
+    "ERR_AUTH_REGISTER_FAILED": "Non è stato possibile completare la registrazione",
+    "ERR_AUTH_GOOGLE_NOT_CONFIGURED": "Google Sign-In non è configurato in questo ambiente",
+    "ERR_AUTH_GITHUB_NOT_CONFIGURED": "GitHub Sign-In non è configurato in questo ambiente",
+    "ERR_AUTH_GOOGLE_CONFIG_LOAD": "Non è stato possibile caricare la configurazione di Google",
+    "ERR_AUTH_GITHUB_CONFIG_LOAD": "Non è stato possibile caricare la configurazione di GitHub",
+    "ERR_AUTH_GOOGLE_CANCELLED": "Autenticazione con Google annullata o non riuscita",
+    "ERR_AUTH_GITHUB_CANCELLED": "Autenticazione con GitHub annullata o non riuscita",
+    "ERR_AUTH_GOOGLE_VALIDATION": "Non è stato possibile convalidare l'autenticazione Google",
+    "ERR_AUTH_GITHUB_VALIDATION": "Non è stato possibile convalidare l'autenticazione GitHub",
+    "ERR_AUTH_GOOGLE_REGISTER": "Non è stato possibile completare la registrazione con Google",
+    "ERR_AUTH_GITHUB_REGISTER": "Non è stato possibile completare la registrazione con GitHub"
   },
   "product": {
     "platform": "Piattaforma",
@@ -322,7 +336,13 @@
     "similarGames": "Giochi simili",
     "sameStudioGames": "Stesso studio o editore",
     "relatedGenres": "Generi correlati",
-    "topOnPlatforms": "Top su piattaforme compatibili"
+    "topOnPlatforms": "Top su piattaforme compatibili",
+    "purchaseInfoTitle": "Acquisto completato con successo",
+    "purchaseInfoBodyStart": "Il tuo codice di attivazione è disponibile nella ",
+    "purchaseInfoUserPageLink": "pagina utente",
+    "purchaseInfoBodyMiddle": " e le guide di attivazione sono disponibili nelle ",
+    "purchaseInfoHelpFaqLink": "FAQ della pagina di aiuto",
+    "purchaseInfoBodyEnd": "."
   },
   "dashboard": {
     "user": "Utente",
@@ -364,7 +384,8 @@
     "purchases": "Acquisti",
     "returns": "Resi",
     "refundReason": "Motivo",
-    "viewProduct": "Vedi prodotto"
+    "viewProduct": "Vedi prodotto",
+    "keyLabel": "Chiave:"
     ,
     "placeholders": {
       "displayName": "Inserisci il nome visualizzato",
@@ -402,6 +423,8 @@
     "changeProfileImage": "Cambia immagine del profilo",
     "copyId": "Copia ID",
     "copyUsername": "Copia nome utente",
+    "showKey": "Mostra chiave",
+    "hideKey": "Nascondi chiave",
     "paymentCard": "Carta di pagamento",
     "paymentOptions": "Opzioni di pagamento",
     "uploadFile": "Carica file",

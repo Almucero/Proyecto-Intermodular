@@ -14,6 +14,8 @@ import { PurchaseItem } from './purchase-item.model';
 export interface Game extends Model {
   /** Título oficial del videojuego. */
   title: string;
+  /** Clave alfanumérica del producto digital. */
+  key?: string | null;
   /** Descripción detallada del contenido del juego. */
   description?: string | null;
   /** Precio base de venta. */

@@ -249,6 +249,9 @@ La aplicación soporta autenticación y registro social con **Google** y **GitHu
 - **Procesado del retorno en frontend**:
   - `login.component.ts` y `register.component.ts` detectan `code/state` (GitHub) o `id_token/state` (Google), validan `state`/`nonce` y completan sesión contra backend (`POST /api/auth/github` o `POST /api/auth/google`).
   - Durante este paso se muestra una capa de procesamiento OAuth para evitar parpadeos de pantalla.
+- **Mensajes de error de registro y OAuth**:
+  - El backend devuelve códigos controlados (`code`) para conflictos/validaciones de registro (`ERR_AUTH_*`) y el frontend los traduce vía i18n.
+  - No se exponen mensajes técnicos internos de Prisma o de la capa de datos en la UI de registro.
 - **Persistencia de sesión**:
   - En social login/social register la sesión se guarda en modo persistente automáticamente (equivalente funcional a recordar sesión sin interacción adicional del usuario).
 - **Variables de entorno necesarias**:
@@ -346,14 +349,17 @@ La aplicación integra una pasarela de pago embebida con Stripe para cerrar comp
 2. El backend valida que el carrito no esté vacío, calcula importes y crea la sesión de Stripe en `mode: payment` y `ui_mode: embedded_page`.
 3. Stripe devuelve `clientSecret`, `sessionId` y `publishableKey`, que el frontend usa para montar el checkout embebido.
 4. Tras pago completado, el frontend confirma la sesión con `POST /api/cart/checkout/confirm`.
+5. Al cerrar checkout en ficha de producto, se muestra un aviso post-compra indicando dónde encontrar el código (página de usuario) y dónde consultar guías de activación (FAQ en ayuda).
 
 ### Qué ocurre al confirmar una compra
 
 - Se valida que la sesión de Stripe esté pagada y pertenezca al usuario autenticado.
 - Se completa la compra en base de datos dentro de operaciones transaccionales.
 - Se crean registros de compra (`Purchase` y `PurchaseItem`) para que aparezcan en el historial del usuario.
+- Cada item comprado expone también su `key` (clave de producto digital) para mostrarla de forma segura en el dashboard con modo oculto/visible.
 - Se descuenta stock de los juegos/plataformas comprados.
 - Se vacía el carrito del usuario para evitar duplicados tras un pago correcto.
+- En compra directa (`/product/:id`), el frontend muestra confirmación contextual con enlaces a `dashboard` y `help#faq`.
 
 ### Devoluciones y reembolsos
 
@@ -382,6 +388,8 @@ Antes de ejecutar determinados comandos (build, serve, dev, tests, seeds, etc.),
 - **`scripts/check-prisma.mjs`**: Comprueba que el cliente de Prisma esté generado (existe `node_modules/@prisma/client/index.d.ts`). Si no se ha ejecutado `npx prisma generate`, se muestra un error claro antes de que el compilador de TypeScript falle con mensajes sobre campos o tipos faltantes.
 
 - **`scripts/serve-ssr.mjs`**: Antes de arrancar el servidor SSR compilado, valida que exista el build (`dist/game-sage/server/server.mjs`) y que exista un `.env` configurado. Si falta alguno, muestra un error directo indicando qué comando o paso previo ejecutar.
+
+- **`scripts/serve-ssr-watch-safe.mjs`**: Wrapper de arranque usado en modo watch SSR. Espera a que el build de `dist/game-sage/server` esté estable y con imports presentes antes de arrancar el servidor, y reintenta automáticamente si detecta un `ERR_MODULE_NOT_FOUND` transitorio de chunks durante una recompilación.
 
 - **`scripts/free-port.mjs`**: Utilidad interna que verifica si un puerto concreto está en uso y, solo en ese caso, mata el proceso asociado. Se usa desde los scripts `start`, `dev` y `serve:ssr` para evitar errores `EADDRINUSE` sin imprimir mensajes cuando el puerto ya está libre.
 
@@ -653,7 +661,7 @@ Los comandos están definidos en `package.json`. Para un arranque desde cero com
   Alias de `npm run dev:backend`.
 
 - **`npm run serve:ssr`**  
-  Modo desarrollo SSR con recarga automática: compila en `watch` y reinicia el servidor SSR cuando cambia `dist`.
+  Modo desarrollo SSR con recarga automática: compila en `watch` y reinicia el servidor SSR cuando cambia `dist`. El reinicio usa un wrapper seguro para evitar caídas/ruido por chunks temporales no disponibles durante recompilaciones.
 
 - **`npm run serve:ssr:https`**  
   Igual que `serve:ssr`, pero además levanta un proxy HTTPS local (`https://localhost:3443 -> http://localhost:3000`) para pruebas en contexto seguro (por ejemplo Stripe en local).

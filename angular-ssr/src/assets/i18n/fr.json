@@ -301,7 +301,21 @@
     "passwordMismatch": "Les mots de passe ne correspondent pas",
     "nameRequired": "Le prénom est requis",
     "surnameRequired": "Le nom est requis",
-    "emailAlreadyRegistered": "L'e-mail est déjà enregistré"
+    "emailAlreadyRegistered": "L'e-mail est déjà enregistré",
+    "ERR_AUTH_EMAIL_EXISTS": "L'e-mail est déjà enregistré",
+    "ERR_AUTH_ACCOUNT_AT_EXISTS": "Le nom d'utilisateur n'est pas disponible",
+    "ERR_AUTH_REGISTER_INVALID": "Les données d'inscription sont invalides",
+    "ERR_AUTH_REGISTER_FAILED": "Impossible de finaliser l'inscription",
+    "ERR_AUTH_GOOGLE_NOT_CONFIGURED": "Google Sign-In n'est pas configuré dans cet environnement",
+    "ERR_AUTH_GITHUB_NOT_CONFIGURED": "GitHub Sign-In n'est pas configuré dans cet environnement",
+    "ERR_AUTH_GOOGLE_CONFIG_LOAD": "Impossible de charger la configuration Google",
+    "ERR_AUTH_GITHUB_CONFIG_LOAD": "Impossible de charger la configuration GitHub",
+    "ERR_AUTH_GOOGLE_CANCELLED": "Authentification Google annulée ou échouée",
+    "ERR_AUTH_GITHUB_CANCELLED": "Authentification GitHub annulée ou échouée",
+    "ERR_AUTH_GOOGLE_VALIDATION": "Impossible de valider l'authentification Google",
+    "ERR_AUTH_GITHUB_VALIDATION": "Impossible de valider l'authentification GitHub",
+    "ERR_AUTH_GOOGLE_REGISTER": "Impossible de terminer l'inscription avec Google",
+    "ERR_AUTH_GITHUB_REGISTER": "Impossible de terminer l'inscription avec GitHub"
   },
   "product": {
     "platform": "Plateforme",
@@ -327,7 +341,13 @@
     "similarGames": "Jeux similaires",
     "sameStudioGames": "Meme studio ou editeur",
     "relatedGenres": "Genres associes",
-    "topOnPlatforms": "Top sur plateformes compatibles"
+    "topOnPlatforms": "Top sur plateformes compatibles",
+    "purchaseInfoTitle": "Achat terminé avec succès",
+    "purchaseInfoBodyStart": "Votre clé d'activation est disponible dans la ",
+    "purchaseInfoUserPageLink": "page utilisateur",
+    "purchaseInfoBodyMiddle": " et les guides d'activation se trouvent dans ",
+    "purchaseInfoHelpFaqLink": "la FAQ de la page d'aide",
+    "purchaseInfoBodyEnd": "."
   },
   "dashboard": {
     "user": "Utilisateur",
@@ -369,7 +389,8 @@
     "refundError": "Une erreur s'est produite lors du traitement du retour.",
     "reasonTooShort": "Le motif doit comporter au moins 10 caractères.",
     "refundReason": "Motif",
-    "viewProduct": "Voir le produit"
+    "viewProduct": "Voir le produit",
+    "keyLabel": "Clé :"
     ,
     "placeholders": {
       "displayName": "Saisissez votre nom d’affichage",
@@ -407,6 +428,8 @@
     "changeProfileImage": "Changer l'image de profil",
     "copyId": "Copier l'ID",
     "copyUsername": "Copier le nom d'utilisateur",
+    "showKey": "Afficher la clé",
+    "hideKey": "Masquer la clé",
     "paymentCard": "Carte de paiement",
     "paymentOptions": "Options de paiement",
     "uploadFile": "Télécharger un fichier",

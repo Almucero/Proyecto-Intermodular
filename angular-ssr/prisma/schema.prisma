@@ -46,6 +46,7 @@ model Genre {
 model Game {
   id            Int        @id @default(autoincrement())
   title         String
+  key           String?    @unique
   description   String?
   price         Decimal?   @db.Decimal(12,2)
   isOnSale      Boolean    @default(false)

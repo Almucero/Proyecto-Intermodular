@@ -16,12 +16,16 @@
       "Acción-Aventura",
       "Hack and Slash"
     ],
-    "platforms": ["PS5", "PS4"],
+    "platforms": [
+      "PS5",
+      "PS4"
+    ],
     "rating": 4.8,
     "numberOfSales": 850000,
     "stockPs5": 100,
     "stockPs4": 76,
-    "videoUrl": "https://www.youtube.com/watch?v=jb0LtQBNqhY"
+    "videoUrl": "https://www.youtube.com/watch?v=jb0LtQBNqhY",
+    "key": "O5aon0YpbLp2zIW"
   },
   {
     "title": "Marvel's Spider-Man 2",
@@ -33,13 +37,22 @@
     "releaseDate": "2023-10-20",
     "developer": "Insomniac Games",
     "publisher": "Sony Interactive Entertainment",
-    "genres": ["Accion", "Aventura", "Acción-Aventura", "Sandbox"],
-    "platforms": ["PS5", "PC"],
+    "genres": [
+      "Accion",
+      "Aventura",
+      "Acción-Aventura",
+      "Sandbox"
+    ],
+    "platforms": [
+      "PS5",
+      "PC"
+    ],
     "rating": 4.6,
     "numberOfSales": 500000,
     "stockPs5": 80,
     "stockPc": 20,
-    "videoUrl": "https://www.youtube.com/watch?v=1UvGDXIixPE"
+    "videoUrl": "https://www.youtube.com/watch?v=1UvGDXIixPE",
+    "key": "x325Ci2o8C2m9Ga"
   },
   {
     "title": "Devil May Cry 5",
@@ -51,8 +64,18 @@
     "releaseDate": "2019-03-08",
     "developer": "Capcom",
     "publisher": "Capcom",
-    "genres": ["Accion", "Hack and Slash", "Aventura"],
-    "platforms": ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
+    "genres": [
+      "Accion",
+      "Hack and Slash",
+      "Aventura"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.4,
     "numberOfSales": 420000,
     "stockPc": 23,
@@ -60,7 +83,8 @@
     "stockXboxOne": 0,
     "stockPs5": 5,
     "stockXboxX": 76,
-    "videoUrl": "https://www.youtube.com/watch?v=g_2VZvi0fQ0"
+    "videoUrl": "https://www.youtube.com/watch?v=g_2VZvi0fQ0",
+    "key": "EDp8b0D8zlBt9Tw"
   },
   {
     "title": "Doom Eternal",
@@ -72,8 +96,19 @@
     "releaseDate": "2020-03-20",
     "developer": "id Software",
     "publisher": "Bethesda Softworks",
-    "genres": ["Accion", "Shooter", "FPS"],
-    "platforms": ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One", "Switch"],
+    "genres": [
+      "Accion",
+      "Shooter",
+      "FPS"
+    ],
+    "platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "PS4",
+      "Xbox One",
+      "Switch"
+    ],
     "rating": 4.5,
     "numberOfSales": 610000,
     "stockPc": 65,
@@ -82,7 +117,8 @@
     "stockPs4": 78,
     "stockXboxOne": 1,
     "stockSwitch": 87,
-    "videoUrl": "https://www.youtube.com/watch?v=6SRj82vc1Jg"
+    "videoUrl": "https://www.youtube.com/watch?v=6SRj82vc1Jg",
+    "key": "6tMOd8ll72Jpd5V"
   },
   {
     "title": "Uncharted 4: A Thief's End",
@@ -101,13 +137,18 @@
       "Puzzles",
       "Plataformas"
     ],
-    "platforms": ["PS4", "PS5", "PC"],
+    "platforms": [
+      "PS4",
+      "PS5",
+      "PC"
+    ],
     "rating": 4.7,
     "numberOfSales": 720000,
     "stockPc": 56,
     "stockPs5": 87,
     "stockPs4": 23,
-    "videoUrl": "https://www.youtube.com/watch?v=34GJ9ZMAKqA"
+    "videoUrl": "https://www.youtube.com/watch?v=34GJ9ZMAKqA",
+    "key": "uzl6yBROc5BB0tb"
   },
   {
     "title": "Ghost of Tsushima",
@@ -126,13 +167,18 @@
       "Sandbox",
       "Hack and Slash"
     ],
-    "platforms": ["PS4", "PS5", "PC"],
+    "platforms": [
+      "PS4",
+      "PS5",
+      "PC"
+    ],
     "rating": 4.6,
     "numberOfSales": 540000,
     "stockPc": 76,
     "stockPs5": 21,
     "stockPs4": 123,
-    "videoUrl": "https://www.youtube.com/watch?v=jT9edKarhc8"
+    "videoUrl": "https://www.youtube.com/watch?v=jT9edKarhc8",
+    "key": "PDzwIYsUIZfWlp7"
   },
   {
     "title": "Metal Gear Solid V: The Phantom Pain",
@@ -152,13 +198,18 @@
       "Sandbox",
       "Táctico"
     ],
-    "platforms": ["PC", "PS4", "Xbox One"],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One"
+    ],
     "rating": 4.3,
     "numberOfSales": 380000,
     "stockPc": 12,
     "stockPs4": 0,
     "stockXboxOne": 11,
-    "videoUrl": "https://www.youtube.com/watch?v=Krc1t4HU8GI"
+    "videoUrl": "https://www.youtube.com/watch?v=Krc1t4HU8GI",
+    "key": "sNdavNi5Gpi1Tzk"
   },
   {
     "title": "Batman: Arkham Knight",
@@ -177,14 +228,20 @@
       "Sandbox",
       "Beat 'Em Up"
     ],
-    "platforms": ["PC", "PS4", "Xbox One", "Switch"],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "Switch"
+    ],
     "rating": 4.2,
     "numberOfSales": 310000,
     "stockPc": 76,
     "stockPs4": 34,
     "stockXboxOne": 0,
     "stockSwitch": 12,
-    "videoUrl": "https://www.youtube.com/watch?v=L63rDlpJ3_o"
+    "videoUrl": "https://www.youtube.com/watch?v=L63rDlpJ3_o",
+    "key": "Sczmvodaxi5qXwB"
   },
   {
     "title": "Control",
@@ -203,7 +260,14 @@
       "Metroidvania",
       "Acción-Aventura"
     ],
-    "platforms": ["PC", "PS4", "PS5", "Xbox One", "Xbox Series X", "Switch"],
+    "platforms": [
+      "PC",
+      "PS4",
+      "PS5",
+      "Xbox One",
+      "Xbox Series X",
+      "Switch"
+    ],
     "rating": 4.0,
     "numberOfSales": 220000,
     "stockPc": 87,
@@ -212,7 +276,8 @@
     "stockXboxOne": 45,
     "stockXboxX": 1,
     "stockSwitch": 2,
-    "videoUrl": "https://www.youtube.com/watch?v=F74LLDhAhhI"
+    "videoUrl": "https://www.youtube.com/watch?v=F74LLDhAhhI",
+    "key": "3M6U5ELliIDllOC"
   },
   {
     "title": "Assassin's Creed Valhalla",
@@ -224,8 +289,20 @@
     "releaseDate": "2020-11-10",
     "developer": "Ubisoft",
     "publisher": "Ubisoft",
-    "genres": ["Accion", "Aventura", "RPG", "Sandbox", "Acción-Aventura"],
-    "platforms": ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+    "genres": [
+      "Accion",
+      "Aventura",
+      "RPG",
+      "Sandbox",
+      "Acción-Aventura"
+    ],
+    "platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "PS4",
+      "Xbox One"
+    ],
     "rating": 3.9,
     "numberOfSales": 680000,
     "stockPc": 456,
@@ -233,7 +310,8 @@
     "stockXboxX": 76,
     "stockPs4": 1,
     "stockXboxOne": 45,
-    "videoUrl": "https://www.youtube.com/watch?v=rKjUAWlbTJk"
+    "videoUrl": "https://www.youtube.com/watch?v=rKjUAWlbTJk",
+    "key": "5WIvXjOkUOyFhDR"
   },
   {
     "title": "The Last of Us Part II",
@@ -245,13 +323,22 @@
     "releaseDate": "2020-06-19",
     "developer": "Naughty Dog",
     "publisher": "Sony Interactive Entertainment",
-    "genres": ["Acción-Aventura", "Survival Horror", "Shooter", "Terror"],
-    "platforms": ["PS4", "PS5"],
+    "genres": [
+      "Acción-Aventura",
+      "Survival Horror",
+      "Shooter",
+      "Terror"
+    ],
+    "platforms": [
+      "PS4",
+      "PS5"
+    ],
     "rating": 4.9,
     "numberOfSales": 980000,
     "stockPs4": 0,
     "stockPs5": 0,
-    "videoUrl": "https://www.youtube.com/watch?v=JdE9U9WW_HM"
+    "videoUrl": "https://www.youtube.com/watch?v=JdE9U9WW_HM",
+    "key": "2kwHcKl1MKsrfxo"
   },
   {
     "title": "Red Dead Redemption 2",
@@ -263,8 +350,19 @@
     "releaseDate": "2018-10-26",
     "developer": "Rockstar Games",
     "publisher": "Rockstar Games",
-    "genres": ["Acción-Aventura", "Sandbox", "Shooter", "Accion"],
-    "platforms": ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
+    "genres": [
+      "Acción-Aventura",
+      "Sandbox",
+      "Shooter",
+      "Accion"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.9,
     "numberOfSales": 1200000,
     "stockPc": 0,
@@ -272,7 +370,8 @@
     "stockPs5": 0,
     "stockXboxOne": 0,
     "stockXboxX": 0,
-    "videoUrl": "https://www.youtube.com/watch?v=MyaYlbizpvs"
+    "videoUrl": "https://www.youtube.com/watch?v=MyaYlbizpvs",
+    "key": "KcMfzxgcpaMBVSy"
   },
   {
     "title": "Life Is Strange",
@@ -284,8 +383,19 @@
     "releaseDate": "2015-01-30",
     "developer": "Dontnod Entertainment",
     "publisher": "Square Enix",
-    "genres": ["Aventura", "Novela Visual", "Puzzles"],
-    "platforms": ["PC", "PS4", "Xbox One", "Switch", "PS5", "Xbox Series X"],
+    "genres": [
+      "Aventura",
+      "Novela Visual",
+      "Puzzles"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "Switch",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.1,
     "numberOfSales": 240000,
     "stockPc": 78,
@@ -294,7 +404,8 @@
     "stockXboxOne": 123,
     "stockXboxX": 86,
     "stockSwitch": 13,
-    "videoUrl": "https://www.youtube.com/watch?v=AURVxvIZrmU"
+    "videoUrl": "https://www.youtube.com/watch?v=AURVxvIZrmU",
+    "key": "fcth4CrEf55w25v"
   },
   {
     "title": "The Legend of Zelda: Breath of the Wild",
@@ -306,12 +417,20 @@
     "releaseDate": "2017-03-03",
     "developer": "Nintendo EPD",
     "publisher": "Nintendo",
-    "genres": ["Acción-Aventura", "RPG", "Sandbox", "Puzzles"],
-    "platforms": ["Switch"],
+    "genres": [
+      "Acción-Aventura",
+      "RPG",
+      "Sandbox",
+      "Puzzles"
+    ],
+    "platforms": [
+      "Switch"
+    ],
     "rating": 5.0,
     "numberOfSales": 1500000,
     "stockSwitch": 234,
-    "videoUrl": "https://www.youtube.com/watch?v=zw47_q9wbBE"
+    "videoUrl": "https://www.youtube.com/watch?v=zw47_q9wbBE",
+    "key": "knvSwWAQqpXH8Rw"
   },
   {
     "title": "Tomb Raider (2013)",
@@ -323,8 +442,19 @@
     "releaseDate": "2013-03-05",
     "developer": "Crystal Dynamics",
     "publisher": "Square Enix",
-    "genres": ["Acción-Aventura", "Plataformas", "Shooter", "Puzzles"],
-    "platforms": ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
+    "genres": [
+      "Acción-Aventura",
+      "Plataformas",
+      "Shooter",
+      "Puzzles"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.0,
     "numberOfSales": 320000,
     "stockPc": 12,
@@ -332,7 +462,8 @@
     "stockPs5": 56,
     "stockXboxOne": 0,
     "stockXboxX": 45,
-    "videoUrl": "https://www.youtube.com/watch?v=M4SG6DfVvLs"
+    "videoUrl": "https://www.youtube.com/watch?v=M4SG6DfVvLs",
+    "key": "CugNnCZ5xvrMe0D"
   },
   {
     "title": "Uncharted: The Lost Legacy",
@@ -344,14 +475,24 @@
     "releaseDate": "2017-08-22",
     "developer": "Naughty Dog",
     "publisher": "Sony Interactive Entertainment",
-    "genres": ["Acción-Aventura", "Shooter", "Plataformas", "Puzzles"],
-    "platforms": ["PS4", "PS5", "PC"],
+    "genres": [
+      "Acción-Aventura",
+      "Shooter",
+      "Plataformas",
+      "Puzzles"
+    ],
+    "platforms": [
+      "PS4",
+      "PS5",
+      "PC"
+    ],
     "rating": 4.3,
     "numberOfSales": 260000,
     "stockPc": 5,
     "stockPs4": 52,
     "stockPs5": 565,
-    "videoUrl": "https://www.youtube.com/watch?v=-PhhiKPHTWM"
+    "videoUrl": "https://www.youtube.com/watch?v=-PhhiKPHTWM",
+    "key": "XwfC5gzNkUT1SNr"
   },
   {
     "title": "Firewatch",
@@ -363,8 +504,19 @@
     "releaseDate": "2016-02-09",
     "developer": "Campo Santo",
     "publisher": "Annapurna Interactive",
-    "genres": ["Aventura", "Simulacion", "Novela Visual"],
-    "platforms": ["PC", "PS4", "Xbox One", "Switch", "PS5", "Xbox Series X"],
+    "genres": [
+      "Aventura",
+      "Simulacion",
+      "Novela Visual"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "Switch",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.2,
     "numberOfSales": 145000,
     "stockPc": 1,
@@ -373,7 +525,8 @@
     "stockXboxOne": 1,
     "stockXboxX": 0,
     "stockSwitch": 1,
-    "videoUrl": "https://www.youtube.com/watch?v=d02lhvvVSy8"
+    "videoUrl": "https://www.youtube.com/watch?v=d02lhvvVSy8",
+    "key": "hq0W2kYIWpiNgwx"
   },
   {
     "title": "Outer Wilds",
@@ -385,8 +538,19 @@
     "releaseDate": "2019-05-28",
     "developer": "Mobius Digital",
     "publisher": "Annapurna Interactive",
-    "genres": ["Aventura", "Puzzles", "Simulacion"],
-    "platforms": ["PC", "PS4", "Xbox One", "Switch", "PS5", "Xbox Series X"],
+    "genres": [
+      "Aventura",
+      "Puzzles",
+      "Simulacion"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "Switch",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.7,
     "numberOfSales": 180000,
     "stockPc": 12,
@@ -395,7 +559,8 @@
     "stockXboxOne": 11,
     "stockXboxX": 345,
     "stockSwitch": 12,
-    "videoUrl": "https://www.youtube.com/watch?v=d6LGnVCL1_A"
+    "videoUrl": "https://www.youtube.com/watch?v=d6LGnVCL1_A",
+    "key": "gh5bKVxdOUwXWgR"
   },
   {
     "title": "The Walking Dead: Season One",
@@ -407,8 +572,20 @@
     "releaseDate": "2012-04-24",
     "developer": "Telltale Games",
     "publisher": "Skybound Games",
-    "genres": ["Aventura", "Terror", "Novela Visual", "Survival Horror"],
-    "platforms": ["PC", "PS4", "Xbox One", "Switch", "PS5", "Xbox Series X"],
+    "genres": [
+      "Aventura",
+      "Terror",
+      "Novela Visual",
+      "Survival Horror"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "Switch",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.1,
     "numberOfSales": 290000,
     "stockPc": 86,
@@ -417,7 +594,8 @@
     "stockXboxOne": 13,
     "stockXboxX": 23,
     "stockSwitch": 25,
-    "videoUrl": "https://www.youtube.com/watch?v=N40uY51s5Z0"
+    "videoUrl": "https://www.youtube.com/watch?v=N40uY51s5Z0",
+    "key": "NVue7bHnciL7yyE"
   },
   {
     "title": "Control Deluxe Edition",
@@ -429,8 +607,19 @@
     "releaseDate": "2019-08-27",
     "developer": "Remedy Entertainment",
     "publisher": "505 Games",
-    "genres": ["Acción-Aventura", "Shooter", "Metroidvania", "Accion"],
-    "platforms": ["PC", "PS4", "PS5", "Xbox One", "Xbox Series X"],
+    "genres": [
+      "Acción-Aventura",
+      "Shooter",
+      "Metroidvania",
+      "Accion"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "PS5",
+      "Xbox One",
+      "Xbox Series X"
+    ],
     "rating": 4.0,
     "numberOfSales": 200000,
     "stockPc": 456,
@@ -438,7 +627,8 @@
     "stockPs5": 78,
     "stockXboxOne": 234,
     "stockXboxX": 123,
-    "videoUrl": "https://www.youtube.com/watch?v=w6bE11FrSFM"
+    "videoUrl": "https://www.youtube.com/watch?v=w6bE11FrSFM",
+    "key": "2j7oK7eS5WldOyh"
   },
   {
     "title": "Elden Ring",
@@ -450,8 +640,19 @@
     "releaseDate": "2022-02-25",
     "developer": "FromSoftware",
     "publisher": "Bandai Namco",
-    "genres": ["RPG", "Acción-Aventura", "Hack and Slash", "Sandbox"],
-    "platforms": ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+    "genres": [
+      "RPG",
+      "Acción-Aventura",
+      "Hack and Slash",
+      "Sandbox"
+    ],
+    "platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "PS4",
+      "Xbox One"
+    ],
     "rating": 4.9,
     "numberOfSales": 1400000,
     "stockPc": 76,
@@ -459,7 +660,8 @@
     "stockXboxX": 89,
     "stockPs4": 14,
     "stockXboxOne": 0,
-    "videoUrl": "https://www.youtube.com/watch?v=CptaXqVY6-E"
+    "videoUrl": "https://www.youtube.com/watch?v=CptaXqVY6-E",
+    "key": "6iQtUuCyX3ztjtK"
   },
   {
     "title": "The Witcher 3 - Wild Hunt",
@@ -471,8 +673,19 @@
     "releaseDate": "2015-05-19",
     "developer": "CD Projekt Red",
     "publisher": "CD Projekt",
-    "genres": ["RPG", "Acción-Aventura", "Accion"],
-    "platforms": ["PC", "PS4", "Xbox One", "Switch", "PS5", "Xbox Series X"],
+    "genres": [
+      "RPG",
+      "Acción-Aventura",
+      "Accion"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "Switch",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.9,
     "numberOfSales": 1300000,
     "stockPc": 0,
@@ -481,7 +694,8 @@
     "stockXboxOne": 0,
     "stockXboxX": 0,
     "stockSwitch": 0,
-    "videoUrl": "https://www.youtube.com/watch?v=53MyR_Z3i1w"
+    "videoUrl": "https://www.youtube.com/watch?v=53MyR_Z3i1w",
+    "key": "NRQUF5JmNlgGkvr"
   },
   {
     "title": "Final Fantasy XVI",
@@ -493,13 +707,22 @@
     "releaseDate": "2023-06-22",
     "developer": "Square Enix",
     "publisher": "Square Enix",
-    "genres": ["RPG", "Accion", "Hack and Slash", "Aventura"],
-    "platforms": ["PS5", "PC"],
+    "genres": [
+      "RPG",
+      "Accion",
+      "Hack and Slash",
+      "Aventura"
+    ],
+    "platforms": [
+      "PS5",
+      "PC"
+    ],
     "rating": 4.2,
     "numberOfSales": 240000,
     "stockPc": 12,
     "stockPs5": 65,
-    "videoUrl": "https://www.youtube.com/watch?v=iaJ4VVFGIa8"
+    "videoUrl": "https://www.youtube.com/watch?v=iaJ4VVFGIa8",
+    "key": "ptzhfTCLL0zurYs"
   },
   {
     "title": "The Elder Scrolls V: Skyrim",
@@ -511,8 +734,20 @@
     "releaseDate": "2011-11-11",
     "developer": "Bethesda Game Studios",
     "publisher": "Bethesda Softworks",
-    "genres": ["RPG", "Aventura", "Sandbox", "Accion"],
-    "platforms": ["PC", "PS4", "Xbox One", "Switch", "PS5", "Xbox Series X"],
+    "genres": [
+      "RPG",
+      "Aventura",
+      "Sandbox",
+      "Accion"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "Switch",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.8,
     "numberOfSales": 1600000,
     "stockPc": 876,
@@ -521,7 +756,8 @@
     "stockXboxOne": 86,
     "stockXboxX": 143,
     "stockSwitch": 764,
-    "videoUrl": "https://www.youtube.com/watch?v=6umhTJQltak"
+    "videoUrl": "https://www.youtube.com/watch?v=6umhTJQltak",
+    "key": "1CoVKC3kyYHL4mB"
   },
   {
     "title": "Persona 5 Royal",
@@ -533,8 +769,20 @@
     "releaseDate": "2020-03-31",
     "developer": "Atlus",
     "publisher": "SEGA",
-    "genres": ["RPG", "TBS", "Simulacion", "Aventura"],
-    "platforms": ["PS4", "PS5", "Switch", "PC", "Xbox One", "Xbox Series X"],
+    "genres": [
+      "RPG",
+      "TBS",
+      "Simulacion",
+      "Aventura"
+    ],
+    "platforms": [
+      "PS4",
+      "PS5",
+      "Switch",
+      "PC",
+      "Xbox One",
+      "Xbox Series X"
+    ],
     "rating": 4.7,
     "numberOfSales": 420000,
     "stockPc": 54,
@@ -543,7 +791,8 @@
     "stockXboxOne": 764,
     "stockXboxX": 12,
     "stockSwitch": 4,
-    "videoUrl": "https://www.youtube.com/watch?v=SKpSpvFCZRw"
+    "videoUrl": "https://www.youtube.com/watch?v=SKpSpvFCZRw",
+    "key": "zPsbZHS47TpEu4G"
   },
   {
     "title": "Divinity: Original Sin 2",
@@ -555,8 +804,20 @@
     "releaseDate": "2017-09-14",
     "developer": "Larian Studios",
     "publisher": "Larian Studios",
-    "genres": ["RPG", "TBS", "Estrategia", "Aventura"],
-    "platforms": ["PC", "PS4", "Xbox One", "Switch", "PS5", "Xbox Series X"],
+    "genres": [
+      "RPG",
+      "TBS",
+      "Estrategia",
+      "Aventura"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "Switch",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.8,
     "numberOfSales": 380000,
     "stockPc": 90,
@@ -565,7 +826,8 @@
     "stockXboxOne": 33,
     "stockXboxX": 345,
     "stockSwitch": 54,
-    "videoUrl": "https://www.youtube.com/watch?v=bTWTFX8qzPI"
+    "videoUrl": "https://www.youtube.com/watch?v=bTWTFX8qzPI",
+    "key": "TI2j5TzQ7F0beNs"
   },
   {
     "title": "Mass Effect Legendary Edition",
@@ -577,8 +839,19 @@
     "releaseDate": "2021-05-14",
     "developer": "BioWare",
     "publisher": "Electronic Arts",
-    "genres": ["RPG", "Shooter", "Acción-Aventura", "Aventura"],
-    "platforms": ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
+    "genres": [
+      "RPG",
+      "Shooter",
+      "Acción-Aventura",
+      "Aventura"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.5,
     "numberOfSales": 300000,
     "stockPc": 12,
@@ -586,7 +859,8 @@
     "stockPs5": 76,
     "stockXboxOne": 98,
     "stockXboxX": 123,
-    "videoUrl": "https://www.youtube.com/watch?v=n8i53TtQ6IQ"
+    "videoUrl": "https://www.youtube.com/watch?v=n8i53TtQ6IQ",
+    "key": "t8Y4nUreNRAuxP9"
   },
   {
     "title": "Dragon Age: Inquisition",
@@ -598,8 +872,18 @@
     "releaseDate": "2014-11-18",
     "developer": "BioWare",
     "publisher": "Electronic Arts",
-    "genres": ["RPG", "Estrategia", "Acción-Aventura"],
-    "platforms": ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
+    "genres": [
+      "RPG",
+      "Estrategia",
+      "Acción-Aventura"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.1,
     "numberOfSales": 350000,
     "stockPc": 87,
@@ -607,7 +891,8 @@
     "stockPs5": 234,
     "stockXboxOne": 12,
     "stockXboxX": 23,
-    "videoUrl": "https://www.youtube.com/watch?v=jJqxfkgSUog"
+    "videoUrl": "https://www.youtube.com/watch?v=jJqxfkgSUog",
+    "key": "WOazCGEtv0IRzZT"
   },
   {
     "title": "Cyberpunk 2077",
@@ -619,8 +904,19 @@
     "releaseDate": "2020-12-10",
     "developer": "CD Projekt Red",
     "publisher": "CD Projekt",
-    "genres": ["RPG", "Shooter", "Sandbox", "Acción-Aventura"],
-    "platforms": ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+    "genres": [
+      "RPG",
+      "Shooter",
+      "Sandbox",
+      "Acción-Aventura"
+    ],
+    "platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "PS4",
+      "Xbox One"
+    ],
     "rating": 3.8,
     "numberOfSales": 1100000,
     "stockPc": 87,
@@ -628,7 +924,8 @@
     "stockPs5": 12,
     "stockXboxOne": 87,
     "stockXboxX": 99,
-    "videoUrl": "https://www.youtube.com/watch?v=VhM3NRu23Sk"
+    "videoUrl": "https://www.youtube.com/watch?v=VhM3NRu23Sk",
+    "key": "AeUfDzEnIKmnFGp"
   },
   {
     "title": "Pillars of Eternity II - Deadfire",
@@ -640,8 +937,19 @@
     "releaseDate": "2018-05-08",
     "developer": "Obsidian Entertainment",
     "publisher": "Paradox Interactive",
-    "genres": ["RPG", "Estrategia", "RTS", "TBS"],
-    "platforms": ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
+    "genres": [
+      "RPG",
+      "Estrategia",
+      "RTS",
+      "TBS"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.4,
     "numberOfSales": 95000,
     "stockPc": 1,
@@ -649,7 +957,8 @@
     "stockPs5": 1,
     "stockXboxOne": 1,
     "stockXboxX": 1,
-    "videoUrl": "https://www.youtube.com/watch?v=lsZARCYYxME"
+    "videoUrl": "https://www.youtube.com/watch?v=lsZARCYYxME",
+    "key": "xnt6dv3RMmSThrX"
   },
   {
     "title": "FIFA 23",
@@ -661,8 +970,18 @@
     "releaseDate": "2022-09-27",
     "developer": "EA Sports",
     "publisher": "Electronic Arts",
-    "genres": ["Deportes", "Simulacion"],
-    "platforms": ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One", "Switch"],
+    "genres": [
+      "Deportes",
+      "Simulacion"
+    ],
+    "platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "PS4",
+      "Xbox One",
+      "Switch"
+    ],
     "rating": 3.7,
     "numberOfSales": 1000000,
     "stockPc": 76,
@@ -671,7 +990,8 @@
     "stockXboxOne": 87,
     "stockXboxX": 62,
     "stockSwitch": 38,
-    "videoUrl": "https://www.youtube.com/watch?v=o3V-GvvzjE4"
+    "videoUrl": "https://www.youtube.com/watch?v=o3V-GvvzjE4",
+    "key": "SjfB765Zcu6jT4X"
   },
   {
     "title": "NBA 2K23",
@@ -683,8 +1003,18 @@
     "releaseDate": "2022-09-09",
     "developer": "Visual Concepts",
     "publisher": "2K Games",
-    "genres": ["Deportes", "Simulacion"],
-    "platforms": ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One", "Switch"],
+    "genres": [
+      "Deportes",
+      "Simulacion"
+    ],
+    "platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "PS4",
+      "Xbox One",
+      "Switch"
+    ],
     "rating": 3.9,
     "numberOfSales": 850000,
     "stockPc": 1200,
@@ -693,7 +1023,8 @@
     "stockXboxOne": 52,
     "stockXboxX": 0,
     "stockSwitch": 123,
-    "videoUrl": "https://www.youtube.com/watch?v=rBZ_q6wIJKY"
+    "videoUrl": "https://www.youtube.com/watch?v=rBZ_q6wIJKY",
+    "key": "Kj54kNGFhZt0gJq"
   },
   {
     "title": "Madden NFL 23",
@@ -705,8 +1036,18 @@
     "releaseDate": "2022-08-19",
     "developer": "EA Tiburon",
     "publisher": "Electronic Arts",
-    "genres": ["Deportes", "Simulacion", "Estrategia"],
-    "platforms": ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+    "genres": [
+      "Deportes",
+      "Simulacion",
+      "Estrategia"
+    ],
+    "platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "PS4",
+      "Xbox One"
+    ],
     "rating": 3.5,
     "numberOfSales": 420000,
     "stockPc": 873,
@@ -714,7 +1055,8 @@
     "stockPs5": 3734,
     "stockXboxOne": 3342,
     "stockXboxX": 23,
-    "videoUrl": "https://www.youtube.com/watch?v=Qv6G_w8RUOo"
+    "videoUrl": "https://www.youtube.com/watch?v=Qv6G_w8RUOo",
+    "key": "TNrLrWr2kBIYEeH"
   },
   {
     "title": "F1 23",
@@ -726,8 +1068,18 @@
     "releaseDate": "2023-06-16",
     "developer": "Codemasters",
     "publisher": "Electronic Arts",
-    "genres": ["Deportes", "Carreras", "Simulacion"],
-    "platforms": ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+    "genres": [
+      "Deportes",
+      "Carreras",
+      "Simulacion"
+    ],
+    "platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "PS4",
+      "Xbox One"
+    ],
     "rating": 4.2,
     "numberOfSales": 260000,
     "stockPc": 2,
@@ -735,7 +1087,8 @@
     "stockPs5": 2,
     "stockXboxOne": 2,
     "stockXboxX": 0,
-    "videoUrl": "https://www.youtube.com/watch?v=wHNgoRCWqTg"
+    "videoUrl": "https://www.youtube.com/watch?v=wHNgoRCWqTg",
+    "key": "iEuKaKT6mfbAbvY"
   },
   {
     "title": "Rocket League",
@@ -747,8 +1100,19 @@
     "releaseDate": "2015-07-07",
     "developer": "Psyonix",
     "publisher": "Psyonix",
-    "genres": ["Deportes", "Carreras", "Accion"],
-    "platforms": ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One", "Switch"],
+    "genres": [
+      "Deportes",
+      "Carreras",
+      "Accion"
+    ],
+    "platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "PS4",
+      "Xbox One",
+      "Switch"
+    ],
     "rating": 4.3,
     "numberOfSales": 900000,
     "stockPc": 3,
@@ -757,7 +1121,8 @@
     "stockXboxOne": 0,
     "stockXboxX": 1,
     "stockSwitch": 31,
-    "videoUrl": "https://www.youtube.com/watch?v=SgSX3gOrj60"
+    "videoUrl": "https://www.youtube.com/watch?v=SgSX3gOrj60",
+    "key": "f4gBBeDrFWWgCid"
   },
   {
     "title": "Tony Hawk's Pro Skater 1 + 2",
@@ -769,8 +1134,19 @@
     "releaseDate": "2020-09-04",
     "developer": "Vicarious Visions",
     "publisher": "Activision",
-    "genres": ["Deportes", "Simulacion", "Accion"],
-    "platforms": ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One", "Switch"],
+    "genres": [
+      "Deportes",
+      "Simulacion",
+      "Accion"
+    ],
+    "platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "PS4",
+      "Xbox One",
+      "Switch"
+    ],
     "rating": 4.1,
     "numberOfSales": 310000,
     "stockPc": 2,
@@ -779,7 +1155,8 @@
     "stockXboxOne": 2,
     "stockXboxX": 1,
     "stockSwitch": 223,
-    "videoUrl": "https://www.youtube.com/watch?v=4paYDD0WIVY"
+    "videoUrl": "https://www.youtube.com/watch?v=4paYDD0WIVY",
+    "key": "a7kcvFpIJu2sEHr"
   },
   {
     "title": "Football Manager 2023",
@@ -791,8 +1168,19 @@
     "releaseDate": "2022-11-08",
     "developer": "Sports Interactive",
     "publisher": "SEGA",
-    "genres": ["Deportes", "Estrategia", "Simulacion"],
-    "platforms": ["PC", "PS5", "Xbox Series X", "Xbox One", "PS4", "Switch"],
+    "genres": [
+      "Deportes",
+      "Estrategia",
+      "Simulacion"
+    ],
+    "platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "Xbox One",
+      "PS4",
+      "Switch"
+    ],
     "rating": 4.6,
     "numberOfSales": 450000,
     "stockPc": 65,
@@ -801,7 +1189,8 @@
     "stockXboxOne": 1,
     "stockXboxX": 0,
     "stockSwitch": 435,
-    "videoUrl": "https://www.youtube.com/watch?v=ISJxT7VLzYg"
+    "videoUrl": "https://www.youtube.com/watch?v=ISJxT7VLzYg",
+    "key": "y3mkwoFpTHUQLGN"
   },
   {
     "title": "eFootball 2023",
@@ -813,8 +1202,17 @@
     "releaseDate": "2021-09-30",
     "developer": "Konami",
     "publisher": "Konami",
-    "genres": ["Deportes", "Simulacion"],
-    "platforms": ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+    "genres": [
+      "Deportes",
+      "Simulacion"
+    ],
+    "platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "PS4",
+      "Xbox One"
+    ],
     "rating": 2.8,
     "numberOfSales": 150000,
     "stockPc": 45,
@@ -822,7 +1220,8 @@
     "stockPs5": 345,
     "stockXboxOne": 12,
     "stockXboxX": 1,
-    "videoUrl": "https://www.youtube.com/watch?v=27Fa0aH2Pgg"
+    "videoUrl": "https://www.youtube.com/watch?v=27Fa0aH2Pgg",
+    "key": "XSwd48jFFIVwvp5"
   },
   {
     "title": "PGA Tour 2K23",
@@ -834,8 +1233,18 @@
     "releaseDate": "2022-10-14",
     "developer": "HB Studios",
     "publisher": "2K Games",
-    "genres": ["Deportes", "Simulacion", "Estrategia"],
-    "platforms": ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+    "genres": [
+      "Deportes",
+      "Simulacion",
+      "Estrategia"
+    ],
+    "platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "PS4",
+      "Xbox One"
+    ],
     "rating": 3.9,
     "numberOfSales": 95000,
     "stockPc": 78,
@@ -843,7 +1252,8 @@
     "stockPs5": 23,
     "stockXboxOne": 56,
     "stockXboxX": 85,
-    "videoUrl": "https://www.youtube.com/watch?v=tgTgzWFVtS0"
+    "videoUrl": "https://www.youtube.com/watch?v=tgTgzWFVtS0",
+    "key": "CauQQR8Hw3hKO0E"
   },
   {
     "title": "MotoGP 23",
@@ -855,8 +1265,19 @@
     "releaseDate": "2023-04-06",
     "developer": "Milestone",
     "publisher": "Milestone",
-    "genres": ["Deportes", "Carreras", "Simulacion"],
-    "platforms": ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One", "Switch"],
+    "genres": [
+      "Deportes",
+      "Carreras",
+      "Simulacion"
+    ],
+    "platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "PS4",
+      "Xbox One",
+      "Switch"
+    ],
     "rating": 3.8,
     "numberOfSales": 60000,
     "stockPc": 12,
@@ -865,7 +1286,8 @@
     "stockXboxOne": 146,
     "stockXboxX": 452,
     "stockSwitch": 45,
-    "videoUrl": "https://www.youtube.com/watch?v=0ebBuFz44LQ"
+    "videoUrl": "https://www.youtube.com/watch?v=0ebBuFz44LQ",
+    "key": "e89Z1BettW1UXBL"
   },
   {
     "title": "Civilization VI",
@@ -877,8 +1299,19 @@
     "releaseDate": "2016-10-21",
     "developer": "Firaxis Games",
     "publisher": "2K Games",
-    "genres": ["Estrategia", "TBS", "Simulacion"],
-    "platforms": ["PC", "Switch", "PS4", "Xbox One", "PS5", "Xbox Series X"],
+    "genres": [
+      "Estrategia",
+      "TBS",
+      "Simulacion"
+    ],
+    "platforms": [
+      "PC",
+      "Switch",
+      "PS4",
+      "Xbox One",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.4,
     "numberOfSales": 780000,
     "stockPc": 65,
@@ -887,7 +1320,8 @@
     "stockXboxOne": 0,
     "stockPs5": 1,
     "stockXboxX": 4,
-    "videoUrl": "https://www.youtube.com/watch?v=5KdE0p2joJw"
+    "videoUrl": "https://www.youtube.com/watch?v=5KdE0p2joJw",
+    "key": "zRb9AhNFES87wJJ"
   },
   {
     "title": "XCOM 2",
@@ -899,8 +1333,19 @@
     "releaseDate": "2016-02-05",
     "developer": "Firaxis Games",
     "publisher": "2K Games",
-    "genres": ["Estrategia", "TBS", "Ciencia Ficción"],
-    "platforms": ["PC", "PS4", "Xbox One", "Switch", "PS5", "Xbox Series X"],
+    "genres": [
+      "Estrategia",
+      "TBS",
+      "Ciencia Ficción"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "Switch",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.2,
     "numberOfSales": 420000,
     "stockPc": 34,
@@ -909,7 +1354,8 @@
     "stockXboxOne": 12,
     "stockPs5": 0,
     "stockXboxX": 556,
-    "videoUrl": "https://www.youtube.com/watch?v=ZlF4_o3qALo"
+    "videoUrl": "https://www.youtube.com/watch?v=ZlF4_o3qALo",
+    "key": "lHIL5d5NLk05Yhc"
   },
   {
     "title": "Age of Empires IV",
@@ -921,14 +1367,23 @@
     "releaseDate": "2021-10-28",
     "developer": "Relic Entertainment",
     "publisher": "Microsoft Studios",
-    "genres": ["Estrategia", "RTS", "Simulacion"],
-    "platforms": ["PC", "Xbox Series X", "Xbox One"],
+    "genres": [
+      "Estrategia",
+      "RTS",
+      "Simulacion"
+    ],
+    "platforms": [
+      "PC",
+      "Xbox Series X",
+      "Xbox One"
+    ],
     "rating": 3.9,
     "numberOfSales": 200000,
     "stockPc": 12,
     "stockXboxOne": 945,
     "stockXboxX": 1,
-    "videoUrl": "https://www.youtube.com/watch?v=5TnynE3PuDE"
+    "videoUrl": "https://www.youtube.com/watch?v=5TnynE3PuDE",
+    "key": "BYRhYK8S5Wcot33"
   },
   {
     "title": "Total War - WARHAMMER 2",
@@ -940,12 +1395,19 @@
     "releaseDate": "2017-09-28",
     "developer": "Creative Assembly",
     "publisher": "SEGA",
-    "genres": ["Estrategia", "RTS", "TBS"],
-    "platforms": ["PC"],
+    "genres": [
+      "Estrategia",
+      "RTS",
+      "TBS"
+    ],
+    "platforms": [
+      "PC"
+    ],
     "rating": 4.3,
     "numberOfSales": 350000,
     "stockPc": 654,
-    "videoUrl": "https://www.youtube.com/watch?v=fXxe897bW-A"
+    "videoUrl": "https://www.youtube.com/watch?v=fXxe897bW-A",
+    "key": "r1TCUlo3a4Vg3Nl"
   },
   {
     "title": "Stellaris",
@@ -957,8 +1419,18 @@
     "releaseDate": "2016-05-09",
     "developer": "Paradox Interactive",
     "publisher": "Paradox Interactive",
-    "genres": ["Estrategia", "RTS", "Simulacion"],
-    "platforms": ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
+    "genres": [
+      "Estrategia",
+      "RTS",
+      "Simulacion"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.1,
     "numberOfSales": 260000,
     "stockPc": 362,
@@ -966,7 +1438,8 @@
     "stockPs5": 960,
     "stockXboxOne": 678,
     "stockXboxX": 456,
-    "videoUrl": "https://www.youtube.com/watch?v=zW3YB2ptGws"
+    "videoUrl": "https://www.youtube.com/watch?v=zW3YB2ptGws",
+    "key": "grET6mxVJ6EklG3"
   },
   {
     "title": "Crusader Kings III",
@@ -978,14 +1451,23 @@
     "releaseDate": "2020-09-01",
     "developer": "Paradox Development Studio",
     "publisher": "Paradox Interactive",
-    "genres": ["Estrategia", "RPG", "Simulacion"],
-    "platforms": ["PC", "PS5", "Xbox Series X"],
+    "genres": [
+      "Estrategia",
+      "RPG",
+      "Simulacion"
+    ],
+    "platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.5,
     "numberOfSales": 220000,
     "stockPc": 1,
     "stockPs5": 0,
     "stockXboxX": 6,
-    "videoUrl": "https://www.youtube.com/watch?v=xjn66Cl3pMA"
+    "videoUrl": "https://www.youtube.com/watch?v=xjn66Cl3pMA",
+    "key": "DJ4rBLMYZLdHfWa"
   },
   {
     "title": "Company of Heroes 2",
@@ -997,12 +1479,18 @@
     "releaseDate": "2013-06-25",
     "developer": "Relic Entertainment",
     "publisher": "SEGA",
-    "genres": ["Estrategia", "RTS"],
-    "platforms": ["PC"],
+    "genres": [
+      "Estrategia",
+      "RTS"
+    ],
+    "platforms": [
+      "PC"
+    ],
     "rating": 4.0,
     "numberOfSales": 180000,
     "stockPc": 2,
-    "videoUrl": "https://www.youtube.com/watch?v=cUdezMxCY9s"
+    "videoUrl": "https://www.youtube.com/watch?v=cUdezMxCY9s",
+    "key": "60xQyE1MgTiVs4w"
   },
   {
     "title": "Anno 1800",
@@ -1014,14 +1502,23 @@
     "releaseDate": "2019-04-16",
     "developer": "Blue Byte",
     "publisher": "Ubisoft",
-    "genres": ["Estrategia", "Simulacion", "RTS"],
-    "platforms": ["PC", "PS5", "Xbox Series X"],
+    "genres": [
+      "Estrategia",
+      "Simulacion",
+      "RTS"
+    ],
+    "platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.1,
     "numberOfSales": 210000,
     "stockPc": 5,
     "stockPs5": 14,
     "stockXboxX": 1,
-    "videoUrl": "https://www.youtube.com/watch?v=JEYiNIJHUa8"
+    "videoUrl": "https://www.youtube.com/watch?v=JEYiNIJHUa8",
+    "key": "PZyzRpBEOvgYAdA"
   },
   {
     "title": "StarCraft II",
@@ -1033,12 +1530,18 @@
     "releaseDate": "2010-07-27",
     "developer": "Blizzard Entertainment",
     "publisher": "Blizzard Entertainment",
-    "genres": ["Estrategia", "RTS"],
-    "platforms": ["PC"],
+    "genres": [
+      "Estrategia",
+      "RTS"
+    ],
+    "platforms": [
+      "PC"
+    ],
     "rating": 4.2,
     "numberOfSales": 950000,
     "stockPc": 10,
-    "videoUrl": "https://www.youtube.com/watch?v=aVtXac6if14"
+    "videoUrl": "https://www.youtube.com/watch?v=aVtXac6if14",
+    "key": "VaxdTMZqSSdtaXT"
   },
   {
     "title": "Warcraft III - Reforged",
@@ -1050,12 +1553,18 @@
     "releaseDate": "2020-01-28",
     "developer": "Blizzard Entertainment",
     "publisher": "Blizzard Entertainment",
-    "genres": ["Estrategia", "RTS"],
-    "platforms": ["PC"],
+    "genres": [
+      "Estrategia",
+      "RTS"
+    ],
+    "platforms": [
+      "PC"
+    ],
     "rating": 2.9,
     "numberOfSales": 120000,
     "stockPc": 23,
-    "videoUrl": "https://www.youtube.com/watch?v=Q2zfx5hQ3CE"
+    "videoUrl": "https://www.youtube.com/watch?v=Q2zfx5hQ3CE",
+    "key": "WBSCE9oOtKyxSeh"
   },
   {
     "title": "Microsoft Flight Simulator",
@@ -1067,13 +1576,19 @@
     "releaseDate": "2020-08-18",
     "developer": "Asobo Studio",
     "publisher": "Xbox Game Studios",
-    "genres": ["Simulacion"],
-    "platforms": ["PC", "Xbox Series X"],
+    "genres": [
+      "Simulacion"
+    ],
+    "platforms": [
+      "PC",
+      "Xbox Series X"
+    ],
     "rating": 4.7,
     "numberOfSales": 480000,
     "stockPc": 0,
     "stockXboxX": 0,
-    "videoUrl": "https://www.youtube.com/watch?v=BTETsm79D3A"
+    "videoUrl": "https://www.youtube.com/watch?v=BTETsm79D3A",
+    "key": "iEC2Ct9FgcMF6Li"
   },
   {
     "title": "The Sims 4",
@@ -1085,8 +1600,17 @@
     "releaseDate": "2014-09-02",
     "developer": "Maxis",
     "publisher": "Electronic Arts",
-    "genres": ["Simulacion", "Estrategia"],
-    "platforms": ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
+    "genres": [
+      "Simulacion",
+      "Estrategia"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.0,
     "numberOfSales": 1100000,
     "stockPc": 298,
@@ -1094,7 +1618,8 @@
     "stockXboxOne": 123,
     "stockPs5": 146,
     "stockXboxX": 956,
-    "videoUrl": "https://www.youtube.com/watch?v=DyNv44QR14g"
+    "videoUrl": "https://www.youtube.com/watch?v=DyNv44QR14g",
+    "key": "fkAKbqbwzdkYCJH"
   },
   {
     "title": "Euro Truck Simulator 2",
@@ -1106,12 +1631,18 @@
     "releaseDate": "2012-10-19",
     "developer": "SCS Software",
     "publisher": "SCS Software",
-    "genres": ["Simulacion", "Carreras"],
-    "platforms": ["PC"],
+    "genres": [
+      "Simulacion",
+      "Carreras"
+    ],
+    "platforms": [
+      "PC"
+    ],
     "rating": 4.3,
     "numberOfSales": 650000,
     "stockPc": 234,
-    "videoUrl": "https://www.youtube.com/watch?v=5uvwfskYwl0"
+    "videoUrl": "https://www.youtube.com/watch?v=5uvwfskYwl0",
+    "key": "scImJCRI94qovXY"
   },
   {
     "title": "Cities - Skylines",
@@ -1123,8 +1654,18 @@
     "releaseDate": "2015-03-10",
     "developer": "Colossal Order",
     "publisher": "Paradox Interactive",
-    "genres": ["Simulacion", "Estrategia"],
-    "platforms": ["PC", "PS4", "Xbox One", "Switch", "PS5", "Xbox Series X"],
+    "genres": [
+      "Simulacion",
+      "Estrategia"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "Switch",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.5,
     "numberOfSales": 420000,
     "stockPc": 345,
@@ -1133,7 +1674,8 @@
     "stockSwitch": 734,
     "stockPs5": 354,
     "stockXboxX": 34,
-    "videoUrl": "https://www.youtube.com/watch?v=CpWe03NhXKs"
+    "videoUrl": "https://www.youtube.com/watch?v=CpWe03NhXKs",
+    "key": "GTbplasTfw91zc8"
   },
   {
     "title": "Kerbal Space Program",
@@ -1152,7 +1694,14 @@
       "Sandbox",
       "Ciencia Ficción"
     ],
-    "platforms": ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X", "Switch"],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "PS5",
+      "Xbox Series X",
+      "Switch"
+    ],
     "rating": 4.4,
     "numberOfSales": 200000,
     "stockPc": 231,
@@ -1161,7 +1710,8 @@
     "stockPs5": 354,
     "stockXboxX": 234,
     "stockSwitch": 123,
-    "videoUrl": "https://www.youtube.com/watch?v=aAa9Ao26gtM"
+    "videoUrl": "https://www.youtube.com/watch?v=aAa9Ao26gtM",
+    "key": "4u35YibxLvnJPgA"
   },
   {
     "title": "Assetto Corsa",
@@ -1173,8 +1723,18 @@
     "releaseDate": "2014-12-19",
     "developer": "Kunos Simulazioni",
     "publisher": "505 Games",
-    "genres": ["Simulacion", "Carreras", "Deportes"],
-    "platforms": ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
+    "genres": [
+      "Simulacion",
+      "Carreras",
+      "Deportes"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.2,
     "numberOfSales": 175000,
     "stockPc": 6,
@@ -1182,7 +1742,8 @@
     "stockXboxOne": 2,
     "stockPs5": 1,
     "stockXboxX": 0,
-    "videoUrl": "https://www.youtube.com/watch?v=TDFN-E30jhU"
+    "videoUrl": "https://www.youtube.com/watch?v=TDFN-E30jhU",
+    "key": "usrlk3a8BdRLy0I"
   },
   {
     "title": "Farming Simulator 22",
@@ -1194,8 +1755,19 @@
     "releaseDate": "2021-11-22",
     "developer": "Giants Software",
     "publisher": "Focus Home Interactive",
-    "genres": ["Simulacion", "Estrategia", "Sandbox", "Gestión"],
-    "platforms": ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+    "genres": [
+      "Simulacion",
+      "Estrategia",
+      "Sandbox",
+      "Gestión"
+    ],
+    "platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "PS4",
+      "Xbox One"
+    ],
     "rating": 3.8,
     "numberOfSales": 90000,
     "stockPc": 876,
@@ -1203,7 +1775,8 @@
     "stockXboxX": 46,
     "stockPs4": 236,
     "stockXboxOne": 12,
-    "videoUrl": "https://www.youtube.com/watch?v=qg9VPiUtaic"
+    "videoUrl": "https://www.youtube.com/watch?v=qg9VPiUtaic",
+    "key": "0AlvxL22RyuYXqz"
   },
   {
     "title": "Planet Coaster",
@@ -1221,7 +1794,13 @@
       "Construcción de Ciudades",
       "Gestión"
     ],
-    "platforms": ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.1,
     "numberOfSales": 160000,
     "stockPc": 1233,
@@ -1229,7 +1808,8 @@
     "stockXboxOne": 123,
     "stockPs5": 73,
     "stockXboxX": 74,
-    "videoUrl": "https://www.youtube.com/watch?v=91Kli1Uwk9g"
+    "videoUrl": "https://www.youtube.com/watch?v=91Kli1Uwk9g",
+    "key": "Tp6TN3UBMocaY2X"
   },
   {
     "title": "No Man's Sky",
@@ -1248,7 +1828,14 @@
       "Ciencia Ficción",
       "Aventura"
     ],
-    "platforms": ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One", "Switch"],
+    "platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "PS4",
+      "Xbox One",
+      "Switch"
+    ],
     "rating": 4.0,
     "numberOfSales": 750000,
     "stockPc": 123,
@@ -1257,7 +1844,8 @@
     "stockPs4": 0,
     "stockXboxOne": 23,
     "stockSwitch": 1,
-    "videoUrl": "https://www.youtube.com/watch?v=OjoTHi2FI04"
+    "videoUrl": "https://www.youtube.com/watch?v=OjoTHi2FI04",
+    "key": "78Kv592EjNa9tEO"
   },
   {
     "title": "Ship Simulator Extremes",
@@ -1269,12 +1857,17 @@
     "releaseDate": "2009-10-30",
     "developer": "VSTEP",
     "publisher": "Paradox Interactive",
-    "genres": ["Simulacion"],
-    "platforms": ["PC"],
+    "genres": [
+      "Simulacion"
+    ],
+    "platforms": [
+      "PC"
+    ],
     "rating": 3.6,
     "numberOfSales": 12000,
     "stockPc": 87,
-    "videoUrl": "https://www.youtube.com/watch?v=rnny6Ux643o"
+    "videoUrl": "https://www.youtube.com/watch?v=rnny6Ux643o",
+    "key": "hJbnrnjqFFnJCya"
   },
   {
     "title": "Resident Evil 4 Remake",
@@ -1286,15 +1879,26 @@
     "releaseDate": "2023-03-24",
     "developer": "Capcom",
     "publisher": "Capcom",
-    "genres": ["Survival Horror", "Accion", "Aventura", "Shooter"],
-    "platforms": ["PC", "PS5", "Xbox Series X", "PS4"],
+    "genres": [
+      "Survival Horror",
+      "Accion",
+      "Aventura",
+      "Shooter"
+    ],
+    "platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "PS4"
+    ],
     "rating": 4.5,
     "numberOfSales": 540000,
     "stockPc": 45,
     "stockPs5": 35,
     "stockXboxX": 234,
     "stockPs4": 23,
-    "videoUrl": "https://www.youtube.com/watch?v=O75Ip4o1bs8"
+    "videoUrl": "https://www.youtube.com/watch?v=O75Ip4o1bs8",
+    "key": "R5ZQK1muJxPddnj"
   },
   {
     "title": "Amnesia: The Dark Descent",
@@ -1306,15 +1910,26 @@
     "releaseDate": "2010-09-08",
     "developer": "Frictional Games",
     "publisher": "Frictional Games",
-    "genres": ["Horror Psicológico", "Aventura", "Supervivencia", "Puzzles"],
-    "platforms": ["PC", "PS4", "Xbox One", "Switch"],
+    "genres": [
+      "Horror Psicológico",
+      "Aventura",
+      "Supervivencia",
+      "Puzzles"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "Switch"
+    ],
     "rating": 4.2,
     "numberOfSales": 220000,
     "stockPc": 87,
     "stockPs4": 76,
     "stockXboxOne": 45,
     "stockSwitch": 23,
-    "videoUrl": "https://www.youtube.com/watch?v=u1nY_5-UrY4"
+    "videoUrl": "https://www.youtube.com/watch?v=u1nY_5-UrY4",
+    "key": "FIv3MmSDINzqOcJ"
   },
   {
     "title": "Outlast",
@@ -1326,8 +1941,20 @@
     "releaseDate": "2013-09-04",
     "developer": "Red Barrels",
     "publisher": "Red Barrels",
-    "genres": ["Survival Horror", "Stealth", "Aventura", "Horror Psicológico"],
-    "platforms": ["PC", "PS4", "Xbox One", "Switch", "PS5", "Xbox Series X"],
+    "genres": [
+      "Survival Horror",
+      "Stealth",
+      "Aventura",
+      "Horror Psicológico"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "Switch",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.0,
     "numberOfSales": 310000,
     "stockPc": 56,
@@ -1336,7 +1963,8 @@
     "stockSwitch": 123,
     "stockPs5": 73,
     "stockXboxX": 734,
-    "videoUrl": "https://www.youtube.com/watch?v=uKA-IA4locM"
+    "videoUrl": "https://www.youtube.com/watch?v=uKA-IA4locM",
+    "key": "DpFZ8b8CnumkWE3"
   },
   {
     "title": "Alien: Isolation",
@@ -1348,15 +1976,25 @@
     "releaseDate": "2014-10-07",
     "developer": "Creative Assembly",
     "publisher": "SEGA",
-    "genres": ["Survival Horror", "Stealth", "Ciencia Ficción"],
-    "platforms": ["PC", "PS4", "Xbox One", "Switch"],
+    "genres": [
+      "Survival Horror",
+      "Stealth",
+      "Ciencia Ficción"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "Switch"
+    ],
     "rating": 4.4,
     "numberOfSales": 290000,
     "stockPc": 23,
     "stockPs4": 2,
     "stockXboxOne": 1,
     "stockSwitch": 78,
-    "videoUrl": "https://www.youtube.com/watch?v=7h0cgmvIrZw"
+    "videoUrl": "https://www.youtube.com/watch?v=7h0cgmvIrZw",
+    "key": "VeZZBjIvtgN7YYb"
   },
   {
     "title": "The Evil Within",
@@ -1368,14 +2006,23 @@
     "releaseDate": "2014-10-14",
     "developer": "Tango Gameworks",
     "publisher": "Bethesda Softworks",
-    "genres": ["Survival Horror", "Accion", "Horror Psicológico"],
-    "platforms": ["PC", "PS4", "Xbox One"],
+    "genres": [
+      "Survival Horror",
+      "Accion",
+      "Horror Psicológico"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One"
+    ],
     "rating": 3.9,
     "numberOfSales": 140000,
     "stockPc": 1,
     "stockPs4": 0,
     "stockXboxOne": 5,
-    "videoUrl": "https://www.youtube.com/watch?v=hvbBhouZHIU"
+    "videoUrl": "https://www.youtube.com/watch?v=hvbBhouZHIU",
+    "key": "NOMZTukVNc48Jxq"
   },
   {
     "title": "Until Dawn",
@@ -1387,13 +2034,21 @@
     "releaseDate": "2015-08-25",
     "developer": "Supermassive Games",
     "publisher": "Sony Interactive Entertainment",
-    "genres": ["Survival Horror", "Aventura", "Cinemático"],
-    "platforms": ["PS4", "PS5"],
+    "genres": [
+      "Survival Horror",
+      "Aventura",
+      "Cinemático"
+    ],
+    "platforms": [
+      "PS4",
+      "PS5"
+    ],
     "rating": 4.1,
     "numberOfSales": 170000,
     "stockPs4": 4,
     "stockPs5": 124,
-    "videoUrl": "https://www.youtube.com/watch?v=LUk77c7fMC8"
+    "videoUrl": "https://www.youtube.com/watch?v=LUk77c7fMC8",
+    "key": "O7OZISl5dV6urHd"
   },
   {
     "title": "Silent Hill 2 Remake",
@@ -1405,14 +2060,24 @@
     "releaseDate": "2001-09-24",
     "developer": "Konami",
     "publisher": "Konami",
-    "genres": ["Survival Horror", "Horror Psicológico", "Aventura", "Puzzles"],
-    "platforms": ["PS4", "PC", "Xbox One"],
+    "genres": [
+      "Survival Horror",
+      "Horror Psicológico",
+      "Aventura",
+      "Puzzles"
+    ],
+    "platforms": [
+      "PS4",
+      "PC",
+      "Xbox One"
+    ],
     "rating": 4.8,
     "numberOfSales": 520000,
     "stockPs4": 90,
     "stockPc": 45,
     "stockXboxOne": 3,
-    "videoUrl": "https://www.youtube.com/watch?v=pyC_qiW_4ZY"
+    "videoUrl": "https://www.youtube.com/watch?v=pyC_qiW_4ZY",
+    "key": "dTk90sYo8cKVBmx"
   },
   {
     "title": "Layers of Fear",
@@ -1424,8 +2089,19 @@
     "releaseDate": "2016-02-16",
     "developer": "Bloober Team",
     "publisher": "Bloober Team",
-    "genres": ["Horror Psicológico", "Aventura", "Narrativa"],
-    "platforms": ["PC", "PS4", "Xbox One", "Switch", "PS5", "Xbox Series X"],
+    "genres": [
+      "Horror Psicológico",
+      "Aventura",
+      "Narrativa"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "Switch",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 3.7,
     "numberOfSales": 75000,
     "stockPs4": 2,
@@ -1434,7 +2110,8 @@
     "stockSwitch": 1,
     "stockPs5": 7,
     "stockXboxX": 4,
-    "videoUrl": "https://www.youtube.com/watch?v=HUoyagyEVHA"
+    "videoUrl": "https://www.youtube.com/watch?v=HUoyagyEVHA",
+    "key": "C2BxaFmqPdtczrA"
   },
   {
     "title": "Dead Space Remake",
@@ -1446,14 +2123,23 @@
     "releaseDate": "2023-01-27",
     "developer": "Motive Studio",
     "publisher": "Electronic Arts",
-    "genres": ["Survival Horror", "Ciencia Ficción", "Accion"],
-    "platforms": ["PC", "PS5", "Xbox Series X"],
+    "genres": [
+      "Survival Horror",
+      "Ciencia Ficción",
+      "Accion"
+    ],
+    "platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.0,
     "numberOfSales": 160000,
     "stockPs5": 657,
     "stockXboxX": 123,
     "stockPc": 734,
-    "videoUrl": "https://www.youtube.com/watch?v=4kRHnEi57gE"
+    "videoUrl": "https://www.youtube.com/watch?v=4kRHnEi57gE",
+    "key": "iMFp9TUteKCJPdl"
   },
   {
     "title": "Phasmophobia",
@@ -1465,12 +2151,19 @@
     "releaseDate": "2020-09-18",
     "developer": "Kinetic Games",
     "publisher": "Kinetic Games",
-    "genres": ["Survival Horror", "Cooperativo", "Simulacion"],
-    "platforms": ["PC"],
+    "genres": [
+      "Survival Horror",
+      "Cooperativo",
+      "Simulacion"
+    ],
+    "platforms": [
+      "PC"
+    ],
     "rating": 4.2,
     "numberOfSales": 230000,
     "stockPc": 12,
-    "videoUrl": "https://www.youtube.com/watch?v=adFNARIHlOs"
+    "videoUrl": "https://www.youtube.com/watch?v=adFNARIHlOs",
+    "key": "py5LUxNLL3vCOYN"
   },
   {
     "title": "Forza Horizon 5",
@@ -1482,14 +2175,24 @@
     "releaseDate": "2021-11-09",
     "developer": "Playground Games",
     "publisher": "Microsoft Studios",
-    "genres": ["Carreras", "Arcade", "Mundo Abierto", "Deportes"],
-    "platforms": ["PC", "Xbox Series X", "Xbox One"],
+    "genres": [
+      "Carreras",
+      "Arcade",
+      "Mundo Abierto",
+      "Deportes"
+    ],
+    "platforms": [
+      "PC",
+      "Xbox Series X",
+      "Xbox One"
+    ],
     "rating": 4.6,
     "numberOfSales": 820000,
     "stockPc": 54,
     "stockXboxX": 14,
     "stockXboxOne": 73,
-    "videoUrl": "https://www.youtube.com/watch?v=sfAxRnc6640"
+    "videoUrl": "https://www.youtube.com/watch?v=sfAxRnc6640",
+    "key": "NYjhxTXpFy8C29r"
   },
   {
     "title": "Gran Turismo 7",
@@ -1501,13 +2204,21 @@
     "releaseDate": "2022-03-04",
     "developer": "Polyphony Digital",
     "publisher": "Sony Interactive Entertainment",
-    "genres": ["Carreras", "Simulacion", "Deportes"],
-    "platforms": ["PS5", "PS4"],
+    "genres": [
+      "Carreras",
+      "Simulacion",
+      "Deportes"
+    ],
+    "platforms": [
+      "PS5",
+      "PS4"
+    ],
     "rating": 4.0,
     "numberOfSales": 300000,
     "stockPs5": 123,
     "stockPs4": 345,
-    "videoUrl": "https://www.youtube.com/watch?v=cVNGpCgryVA"
+    "videoUrl": "https://www.youtube.com/watch?v=cVNGpCgryVA",
+    "key": "lvkjARKTJgFMEJx"
   },
   {
     "title": "Need for Speed Unbound",
@@ -1519,8 +2230,19 @@
     "releaseDate": "2023-12-01",
     "developer": "Criterion Games",
     "publisher": "Electronic Arts",
-    "genres": ["Carreras", "Arcade", "Accion", "Mundo Abierto"],
-    "platforms": ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+    "genres": [
+      "Carreras",
+      "Arcade",
+      "Accion",
+      "Mundo Abierto"
+    ],
+    "platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "PS4",
+      "Xbox One"
+    ],
     "rating": 4.2,
     "numberOfSales": 95000,
     "stockPc": 1500,
@@ -1528,7 +2250,8 @@
     "stockXboxX": 23,
     "stockPs4": 79,
     "stockXboxOne": 3564,
-    "videoUrl": "https://www.youtube.com/watch?v=kZpDoljJWNI"
+    "videoUrl": "https://www.youtube.com/watch?v=kZpDoljJWNI",
+    "key": "SHsurGBa8aDp528"
   },
   {
     "title": "Need for Speed Heat",
@@ -1540,14 +2263,24 @@
     "releaseDate": "2019-11-08",
     "developer": "Ghost Games",
     "publisher": "Electronic Arts",
-    "genres": ["Carreras", "Arcade", "Accion", "Mundo Abierto"],
-    "platforms": ["PC", "PS4", "Xbox One"],
+    "genres": [
+      "Carreras",
+      "Arcade",
+      "Accion",
+      "Mundo Abierto"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One"
+    ],
     "rating": 3.6,
     "numberOfSales": 220000,
     "stockPc": 98,
     "stockPs4": 142,
     "stockXboxOne": 12,
-    "videoUrl": "https://www.youtube.com/watch?v=DPwFhezJcVY"
+    "videoUrl": "https://www.youtube.com/watch?v=DPwFhezJcVY",
+    "key": "AGm4UAYjg0QvcL3"
   },
   {
     "title": "Dirt 5",
@@ -1559,8 +2292,19 @@
     "releaseDate": "2020-11-06",
     "developer": "Codemasters",
     "publisher": "Codemasters",
-    "genres": ["Carreras", "Off-Road", "Arcade", "Deportes"],
-    "platforms": ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One"],
+    "genres": [
+      "Carreras",
+      "Off-Road",
+      "Arcade",
+      "Deportes"
+    ],
+    "platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "PS4",
+      "Xbox One"
+    ],
     "rating": 3.9,
     "numberOfSales": 90000,
     "stockPc": 100,
@@ -1568,7 +2312,8 @@
     "stockXboxX": 4126,
     "stockPs4": 235,
     "stockXboxOne": 123,
-    "videoUrl": "https://www.youtube.com/watch?v=q0BnGyQ6SGk"
+    "videoUrl": "https://www.youtube.com/watch?v=q0BnGyQ6SGk",
+    "key": "FqvYb0MAHXNQ0mq"
   },
   {
     "title": "Burnout Paradise Remastered",
@@ -1580,8 +2325,20 @@
     "releaseDate": "2018-03-16",
     "developer": "Criterion Games",
     "publisher": "Electronic Arts",
-    "genres": ["Carreras", "Arcade", "Mundo Abierto", "Accion"],
-    "platforms": ["PC", "PS4", "Xbox One", "Switch", "PS5", "Xbox Series X"],
+    "genres": [
+      "Carreras",
+      "Arcade",
+      "Mundo Abierto",
+      "Accion"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "Switch",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.2,
     "numberOfSales": 210000,
     "stockPc": 10,
@@ -1590,7 +2347,8 @@
     "stockSwitch": 235,
     "stockPs5": 75,
     "stockXboxX": 452,
-    "videoUrl": "https://www.youtube.com/watch?v=BS6U6iU3jPk"
+    "videoUrl": "https://www.youtube.com/watch?v=BS6U6iU3jPk",
+    "key": "9dR2Gpn0TvVvGO8"
   },
   {
     "title": "Project CARS 3",
@@ -1602,8 +2360,18 @@
     "releaseDate": "2020-08-28",
     "developer": "Slightly Mad Studios",
     "publisher": "Bandai Namco",
-    "genres": ["Carreras", "Simcade", "Deportes"],
-    "platforms": ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
+    "genres": [
+      "Carreras",
+      "Simcade",
+      "Deportes"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 3.4,
     "numberOfSales": 45000,
     "stockPc": 89,
@@ -1611,7 +2379,8 @@
     "stockXboxOne": 23,
     "stockPs5": 364,
     "stockXboxX": 23,
-    "videoUrl": "https://www.youtube.com/watch?v=_NlG01OiUg8"
+    "videoUrl": "https://www.youtube.com/watch?v=_NlG01OiUg8",
+    "key": "Iry0pp483dI2tyP"
   },
   {
     "title": "Assetto Corsa Competizione",
@@ -1623,8 +2392,18 @@
     "releaseDate": "2019-05-29",
     "developer": "Kunos Simulazioni",
     "publisher": "505 Games",
-    "genres": ["Carreras", "Simulacion", "Deportes"],
-    "platforms": ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
+    "genres": [
+      "Carreras",
+      "Simulacion",
+      "Deportes"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 4.1,
     "numberOfSales": 125000,
     "stockPc": 534,
@@ -1632,7 +2411,8 @@
     "stockXboxOne": 34,
     "stockPs5": 356,
     "stockXboxX": 23,
-    "videoUrl": "https://www.youtube.com/watch?v=FfUj-C31MKQ"
+    "videoUrl": "https://www.youtube.com/watch?v=FfUj-C31MKQ",
+    "key": "p04FrFYDWlUwqBS"
   },
   {
     "title": "Trackmania",
@@ -1644,8 +2424,19 @@
     "releaseDate": "2020-07-01",
     "developer": "Nadeo",
     "publisher": "Ubisoft",
-    "genres": ["Carreras", "Arcade", "Deportes", "Plataformas"],
-    "platforms": ["PC", "PS4", "Xbox One", "PS5", "Xbox Series X"],
+    "genres": [
+      "Carreras",
+      "Arcade",
+      "Deportes",
+      "Plataformas"
+    ],
+    "platforms": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "PS5",
+      "Xbox Series X"
+    ],
     "rating": 3.8,
     "numberOfSales": 90000,
     "stockPc": 768,
@@ -1653,7 +2444,8 @@
     "stockXboxOne": 536,
     "stockPs5": 345,
     "stockXboxX": 234,
-    "videoUrl": "https://www.youtube.com/watch?v=oA5l_Svdyu4"
+    "videoUrl": "https://www.youtube.com/watch?v=oA5l_Svdyu4",
+    "key": "2deMaMWpJprKipG"
   },
   {
     "title": "MotoGP 23 (Racing)",
@@ -1665,8 +2457,19 @@
     "releaseDate": "2023-04-06",
     "developer": "Milestone",
     "publisher": "Milestone",
-    "genres": ["Carreras", "Simulacion", "Deportes"],
-    "platforms": ["PC", "PS5", "Xbox Series X", "PS4", "Xbox One", "Switch"],
+    "genres": [
+      "Carreras",
+      "Simulacion",
+      "Deportes"
+    ],
+    "platforms": [
+      "PC",
+      "PS5",
+      "Xbox Series X",
+      "PS4",
+      "Xbox One",
+      "Switch"
+    ],
     "rating": 3.7,
     "numberOfSales": 47000,
     "stockPc": 456,
@@ -1675,6 +2478,7 @@
     "stockPs4": 234,
     "stockXboxOne": 1,
     "stockSwitch": 434,
-    "videoUrl": "https://www.youtube.com/watch?v=PvgTSrE5bzA"
+    "videoUrl": "https://www.youtube.com/watch?v=PvgTSrE5bzA",
+    "key": "xHP5XTvNv4mpZv6"
   }
 ]

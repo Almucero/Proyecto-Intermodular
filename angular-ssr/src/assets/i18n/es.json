@@ -324,7 +324,21 @@
     "nameRequired": "El nombre es requerido",
     "surnameRequired": "El apellido es requerido",
     "emailAlreadyRegistered": "El email ya está registrado",
-    "termsRequired": "Debes aceptar los términos y condiciones"
+    "termsRequired": "Debes aceptar los términos y condiciones",
+    "ERR_AUTH_EMAIL_EXISTS": "El email ya está registrado",
+    "ERR_AUTH_ACCOUNT_AT_EXISTS": "El nombre de usuario no está disponible",
+    "ERR_AUTH_REGISTER_INVALID": "Los datos de registro no son válidos",
+    "ERR_AUTH_REGISTER_FAILED": "No se pudo completar el registro",
+    "ERR_AUTH_GOOGLE_NOT_CONFIGURED": "Google Sign-In no está configurado en este entorno",
+    "ERR_AUTH_GITHUB_NOT_CONFIGURED": "GitHub Sign-In no está configurado en este entorno",
+    "ERR_AUTH_GOOGLE_CONFIG_LOAD": "No se pudo cargar la configuración de Google",
+    "ERR_AUTH_GITHUB_CONFIG_LOAD": "No se pudo cargar la configuración de GitHub",
+    "ERR_AUTH_GOOGLE_CANCELLED": "Autenticación con Google cancelada o fallida",
+    "ERR_AUTH_GITHUB_CANCELLED": "Autenticación con GitHub cancelada o fallida",
+    "ERR_AUTH_GOOGLE_VALIDATION": "No se pudo validar la autenticación con Google",
+    "ERR_AUTH_GITHUB_VALIDATION": "No se pudo validar la autenticación con GitHub",
+    "ERR_AUTH_GOOGLE_REGISTER": "No se pudo completar el registro con Google",
+    "ERR_AUTH_GITHUB_REGISTER": "No se pudo completar el registro con GitHub"
   },
   "product": {
     "platform": "Plataforma",
@@ -350,7 +364,13 @@
     "similarGames": "Juegos similares",
     "sameStudioGames": "Mismo estudio o editora",
     "relatedGenres": "Mismos géneros",
-    "topOnPlatforms": "Top en plataformas compatibles"
+    "topOnPlatforms": "Top en plataformas compatibles",
+    "purchaseInfoTitle": "Compra completada correctamente",
+    "purchaseInfoBodyStart": "Tu código de activación se puede consultar en la ",
+    "purchaseInfoUserPageLink": "página de usuario",
+    "purchaseInfoBodyMiddle": " y las guías de activación están en ",
+    "purchaseInfoHelpFaqLink": "Preguntas frecuentes de la página de ayuda",
+    "purchaseInfoBodyEnd": "."
   },
   "dashboard": {
     "user": "Usuario",
@@ -392,7 +412,8 @@
     "purchases": "Compras realizadas",
     "returns": "Devoluciones",
     "refundReason": "Motivo",
-    "viewProduct": "Ver página del producto"
+    "viewProduct": "Ver página del producto",
+    "keyLabel": "Clave:"
     ,
     "placeholders": {
       "displayName": "Introduce tu nombre en pantalla",
@@ -430,6 +451,8 @@
     "changeProfileImage": "Cambiar imagen de perfil",
     "copyId": "Copiar ID",
     "copyUsername": "Copiar nombre de usuario",
+    "showKey": "Mostrar clave",
+    "hideKey": "Ocultar clave",
     "paymentCard": "Tarjeta de pago",
     "paymentOptions": "Opciones de pago",
     "uploadFile": "Subir archivo",

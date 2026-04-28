@@ -323,7 +323,21 @@
     "passwordMismatch": "Passwords do not match",
     "nameRequired": "Name is required",
     "surnameRequired": "Surname is required",
-    "emailAlreadyRegistered": "Email is already registered"
+    "emailAlreadyRegistered": "Email is already registered",
+    "ERR_AUTH_EMAIL_EXISTS": "Email is already registered",
+    "ERR_AUTH_ACCOUNT_AT_EXISTS": "Username is not available",
+    "ERR_AUTH_REGISTER_INVALID": "Registration data is invalid",
+    "ERR_AUTH_REGISTER_FAILED": "Could not complete registration",
+    "ERR_AUTH_GOOGLE_NOT_CONFIGURED": "Google Sign-In is not configured in this environment",
+    "ERR_AUTH_GITHUB_NOT_CONFIGURED": "GitHub Sign-In is not configured in this environment",
+    "ERR_AUTH_GOOGLE_CONFIG_LOAD": "Could not load Google configuration",
+    "ERR_AUTH_GITHUB_CONFIG_LOAD": "Could not load GitHub configuration",
+    "ERR_AUTH_GOOGLE_CANCELLED": "Google authentication cancelled or failed",
+    "ERR_AUTH_GITHUB_CANCELLED": "GitHub authentication cancelled or failed",
+    "ERR_AUTH_GOOGLE_VALIDATION": "Could not validate Google authentication",
+    "ERR_AUTH_GITHUB_VALIDATION": "Could not validate GitHub authentication",
+    "ERR_AUTH_GOOGLE_REGISTER": "Could not complete registration with Google",
+    "ERR_AUTH_GITHUB_REGISTER": "Could not complete registration with GitHub"
   },
   "product": {
     "platform": "Platform",
@@ -349,7 +363,13 @@
     "similarGames": "Similar games",
     "sameStudioGames": "Same studio or publisher",
     "relatedGenres": "Related genres",
-    "topOnPlatforms": "Top on compatible platforms"
+    "topOnPlatforms": "Top on compatible platforms",
+    "purchaseInfoTitle": "Purchase completed successfully",
+    "purchaseInfoBodyStart": "Your activation code can be found on the ",
+    "purchaseInfoUserPageLink": "user page",
+    "purchaseInfoBodyMiddle": " and activation guides are available in ",
+    "purchaseInfoHelpFaqLink": "the FAQ section of the help page",
+    "purchaseInfoBodyEnd": "."
   },
   "dashboard": {
     "user": "User",
@@ -391,7 +411,8 @@
     "purchases": "Purchases",
     "returns": "Returns",
     "refundReason": "Reason",
-    "viewProduct": "View product page"
+    "viewProduct": "View product page",
+    "keyLabel": "Key:"
     ,
     "placeholders": {
       "displayName": "Enter your display name",
@@ -429,6 +450,8 @@
     "changeProfileImage": "Change profile image",
     "copyId": "Copy ID",
     "copyUsername": "Copy username",
+    "showKey": "Show key",
+    "hideKey": "Hide key",
     "paymentCard": "Payment card",
     "paymentOptions": "Payment options",
     "uploadFile": "Upload file",

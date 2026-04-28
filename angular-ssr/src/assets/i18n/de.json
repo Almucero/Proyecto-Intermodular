@@ -300,7 +300,21 @@
     "passwordMismatch": "Passwörter stimmen nicht überein",
     "nameRequired": "Name ist erforderlich",
     "surnameRequired": "Nachname ist erforderlich",
-    "emailAlreadyRegistered": "E-Mail ist bereits registriert"
+    "emailAlreadyRegistered": "E-Mail ist bereits registriert",
+    "ERR_AUTH_EMAIL_EXISTS": "E-Mail ist bereits registriert",
+    "ERR_AUTH_ACCOUNT_AT_EXISTS": "Der Benutzername ist nicht verfügbar",
+    "ERR_AUTH_REGISTER_INVALID": "Die Registrierungsdaten sind ungültig",
+    "ERR_AUTH_REGISTER_FAILED": "Registrierung konnte nicht abgeschlossen werden",
+    "ERR_AUTH_GOOGLE_NOT_CONFIGURED": "Google Sign-In ist in dieser Umgebung nicht konfiguriert",
+    "ERR_AUTH_GITHUB_NOT_CONFIGURED": "GitHub Sign-In ist in dieser Umgebung nicht konfiguriert",
+    "ERR_AUTH_GOOGLE_CONFIG_LOAD": "Google-Konfiguration konnte nicht geladen werden",
+    "ERR_AUTH_GITHUB_CONFIG_LOAD": "GitHub-Konfiguration konnte nicht geladen werden",
+    "ERR_AUTH_GOOGLE_CANCELLED": "Google-Authentifizierung abgebrochen oder fehlgeschlagen",
+    "ERR_AUTH_GITHUB_CANCELLED": "GitHub-Authentifizierung abgebrochen oder fehlgeschlagen",
+    "ERR_AUTH_GOOGLE_VALIDATION": "Google-Authentifizierung konnte nicht validiert werden",
+    "ERR_AUTH_GITHUB_VALIDATION": "GitHub-Authentifizierung konnte nicht validiert werden",
+    "ERR_AUTH_GOOGLE_REGISTER": "Registrierung mit Google konnte nicht abgeschlossen werden",
+    "ERR_AUTH_GITHUB_REGISTER": "Registrierung mit GitHub konnte nicht abgeschlossen werden"
   },
   "product": {
     "platform": "Plattform",
@@ -326,7 +340,13 @@
     "similarGames": "Ahnliche Spiele",
     "sameStudioGames": "Gleiches Studio oder gleicher Publisher",
     "relatedGenres": "Verwandte Genres",
-    "topOnPlatforms": "Top auf kompatiblen Plattformen"
+    "topOnPlatforms": "Top auf kompatiblen Plattformen",
+    "purchaseInfoTitle": "Kauf erfolgreich abgeschlossen",
+    "purchaseInfoBodyStart": "Deinen Aktivierungscode findest du auf der ",
+    "purchaseInfoUserPageLink": "Benutzerseite",
+    "purchaseInfoBodyMiddle": " und Aktivierungsanleitungen findest du in ",
+    "purchaseInfoHelpFaqLink": "den FAQ auf der Hilfeseite",
+    "purchaseInfoBodyEnd": "."
   },
   "dashboard": {
     "user": "Benutzer",
@@ -368,7 +388,8 @@
     "purchases": "Einkäufe",
     "returns": "Rücksendungen",
     "refundReason": "Grund",
-    "viewProduct": "Produkt ansehen"
+    "viewProduct": "Produkt ansehen",
+    "keyLabel": "Schlüssel:"
     ,
     "placeholders": {
       "displayName": "Anzeigenamen eingeben",
@@ -406,6 +427,8 @@
     "changeProfileImage": "Profilbild ändern",
     "copyId": "ID kopieren",
     "copyUsername": "Benutzername kopieren",
+    "showKey": "Schlüssel anzeigen",
+    "hideKey": "Schlüssel ausblenden",
     "paymentCard": "Zahlungskarte",
     "paymentOptions": "Zahlungsoptionen",
     "uploadFile": "Datei hochladen",

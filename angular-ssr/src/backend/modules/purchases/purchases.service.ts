@@ -39,7 +39,30 @@ export async function completePurchase(userId: number, cartItemIds: number[]) {
       id: { in: cartItemIds },
       userId,
     },
-    include: { game: true, platform: true },
+    include: {
+      game: {
+        select: {
+          id: true,
+          title: true,
+          price: true,
+          salePrice: true,
+          isOnSale: true,
+          rating: true,
+          stockPc: true,
+          stockPs5: true,
+          stockXboxX: true,
+          stockSwitch: true,
+          stockPs4: true,
+          stockXboxOne: true,
+        },
+      },
+      platform: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
   });
 
   if (cartItems.length !== cartItemIds.length) {
@@ -76,6 +99,9 @@ export async function completePurchase(userId: number, cartItemIds: number[]) {
           [stockField]: { decrement: item.quantity },
           numberOfSales: { increment: item.quantity },
         } as any,
+        select: {
+          id: true,
+        },
       });
     }
 
@@ -105,6 +131,7 @@ export async function completePurchase(userId: number, cartItemIds: number[]) {
                 title: true,
                 price: true,
                 rating: true,
+                key: true,
               },
             },
             platform: {
@@ -140,6 +167,7 @@ export async function completePurchase(userId: number, cartItemIds: number[]) {
       title: item.game.title,
       price: item.game.price,
       rating: item.game.rating,
+      key: item.game.key ?? null,
       itemId: item.id,
       purchasePrice: item.price,
       quantity: item.quantity,
@@ -166,6 +194,7 @@ export async function getUserPurchases(
               title: true,
               price: true,
               rating: true,
+              key: true,
             },
           },
           platform: {
@@ -193,6 +222,7 @@ export async function getUserPurchases(
       title: item.game.title,
       price: item.game.price,
       rating: item.game.rating,
+      key: item.game.key ?? null,
       itemId: item.id,
       purchasePrice: item.price,
       quantity: item.quantity,
@@ -216,6 +246,7 @@ export async function getPurchase(userId: number, purchaseId: number) {
               title: true,
               price: true,
               rating: true,
+              key: true,
             },
           },
           platform: {
@@ -244,6 +275,7 @@ export async function getPurchase(userId: number, purchaseId: number) {
       title: item.game.title,
       price: item.game.price,
       rating: item.game.rating,
+      key: item.game.key ?? null,
       itemId: item.id,
       purchasePrice: item.price,
       quantity: item.quantity,
@@ -293,6 +325,9 @@ export async function refundPurchase(
           [stockField]: { increment: item.quantity },
           numberOfSales: { decrement: item.quantity },
         } as any,
+        select: {
+          id: true,
+        },
       });
     }
 
@@ -312,6 +347,7 @@ export async function refundPurchase(
                 title: true,
                 price: true,
                 rating: true,
+                key: true,
               },
             },
             platform: {
@@ -337,6 +373,7 @@ export async function refundPurchase(
       title: item.game.title,
       price: item.game.price,
       rating: item.game.rating,
+      key: item.game.key ?? null,
       itemId: item.id,
       purchasePrice: item.price,
       quantity: item.quantity,

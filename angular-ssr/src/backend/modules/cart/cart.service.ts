@@ -560,6 +560,9 @@ export async function confirmDirectCheckoutSession(
         [stockField]: { decrement: 1 },
         numberOfSales: { increment: 1 },
       } as any,
+      select: {
+        id: true,
+      },
     });
 
     const unitPrice =
