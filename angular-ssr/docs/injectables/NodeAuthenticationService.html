@@ -172,10 +172,6 @@
                                 <a href="#isBrowser" >isBrowser</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#rememberMeActive" >rememberMeActive</a>
-                            </li>
-                            <li>
                                     <span class="modifier">Protected</span>
                                 <a href="#_authenticated" >_authenticated</a>
                             </li>
@@ -262,12 +258,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, authMapping: <a href="../interfaces/IAuthMapping.html" target="_self">IAuthMapping</a>, signInUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, signUpUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, meUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, platformId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a>)</code>
+<code>constructor(http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, authMapping: <a href="../interfaces/IAuthMapping.html" target="_self">IAuthMapping</a>, signInUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, signUpUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, meUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, platformId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a>, ngZone: <a href="https://angular.io/api/core/NgZone" target="_blank">NgZone</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/core/services/impl/node-authentication.service.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/core/services/impl/node-authentication.service.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -381,6 +377,20 @@
 
                                                         </td>
                                                 </tr>
+                                                <tr>
+                                                        <td>ngZone</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/NgZone" target="_blank" >NgZone</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                        </td>
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -410,7 +420,7 @@
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>autoLogin()</code>
+                    <code>autoLogin(startDelayMs: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
@@ -423,7 +433,7 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:55</a></code>
+                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:47</a></code>
 </div>
                         </td>
                     </tr>
@@ -435,10 +445,44 @@
 Si existe un token válido, obtiene los datos del usuario.</p>
 </div>
 
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>startDelayMs</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>0</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                         </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -469,7 +513,7 @@ Si existe un token válido, obtiene los datos del usuario.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:201</a></code>
+                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:213</a></code>
 </div>
                         </td>
                     </tr>
@@ -516,7 +560,7 @@ Si existe un token válido, obtiene los datos del usuario.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:104</a></code>
+                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:116</a></code>
 </div>
                         </td>
                     </tr>
@@ -565,7 +609,7 @@ Si existe un token válido, obtiene los datos del usuario.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:186</a></code>
+                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:198</a></code>
 </div>
                         </td>
                     </tr>
@@ -606,8 +650,8 @@ Si existe un token válido, obtiene los datos del usuario.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="220"
-                                    class="link-to-prism">src/app/core/services/impl/node-authentication.service.ts:220</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="232"
+                                    class="link-to-prism">src/app/core/services/impl/node-authentication.service.ts:232</a></div>
                         </td>
                     </tr>
 
@@ -702,7 +746,7 @@ Si existe un token válido, obtiene los datos del usuario.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:119</a></code>
+                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:131</a></code>
 </div>
                         </td>
                     </tr>
@@ -804,7 +848,7 @@ Si existe un token válido, obtiene los datos del usuario.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:141</a></code>
+                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:153</a></code>
 </div>
                         </td>
                     </tr>
@@ -895,7 +939,7 @@ Si existe un token válido, obtiene los datos del usuario.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:130</a></code>
+                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:142</a></code>
 </div>
                         </td>
                     </tr>
@@ -986,7 +1030,7 @@ Si existe un token válido, obtiene los datos del usuario.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:170</a></code>
+                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:182</a></code>
 </div>
                         </td>
                     </tr>
@@ -1031,7 +1075,7 @@ Si existe un token válido, obtiene los datos del usuario.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:156</a></code>
+                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:168</a></code>
 </div>
                         </td>
                     </tr>
@@ -1117,7 +1161,7 @@ Si existe un token válido, obtiene los datos del usuario.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/core/services/impl/node-authentication.service.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/core/services/impl/node-authentication.service.ts:18</a></div>
                         </td>
                     </tr>
 
@@ -1149,7 +1193,7 @@ Si existe un token válido, obtiene los datos del usuario.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/core/services/impl/node-authentication.service.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/core/services/impl/node-authentication.service.ts:20</a></div>
                         </td>
                     </tr>
 
@@ -1176,39 +1220,7 @@ Si existe un token válido, obtiene los datos del usuario.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/core/services/impl/node-authentication.service.ts:27</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="rememberMeActive"></a>
-                    <span class="name">
-                            <span class="modifier">Private</span>
-                        <span ><b>rememberMeActive</b></span>
-                        <a href="#rememberMeActive"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>false</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/core/services/impl/node-authentication.service.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/core/services/impl/node-authentication.service.ts:19</a></div>
                         </td>
                     </tr>
 
@@ -1495,7 +1507,7 @@ Si existe un token válido, obtiene los datos del usuario.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable, PLATFORM_ID } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable, NgZone, PLATFORM_ID } from &#x27;@angular/core&#x27;;
 import { isPlatformBrowser } from &#x27;@angular/common&#x27;;
 import { BaseAuthenticationService } from &#x27;./base-authentication.service&#x27;;
 import { IAuthMapping } from &#x27;../interfaces/auth-mapping.interface&#x27;;
@@ -1511,16 +1523,8 @@ import {
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
-/**
- * Implementación de {@link BaseAuthenticationService} para una API basada en Node.js/Express.
- * Gestiona el almacenamiento de tokens JWT en localStorage/sessionStorage y la comunicación con los endpoints de auth.
- */
-@Injectable({
-  providedIn: &#x27;root&#x27;,
-})
 export class NodeAuthenticationService extends BaseAuthenticationService {
   private readonly AUTH_KEY &#x3D; &#x27;AUTH_TOKEN&#x27;;
-  private rememberMeActive &#x3D; false;
   private isBrowser: boolean;
   private autoLoginStarted &#x3D; false;
 
@@ -1539,17 +1543,17 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
     @Inject(AUTH_SIGN_UP_API_URL_TOKEN) protected signUpUrl: string,
     @Inject(AUTH_ME_API_URL_TOKEN) protected meUrl: string,
     @Inject(PLATFORM_ID) private platformId: Object,
+    private ngZone: NgZone,
   ) {
     super(authMapping);
     this.isBrowser &#x3D; isPlatformBrowser(this.platformId);
-    this.autoLogin();
   }
 
   /**
    * Intenta recuperar la sesión del usuario al cargar la aplicación.
    * Si existe un token válido, obtiene los datos del usuario.
    */
-  public autoLogin() {
+  public autoLogin(startDelayMs: number &#x3D; 0) {
     if (this.autoLoginStarted) {
       return;
     }
@@ -1559,39 +1563,59 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
       this._ready.next(true);
       return;
     }
-    const token &#x3D; this.getToken();
 
-    if (token) {
-      this.me()
-        .pipe(
-          retry({
-            count: 5,
-            delay: (error, retryCount) &#x3D;&gt; {
-              const httpError &#x3D; error as HttpErrorResponse;
-              const shouldRetry &#x3D;
-                httpError?.status &#x3D;&#x3D;&#x3D; 401 ||
-                httpError?.status &#x3D;&#x3D;&#x3D; 0 ||
-                httpError?.status &gt;&#x3D; 500;
-              if (!shouldRetry) {
-                return throwError(() &#x3D;&gt; error);
-              }
-              const retryDelayMs &#x3D; Math.min(1000 * retryCount, 3000);
-              return timer(retryDelayMs);
+    const runAutoLogin &#x3D; () &#x3D;&gt; {
+      const token &#x3D; this.getToken();
+      if (!token) {
+        this._ready.next(true);
+        return;
+      }
+
+      this.ngZone.runOutsideAngular(() &#x3D;&gt; {
+        this.me()
+          .pipe(
+            retry({
+              count: 5,
+              delay: (error, retryCount) &#x3D;&gt; {
+                const httpError &#x3D; error as HttpErrorResponse;
+                const isTransientError &#x3D; httpError?.status &#x3D;&#x3D;&#x3D; 0 || httpError?.status &gt;&#x3D; 500;
+                if (!isTransientError) {
+                  return throwError(() &#x3D;&gt; error);
+                }
+                const retryDelayMs &#x3D; Math.min(500 * 2 ** (retryCount - 1), 8000);
+                return timer(retryDelayMs);
+              },
+            }),
+          )
+          .subscribe({
+            next: () &#x3D;&gt; {
+              this.ngZone.run(() &#x3D;&gt; {
+                this._ready.next(true);
+              });
             },
-          }),
-        )
-        .subscribe({
-        next: () &#x3D;&gt; {
-          this._ready.next(true);
-        },
-        error: () &#x3D;&gt; {
-          this.signOut();
-          this._ready.next(true);
-        },
+            error: (error) &#x3D;&gt; {
+              this.ngZone.run(() &#x3D;&gt; {
+                const httpError &#x3D; error as HttpErrorResponse;
+                if (httpError?.status &#x3D;&#x3D;&#x3D; 401 || httpError?.status &#x3D;&#x3D;&#x3D; 403) {
+                  this.signOut();
+                } else {
+                  this._authenticated.next(false);
+                  this._user.next(undefined);
+                }
+                this._ready.next(true);
+              });
+            },
+          });
         });
-    } else {
-      this._ready.next(true);
+    };
+
+    if (startDelayMs &gt; 0) {
+      this.ngZone.runOutsideAngular(() &#x3D;&gt; {
+        setTimeout(runAutoLogin, startDelayMs);
+      });
+      return;
     }
+    runAutoLogin();
   }
 
   /**
@@ -1718,7 +1742,6 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
     if (!this.isBrowser) {
       return;
     }
-    this.rememberMeActive &#x3D; rememberMe;
     if (rememberMe) {
       localStorage.setItem(this.AUTH_KEY, token);
     } else {

@@ -3,7 +3,7 @@
 Exporta todas las tablas de una base de datos PostgreSQL a un unico archivo Excel.
 
 Uso basico:
-  python src/backend/scripts/exportToExcel.py
+  python src/backend/scripts/postgreToExcel.py
 
 Tambien puede leer la URL desde variables de entorno:
   - POSTGRES_PRISMA_URL

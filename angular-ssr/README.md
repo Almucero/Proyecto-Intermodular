@@ -580,7 +580,7 @@ Con `apiUrl` vacío, todas las URLs de API construidas en `src/app/app.config.ts
 
 ## Exportación de BBDD a Excel (Power BI)
 
-Script: `src/backend/scripts/exportToExcel.py`
+Script: `src/backend/scripts/postgreToExcel.py`
 
 ### Requisitos (Python)
 
@@ -590,7 +590,7 @@ Script: `src/backend/scripts/exportToExcel.py`
 ### Uso
 
 ```bash
-py -3 src/backend/scripts/exportToExcel.py
+py -3 src/backend/scripts/postgreToExcel.py
 ```
 
 El comando usa `POSTGRES_PRISMA_URL` de tu `.env`.
@@ -607,23 +607,26 @@ Opcional:
 
 ## Análisis y Manipulación de Datos (Pandas)
 
-Script: `src/backend/scripts/data_analysis.py`
+Script: `src/backend/scripts/jsonToExcel.py`
 
 Este script demuestra el uso intensivo de la librería Pandas para la limpieza, transformación y análisis de los datos del proyecto (ficheros JSON).
 
 ### Requisitos
+
 - Python 3.9 o superior.
 - Librerías: `pandas`, `openpyxl`. Instalables con `python -m pip install pandas openpyxl`.
 
-### Uso
+### Empleo
+
 ```bash
-python src/backend/scripts/data_analysis.py
+python src/backend/scripts/jsonToExcel.py
 ```
 
 ### Operaciones realizadas
+
 - **Limpieza**: Eliminación de espacios en blanco y sustitución de caracteres (tildes).
 - **Tratamiento de nulos**: Gestión de campos vacíos (ej. en direcciones).
-- **Transformaciones**: 
+- **Transformaciones**:
   - Cálculo de stock total por juego (suma de plataformas).
   - Cálculo de precio efectivo (considerando ofertas activas).
   - Generación de nombres completos y enmascarado de seguridad.
@@ -724,7 +727,7 @@ Tras una clonación o reinstalación, usa **`npm run setup:secure`** para dejar 
 - **`npm run lint`**: ejecuta el análisis estático de código buscando vulnerabilidades de seguridad (vía ESLint y plugin de seguridad).
 - **`npm run audit:fix:prod`**: corrige vulnerabilidades en dependencias de producción, restaura devDependencies y valida `npm audit --omit=dev` al final.
 - **`npm run setup:secure`**: flujo recomendado tras clonar; instala dependencias y deja el entorno listo para build con validación de seguridad de producción.
-- **`py -3 src/backend/scripts/exportToExcel.py`**: exporta tablas PostgreSQL a un unico Excel para analisis en Power BI (por defecto en `backend-data`, modo incremental).
+- **`py -3 src/backend/scripts/postgreToExcel.py`**: exporta tablas PostgreSQL a un unico Excel para analisis en Power BI (por defecto en `backend-data`, modo incremental).
 - **`npm run watch`**: build en watch (config development).
 - **`npm run format`**: formateo con Prettier.
 - **`npm run clean`**: borra `dist`, `logs`, `coverage`.
@@ -779,16 +782,74 @@ npm test
 
 ## Personalización de Cursor (.cursor)
 
-El repositorio incluye una base de personalización para Cursor Agent:
+El repositorio incluye una base compactada de personalización para Cursor Agent:
 
-- Rules de arquitectura, testing, backend/frontend, trazabilidad Jira y criterios de review.
-- Skills para generación de features Angular, gestión Jira, documentación Confluence, sincronización TODO-Jira, dashboard de sprint y code review.
-- Hooks para formato/lint post-edición, protección de comandos de riesgo, validación de commit y auditoría de operaciones MCP.
-- Configuración MCP para GitHub, PostgreSQL y placeholders de Jira/Atlassian Rovo.
+- Rules unificadas de arquitectura, Angular, backend, testing, documentación, release y trazabilidad Jira opcional.
+- Skills compactas para generación de features Angular, flujos Atlassian (Jira/Confluence) y despliegue.
+- Hooks para formato/lint post-edición, protección de comandos de riesgo y auditoría de operaciones MCP.
+- Configuración MCP para GitHub, PostgreSQL y Jira Cloud mediante `uvx mcp-atlassian`.
 
 ### Variables de entorno MCP esperadas
 
 - `GITHUB_TOKEN`
 - `POSTGRES_PRISMA_URL`
-- `JIRA_MCP_URL`, `JIRA_MCP_TOKEN`
-- `ATLASSIAN_ROVO_MCP_URL`, `ATLASSIAN_ROVO_TOKEN`
+- `JIRA_URL`
+- `JIRA_USERNAME`
+- `JIRA_API_TOKEN`
+
+### Notas para Jira
+
+- En Jira, las user stories y tasks deben tener siempre `Story Points`.
+- Los `Story Points` representan horas estimadas y deben ser enteros.
+- Los sprints no deben completarse; solo se completan las user stories y tasks internas para no perder visibilidad en backlog.
+
+### Activación y uso
+
+- Las `Rules`, `Skills`, `Commands` y `Hooks` del proyecto se cargan automáticamente al abrir el repositorio en Cursor; no requieren pasos adicionales para estar disponibles.
+- Los hooks y reglas solo tienen efecto dentro de Cursor Agent, no fuera del editor.
+- Lo único que requiere configuración manual adicional es `MCP`: para usar GitHub, PostgreSQL o Jira, hay que tener definidas las variables de entorno correspondientes.
+- Si se clona el proyecto en otra máquina, basta con abrirlo en Cursor para que se detecte `.cursor/`; después solo hay que configurar las variables necesarias para los MCP que se quieran utilizar.
+- Las variables sensibles de MCP deben mantenerse fuera del repositorio real. `.env` o variables de entorno del sistema son válidas, pero Cursor debe poder resolverlas al arrancar.
+
+### Sincronización de variables MCP para Cursor
+
+En Windows, el flujo recomendado es:
+
+1. Completar las variables MCP en `.env` local.
+2. Ejecutar:
+
+```bash
+npm run setup:cursor-access
+```
+
+Este script instala `uv` si falta y copia las variables MCP necesarias desde `.env` al entorno de usuario de Windows para que Cursor pueda resolverlas al arrancar los servidores MCP.
+
+Variables sincronizadas:
+
+- `GITHUB_TOKEN`
+- `POSTGRES_PRISMA_URL`
+- `JIRA_URL`
+- `JIRA_USERNAME`
+- `JIRA_API_TOKEN`
+
+Después de ejecutar el script, hay que cerrar y volver a abrir Cursor.
+
+### Requisito adicional para Jira MCP
+
+La integración de Jira en este proyecto usa un servidor MCP local lanzado con:
+
+```bash
+uvx mcp-atlassian
+```
+
+Por tanto, antes de usar Jira en Cursor hay que tener `uv` instalado en el sistema. En Windows:
+
+```powershell
+powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+Después, verificar:
+
+```bash
+uv --version
+```

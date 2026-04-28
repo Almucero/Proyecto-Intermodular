@@ -156,7 +156,7 @@ Gestiona el formulario de login, la autenticación del usuario y la redirección
         <h3>Implements</h3>
     </p>
     <p class="comment">
-                    <code><a href="https://angular.io/api/core/AfterViewInit" target="_blank" >AfterViewInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
     </p>
 
 
@@ -244,8 +244,13 @@ Gestiona el formulario de login, la autenticación del usuario y la redirección
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                    <span class="modifier">Optional</span>
-                                <a href="#githubAuthListener" >githubAuthListener</a>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#GITHUB_REMEMBER_KEY" >GITHUB_REMEMBER_KEY</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#GITHUB_STATE_KEY" >GITHUB_STATE_KEY</a>
                             </li>
                             <li>
                                 <a href="#githubClientId" >githubClientId</a>
@@ -254,28 +259,33 @@ Gestiona el formulario de login, la autenticación del usuario y la redirección
                                 <a href="#githubError" >githubError</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#GOOGLE_NONCE_KEY" >GOOGLE_NONCE_KEY</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#GOOGLE_REMEMBER_KEY" >GOOGLE_REMEMBER_KEY</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#GOOGLE_STATE_KEY" >GOOGLE_STATE_KEY</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#GOOGLE_TARGET_KEY" >GOOGLE_TARGET_KEY</a>
+                            </li>
+                            <li>
                                 <a href="#googleClientId" >googleClientId</a>
                             </li>
                             <li>
                                 <a href="#googleError" >googleError</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#googleInitialized" >googleInitialized</a>
-                            </li>
-                            <li>
-                                    <span class="modifier"></span>
-                                    <span class="modifier">Optional</span>
-                                <a href="#googleLoginButtonHost" >googleLoginButtonHost</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                    <span class="modifier">Optional</span>
-                                <a href="#languageChangeSubscription" >languageChangeSubscription</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#languageService" >languageService</a>
+                                <a href="#isOAuthRedirectProcessing" >isOAuthRedirectProcessing</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -302,11 +312,12 @@ Gestiona el formulario de login, la autenticación del usuario y la redirección
                                 <a href="#showPassword" >showPassword</a>
                             </li>
                             <li>
-                                <a href="#submitted" >submitted</a>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#SKIP_LOADING_KEY" >SKIP_LOADING_KEY</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#translate" >translate</a>
+                                <a href="#submitted" >submitted</a>
                             </li>
                         </ul>
                     </td>
@@ -321,15 +332,11 @@ Gestiona el formulario de login, la autenticación del usuario y la redirección
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#bindGithubMessageListener" >bindGithubMessageListener</a>
-                            </li>
-                            <li>
                                 <a href="#getError" >getError</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#getGoogleLocale" >getGoogleLocale</a>
+                                <a href="#getNonceFromIdToken" >getNonceFromIdToken</a>
                             </li>
                             <li>
                                 <a href="#goBack" >goBack</a>
@@ -339,29 +346,11 @@ Gestiona el formulario de login, la autenticación del usuario y la redirección
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#handleGoogleCredential" >handleGoogleCredential</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#initializeGoogleButton" >initializeGoogleButton</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
                                 <a href="#loadGithubClientId" >loadGithubClientId</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
                                 <a href="#loadGoogleClientId" >loadGoogleClientId</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#loadGoogleScript" >loadGoogleScript</a>
-                            </li>
-                            <li>
-                                <a href="#ngAfterViewInit" >ngAfterViewInit</a>
-                            </li>
-                            <li>
-                                <a href="#ngOnDestroy" >ngOnDestroy</a>
                             </li>
                             <li>
                                 <a href="#ngOnInit" >ngOnInit</a>
@@ -374,6 +363,10 @@ Gestiona el formulario de login, la autenticación del usuario y la redirección
                             </li>
                             <li>
                                 <a href="#onSubmit" >onSubmit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#processOAuthRedirect" >processOAuthRedirect</a>
                             </li>
                         </ul>
                     </td>
@@ -398,7 +391,7 @@ Gestiona el formulario de login, la autenticación del usuario y la redirección
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/pages/login/login.component.ts:63</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/pages/login/login.component.ts:60</a></div>
                             </td>
                         </tr>
 
@@ -449,87 +442,6 @@ Gestiona el formulario de login, la autenticación del usuario y la redirección
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="bindGithubMessageListener"></a>
-                    <span class="name">
-                            <span class="modifier">Private</span>
-                        <span ><b>bindGithubMessageListener</b></span>
-                        <a href="#bindGithubMessageListener"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>bindGithubMessageListener(stateStorageKey: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, rememberMe: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="292"
-                                    class="link-to-prism">src/app/pages/login/login.component.ts:292</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>stateStorageKey</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                        </tr>
-                                        <tr>
-                                                <td>rememberMe</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="getError"></a>
                     <span class="name">
                         <span ><b>getError</b></span>
@@ -546,8 +458,8 @@ Gestiona el formulario de login, la autenticación del usuario y la redirección
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="349"
-                                    class="link-to-prism">src/app/pages/login/login.component.ts:349</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="310"
+                                    class="link-to-prism">src/app/pages/login/login.component.ts:310</a></div>
                         </td>
                     </tr>
 
@@ -604,26 +516,26 @@ Gestiona el formulario de login, la autenticación del usuario y la redirección
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getGoogleLocale"></a>
+                    <a name="getNonceFromIdToken"></a>
                     <span class="name">
                             <span class="modifier">Private</span>
-                        <span ><b>getGoogleLocale</b></span>
-                        <a href="#getGoogleLocale"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>getNonceFromIdToken</b></span>
+                        <a href="#getNonceFromIdToken"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getGoogleLocale()</code>
+                    <code>getNonceFromIdToken(idToken: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="197"
-                                    class="link-to-prism">src/app/pages/login/login.component.ts:197</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="281"
+                                    class="link-to-prism">src/app/pages/login/login.component.ts:281</a></div>
                         </td>
                     </tr>
 
@@ -631,10 +543,40 @@ Gestiona el formulario de login, la autenticación del usuario y la redirección
             <tr>
                 <td class="col-md-4">
 
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>idToken</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                            <b>Returns : </b>    <code>string | null</code>
 
                         </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -659,8 +601,8 @@ Gestiona el formulario de login, la autenticación del usuario y la redirección
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="341"
-                                    class="link-to-prism">src/app/pages/login/login.component.ts:341</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="302"
+                                    class="link-to-prism">src/app/pages/login/login.component.ts:302</a></div>
                         </td>
                     </tr>
 
@@ -698,8 +640,8 @@ Gestiona el formulario de login, la autenticación del usuario y la redirección
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="334"
-                                    class="link-to-prism">src/app/pages/login/login.component.ts:334</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="295"
+                                    class="link-to-prism">src/app/pages/login/login.component.ts:295</a></div>
                         </td>
                     </tr>
 
@@ -708,114 +650,6 @@ Gestiona el formulario de login, la autenticación del usuario y la redirección
                 <td class="col-md-4">
                         <div class="io-description"><p>Redirige a la página de registro preservando el destino post-registro.</p>
 </div>
-
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                        </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="handleGoogleCredential"></a>
-                    <span class="name">
-                            <span class="modifier">Private</span>
-                        <span ><b>handleGoogleCredential</b></span>
-                        <a href="#handleGoogleCredential"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>handleGoogleCredential(credential?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="278"
-                                    class="link-to-prism">src/app/pages/login/login.component.ts:278</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>credential</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                            </td>
-
-                                            <td>
-                                                    Yes
-                                            </td>
-
-
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="initializeGoogleButton"></a>
-                    <span class="name">
-                            <span class="modifier">Private</span>
-                        <span ><b>initializeGoogleButton</b></span>
-                        <a href="#initializeGoogleButton"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>initializeGoogleButton()</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="241"
-                                    class="link-to-prism">src/app/pages/login/login.component.ts:241</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -847,8 +681,8 @@ Gestiona el formulario de login, la autenticación del usuario y la redirección
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="183"
-                                    class="link-to-prism">src/app/pages/login/login.component.ts:183</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="182"
+                                    class="link-to-prism">src/app/pages/login/login.component.ts:182</a></div>
                         </td>
                     </tr>
 
@@ -886,155 +720,8 @@ Gestiona el formulario de login, la autenticación del usuario y la redirección
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="166"
-                                    class="link-to-prism">src/app/pages/login/login.component.ts:166</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                        </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="loadGoogleScript"></a>
-                    <span class="name">
-                            <span class="modifier">Private</span>
-                        <span ><b>loadGoogleScript</b></span>
-                        <a href="#loadGoogleScript"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>loadGoogleScript(forceReload: unknown)</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="205"
-                                    class="link-to-prism">src/app/pages/login/login.component.ts:205</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Default value</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>forceReload</td>
-                                            <td>
-                                                        <code>unknown</code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
-
-                                            <td>
-                                                    <code>false</code>
-                                            </td>
-
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="ngAfterViewInit"></a>
-                    <span class="name">
-                        <span ><b>ngAfterViewInit</b></span>
-                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>ngAfterViewInit()</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="87"
-                                    class="link-to-prism">src/app/pages/login/login.component.ts:87</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                        </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="ngOnDestroy"></a>
-                    <span class="name">
-                        <span ><b>ngOnDestroy</b></span>
-                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>ngOnDestroy()</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="96"
-                                    class="link-to-prism">src/app/pages/login/login.component.ts:96</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="165"
+                                    class="link-to-prism">src/app/pages/login/login.component.ts:165</a></div>
                         </td>
                     </tr>
 
@@ -1070,8 +757,8 @@ Gestiona el formulario de login, la autenticación del usuario y la redirección
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="85"
-                                    class="link-to-prism">src/app/pages/login/login.component.ts:85</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="82"
+                                    class="link-to-prism">src/app/pages/login/login.component.ts:82</a></div>
                         </td>
                     </tr>
 
@@ -1107,8 +794,8 @@ Gestiona el formulario de login, la autenticación del usuario y la redirección
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="136"
-                                    class="link-to-prism">src/app/pages/login/login.component.ts:136</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="141"
+                                    class="link-to-prism">src/app/pages/login/login.component.ts:141</a></div>
                         </td>
                     </tr>
 
@@ -1144,8 +831,8 @@ Gestiona el formulario de login, la autenticación del usuario y la redirección
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="127"
-                                    class="link-to-prism">src/app/pages/login/login.component.ts:127</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="112"
+                                    class="link-to-prism">src/app/pages/login/login.component.ts:112</a></div>
                         </td>
                     </tr>
 
@@ -1181,8 +868,8 @@ Gestiona el formulario de login, la autenticación del usuario y la redirección
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="107"
-                                    class="link-to-prism">src/app/pages/login/login.component.ts:107</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="92"
+                                    class="link-to-prism">src/app/pages/login/login.component.ts:92</a></div>
                         </td>
                     </tr>
 
@@ -1192,6 +879,45 @@ Gestiona el formulario de login, la autenticación del usuario y la redirección
                         <div class="io-description"><p>Procesa el envío del formulario de login.
 Llama al servicio de autenticación y gestiona la respuesta.</p>
 </div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="processOAuthRedirect"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>processOAuthRedirect</b></span>
+                        <a href="#processOAuthRedirect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>processOAuthRedirect()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="199"
+                                    class="link-to-prism">src/app/pages/login/login.component.ts:199</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -1232,7 +958,7 @@ Llama al servicio de autenticación y gestiona la respuesta.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/pages/login/login.component.ts:58</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/pages/login/login.component.ts:57</a></div>
                         </td>
                     </tr>
 
@@ -1264,7 +990,7 @@ Llama al servicio de autenticación y gestiona la respuesta.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/pages/login/login.component.ts:60</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/pages/login/login.component.ts:58</a></div>
                         </td>
                     </tr>
 
@@ -1290,7 +1016,7 @@ Llama al servicio de autenticación y gestiona la respuesta.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/pages/login/login.component.ts:37</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/pages/login/login.component.ts:32</a></div>
                         </td>
                     </tr>
 
@@ -1307,24 +1033,62 @@ Llama al servicio de autenticación y gestiona la respuesta.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="githubAuthListener"></a>
+                    <a name="GITHUB_REMEMBER_KEY"></a>
                     <span class="name">
                             <span class="modifier">Private</span>
-                            <span class="modifier">Optional</span>
-                        <span ><b>githubAuthListener</b></span>
-                        <a href="#githubAuthListener"><span class="icon ion-ios-link"></span></a>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>GITHUB_REMEMBER_KEY</b></span>
+                        <a href="#GITHUB_REMEMBER_KEY"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;github_oauth_remember_login&#x27;</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/pages/login/login.component.ts:54</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/pages/login/login.component.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="GITHUB_STATE_KEY"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>GITHUB_STATE_KEY</b></span>
+                        <a href="#GITHUB_STATE_KEY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;github_oauth_state_login&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/pages/login/login.component.ts:52</a></div>
                         </td>
                     </tr>
 
@@ -1355,7 +1119,7 @@ Llama al servicio de autenticación y gestiona la respuesta.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/pages/login/login.component.ts:52</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/pages/login/login.component.ts:47</a></div>
                         </td>
                     </tr>
 
@@ -1386,7 +1150,139 @@ Llama al servicio de autenticación y gestiona la respuesta.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/pages/login/login.component.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="GOOGLE_NONCE_KEY"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>GOOGLE_NONCE_KEY</b></span>
+                        <a href="#GOOGLE_NONCE_KEY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;google_oauth_nonce_login&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
                                 <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/pages/login/login.component.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="GOOGLE_REMEMBER_KEY"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>GOOGLE_REMEMBER_KEY</b></span>
+                        <a href="#GOOGLE_REMEMBER_KEY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;google_oauth_remember_login&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/pages/login/login.component.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="GOOGLE_STATE_KEY"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>GOOGLE_STATE_KEY</b></span>
+                        <a href="#GOOGLE_STATE_KEY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;google_oauth_state_login&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/pages/login/login.component.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="GOOGLE_TARGET_KEY"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>GOOGLE_TARGET_KEY</b></span>
+                        <a href="#GOOGLE_TARGET_KEY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;google_oauth_target&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/pages/login/login.component.ts:51</a></div>
                         </td>
                     </tr>
 
@@ -1417,7 +1313,7 @@ Llama al servicio de autenticación y gestiona la respuesta.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/pages/login/login.component.ts:51</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/pages/login/login.component.ts:46</a></div>
                         </td>
                     </tr>
 
@@ -1448,7 +1344,7 @@ Llama al servicio de autenticación y gestiona la respuesta.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/pages/login/login.component.ts:48</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/pages/login/login.component.ts:44</a></div>
                         </td>
                     </tr>
 
@@ -1459,11 +1355,10 @@ Llama al servicio de autenticación y gestiona la respuesta.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="googleInitialized"></a>
+                    <a name="isOAuthRedirectProcessing"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
-                        <span ><b>googleInitialized</b></span>
-                        <a href="#googleInitialized"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>isOAuthRedirectProcessing</b></span>
+                        <a href="#isOAuthRedirectProcessing"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -1480,104 +1375,7 @@ Llama al servicio de autenticación y gestiona la respuesta.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/pages/login/login.component.ts:50</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="googleLoginButtonHost"></a>
-                    <span class="name">
-                            <span class="modifier"></span>
-                            <span class="modifier">Optional</span>
-                        <span ><b>googleLoginButtonHost</b></span>
-                        <a href="#googleLoginButtonHost"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>ElementRef&lt;HTMLDivElement&gt;</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <b>Decorators : </b>
-                        <br />
-                        <code>
-                            @ViewChild(&#x27;googleLoginButtonHost&#x27;)<br />
-                        </code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/pages/login/login.component.ts:53</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="languageChangeSubscription"></a>
-                    <span class="name">
-                            <span class="modifier">Private</span>
-                            <span class="modifier">Optional</span>
-                        <span ><b>languageChangeSubscription</b></span>
-                        <a href="#languageChangeSubscription"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>Subscription</code>
-
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/pages/login/login.component.ts:55</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="languageService"></a>
-                    <span class="name">
-                            <span class="modifier">Private</span>
-                        <span ><b>languageService</b></span>
-                        <a href="#languageService"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>inject(LanguageService)</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/pages/login/login.component.ts:59</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/pages/login/login.component.ts:43</a></div>
                         </td>
                     </tr>
 
@@ -1609,7 +1407,7 @@ Llama al servicio de autenticación y gestiona la respuesta.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/pages/login/login.component.ts:61</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/pages/login/login.component.ts:59</a></div>
                         </td>
                     </tr>
 
@@ -1640,7 +1438,7 @@ Llama al servicio de autenticación y gestiona la respuesta.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/pages/login/login.component.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/pages/login/login.component.ts:34</a></div>
                         </td>
                     </tr>
 
@@ -1677,7 +1475,7 @@ Llama al servicio de autenticación y gestiona la respuesta.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/pages/login/login.component.ts:47</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/pages/login/login.component.ts:42</a></div>
                         </td>
                     </tr>
 
@@ -1715,7 +1513,7 @@ Llama al servicio de autenticación y gestiona la respuesta.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/pages/login/login.component.ts:62</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/pages/login/login.component.ts:60</a></div>
                         </td>
                     </tr>
 
@@ -1746,7 +1544,7 @@ Llama al servicio de autenticación y gestiona la respuesta.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/pages/login/login.component.ts:43</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/pages/login/login.component.ts:38</a></div>
                         </td>
                     </tr>
 
@@ -1784,7 +1582,7 @@ Llama al servicio de autenticación y gestiona la respuesta.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/pages/login/login.component.ts:57</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/pages/login/login.component.ts:56</a></div>
                         </td>
                     </tr>
 
@@ -1815,7 +1613,7 @@ Llama al servicio de autenticación y gestiona la respuesta.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/pages/login/login.component.ts:41</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/pages/login/login.component.ts:36</a></div>
                         </td>
                     </tr>
 
@@ -1825,6 +1623,39 @@ Llama al servicio de autenticación y gestiona la respuesta.</p>
 </div>
                 </td>
             </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="SKIP_LOADING_KEY"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>SKIP_LOADING_KEY</b></span>
+                        <a href="#SKIP_LOADING_KEY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;skip_loading_screen_once&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/pages/login/login.component.ts:54</a></div>
+                        </td>
+                    </tr>
+
 
         </tbody>
     </table>
@@ -1852,7 +1683,7 @@ Llama al servicio de autenticación y gestiona la respuesta.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/pages/login/login.component.ts:45</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/pages/login/login.component.ts:40</a></div>
                         </td>
                     </tr>
 
@@ -1865,38 +1696,6 @@ Llama al servicio de autenticación y gestiona la respuesta.</p>
 
         </tbody>
     </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="translate"></a>
-                    <span class="name">
-                            <span class="modifier">Private</span>
-                        <span ><b>translate</b></span>
-                        <a href="#translate"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>inject(TranslateService)</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/pages/login/login.component.ts:63</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
 </section>
 
 </div>
@@ -1905,10 +1704,8 @@ Llama al servicio de autenticación y gestiona la respuesta.</p>
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule, Location, isPlatformBrowser } from &#x27;@angular/common&#x27;;
 import {
-  AfterViewInit,
   Component,
-  ElementRef,
-  ViewChild,
+  OnInit,
   inject,
   PLATFORM_ID,
 } from &#x27;@angular/core&#x27;;
@@ -1921,10 +1718,7 @@ import {
 import { Router, RouterModule } from &#x27;@angular/router&#x27;;
 import { HttpClient } from &#x27;@angular/common/http&#x27;;
 import { TranslatePipe } from &#x27;@ngx-translate/core&#x27;;
-import { TranslateService } from &#x27;@ngx-translate/core&#x27;;
-import { LanguageService } from &#x27;../../core/services/language.service&#x27;;
 import { BaseAuthenticationService } from &#x27;../../core/services/impl/base-authentication.service&#x27;;
-import { Subscription } from &#x27;rxjs&#x27;;
 
 /**
  * Componente de la página de inicio de sesión.
@@ -1937,7 +1731,7 @@ import { Subscription } from &#x27;rxjs&#x27;;
   templateUrl: &#x27;./login.component.html&#x27;,
   styleUrls: [&#x27;./login.component.scss&#x27;],
 })
-export class LoginComponent implements AfterViewInit {
+export class LoginComponent implements OnInit {
   /** Formulario reactivo para el inicio de sesión. */
   formLogin: FormGroup;
   /** Mensaje de error a mostrar si falla el login. */
@@ -1950,22 +1744,24 @@ export class LoginComponent implements AfterViewInit {
   submitted &#x3D; false;
   /** Ruta a la que redirigir tras un login exitoso. */
   navigateTo: string &#x3D; &#x27;&#x27;;
+  isOAuthRedirectProcessing &#x3D; false;
   googleError &#x3D; &#x27;&#x27;;
   githubError &#x3D; &#x27;&#x27;;
-  private googleInitialized &#x3D; false;
   googleClientId &#x3D; &#x27;&#x27;;
   githubClientId &#x3D; &#x27;&#x27;;
-  @ViewChild(&#x27;googleLoginButtonHost&#x27;) googleLoginButtonHost?: ElementRef&lt;HTMLDivElement&gt;;
-  private githubAuthListener?: (event: MessageEvent) &#x3D;&gt; void;
-  private languageChangeSubscription?: Subscription;
+  private readonly GOOGLE_STATE_KEY &#x3D; &#x27;google_oauth_state_login&#x27;;
+  private readonly GOOGLE_NONCE_KEY &#x3D; &#x27;google_oauth_nonce_login&#x27;;
+  private readonly GOOGLE_REMEMBER_KEY &#x3D; &#x27;google_oauth_remember_login&#x27;;
+  private readonly GOOGLE_TARGET_KEY &#x3D; &#x27;google_oauth_target&#x27;;
+  private readonly GITHUB_STATE_KEY &#x3D; &#x27;github_oauth_state_login&#x27;;
+  private readonly GITHUB_REMEMBER_KEY &#x3D; &#x27;github_oauth_remember_login&#x27;;
+  private readonly SKIP_LOADING_KEY &#x3D; &#x27;skip_loading_screen_once&#x27;;
 
   private router &#x3D; inject(Router);
   private auth &#x3D; inject(BaseAuthenticationService);
-  private languageService &#x3D; inject(LanguageService);
   private fb &#x3D; inject(FormBuilder);
   private location &#x3D; inject(Location);
   private platformId &#x3D; inject(PLATFORM_ID);
-  private translate &#x3D; inject(TranslateService);
 
   constructor(private http: HttpClient) {
     this.formLogin &#x3D; this.fb.group({
@@ -1987,22 +1783,10 @@ export class LoginComponent implements AfterViewInit {
       &#x27;/dashboard&#x27;;
   }
 
-  ngOnInit(): void {}
-
-  ngAfterViewInit(): void {
-    this.languageChangeSubscription &#x3D; this.translate.onLangChange.subscribe(() &#x3D;&gt; {
-      this.googleInitialized &#x3D; false;
-      this.loadGoogleScript(true);
-    });
+  ngOnInit(): void {
+    this.processOAuthRedirect();
     this.loadGoogleClientId();
     this.loadGithubClientId();
-  }
-
-  ngOnDestroy(): void {
-    this.languageChangeSubscription?.unsubscribe();
-    if (this.githubAuthListener &amp;&amp; isPlatformBrowser(this.platformId)) {
-      window.removeEventListener(&#x27;message&#x27;, this.githubAuthListener);
-    }
   }
 
   /**
@@ -2031,11 +1815,31 @@ export class LoginComponent implements AfterViewInit {
 
   onGoogleSignInClick() {
     this.googleError &#x3D; &#x27;&#x27;;
-    if (!this.googleClientId) {
+    if (!this.googleClientId || !isPlatformBrowser(this.platformId)) {
       this.googleError &#x3D; &#x27;Google no está configurado en este entorno&#x27;;
       return;
     }
-    this.loadGoogleScript();
+    const rememberMe &#x3D; true;
+    const state &#x3D; &#x60;${Date.now()}-${Math.random().toString(36).slice(2)}&#x60;;
+    const nonce &#x3D; &#x60;${Date.now()}-${Math.random().toString(36).slice(2)}&#x60;;
+    sessionStorage.setItem(this.GOOGLE_STATE_KEY, state);
+    sessionStorage.setItem(this.GOOGLE_NONCE_KEY, nonce);
+    sessionStorage.setItem(this.GOOGLE_REMEMBER_KEY, rememberMe ? &#x27;1&#x27; : &#x27;0&#x27;);
+
+    sessionStorage.setItem(this.GOOGLE_TARGET_KEY, &#x27;/login&#x27;);
+    document.cookie &#x3D; &#x60;google_oauth_target&#x3D;${encodeURIComponent(&#x27;/login&#x27;)}; path&#x3D;/; SameSite&#x3D;Lax; Secure&#x60;;
+    const redirectUri &#x3D; &#x60;${window.location.origin}/api/auth/google/callback&#x60;;
+    const authUrl &#x3D; new URL(&#x27;https://accounts.google.com/o/oauth2/v2/auth&#x27;);
+    authUrl.searchParams.set(&#x27;client_id&#x27;, this.googleClientId);
+    authUrl.searchParams.set(&#x27;redirect_uri&#x27;, redirectUri);
+    authUrl.searchParams.set(&#x27;response_type&#x27;, &#x27;id_token&#x27;);
+    authUrl.searchParams.set(&#x27;scope&#x27;, &#x27;openid email profile&#x27;);
+    authUrl.searchParams.set(&#x27;state&#x27;, state);
+    authUrl.searchParams.set(&#x27;nonce&#x27;, nonce);
+    authUrl.searchParams.set(&#x27;prompt&#x27;, &#x27;select_account&#x27;);
+
+    sessionStorage.setItem(this.SKIP_LOADING_KEY, &#x27;1&#x27;);
+    window.location.assign(authUrl.toString());
   }
 
   onGithubSignInClick() {
@@ -2046,38 +1850,32 @@ export class LoginComponent implements AfterViewInit {
     }
 
     const state &#x3D; &#x60;${Date.now()}-${Math.random().toString(36).slice(2)}&#x60;;
-    sessionStorage.setItem(&#x27;github_oauth_state_login&#x27;, state);
-    const redirectUri &#x3D; &#x60;${window.location.origin}/api/auth/github/callback&#x60;;
+    const rememberMe &#x3D; true;
+    sessionStorage.setItem(this.GITHUB_STATE_KEY, state);
+    sessionStorage.setItem(this.GITHUB_REMEMBER_KEY, rememberMe ? &#x27;1&#x27; : &#x27;0&#x27;);
+    const redirectUri &#x3D; &#x60;${window.location.origin}/api/auth/github/callback?target&#x3D;${encodeURIComponent(&#x27;/login&#x27;)}&#x60;;
     const authUrl &#x3D;
       &#x60;https://github.com/login/oauth/authorize&#x60; +
       &#x60;?client_id&#x3D;${encodeURIComponent(this.githubClientId)}&#x60; +
       &#x60;&amp;redirect_uri&#x3D;${encodeURIComponent(redirectUri)}&#x60; +
       &#x60;&amp;scope&#x3D;${encodeURIComponent(&#x27;read:user user:email&#x27;)}&#x60; +
-      &#x60;&amp;state&#x3D;${encodeURIComponent(state)}&#x60;;
+      &#x60;&amp;state&#x3D;${encodeURIComponent(state)}&#x60; +
+      &#x60;&amp;prompt&#x3D;select_account&#x60;;
 
-    const popup &#x3D; window.open(
-      authUrl,
-      &#x27;github-oauth-login&#x27;,
-      &#x27;width&#x3D;540,height&#x3D;720,menubar&#x3D;no,toolbar&#x3D;no,location&#x3D;yes,status&#x3D;no&#x27;,
-    );
-    if (!popup) {
-      this.githubError &#x3D; &#x27;No se pudo abrir la ventana de GitHub&#x27;;
-      return;
-    }
-
-    this.bindGithubMessageListener(&#x27;github_oauth_state_login&#x27;, true);
+    sessionStorage.setItem(this.SKIP_LOADING_KEY, &#x27;1&#x27;);
+    window.location.assign(authUrl);
   }
 
   private loadGoogleClientId() {
     if (!isPlatformBrowser(this.platformId)) return;
     this.http
-      .get&lt;{ enabled: boolean; clientId: string | null }&gt;(&#x27;/api/auth/google/client-id&#x27;)
+      .get&lt;{
+        enabled: boolean;
+        clientId: string | null;
+      }&gt;(&#x27;/api/auth/google/client-id&#x27;)
       .subscribe({
         next: (response) &#x3D;&gt; {
           this.googleClientId &#x3D; response.clientId ?? &#x27;&#x27;;
-          if (this.googleClientId) {
-            this.loadGoogleScript();
-          }
         },
         error: () &#x3D;&gt; {
           this.googleError &#x3D; &#x27;No se pudo cargar configuración de Google&#x27;;
@@ -2088,7 +1886,10 @@ export class LoginComponent implements AfterViewInit {
   private loadGithubClientId() {
     if (!isPlatformBrowser(this.platformId)) return;
     this.http
-      .get&lt;{ enabled: boolean; clientId: string | null }&gt;(&#x27;/api/auth/github/client-id&#x27;)
+      .get&lt;{
+        enabled: boolean;
+        clientId: string | null;
+      }&gt;(&#x27;/api/auth/github/client-id&#x27;)
       .subscribe({
         next: (response) &#x3D;&gt; {
           this.githubClientId &#x3D; response.clientId ?? &#x27;&#x27;;
@@ -2099,140 +1900,99 @@ export class LoginComponent implements AfterViewInit {
       });
   }
 
-  private getGoogleLocale(): string {
-    const selectedLang &#x3D;
-      this.translate.currentLang || this.translate.getDefaultLang() || &#x27;es&#x27;;
-    return [&#x27;es&#x27;, &#x27;en&#x27;, &#x27;fr&#x27;, &#x27;de&#x27;, &#x27;it&#x27;].includes(selectedLang)
-      ? selectedLang
-      : &#x27;en&#x27;;
-  }
-
-  private loadGoogleScript(forceReload &#x3D; false) {
+  private processOAuthRedirect() {
     if (!isPlatformBrowser(this.platformId)) return;
-    if (!this.googleClientId) return;
-    const locale &#x3D; this.getGoogleLocale();
-    const scriptSrc &#x3D; &#x60;https://accounts.google.com/gsi/client?hl&#x3D;${locale}&#x60;;
-    const existingScript &#x3D; document.getElementById(
-      &#x27;google-identity-script&#x27;,
-    ) as HTMLScriptElement | null;
-    const existingLocale &#x3D; existingScript?.dataset[&#x27;locale&#x27;] || &#x27;&#x27;;
-
-    if (forceReload &amp;&amp; existingScript) {
-      existingScript.remove();
-    }
-
-    if (window.google?.accounts?.id &amp;&amp; !forceReload) {
-      this.initializeGoogleButton();
-      return;
-    }
-    if (existingScript &amp;&amp; existingLocale &#x3D;&#x3D;&#x3D; locale) return;
-    if (existingScript &amp;&amp; existingLocale !&#x3D;&#x3D; locale) {
-      existingScript.remove();
-    }
-
-    const script &#x3D; document.createElement(&#x27;script&#x27;);
-    script.id &#x3D; &#x27;google-identity-script&#x27;;
-    script.src &#x3D; scriptSrc;
-    script.dataset[&#x27;locale&#x27;] &#x3D; locale;
-    script.async &#x3D; true;
-    script.defer &#x3D; true;
-    script.onload &#x3D; () &#x3D;&gt; this.initializeGoogleButton();
-    script.onerror &#x3D; () &#x3D;&gt; {
-      this.googleError &#x3D; &#x27;No se pudo cargar Google Sign-In&#x27;;
-    };
-    document.head.appendChild(script);
-  }
-
-  private initializeGoogleButton() {
-    if (!isPlatformBrowser(this.platformId)) return;
-    if (!this.googleLoginButtonHost?.nativeElement || this.googleInitialized) return;
-    if (!window.google?.accounts?.id || !this.googleClientId) return;
-
-    window.__googleAuthCallback &#x3D; (credential?: string) &#x3D;&gt; {
-      this.handleGoogleCredential(credential);
-    };
-
-    if (window.__googleInitializedClientId !&#x3D;&#x3D; this.googleClientId) {
-      window.google.accounts.id.initialize({
-        client_id: this.googleClientId,
-        callback: (response: { credential?: string }) &#x3D;&gt; {
-          window.__googleAuthCallback?.(response.credential);
-        },
-        auto_select: false,
-        cancel_on_tap_outside: true,
-      });
-      window.__googleInitializedClientId &#x3D; this.googleClientId;
-    }
-
-    this.googleLoginButtonHost.nativeElement.innerHTML &#x3D; &#x27;&#x27;;
-    const buttonWidth &#x3D; Math.max(
-      220,
-      this.googleLoginButtonHost.nativeElement.clientWidth || 320,
+    const searchParams &#x3D; new URLSearchParams(window.location.search);
+    const hashParams &#x3D; new URLSearchParams(
+      window.location.hash.startsWith(&#x27;#&#x27;)
+        ? window.location.hash.slice(1)
+        : window.location.hash,
     );
-    window.google.accounts.id.renderButton(this.googleLoginButtonHost.nativeElement, {
-      theme: &#x27;filled_blue&#x27;,
-      size: &#x27;large&#x27;,
-      text: &#x27;signin_with&#x27;,
-      shape: &#x27;pill&#x27;,
-      width: String(buttonWidth),
-      logo_alignment: &#x27;left&#x27;,
-    });
-    this.googleInitialized &#x3D; true;
-  }
 
-  private handleGoogleCredential(credential?: string) {
-    if (!credential) {
-      this.googleError &#x3D; &#x27;No se recibió token de Google&#x27;;
-      return;
-    }
-    const rememberMe &#x3D; !!this.formLogin.value.rememberMe;
-    this.auth.signInWithGoogle(credential, rememberMe).subscribe({
-      next: () &#x3D;&gt; this.router.navigate([this.navigateTo]),
-      error: () &#x3D;&gt; {
-        this.googleError &#x3D; &#x27;No se pudo iniciar sesión con Google&#x27;;
-      },
-    });
-  }
+    const githubCode &#x3D; searchParams.get(&#x27;code&#x27;);
+    const githubState &#x3D; searchParams.get(&#x27;state&#x27;);
+    const githubError &#x3D; searchParams.get(&#x27;error&#x27;);
+    if (githubCode || githubError) {
+      this.isOAuthRedirectProcessing &#x3D; true;
+      const expectedState &#x3D; sessionStorage.getItem(this.GITHUB_STATE_KEY);
+      const rememberMe &#x3D; sessionStorage.getItem(this.GITHUB_REMEMBER_KEY) &#x3D;&#x3D;&#x3D; &#x27;1&#x27;;
+      sessionStorage.removeItem(this.GITHUB_STATE_KEY);
+      sessionStorage.removeItem(this.GITHUB_REMEMBER_KEY);
+      window.history.replaceState({}, document.title, window.location.pathname);
 
-  private bindGithubMessageListener(stateStorageKey: string, rememberMe: boolean) {
-    if (!isPlatformBrowser(this.platformId)) return;
-
-    if (this.githubAuthListener) {
-      window.removeEventListener(&#x27;message&#x27;, this.githubAuthListener);
-    }
-
-    this.githubAuthListener &#x3D; (event: MessageEvent) &#x3D;&gt; {
-      if (event.origin !&#x3D;&#x3D; window.location.origin) return;
-      const data &#x3D; event.data as {
-        provider?: string;
-        code?: string;
-        state?: string;
-        error?: string;
-      };
-      if (data?.provider !&#x3D;&#x3D; &#x27;github&#x27;) return;
-
-      const expectedState &#x3D; sessionStorage.getItem(stateStorageKey);
-      sessionStorage.removeItem(stateStorageKey);
-      window.removeEventListener(&#x27;message&#x27;, this.githubAuthListener!);
-      this.githubAuthListener &#x3D; undefined;
-
-      if (data.error) {
+      if (githubError) {
+        this.isOAuthRedirectProcessing &#x3D; false;
         this.githubError &#x3D; &#x27;Autenticación con GitHub cancelada o fallida&#x27;;
         return;
       }
-      if (!data.code || !data.state || !expectedState || data.state !&#x3D;&#x3D; expectedState) {
+      if (!githubCode || !githubState || !expectedState || githubState !&#x3D;&#x3D; expectedState) {
+        this.isOAuthRedirectProcessing &#x3D; false;
         this.githubError &#x3D; &#x27;No se pudo validar la autenticación con GitHub&#x27;;
         return;
       }
 
-      this.auth.signInWithGithub(data.code, rememberMe).subscribe({
+      this.auth.signInWithGithub(githubCode, rememberMe).subscribe({
         next: () &#x3D;&gt; this.router.navigate([this.navigateTo]),
         error: () &#x3D;&gt; {
+          this.isOAuthRedirectProcessing &#x3D; false;
           this.githubError &#x3D; &#x27;No se pudo iniciar sesión con GitHub&#x27;;
         },
       });
-    };
-    window.addEventListener(&#x27;message&#x27;, this.githubAuthListener);
+      return;
+    }
+
+    const googleIdToken &#x3D; hashParams.get(&#x27;id_token&#x27;);
+    const googleState &#x3D; hashParams.get(&#x27;state&#x27;);
+    const googleError &#x3D; hashParams.get(&#x27;error&#x27;);
+    if (googleIdToken || googleError) {
+      this.isOAuthRedirectProcessing &#x3D; true;
+      const expectedState &#x3D; sessionStorage.getItem(this.GOOGLE_STATE_KEY);
+      const expectedNonce &#x3D; sessionStorage.getItem(this.GOOGLE_NONCE_KEY);
+      const rememberMe &#x3D; sessionStorage.getItem(this.GOOGLE_REMEMBER_KEY) &#x3D;&#x3D;&#x3D; &#x27;1&#x27;;
+      sessionStorage.removeItem(this.GOOGLE_STATE_KEY);
+      sessionStorage.removeItem(this.GOOGLE_NONCE_KEY);
+      sessionStorage.removeItem(this.GOOGLE_REMEMBER_KEY);
+      window.history.replaceState({}, document.title, window.location.pathname);
+
+      if (googleError) {
+        this.isOAuthRedirectProcessing &#x3D; false;
+        this.googleError &#x3D; &#x27;Autenticación con Google cancelada o fallida&#x27;;
+        return;
+      }
+      if (!googleIdToken || !googleState || !expectedState || googleState !&#x3D;&#x3D; expectedState) {
+        this.isOAuthRedirectProcessing &#x3D; false;
+        this.googleError &#x3D; &#x27;No se pudo validar la autenticación con Google&#x27;;
+        return;
+      }
+
+      const tokenNonce &#x3D; this.getNonceFromIdToken(googleIdToken);
+      if (!tokenNonce || !expectedNonce || tokenNonce !&#x3D;&#x3D; expectedNonce) {
+        this.isOAuthRedirectProcessing &#x3D; false;
+        this.googleError &#x3D; &#x27;No se pudo validar la autenticación con Google&#x27;;
+        return;
+      }
+
+      this.auth.signInWithGoogle(googleIdToken, rememberMe).subscribe({
+        next: () &#x3D;&gt; this.router.navigate([this.navigateTo]),
+        error: () &#x3D;&gt; {
+          this.isOAuthRedirectProcessing &#x3D; false;
+          this.googleError &#x3D; &#x27;No se pudo iniciar sesión con Google&#x27;;
+        },
+      });
+    }
+  }
+
+  private getNonceFromIdToken(idToken: string): string | null {
+    try {
+      const parts &#x3D; idToken.split(&#x27;.&#x27;);
+      if (parts.length &lt; 2) return null;
+      const base64 &#x3D; parts[1].replace(/-/g, &#x27;+&#x27;).replace(/_/g, &#x27;/&#x27;);
+      const padded &#x3D; base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), &#x27;&#x3D;&#x27;);
+      const payload &#x3D; JSON.parse(atob(padded)) as { nonce?: string };
+      return payload.nonce ?? null;
+    } catch {
+      return null;
+    }
   }
 
   /** Redirige a la página de registro preservando el destino post-registro. */
@@ -2252,7 +2012,6 @@ export class LoginComponent implements AfterViewInit {
    * @param control Nombre del campo del formulario.
    */
   getError(control: string) {
-    const translateService &#x3D; this.languageService;
     switch (control) {
       case &#x27;email&#x27;:
         if (
@@ -2288,6 +2047,13 @@ export class LoginComponent implements AfterViewInit {
 
     <div class="tab-pane fade " id="templateData">
         <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;flex-1 w-full flex flex-col bg-gray-900 text-white font-sans&quot;&gt;
+  @if (isOAuthRedirectProcessing) {
+    &lt;div
+      class&#x3D;&quot;fixed inset-0 z-[1200] flex items-center justify-center bg-gray-900 text-white&quot;
+    &gt;
+      &lt;div class&#x3D;&quot;oauth-spinner&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  }
   &lt;div class&#x3D;&quot;flex-1 flex items-center justify-center p-4&quot;&gt;
     &lt;div class&#x3D;&quot;w-full max-w-lg bg-gray-700 rounded-lg p-4 md:p-8 shadow-xl&quot;&gt;
       &lt;h1 class&#x3D;&quot;text-xl md:text-3xl font-bold text-white text-center mb-4&quot;&gt;
@@ -2487,7 +2253,9 @@ export class LoginComponent implements AfterViewInit {
           &lt;div class&#x3D;&quot;h-px flex-1 bg-gray-500&quot;&gt;&lt;/div&gt;
         &lt;/div&gt;
         &lt;div class&#x3D;&quot;mb-3&quot;&gt;
-          &lt;div
+          &lt;button
+            type&#x3D;&quot;button&quot;
+            (click)&#x3D;&quot;onGoogleSignInClick()&quot;
             class&#x3D;&quot;relative rounded-full w-full h-10 px-4 border border-[#5f9bff] bg-[#4285F4] hover:bg-[#1a73e8] text-white transition-transform duration-150 active:scale-95 flex items-center justify-center&quot;
           &gt;
             &lt;span class&#x3D;&quot;absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 rounded-full bg-white&quot;&gt;
@@ -2499,12 +2267,7 @@ export class LoginComponent implements AfterViewInit {
               &lt;/svg&gt;
             &lt;/span&gt;
             &lt;span class&#x3D;&quot;text-sm font-medium&quot;&gt;{{ &quot;login.googleButton&quot; | translate }}&lt;/span&gt;
-            &lt;div
-              #googleLoginButtonHost
-              (click)&#x3D;&quot;onGoogleSignInClick()&quot;
-              class&#x3D;&quot;absolute inset-0 opacity-0 overflow-hidden&quot;
-            &gt;&lt;/div&gt;
-          &lt;/div&gt;
+          &lt;/button&gt;
         &lt;/div&gt;
         &lt;div class&#x3D;&quot;mb-3&quot;&gt;
           &lt;button
@@ -2566,6 +2329,21 @@ export class LoginComponent implements AfterViewInit {
   flex-direction: column;
   flex: 1;
 }
+
+.oauth-spinner {
+  width: 56px;
+  height: 56px;
+  border: 4px solid rgba(96, 165, 250, 0.35);
+  border-top-color: #60a5fa;
+  border-radius: 9999px;
+  animation: oauth-spin 0.8s linear infinite;
+}
+
+@keyframes oauth-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 </code></pre>
     </div>
 
@@ -2594,7 +2372,7 @@ export class LoginComponent implements AfterViewInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="flex-1 w-full flex flex-col bg-gray-900 text-white font-sans">  <div class="flex-1 flex items-center justify-center p-4">    <div class="w-full max-w-lg bg-gray-700 rounded-lg p-4 md:p-8 shadow-xl">      <h1 class="text-xl md:text-3xl font-bold text-white text-center mb-4">        {{ "login.title" | translate }}      </h1>      <p class="mb-4 text-white text-center">        {{ "login.noAccount" | translate }}        <a          (click)="goToRegister()"          class="text-blue-300 underline cursor-pointer transition-transform duration-150 active:scale-95"          >{{ "login.registerLink" | translate }}</a        >      </p>      <form        class="px-4 md:px-5"        [formGroup]="formLogin"        (ngSubmit)="onSubmit()"      >        <div class="mb-3">          <div class="flex items-center gap-1 mb-2">            <label class="text-white font-medium" for="email">{{              "login.emailLabel" | translate            }}</label>            <span class="text-red-500"> *</span>          </div>          <div class="relative">            <span              class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"              [title]="\'tooltips.emailIcon\' | translate"            >              <svg                xmlns="http://www.w3.org/2000/svg"                fill="none"                viewBox="0 0 24 24"                stroke-width="1.5"                stroke="currentColor"                class="size-6"              >                <path                  stroke-linecap="round"                  stroke-linejoin="round"                  d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"                />              </svg>            </span>            <input              id="email"              name="email"              formControlName="email"              [placeholder]="\'login.emailPlaceholder\' | translate"              class="w-full pl-10 h-10 rounded-sm border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-300"              type="text"            />          </div>          @if (            (formLogin.controls["email"].touched &&              formLogin.controls["email"].hasError("required")) ||            (submitted && formLogin.controls["email"].errors)          ) {            <span class="text-red-500 mt-3 mix-blend-color-dodge">              {{ getError("email") | translate }}            </span>          }        </div>        <div class="mb-3">          <div class="flex items-center gap-1 mb-2">            <label class="text-white font-medium" for="email">{{              "login.passwordLabel" | translate            }}</label>            <span class="text-red-500"> *</span>          </div>          <div class="relative">            <span              class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"              [title]="\'tooltips.passwordIcon\' | translate"            >              <svg                xmlns="http://www.w3.org/2000/svg"                fill="none"                viewBox="0 0 24 24"                stroke-width="1.5"                stroke="currentColor"                class="size-6"              >                <path                  stroke-linecap="round"                  stroke-linejoin="round"                  d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"                />              </svg>            </span>            <input              id="password"              name="password"              autocomplete="off"              formControlName="password"              [placeholder]="\'login.passwordPlaceholder\' | translate"              class="w-full pl-10 h-10 rounded-sm border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-300 focus:bg-gray-800"              [type]="showPassword ? \'text\' : \'password\'"            />            <span              (click)="showPassword = !showPassword"              class="text-gray-400 cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 transition-transform duration-150 active:scale-95"              [title]="                showPassword                  ? (\'tooltips.hidePassword\' | translate)                  : (\'tooltips.showPassword\' | translate)              "            >              @if (!showPassword) {                <svg                  xmlns="http://www.w3.org/2000/svg"                  fill="none"                  viewBox="0 0 24 24"                  stroke-width="1.5"                  stroke="currentColor"                  class="size-6"                >                  <path                    stroke-linecap="round"                    stroke-linejoin="round"                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"                  />                  <path                    stroke-linecap="round"                    stroke-linejoin="round"                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"                  />                </svg>              }              @if (showPassword) {                <svg                  xmlns="http://www.w3.org/2000/svg"                  fill="none"                  viewBox="0 0 24 24"                  stroke-width="1.5"                  stroke="currentColor"                  class="size-6"                >                  <path                    stroke-linecap="round"                    stroke-linejoin="round"                    d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"                  />                </svg>              }            </span>          </div>          @if (            (formLogin.controls["password"].touched &&              formLogin.controls["password"].hasError("required")) ||            (submitted && formLogin.controls["password"].errors)          ) {            <span class="text-red-500 mt-3 mix-blend-color-dodge">              {{ getError("password") | translate }}            </span>          }        </div>        <div          class="mb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-0"        >          <label            class="flex items-center gap-2 text-white text-sm cursor-pointer"          >            <input              type="checkbox"              formControlName="rememberMe"              class="w-4 h-4 rounded border-gray-600 bg-gray-800 text-blue-400 focus:ring-2 focus:ring-blue-300"            />            <span>{{ "login.rememberMe" | translate }}</span>          </label>          <a            routerLink="/forgot-password"            class="text-blue-300 hover:text-blue-400 underline text-sm transition-transform duration-150 active:scale-95"          >            {{ "login.forgotPassword" | translate }}          </a>        </div>        @if (loginError) {          <div class="mb-3 text-red-500 text-center mix-blend-color-dodge">            {{ loginError }}          </div>        }        @if (googleError) {          <div class="mb-3 text-red-500 text-center mix-blend-color-dodge">            {{ googleError }}          </div>        }        @if (githubError) {          <div class="mb-3 text-red-500 text-center mix-blend-color-dodge">            {{ githubError }}          </div>        }        <div class="my-4 flex items-center gap-3">          <div class="h-px flex-1 bg-gray-500"></div>          <span class="text-xs uppercase tracking-wider text-gray-300">o</span>          <div class="h-px flex-1 bg-gray-500"></div>        </div>        <div class="mb-3">          <div            class="relative rounded-full w-full h-10 px-4 border border-[#5f9bff] bg-[#4285F4] hover:bg-[#1a73e8] text-white transition-transform duration-150 active:scale-95 flex items-center justify-center"          >            <span class="absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 rounded-full bg-white">              <svg viewBox="0 0 48 48" class="w-4 h-4" aria-hidden="true">                <path fill="#EA4335" d="M24 9.5c3.54 0 6.72 1.22 9.22 3.62l6.86-6.86C35.9 2.36 30.34 0 24 0 14.64 0 6.56 5.38 2.56 13.22l7.98 6.2C12.44 13.58 17.72 9.5 24 9.5z"/>                <path fill="#4285F4" d="M46.5 24.5c0-1.64-.14-2.84-.44-4.1H24v7.76h12.94c-.26 1.92-1.66 4.82-4.78 6.76l7.38 5.72C43.9 36.58 46.5 31.12 46.5 24.5z"/>                <path fill="#FBBC05" d="M10.54 28.58A14.52 14.52 0 0 1 9.5 24c0-1.6.28-3.14.78-4.58l-7.98-6.2A23.97 23.97 0 0 0 0 24c0 3.84.92 7.48 2.56 10.78l7.98-6.2z"/>                <path fill="#34A853" d="M24 48c6.34 0 11.66-2.08 15.54-5.66l-7.38-5.72c-1.98 1.38-4.66 2.38-8.16 2.38-6.28 0-11.56-4.08-13.46-9.92l-7.98 6.2C6.56 42.62 14.64 48 24 48z"/>              </svg>            </span>            <span class="text-sm font-medium">{{ "login.googleButton" | translate }}</span>            <div              #googleLoginButtonHost              (click)="onGoogleSignInClick()"              class="absolute inset-0 opacity-0 overflow-hidden"            ></div>          </div>        </div>        <div class="mb-3">          <button            type="button"            (click)="onGithubSignInClick()"            class="relative rounded-full w-full h-10 px-4 border border-gray-500 bg-gray-800 hover:bg-gray-700 text-white transition-transform duration-150 active:scale-95 flex items-center justify-center"          >            <span class="absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 rounded-full bg-white">              <svg viewBox="0 0 24 24" class="w-4 h-4 fill-black" aria-hidden="true">                <path d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.93c.58.1.79-.25.79-.56v-2.15c-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.27-1.68-1.27-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.75 1.18 1.75 1.18 1.02 1.75 2.67 1.24 3.32.95.1-.74.4-1.24.72-1.53-2.55-.29-5.22-1.28-5.22-5.68 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.17a10.9 10.9 0 0 1 5.74 0c2.19-1.48 3.15-1.17 3.15-1.17.62 1.59.23 2.76.11 3.05.74.8 1.18 1.82 1.18 3.07 0 4.41-2.67 5.39-5.23 5.67.41.36.78 1.06.78 2.13v3.16c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/>              </svg>            </span>            <span class="text-sm font-medium">{{ "login.githubButton" | translate }}</span>          </button>        </div>        @if (!googleClientId) {          <div class="mb-3 text-xs text-gray-300 text-center">            Google Sign-In no configurado          </div>        }        @if (!githubClientId) {          <div class="mb-3 text-xs text-gray-300 text-center">            GitHub Sign-In no configurado          </div>        }        <div class="my-4 flex items-center gap-3">          <div class="h-px flex-1 bg-gray-500"></div>          <span class="text-xs uppercase tracking-wider text-gray-300">o</span>          <div class="h-px flex-1 bg-gray-500"></div>        </div>        <div class="flex flex-col gap-4 mt-4 mb-3">          <button            class="rounded-full w-full px-4 py-2 font-medium bg-blue-400 hover:bg-blue-600 border border-blue-300 text-white transition-transform duration-150 active:scale-95"            type="submit"          >            {{ "login.loginButton" | translate }}          </button>          <button            type="button"            (click)="goBack()"            class="rounded-full w-full px-4 py-2 font-medium bg-gray-500 hover:bg-gray-600 border border-gray-400 text-white transition-transform duration-150 active:scale-95"          >            {{ "register.backButton" | translate }}          </button>        </div>      </form>    </div>  </div></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="flex-1 w-full flex flex-col bg-gray-900 text-white font-sans">  @if (isOAuthRedirectProcessing) {    <div      class="fixed inset-0 z-[1200] flex items-center justify-center bg-gray-900 text-white"    >      <div class="oauth-spinner"></div>    </div>  }  <div class="flex-1 flex items-center justify-center p-4">    <div class="w-full max-w-lg bg-gray-700 rounded-lg p-4 md:p-8 shadow-xl">      <h1 class="text-xl md:text-3xl font-bold text-white text-center mb-4">        {{ "login.title" | translate }}      </h1>      <p class="mb-4 text-white text-center">        {{ "login.noAccount" | translate }}        <a          (click)="goToRegister()"          class="text-blue-300 underline cursor-pointer transition-transform duration-150 active:scale-95"          >{{ "login.registerLink" | translate }}</a        >      </p>      <form        class="px-4 md:px-5"        [formGroup]="formLogin"        (ngSubmit)="onSubmit()"      >        <div class="mb-3">          <div class="flex items-center gap-1 mb-2">            <label class="text-white font-medium" for="email">{{              "login.emailLabel" | translate            }}</label>            <span class="text-red-500"> *</span>          </div>          <div class="relative">            <span              class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"              [title]="\'tooltips.emailIcon\' | translate"            >              <svg                xmlns="http://www.w3.org/2000/svg"                fill="none"                viewBox="0 0 24 24"                stroke-width="1.5"                stroke="currentColor"                class="size-6"              >                <path                  stroke-linecap="round"                  stroke-linejoin="round"                  d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"                />              </svg>            </span>            <input              id="email"              name="email"              formControlName="email"              [placeholder]="\'login.emailPlaceholder\' | translate"              class="w-full pl-10 h-10 rounded-sm border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-300"              type="text"            />          </div>          @if (            (formLogin.controls["email"].touched &&              formLogin.controls["email"].hasError("required")) ||            (submitted && formLogin.controls["email"].errors)          ) {            <span class="text-red-500 mt-3 mix-blend-color-dodge">              {{ getError("email") | translate }}            </span>          }        </div>        <div class="mb-3">          <div class="flex items-center gap-1 mb-2">            <label class="text-white font-medium" for="email">{{              "login.passwordLabel" | translate            }}</label>            <span class="text-red-500"> *</span>          </div>          <div class="relative">            <span              class="text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"              [title]="\'tooltips.passwordIcon\' | translate"            >              <svg                xmlns="http://www.w3.org/2000/svg"                fill="none"                viewBox="0 0 24 24"                stroke-width="1.5"                stroke="currentColor"                class="size-6"              >                <path                  stroke-linecap="round"                  stroke-linejoin="round"                  d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"                />              </svg>            </span>            <input              id="password"              name="password"              autocomplete="off"              formControlName="password"              [placeholder]="\'login.passwordPlaceholder\' | translate"              class="w-full pl-10 h-10 rounded-sm border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-300 focus:bg-gray-800"              [type]="showPassword ? \'text\' : \'password\'"            />            <span              (click)="showPassword = !showPassword"              class="text-gray-400 cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 transition-transform duration-150 active:scale-95"              [title]="                showPassword                  ? (\'tooltips.hidePassword\' | translate)                  : (\'tooltips.showPassword\' | translate)              "            >              @if (!showPassword) {                <svg                  xmlns="http://www.w3.org/2000/svg"                  fill="none"                  viewBox="0 0 24 24"                  stroke-width="1.5"                  stroke="currentColor"                  class="size-6"                >                  <path                    stroke-linecap="round"                    stroke-linejoin="round"                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"                  />                  <path                    stroke-linecap="round"                    stroke-linejoin="round"                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"                  />                </svg>              }              @if (showPassword) {                <svg                  xmlns="http://www.w3.org/2000/svg"                  fill="none"                  viewBox="0 0 24 24"                  stroke-width="1.5"                  stroke="currentColor"                  class="size-6"                >                  <path                    stroke-linecap="round"                    stroke-linejoin="round"                    d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"                  />                </svg>              }            </span>          </div>          @if (            (formLogin.controls["password"].touched &&              formLogin.controls["password"].hasError("required")) ||            (submitted && formLogin.controls["password"].errors)          ) {            <span class="text-red-500 mt-3 mix-blend-color-dodge">              {{ getError("password") | translate }}            </span>          }        </div>        <div          class="mb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-0"        >          <label            class="flex items-center gap-2 text-white text-sm cursor-pointer"          >            <input              type="checkbox"              formControlName="rememberMe"              class="w-4 h-4 rounded border-gray-600 bg-gray-800 text-blue-400 focus:ring-2 focus:ring-blue-300"            />            <span>{{ "login.rememberMe" | translate }}</span>          </label>          <a            routerLink="/forgot-password"            class="text-blue-300 hover:text-blue-400 underline text-sm transition-transform duration-150 active:scale-95"          >            {{ "login.forgotPassword" | translate }}          </a>        </div>        @if (loginError) {          <div class="mb-3 text-red-500 text-center mix-blend-color-dodge">            {{ loginError }}          </div>        }        @if (googleError) {          <div class="mb-3 text-red-500 text-center mix-blend-color-dodge">            {{ googleError }}          </div>        }        @if (githubError) {          <div class="mb-3 text-red-500 text-center mix-blend-color-dodge">            {{ githubError }}          </div>        }        <div class="my-4 flex items-center gap-3">          <div class="h-px flex-1 bg-gray-500"></div>          <span class="text-xs uppercase tracking-wider text-gray-300">o</span>          <div class="h-px flex-1 bg-gray-500"></div>        </div>        <div class="mb-3">          <button            type="button"            (click)="onGoogleSignInClick()"            class="relative rounded-full w-full h-10 px-4 border border-[#5f9bff] bg-[#4285F4] hover:bg-[#1a73e8] text-white transition-transform duration-150 active:scale-95 flex items-center justify-center"          >            <span class="absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 rounded-full bg-white">              <svg viewBox="0 0 48 48" class="w-4 h-4" aria-hidden="true">                <path fill="#EA4335" d="M24 9.5c3.54 0 6.72 1.22 9.22 3.62l6.86-6.86C35.9 2.36 30.34 0 24 0 14.64 0 6.56 5.38 2.56 13.22l7.98 6.2C12.44 13.58 17.72 9.5 24 9.5z"/>                <path fill="#4285F4" d="M46.5 24.5c0-1.64-.14-2.84-.44-4.1H24v7.76h12.94c-.26 1.92-1.66 4.82-4.78 6.76l7.38 5.72C43.9 36.58 46.5 31.12 46.5 24.5z"/>                <path fill="#FBBC05" d="M10.54 28.58A14.52 14.52 0 0 1 9.5 24c0-1.6.28-3.14.78-4.58l-7.98-6.2A23.97 23.97 0 0 0 0 24c0 3.84.92 7.48 2.56 10.78l7.98-6.2z"/>                <path fill="#34A853" d="M24 48c6.34 0 11.66-2.08 15.54-5.66l-7.38-5.72c-1.98 1.38-4.66 2.38-8.16 2.38-6.28 0-11.56-4.08-13.46-9.92l-7.98 6.2C6.56 42.62 14.64 48 24 48z"/>              </svg>            </span>            <span class="text-sm font-medium">{{ "login.googleButton" | translate }}</span>          </button>        </div>        <div class="mb-3">          <button            type="button"            (click)="onGithubSignInClick()"            class="relative rounded-full w-full h-10 px-4 border border-gray-500 bg-gray-800 hover:bg-gray-700 text-white transition-transform duration-150 active:scale-95 flex items-center justify-center"          >            <span class="absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 rounded-full bg-white">              <svg viewBox="0 0 24 24" class="w-4 h-4 fill-black" aria-hidden="true">                <path d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.93c.58.1.79-.25.79-.56v-2.15c-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.27-1.68-1.27-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.75 1.18 1.75 1.18 1.02 1.75 2.67 1.24 3.32.95.1-.74.4-1.24.72-1.53-2.55-.29-5.22-1.28-5.22-5.68 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.17a10.9 10.9 0 0 1 5.74 0c2.19-1.48 3.15-1.17 3.15-1.17.62 1.59.23 2.76.11 3.05.74.8 1.18 1.82 1.18 3.07 0 4.41-2.67 5.39-5.23 5.67.41.36.78 1.06.78 2.13v3.16c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/>              </svg>            </span>            <span class="text-sm font-medium">{{ "login.githubButton" | translate }}</span>          </button>        </div>        @if (!googleClientId) {          <div class="mb-3 text-xs text-gray-300 text-center">            Google Sign-In no configurado          </div>        }        @if (!githubClientId) {          <div class="mb-3 text-xs text-gray-300 text-center">            GitHub Sign-In no configurado          </div>        }        <div class="my-4 flex items-center gap-3">          <div class="h-px flex-1 bg-gray-500"></div>          <span class="text-xs uppercase tracking-wider text-gray-300">o</span>          <div class="h-px flex-1 bg-gray-500"></div>        </div>        <div class="flex flex-col gap-4 mt-4 mb-3">          <button            class="rounded-full w-full px-4 py-2 font-medium bg-blue-400 hover:bg-blue-600 border border-blue-300 text-white transition-transform duration-150 active:scale-95"            type="submit"          >            {{ "login.loginButton" | translate }}          </button>          <button            type="button"            (click)="goBack()"            class="rounded-full w-full px-4 py-2 font-medium bg-gray-500 hover:bg-gray-600 border border-gray-400 text-white transition-transform duration-150 active:scale-95"          >            {{ "register.backButton" | translate }}          </button>        </div>      </form>    </div>  </div></div></div>'
     var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'StripeModalComponent', 'selector': 'app-stripe-modal'}];
     var DIRECTIVES = [{'name': 'CopyOnClickDirective', 'selector': '[appCopyOnClick]'},{'name': 'HighlightDirective', 'selector': '[appHighlight]'},{'name': 'Tilt3DDirective', 'selector': '[appTilt3D]'}];
     var ACTUAL_COMPONENT = {'name': 'LoginComponent'};

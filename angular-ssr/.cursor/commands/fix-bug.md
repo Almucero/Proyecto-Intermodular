@@ -11,6 +11,7 @@ description: Diagnostica y corrige un bug de forma segura
 5. Añadir o ajustar test de regresion cuando aplique.
 6. Ejecutar validaciones relevantes.
 7. Entregar resultado con:
+
    - causa raiz,
    - archivos modificados,
    - estado de validacion.

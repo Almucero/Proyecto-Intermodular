@@ -318,7 +318,7 @@ Define el estado de autenticación del usuario y los métodos necesarios para el
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>autoLogin()</code>
+                    <code>autoLogin(startDelayMs?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
@@ -336,10 +336,40 @@ Define el estado de autenticación del usuario y los métodos necesarios para el
                         <div class="io-description"><p>Intenta iniciar sesión automáticamente (ej. usando un token en localStorage).</p>
 </div>
 
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>startDelayMs</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                         </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1127,7 +1157,7 @@ export abstract class BaseAuthenticationService implements IAuthentication {
   /** Obtiene la información del perfil del usuario autenticado. */
   abstract me(): Observable&lt;any&gt;;
   /** Intenta iniciar sesión automáticamente (ej. usando un token en localStorage). */
-  abstract autoLogin(): void;
+  abstract autoLogin(startDelayMs?: number): void;
   /** Recupera el token de acceso actual (JWT). */
   abstract getToken(): string | null;
 }

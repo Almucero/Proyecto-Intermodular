@@ -6,20 +6,28 @@ alwaysApply: true
 # Reglas troncales del proyecto
 
 ## Fronteras
+
 - `src/app/` solo contiene logica de frontend Angular.
 - `src/backend/` solo contiene logica API/negocio del backend.
 - `src/server.ts` actua como punto de integracion SSR + backend + estaticos.
 
 ## Reglas obligatorias
+
 - No mezclar codigo de backend dentro de `src/app/`.
 - No importar modulos de frontend dentro de `src/backend/`.
 - Mantener rutas API bajo prefijo `/api`.
 - Mantener compatibilidad con despliegue en Vercel.
+- El proyecto trabaja con rama unica `main`.
+- El despliegue se ejecuta automaticamente desde Vercel al actualizar `main`.
+- Mensajes de commit en espanol, primera en mayuscula, temas relacionados separados por comas y temas radicalmente distintos con ` + `.
+- Si el usuario pide commit, ejecutar antes y en este orden: `npm run build:ssr`, `npm run vercel-build`, `npm run lint`, `npm audit --omit=dev`.
+- Si cualquiera de esas validaciones falla, no hacer commit hasta corregir o recibir instruccion explicita del usuario.
 - Cualquier cambio de CSP/headers/rewrites debe contemplar recursos externos requeridos por la app para evitar roturas en produccion.
 - Tras cambios relevantes, actualizar `README.md` respetando su estructura existente.
 - Mantener el proyecto sin vulnerabilidades conocidas; un trabajo no se considera terminado si `npm audit` no queda en 0, salvo bloqueo externo explicitamente aceptado por el usuario.
 - No usar `npm install` directo para instalar dependencias; usar `npm run setup:secure`.
 
 ## SSR y browser-only
+
 - Cualquier acceso a `window`, `document`, `localStorage` o APIs del navegador debe protegerse por contexto de navegador.
 - Evitar romper hidratacion en componentes compartidos.

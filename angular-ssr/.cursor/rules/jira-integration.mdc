@@ -1,21 +1,32 @@
 ---
 description: Trazabilidad Jira en commits, TODOs y flujos de ticket
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Jira Integration
 
-- Para commits, usar formato `tipo(CLAVE-123): descripcion`.
-- Tipos validos: `feat|fix|refactor|docs|style|test|chore`.
-- Si hay ticket Jira en contexto, usarlo en commit y en documentacion.
-- Si no hay ticket y la tarea lo requiere, solicitar clave o crear ticket mediante MCP.
+- Esta regla es opcional y solo aplica cuando el flujo de trabajo use Jira de forma activa.
+- Las terminologias validas en este proyecto son:
+  - Epic: `EPIC - LO QUE SEA`
+  - User story: `US-01: Lo que sea`
+  - Task: `TASK-01: Lo que sea`
+- No usar otras nomenclaturas para epics, historias o tareas.
+- Las user stories y tasks deben tener siempre `Story Points`.
+- Los `Story Points` representan el numero estimado de horas y deben ser siempre un numero entero.
+- Nunca completar un sprint; deben completarse solo las user stories y tasks contenidas en el sprint.
+- Los sprints deben permanecer visibles en backlog para conservar el registro historico completo.
+- Si hay ticket Jira en contexto, usarlo en documentacion y trazabilidad funcional.
+- Si no hay ticket y la tarea lo requiere, solicitar referencia o crear ticket mediante MCP.
 
 ## TODOs en codigo
-- Formato requerido: `TODO [CLAVE-123]: detalle`.
-- No dejar TODOs nuevos sin clave cuando exista flujo Jira activo.
+
+- Formato recomendado: `TODO [US-01]: detalle` o `TODO [TASK-01]: detalle`.
+- No dejar TODOs nuevos sin referencia cuando exista flujo Jira activo.
 
 ## Ejemplos
+
 ```text
-feat(CURSO-3): añadir rule de trazabilidad Jira
-fix(CURSO-12): corregir memory leak en UserListComponent
+EPIC - Prototipo UX
+US-01: Definición y selección grupal de la idea central del proyecto
+TASK-01: Hacer presentación de Figma
 ```

@@ -22,7 +22,9 @@ $patterns = @(
   'git\s+push.*--force.*\b(main|master)\b',
   'git\s+reset\s+--hard',
   'format\s+[a-z]:',
-  'diskpart'
+  'diskpart',
+  'ng\s+build\s+--configuration\s+production',
+  'npm\s+publish'
 )
 
 foreach ($pattern in $patterns) {

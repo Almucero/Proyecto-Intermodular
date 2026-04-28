@@ -12,6 +12,7 @@ Ejecutar en orden estricto:
 4. `npm audit --omit=dev`
 
 Reglas:
+
 - Si algun paso falla, detener y corregir antes de commitear.
 - No saltar el orden.
 - Solo proponer commit cuando los cuatro pasos esten en verde.

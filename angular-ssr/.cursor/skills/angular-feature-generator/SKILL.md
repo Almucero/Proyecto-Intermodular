@@ -1,21 +1,23 @@
 ---
 name: angular-feature-generator
-description: Genera estructura base de una feature Angular con componente, servicio, modelo y rutas lazy. Usar cuando se pida crear una nueva feature, scaffold o modulo funcional.
+description: Genera estructura base de una nueva parte funcional Angular adaptada a la arquitectura real del proyecto, como paginas, componentes compartidos o gestion de entidades en core. Usar cuando se pida crear estructura nueva reutilizable sin romper la organizacion existente.
 ---
 
-# Angular Feature Generator
+# Angular Structure Generator
 
 ## Flujo
-1. Solicitar nombre de feature.
-2. Crear estructura:
-   - `src/app/features/{nombre}/`
-   - componente standalone
-   - servicio tipado
-   - modelo
-   - rutas lazy
-3. Registrar ruta en `app.routes.ts`.
-4. Si MCP Atlassian esta configurado, crear ticket Jira y pagina Confluence asociada.
+
+1. Identificar que tipo de estructura nueva encaja con el proyecto:
+   - pagina en `src/app/pages/`,
+   - componente reutilizable en `src/app/shared/components/`,
+   - directiva o pipe reutilizable,
+   - nueva gestion de entidad en `core` (`model`, `repositories`, `services`, `factory`).
+2. Crear solo la estructura coherente con el patron ya existente del proyecto.
+3. Si hay nuevas rutas, registrarlas en `app.routes.ts` respetando el enrutado actual.
+4. Si hay texto visible nuevo, actualizar `src/assets/i18n/`.
+5. Si MCP Atlassian esta configurado y el flujo lo requiere, crear ticket Jira y documentacion asociada.
 
 ## Resultado esperado
-- Estructura consistente con rules de componentes y servicios.
-- Integracion con routing sin romper SSR.
+
+- Estructura consistente con la organizacion real de GameSage SSR.
+- Integracion con routing, SSR, i18n y arquitectura `core` sin romper flujos existentes.

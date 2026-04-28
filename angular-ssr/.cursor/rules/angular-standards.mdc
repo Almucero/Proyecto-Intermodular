@@ -1,0 +1,40 @@
+---
+description: Estandares unificados de Angular para arquitectura, componentes y servicios
+globs:
+  - "src/app/**/*.ts"
+  - "src/app/**/*.html"
+  - "src/app/**/*.scss"
+alwaysApply: false
+---
+
+# Angular standards
+
+## Arquitectura y estructura
+
+- Mantener organizacion por `features/`, `shared/` y `core/`.
+- Respetar el flujo de datos existente en `core` para entidades de base de datos.
+- Si se crea una nueva gestion de datos, seguir patron de `model`, `repositories`, `services` y `factory`.
+- Si una logica es reutilizable, extraer a componente/directiva/pipe compartido.
+
+## Componentes
+
+- Preferir componentes standalone.
+- Usar `ChangeDetectionStrategy.OnPush` cuando aplique.
+- Preferir `inject()` frente a constructor injection extensa.
+- Preferir APIs modernas (`input`, `output`, `viewChild`, `contentChild`) cuando sea viable y consistente con el proyecto.
+
+## Servicios
+
+- Usar `providedIn: 'root'` por defecto.
+- Tipar peticiones HTTP con genericos.
+- Manejar errores HTTP con `catchError`.
+- Aplicar cache con `shareReplay` o signals cuando sea necesario.
+
+## SSR e i18n
+
+- Proteger acceso a APIs de navegador (`window`, `document`, `localStorage`) en contexto SSR.
+- Si se introduce texto visible en la UI, actualizar en el mismo cambio los JSON de `src/assets/i18n/`.
+
+## Dependencias
+
+- Mantener paquetes Angular en versiones recientes y coherentes entre `core`, `cli` y `build`.

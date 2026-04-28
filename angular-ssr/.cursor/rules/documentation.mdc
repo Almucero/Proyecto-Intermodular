@@ -17,3 +17,4 @@ alwaysApply: false
 - El objetivo es no reducir la calidad media de documentacion reflejada en Compodoc.
 - Cuando se cambie logica relevante (endpoints, scripts, flujo de despliegue, seguridad, rutas), actualizar `README.md` respetando su estructura.
 - No dejar cambios funcionales significativos sin documentacion de uso/verificacion.
+- En caso de cambio de lógica existente, en la documentación no se hará referencia a como funcionaba antes.

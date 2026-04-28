@@ -7,7 +7,7 @@
         "@modelcontextprotocol/server-github"
       ],
       "env": {
-        "GITHUB_TOKEN": "${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}"
+        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
       }
     },
     "postgres": {
@@ -19,15 +19,14 @@
       ]
     },
     "jira": {
-      "url": "${JIRA_MCP_URL}",
-      "headers": {
-        "Authorization": "Bearer ${JIRA_MCP_TOKEN}"
-      }
-    },
-    "atlassian-rovo": {
-      "url": "${ATLASSIAN_ROVO_MCP_URL}",
-      "headers": {
-        "Authorization": "Bearer ${ATLASSIAN_ROVO_TOKEN}"
+      "command": "uvx",
+      "args": [
+        "mcp-atlassian"
+      ],
+      "env": {
+        "JIRA_URL": "${JIRA_URL}",
+        "JIRA_USERNAME": "${JIRA_USERNAME}",
+        "JIRA_API_TOKEN": "${JIRA_API_TOKEN}"
       }
     }
   }

@@ -234,10 +234,6 @@ y las animaciones de transición entre rutas.</p>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#cdr" >cdr</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
                                 <a href="#document" >document</a>
                             </li>
                             <li>
@@ -246,7 +242,7 @@ y las animaciones de transición entre rutas.</p>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#isHomePage" >isHomePage</a>
+                                <a href="#headerRevealEnabled" >headerRevealEnabled</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -262,7 +258,15 @@ y las animaciones de transición entre rutas.</p>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
+                                <a href="#loadingScreenEnabled" >loadingScreenEnabled</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#pageTitleService" >pageTitleService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#pendingInitialRouteReveal" >pendingInitialRouteReveal</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -283,7 +287,7 @@ y las animaciones de transición entre rutas.</p>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#startTime" >startTime</a>
+                                <a href="#shouldAnimateRouteTransition" >shouldAnimateRouteTransition</a>
                             </li>
                             <li>
                                 <a href="#title" >title</a>
@@ -296,6 +300,29 @@ y las animaciones de transición entre rutas.</p>
                     </td>
                 </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#isAdminRoute" >isAdminRoute</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onRouteActivated" >onRouteActivated</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#triggerRouteReveal" >triggerRouteReveal</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
 
 
@@ -316,7 +343,7 @@ y las animaciones de transición entre rutas.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">src/app/app.component.ts:78</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/app/app.component.ts:74</a></div>
                             </td>
                         </tr>
 
@@ -334,7 +361,159 @@ y las animaciones de transición entre rutas.</p>
 
 
 
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isAdminRoute"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>isAdminRoute</b></span>
+                        <a href="#isAdminRoute"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isAdminRoute(url: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
 
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="224"
+                                    class="link-to-prism">src/app/app.component.ts:224</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>url</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onRouteActivated"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>onRouteActivated</b></span>
+                        <a href="#onRouteActivated"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onRouteActivated()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="213"
+                                    class="link-to-prism">src/app/app.component.ts:213</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="triggerRouteReveal"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>triggerRouteReveal</b></span>
+                        <a href="#triggerRouteReveal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>triggerRouteReveal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="189"
+                                    class="link-to-prism">src/app/app.component.ts:189</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
     <section data-compodoc="block-properties">
     
     <h3 id="inputs">
@@ -365,39 +544,7 @@ y las animaciones de transición entre rutas.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/app/app.component.ts:72</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="cdr"></a>
-                    <span class="name">
-                            <span class="modifier">Private</span>
-                        <span ><b>cdr</b></span>
-                        <a href="#cdr"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>inject(ChangeDetectorRef)</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">src/app/app.component.ts:73</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/app.component.ts:67</a></div>
                         </td>
                     </tr>
 
@@ -429,7 +576,7 @@ y las animaciones de transición entre rutas.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/app.component.ts:77</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">src/app/app.component.ts:71</a></div>
                         </td>
                     </tr>
 
@@ -461,7 +608,7 @@ y las animaciones de transición entre rutas.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/app.component.ts:60</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/app.component.ts:58</a></div>
                         </td>
                     </tr>
 
@@ -478,11 +625,11 @@ y las animaciones de transición entre rutas.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="isHomePage"></a>
+                    <a name="headerRevealEnabled"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
-                        <span ><b>isHomePage</b></span>
-                        <a href="#isHomePage"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>headerRevealEnabled</b></span>
+                        <a href="#headerRevealEnabled"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -494,21 +641,15 @@ y las animaciones de transición entre rutas.</p>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>false</code>
+                        <i>Default value : </i><code>true</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/app.component.ts:65</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/app/app.component.ts:74</a></div>
                         </td>
                     </tr>
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Indica si la ruta actual es la página de inicio.</p>
-</div>
-                </td>
-            </tr>
 
         </tbody>
     </table>
@@ -537,7 +678,7 @@ y las animaciones de transición entre rutas.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/app.component.ts:58</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/app.component.ts:56</a></div>
                         </td>
                     </tr>
 
@@ -575,7 +716,7 @@ y las animaciones de transición entre rutas.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/app/app.component.ts:68</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/app.component.ts:61</a></div>
                         </td>
                     </tr>
 
@@ -607,7 +748,7 @@ y las animaciones de transición entre rutas.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/app.component.ts:67</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/app.component.ts:60</a></div>
                         </td>
                     </tr>
 
@@ -617,6 +758,38 @@ y las animaciones de transición entre rutas.</p>
 </div>
                 </td>
             </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadingScreenEnabled"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>loadingScreenEnabled</b></span>
+                        <a href="#loadingScreenEnabled"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">src/app/app.component.ts:73</a></div>
+                        </td>
+                    </tr>
+
 
         </tbody>
     </table>
@@ -645,7 +818,39 @@ y las animaciones de transición entre rutas.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">src/app/app.component.ts:78</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/app/app.component.ts:72</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pendingInitialRouteReveal"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>pendingInitialRouteReveal</b></span>
+                        <a href="#pendingInitialRouteReveal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/app/app.component.ts:64</a></div>
                         </td>
                     </tr>
 
@@ -677,7 +882,7 @@ y las animaciones de transición entre rutas.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">src/app/app.component.ts:76</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/app/app.component.ts:70</a></div>
                         </td>
                     </tr>
 
@@ -710,7 +915,7 @@ y las animaciones de transición entre rutas.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/app/app.component.ts:70</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/app.component.ts:63</a></div>
                         </td>
                     </tr>
 
@@ -742,7 +947,7 @@ y las animaciones de transición entre rutas.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/app.component.ts:69</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/app.component.ts:62</a></div>
                         </td>
                     </tr>
 
@@ -774,7 +979,7 @@ y las animaciones de transición entre rutas.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/app/app.component.ts:74</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/app/app.component.ts:68</a></div>
                         </td>
                     </tr>
 
@@ -785,11 +990,11 @@ y las animaciones de transición entre rutas.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="startTime"></a>
+                    <a name="shouldAnimateRouteTransition"></a>
                     <span class="name">
                             <span class="modifier">Private</span>
-                        <span ><b>startTime</b></span>
-                        <a href="#startTime"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>shouldAnimateRouteTransition</b></span>
+                        <a href="#shouldAnimateRouteTransition"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -801,21 +1006,15 @@ y las animaciones de transición entre rutas.</p>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>Date.now()</code>
+                        <i>Default value : </i><code>true</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/app.component.ts:62</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/app.component.ts:65</a></div>
                         </td>
                     </tr>
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Marca de tiempo de inicio para calcular el tiempo de carga.</p>
-</div>
-                </td>
-            </tr>
 
         </tbody>
     </table>
@@ -843,7 +1042,7 @@ y las animaciones de transición entre rutas.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/app.component.ts:56</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/app.component.ts:54</a></div>
                         </td>
                     </tr>
 
@@ -881,7 +1080,7 @@ y las animaciones de transición entre rutas.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/app/app.component.ts:75</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/app.component.ts:69</a></div>
                         </td>
                     </tr>
 
@@ -897,7 +1096,6 @@ y las animaciones de transición entre rutas.</p>
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   Component,
   inject,
-  ChangeDetectorRef,
   effect,
   PLATFORM_ID,
 } from &#x27;@angular/core&#x27;;
@@ -912,8 +1110,7 @@ import {
 import { ErrorToastComponent } from &#x27;./shared/components/error-toast/error-toast.component&#x27;;
 import { BaseAuthenticationService } from &#x27;./core/services/impl/base-authentication.service&#x27;;
 import { UiStateService } from &#x27;./core/services/impl/ui-state.service&#x27;;
-import { forkJoin, timer } from &#x27;rxjs&#x27;;
-import { filter, take } from &#x27;rxjs/operators&#x27;;
+import { timer } from &#x27;rxjs&#x27;;
 import { LoadingComponent } from &#x27;./shared/components/loading/loading.component&#x27;;
 import { CommonModule, isPlatformBrowser, DOCUMENT } from &#x27;@angular/common&#x27;;
 import { HeaderComponent } from &#x27;./shared/components/header/header.component&#x27;;
@@ -954,48 +1151,67 @@ export class AppComponent {
   public isLoading &#x3D; true;
   /** Duración de la animación de salida del loader. */
   public exitAnimationDuration &#x3D; &#x27;800ms&#x27;;
-  /** Marca de tiempo de inicio para calcular el tiempo de carga. */
-  private startTime &#x3D; Date.now();
-
-  /** Indica si la ruta actual es la página de inicio. */
-  public isHomePage &#x3D; false;
   /** Controla el estado visual del contenedor durante navegación. */
   public isRouteHidden &#x3D; false;
   public isRouteEntering &#x3D; false;
   private routeFadeTimer: ReturnType&lt;typeof setTimeout&gt; | null &#x3D; null;
   private readonly routeFadeDurationMs &#x3D; 650;
+  private pendingInitialRouteReveal &#x3D; false;
+  private shouldAnimateRouteTransition &#x3D; true;
 
   private authService &#x3D; inject(BaseAuthenticationService);
-  private cdr &#x3D; inject(ChangeDetectorRef);
   private router &#x3D; inject(Router);
   private uiState &#x3D; inject(UiStateService);
   private platformId &#x3D; inject(PLATFORM_ID);
   private document &#x3D; inject(DOCUMENT);
   private pageTitleService &#x3D; inject(PageTitleService);
+  private loadingScreenEnabled &#x3D; true;
+  public headerRevealEnabled &#x3D; true;
 
   /**
    * Inicializa la aplicación, gestiona el auto-login y el estado de la pantalla de carga.
    */
   constructor() {
-    this.authService.autoLogin();
+    const requestWantsNoLoader &#x3D;
+      this.document.location?.search?.includes(&#x27;_skip_loader&#x3D;1&#x27;) ?? false;
+    if (isPlatformBrowser(this.platformId)) {
+      const configEnabled &#x3D; Boolean(
+        (window as any).__APP_CONFIG__?.loadingScreenEnabled,
+      );
+      const noLoadingScreenClass &#x3D;
+        this.document.documentElement.classList.contains(&#x27;no-loading-screen&#x27;);
+      this.loadingScreenEnabled &#x3D;
+        configEnabled &amp;&amp; !noLoadingScreenClass &amp;&amp; !requestWantsNoLoader;
+      this.pendingInitialRouteReveal &#x3D; noLoadingScreenClass;
+      if (this.pendingInitialRouteReveal) {
+        this.isRouteHidden &#x3D; true;
+      }
+    } else {
+      this.loadingScreenEnabled &#x3D; !requestWantsNoLoader;
+      this.pendingInitialRouteReveal &#x3D; requestWantsNoLoader;
+      if (this.pendingInitialRouteReveal) {
+        this.isRouteHidden &#x3D; true;
+      }
+    }
+    this.headerRevealEnabled &#x3D; this.loadingScreenEnabled;
+    this.isLoading &#x3D; this.loadingScreenEnabled;
 
     if (isPlatformBrowser(this.platformId)) {
-      const minWait$ &#x3D; timer(2000);
-      const authCheck$ &#x3D; this.authService.ready$.pipe(
-        filter((isReady) &#x3D;&gt; isReady),
-        take(1),
-      );
-
-      forkJoin([minWait$, authCheck$]).subscribe(() &#x3D;&gt; {
-        const elapsedTime &#x3D; Date.now() - this.startTime;
-        if (elapsedTime &lt; 200) {
-          this.exitAnimationDuration &#x3D; &#x27;0ms&#x27;;
-          this.cdr.detectChanges();
-        }
-
+      if (!this.loadingScreenEnabled) {
+        this.exitAnimationDuration &#x3D; &#x27;0ms&#x27;;
         window.scrollTo(0, 0);
         this.isLoading &#x3D; false;
-      });
+        this.authService.autoLogin(250);
+      } else {
+        const minWait$ &#x3D; timer(2000);
+        minWait$.subscribe(() &#x3D;&gt; {
+          window.scrollTo(0, 0);
+          this.isLoading &#x3D; false;
+          this.authService.autoLogin(250);
+        });
+      }
+    } else {
+      this.authService.autoLogin();
     }
 
     this.router.events.subscribe((event) &#x3D;&gt; {
@@ -1011,21 +1227,31 @@ export class AppComponent {
           clearTimeout(this.routeFadeTimer);
           this.routeFadeTimer &#x3D; null;
         }
+
+        const currentUrl &#x3D; this.router.url || &#x27;&#x27;;
+        const targetUrl &#x3D; event.url || &#x27;&#x27;;
+        const currentIsAdmin &#x3D; this.isAdminRoute(currentUrl);
+        const targetIsAdmin &#x3D; this.isAdminRoute(targetUrl);
+        this.shouldAnimateRouteTransition &#x3D; !(currentIsAdmin &amp;&amp; targetIsAdmin);
+
         this.isRouteEntering &#x3D; false;
-        this.isRouteHidden &#x3D; true;
+        if (this.shouldAnimateRouteTransition) {
+          this.isRouteHidden &#x3D; true;
+        } else {
+          this.isRouteHidden &#x3D; false;
+        }
       }
 
       if (event instanceof NavigationEnd) {
         window.scrollTo(0, 0);
         this.pageTitleService.updateFromRoute(this.router.url);
-        requestAnimationFrame(() &#x3D;&gt; {
-          this.isRouteHidden &#x3D; false;
-          this.isRouteEntering &#x3D; true;
-          this.routeFadeTimer &#x3D; setTimeout(() &#x3D;&gt; {
-            this.isRouteEntering &#x3D; false;
-            this.routeFadeTimer &#x3D; null;
-          }, this.routeFadeDurationMs);
-        });
+        if (
+          this.shouldAnimateRouteTransition &amp;&amp;
+          this.isRouteHidden &amp;&amp;
+          !this.pendingInitialRouteReveal
+        ) {
+          this.triggerRouteReveal();
+        }
       }
 
       if (event instanceof NavigationCancel || event instanceof NavigationError) {
@@ -1054,6 +1280,45 @@ export class AppComponent {
       }
     });
   }
+
+  private triggerRouteReveal() {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    if (!this.isRouteHidden) {
+      return;
+    }
+    if (this.routeFadeTimer) {
+      clearTimeout(this.routeFadeTimer);
+      this.routeFadeTimer &#x3D; null;
+    }
+    this.isRouteEntering &#x3D; false;
+    this.isRouteHidden &#x3D; false;
+    requestAnimationFrame(() &#x3D;&gt; {
+      requestAnimationFrame(() &#x3D;&gt; {
+        this.isRouteEntering &#x3D; true;
+        this.routeFadeTimer &#x3D; setTimeout(() &#x3D;&gt; {
+          this.isRouteEntering &#x3D; false;
+          this.routeFadeTimer &#x3D; null;
+        }, this.routeFadeDurationMs);
+      });
+    });
+  }
+
+  public onRouteActivated() {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    if (!this.isRouteHidden &amp;&amp; !this.pendingInitialRouteReveal) {
+      return;
+    }
+    this.pendingInitialRouteReveal &#x3D; false;
+    this.triggerRouteReveal();
+  }
+
+  private isAdminRoute(url: string): boolean {
+    return /^\/admin(?:\/|$)/.test(url || &#x27;&#x27;);
+  }
 }
 </code></pre>
     </div>
@@ -1069,8 +1334,8 @@ export class AppComponent {
   &gt;&lt;/app-loading&gt;
   &lt;app-header
     [@headerRevealAnimation]&#x3D;&quot;{
-      value: isLoading ? &#x27;hidden&#x27; : &#x27;visible&#x27;,
-      params: { delay: exitAnimationDuration },
+      value: headerRevealEnabled ? (isLoading ? &#x27;hidden&#x27; : &#x27;visible&#x27;) : &#x27;visible&#x27;,
+      params: { delay: headerRevealEnabled ? exitAnimationDuration : &#x27;0ms&#x27; },
     }&quot;
   &gt;&lt;/app-header&gt;
   &lt;div
@@ -1085,7 +1350,7 @@ export class AppComponent {
       [class.route-hidden]&#x3D;&quot;isRouteHidden&quot;
       [class.route-entering]&#x3D;&quot;isRouteEntering&quot;
     &gt;
-      &lt;router-outlet&gt;&lt;/router-outlet&gt;
+      &lt;router-outlet (activate)&#x3D;&quot;onRouteActivated()&quot;&gt;&lt;/router-outlet&gt;
     &lt;/div&gt;
     &lt;app-error-toast&gt;&lt;/app-error-toast&gt;
     &lt;app-footer&gt;&lt;/app-footer&gt;
@@ -1181,7 +1446,7 @@ app-header {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="app-container">  <app-loading    *ngIf="isLoading"    [@leaveAnimation]="{      value: \':leave\',      params: { duration: exitAnimationDuration },    }"  ></app-loading>  <app-header    [@headerRevealAnimation]="{      value: isLoading ? \'hidden\' : \'visible\',      params: { delay: exitAnimationDuration },    }"  ></app-header>  <div    class="main-content"    [@revealAnimation]="{      value: isLoading ? \'hidden\' : \'visible\',      params: { duration: exitAnimationDuration },    }"  >    <div      class="route-container"      [class.route-hidden]="isRouteHidden"      [class.route-entering]="isRouteEntering"    >      <router-outlet></router-outlet>    </div>    <app-error-toast></app-error-toast>    <app-footer></app-footer>  </div></div></div>'
+        var COMPONENT_TEMPLATE = '<div><div class="app-container">  <app-loading    *ngIf="isLoading"    [@leaveAnimation]="{      value: \':leave\',      params: { duration: exitAnimationDuration },    }"  ></app-loading>  <app-header    [@headerRevealAnimation]="{      value: headerRevealEnabled ? (isLoading ? \'hidden\' : \'visible\') : \'visible\',      params: { delay: headerRevealEnabled ? exitAnimationDuration : \'0ms\' },    }"  ></app-header>  <div    class="main-content"    [@revealAnimation]="{      value: isLoading ? \'hidden\' : \'visible\',      params: { duration: exitAnimationDuration },    }"  >    <div      class="route-container"      [class.route-hidden]="isRouteHidden"      [class.route-entering]="isRouteEntering"    >      <router-outlet (activate)="onRouteActivated()"></router-outlet>    </div>    <app-error-toast></app-error-toast>    <app-footer></app-footer>  </div></div></div>'
     var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'StripeModalComponent', 'selector': 'app-stripe-modal'}];
     var DIRECTIVES = [{'name': 'CopyOnClickDirective', 'selector': '[appCopyOnClick]'},{'name': 'HighlightDirective', 'selector': '[appHighlight]'},{'name': 'Tilt3DDirective', 'selector': '[appTilt3D]'}];
     var ACTUAL_COMPONENT = {'name': 'AppComponent'};
