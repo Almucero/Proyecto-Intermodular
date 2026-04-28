@@ -408,7 +408,7 @@
           </div>
         </div>
 
-        @if (purchasesLoading() || purchases().length > 0) {
+        @if ((purchasesLoading() && purchasesSkeletonCount() > 0) || purchases().length > 0) {
           <section class="mt-4 md:mt-8">
             <h3 class="text-xl font-bold text-white mb-6 text-left">
               {{ "dashboard.purchases" | translate }}
@@ -513,6 +513,63 @@
                                 </svg>
                               </a>
                             </div>
+                            <div class="purchase-key-row mt-2">
+                              <span class="text-[11px] md:text-xs text-gray-400"
+                                >{{ "dashboard.keyLabel" | translate }}</span
+                              >
+                              <span
+                                class="purchase-key-value text-[11px] md:text-xs text-gray-200"
+                                [class.is-visible]="isPurchaseKeyVisible(item.itemId ?? item.id)"
+                              >
+                                {{ item.key || "-" }}
+                              </span>
+                              <button
+                                type="button"
+                                class="purchase-key-toggle"
+                                [attr.aria-label]="
+                                  isPurchaseKeyVisible(item.itemId ?? item.id)
+                                    ? ('tooltips.hideKey' | translate)
+                                    : ('tooltips.showKey' | translate)
+                                "
+                                [title]="
+                                  isPurchaseKeyVisible(item.itemId ?? item.id)
+                                    ? ('tooltips.hideKey' | translate)
+                                    : ('tooltips.showKey' | translate)
+                                "
+                                (click)="togglePurchaseKeyVisibility(item.itemId ?? item.id)"
+                              >
+                                @if (isPurchaseKeyVisible(item.itemId ?? item.id)) {
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  >
+                                    <path
+                                      d="M3 3l18 18M10.58 10.58a2 2 0 002.83 2.83M9.88 5.09A10.94 10.94 0 0112 5c5 0 9.27 3.11 11 7-1.02 2.29-2.72 4.2-4.84 5.39M6.61 6.61C4.62 7.83 3.06 9.68 2 12c1.73 3.89 6 7 10 7 1.61 0 3.15-.39 4.53-1.09"
+                                    />
+                                  </svg>
+                                } @else {
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  >
+                                    <path
+                                      d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"
+                                    />
+                                    <circle cx="12" cy="12" r="3" />
+                                  </svg>
+                                }
+                              </button>
+                            </div>
                           </div>
                           <div
                             class="w-full md:w-auto flex flex-row justify-between md:justify-end items-center mt-1 md:mt-0 pt-2 md:pt-0 border-t border-gray-600 md:border-0 md:gap-4"
@@ -534,7 +591,7 @@
             }
           </section>
         }
-        @if (returnsLoading() || returns().length > 0) {
+        @if ((returnsLoading() && returnsSkeletonCount() > 0) || returns().length > 0) {
           <section class="mt-4 md:mt-8">
             <h3 class="text-xl font-bold text-white mb-6 text-left">
               {{ "dashboard.returns" | translate }}

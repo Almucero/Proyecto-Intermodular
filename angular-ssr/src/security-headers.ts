@@ -13,7 +13,7 @@ export function applySecurityHeaders(
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader(
     'Permissions-Policy',
-    'geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()',
+    'geolocation=(), microphone=(), camera=(), payment=(self "https://js.stripe.com" "https://checkout.stripe.com" "https://hooks.stripe.com"), compute-pressure=(self "https://js.stripe.com" "https://checkout.stripe.com" "https://hooks.stripe.com"), usb=(), magnetometer=(), gyroscope=(), accelerometer=()',
   );
 
   if (
@@ -33,7 +33,7 @@ export function applySecurityHeaders(
     "style-src-elem 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com https://accounts.google.com https://accounts.gstatic.com; " +
     "img-src 'self' data: https://res.cloudinary.com https://img.youtube.com https://upload.wikimedia.org https://cdn.jsdelivr.net blob:; " +
     "font-src 'self' data: https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.gstatic.com; " +
-    "frame-src 'self' https://www.youtube-nocookie.com https://js.stripe.com https://hooks.stripe.com https://accounts.google.com; " +
+    "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://js.stripe.com https://hooks.stripe.com https://accounts.google.com; " +
     "frame-ancestors 'self'; " +
     "base-uri 'self'; " +
     "form-action 'self' https://checkout.stripe.com https://hooks.stripe.com; " +

@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe, TranslateModule } from '@ngx-translate/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { GameService } from '../../core/services/impl/game.service';
 import { MediaService } from '../../core/services/impl/media.service';
@@ -53,6 +53,7 @@ interface RecommendationSection {
     LocalizedCurrencyPipe,
     CarouselComponent,
     StripeModalComponent,
+    RouterModule,
   ],
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss'],
@@ -84,6 +85,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   screenshotModalImage = signal<string | null>(null);
   checkoutModalOpen = signal(false);
   directCheckoutPayload = signal<{ gameId: number; platformId: number } | null>(null);
+  purchaseInfoVisible = signal(false);
 
   /** Configuración estática de todas las plataformas soportadas. */
   allPlatforms = [
@@ -185,6 +187,13 @@ export class ProductComponent implements OnInit, OnDestroy {
         this.currentMediaIndex = 0;
         this.selectedPlatform = null;
         this.loadGame(id);
+      }
+    });
+    this.route.queryParamMap.subscribe((params) => {
+      const payment = params.get('payment');
+      const sessionId = params.get('session_id');
+      if (payment === 'success' && !!sessionId) {
+        this.purchaseInfoVisible.set(true);
       }
     });
 
@@ -712,10 +721,15 @@ export class ProductComponent implements OnInit, OnDestroy {
   onCheckoutCompleted(): void {
     this.checkoutModalOpen.set(false);
     this.directCheckoutPayload.set(null);
+    this.purchaseInfoVisible.set(true);
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.loadGame(id);
     }
+  }
+
+  closePurchaseInfo(): void {
+    this.purchaseInfoVisible.set(false);
   }
 
   /** Comprueba si el juego está disponible para una plataforma dada. */
@@ -787,7 +801,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   private convertToEmbedUrl(url: string): string {
     const videoId = this.getVideoId(url);
     if (videoId) {
-      return `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3`;
+      return `https://www.youtube.com/embed/${videoId}?autoplay=0&mute=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3`;
     }
     return url;
   }

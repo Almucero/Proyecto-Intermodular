@@ -28,4 +28,6 @@ export interface PurchaseItem extends Model {
   purchasePrice?: number;
   /** Valoración del usuario para este artículo (opcional). */
   rating?: number;
+  /** Clave del producto digital asociada al juego comprado. */
+  key?: string | null;
 }

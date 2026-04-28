@@ -337,6 +337,7 @@ async function seedData() {
      */
     const createGame = async (g: {
       title: string;
+      key?: string;
       description: string;
       price: number;
       isOnSale: boolean;
@@ -425,6 +426,7 @@ async function seedData() {
       const created = await prisma.game.create({
         data: {
           title: g.title,
+          key: g.key ?? null,
           description: g.description,
           price: g.price,
           salePrice: g.salePrice,

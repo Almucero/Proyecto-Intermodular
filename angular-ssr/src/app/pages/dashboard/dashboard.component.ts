@@ -59,8 +59,8 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   returns = signal<any[]>([]);
   purchasesLoading = signal(true);
   returnsLoading = signal(true);
-  purchasesSkeletonCount = signal(2);
-  returnsSkeletonCount = signal(2);
+  purchasesSkeletonCount = signal(0);
+  returnsSkeletonCount = signal(0);
   purchaseItemsSkeletonCount = signal(2);
   returnItemsSkeletonCount = signal(2);
   purchaseSkeletonCards = computed(() =>
@@ -134,6 +134,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   private readonly purchaseItemsSkeletonCacheKey =
     'dashboard.purchaseItemsSkeletonCount';
   private readonly returnItemsSkeletonCacheKey = 'dashboard.returnItemsSkeletonCount';
+  private visiblePurchaseKeys = signal<Map<number, boolean>>(new Map());
 
   /**
    * Obtiene la URL de la imagen de perfil, priorizando la previsualización local,
@@ -215,12 +216,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       .subscribe({
         next: (data) => {
           this.purchases.set(data);
-          const cards = this.normalizeSkeletonCount(
-            data.length,
-            1,
-            4,
-            this.purchasesSkeletonCount(),
-          );
+          const cards = this.normalizeSkeletonCount(data.length, this.purchasesSkeletonCount());
           const avgItems =
             data.length > 0
               ? Math.round(
@@ -230,7 +226,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
                   ) / data.length,
                 )
               : this.purchaseItemsSkeletonCount();
-          const items = this.normalizeSkeletonCount(avgItems, 1, 4, 2);
+          const items = this.normalizeSkeletonCount(avgItems, this.purchaseItemsSkeletonCount());
           this.purchasesSkeletonCount.set(cards);
           this.purchaseItemsSkeletonCount.set(items);
           this.persistSkeletonCounts();
@@ -238,6 +234,9 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
         },
         error: () => {
           this.purchases.set([]);
+          this.purchasesSkeletonCount.set(0);
+          this.purchaseItemsSkeletonCount.set(0);
+          this.persistSkeletonCounts();
           this.purchasesLoading.set(false);
         },
       });
@@ -251,12 +250,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       .subscribe({
         next: (data) => {
           this.returns.set(data);
-          const cards = this.normalizeSkeletonCount(
-            data.length,
-            1,
-            4,
-            this.returnsSkeletonCount(),
-          );
+          const cards = this.normalizeSkeletonCount(data.length, this.returnsSkeletonCount());
           const avgItems =
             data.length > 0
               ? Math.round(
@@ -266,7 +260,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
                   ) / data.length,
                 )
               : this.returnItemsSkeletonCount();
-          const items = this.normalizeSkeletonCount(avgItems, 1, 4, 2);
+          const items = this.normalizeSkeletonCount(avgItems, this.returnItemsSkeletonCount());
           this.returnsSkeletonCount.set(cards);
           this.returnItemsSkeletonCount.set(items);
           this.persistSkeletonCounts();
@@ -274,6 +268,9 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
         },
         error: () => {
           this.returns.set([]);
+          this.returnsSkeletonCount.set(0);
+          this.returnItemsSkeletonCount.set(0);
+          this.persistSkeletonCounts();
           this.returnsLoading.set(false);
         },
       });
@@ -452,14 +449,9 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     return Array.from({ length: Math.max(0, count) }, (_, i) => i + 1);
   }
 
-  private normalizeSkeletonCount(
-    value: number,
-    min: number,
-    max: number,
-    fallback: number,
-  ): number {
-    const candidate = Number.isFinite(value) && value > 0 ? Math.round(value) : fallback;
-    return Math.min(max, Math.max(min, candidate));
+  private normalizeSkeletonCount(value: number, fallback: number): number {
+    if (!Number.isFinite(value)) return Math.max(0, Math.round(fallback));
+    return Math.max(0, Math.round(value));
   }
 
   private loadSkeletonCountsFromCache(): void {
@@ -471,16 +463,16 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     );
     const returnItemsCount = Number(localStorage.getItem(this.returnItemsSkeletonCacheKey));
     this.purchasesSkeletonCount.set(
-      this.normalizeSkeletonCount(purchasesCount, 1, 4, this.purchasesSkeletonCount()),
+      this.normalizeSkeletonCount(purchasesCount, this.purchasesSkeletonCount()),
     );
     this.returnsSkeletonCount.set(
-      this.normalizeSkeletonCount(returnsCount, 1, 4, this.returnsSkeletonCount()),
+      this.normalizeSkeletonCount(returnsCount, this.returnsSkeletonCount()),
     );
     this.purchaseItemsSkeletonCount.set(
-      this.normalizeSkeletonCount(purchaseItemsCount, 1, 4, this.purchaseItemsSkeletonCount()),
+      this.normalizeSkeletonCount(purchaseItemsCount, this.purchaseItemsSkeletonCount()),
     );
     this.returnItemsSkeletonCount.set(
-      this.normalizeSkeletonCount(returnItemsCount, 1, 4, this.returnItemsSkeletonCount()),
+      this.normalizeSkeletonCount(returnItemsCount, this.returnItemsSkeletonCount()),
     );
   }
 
@@ -528,5 +520,17 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     }
 
     return `${day} ${month} ${year}, ${hh}:${mm}:${ss}`;
+  }
+
+  isPurchaseKeyVisible(itemId: number): boolean {
+    return this.visiblePurchaseKeys().get(itemId) ?? false;
+  }
+
+  togglePurchaseKeyVisibility(itemId: number): void {
+    this.visiblePurchaseKeys.update((state) => {
+      const nextState = new Map(state);
+      nextState.set(itemId, !(state.get(itemId) ?? false));
+      return nextState;
+    });
   }
 }

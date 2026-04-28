@@ -31,8 +31,10 @@ export class PurchaseItemMappingNodeService implements IBaseMapping<PurchaseItem
         title: data.title,
         price: data.price,
         rating: data.rating,
+        key: data.key ?? null,
       },
       platform: data.platform,
+      key: data.key ?? data.game?.key ?? null,
     };
   }
 

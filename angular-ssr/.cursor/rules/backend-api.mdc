@@ -9,7 +9,7 @@ alwaysApply: false
 
 - Validar entrada con Zod en rutas/controladores.
 - Mantener controladores delgados y mover logica a servicios.
-- Gestionar errores con codigos HTTP y mensajes coherentes.
+- Gestionar errores con codigos HTTP y mensajes coherentes y traducidos (es, en, de, it, fr).
 - No exponer secretos ni detalles internos en respuestas de error.
 - Reusar utilidades existentes para seguridad, serializacion y logging.
 - Mantener compatibilidad con contratos consumidos por frontend.

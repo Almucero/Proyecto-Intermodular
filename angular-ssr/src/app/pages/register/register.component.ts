@@ -138,8 +138,15 @@ export class RegisterComponent implements OnInit {
           });
         },
         error: (err) => {
-          this.registerError =
-            err.error?.message || 'Error al registrar la cuenta';
+          const errorCode = err?.error?.code;
+          const fallbackMessage = err?.error?.message;
+          if (typeof errorCode === 'string' && errorCode.length > 0) {
+            this.registerError = `errors.${errorCode}`;
+          } else if (typeof fallbackMessage === 'string' && fallbackMessage.length > 0) {
+            this.registerError = fallbackMessage;
+          } else {
+            this.registerError = 'errors.ERR_AUTH_REGISTER_FAILED';
+          }
           this.formRegister.controls['password'].reset();
           this.formRegister.controls['password2'].reset();
         },
@@ -152,7 +159,7 @@ export class RegisterComponent implements OnInit {
   onGoogleSignInClick() {
     this.googleError = '';
     if (!this.googleClientId || !isPlatformBrowser(this.platformId)) {
-      this.googleError = 'Google no está configurado en este entorno';
+      this.googleError = 'errors.ERR_AUTH_GOOGLE_NOT_CONFIGURED';
       return;
     }
     const state = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
@@ -179,7 +186,7 @@ export class RegisterComponent implements OnInit {
   onGithubSignInClick() {
     this.githubError = '';
     if (!this.githubClientId || !isPlatformBrowser(this.platformId)) {
-      this.githubError = 'GitHub no está configurado en este entorno';
+      this.githubError = 'errors.ERR_AUTH_GITHUB_NOT_CONFIGURED';
       return;
     }
 
@@ -209,7 +216,7 @@ export class RegisterComponent implements OnInit {
           this.googleClientId = response.clientId ?? '';
         },
         error: () => {
-          this.googleError = 'No se pudo cargar configuración de Google';
+          this.googleError = 'errors.ERR_AUTH_GOOGLE_CONFIG_LOAD';
         },
       });
   }
@@ -226,7 +233,7 @@ export class RegisterComponent implements OnInit {
           this.githubClientId = response.clientId ?? '';
         },
         error: () => {
-          this.githubError = 'No se pudo cargar configuración de GitHub';
+          this.githubError = 'errors.ERR_AUTH_GITHUB_CONFIG_LOAD';
         },
       });
   }
@@ -251,12 +258,12 @@ export class RegisterComponent implements OnInit {
 
       if (githubError) {
         this.isOAuthRedirectProcessing = false;
-        this.githubError = 'Autenticación con GitHub cancelada o fallida';
+        this.githubError = 'errors.ERR_AUTH_GITHUB_CANCELLED';
         return;
       }
       if (!githubCode || !githubState || !expectedState || githubState !== expectedState) {
         this.isOAuthRedirectProcessing = false;
-        this.githubError = 'No se pudo validar la autenticación con GitHub';
+        this.githubError = 'errors.ERR_AUTH_GITHUB_VALIDATION';
         return;
       }
 
@@ -264,7 +271,7 @@ export class RegisterComponent implements OnInit {
         next: () => this.router.navigate([this.navigateTo]),
         error: () => {
           this.isOAuthRedirectProcessing = false;
-          this.githubError = 'No se pudo completar el registro con GitHub';
+          this.githubError = 'errors.ERR_AUTH_GITHUB_REGISTER';
         },
       });
       return;
@@ -283,19 +290,19 @@ export class RegisterComponent implements OnInit {
 
       if (googleError) {
         this.isOAuthRedirectProcessing = false;
-        this.googleError = 'Autenticación con Google cancelada o fallida';
+        this.googleError = 'errors.ERR_AUTH_GOOGLE_CANCELLED';
         return;
       }
       if (!googleIdToken || !googleState || !expectedState || googleState !== expectedState) {
         this.isOAuthRedirectProcessing = false;
-        this.googleError = 'No se pudo validar la autenticación con Google';
+        this.googleError = 'errors.ERR_AUTH_GOOGLE_VALIDATION';
         return;
       }
 
       const tokenNonce = this.getNonceFromIdToken(googleIdToken);
       if (!tokenNonce || !expectedNonce || tokenNonce !== expectedNonce) {
         this.isOAuthRedirectProcessing = false;
-        this.googleError = 'No se pudo validar la autenticación con Google';
+        this.googleError = 'errors.ERR_AUTH_GOOGLE_VALIDATION';
         return;
       }
 
@@ -303,7 +310,7 @@ export class RegisterComponent implements OnInit {
         next: () => this.router.navigate([this.navigateTo]),
         error: () => {
           this.isOAuthRedirectProcessing = false;
-          this.googleError = 'No se pudo completar el registro con Google';
+          this.googleError = 'errors.ERR_AUTH_GOOGLE_REGISTER';
         },
       });
     }

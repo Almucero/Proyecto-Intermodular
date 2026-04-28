@@ -264,17 +264,17 @@
         </div>
         @if (registerError) {
           <div class="mb-3 text-red-500 text-center mix-blend-color-dodge">
-            {{ registerError }}
+            {{ registerError | translate }}
           </div>
         }
         @if (googleError) {
           <div class="mb-3 text-red-500 text-center mix-blend-color-dodge">
-            {{ googleError }}
+            {{ googleError | translate }}
           </div>
         }
         @if (githubError) {
           <div class="mb-3 text-red-500 text-center mix-blend-color-dodge">
-            {{ githubError }}
+            {{ githubError | translate }}
           </div>
         }
         <div class="my-4 flex items-center gap-3">
@@ -315,12 +315,12 @@
         </div>
         @if (!googleClientId) {
           <div class="mb-3 text-xs text-gray-300 text-center">
-            Google Sign-In no configurado
+            {{ "errors.ERR_AUTH_GOOGLE_NOT_CONFIGURED" | translate }}
           </div>
         }
         @if (!githubClientId) {
           <div class="mb-3 text-xs text-gray-300 text-center">
-            GitHub Sign-In no configurado
+            {{ "errors.ERR_AUTH_GITHUB_NOT_CONFIGURED" | translate }}
           </div>
         }
         <div class="my-4 flex items-center gap-3">

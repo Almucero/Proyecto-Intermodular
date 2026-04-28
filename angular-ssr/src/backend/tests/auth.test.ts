@@ -51,6 +51,33 @@ describe('Auth Endpoints', () => {
       expect(res.body.message).toBe('Email ya registrado');
     });
 
+    it('debe fallar con accountAt duplicado sin exponer errores técnicos', async () => {
+      const sharedAccountAt = `@dup${Date.now()}`;
+      const firstUser = {
+        email: `dup1-${Date.now()}@example.com`,
+        name: 'Dup',
+        surname: 'One',
+        password: 'password123',
+        accountAt: sharedAccountAt,
+      };
+      const secondUser = {
+        email: `dup2-${Date.now()}@example.com`,
+        name: 'Dup',
+        surname: 'Two',
+        password: 'password123',
+        accountAt: sharedAccountAt,
+      };
+
+      const firstRes = await request(app).post('/api/auth/register').send(firstUser);
+      expect(firstRes.status).toBe(201);
+
+      const secondRes = await request(app).post('/api/auth/register').send(secondUser);
+      expect(secondRes.status).toBe(409);
+      expect(secondRes.body.message).toBe('Nombre de usuario no disponible');
+      expect(String(secondRes.body.message)).not.toContain('prisma.user.create');
+      expect(String(secondRes.body.message)).not.toContain('Unique constraint failed');
+    });
+
     it('debe fallar con email inválido', async () => {
       const res = await request(app)
         .post('/api/auth/register')

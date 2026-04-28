@@ -1,5 +1,9 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter, withRouterConfig } from '@angular/router';
+import {
+  provideRouter,
+  withInMemoryScrolling,
+  withRouterConfig,
+} from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { routes } from './app.routes';
 import {
@@ -108,6 +112,10 @@ export const appConfig: ApplicationConfig = {
       routes,
       withRouterConfig({
         onSameUrlNavigation: 'reload',
+      }),
+      withInMemoryScrolling({
+        anchorScrolling: 'enabled',
+        scrollPositionRestoration: 'enabled',
       }),
     ),
     provideHttpClient(
