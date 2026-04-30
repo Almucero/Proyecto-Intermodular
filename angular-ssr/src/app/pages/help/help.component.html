@@ -1,7 +1,398 @@
-<div class="flex-1 w-full bg-gray-900 text-white font-sans">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
-    <h2 class="text-2xl font-bold text-cyan-300 mb-6 text-center">
+<div
+  class="flex-1 w-full bg-gray-900 text-white font-sans py-8 pb-20 relative overflow-hidden"
+>
+  <div [class.help-content-blurred]="isScreenshotModalOpen()">
+  <div
+    class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
+  >
+    <h1 class="text-3xl font-bold text-cyan-300 mb-8 text-center">
       {{ "help.title" | translate }}
-    </h2>
+    </h1>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <aside class="lg:col-span-4 hidden lg:block">
+        <div
+          class="bg-gray-800/60 backdrop-blur-md border border-gray-700/50 rounded-3xl p-4 shadow-2xl"
+        >
+          <h3 class="text-xl font-bold text-cyan-300 mb-3">
+            {{ "help.tocTitle" | translate }}
+          </h3>
+          <p class="text-gray-400 text-sm mb-4">
+            {{ "help.tocDescription" | translate }}
+          </p>
+
+          <nav class="help-toc">
+            <a class="help-toc-link" [routerLink]="[]" fragment="activacion">
+              {{ "help.nav.activation" | translate }}
+            </a>
+            <a class="help-toc-link" [routerLink]="[]" fragment="activar-pc"> PC </a>
+            <a class="help-toc-link" [routerLink]="[]" fragment="activar-ps">{{ "help.nav.playstation" | translate }}</a>
+            <a class="help-toc-link" [routerLink]="[]" fragment="activar-xbox">{{ "help.nav.xbox" | translate }}</a>
+            <a class="help-toc-link" [routerLink]="[]" fragment="activar-switch">{{ "help.nav.switch" | translate }}</a>
+            <a class="help-toc-link" [routerLink]="[]" fragment="faq">{{ "help.nav.faq" | translate }}</a>
+            <a class="help-toc-link" routerLink="/contact">{{ "help.nav.contact" | translate }}</a>
+          </nav>
+        </div>
+      </aside>
+
+      <main class="lg:col-span-8">
+        <div class="lg:hidden mb-6">
+          <div class="help-toc-scroller">
+            <a class="help-toc-chip" [routerLink]="[]" fragment="activacion">
+              {{ "help.nav.activationShort" | translate }}
+            </a>
+            <a class="help-toc-chip" [routerLink]="[]" fragment="activar-pc">
+              PC
+            </a>
+            <a class="help-toc-chip" [routerLink]="[]" fragment="activar-ps">{{ "help.nav.playstation" | translate }}</a>
+            <a class="help-toc-chip" [routerLink]="[]" fragment="activar-xbox">{{ "help.nav.xbox" | translate }}</a>
+            <a class="help-toc-chip" [routerLink]="[]" fragment="activar-switch">{{ "help.nav.switch" | translate }}</a>
+            <a class="help-toc-chip" [routerLink]="[]" fragment="faq">
+              {{ "help.nav.faq" | translate }}
+            </a>
+            <a class="help-toc-chip" routerLink="/contact">
+              {{ "help.nav.contact" | translate }}
+            </a>
+          </div>
+        </div>
+
+        <p class="text-gray-400 font-medium leading-relaxed text-justify text-left mb-8 lg:mt-6">
+          {{ "help.heroDescription" | translate }}
+        </p>
+
+        <section id="activacion" class="help-section">
+          <div class="help-section-header">
+            <span class="help-badge">1</span>
+            <h2 class="text-2xl md:text-3xl font-bold text-white">
+              {{ "help.activation.title" | translate }}
+            </h2>
+          </div>
+
+          <p class="text-gray-300 leading-relaxed mb-5 text-justify text-left">
+            {{ "help.activation.introStart" | translate }}
+            <a class="text-cyan-200 underline hover:text-cyan-300" routerLink="/dashboard">{{ "help.activation.introDashboardLink" | translate }}</a>.
+            {{ "help.activation.introEnd" | translate }}
+          </p>
+
+          <div class="help-grid">
+            <div class="help-card">
+              <h3 class="help-card-title">
+                {{ "help.activation.beforeStartTitle" | translate }}
+              </h3>
+              <ul class="help-list">
+                <li>
+                  {{ "help.activation.beforeStartItems.0" | translate }}
+                </li>
+                <li>
+                  {{ "help.activation.beforeStartItems.1" | translate }}
+                </li>
+                <li>
+                  {{ "help.activation.beforeStartItems.2" | translate }}
+                </li>
+                <li>
+                  {{ "help.activation.beforeStartItems.3" | translate }}
+                </li>
+              </ul>
+            </div>
+
+            <div class="help-card">
+              <h3 class="help-card-title">
+                {{ "help.activation.whereKeyTitle" | translate }}
+              </h3>
+              <img class="help-guide-img help-placeholder-img--wide cursor-zoom-in transition-transform duration-200 hover:scale-105" src="assets/images/help/image1.webp" alt="Ayuda 1" loading="lazy" decoding="async" (click)="openScreenshotModal('assets/images/help/image1.webp')" />
+              <p class="text-gray-400 text-sm mt-3">
+                {{ "help.activation.whereKeyCaption" | translate }}
+              </p>
+            </div>
+            <div class="help-card md:col-span-2">
+              <h3 class="help-card-title">
+                {{ "help.activation.globalProcessTitle" | translate }}
+              </h3>
+              <ol class="help-steps">
+                <li>
+                  {{ "help.activation.globalProcessStart" | translate }}
+                  <a class="text-cyan-200 underline hover:text-cyan-300" routerLink="/dashboard">{{ "help.activation.introDashboardLink" | translate }}</a>.
+                </li>
+                <li>{{ "help.activation.globalProcessItems.1" | translate }}</li>
+                <li>{{ "help.activation.globalProcessItems.2" | translate }}</li>
+                <li>{{ "help.activation.globalProcessItems.3" | translate }}</li>
+                <li>{{ "help.activation.globalProcessItems.4" | translate }}</li>
+                <li>{{ "help.activation.globalProcessItems.5" | translate }}</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="help-note mt-6 mb-12">
+            <p class="font-semibold">
+              {{ "help.activation.noteTitle" | translate }}
+            </p>
+            <p class="text-gray-300 leading-relaxed">
+              {{ "help.activation.noteBody" | translate }}
+            </p>
+          </div>
+        </section>
+
+        <section id="activar-pc" class="help-platform mb-12">
+          <div class="help-section-header">
+            <span class="help-badge">2</span>
+            <h2 class="text-2xl md:text-3xl font-bold text-white">
+              {{ "help.pc.title" | translate }}
+            </h2>
+          </div>
+
+          <p class="text-gray-300 leading-relaxed mb-4">
+            {{ "help.pc.intro" | translate }}
+          </p>
+
+          <div class="help-grid">
+            <div class="help-card">
+              <h3 class="help-card-title">{{ "help.pc.steamTitle" | translate }}</h3>
+              <img class="help-guide-img help-placeholder-img--md cursor-zoom-in transition-transform duration-200 hover:scale-105" src="assets/images/help/image2.webp" alt="Ayuda 2" loading="lazy" decoding="async" (click)="openScreenshotModal('assets/images/help/image2.webp')" />
+              <p class="text-gray-400 text-sm mt-3">{{ "help.pc.steamCaption" | translate }}</p>
+              <ol class="help-steps help-steps--compact">
+                <li>{{ "help.pc.steamSteps.0" | translate }}</li>
+                <li>{{ "help.pc.steamSteps.1" | translate }}</li>
+                <li>{{ "help.pc.steamSteps.2" | translate }}</li>
+                <li>{{ "help.pc.steamSteps.3" | translate }}</li>
+                <li>{{ "help.pc.steamSteps.4" | translate }}</li>
+              </ol>
+            </div>
+
+            <div class="help-card">
+              <h3 class="help-card-title">{{ "help.pc.epicTitle" | translate }}</h3>
+              <img class="help-guide-img help-placeholder-img--md cursor-zoom-in transition-transform duration-200 hover:scale-105" src="assets/images/help/image3.webp" alt="Ayuda 3" loading="lazy" decoding="async" (click)="openScreenshotModal('assets/images/help/image3.webp')" />
+              <p class="text-gray-400 text-sm mt-3">{{ "help.pc.epicCaption" | translate }}</p>
+              <ol class="help-steps help-steps--compact">
+                <li>{{ "help.pc.epicSteps.0" | translate }}</li>
+                <li>{{ "help.pc.epicSteps.1" | translate }}</li>
+                <li>{{ "help.pc.epicSteps.2" | translate }}</li>
+                <li>{{ "help.pc.epicSteps.3" | translate }}</li>
+                <li>{{ "help.pc.epicSteps.4" | translate }}</li>
+              </ol>
+            </div>
+            <div class="help-card md:col-span-2">
+              <h3 class="help-card-title">{{ "help.pc.finalCheckTitle" | translate }}</h3>
+              <ol class="help-steps">
+                <li>{{ "help.pc.finalCheckItems.0" | translate }}</li>
+                <li>{{ "help.pc.finalCheckItems.1" | translate }}</li>
+                <li>{{ "help.pc.finalCheckItems.2" | translate }}</li>
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        <section id="activar-ps" class="help-platform">
+          <div class="help-section-header">
+            <span class="help-badge">3</span>
+            <h2 class="text-2xl md:text-3xl font-bold text-white">
+              {{ "help.playstation.title" | translate }}
+            </h2>
+          </div>
+
+          <p class="text-gray-300 leading-relaxed mb-4">
+            {{ "help.playstation.intro" | translate }}
+          </p>
+
+          <div class="help-grid">
+            <div class="help-card">
+              <h3 class="help-card-title">{{ "help.playstation.consoleTitle" | translate }}</h3>
+              <img class="help-guide-img help-placeholder-img--md cursor-zoom-in transition-transform duration-200 hover:scale-105" src="assets/images/help/image4.webp" alt="Ayuda 4" loading="lazy" decoding="async" (click)="openScreenshotModal('assets/images/help/image4.webp')" />
+              <p class="text-gray-400 text-sm mt-3">{{ "help.playstation.consoleCaption" | translate }}</p>
+              <ol class="help-steps help-steps--compact">
+                <li>{{ "help.playstation.consoleSteps.0" | translate }}</li>
+                <li>{{ "help.playstation.consoleSteps.1" | translate }}</li>
+                <li>{{ "help.playstation.consoleSteps.2" | translate }}</li>
+                <li>{{ "help.playstation.consoleSteps.3" | translate }}</li>
+                <li>{{ "help.playstation.consoleSteps.4" | translate }}</li>
+                <li>{{ "help.playstation.consoleSteps.5" | translate }}</li>
+              </ol>
+            </div>
+
+            <div class="help-card">
+              <h3 class="help-card-title">{{ "help.playstation.webTitle" | translate }}</h3>
+              <p class="text-gray-300 leading-relaxed mb-3">
+                {{ "help.playstation.webIntro" | translate }}
+              </p>
+              <ol class="help-steps help-steps--compact">
+                <li>{{ "help.playstation.webSteps.0" | translate }}</li>
+                <li>{{ "help.playstation.webSteps.1" | translate }}</li>
+                <li>{{ "help.playstation.webSteps.2" | translate }}</li>
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        <section id="activar-xbox" class="help-platform mt-12">
+          <div class="help-section-header">
+            <span class="help-badge">4</span>
+            <h2 class="text-2xl md:text-3xl font-bold text-white">
+              {{ "help.xbox.title" | translate }}
+            </h2>
+          </div>
+
+          <p class="text-gray-300 leading-relaxed mb-6">
+            {{ "help.xbox.intro" | translate }}
+          </p>
+
+          <div class="help-grid">
+            <div class="help-card">
+              <h3 class="help-card-title">{{ "help.xbox.consoleTitle" | translate }}</h3>
+              <img class="help-guide-img help-placeholder-img--md cursor-zoom-in transition-transform duration-200 hover:scale-105" src="assets/images/help/image5.webp" alt="Ayuda 5" loading="lazy" decoding="async" (click)="openScreenshotModal('assets/images/help/image5.webp')" />
+              <p class="text-gray-400 text-sm mt-3">{{ "help.xbox.consoleCaption" | translate }}</p>
+              <ol class="help-steps help-steps--compact">
+                <li>{{ "help.xbox.consoleSteps.0" | translate }}</li>
+                <li>{{ "help.xbox.consoleSteps.1" | translate }}</li>
+                <li>{{ "help.xbox.consoleSteps.2" | translate }}</li>
+                <li>{{ "help.xbox.consoleSteps.3" | translate }}</li>
+                <li>{{ "help.xbox.consoleSteps.4" | translate }}</li>
+                <li>{{ "help.xbox.consoleSteps.5" | translate }}</li>
+              </ol>
+            </div>
+
+            <div class="help-card">
+              <h3 class="help-card-title">{{ "help.xbox.webTitle" | translate }}</h3>
+              <p class="text-gray-300 leading-relaxed mb-3">
+                {{ "help.xbox.webIntro" | translate }}
+              </p>
+              <ol class="help-steps help-steps--compact">
+                <li>{{ "help.xbox.webSteps.0" | translate }}</li>
+                <li>{{ "help.xbox.webSteps.1" | translate }}</li>
+                <li>{{ "help.xbox.webSteps.2" | translate }}</li>
+                <li>{{ "help.xbox.webSteps.3" | translate }}</li>
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        <section id="activar-switch" class="help-platform mt-12">
+          <div class="help-section-header">
+            <span class="help-badge">5</span>
+            <h2 class="text-2xl md:text-3xl font-bold text-white">
+              {{ "help.switch.title" | translate }}
+            </h2>
+          </div>
+
+          <p class="text-gray-300 leading-relaxed mb-6">
+            {{ "help.switch.intro" | translate }}
+          </p>
+
+          <div class="help-grid">
+            <div class="help-card">
+              <h3 class="help-card-title">{{ "help.switch.consoleTitle" | translate }}</h3>
+              <img class="help-guide-img help-placeholder-img--md cursor-zoom-in transition-transform duration-200 hover:scale-105" src="assets/images/help/image6.webp" alt="Ayuda 6" loading="lazy" decoding="async" (click)="openScreenshotModal('assets/images/help/image6.webp')" />
+              <p class="text-gray-400 text-sm mt-3">{{ "help.switch.consoleCaption" | translate }}</p>
+              <ol class="help-steps help-steps--compact">
+                <li>{{ "help.switch.consoleSteps.0" | translate }}</li>
+                <li>{{ "help.switch.consoleSteps.1" | translate }}</li>
+                <li>{{ "help.switch.consoleSteps.2" | translate }}</li>
+                <li>{{ "help.switch.consoleSteps.3" | translate }}</li>
+                <li>{{ "help.switch.consoleSteps.4" | translate }}</li>
+                <li>{{ "help.switch.consoleSteps.5" | translate }}</li>
+              </ol>
+            </div>
+
+            <div class="help-card mt-6 md:mt-0">
+              <h3 class="help-card-title">{{ "help.switch.webTitle" | translate }}</h3>
+              <p class="text-gray-300 leading-relaxed mb-3">
+                {{ "help.switch.webIntro" | translate }}
+              </p>
+              <ol class="help-steps help-steps--compact">
+                <li>{{ "help.switch.webSteps.0" | translate }}</li>
+                <li>{{ "help.switch.webSteps.1" | translate }}</li>
+                <li>{{ "help.switch.webSteps.2" | translate }}</li>
+                <li>{{ "help.switch.webSteps.3" | translate }}</li>
+              </ol>
+            </div>
+            <div class="help-card md:col-span-2">
+            <h3 class="help-card-title">
+              {{ "help.finalVerification.title" | translate }}
+            </h3>
+              <img class="help-guide-img help-placeholder-img--wide mt-4 cursor-zoom-in transition-transform duration-200 hover:scale-105" src="assets/images/help/image7.webp" alt="Ayuda 7" loading="lazy" decoding="async" (click)="openScreenshotModal('assets/images/help/image7.webp')" />
+            <ol class="help-steps mt-4">
+              <li>{{ "help.finalVerification.items.0" | translate }}</li>
+              <li>{{ "help.finalVerification.items.1" | translate }}</li>
+              <li>{{ "help.finalVerification.items.2" | translate }}</li>
+            </ol>
+            </div>
+          </div>
+        </section>
+
+        <section id="faq" class="help-section mt-10">
+          <div class="help-section-header">
+            <span class="help-badge">6</span>
+            <h2 class="text-2xl md:text-3xl font-bold text-white">
+              {{ "help.faqTitle" | translate }}
+            </h2>
+          </div>
+
+          <div class="help-faq">
+            @for (id of faqItems; track id) {
+              <div class="help-faq-item" [class.is-open]="faqExpanded[id]">
+                <button
+                  type="button"
+                  class="help-faq-toggle"
+                  (click)="toggleFaq(id)"
+                >
+                  {{ ("help.faq.q" + id) | translate }}
+                </button>
+                @if (faqExpanded[id]) {
+                  <div class="help-faq-body" [@expandCollapse]>
+                    <div class="help-faq-body-inner">
+                      <p>{{ ("help.faq.a" + id) | translate }}</p>
+                      @if (id === 1) {
+                        <p class="help-faq-body-note">
+                          {{ "help.faq.note" | translate }}
+                        </p>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="help-note mt-6">
+            <p class="font-semibold">
+              {{ "help.contactNote.title" | translate }}
+            </p>
+            <p class="text-gray-300 leading-relaxed">
+              {{ "help.contactNote.start" | translate }}
+              <a class="text-cyan-200 underline hover:text-cyan-300" routerLink="/contact">{{ "help.nav.contact" | translate }}</a>
+              {{ "help.contactNote.end" | translate }}
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
   </div>
+  </div>
+
+  @if (isScreenshotModalOpen() && screenshotModalImage()) {
+    <div
+      class="fixed inset-x-0 top-16 bottom-0 bg-black/70 backdrop-blur-sm z-[1200] flex items-center justify-center p-4 md:p-6"
+      (click)="closeScreenshotModal()"
+    >
+      <div
+        class="relative max-w-4xl max-h-full w-full flex items-center justify-center screenshot-modal-enter"
+        (click)="$event.stopPropagation()"
+      >
+        <button
+          class="absolute -top-3 -right-3 md:top-3 md:right-3 w-10 h-10 rounded-full bg-black/70 hover:bg-black/85 text-white border-none outline-none cursor-pointer flex items-center justify-center transition-colors z-10"
+          (click)="closeScreenshotModal()"
+          aria-label="Close screenshot preview"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M18 6L6 18" />
+          </svg>
+        </button>
+        <img
+          [src]="screenshotModalImage()!"
+          alt="Screenshot preview"
+          class="max-w-full max-h-[calc(100vh-11rem)] object-contain rounded-lg shadow-2xl"
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        />
+      </div>
+    </div>
+  }
 </div>

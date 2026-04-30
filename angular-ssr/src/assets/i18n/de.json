@@ -144,7 +144,188 @@
     "address": "Adresse"
   },
   "help": {
-    "title": "Hilfe"
+    "title": "Hilfe",
+    "tocTitle": "Inhalt",
+    "tocDescription": "Nutze dieses Inhaltsverzeichnis, um schnell zum benötigten Abschnitt zu springen.",
+    "heroDescription": "Hier findest du klare Anleitungen zum Aktivieren deiner Spiele und zum Lösen der häufigsten Probleme. Alles ist so aufgebaut, dass du den gesamten Prozess von Anfang bis Ende nachvollziehen kannst.",
+    "faqTitle": "Häufige Fragen (FAQ)",
+    "nav": {
+      "activation": "Aktivierung und Einlösung von Keys",
+      "activationShort": "Aktivierung",
+      "playstation": "PlayStation",
+      "xbox": "Xbox",
+      "switch": "Switch",
+      "faq": "Häufige Fragen",
+      "contact": "Kontakt"
+    },
+    "activation": {
+      "title": "Aktivierung und Einlösung von Keys",
+      "introStart": "Nach deinem Kauf erscheint der Aktivierungscode (Key) im",
+      "introDashboardLink": "Benutzerbereich",
+      "introEnd": "Der Ablauf ist auf allen Plattformen gleich: Du kopierst den Key, löst ihn im entsprechenden Store ein und prüfst, ob das Spiel in deiner Bibliothek erscheint.",
+      "beforeStartTitle": "Vor dem Start",
+      "beforeStartItems": [
+        "Halte deinen Key bereit: Du kannst ihn über das Augen-Symbol im Dashboard anzeigen.",
+        "Stelle sicher, dass deine Konsole/dein PC mit dem Internet verbunden ist.",
+        "Öffne den offiziellen Store deiner Plattform (keine Drittanbieter-Webseiten).",
+        "Achte auf Groß-/Kleinschreibung und kopiere den Key exakt."
+      ],
+      "whereKeyTitle": "Wo du den Key findest",
+      "whereKeyCaption": "Screenshot des Dashboards, auf dem der Key mit dem Augen-Symbol zu sehen ist.",
+      "globalProcessTitle": "Allgemeiner Ablauf (Schritt für Schritt)",
+      "globalProcessStart": "Gehe zum",
+      "globalProcessItems": [
+        "",
+        "Suche deinen Kauf und wähle das Spiel aus, dessen Code du aktivieren möchtest.",
+        "Blende den Key ein und kopiere ihn. Wenn der Key verschwommen ist, drücke auf das Augen-Symbol.",
+        "Öffne den offiziellen Plattform-Store und suche nach „Redeem code“ / „Code einlösen“.",
+        "Füge den Key ein und bestätige. Falls das System eine Identitätsprüfung verlangt, führe sie aus.",
+        "Prüfe, ob das Spiel in deiner Bibliothek erscheint, und lade/installiere es bei Bedarf."
+      ],
+      "noteTitle": "Wichtiger Hinweis",
+      "noteBody": "Ein Key kann in der Regel nur einmal eingelöst werden. Nach der Aktivierung sollte das Spiel in deiner Bibliothek erscheinen. Wenn du eine Meldung wie „ungültiger Code“, „bereits eingelöst“ oder „nicht verfügbar“ erhältst, sieh im FAQ nach oder kontaktiere den Support."
+    },
+    "pc": {
+      "title": "PC (Steam und Epic Games)",
+      "intro": "Auf dem PC wird der Key normalerweise im Store des verwendeten Launchers eingelöst. In dieser Anleitung findest du zwei Wege: Steam und Epic Games. Folge dem passenden Weg.",
+      "steamTitle": "Steam (PC)",
+      "steamCaption": "Steam-Menü, in dem ein Produkt-Key eingelöst wird.",
+      "steamSteps": [
+        "Öffne Steam (mit angemeldetem Konto).",
+        "Suche nach „Spiele“ oder „Games“ und gehe zu „Ein Produkt bei Steam aktivieren“.",
+        "Füge den Key exakt ein und bestätige.",
+        "Warte, bis Steam die Einlösung verarbeitet.",
+        "Öffne deine Bibliothek, suche das Spiel und klicke auf „Installieren“."
+      ],
+      "epicTitle": "Epic Games (PC)",
+      "epicCaption": "Epic-Games-Bildschirm, auf dem ein Code eingelöst wird.",
+      "epicSteps": [
+        "Öffne den Epic Games Launcher (mit angemeldetem Konto).",
+        "Gehe in den Store und suche nach „Redeem Code“ / „Code einlösen“.",
+        "Füge den Key ein und bestätige.",
+        "Warte auf das Ergebnis der Einlösung.",
+        "Prüfe deine Bibliothek und lade/installiere das Spiel."
+      ],
+      "finalCheckTitle": "Abschlussprüfung auf dem PC",
+      "finalCheckItems": [
+        "Bestätige, dass der Kauf in deiner Bibliothek erscheint (Steam/Epic).",
+        "Starte das Spiel, um zu prüfen, ob es korrekt aktiviert wurde.",
+        "Wenn das Spiel nicht erscheint, sieh im FAQ nach (z. B. „bereits eingelöst“ oder „ungültiger Code“)."
+      ]
+    },
+    "playstation": {
+      "title": "PlayStation (PS5 und PS4)",
+      "intro": "Die Einlösung erfolgt mit deinem PlayStation-Konto im offiziellen Store. Die Schritte sind auf PS5 und PS4 sehr ähnlich.",
+      "consoleTitle": "Einlösung auf der Konsole",
+      "consoleCaption": "Bildschirm „Code einlösen“ im PlayStation Store.",
+      "consoleSteps": [
+        "Melde dich bei deinem PlayStation-Konto an.",
+        "Öffne den PlayStation Store.",
+        "Suche nach „Codes einlösen“ / „Redeem Codes“.",
+        "Füge den Key ein oder tippe ihn ein und bestätige.",
+        "Warte auf die Bestätigung der Einlösung.",
+        "Gehe in deine Bibliothek und lade/installiere den Inhalt."
+      ],
+      "webTitle": "Wenn du eine Web-Alternative hast",
+      "webIntro": "Wenn die Einlöseoption nicht erscheint, versuche es über die offizielle PlayStation-Webseite mit demselben Konto.",
+      "webSteps": [
+        "Öffne die offizielle PlayStation-Seite zur Einlösung.",
+        "Melde dich mit deinem Benutzerkonto an.",
+        "Füge den Key ein, bestätige und prüfe deine Bibliothek."
+      ]
+    },
+    "xbox": {
+      "title": "Xbox (Xbox Series X und Xbox One)",
+      "intro": "Auf Xbox erfolgt die Einlösung über den Microsoft Store mit deinem Konto. Sowohl Series X als auch Xbox One folgen derselben Logik.",
+      "consoleTitle": "Einlösung auf der Konsole",
+      "consoleCaption": "Menü des Microsoft Store, in dem ein Code eingelöst wird.",
+      "consoleSteps": [
+        "Melde dich mit deinem Microsoft-Konto auf der Konsole an.",
+        "Öffne den Microsoft Store.",
+        "Suche nach „Redeem code“ / „Code einlösen“.",
+        "Gib den Key ein oder füge ihn ein und bestätige.",
+        "Prüfe, ob das Spiel in deiner Bibliothek erscheint.",
+        "Lade/installiere das Spiel, wenn das System dich dazu auffordert."
+      ],
+      "webTitle": "Einlösung im Web",
+      "webIntro": "Wenn du es lieber im Browser machen möchtest, nutze die offizielle Microsoft-Seite zur Einlösung. Das ist praktisch, wenn du den Key lieber vom Handy kopierst.",
+      "webSteps": [
+        "Öffne die offizielle Microsoft-Webseite zur Einlösung.",
+        "Melde dich mit deinem Konto an.",
+        "Füge den Key ein und bestätige.",
+        "Gehe zurück zur Konsole und synchronisiere/prüfe deine Bibliothek."
+      ]
+    },
+    "switch": {
+      "title": "Nintendo Switch",
+      "intro": "Auf der Switch erfolgt die Einlösung über den Nintendo eShop mit deinem Konto. Du kannst dies direkt auf der Konsole erledigen.",
+      "consoleTitle": "Einlösung im Nintendo eShop",
+      "consoleCaption": "Nintendo-eShop-Menü, in dem ein Code eingelöst wird.",
+      "consoleSteps": [
+        "Stelle sicher, dass die Konsole mit dem Internet verbunden ist.",
+        "Melde dich mit deinem Nintendo-Konto an.",
+        "Öffne den Nintendo eShop.",
+        "Suche nach „Enter Code“ / „Code eingeben“.",
+        "Füge den Key ein oder tippe ihn ein und bestätige.",
+        "Warte auf die Bestätigung und prüfe deine Bibliothek."
+      ],
+      "webTitle": "Wenn du lieber einen Browser verwenden möchtest",
+      "webIntro": "Einige Nutzer lösen lieber über eine offizielle Nintendo-Webseite im Browser ein. Der Key und der Ablauf sind gleichwertig – nur das Gerät unterscheidet sich.",
+      "webSteps": [
+        "Öffne die offizielle Nintendo-Webseite zur Einlösung.",
+        "Melde dich mit deinem Konto an.",
+        "Füge den Key ein und bestätige.",
+        "Synchronisiere auf der Konsole und prüfe deine Bibliothek."
+      ]
+    },
+    "finalVerification": {
+      "title": "Abschließende Prüfung (für alle Plattformen)",
+      "items": [
+        "Prüfe, ob das Spiel in der Bibliothek deiner Plattform erscheint.",
+        "Falls Dateien installiert werden müssen, schließe den Download ab.",
+        "Wenn das Spiel nicht erscheint oder das System meldet, dass der Code ungültig ist, sieh im FAQ nach oder nutze den Support-Kontakt."
+      ]
+    },
+    "contactNote": {
+      "title": "Funktioniert es immer noch nicht?",
+      "start": "Prüfe, ob der Code zu deiner Plattform passt. Wenn der Fehler weiterhin besteht, kontaktiere den Support über die Seite",
+      "end": "und gib möglichst viele Details an (Plattform, Fehlermeldung und Key)."
+    },
+    "faq": {
+      "note": "Wenn du möchtest, kannst du direkt zum Dashboard gehen, um den Key anzuzeigen. Nutze beim Betreten den Navigations-Button bzw. das Menü.",
+      "q1": "Wo finde ich meinen Aktivierungscode?",
+      "a1": "Dein Code wird im Nutzerbereich angezeigt. In den Käufen/Retouren findest du das gekaufte Spiel und dort siehst du den Hinweis „Key“. Standardmäßig ist er ggf. ausgeblendet (unscharf) um deine Privatsphäre zu schützen; klicke auf das Auge, um den Code anzuzeigen und zu kopieren.",
+      "q2": "Muss ich den Code „nur einmal“ einlösen oder kann ich ihn wiederverwenden?",
+      "a2": "In den meisten Stores kann ein Key nur einmal eingelöst werden. Nach der Einlösung ist das Spiel mit deinem Konto verknüpft. Wenn du es erneut versuchst einzulösen, kann der Store Meldungen wie „bereits eingelöst“ anzeigen.",
+      "q3": "Der Store meldet „ungültiger Code“ oder „nicht verfügbar“. Was soll ich tun?",
+      "a3": "Prüfe zuerst, ob du die richtige Plattform nutzt (PC, PlayStation, Xbox oder Switch). Zweitens: Kopiere den Key exakt (keine Leerzeichen oder Zeilenumbrüche) und achte auf Groß-/Kleinschreibung. Wenn der Fehler bleibt, versuche es später nochmal (manchmal dauert die Verarbeitung). Wenn es weiter fehlschlägt, sieh in den FAQ nach und kontaktiere den Support mit der exakten Store-Meldung.",
+      "q4": "Kann ich den Code auf einer anderen Plattform einlösen als der, die ich gekauft habe?",
+      "a4": "In der Regel nein. Keys sind üblicherweise an eine bestimmte Plattform gebunden. Ein PlayStation-Key kann zum Beispiel nicht auf Xbox oder Nintendo Switch eingelöst werden. Löse immer auf der Plattform ein, die in deiner Bestellung angegeben ist.",
+      "q5": "Ich habe den Key eingelöst, aber das Spiel erscheint erst später in der Bibliothek. Ist das normal?",
+      "a5": "Ja. Stores brauchen manchmal Minuten (oder länger), bis die Bibliothek aktualisiert ist. Wenn es nach einiger Zeit nicht erscheint, melde dich ab und wieder an, warte kurz und aktualisiere dann die Bibliothek.",
+      "q6": "Brauche ich ein Abo (PS Plus, Xbox Live, etc.), um einzulösen?",
+      "a6": "Meistens nein. Die Einlösung fügt das Spiel deiner Bibliothek hinzu. Je nach Plattform und Spiel können aber bestimmte Online-Modi ein aktives Abo erfordern.",
+      "q7": "Kann ich den Key auf dem Handy oder im Browser einlösen statt auf der Konsole?",
+      "a7": "Das hängt vom Store ab. Offizielle Stores bieten oft eine webbasierte Einlösung an, aber in vielen Fällen läuft es direkt auf der Konsole. Wenn dein Store es per Web erlaubt, nutze immer die offizielle Seite und dasselbe Konto, in dem das Spiel erscheinen soll.",
+      "q8": "Was bedeutet „bereits eingelöst / already redeemed“?",
+      "a8": "Das bedeutet, dass der Key bereits zuvor eingelöst wurde (durch eine andere Bestellung oder eine frühere Einlösung). Wenn du das nicht selbst gemacht hast, bestätige, dass du mit dem gleichen Store-Konto eingeloggt bist, und kontaktiere den Support mit der exakten Plattform und Store-Meldung.",
+      "q9": "Im Dashboard ist der Key unscharf. Wie kann ich ihn sehen, um ihn zu kopieren?",
+      "a9": "Klicke auf das Auge im Dashboard, um den Key kurzzeitig anzuzeigen. Kopiere ihn dann und löse ihn im Store ein. Teile den Key nicht und blende ihn wieder aus, wenn das System es erlaubt.",
+      "q10": "Kann ich den Key nach der Aktivierung nochmal ansehen?",
+      "a10": "Oft ja. Der Key bleibt normalerweise im Kaufverlauf verfügbar, sodass du ihn bei Bedarf für den Support wiederverwenden kannst. Wenn er wieder unscharf ist, nutze erneut das Auge.",
+      "q11": "Ich habe den Key eingelöst, aber das Spiel erscheint nicht. Wie behebe ich das?",
+      "a11": "Prüfe, ob du mit dem richtigen Store-Konto eingeloggt bist. Schließe den Launcher/die App, öffne sie neu, warte kurz und aktualisiere die Bibliothek. Wenn das Spiel weiterhin nicht erscheint, kontaktiere den Support und sende die Store-Fehlermeldung/den Status.",
+      "q12": "Was passiert, wenn meine Bestellung erstattet/storniert wurde?",
+      "a12": "Wenn deine Bestellung erstattet wurde, können Store- oder Plattformdienste den Zugriff mit der Zeit wieder entziehen. Dann kann die Einlösung fehlschlagen oder das Spiel erscheint nicht. Kontaktiere den Support, um den genauen Bestellstatus zu prüfen.",
+      "q13": "Haben Keys eine Ablaufzeit?",
+      "a13": "Normalerweise laufen Keys nicht ab, aber einige Stores können Limits nach Region oder internen Richtlinien setzen. Wenn der Store eine Ablaufzeit angibt oder sagt, der Code ist ungültig, prüfe die richtige Plattform und kontaktiere den Support mit der exakten Meldung.",
+      "q14": "Wie vermeide ich Betrug und Missbrauch von Codes?",
+      "a14": "Teile deinen Key niemals vollständig. Löse nur im passenden offiziellen Store ein und misstraue Nachrichten, die deinen Key „nur um zu helfen“ anfordern oder dich zu inoffiziellen Seiten führen. Wenn ein Link verdächtig wirkt, nutze ihn nicht.",
+      "q15": "Kann ich auf zwei verschiedenen Geräten einlösen/aktivieren?",
+      "a15": "Die Einlösung ist normalerweise an dein Konto gebunden. Du kannst einmal einlösen und dann das Spiel auf anderen Geräten installieren, solange du dasselbe Store-Konto verwendest. Wenn du den Key erneut einlöst, kann es fehlschlagen.",
+      "q16": "Wann sollte ich den Support kontaktieren und welche Informationen soll ich senden?",
+      "a16": "Wenn die Einlösung fehlschlägt und die Prüf-Schritte nicht helfen, kontaktiere den Support. Nenne die Plattform (PC, PlayStation, Xbox oder Switch), die exakte Store-Meldung und wenn möglich einen Screenshot des Fehlers. Sende aus Sicherheitsgründen den vollständigen Key nicht über inoffizielle Kanäle."
+    }
   },
   "conditions": {
     "title": "AGB"

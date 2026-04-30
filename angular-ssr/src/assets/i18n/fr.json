@@ -142,7 +142,188 @@
     "address": "Adresse"
   },
   "help": {
-    "title": "Aide"
+    "title": "Aide",
+    "tocTitle": "Contenu",
+    "tocDescription": "Utilisez cet index pour accéder rapidement à la section dont vous avez besoin.",
+    "heroDescription": "Vous trouverez ici des guides clairs pour activer vos jeux et résoudre les problèmes les plus fréquents. Tout est pensé pour que vous puissiez aller du début à la fin sans vous perdre.",
+    "faqTitle": "Questions fréquentes (FAQ)",
+    "nav": {
+      "activation": "Activation et utilisation des clés",
+      "activationShort": "Activation",
+      "playstation": "PlayStation",
+      "xbox": "Xbox",
+      "switch": "Switch",
+      "faq": "Questions fréquentes",
+      "contact": "Contact"
+    },
+    "activation": {
+      "title": "Activation et utilisation des clés",
+      "introStart": "Après votre achat, le code d’activation (clé) apparaît dans le",
+      "introDashboardLink": "Panneau utilisateur",
+      "introEnd": "Le processus est le même pour toutes les plateformes : vous copiez la clé, vous la validez dans la boutique correspondante et vous vérifiez que le jeu apparaît dans votre bibliothèque.",
+      "beforeStartTitle": "Avant de commencer",
+      "beforeStartItems": [
+        "Gardez votre clé à portée de main : vous pouvez la voir en appuyant sur l’icône en forme d’œil dans le dashboard.",
+        "Assurez-vous d’être connecté à internet sur votre console/PC.",
+        "Ouvrez la boutique officielle de votre plateforme (pas de sites tiers).",
+        "Respectez les majuscules/minuscules et copiez exactement le texte de la clé."
+      ],
+      "whereKeyTitle": "Où trouver la clé",
+      "whereKeyCaption": "Capture du dashboard montrant la clé avec l’icône en forme d’œil.",
+      "globalProcessTitle": "Processus général (étape par étape)",
+      "globalProcessStart": "Accédez au",
+      "globalProcessItems": [
+        "",
+        "Repérez votre achat et sélectionnez le jeu dont vous souhaitez activer le code.",
+        "Affichez la clé et copiez-la. Si la clé est floutée, appuyez sur l’icône en forme d’œil.",
+        "Ouvrez la boutique officielle de la plateforme et cherchez l’option « Redeem code » / « Utiliser un code ».",
+        "Collez la clé et confirmez. Si le système vous demande de vérifier votre identité, faites-le.",
+        "Vérifiez que le jeu apparaît dans votre bibliothèque et téléchargez/installez-le si nécessaire."
+      ],
+      "noteTitle": "Remarque importante",
+      "noteBody": "Une clé ne peut généralement être utilisée qu’une seule fois. Une fois activé, le jeu devrait apparaître dans votre bibliothèque. Si vous recevez une erreur de type « code invalide », « déjà utilisé » ou « indisponible », consultez la section FAQ ou contactez le support."
+    },
+    "pc": {
+      "title": "PC (Steam et Epic Games)",
+      "intro": "Sur PC, la clé est généralement utilisée dans la boutique du launcher que vous utilisez. Dans ce guide, nous vous laissons deux options : Steam et Epic Games. Suivez celle qui vous correspond.",
+      "steamTitle": "Steam (PC)",
+      "steamCaption": "Menu Steam où une clé produit est utilisée.",
+      "steamSteps": [
+        "Ouvrez Steam (avec votre compte connecté).",
+        "Cherchez « Jeux » ou « Games » puis entrez dans « Activer un produit sur Steam ».",
+        "Collez la clé exactement et confirmez.",
+        "Attendez que Steam traite l’activation.",
+        "Ouvrez votre bibliothèque, trouvez le jeu et cliquez sur « Installer »."
+      ],
+      "epicTitle": "Epic Games (PC)",
+      "epicCaption": "Écran Epic Games où un code est utilisé.",
+      "epicSteps": [
+        "Ouvrez Epic Games Launcher (avec votre compte connecté).",
+        "Allez dans la boutique et cherchez « Redeem Code » / « Utiliser un code ».",
+        "Collez la clé et confirmez.",
+        "Attendez le résultat de l’activation.",
+        "Vérifiez votre bibliothèque et téléchargez/installez le jeu."
+      ],
+      "finalCheckTitle": "Vérification finale sur PC",
+      "finalCheckItems": [
+        "Confirmez que l’achat apparaît dans votre bibliothèque (Steam/Epic).",
+        "Lancez le jeu pour vérifier qu’il a été activé correctement.",
+        "Si le jeu n’apparaît pas, consultez la FAQ (par exemple « déjà utilisé » ou « code invalide »)."
+      ]
+    },
+    "playstation": {
+      "title": "PlayStation (PS5 et PS4)",
+      "intro": "L’activation se fait depuis votre compte PlayStation dans la boutique officielle. Les étapes sont très similaires sur PS5 et PS4.",
+      "consoleTitle": "Utilisation sur la console",
+      "consoleCaption": "Écran « Utiliser un code » dans le PlayStation Store.",
+      "consoleSteps": [
+        "Connectez-vous à votre compte PlayStation.",
+        "Ouvrez le PlayStation Store.",
+        "Cherchez « Utiliser des codes » / « Redeem Codes ».",
+        "Collez ou saisissez la clé et confirmez.",
+        "Attendez la confirmation d’activation.",
+        "Allez dans votre bibliothèque et téléchargez/installez le contenu."
+      ],
+      "webTitle": "Si vous disposez d’une alternative web",
+      "webIntro": "Si l’option d’activation n’apparaît pas, essayez de passer par le site officiel de PlayStation avec le même compte.",
+      "webSteps": [
+        "Accédez à la page officielle d’activation PlayStation.",
+        "Connectez-vous avec votre compte.",
+        "Collez la clé, confirmez et vérifiez votre bibliothèque."
+      ]
+    },
+    "xbox": {
+      "title": "Xbox (Xbox Series X et Xbox One)",
+      "intro": "Sur Xbox, l’activation se fait depuis Microsoft Store avec votre compte. Series X et Xbox One suivent la même logique.",
+      "consoleTitle": "Utilisation sur la console",
+      "consoleCaption": "Menu Microsoft Store où un code est utilisé.",
+      "consoleSteps": [
+        "Connectez-vous à votre compte Microsoft sur la console.",
+        "Ouvrez Microsoft Store.",
+        "Cherchez « Redeem code » / « Utiliser un code ».",
+        "Saisissez ou collez la clé et confirmez.",
+        "Vérifiez que le jeu apparaît dans votre bibliothèque.",
+        "Téléchargez/installez le jeu si le système vous le demande."
+      ],
+      "webTitle": "Utilisation sur le web",
+      "webIntro": "Si vous préférez le faire depuis un navigateur, utilisez la page officielle d’activation Microsoft. C’est utile si vous préférez copier la clé depuis votre téléphone.",
+      "webSteps": [
+        "Ouvrez le site officiel d’activation Microsoft.",
+        "Connectez-vous avec votre compte.",
+        "Collez la clé et confirmez.",
+        "Revenez à votre console et synchronisez/vérifiez votre bibliothèque."
+      ]
+    },
+    "switch": {
+      "title": "Nintendo Switch",
+      "intro": "Sur Switch, l’activation se fait via Nintendo eShop avec votre compte. Vous pouvez le faire directement depuis la console.",
+      "consoleTitle": "Utilisation dans Nintendo eShop",
+      "consoleCaption": "Menu Nintendo eShop où un code est utilisé.",
+      "consoleSteps": [
+        "Assurez-vous d’avoir une connexion internet sur la console.",
+        "Connectez-vous à votre compte Nintendo.",
+        "Ouvrez Nintendo eShop.",
+        "Cherchez « Enter Code » / « Saisir un code ».",
+        "Collez ou saisissez la clé puis confirmez.",
+        "Attendez la confirmation et vérifiez votre bibliothèque."
+      ],
+      "webTitle": "Si vous préférez utiliser un navigateur",
+      "webIntro": "Certains utilisateurs préfèrent activer depuis une page officielle Nintendo dans un navigateur. La clé et le processus sont équivalents : seul l’appareil change.",
+      "webSteps": [
+        "Ouvrez le site officiel d’activation Nintendo.",
+        "Connectez-vous avec votre compte.",
+        "Collez la clé et confirmez.",
+        "Synchronisez sur la console et vérifiez votre bibliothèque."
+      ]
+    },
+    "finalVerification": {
+      "title": "Vérification finale (pour toutes les plateformes)",
+      "items": [
+        "Vérifiez que le jeu apparaît dans la bibliothèque de votre plateforme.",
+        "Si des fichiers doivent être installés, terminez le téléchargement.",
+        "Si le jeu n’apparaît pas ou si le système indique que le code n’est pas valide, consultez la FAQ ou utilisez le contact support."
+      ]
+    },
+    "contactNote": {
+      "title": "Cela ne fonctionne toujours pas ?",
+      "start": "Vérifiez que le code correspond bien à votre plateforme. Si l’erreur persiste, contactez le support depuis la page",
+      "end": "et incluez un maximum de détails possible (plateforme, message d’erreur et clé)."
+    },
+    "faq": {
+      "note": "Si vous le souhaitez, vous pouvez aller directement au dashboard pour voir la clé. Utilisez le bouton/menu de navigation en entrant.",
+      "q1": "Où puis-je trouver ma clé d’activation ?",
+      "a1": "La clé s'affiche dans le panneau utilisateur. Dans la section achats/retours, repérez le jeu acheté et cherchez l’étiquette « Key ». Par défaut, elle peut être masquée (floutée) pour protéger votre vie privée ; cliquez sur l’icône de l’œil pour la révéler et la copier.",
+      "q2": "Dois-je activer la clé « une seule fois » ou puis-je la réutiliser ?",
+      "a2": "Dans la plupart des boutiques, une clé ne peut être activée qu’une seule fois. Après l’activation, le jeu est associé à votre compte. Si vous essayez à nouveau d’activer, la boutique peut afficher des messages du type « déjà activé ».",
+      "q3": "La boutique indique « code invalide » ou « indisponible ». Que faire ?",
+      "a3": "D’abord, vérifiez que vous utilisez la bonne plateforme (PC, PlayStation, Xbox ou Switch). Ensuite, copiez la clé exactement (sans espaces ni retours à la ligne) et respectez la casse. Si l’erreur persiste, réessayez plus tard (les serveurs peuvent avoir besoin d’un peu de temps). Si cela échoue toujours, consultez la FAQ et contactez le support avec le message exact de la boutique.",
+      "q4": "Puis-je activer la clé sur une plateforme différente de celle de mon achat ?",
+      "a4": "En général, non. Les clés sont généralement liées à une plateforme spécifique. Par exemple, une clé PlayStation ne peut pas être activée sur Xbox ou Nintendo Switch. Pour éviter les erreurs, activez toujours sur la plateforme indiquée dans votre achat.",
+      "q5": "J’ai activé la clé, mais le jeu met du temps à apparaître dans ma bibliothèque. Est-ce normal ?",
+      "a5": "Oui. Les boutiques peuvent mettre quelques minutes (ou plus) à mettre à jour votre bibliothèque. Si le jeu n’apparaît pas après un certain temps, déconnectez-vous puis reconnectez-vous et rafraîchissez la bibliothèque.",
+      "q6": "Ai-je besoin d’un abonnement (PS Plus, Xbox Live, etc.) pour activer ?",
+      "a6": "En général, non. L’activation ajoute le jeu à votre bibliothèque. Toutefois, certains modes en ligne peuvent nécessiter un abonnement actif selon la plateforme et le jeu.",
+      "q7": "Puis-je activer la clé depuis un mobile ou un navigateur au lieu d’une console ?",
+      "a7": "Cela dépend de la boutique. En général, les boutiques officielles proposent parfois une activation web, mais le plus souvent, le processus se fait sur la console. Si votre boutique le permet via une page web, utilisez toujours le site officiel et le même compte.",
+      "q8": "Que signifie « déjà activé / already redeemed » ?",
+      "a8": "Cela signifie que la clé a déjà été activée auparavant (par une autre commande ou une activation antérieure). Si vous ne l’avez pas fait, vérifiez que vous êtes connecté au même compte de la boutique et contactez le support avec la plateforme et le message exact.",
+      "q9": "Dans le dashboard, la clé est floutée. Comment la voir pour la copier ?",
+      "a9": "Cliquez sur l’icône de l’œil dans le dashboard pour révéler la clé temporairement. Ensuite, copiez-la et activez-la dans la boutique. Évitez de partager la clé et remettez-la en mode flou si le système le permet.",
+      "q10": "Puis-je revoir la clé après l’avoir activée ?",
+      "a10": "Souvent oui. La clé reste généralement disponible dans l’historique des achats pour que vous puissiez l’utiliser pour le support si nécessaire. Si elle redevient floue, utilisez à nouveau l’icône de l’œil.",
+      "q11": "J’ai activé la clé, mais le jeu n’apparaît pas. Comment résoudre ?",
+      "a11": "Vérifiez que vous êtes connecté au bon compte de la boutique. Fermez et rouvrez l’launcher/app, attendez un instant puis rafraîchissez la bibliothèque. Si le jeu n’apparaît toujours pas, contactez le support et indiquez le message/le statut d’erreur affiché par la boutique.",
+      "q12": "Que se passe-t-il si mon achat a été remboursé/annulé ?",
+      "a12": "Si votre achat a été remboursé, la boutique ou les services de plateforme peuvent retirer l’accès au fil du temps. Dans ce cas, l’activation peut échouer ou le jeu peut ne pas apparaître. Contactez le support pour vérifier le statut exact de la commande.",
+      "q13": "Les clés expirent-elles ?",
+      "a13": "Normalement non, mais certaines boutiques peuvent imposer des limites selon la région ou leur politique interne. Si la boutique indique une expiration ou que le code est invalide, vérifiez la plateforme correcte et contactez le support avec le message exact.",
+      "q14": "Comment éviter les arnaques et l’utilisation abusive des codes ?",
+      "a14": "Ne partagez jamais votre clé complète. Activez uniquement dans la boutique officielle correspondante et méfiez-vous des messages qui demandent votre clé « pour aider » ou qui vous renvoient vers des pages non officielles. Si un lien semble suspect, ne l’utilisez pas.",
+      "q15": "Puis-je activer depuis deux appareils différents ?",
+      "a15": "L’activation est généralement liée à votre compte. Vous pouvez activer une fois puis installer le jeu sur d’autres appareils en utilisant le même compte de la boutique. Si vous essayez d’activer à nouveau avec la même clé, cela peut échouer.",
+      "q16": "Quand dois-je contacter le support et quelles informations envoyer ?",
+      "a16": "Contactez le support si l’activation échoue et que les étapes de vérification ne résolvent pas le problème. Indiquez la plateforme (PC, PlayStation, Xbox ou Switch), le message exact de la boutique et, si possible, une capture d’écran de l’erreur. Pour des raisons de sécurité, évitez d’envoyer la clé complète via des canaux non officiels."
+    }
   },
   "conditions": {
     "title": "Termes et conditions"

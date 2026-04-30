@@ -31,7 +31,7 @@
         },
         {
           "key": "Permissions-Policy",
-          "value": "geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+          "value": "geolocation=(), microphone=(), camera=(), payment=(self \"https://js.stripe.com\" \"https://checkout.stripe.com\" \"https://hooks.stripe.com\"), compute-pressure=(self \"https://js.stripe.com\" \"https://checkout.stripe.com\" \"https://hooks.stripe.com\"), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
         }
       ]
     },

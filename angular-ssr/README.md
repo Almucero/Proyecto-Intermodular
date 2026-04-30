@@ -350,6 +350,9 @@ La aplicación integra una pasarela de pago embebida con Stripe para cerrar comp
 3. Stripe devuelve `clientSecret`, `sessionId` y `publishableKey`, que el frontend usa para montar el checkout embebido.
 4. Tras pago completado, el frontend confirma la sesión con `POST /api/cart/checkout/confirm`.
 5. Al cerrar checkout en ficha de producto, se muestra un aviso post-compra indicando dónde encontrar el código (página de usuario) y dónde consultar guías de activación (FAQ en ayuda).
+6. La página de ayuda (`/help`) incluye una guía extensa de activación por plataforma (PC, PlayStation, Xbox y Switch), navegación por secciones, capturas reales y una sección FAQ integrada y traducida para todos los idiomas soportados.
+7. El bloque FAQ de ayuda usa animación de expansión/colapso basada en Angular (`enter/leave`), con comportamiento estable y consistente con el patrón visual de filtros de búsqueda.
+8. Las capturas de la guía de ayuda son ampliables en modal al hacer clic (overlay, cierre por fondo/botón y tecla `Escape`), siguiendo el mismo patrón visual y de interacción que las capturas del detalle de producto.
 
 ### Qué ocurre al confirmar una compra
 

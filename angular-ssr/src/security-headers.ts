@@ -13,7 +13,7 @@ export function applySecurityHeaders(
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader(
     'Permissions-Policy',
-    'geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()',
+    'geolocation=(), microphone=(), camera=(), payment=(self "https://js.stripe.com" "https://checkout.stripe.com" "https://hooks.stripe.com"), compute-pressure=(self "https://js.stripe.com" "https://checkout.stripe.com" "https://hooks.stripe.com"), usb=(), magnetometer=(), gyroscope=(), accelerometer=()',
   );
 
   if (

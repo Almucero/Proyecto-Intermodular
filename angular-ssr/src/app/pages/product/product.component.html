@@ -52,33 +52,42 @@
       </div>
     </div>
     @if (purchaseInfoVisible()) {
-      <div
-        class="mb-8 md:mb-10 w-full rounded-lg border border-cyan-400/40 bg-cyan-500/10 px-4 py-3 text-sm text-cyan-100 flex items-start gap-3"
-      >
-        <div class="flex-1">
-          <p class="font-semibold">
-            {{ "product.purchaseInfoTitle" | translate }}
-          </p>
-          <p class="mt-1">
-            {{ "product.purchaseInfoBodyStart" | translate }}
-            <a routerLink="/dashboard" class="underline hover:text-cyan-200">
-              {{ "product.purchaseInfoUserPageLink" | translate }}
-            </a>
-            {{ "product.purchaseInfoBodyMiddle" | translate }}
-            <a routerLink="/help" fragment="faq" class="underline hover:text-cyan-200">
-              {{ "product.purchaseInfoHelpFaqLink" | translate }}
-            </a>
-            {{ "product.purchaseInfoBodyEnd" | translate }}
-          </p>
-        </div>
-        <button
-          type="button"
-          class="text-cyan-200 hover:text-white transition-colors border-0 bg-transparent"
-          (click)="closePurchaseInfo()"
-          [attr.aria-label]="'common.cancel' | translate"
+      <div class="lg:pr-6">
+        <div
+          class="mb-8 md:mb-10 w-full rounded-lg border border-cyan-400/40 bg-cyan-500/10 px-4 py-3 text-sm text-cyan-100 flex items-start gap-3"
         >
-          ✕
-        </button>
+          <div class="flex-1">
+            <p class="font-semibold">
+              {{ "product.purchaseInfoTitle" | translate }}
+            </p>
+            <p class="mt-1">
+              {{ "product.purchaseInfoBodyStart" | translate }}
+              <a
+                routerLink="/dashboard"
+                class="underline hover:text-cyan-200"
+              >
+                {{ "product.purchaseInfoUserPageLink" | translate }}
+              </a>
+              {{ "product.purchaseInfoBodyMiddle" | translate }}
+              <a
+                routerLink="/help"
+                fragment="faq"
+                class="underline hover:text-cyan-200"
+              >
+                {{ "product.purchaseInfoHelpFaqLink" | translate }}
+              </a>
+              {{ "product.purchaseInfoBodyEnd" | translate }}
+            </p>
+          </div>
+          <button
+            type="button"
+            class="text-cyan-200 hover:text-white transition-colors border-0 bg-transparent"
+            (click)="closePurchaseInfo()"
+            [attr.aria-label]="'common.cancel' | translate"
+          >
+            ✕
+          </button>
+        </div>
       </div>
     }
 

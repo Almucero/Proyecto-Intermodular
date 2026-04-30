@@ -166,7 +166,188 @@
     "address": "Address"
   },
   "help": {
-    "title": "Help"
+    "title": "Help",
+    "tocTitle": "Contents",
+    "tocDescription": "Use this index to quickly jump to the section you need.",
+    "heroDescription": "Here you will find clear guides to activate your games and solve the most common issues. Everything is designed so you can go from start to finish without getting lost.",
+    "faqTitle": "Frequently asked questions (FAQ)",
+    "nav": {
+      "activation": "Activation and key redemption",
+      "activationShort": "Activation",
+      "playstation": "PlayStation",
+      "xbox": "Xbox",
+      "switch": "Switch",
+      "faq": "Frequently asked questions",
+      "contact": "Contact"
+    },
+    "activation": {
+      "title": "Activation and key redemption",
+      "introStart": "After your purchase, the activation code (key) appears in the",
+      "introDashboardLink": "User dashboard",
+      "introEnd": "The process is the same for all platforms: copy the key, redeem it in the corresponding store, and verify that the game appears in your library.",
+      "beforeStartTitle": "Before you start",
+      "beforeStartItems": [
+        "Keep your key ready: you can view it by tapping the eye icon in the dashboard.",
+        "Make sure you are connected to the internet on your console/PC.",
+        "Open the official store for your platform (not third-party websites).",
+        "Respect upper/lower case and copy the key text exactly."
+      ],
+      "whereKeyTitle": "Where to find the key",
+      "whereKeyCaption": "Dashboard screenshot showing the key with the eye icon.",
+      "globalProcessTitle": "Overall process (step by step)",
+      "globalProcessStart": "Go to the",
+      "globalProcessItems": [
+        "",
+        "Find your purchase and select the game whose code you want to activate.",
+        "Reveal the key and copy it. If the key is blurred, press the eye icon.",
+        "Open the official platform store and look for the “Redeem code” option.",
+        "Paste the key and confirm. If the system asks you to verify your identity, do it.",
+        "Check that the game appears in your library and download/install it if needed."
+      ],
+      "noteTitle": "Important note",
+      "noteBody": "A key can usually be redeemed only once. Once activated, the game should appear in your library. If you receive an error such as “invalid code”, “already redeemed”, or “not available”, review the FAQ section or contact support."
+    },
+    "pc": {
+      "title": "PC (Steam and Epic Games)",
+      "intro": "On PC, the key is usually redeemed in the launcher store you use. In this guide we leave you two routes: Steam and Epic Games. Follow the one that applies.",
+      "steamTitle": "Steam (PC)",
+      "steamCaption": "Steam menu where a product key is redeemed.",
+      "steamSteps": [
+        "Open Steam (signed in with your account).",
+        "Look for “Games” and enter “Activate a Product on Steam”.",
+        "Paste the key exactly and confirm.",
+        "Wait for Steam to process the redemption.",
+        "Open your library, find the game and click “Install”."
+      ],
+      "epicTitle": "Epic Games (PC)",
+      "epicCaption": "Epic Games screen where a code is redeemed.",
+      "epicSteps": [
+        "Open Epic Games Launcher (signed in with your account).",
+        "Go to the store and look for “Redeem Code”.",
+        "Paste the key and confirm.",
+        "Wait for the redemption result.",
+        "Check your library and download/install the game."
+      ],
+      "finalCheckTitle": "Final check on PC",
+      "finalCheckItems": [
+        "Confirm that the purchase appears in your library (Steam/Epic).",
+        "Launch the game to verify that it has been activated correctly.",
+        "If the game does not appear, check the FAQ (for example “already redeemed” or “invalid code”)."
+      ]
+    },
+    "playstation": {
+      "title": "PlayStation (PS5 and PS4)",
+      "intro": "Redemption is done with your PlayStation account in the official store. The steps are very similar between PS5 and PS4.",
+      "consoleTitle": "Redeem on the console",
+      "consoleCaption": "\"Redeem code\" screen in PlayStation Store.",
+      "consoleSteps": [
+        "Sign in to your PlayStation account.",
+        "Open PlayStation Store.",
+        "Look for “Redeem Codes”.",
+        "Paste or type the key and confirm.",
+        "Wait for the redemption confirmation.",
+        "Go to your library and download/install the content."
+      ],
+      "webTitle": "If you have a web alternative",
+      "webIntro": "If the redemption option does not appear, try redeeming from the official PlayStation website using the same account.",
+      "webSteps": [
+        "Go to the official PlayStation redemption page.",
+        "Sign in with your user account.",
+        "Paste the key, confirm, and check your library."
+      ]
+    },
+    "xbox": {
+      "title": "Xbox (Xbox Series X and Xbox One)",
+      "intro": "On Xbox, redemption is done from Microsoft Store with your account. Both Series X and Xbox One follow the same logic.",
+      "consoleTitle": "Redeem on the console",
+      "consoleCaption": "Microsoft Store menu where a code is redeemed.",
+      "consoleSteps": [
+        "Sign in to your Microsoft account on the console.",
+        "Open Microsoft Store.",
+        "Look for “Redeem code”.",
+        "Enter or paste the key and confirm.",
+        "Check that the game appears in your library.",
+        "Download/install the game if the system asks you to."
+      ],
+      "webTitle": "Redeem on the web",
+      "webIntro": "If you prefer to do it from a browser, use the official Microsoft redemption page. It is useful if you prefer to copy the key from your phone.",
+      "webSteps": [
+        "Open the official Microsoft redemption website.",
+        "Sign in with your account.",
+        "Paste the key and confirm.",
+        "Go back to your console and sync/check your library."
+      ]
+    },
+    "switch": {
+      "title": "Nintendo Switch",
+      "intro": "On Switch, redemption is done from Nintendo eShop using your account. You can do it directly on the console.",
+      "consoleTitle": "Redeem in Nintendo eShop",
+      "consoleCaption": "Nintendo eShop menu where a code is redeemed.",
+      "consoleSteps": [
+        "Make sure you have an internet connection on the console.",
+        "Sign in to your Nintendo account.",
+        "Open Nintendo eShop.",
+        "Look for “Enter Code”.",
+        "Paste or type the key and confirm.",
+        "Wait for the confirmation and check your library."
+      ],
+      "webTitle": "If you prefer to use a browser",
+      "webIntro": "Some users prefer to redeem from an official Nintendo browser page. The key and the process are equivalent: the difference is the device.",
+      "webSteps": [
+        "Open the official Nintendo redemption website.",
+        "Sign in with your account.",
+        "Paste the key and confirm.",
+        "Sync on the console and check your library."
+      ]
+    },
+    "finalVerification": {
+      "title": "Final verification (for all platforms)",
+      "items": [
+        "Check that the game appears in your platform library.",
+        "If files need to be installed, complete the download.",
+        "If the game does not appear or the system says the code is not valid, review the FAQ section or use the support contact."
+      ]
+    },
+    "contactNote": {
+      "title": "Still not working?",
+      "start": "Check whether the code matches your platform. If the error persists, contact support from the",
+      "end": "page and include as much detail as possible (platform, error message and key)."
+    },
+    "faq": {
+      "note": "If you want, you can go directly to the dashboard to view the key. Use the navigation button/menu when you enter.",
+      "q1": "Where can I find my activation key?",
+      "a1": "Your key is shown in the user panel. In the purchases/returns section, find the game you bought and look for the “Key” label. By default it may be hidden (blurred) to protect your privacy; click the eye icon to reveal it and copy it.",
+      "q2": "Do I have to redeem the key “once” or can I reuse it?",
+      "a2": "In most stores, a key can be redeemed only once. After redemption, the game is linked to your account. If you try to redeem again, the store may show messages like “already redeemed”.",
+      "q3": "The store says “invalid code” or “not available”. What should I do?",
+      "a3": "First, make sure you’re using the correct platform (PC, PlayStation, Xbox, or Switch). Second, copy the key exactly (no spaces or line breaks) and double-check uppercase/lowercase. If the error persists, try redeeming again later (servers can take time). If it still fails, check the FAQ and contact support with the store’s exact message.",
+      "q4": "Can I redeem the key on a different platform than the one I purchased for?",
+      "a4": "Usually no. Keys are typically tied to a specific platform. For example, a PlayStation key cannot be redeemed on Xbox or Nintendo Switch. Redeem on the same platform indicated in your purchase to avoid errors.",
+      "q5": "I redeemed the key, but the game takes time to appear in my library. Is that normal?",
+      "a5": "Yes. Stores can take minutes (or more) to update your library. If it doesn’t appear after some time, sign out and back in, wait a bit, and refresh your library.",
+      "q6": "Do I need a subscription (PS Plus, Xbox Live, etc.) to redeem?",
+      "a6": "Generally no. Redemption adds the game to your library. However, some online modes can require an active subscription depending on the platform and the game.",
+      "q7": "Can I redeem the key from mobile or a browser instead of a console?",
+      "a7": "It depends on the store. In general, official stores may offer web redemption options, but most of the time the process is done directly on the console. If your store allows it via a web page, always use the official site and the same account you want to use.",
+      "q8": "What does “already redeemed / already redeemed” mean?",
+      "a8": "It means the key was already redeemed previously (by another purchase or an earlier redemption). If you haven’t redeemed it, confirm you’re using the same store account and contact support with the exact platform and store message.",
+      "q9": "In the dashboard the key is blurred. How can I see it to copy it?",
+      "a9": "Click the eye icon in the dashboard to reveal the key temporarily. Then copy it and redeem it in the store. Avoid sharing the key and blur it again if the system allows it.",
+      "q10": "Can I view the key again after I activate it?",
+      "a10": "Often yes. The key usually remains available in your purchase history so you can use it for support if needed. If it’s blurred again, use the eye icon to reveal it.",
+      "q11": "I redeemed the key but the game doesn’t appear. How can I fix it?",
+      "a11": "Check that you signed in with the correct store account. Close and reopen the launcher/app, wait a moment, and refresh the library. If the game still doesn’t show up, contact support and include the store error/status.",
+      "q12": "What if my purchase was refunded/canceled?",
+      "a12": "If your purchase was refunded, the store or platform services can revoke access over time. In that case redemption may fail or the game may not appear. Contact support to review the exact order status.",
+      "q13": "Do keys expire?",
+      "a13": "Keys normally don’t expire, but some stores may impose limits by region or internal policy. If the store indicates expiration or says the code is invalid, verify the correct platform and contact support with the exact message.",
+      "q14": "How can I avoid scams and misuse of codes?",
+      "a14": "Never share your full key. Redeem only in the correct official store and be cautious of messages that ask for your key “to help” or that lead you to unofficial pages. If you find a suspicious link, don’t use it.",
+      "q15": "Can I redeem/activate on two different devices?",
+      "a15": "Redemption is usually tied to your account. You can redeem once and then install the game on other devices using the same store account. If you try to redeem again with the same key, it may fail.",
+      "q16": "When should I contact support and what information should I send?",
+      "a16": "Contact us if redemption fails and the verification steps don’t solve the problem. Include the platform (PC, PlayStation, Xbox, or Switch), the exact store message, and if possible a screenshot of the error. For security reasons, avoid sending the full key through unofficial channels."
+    }
   },
   "conditions": {
     "title": "Terms & Conditions"

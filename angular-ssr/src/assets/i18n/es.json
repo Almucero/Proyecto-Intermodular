@@ -166,7 +166,188 @@
     "address": "Dirección"
   },
   "help": {
-    "title": "Ayuda"
+    "title": "Ayuda",
+    "tocTitle": "Contenido",
+    "tocDescription": "Usa este índice para saltar rápido a la sección que necesitas.",
+    "heroDescription": "Aquí tienes guías claras para activar tus juegos y resolver los problemas más comunes. Todo está pensado para que puedas ir del principio al final sin perderte.",
+    "faqTitle": "Preguntas frecuentes (FAQ)",
+    "nav": {
+      "activation": "Activación y canje de claves",
+      "activationShort": "Activación",
+      "playstation": "PlayStation",
+      "xbox": "Xbox",
+      "switch": "Switch",
+      "faq": "Preguntas frecuentes",
+      "contact": "Contacto"
+    },
+    "activation": {
+      "title": "Activación y canje de claves",
+      "introStart": "Después de tu compra, el código de activación (clave) aparece en el",
+      "introDashboardLink": "Panel de usuario",
+      "introEnd": "El proceso es el mismo para todas las plataformas: copias la clave, la canjeas en la tienda correspondiente y verificas que el juego queda en tu biblioteca.",
+      "beforeStartTitle": "Antes de empezar",
+      "beforeStartItems": [
+        "Ten a mano tu clave: puedes verla tocando el icono de “ojo” en el dashboard.",
+        "Asegúrate de estar conectado a internet en tu consola/PC.",
+        "Abre la tienda oficial de tu plataforma (no webs de terceros).",
+        "Respeta mayúsculas/minúsculas y copia exactamente el texto de la clave."
+      ],
+      "whereKeyTitle": "Dónde encontrar la clave",
+      "whereKeyCaption": "Captura del dashboard donde se muestra la clave con el icono del ojo.",
+      "globalProcessTitle": "Proceso general (paso a paso)",
+      "globalProcessStart": "Ve al",
+      "globalProcessItems": [
+        "",
+        "Ubica tu compra y selecciona el juego cuyo código quieras activar.",
+        "Muestra la clave y cópiala. Si la clave se muestra difuminada, pulsa el icono del ojo.",
+        "Abre la tienda oficial de la plataforma y busca la opción “Canjear código” / “Redeem”.",
+        "Pega la clave y confirma. Si el sistema pide verificar tu identidad, hazlo.",
+        "Verifica que el juego aparece en tu biblioteca y descarga/instala si procede."
+      ],
+      "noteTitle": "Nota importante",
+      "noteBody": "Una clave suele poder canjearse una sola vez. Una vez activada, el juego debería aparecer en tu biblioteca. Si recibes un error tipo “código inválido”, “ya canjeado” o “no disponible”, revisa la sección de FAQ o contacta con soporte."
+    },
+    "pc": {
+      "title": "PC (Steam y Epic Games)",
+      "intro": "En PC, la clave normalmente se canjea en la tienda del launcher que uses. En la guía te dejamos dos rutas: Steam y Epic Games. Sigue la que corresponda.",
+      "steamTitle": "Steam (PC)",
+      "steamCaption": "Menú de Steam donde se canjea una clave de producto.",
+      "steamSteps": [
+        "Abre Steam (con tu cuenta iniciada).",
+        "Busca “Juegos” o “Games” y entra en “Activar un producto en Steam”.",
+        "Pega la clave exactamente y confirma.",
+        "Espera a que Steam procese el canje.",
+        "Abre tu biblioteca, localiza el juego y pulsa “Instalar”."
+      ],
+      "epicTitle": "Epic Games (PC)",
+      "epicCaption": "Pantalla de Epic Games donde se canjea un código.",
+      "epicSteps": [
+        "Abre Epic Games Launcher (con tu cuenta iniciada).",
+        "Ve a la tienda y busca “Canjear código” / “Redeem Code”.",
+        "Pega la clave y confirma.",
+        "Espera el resultado del canje.",
+        "Revisa tu biblioteca y descarga/instala el juego."
+      ],
+      "finalCheckTitle": "Comprobación final en PC",
+      "finalCheckItems": [
+        "Confirma que la compra aparece en tu biblioteca (Steam/Epic).",
+        "Inicia el juego para comprobar que se ha activado correctamente.",
+        "Si el juego no aparece, mira el FAQ (por ejemplo “ya canjeado” o “código inválido”)."
+      ]
+    },
+    "playstation": {
+      "title": "PlayStation (PS5 y PS4)",
+      "intro": "El canje se hace desde tu cuenta de PlayStation en la tienda oficial. Los pasos son muy parecidos entre PS5 y PS4.",
+      "consoleTitle": "Canje en la consola",
+      "consoleCaption": "Pantalla de \"Canjear código\" en PlayStation Store.",
+      "consoleSteps": [
+        "Inicia sesión en tu cuenta de PlayStation.",
+        "Abre PlayStation Store.",
+        "Busca “Canjear códigos” / “Redeem Codes”.",
+        "Pega o escribe la clave y confirma.",
+        "Espera la confirmación del canje.",
+        "Ve a tu biblioteca y descarga/instala el contenido."
+      ],
+      "webTitle": "Si tienes una alternativa (web)",
+      "webIntro": "Si la opción de canje no te aparece, prueba a canjear desde la web oficial de PlayStation usando la misma cuenta.",
+      "webSteps": [
+        "Entra a la página oficial de canje de PlayStation.",
+        "Inicia sesión con tu usuario.",
+        "Pega la clave, confirma y revisa la biblioteca."
+      ]
+    },
+    "xbox": {
+      "title": "Xbox (Xbox Series X y Xbox One)",
+      "intro": "Para Xbox, el canje se realiza desde Microsoft Store con tu cuenta. Tanto Series X como Xbox One comparten la misma lógica.",
+      "consoleTitle": "Canje en la consola",
+      "consoleCaption": "Menú de Microsoft Store donde se canjea un código.",
+      "consoleSteps": [
+        "Inicia sesión en tu cuenta de Microsoft en la consola.",
+        "Abre Microsoft Store.",
+        "Busca “Canjear código” / “Redeem code”.",
+        "Introduce o pega la clave y confirma.",
+        "Revisa que el juego aparezca en tu biblioteca.",
+        "Descarga/instala el juego si el sistema te lo solicita."
+      ],
+      "webTitle": "Canje en la web",
+      "webIntro": "Si prefieres hacerlo desde un navegador, usa la página oficial de canje de Microsoft. Es útil si prefieres copiar la clave desde el móvil.",
+      "webSteps": [
+        "Abre la web oficial de canje de Microsoft.",
+        "Inicia sesión con tu cuenta.",
+        "Pega la clave y confirma.",
+        "Vuelve a tu consola y sincroniza/revisa la biblioteca."
+      ]
+    },
+    "switch": {
+      "title": "Nintendo Switch",
+      "intro": "En Switch, el canje se realiza desde Nintendo eShop en tu cuenta. Puedes hacerlo directamente en la consola.",
+      "consoleTitle": "Canje en Nintendo eShop",
+      "consoleCaption": "Menú de Nintendo eShop donde se canjea un código.",
+      "consoleSteps": [
+        "Asegúrate de tener conexión a internet en la consola.",
+        "Inicia sesión en tu cuenta de Nintendo.",
+        "Abre Nintendo eShop.",
+        "Busca “Canjear código” / “Enter Code”.",
+        "Pega o escribe la clave y confirma.",
+        "Espera la confirmación y revisa tu biblioteca."
+      ],
+      "webTitle": "Si prefieres usar un navegador",
+      "webIntro": "Algunos usuarios prefieren canjear desde un navegador oficial de Nintendo. La clave y el proceso son equivalentes: la diferencia es el dispositivo.",
+      "webSteps": [
+        "Abre la web oficial de canje de Nintendo.",
+        "Inicia sesión con tu cuenta.",
+        "Pega la clave y confirma.",
+        "Sincroniza en la consola y revisa la biblioteca."
+      ]
+    },
+    "finalVerification": {
+      "title": "Verificación final (para todas las plataformas)",
+      "items": [
+        "Comprueba que el juego aparece en la biblioteca de tu plataforma.",
+        "Si hay que instalar archivos, completa la descarga.",
+        "Si el juego no aparece o el sistema indica que el código no es válido, revisa la sección FAQ o usa el contacto de soporte."
+      ]
+    },
+    "contactNote": {
+      "title": "¿Aún no te funciona?",
+      "start": "Revisa si el código corresponde a tu plataforma. Si persiste el error, ponte en contacto con soporte desde la página de",
+      "end": "e incluye el máximo detalle posible (plataforma, mensaje de error y clave)."
+    },
+    "faq": {
+      "note": "Si quieres, puedes ir directamente al dashboard para ver la clave. Usa el botón/menú de navegación cuando entres.",
+      "q1": "¿Dónde encuentro mi clave de activación?",
+      "a1": "La clave aparece en el panel de usuario. En la sección de compras/retornos, busca el juego adquirido y verás la etiqueta “Clave”. Por defecto suele estar oculta (difuminada) para proteger tu privacidad; pulsa el icono del ojo para mostrarla y copiarla.",
+      "q2": "¿Tengo que activar la clave “una sola vez” o puedo reutilizarla?",
+      "a2": "En la mayoría de tiendas, una clave se canjea una única vez. Después del canje, el juego queda asociado a tu cuenta de la plataforma. Si intentas canjearla de nuevo, la tienda puede mostrar mensajes como “ya canjeado”.",
+      "q3": "La tienda dice “código inválido” o “no disponible”. ¿Qué hago?",
+      "a3": "Primero, confirma que estás usando la plataforma correcta (PC, PlayStation, Xbox o Switch). Segundo, copia la clave exactamente (sin espacios ni saltos extra) y revisa mayúsculas/minúsculas. Si el error persiste, prueba a canjear de nuevo más tarde (a veces los servidores tardan). Si sigue fallando, consulta la sección FAQ y contacta con soporte incluyendo el mensaje exacto de la tienda.",
+      "q4": "¿Puedo canjear la clave en otra plataforma distinta a la que compré?",
+      "a4": "No. Las claves suelen estar vinculadas a una plataforma específica. Por ejemplo, una clave de PlayStation no se puede canjear en Xbox ni en Nintendo Switch. Para evitar errores, canjea siempre en la misma plataforma indicada en tu compra.",
+      "q5": "He canjeado la clave, pero el juego tarda en aparecer en la biblioteca. ¿Es normal?",
+      "a5": "Sí, puede pasar. Las tiendas pueden tardar minutos (o más) en reflejar el canje en tu biblioteca. Si transcurre un tiempo, prueba a salir y entrar en la app/launcher, revisar la conexión y forzar la actualización de la biblioteca.",
+      "q6": "¿Necesito una suscripción (PS Plus, Xbox Live, etc.) para activar?",
+      "a6": "Generalmente, no. La activación añade el juego a tu biblioteca. Sin embargo, algunos modos online pueden requerir una suscripción activa según la plataforma y el juego.",
+      "q7": "¿Puedo canjear la clave desde móvil o navegador en lugar de consola?",
+      "a7": "Depende de la tienda. En general, las tiendas oficiales ofrecen opciones web, pero lo más habitual en consolas es canjear desde la propia consola. Si tu tienda te permite hacerlo desde navegador, usa siempre el sitio oficial y la misma cuenta donde quieres que aparezca el juego.",
+      "q8": "¿Qué significa “ya canjeado / already redeemed”?",
+      "a8": "Significa que esa clave ya fue canjeada previamente (por otra compra o por un canje anterior). Si tú no la has canjeado, confirma que estás usando la misma cuenta de la tienda y contacta con soporte con el mensaje exacto y la plataforma.",
+      "q9": "En el dashboard la clave aparece difuminada. ¿Cómo la veo para copiarla?",
+      "a9": "Pulsa el icono del ojo en el dashboard para revelar temporalmente la clave. Luego cópiala y completa el canje en la tienda. Evita compartir la clave y vuelve a ocultarla si el sistema te lo permite.",
+      "q10": "¿Puedo volver a ver la clave después de activarla?",
+      "a10": "En muchos casos sí. La clave suele seguir disponible en tu historial de compras para que puedas reutilizarla para soporte si fuera necesario. Si vuelve a aparecer difuminada, usa el icono del ojo para mostrarla de nuevo.",
+      "q11": "Canjeé la clave y no aparece el juego en la biblioteca. ¿Cómo solucionarlo?",
+      "a11": "Revisa que iniciaste sesión con la cuenta correcta de la tienda. Cierra y abre el launcher/app, espera un momento y fuerza la actualización de la biblioteca. Si el juego sigue sin aparecer, contacta con soporte y aporta el mensaje de error o el estado que muestra la tienda.",
+      "q12": "¿Qué pasa si mi compra fue reembolsada/anulada?",
+      "a12": "Si la compra fue reembolsada, la tienda o los sistemas de la plataforma pueden revocar el acceso en el tiempo. En ese caso, el canje puede fallar o el juego puede no aparecer. Contacta con soporte para revisar el estado exacto de tu pedido.",
+      "q13": "¿Las claves tienen fecha de caducidad?",
+      "a13": "Normalmente no caducan, pero algunas tiendas pueden imponer límites por región o políticas internas. Si la tienda indica caducidad o que el código no es válido, revisa la plataforma correcta y contacta con soporte con el mensaje exacto.",
+      "q14": "¿Cómo evito estafas y uso indebido de códigos?",
+      "a14": "Nunca compartas tu clave completa. Canjea únicamente en la tienda oficial correspondiente y desconfía de mensajes que pidan tu clave “para ayudar” o que te lleven a páginas no oficiales. Si recibes un enlace sospechoso, no lo uses.",
+      "q15": "¿Puedo activar desde dos dispositivos diferentes?",
+      "a15": "La activación normalmente queda asociada a tu cuenta. Puedes canjear una vez y luego descargar/instalar el juego en otros dispositivos siempre que uses la misma cuenta de la tienda. Si intentas canjear de nuevo con la misma clave, es posible que falle.",
+      "q16": "¿Cuándo debo contactar a soporte y qué información enviar?",
+      "a16": "Contacta si el canje falla y los pasos de verificación no resuelven el problema. Indica la plataforma (PC, PlayStation, Xbox o Switch), qué mensaje muestra la tienda y, si puedes, adjunta una captura del error. Por seguridad, evita enviar la clave completa por canales no oficiales."
+    }
   },
   "conditions": {
     "title": "Términos y condiciones"

@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe, TranslateModule } from '@ngx-translate/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { GameService } from '../../core/services/impl/game.service';
 import { MediaService } from '../../core/services/impl/media.service';
@@ -53,6 +53,7 @@ interface RecommendationSection {
     LocalizedCurrencyPipe,
     CarouselComponent,
     StripeModalComponent,
+    RouterModule,
   ],
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss'],
