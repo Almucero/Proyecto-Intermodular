@@ -20,11 +20,21 @@ description: Workflows compactos para Jira y Confluence desde Cursor mediante MC
   - Epics: `EPIC - ...`
   - User stories: `US-01: ...`, `US-02: ...`, etc
   - Tasks: `TASK-01: ...`, `TASK-02: ...`, etc
+- Usar `User Story` como formato por defecto; reservar `Task` para trabajo breve o muy aislado.
 - Tener en cuenta que los sprints son de 2 semanas.
 - Las user stories y tasks deben tener siempre `Story Points`.
 - Los `Story Points` equivalen a horas estimadas y deben introducirse siempre como enteros.
 - No completar nunca un sprint; solo deben completarse las user stories y tasks internas.
 - Mantener los sprints visibles en backlog para conservar trazabilidad historica.
+- Toda user story debe incluir subtareas siempre.
+- Formato estricto de user story:
+  - `Como ... quiero ... para ...`
+  - `Criterios de aceptación`
+  - `DoR`
+  - `DoD`
+- Formato de subtareas: descripcion breve + bloque `Subtareas`.
+- Si se rellena un sprint desde commits por periodo, mantener secuencia temporal razonable e intercalar US/TASK de forma natural.
+- Considerar autoria real de commits para asignar tickets entre las 2 personas del equipo cuando Jira lo permita.
 - Si se documenta backlog o sprints en Confluence, usar como referencia las paginas:
   - `Metodología Jira`
   - `Resumen Jira`
@@ -54,4 +64,4 @@ description: Workflows compactos para Jira y Confluence desde Cursor mediante MC
 - Mantener trazabilidad Jira <-> codigo <-> documentacion.
 - No ejecutar operaciones de escritura en Jira/Confluence sin confirmacion del usuario cuando exista impacto amplio.
 - Si se crean epics, incluir descripcion estructurada, objetivo SMART y etiquetas siguiendo el formato existente del espacio.
-- Si se crean user stories o tasks, mantener estructura con criterios de aceptación, DoR, DoD y subtareas cuando aplique.
+- Si se crean user stories o tasks, mantener estructura real del proyecto. En US, subtareas obligatorias.
