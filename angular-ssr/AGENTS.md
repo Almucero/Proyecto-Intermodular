@@ -32,6 +32,8 @@ scripts/
 - Mensajes de commit en espanol, primera letra mayuscula.
 - Si hay varios temas relacionados, separar con comas.
 - Si hay cambios radicalmente distintos, separar bloques con ` + `.
+- El titulo del commit debe basarse solo en el diff real que se va a commitear (staged), nunca en el contexto conversacional.
+- No mencionar sprints, decisiones de chat o trabajo no incluido en los archivos staged.
 
 ## URLs de referencia en produccion
 
@@ -71,10 +73,10 @@ scripts/
 Si el usuario pide commit, ejecutar antes y en este orden:
 
 1. `npm run build:ssr`
-2. `npm run vercel-build`
-3. `npm run lint`
-4. `npm audit --omit=dev`
+2. `npm run lint`
+3. `npm audit --omit=dev`
 
+No ejecutar `npm run vercel-build` en local: ese flujo es exclusivo del entorno de Vercel y puede regenerar artefactos no deseados (por ejemplo `docs/`).
 No hacer commit si alguno falla, salvo instruccion explicita del usuario.
 
 ## Entorno

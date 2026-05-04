@@ -819,7 +819,7 @@ El repositorio incluye una base compactada de personalización para Cursor Agent
 - Las `Rules`, `Skills`, `Commands` y `Hooks` del proyecto se cargan automáticamente al abrir el repositorio en Cursor; no requieren pasos adicionales para estar disponibles.
 - Los hooks y reglas solo tienen efecto dentro de Cursor Agent, no fuera del editor.
 - Lo único que requiere configuración manual adicional es `MCP`: para usar GitHub, PostgreSQL o Jira, hay que tener definidas las variables de entorno correspondientes.
-- Si se clona el proyecto en otra máquina, basta con abrirlo en Cursor para que se detecte `.cursor/`; después solo hay que configurar las variables necesarias para los MCP que se quieran utilizar.
+- Si se clona el proyecto en otra máquina, tras abrir el repositorio en Cursor hay que revisar `Settings -> MCP` y habilitar manualmente los servidores `github`, `jira` y `postgres` si aparecen en `Disabled`.
 - Las variables sensibles de MCP deben mantenerse fuera del repositorio real. `.env` o variables de entorno del sistema son válidas, pero Cursor debe poder resolverlas al arrancar.
 
 ### Sincronización de variables MCP para Cursor
@@ -844,6 +844,19 @@ Variables sincronizadas:
 - `JIRA_API_TOKEN`
 
 Después de ejecutar el script, hay que cerrar y volver a abrir Cursor.
+
+### Resolución de problemas MCP en Cursor
+
+- Si en `Settings -> MCP` aparece `MCP configuration errors` con mensaje de JSON inválido en un servidor externo (por ejemplo `extension-GitKraken`), pulsar `Open JSON` y corregir o eliminar la entrada rota.
+- Ese error de un servidor externo puede impedir o degradar la carga de otros MCP.
+- Tras corregir el JSON, ejecutar `Developer: Reload Window` en Cursor y volver a comprobar que `github`, `jira` y `postgres` estén en `Enabled`.
+- En sesiones largas, el MCP de Jira puede quedarse en `Not connected` o devolver `Connection closed`; si pasa, cerrar y abrir Cursor y volver a revisar `Settings -> MCP`.
+- Si tras reabrir sigue igual, desactivar y reactivar manualmente el servidor Jira en `Settings -> MCP`, y después ejecutar `Developer: Reload Window`.
+
+### Validación local antes de commit
+
+- En local ejecutar: `npm run build:ssr`, `npm run lint`, `npm audit --omit=dev`.
+- No ejecutar `npm run vercel-build` en local: ese comando está orientado al pipeline de Vercel y puede regenerar artefactos no deseados (por ejemplo contenido en `docs/`).
 
 ### Requisito adicional para Jira MCP
 

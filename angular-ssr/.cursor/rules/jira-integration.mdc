@@ -13,6 +13,15 @@ alwaysApply: false
 - No usar otras nomenclaturas para epics, historias o tareas.
 - Las user stories y tasks deben tener siempre `Story Points`.
 - Los `Story Points` representan el numero estimado de horas y deben ser siempre un numero entero.
+- Por defecto crear `User Story`; usar `Task` solo para trabajo breve, puntual o aislado.
+- Toda `User Story` debe incluir siempre subtareas y mantener estructura estricta en descripcion:
+  - `Como ... quiero ... para ...`
+  - `Criterios de aceptacion`
+  - `DoR`
+  - `DoD`
+- Las subtareas deben incluir siempre descripcion breve y bloque `Subtareas`.
+- Cuando se cargue trabajo por sprint desde commits, mantener coherencia cronologica y mezclar `US` y `TASK` (no agrupar primero todo un tipo y luego el otro).
+- Al mapear commits a Jira, considerar autoria de commit para asignacion (equipo de 2 personas) y reflejarlo en assignee cuando Jira lo permita.
 - Nunca completar un sprint; deben completarse solo las user stories y tasks contenidas en el sprint.
 - Los sprints deben permanecer visibles en backlog para conservar el registro historico completo.
 - Si hay ticket Jira en contexto, usarlo en documentacion y trazabilidad funcional.
