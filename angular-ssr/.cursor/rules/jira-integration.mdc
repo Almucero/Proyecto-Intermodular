@@ -14,15 +14,51 @@ alwaysApply: false
 - Las user stories y tasks deben tener siempre `Story Points`.
 - Los `Story Points` representan el numero estimado de horas y deben ser siempre un numero entero.
 - Por defecto crear `User Story`; usar `Task` solo para trabajo breve, puntual o aislado.
+- En `User Story` y `Task`, establecer siempre `Team = Desarrolladores` (unico equipo del proyecto).
+- Salvo que el usuario indique lo contrario, dejar en estado completado todo ticket de trabajo ya realizado.
+- Usar `Start date` y `Due date` como atributos (nunca en descripcion) solo cuando aporte valor real; objetivo orientativo: aplicarlo aprox. al 40% de US/TASK de un lote.
 - Toda `User Story` debe incluir siempre subtareas y mantener estructura estricta en descripcion:
   - `Como ... quiero ... para ...`
   - `Criterios de aceptacion`
   - `DoR`
   - `DoD`
-- Las subtareas deben incluir siempre descripcion breve y bloque `Subtareas`.
+- Formato visual obligatorio en Jira para `User Story`:
+  - Primera linea en una sola frase: `Como ... **quiero** ... **para** ...`.
+  - Encabezados en negrita: `**Criterios de aceptación**`, `**DoR**`, `**DoD**`.
+  - Listas con viñetas `- ...` en criterios, DoR y DoD (no parrafos planos).
+- Formato visual obligatorio en Jira para `Subtarea` (especialmente subtareas de US):
+  - Primera linea con descripcion breve, sin titulo previo.
+  - Bloque `Subtareas:`.
+  - Checklist en varias lineas con `- [ ] ...`.
+- Antes de crear o editar en bloque tickets Jira, revisar 1 `User Story` y 1 `Subtarea` correctas del proyecto y copiar ese patron visual.
+- Tras actualizar tickets en lote, validar 1-2 issues de muestra para confirmar que el formato visual final coincide con el patron.
+- Proceso obligatorio previo a cualquier escritura en Jira (crear/editar/transicionar):
+  1. Revisar ejemplos validos del proyecto (`User Story`, `Task` y `Subtarea`) y usarlos como plantilla exacta.
+  2. Confirmar campos antes de enviar: `Team`, `Story Points`, `status`, `sprint`, `Start date`, `Due date`.
+  3. Aplicar formato exacto de descripcion sin variantes libres.
+  4. Tras escribir, reabrir muestras y validar render final.
+- Plantilla obligatoria para descripcion de `User Story`:
+  - `Como ... **quiero** ... **para** ...`
+  - `**Criterios de aceptación**`
+  - `- ...`
+  - `**DoR**`
+  - `- ...`
+  - `**DoD**`
+  - `- ...`
+- Plantilla obligatoria para descripcion de `Subtarea`:
+  - Primera linea: descripcion breve directa (sin titulo `Descripción`).
+  - `Subtareas:`
+  - `- [ ] ...`
+  - `- [ ] ...`
+- Plantilla recomendada para `Task`:
+  - Primera linea: objetivo breve del trabajo.
+  - Cuerpo en texto corto o lista simple, sin bloques inventados.
+  - Si hay lista de ejecucion, usar checklist `- [ ] ...`.
 - Cuando se cargue trabajo por sprint desde commits, mantener coherencia cronologica y mezclar `US` y `TASK` (no agrupar primero todo un tipo y luego el otro).
 - Al mapear commits a Jira, considerar autoria de commit para asignacion (equipo de 2 personas) y reflejarlo en assignee cuando Jira lo permita.
-- Nunca completar un sprint; deben completarse solo las user stories y tasks contenidas en el sprint.
+- Prohibido cerrar/completar sprints desde Cursor en cualquier caso.
+- Si un sprint debe reflejarse como historico, mantenerlo visible en backlog sin cerrarlo.
+- Solo se completan/cierra estado de las user stories y tasks contenidas en el sprint.
 - Los sprints deben permanecer visibles en backlog para conservar el registro historico completo.
 - Si hay ticket Jira en contexto, usarlo en documentacion y trazabilidad funcional.
 - Si no hay ticket y la tarea lo requiere, solicitar referencia o crear ticket mediante MCP.

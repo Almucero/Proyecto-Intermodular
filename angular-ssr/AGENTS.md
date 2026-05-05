@@ -90,6 +90,26 @@ Copiar `.env.example` a `.env` y completar variables requeridas por backend, Pri
 - Jira MCP usa `uvx mcp-atlassian` con `JIRA_URL`, `JIRA_USERNAME` y `JIRA_API_TOKEN`.
 - Tras completar variables MCP en `.env`, ejecutar `npm run setup:cursor-access` y reiniciar Cursor.
 
+### Jira desde Cursor (estandar de formato)
+
+- Antes de crear/editar tickets Jira en lote, revisar 1 `User Story` y 1 `Subtarea` ya correctas del proyecto y usarlas como plantilla visual.
+- `User Story` debe quedar con: frase `Como ... **quiero** ... **para** ...`, secciones `**Criterios de aceptación**`, `**DoR**`, `**DoD**` y listas con `-`.
+- `Subtarea` debe quedar con: descripcion breve en la primera linea (sin titulo), bloque `Subtareas:` y checklist con items `- [ ]`.
+- Tras escrituras masivas en Jira, validar tickets de muestra para confirmar que el render en Jira mantiene negritas y listas.
+- En `User Story` y `Task`, asignar siempre el equipo `Desarrolladores`.
+- Salvo indicacion explicita del usuario, dejar como completados los tickets que representen trabajo ya hecho.
+- Aplicar `Start date` y `Due date` como atributos de Jira (no en descripcion) solo cuando sean relevantes; mantener uso parcial, orientativamente en ~40% de US/TASK creadas o actualizadas en lote.
+- Prohibido cerrar/completar sprints desde Cursor.
+- Los sprints deben mantenerse visibles en backlog; solo se marcan como completadas las US/TASK.
+- Antes de escribir en Jira, revisar ejemplos existentes del proyecto (`User Story`, `Task`, `Subtarea`) y replicar su patron exacto.
+- Checklist obligatoria antes de confirmar cambios Jira:
+  - tipo de issue correcto (`User Story`/`Task`/`Subtarea`)
+  - descripcion con plantilla correcta segun tipo
+  - `Team = Desarrolladores` en US/TASK
+  - `Story Points` enteros en US/TASK
+  - estado final esperado (por defecto completado salvo indicacion contraria)
+  - fechas como atributos (`Start date`/`Due date`) solo cuando aplique
+
 ## Instalacion de dependencias
 
 - Comando obligatorio: `npm run setup:secure` en reemplazo absoluto de `npm install`.
