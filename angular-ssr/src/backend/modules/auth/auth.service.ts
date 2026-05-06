@@ -1,8 +1,10 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { randomUUID } from 'node:crypto';
+import nodemailer from 'nodemailer';
 import { OAuth2Client } from 'google-auth-library';
 import { env } from '../../config/env';
+import { prisma } from '../../config/db';
 import {
   createUser,
   findUserByAccountAt,
@@ -14,6 +16,54 @@ import {
 } from '../users/users.service';
 
 const googleOAuthClient = new OAuth2Client(env.GOOGLE_CLIENT_ID);
+const passwordRecoveryStore = new Map<
+  string,
+  {
+    codeHash: string;
+    expiresAt: number;
+    attempts: number;
+    nextAllowedAt: number;
+  }
+>();
+const PASSWORD_RECOVERY_TTL_MS = 15 * 60 * 1000;
+const PASSWORD_RECOVERY_RESEND_INTERVAL_MS = 60 * 1000;
+const MAX_PASSWORD_RECOVERY_ATTEMPTS = 5;
+
+const passwordRecoveryEmailContent: Record<
+  string,
+  { subject: string; title: string; message: string; expiration: string }
+> = {
+  es: {
+    subject: 'Recuperación de contraseña - Game Sage',
+    title: 'Código de recuperación',
+    message: 'Usa este código para recuperar tu contraseña:',
+    expiration: 'El código caduca en 15 minutos.',
+  },
+  en: {
+    subject: 'Password recovery - Game Sage',
+    title: 'Recovery code',
+    message: 'Use this code to recover your password:',
+    expiration: 'The code expires in 15 minutes.',
+  },
+  fr: {
+    subject: 'Récupération du mot de passe - Game Sage',
+    title: 'Code de récupération',
+    message: 'Utilisez ce code pour récupérer votre mot de passe :',
+    expiration: 'Le code expire dans 15 minutes.',
+  },
+  de: {
+    subject: 'Passwort-Wiederherstellung - Game Sage',
+    title: 'Wiederherstellungscode',
+    message: 'Verwende diesen Code, um dein Passwort wiederherzustellen:',
+    expiration: 'Der Code läuft in 15 Minuten ab.',
+  },
+  it: {
+    subject: 'Recupero password - Game Sage',
+    title: 'Codice di recupero',
+    message: 'Usa questo codice per recuperare la tua password:',
+    expiration: 'Il codice scade tra 15 minuti.',
+  },
+};
 
 function splitDisplayName(fullName?: string | null): { name: string; surname: string } {
   const normalized = (fullName ?? '').trim().replace(/\s+/g, ' ');
@@ -343,4 +393,129 @@ export async function loginWithGithub(code: string) {
 
   const token = signUserToken(fullUser);
   return { user: fullUser, token };
+}
+
+function buildRecoveryCode(): string {
+  return `${Math.floor(100000 + Math.random() * 900000)}`;
+}
+
+async function sendPasswordRecoveryEmail(
+  to: string,
+  locale: string,
+  code: string,
+): Promise<void> {
+  const language = passwordRecoveryEmailContent[locale] ? locale : 'es';
+  const content = passwordRecoveryEmailContent[language];
+  const host = process.env['SMTP_HOST'];
+  const port = Number(process.env['SMTP_PORT'] || '587');
+  const user = process.env['SMTP_USER'];
+  const pass = process.env['SMTP_PASS'];
+  const from = process.env['SMTP_FROM'] || 'no-reply@gamesage.local';
+  if (!host || !user || !pass) {
+    throw new Error('SMTP no configurado');
+  }
+
+  const transporter = nodemailer.createTransport({
+    host,
+    port,
+    secure: port === 465,
+    auth: { user, pass },
+  });
+
+  await transporter.sendMail({
+    from,
+    to,
+    subject: content.subject,
+    text: `${content.message} ${code}. ${content.expiration}`,
+    html: `<div style="font-family:Arial,sans-serif"><h2>${content.title}</h2><p>${content.message}</p><p style="font-size:24px;font-weight:bold;letter-spacing:4px">${code}</p><p>${content.expiration}</p></div>`,
+  });
+}
+
+export async function requestPasswordRecovery(email: string, locale: string) {
+  const normalizedEmail = email.trim().toLowerCase();
+  const user = await findUserByEmail(normalizedEmail);
+  if (!user) {
+    return { ok: true };
+  }
+
+  const existingEntry = passwordRecoveryStore.get(normalizedEmail);
+  if (existingEntry && Date.now() < existingEntry.nextAllowedAt) {
+    const error = new Error('Demasiadas solicitudes') as Error & {
+      status?: number;
+      retryAfterMs?: number;
+    };
+    error.status = 429;
+    error.retryAfterMs = existingEntry.nextAllowedAt - Date.now();
+    throw error;
+  }
+
+  const code = buildRecoveryCode();
+  const codeHash = await bcrypt.hash(code, env.BCRYPT_SALT_ROUNDS);
+  const expiresAt = Date.now() + PASSWORD_RECOVERY_TTL_MS;
+  const nextAllowedAt =
+    Date.now() + PASSWORD_RECOVERY_RESEND_INTERVAL_MS;
+  passwordRecoveryStore.set(normalizedEmail, {
+    codeHash,
+    expiresAt,
+    attempts: 0,
+    nextAllowedAt,
+  });
+
+  await sendPasswordRecoveryEmail(normalizedEmail, locale, code);
+  return { ok: true, expiresAt };
+}
+
+export async function verifyPasswordRecoveryCode(email: string, code: string) {
+  const normalizedEmail = email.trim().toLowerCase();
+  const entry = passwordRecoveryStore.get(normalizedEmail);
+  if (!entry || Date.now() > entry.expiresAt) {
+    passwordRecoveryStore.delete(normalizedEmail);
+    const error = new Error('Código inválido o expirado') as Error & {
+      status?: number;
+    };
+    error.status = 400;
+    throw error;
+  }
+  const isValid = await bcrypt.compare(code, entry.codeHash);
+  if (!isValid) {
+    entry.attempts += 1;
+    if (entry.attempts >= MAX_PASSWORD_RECOVERY_ATTEMPTS) {
+      passwordRecoveryStore.delete(normalizedEmail);
+    } else {
+      passwordRecoveryStore.set(normalizedEmail, entry);
+    }
+    const error = new Error('Código inválido o expirado') as Error & {
+      status?: number;
+    };
+    error.status = 400;
+    throw error;
+  }
+  return { ok: true };
+}
+
+export async function resetPasswordWithRecoveryCode(
+  email: string,
+  code: string,
+  newPassword: string,
+) {
+  const normalizedEmail = email.trim().toLowerCase();
+  await verifyPasswordRecoveryCode(normalizedEmail, code);
+  const user = await findUserByEmail(normalizedEmail);
+  if (!user) {
+    passwordRecoveryStore.delete(normalizedEmail);
+    return { ok: true };
+  }
+
+  const newHash = await bcrypt.hash(newPassword, env.BCRYPT_SALT_ROUNDS);
+  await prisma.user.update({
+    where: { id: user.id },
+    data: {
+      passwordHash: newHash,
+      passwordChangedAt: new Date(),
+      loginAttempts: 0,
+      lockUntil: null,
+    },
+  });
+  passwordRecoveryStore.delete(normalizedEmail);
+  return { ok: true };
 }

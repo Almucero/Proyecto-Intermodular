@@ -161,6 +161,25 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
     );
   }
 
+  requestPasswordRecovery(email: string, locale: string): Observable<any> {
+    const url = this.signInUrl.replace(/\/login$/, '/password-recovery/request');
+    return this.http.post(url, { email, locale });
+  }
+
+  verifyPasswordRecovery(email: string, code: string): Observable<any> {
+    const url = this.signInUrl.replace(/\/login$/, '/password-recovery/verify');
+    return this.http.post(url, { email, code });
+  }
+
+  resetPasswordRecovery(
+    email: string,
+    code: string,
+    newPassword: string,
+  ): Observable<any> {
+    const url = this.signInUrl.replace(/\/login$/, '/password-recovery/reset');
+    return this.http.post(url, { email, code, newPassword });
+  }
+
   /**
    * Registra un nuevo usuario en la plataforma.
    * @param registerPayload Datos del registro.

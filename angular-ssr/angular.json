@@ -64,6 +64,7 @@
               "cors",
               "ip-address",
               "hpp",
+              "nodemailer",
               "google-auth-library",
               "debug",
               "agent-base",

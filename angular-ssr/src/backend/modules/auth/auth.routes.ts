@@ -5,6 +5,9 @@ import {
   loginSchema,
   googleLoginSchema,
   githubLoginSchema,
+  passwordRecoveryRequestSchema,
+  passwordRecoveryVerifySchema,
+  passwordRecoveryResetSchema,
 } from './auth.schema';
 import {
   registerCtrl,
@@ -15,6 +18,9 @@ import {
   githubLoginCtrl,
   githubClientIdCtrl,
   githubCallbackCtrl,
+  passwordRecoveryRequestCtrl,
+  passwordRecoveryVerifyCtrl,
+  passwordRecoveryResetCtrl,
 } from './auth.controller';
 
 const router = Router();
@@ -98,5 +104,20 @@ router.get('/google/callback', googleCallbackCtrl);
 router.post('/github', validate(githubLoginSchema), githubLoginCtrl);
 router.get('/github/client-id', githubClientIdCtrl);
 router.get('/github/callback', githubCallbackCtrl);
+router.post(
+  '/password-recovery/request',
+  validate(passwordRecoveryRequestSchema),
+  passwordRecoveryRequestCtrl,
+);
+router.post(
+  '/password-recovery/verify',
+  validate(passwordRecoveryVerifySchema),
+  passwordRecoveryVerifyCtrl,
+);
+router.post(
+  '/password-recovery/reset',
+  validate(passwordRecoveryResetSchema),
+  passwordRecoveryResetCtrl,
+);
 
 export default router;

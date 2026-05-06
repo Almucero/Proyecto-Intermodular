@@ -60,6 +60,9 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   userName: string = '';
   /** Controla la visibilidad del modal de autenticación requerida. */
   showAuthModal: boolean = false;
+  authModalOpen = false;
+  authModalClosing = false;
+  private readonly authModalAnimMs = 160;
   /** Estado de autenticación del usuario. */
   isUserAuthenticated: boolean = false;
   /** URL del avatar del usuario. */
@@ -387,6 +390,16 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   checkAuth(): boolean {
     if (!this.isUserAuthenticated) {
       this.showAuthModal = true;
+      this.authModalClosing = false;
+      this.authModalOpen = false;
+      if (typeof document !== 'undefined') document.body.style.overflow = 'hidden';
+      if (typeof requestAnimationFrame !== 'undefined') {
+        requestAnimationFrame(() => {
+          if (!this.authModalClosing) this.authModalOpen = true;
+        });
+      } else {
+        this.authModalOpen = true;
+      }
       return false;
     }
     return true;
@@ -394,15 +407,31 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /** Redirige al login tras aceptar el aviso de autenticación. */
   confirmLogin() {
-    this.showAuthModal = false;
-    this.router.navigate(['/login'], {
-      state: { navigateTo: this.router.url },
-    });
+    if (this.authModalClosing) return;
+    this.authModalClosing = true;
+    this.authModalOpen = false;
+    const navigateTo = this.router.url;
+
+    setTimeout(() => {
+      this.showAuthModal = false;
+      this.authModalClosing = false;
+      this.authModalOpen = false;
+      if (typeof document !== 'undefined') document.body.style.overflow = '';
+      this.router.navigate(['/login'], { state: { navigateTo } });
+    }, this.authModalAnimMs);
   }
 
   /** Cierra el aviso de login. */
   cancelLogin() {
-    this.showAuthModal = false;
+    if (this.authModalClosing) return;
+    this.authModalClosing = true;
+    this.authModalOpen = false;
+    setTimeout(() => {
+      this.showAuthModal = false;
+      this.authModalClosing = false;
+      this.authModalOpen = false;
+      if (typeof document !== 'undefined') document.body.style.overflow = '';
+    }, this.authModalAnimMs);
   }
 
   /** Maneja clicks en enlaces internos dentro del contenido generado por la IA (Markdown). */

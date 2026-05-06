@@ -48,6 +48,13 @@ export abstract class BaseAuthenticationService implements IAuthentication {
   abstract signInWithGoogle(idToken: string, rememberMe?: boolean): Observable<any>;
   /** Inicia sesión o alta con GitHub. */
   abstract signInWithGithub(code: string, rememberMe?: boolean): Observable<any>;
+  abstract requestPasswordRecovery(email: string, locale: string): Observable<any>;
+  abstract verifyPasswordRecovery(email: string, code: string): Observable<any>;
+  abstract resetPasswordRecovery(
+    email: string,
+    code: string,
+    newPassword: string,
+  ): Observable<any>;
   /** Cierra la sesión activa. */
   abstract signOut(): Observable<any>;
   /** Obtiene la información del perfil del usuario autenticado. */
