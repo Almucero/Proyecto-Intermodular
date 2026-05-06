@@ -18,6 +18,8 @@ export async function addToFavorites(
           id: true,
           title: true,
           price: true,
+          salePrice: true,
+          isOnSale: true,
           description: true,
           media: {
             select: {

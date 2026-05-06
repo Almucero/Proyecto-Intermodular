@@ -22,6 +22,7 @@ import favoritesRoutes from './modules/favorites/favorites.routes';
 import cartRoutes from './modules/cart/cart.routes';
 import purchasesRoutes from './modules/purchases/purchases.routes';
 import chatRoutes from './modules/chat/chat.routes';
+import { startEmailNotificationScheduler } from './modules/notifications';
 import { prisma } from './config/db';
 
 const originalConsoleWarn = console.warn.bind(console);
@@ -312,5 +313,9 @@ app.use('/api', (_req, res) =>
 );
 
 app.use(errorHandler);
+
+if (env.NODE_ENV !== 'test') {
+  startEmailNotificationScheduler();
+}
 
 export default app;

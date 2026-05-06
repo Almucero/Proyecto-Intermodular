@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { env } from '../config/env';
-import { findUserAuthInfo } from '../modules/users/users.service';
+import { findUserAuthInfo, touchUserLastSeen } from '../modules/users/users.service';
 import { applySecurityHeaders, applyNoCacheHeaders } from '../../security-headers';
 
 declare global {
@@ -68,6 +68,7 @@ export function auth(req: Request, res: Response, next: NextFunction) {
         email: payload.email,
         isAdmin: payload.isAdmin ?? false,
       };
+      void touchUserLastSeen(payload.sub);
       next();
     })
     .catch(() => {

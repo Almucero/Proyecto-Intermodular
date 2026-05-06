@@ -30,7 +30,7 @@ export class ErrorToastComponent {
       server: 'Error del Servidor',
       unknown: 'Error',
     };
-    // eslint-disable-next-line security/detect-object-injection
+     
     return titles[type] || 'Error';
   }
 
@@ -48,7 +48,7 @@ export class ErrorToastComponent {
       unknown: 'bg-gradient-to-br from-gray-700 via-gray-600 to-gray-500',
     };
     return (
-      // eslint-disable-next-line security/detect-object-injection
+       
       classes[type] ||
       'bg-gradient-to-br from-gray-700 via-gray-600 to-gray-500'
     );

@@ -6,6 +6,10 @@ import {
   updateGame,
   deleteGame,
 } from './games.service';
+import {
+  notifyPriceDropAndStockReplenished,
+  recordSearchSignal,
+} from '../notifications';
 
 export async function listGamesCtrl(req: Request, res: Response) {
   try {
@@ -22,6 +26,9 @@ export async function listGamesCtrl(req: Request, res: Response) {
     if (req.query.include) filters.include = String(req.query.include);
 
     const games = await listGames(filters);
+    if (req.user && (filters.title || filters.genre || filters.platform)) {
+      void recordSearchSignal(req.user.sub, filters);
+    }
     res.json(games);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
@@ -184,7 +191,11 @@ export async function updateGameCtrl(req: Request, res: Response) {
     if (payload.stockXboxOne !== undefined)
       payload.stockXboxOne = Number(payload.stockXboxOne);
 
+    const before = await findGameById(id);
     const updated = await updateGame(id, payload);
+    if (before && updated) {
+      void notifyPriceDropAndStockReplenished(id, before, updated);
+    }
     res.json(updated);
   } catch (error: any) {
     if (error.code === 'P2025') {

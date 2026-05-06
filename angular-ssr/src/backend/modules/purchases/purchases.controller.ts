@@ -6,6 +6,7 @@ import {
   getPurchase,
   refundPurchase,
 } from './purchases.service';
+import { notifyPurchaseStatus } from '../notifications';
 import { logger } from '../../utils/logger';
 import { env } from '../../config/env';
 
@@ -50,6 +51,17 @@ export async function checkoutCtrl(
     const { cartItemIds } = bodyParsed.data;
 
     const purchase = await completePurchase(user.sub, cartItemIds);
+    void notifyPurchaseStatus({
+      userId: user.sub,
+      type: 'purchase',
+      games: (purchase.items || []).map((it: any) => ({
+        title: it.title,
+        platform: it.platform?.name || 'Platform',
+        price: Number(it.purchasePrice ?? it.price ?? 0),
+      })),
+      total: Number(purchase.totalPrice ?? 0),
+      reference: `PUR-${purchase.id}`,
+    });
 
     logger.info(
       `User ${user.sub} completed purchase with items: ${cartItemIds.join(
@@ -160,6 +172,17 @@ export async function refundPurchaseCtrl(
       paramsParsed.data.id,
       bodyParsed.data.reason,
     );
+    void notifyPurchaseStatus({
+      userId: user.sub,
+      type: 'refund',
+      games: (purchase.items || []).map((it: any) => ({
+        title: it.title,
+        platform: it.platform?.name || 'Platform',
+        price: Number(it.purchasePrice ?? it.price ?? 0),
+      })),
+      total: Number(purchase.totalPrice ?? 0),
+      reference: `REF-${purchase.id}`,
+    });
     res.json(purchase);
   } catch (error: any) {
     if (error.message === 'Compra no encontrada') {
@@ -210,6 +233,17 @@ export async function refundPurchasePatchCompatCtrl(
     }
 
     const purchase = await refundPurchase(user.sub, paramsParsed.data.id, reason);
+    void notifyPurchaseStatus({
+      userId: user.sub,
+      type: 'refund',
+      games: (purchase.items || []).map((it: any) => ({
+        title: it.title,
+        platform: it.platform?.name || 'Platform',
+        price: Number(it.purchasePrice ?? it.price ?? 0),
+      })),
+      total: Number(purchase.totalPrice ?? 0),
+      reference: `REF-${purchase.id}`,
+    });
     res.json(purchase);
   } catch (error: any) {
     if (error.message === 'Compra no encontrada') {
