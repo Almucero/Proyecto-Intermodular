@@ -52,7 +52,11 @@ function passwordMatches(control: AbstractControl): ValidationErrors | null {
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, TranslatePipe],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    TranslatePipe,
+  ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })

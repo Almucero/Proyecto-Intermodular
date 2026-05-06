@@ -49,6 +49,9 @@ export class HelpComponent {
   isScreenshotModalOpen = signal(false);
   /** URL de imagen actualmente abierta en el modal. */
   screenshotModalImage = signal<string | null>(null);
+  screenshotModalOpen = false;
+  screenshotModalClosing = false;
+  private readonly screenshotModalAnimMs = 160;
 
   constructor(
     private renderer: Renderer2,
@@ -71,14 +74,31 @@ export class HelpComponent {
     if (!imageUrl) return;
     this.screenshotModalImage.set(imageUrl);
     this.isScreenshotModalOpen.set(true);
+    this.screenshotModalClosing = false;
+    this.screenshotModalOpen = false;
     this.renderer.setStyle(this.document.body, 'overflow', 'hidden');
+    if (typeof requestAnimationFrame !== 'undefined') {
+      requestAnimationFrame(() => {
+        if (!this.screenshotModalClosing) this.screenshotModalOpen = true;
+      });
+    } else {
+      this.screenshotModalOpen = true;
+    }
   }
 
   /** Cierra el modal de captura y restaura el scroll del documento. */
   closeScreenshotModal(): void {
-    this.isScreenshotModalOpen.set(false);
-    this.screenshotModalImage.set(null);
-    this.renderer.removeStyle(this.document.body, 'overflow');
+    if (this.screenshotModalClosing) return;
+    this.screenshotModalClosing = true;
+    this.screenshotModalOpen = false;
+
+    setTimeout(() => {
+      this.isScreenshotModalOpen.set(false);
+      this.screenshotModalImage.set(null);
+      this.screenshotModalClosing = false;
+      this.screenshotModalOpen = false;
+      this.renderer.removeStyle(this.document.body, 'overflow');
+    }, this.screenshotModalAnimMs);
   }
 
   @HostListener('document:keydown.escape')

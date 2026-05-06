@@ -4,12 +4,18 @@ import {
   login,
   loginWithGoogle,
   loginWithGithub,
+  requestPasswordRecovery,
+  verifyPasswordRecoveryCode,
+  resetPasswordWithRecoveryCode,
 } from './auth.service';
 import {
   registerSchema,
   loginSchema,
   googleLoginSchema,
   githubLoginSchema,
+  passwordRecoveryRequestSchema,
+  passwordRecoveryVerifySchema,
+  passwordRecoveryResetSchema,
 } from './auth.schema';
 import { env } from '../../config/env';
 
@@ -213,4 +219,51 @@ export function githubCallbackCtrl(req: Request, res: Response) {
   if (state) redirectUrl.searchParams.set('state', state);
   if (error) redirectUrl.searchParams.set('error', error);
   res.redirect(302, redirectUrl.toString());
+}
+
+export async function passwordRecoveryRequestCtrl(req: Request, res: Response) {
+  try {
+    const { email, locale } = passwordRecoveryRequestSchema.parse(req.body);
+    const data = await requestPasswordRecovery(email, locale);
+    res.json(data);
+  } catch (e: any) {
+    const status = typeof e?.status === 'number' ? e.status : 400;
+    if (status === 429) {
+      return res.status(429).json({
+        code: 'ERR_AUTH_PASSWORD_RECOVERY_RATE_LIMIT',
+        message: 'Demasiadas solicitudes. Intenta de nuevo más tarde.',
+        retryAfterMs: e?.retryAfterMs ?? 60000,
+      });
+    }
+    res.status(400).json({
+      code: 'ERR_AUTH_PASSWORD_RECOVERY_REQUEST',
+      message: 'No se pudo iniciar la recuperación de contraseña',
+    });
+  }
+}
+
+export async function passwordRecoveryVerifyCtrl(req: Request, res: Response) {
+  try {
+    const { email, code } = passwordRecoveryVerifySchema.parse(req.body);
+    const data = await verifyPasswordRecoveryCode(email, code);
+    res.json(data);
+  } catch {
+    res.status(400).json({
+      code: 'ERR_AUTH_PASSWORD_RECOVERY_CODE',
+      message: 'Código de verificación inválido o expirado',
+    });
+  }
+}
+
+export async function passwordRecoveryResetCtrl(req: Request, res: Response) {
+  try {
+    const { email, code, newPassword } = passwordRecoveryResetSchema.parse(req.body);
+    const data = await resetPasswordWithRecoveryCode(email, code, newPassword);
+    res.json(data);
+  } catch {
+    res.status(400).json({
+      code: 'ERR_AUTH_PASSWORD_RECOVERY_RESET',
+      message: 'No se pudo restablecer la contraseña',
+    });
+  }
 }

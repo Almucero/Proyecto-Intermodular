@@ -12,6 +12,13 @@ export interface IAuthentication {
   signInWithGoogle(idToken: string, rememberMe?: boolean): Observable<any>;
   /** Inicia sesión o registro con GitHub. */
   signInWithGithub(code: string, rememberMe?: boolean): Observable<any>;
+  requestPasswordRecovery(email: string, locale: string): Observable<any>;
+  verifyPasswordRecovery(email: string, code: string): Observable<any>;
+  resetPasswordRecovery(
+    email: string,
+    code: string,
+    newPassword: string,
+  ): Observable<any>;
   /** Cierra sesión. */
   signOut(): Observable<any>;
   /** Obtiene perfil. */
