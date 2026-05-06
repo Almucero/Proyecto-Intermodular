@@ -1,7 +1,168 @@
-<div class="flex-1 w-full bg-gray-900 text-white font-sans">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
-    <h2 class="text-2xl font-bold text-cyan-300 mb-6 text-center">
+<div class="flex-1 w-full bg-gray-900 text-white font-sans py-8">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+    <h1 class="text-3xl font-bold text-cyan-300 mb-8 text-center">
       {{ "settings.title" | translate }}
-    </h2>
+    </h1>
+    <form [formGroup]="form" (ngSubmit)="saveSettings()" class="space-y-6">
+      <div class="space-y-6" [class.pointer-events-none]="deleteAccountConfirmArmed">
+      <section class="bg-gray-800/70 rounded-xl px-5 pt-5 pb-5 border border-gray-700">
+        <label class="grid grid-cols-[1fr_auto] gap-4 items-stretch">
+          <span>
+            <span class="block font-medium text-lg" [attr.title]="'settings.notifications.hints.masterToggle' | translate">{{ "settings.notifications.masterToggle" | translate }}</span>
+            <span class="block text-sm text-gray-400 mt-2">{{ "settings.notifications.masterToggleHint" | translate }}</span>
+          </span>
+          <span class="grid place-items-center min-h-full">
+            <input type="checkbox" formControlName="emailNotificationsEnabled" class="w-5 h-5 accent-cyan-400" [attr.title]="'settings.notifications.hints.masterToggleInput' | translate" />
+          </span>
+        </label>
+      </section>
+
+      <section
+        class="bg-gray-800/70 rounded-xl px-5 pt-5 pb-5 border border-gray-700 space-y-4 transition-opacity"
+        [class.opacity-45]="!form.get('emailNotificationsEnabled')?.value"
+        [class.pointer-events-none]="!form.get('emailNotificationsEnabled')?.value"
+      >
+        <h3 class="text-lg font-semibold text-cyan-200">{{ "settings.notifications.deliveryTitle" | translate }}</h3>
+
+        <div>
+          <label class="block text-sm text-gray-300 mb-1" [attr.title]="'settings.notifications.hints.destinationEmail' | translate">{{ "settings.notifications.destinationEmail" | translate }}</label>
+          <input
+            type="email"
+            formControlName="notificationEmail"
+            class="w-full px-4 h-11 rounded-md border border-gray-600 bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-blue-300"
+            [placeholder]="'settings.notifications.destinationEmailPlaceholder' | translate"
+            [attr.title]="'settings.notifications.hints.destinationEmailInput' | translate"
+          />
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm text-gray-300 mb-1" [attr.title]="'settings.notifications.hints.language' | translate">{{ "settings.notifications.language" | translate }}</label>
+            <div class="relative">
+              <select formControlName="emailNotificationLanguage" class="w-full px-4 pr-12 h-11 rounded-md border border-gray-600 bg-gray-900 text-white focus:outline-none appearance-none" [attr.title]="'settings.notifications.hints.languageSelect' | translate">
+                <option value="">{{ "settings.notifications.languageAuto" | translate }}</option>
+                <option value="es">Español</option>
+                <option value="en">English</option>
+                <option value="fr">Français</option>
+                <option value="de">Deutsch</option>
+                <option value="it">Italiano</option>
+              </select>
+              <span class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-gray-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.157l3.71-3.928a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                </svg>
+              </span>
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm text-gray-300 mb-1" [attr.title]="'settings.notifications.hints.frequency' | translate">{{ "settings.notifications.frequency" | translate }}</label>
+            <div class="relative">
+              <select formControlName="emailNotificationFrequency" class="w-full px-4 pr-12 h-11 rounded-md border border-gray-600 bg-gray-900 text-white focus:outline-none appearance-none" [attr.title]="'settings.notifications.hints.frequencySelect' | translate">
+                <option value="immediate">{{ "settings.notifications.frequencyImmediate" | translate }}</option>
+                <option value="daily">{{ "settings.notifications.frequencyDaily" | translate }}</option>
+                <option value="weekly">{{ "settings.notifications.frequencyWeekly" | translate }}</option>
+              </select>
+              <span class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-gray-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.157l3.71-3.928a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                </svg>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm text-gray-300 mb-1" [attr.title]="'settings.notifications.hints.recommendationIntervalDays' | translate">{{ "settings.notifications.recommendationIntervalDays" | translate }}</label>
+          <input type="number" min="1" max="30" formControlName="emailRecommendationIntervalDays" class="w-full md:w-48 px-4 h-11 rounded-md border border-gray-600 bg-gray-900 text-white" [attr.title]="'settings.notifications.hints.recommendationIntervalDaysInput' | translate" />
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-sm text-gray-300 mb-1" [attr.title]="'settings.notifications.hints.quietStart' | translate">{{ "settings.notifications.quietStart" | translate }}</label>
+            <input type="number" min="0" max="23" formControlName="emailQuietHoursStart" class="w-full px-4 h-11 rounded-md border border-gray-600 bg-gray-900 text-white" [attr.title]="'settings.notifications.hints.quietStartInput' | translate" />
+          </div>
+          <div>
+            <label class="block text-sm text-gray-300 mb-1" [attr.title]="'settings.notifications.hints.quietEnd' | translate">{{ "settings.notifications.quietEnd" | translate }}</label>
+            <input type="number" min="0" max="23" formControlName="emailQuietHoursEnd" class="w-full px-4 h-11 rounded-md border border-gray-600 bg-gray-900 text-white" [attr.title]="'settings.notifications.hints.quietEndInput' | translate" />
+          </div>
+          <div>
+            <label class="block text-sm text-gray-300 mb-1" [attr.title]="'settings.notifications.hints.pauseDays' | translate">{{ "settings.notifications.pauseDays" | translate }}</label>
+            <input type="number" min="0" max="90" formControlName="pauseDays" class="w-full px-4 h-11 rounded-md border border-gray-600 bg-gray-900 text-white" [attr.title]="'settings.notifications.hints.pauseDaysInput' | translate" />
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="bg-gray-800/70 rounded-xl px-5 pt-5 pb-5 border border-gray-700 transition-opacity"
+        [class.opacity-45]="!form.get('emailNotificationsEnabled')?.value"
+        [class.pointer-events-none]="!form.get('emailNotificationsEnabled')?.value"
+      >
+        <h3 class="text-lg font-semibold text-cyan-200 mb-4">{{ "settings.notifications.categoriesTitle" | translate }}</h3>
+        <div formGroupName="topics" class="grid md:grid-cols-2 gap-3">
+          @for (key of topicKeys; track key) {
+            <label
+              class="flex items-center justify-between gap-4 bg-gray-900/50 px-3 py-2 rounded-md border border-gray-700 transition-opacity"
+              [class.opacity-70]="!(form.get('topics.' + key)?.value ?? true)"
+              [attr.title]="'settings.notifications.hints.topicToggle' | translate"
+            >
+              <span>{{ ("settings.notifications.topics." + key) | translate }}</span>
+              <input type="checkbox" [formControlName]="key" class="w-4 h-4 accent-cyan-400" />
+            </label>
+          }
+        </div>
+      </section>
+
+      @if (saveError) {
+        <p class="text-red-400">{{ saveError | translate }}</p>
+      }
+      @if (saved) {
+        <p class="text-green-400">{{ "settings.notifications.savedOk" | translate }}</p>
+      }
+      </div>
+
+      <div class="flex flex-col md:flex-row gap-3 md:items-center">
+        <button
+          type="submit"
+          [disabled]="saving || deleteAccountConfirmArmed"
+          class="rounded-full w-full md:w-auto px-6 py-2 font-medium bg-blue-500 hover:bg-blue-600 border border-blue-300 text-white disabled:opacity-60"
+        >
+          @if (saving) {
+            {{ "settings.notifications.saving" | translate }}
+          } @else {
+            {{ "settings.notifications.saveButton" | translate }}
+          }
+        </button>
+
+        @if (!deleteAccountConfirmArmed) {
+          <button
+            type="button"
+            (click)="onDeleteAccountClick()"
+            class="rounded-full w-full md:w-56 h-10 px-6 font-medium border text-white transition-colors bg-red-600 border-red-400 hover:bg-red-700"
+          >
+            Borrar cuenta
+          </button>
+        } @else {
+          <div class="w-full md:w-auto md:min-w-56 h-10 rounded-full px-3 border border-red-300 bg-red-900 text-white grid grid-cols-[1fr_auto] items-center gap-2">
+            <span class="text-xs whitespace-nowrap">No reversible. Estas seguro?</span>
+            <div class="flex items-center gap-2">
+              <button
+                type="button"
+                (click)="onConfirmDeleteAccount()"
+                class="rounded-full px-2 py-1 text-xs font-medium border border-red-200 text-white bg-red-600 hover:bg-red-700"
+              >
+                Si
+              </button>
+              <button
+                type="button"
+                (click)="onCancelDeleteAccount()"
+                class="rounded-full px-2 py-1 text-xs font-medium border border-gray-300 text-white bg-gray-700 hover:bg-gray-600"
+              >
+                No
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    </form>
   </div>
 </div>

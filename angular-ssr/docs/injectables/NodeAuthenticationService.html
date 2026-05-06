@@ -222,6 +222,12 @@
                                 <a href="#me" >me</a>
                             </li>
                             <li>
+                                <a href="#requestPasswordRecovery" >requestPasswordRecovery</a>
+                            </li>
+                            <li>
+                                <a href="#resetPasswordRecovery" >resetPasswordRecovery</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
                                 <a href="#saveToken" >saveToken</a>
                             </li>
@@ -239,6 +245,9 @@
                             </li>
                             <li>
                                 <a href="#signUp" >signUp</a>
+                            </li>
+                            <li>
+                                <a href="#verifyPasswordRecovery" >verifyPasswordRecovery</a>
                             </li>
                         </ul>
                     </td>
@@ -258,7 +267,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, authMapping: <a href="../interfaces/IAuthMapping.html" target="_self">IAuthMapping</a>, signInUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, signUpUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, meUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, platformId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a>, ngZone: <a href="https://angular.io/api/core/NgZone" target="_blank">NgZone</a>)</code>
+<code>constructor(http: HttpClient, authMapping: <a href="../interfaces/IAuthMapping.html" target="_self">IAuthMapping</a>, signInUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, signUpUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, meUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, platformId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a>, ngZone: NgZone)</code>
                     </td>
                 </tr>
                         <tr>
@@ -285,7 +294,7 @@
                                                         <td>http</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/common/http/HttpClient" target="_blank" >HttpClient</a></code>
+                                                                    <code>HttpClient</code>
                                                         </td>
                                                   
                                                     <td>
@@ -381,7 +390,7 @@
                                                         <td>ngZone</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/core/NgZone" target="_blank" >NgZone</a></code>
+                                                                    <code>NgZone</code>
                                                         </td>
                                                   
                                                     <td>
@@ -513,7 +522,7 @@ Si existe un token válido, obtiene los datos del usuario.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:213</a></code>
+                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:232</a></code>
 </div>
                         </td>
                     </tr>
@@ -609,7 +618,7 @@ Si existe un token válido, obtiene los datos del usuario.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:198</a></code>
+                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:217</a></code>
 </div>
                         </td>
                     </tr>
@@ -624,6 +633,188 @@ Si existe un token válido, obtiene los datos del usuario.</p>
                             <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
                         </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="requestPasswordRecovery"></a>
+                    <span class="name">
+                        <span ><b>requestPasswordRecovery</b></span>
+                        <a href="#requestPasswordRecovery"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>requestPasswordRecovery(email: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, locale: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../injectables/BaseAuthenticationService.html" target="_self" >BaseAuthenticationService</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:164</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>email</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>locale</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resetPasswordRecovery"></a>
+                    <span class="name">
+                        <span ><b>resetPasswordRecovery</b></span>
+                        <a href="#resetPasswordRecovery"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resetPasswordRecovery(email: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, code: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, newPassword: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../injectables/BaseAuthenticationService.html" target="_self" >BaseAuthenticationService</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:174</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>email</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>code</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>newPassword</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -650,8 +841,8 @@ Si existe un token válido, obtiene los datos del usuario.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="232"
-                                    class="link-to-prism">src/app/core/services/impl/node-authentication.service.ts:232</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="251"
+                                    class="link-to-prism">src/app/core/services/impl/node-authentication.service.ts:251</a></div>
                         </td>
                     </tr>
 
@@ -1030,7 +1221,7 @@ Si existe un token válido, obtiene los datos del usuario.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:182</a></code>
+                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:201</a></code>
 </div>
                         </td>
                     </tr>
@@ -1075,7 +1266,7 @@ Si existe un token válido, obtiene los datos del usuario.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:168</a></code>
+                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:187</a></code>
 </div>
                         </td>
                     </tr>
@@ -1114,6 +1305,91 @@ Si existe un token válido, obtiene los datos del usuario.</p>
                                                     <p>Datos del registro.</p>
 
                                             </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="verifyPasswordRecovery"></a>
+                    <span class="name">
+                        <span ><b>verifyPasswordRecovery</b></span>
+                        <a href="#verifyPasswordRecovery"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>verifyPasswordRecovery(email: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, code: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../injectables/BaseAuthenticationService.html" target="_self" >BaseAuthenticationService</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../injectables/BaseAuthenticationService.html#source" target="_self" >BaseAuthenticationService:169</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>email</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>code</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1180,12 +1456,6 @@ Si existe un token válido, obtiene los datos del usuario.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>false</code>
@@ -1668,6 +1938,25 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
         this._user.next(this.authMapping.signIn(response));
       }),
     );
+  }
+
+  requestPasswordRecovery(email: string, locale: string): Observable&lt;any&gt; {
+    const url &#x3D; this.signInUrl.replace(/\/login$/, &#x27;/password-recovery/request&#x27;);
+    return this.http.post(url, { email, locale });
+  }
+
+  verifyPasswordRecovery(email: string, code: string): Observable&lt;any&gt; {
+    const url &#x3D; this.signInUrl.replace(/\/login$/, &#x27;/password-recovery/verify&#x27;);
+    return this.http.post(url, { email, code });
+  }
+
+  resetPasswordRecovery(
+    email: string,
+    code: string,
+    newPassword: string,
+  ): Observable&lt;any&gt; {
+    const url &#x3D; this.signInUrl.replace(/\/login$/, &#x27;/password-recovery/reset&#x27;);
+    return this.http.post(url, { email, code, newPassword });
   }
 
   /**

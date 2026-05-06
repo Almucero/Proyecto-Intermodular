@@ -410,7 +410,9 @@ async function sendPasswordRecoveryEmail(
   const port = Number(process.env['SMTP_PORT'] || '587');
   const user = process.env['SMTP_USER'];
   const pass = process.env['SMTP_PASS'];
-  const from = process.env['SMTP_FROM'] || 'no-reply@gamesage.local';
+  const fromAddress = process.env['SMTP_FROM'] || 'no-reply@gamesage.local';
+  const fromName = process.env['SMTP_FROM_NAME'] || 'Game Sage';
+  const from = `${fromName} <${fromAddress}>`;
   if (!host || !user || !pass) {
     throw new Error('SMTP no configurado');
   }
@@ -427,7 +429,22 @@ async function sendPasswordRecoveryEmail(
     to,
     subject: content.subject,
     text: `${content.message} ${code}. ${content.expiration}`,
-    html: `<div style="font-family:Arial,sans-serif"><h2>${content.title}</h2><p>${content.message}</p><p style="font-size:24px;font-weight:bold;letter-spacing:4px">${code}</p><p>${content.expiration}</p></div>`,
+    html: `
+      <div style="font-family:Arial,sans-serif;padding:16px 8px;color:#0f172a">
+        <div style="max-width:640px;margin:0 auto;background:#ffffff;border:1px solid #e2e8f0;border-radius:14px;padding:18px">
+          <h2 style="margin:0 0 12px 0;color:#0f172a;font-size:22px;line-height:1.25">${content.title}</h2>
+          <p style="margin:0 0 14px 0;color:#475569;line-height:1.6;font-size:15px;word-break:break-word">${content.message}</p>
+          <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="border-collapse:separate;border-spacing:0;border:1px solid #e2e8f0;border-radius:12px;background:#ffffff;margin:0 0 14px 0">
+            <tr>
+              <td style="padding:16px;text-align:center">
+                <span style="display:inline-block;font-size:28px;font-weight:700;letter-spacing:6px;color:#0f172a">${code}</span>
+              </td>
+            </tr>
+          </table>
+          <p style="margin:0;color:#64748b;line-height:1.5;font-size:13px">${content.expiration}</p>
+        </div>
+      </div>
+    `,
   });
 }
 

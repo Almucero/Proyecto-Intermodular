@@ -124,6 +124,17 @@ model User {
   region           String?
   postalCode       String?
   country          String?
+  emailNotificationsEnabled Boolean @default(true)
+  notificationEmail String?
+  emailNotificationLanguage String?
+  emailNotificationFrequency String @default("weekly")
+  emailNotificationTopics Json?
+  emailNotificationPausedUntil DateTime?
+  emailQuietHoursStart Int?
+  emailQuietHoursEnd Int?
+  emailRecommendationIntervalDays Int @default(7)
+  emailNotificationMeta Json?
+  lastSeenAt DateTime @default(now())
   media            Media[]
   favorites        Favorite[]
   cartItems        CartItem[]

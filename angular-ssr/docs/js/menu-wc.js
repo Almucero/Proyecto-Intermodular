@@ -135,6 +135,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="components/LoginComponent.html" data-type="entity-link" >LoginComponent</a>
                             </li>
                             <li class="link">
+                                <a href="components/PasswordRecoveryModalComponent.html" data-type="entity-link" >PasswordRecoveryModalComponent</a>
+                            </li>
+                            <li class="link">
                                 <a href="components/PlatformFormComponent.html" data-type="entity-link" >PlatformFormComponent</a>
                             </li>
                             <li class="link">

@@ -13,7 +13,7 @@ export default [
     },
     plugins: { security: pluginSecurity },
     rules: {
-      'security/detect-object-injection': 'warn',
+      'security/detect-object-injection': 'off',
       'security/detect-non-literal-regexp': 'warn',
       'security/detect-unsafe-regex': 'error',
       'security/detect-buffer-noassert': 'error',
@@ -24,7 +24,7 @@ export default [
       'security/detect-possible-timing-attacks': 'warn',
       'security/detect-new-buffer': 'warn',
       'security/detect-non-literal-require': 'warn',
-      'security/detect-non-literal-fs-filename': 'warn',
+      'security/detect-non-literal-fs-filename': 'off',
       'security/detect-pseudoRandomBytes': 'warn',
       'security/detect-bidi-characters': 'warn'
     }

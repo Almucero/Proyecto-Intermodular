@@ -364,6 +364,24 @@ export interface User extends Model {
   postalCode?: string | null;
   /** País de residencia. */
   country?: string | null;
+  /** Permite desactivar todos los correos no críticos. */
+  emailNotificationsEnabled?: boolean;
+  /** Email destino para notificaciones (si es distinto del principal). */
+  notificationEmail?: string | null;
+  /** Idioma preferido para los correos. */
+  emailNotificationLanguage?: string | null;
+  /** Frecuencia de envío para comunicaciones no urgentes. */
+  emailNotificationFrequency?: &#x27;immediate&#x27; | &#x27;daily&#x27; | &#x27;weekly&#x27; | null;
+  /** Catálogo de categorías de email activas por usuario. */
+  emailNotificationTopics?: Record&lt;string, boolean&gt; | null;
+  /** Fecha hasta la que se silencian correos no críticos. */
+  emailNotificationPausedUntil?: string | Date | null;
+  /** Inicio de la franja silenciosa (0-23). */
+  emailQuietHoursStart?: number | null;
+  /** Fin de la franja silenciosa (0-23). */
+  emailQuietHoursEnd?: number | null;
+  /** Intervalo de recomendaciones periódicas en días (mínimo 1). */
+  emailRecommendationIntervalDays?: number | null;
   /** Lista de recursos multimedia asociados al usuario (ej. foto de perfil). */
   media?: Media[];
   /** Artículos actualmente en el carrito de compras. */

@@ -7,6 +7,7 @@ import {
   getUserFavorites,
   isFavorite,
 } from './favorites.service';
+import { notifyFavoriteOfferImmediate } from '../notifications';
 import { logger } from '../../utils/logger';
 
 const gameIdSchema = z.object({
@@ -32,6 +33,15 @@ export async function addToFavoritesCtrl(
     const { gameId, platformId } = bodyParsed.data;
 
     const favorite = await addToFavorites(user.sub, gameId, platformId);
+    void notifyFavoriteOfferImmediate({
+      userId: user.sub,
+      gameId,
+      gameTitle: (favorite as any).game?.title ?? 'Juego',
+      platformName: (favorite as any).platform?.name ?? 'Plataforma',
+      isOnSale: Boolean((favorite as any).game?.isOnSale),
+      salePrice: (favorite as any).game?.salePrice != null ? Number((favorite as any).game?.salePrice) : null,
+      price: (favorite as any).game?.price != null ? Number((favorite as any).game?.price) : null,
+    });
 
     logger.info(
       `User ${user.sub} added game ${gameId} (platform ${platformId}) to favorites`,

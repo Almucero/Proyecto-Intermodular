@@ -157,8 +157,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
         <h3>Implements</h3>
     </p>
     <p class="comment">
-                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
-                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+                <code>OnInit</code>
+                <code>OnDestroy</code>
     </p>
 
 
@@ -191,11 +191,12 @@ selección de plataformas y opciones de compra/favoritos.</p>
             <tr>
                 <td class="col-md-3">imports</td>
                 <td class="col-md-9">
-                                <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
+                            <code>CommonModule</code>
                             <code>TranslateModule</code>
                             <code>LocalizedCurrencyPipe</code>
                                 <code><a href="../components/CarouselComponent.html" target="_self" >CarouselComponent</a></code>
                                 <code><a href="../components/StripeModalComponent.html" target="_self" >StripeModalComponent</a></code>
+                            <code>RouterModule</code>
                 </td>
             </tr>
 
@@ -250,6 +251,17 @@ selección de plataformas y opciones de compra/favoritos.</p>
                                 <a href="#alreadyInFavorites" >alreadyInFavorites</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#authModalAnimMs" >authModalAnimMs</a>
+                            </li>
+                            <li>
+                                <a href="#authModalClosing" >authModalClosing</a>
+                            </li>
+                            <li>
+                                <a href="#authModalOpen" >authModalOpen</a>
+                            </li>
+                            <li>
                                 <a href="#buySuccess" >buySuccess</a>
                             </li>
                             <li>
@@ -277,6 +289,9 @@ selección de plataformas y opciones de compra/favoritos.</p>
                                 <a href="#mediaItems" >mediaItems</a>
                             </li>
                             <li>
+                                <a href="#purchaseInfoVisible" >purchaseInfoVisible</a>
+                            </li>
+                            <li>
                                 <a href="#quantityIncreased" >quantityIncreased</a>
                             </li>
                             <li>
@@ -291,7 +306,13 @@ selección de plataformas y opciones de compra/favoritos.</p>
                                 <a href="#routeSub" >routeSub</a>
                             </li>
                             <li>
+                                <a href="#screenshotModalClosing" >screenshotModalClosing</a>
+                            </li>
+                            <li>
                                 <a href="#screenshotModalImage" >screenshotModalImage</a>
+                            </li>
+                            <li>
+                                <a href="#screenshotModalOpen" >screenshotModalOpen</a>
                             </li>
                             <li>
                                 <a href="#selectedPlatform" >selectedPlatform</a>
@@ -331,6 +352,9 @@ selección de plataformas y opciones de compra/favoritos.</p>
                             </li>
                             <li>
                                 <a href="#closeCheckoutModal" >closeCheckoutModal</a>
+                            </li>
+                            <li>
+                                <a href="#closePurchaseInfo" >closePurchaseInfo</a>
                             </li>
                             <li>
                                 <a href="#closeScreenshotModal" >closeScreenshotModal</a>
@@ -473,12 +497,12 @@ selección de plataformas y opciones de compra/favoritos.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, gameService: <a href="../injectables/GameService.html" target="_self">GameService</a>, mediaService: <a href="../injectables/MediaService.html" target="_self">MediaService</a>, sanitizer: <a href="https://angular.io/api/platform-browser/DomSanitizer" target="_blank">DomSanitizer</a>, cartItemService: <a href="../injectables/CartItemService.html" target="_self">CartItemService</a>, favoriteService: <a href="../injectables/FavoriteService.html" target="_self">FavoriteService</a>, authService: <a href="../injectables/BaseAuthenticationService.html" target="_self">BaseAuthenticationService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, pageTitleService: <a href="../injectables/PageTitleService.html" target="_self">PageTitleService</a>, renderer: <a href="https://angular.io/api/core/Renderer2" target="_blank">Renderer2</a>, document: Document)</code>
+<code>constructor(route: ActivatedRoute, gameService: <a href="../injectables/GameService.html" target="_self">GameService</a>, mediaService: <a href="../injectables/MediaService.html" target="_self">MediaService</a>, sanitizer: DomSanitizer, cartItemService: <a href="../injectables/CartItemService.html" target="_self">CartItemService</a>, favoriteService: <a href="../injectables/FavoriteService.html" target="_self">FavoriteService</a>, authService: <a href="../injectables/BaseAuthenticationService.html" target="_self">BaseAuthenticationService</a>, router: Router, pageTitleService: <a href="../injectables/PageTitleService.html" target="_self">PageTitleService</a>, renderer: Renderer2, document: Document)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="155" class="link-to-prism">src/app/pages/product/product.component.ts:155</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="162" class="link-to-prism">src/app/pages/product/product.component.ts:162</a></div>
                             </td>
                         </tr>
 
@@ -499,7 +523,7 @@ selección de plataformas y opciones de compra/favoritos.</p>
                                                         <td>route</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                                    <code>ActivatedRoute</code>
                                                         </td>
                                                   
                                                     <td>
@@ -535,7 +559,7 @@ selección de plataformas y opciones de compra/favoritos.</p>
                                                         <td>sanitizer</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/platform-browser/DomSanitizer" target="_blank" >DomSanitizer</a></code>
+                                                                    <code>DomSanitizer</code>
                                                         </td>
                                                   
                                                     <td>
@@ -583,7 +607,7 @@ selección de plataformas y opciones de compra/favoritos.</p>
                                                         <td>router</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                                    <code>Router</code>
                                                         </td>
                                                   
                                                     <td>
@@ -607,7 +631,7 @@ selección de plataformas y opciones de compra/favoritos.</p>
                                                         <td>renderer</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/core/Renderer2" target="_blank" >Renderer2</a></code>
+                                                                    <code>Renderer2</code>
                                                         </td>
                                                   
                                                     <td>
@@ -660,8 +684,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="796"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:796</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="859"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:859</a></div>
                         </td>
                     </tr>
 
@@ -694,8 +718,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="598"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:598</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="656"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:656</a></div>
                         </td>
                     </tr>
 
@@ -733,8 +757,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="666"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:666</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="724"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:724</a></div>
                         </td>
                     </tr>
 
@@ -772,8 +796,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="495"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:495</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="509"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:509</a></div>
                         </td>
                     </tr>
 
@@ -811,8 +835,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="693"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:693</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="751"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:751</a></div>
                         </td>
                     </tr>
 
@@ -850,8 +874,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="578"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:578</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="610"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:610</a></div>
                         </td>
                     </tr>
 
@@ -889,8 +913,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="561"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:561</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="575"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:575</a></div>
                         </td>
                     </tr>
 
@@ -928,8 +952,45 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="707"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:707</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="765"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:765</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closePurchaseInfo"></a>
+                    <span class="name">
+                        <span ><b>closePurchaseInfo</b></span>
+                        <a href="#closePurchaseInfo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closePurchaseInfo()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="780"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:780</a></div>
                         </td>
                     </tr>
 
@@ -965,8 +1026,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="589"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:589</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="639"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:639</a></div>
                         </td>
                     </tr>
 
@@ -1002,8 +1063,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="570"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:570</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="594"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:594</a></div>
                         </td>
                     </tr>
 
@@ -1043,8 +1104,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="787"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:787</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="850"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:850</a></div>
                         </td>
                     </tr>
 
@@ -1114,8 +1175,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="226"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:226</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="240"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:240</a></div>
                         </td>
                     </tr>
 
@@ -1185,8 +1246,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="204"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:204</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="218"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:218</a></div>
                         </td>
                     </tr>
 
@@ -1226,8 +1287,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="248"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:248</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="262"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:262</a></div>
                         </td>
                     </tr>
 
@@ -1263,8 +1324,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="773"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:773</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="836"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:836</a></div>
                         </td>
                     </tr>
 
@@ -1302,8 +1363,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="766"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:766</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="829"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:829</a></div>
                         </td>
                     </tr>
 
@@ -1341,8 +1402,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="552"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:552</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="566"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:566</a></div>
                         </td>
                     </tr>
 
@@ -1380,8 +1441,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="544"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:544</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="558"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:558</a></div>
                         </td>
                     </tr>
 
@@ -1451,8 +1512,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="781"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:781</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="844"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:844</a></div>
                         </td>
                     </tr>
 
@@ -1520,8 +1581,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="751"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:751</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="814"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:814</a></div>
                         </td>
                     </tr>
 
@@ -1589,8 +1650,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="639"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:639</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="697"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:697</a></div>
                         </td>
                     </tr>
 
@@ -1658,8 +1719,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="722"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:722</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="785"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:785</a></div>
                         </td>
                     </tr>
 
@@ -1727,8 +1788,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="279"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:279</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="293"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:293</a></div>
                         </td>
                     </tr>
 
@@ -1804,8 +1865,8 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="304"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:304</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="318"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:318</a></div>
                         </td>
                     </tr>
 
@@ -1883,8 +1944,8 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="740"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:740</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="803"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:803</a></div>
                         </td>
                     </tr>
 
@@ -1922,8 +1983,8 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="196"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:196</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="210"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:210</a></div>
                         </td>
                     </tr>
 
@@ -1959,8 +2020,8 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="174"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:174</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="181"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:181</a></div>
                         </td>
                     </tr>
 
@@ -1998,8 +2059,8 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="712"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:712</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="770"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:770</a></div>
                         </td>
                     </tr>
 
@@ -2044,8 +2105,8 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="796"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:796</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="859"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:859</a></div>
                         </td>
                     </tr>
 
@@ -2081,8 +2142,8 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="582"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:582</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="623"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:623</a></div>
                         </td>
                     </tr>
 
@@ -2148,8 +2209,8 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="733"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:733</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="796"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:796</a></div>
                         </td>
                     </tr>
 
@@ -2189,8 +2250,8 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="441"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:441</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="455"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:455</a></div>
                         </td>
                     </tr>
 
@@ -2268,8 +2329,8 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="747"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:747</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="810"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:810</a></div>
                         </td>
                     </tr>
 
@@ -2337,8 +2398,8 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="727"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:727</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="790"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:790</a></div>
                         </td>
                     </tr>
 
@@ -2405,18 +2466,12 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>signal(false)</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/pages/product/product.component.ts:77</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">src/app/pages/product/product.component.ts:81</a></div>
                         </td>
                     </tr>
 
@@ -2436,18 +2491,12 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>signal(false)</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">src/app/pages/product/product.component.ts:78</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">src/app/pages/product/product.component.ts:82</a></div>
                         </td>
                     </tr>
 
@@ -2509,7 +2558,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">src/app/pages/product/product.component.ts:89</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">src/app/pages/product/product.component.ts:96</a></div>
                         </td>
                     </tr>
 
@@ -2535,18 +2584,12 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>signal(false)</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">src/app/pages/product/product.component.ts:81</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/app/pages/product/product.component.ts:85</a></div>
                         </td>
                     </tr>
 
@@ -2566,18 +2609,95 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>signal(false)</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">src/app/pages/product/product.component.ts:82</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">src/app/pages/product/product.component.ts:86</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authModalAnimMs"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>authModalAnimMs</b></span>
+                        <a href="#authModalAnimMs"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>160</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/pages/product/product.component.ts:79</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authModalClosing"></a>
+                    <span class="name">
+                        <span ><b>authModalClosing</b></span>
+                        <a href="#authModalClosing"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">src/app/pages/product/product.component.ts:78</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authModalOpen"></a>
+                    <span class="name">
+                        <span ><b>authModalOpen</b></span>
+                        <a href="#authModalOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/pages/product/product.component.ts:77</a></div>
                         </td>
                     </tr>
 
@@ -2597,18 +2717,12 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>signal(false)</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/pages/product/product.component.ts:79</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">src/app/pages/product/product.component.ts:83</a></div>
                         </td>
                     </tr>
 
@@ -2628,18 +2742,12 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>signal(false)</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/app/pages/product/product.component.ts:85</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">src/app/pages/product/product.component.ts:91</a></div>
                         </td>
                     </tr>
 
@@ -2670,7 +2778,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/pages/product/product.component.ts:66</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/pages/product/product.component.ts:67</a></div>
                         </td>
                     </tr>
 
@@ -2696,18 +2804,12 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>signal&lt;{ gameId: number; platformId: number } | null&gt;(null)</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">src/app/pages/product/product.component.ts:86</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">src/app/pages/product/product.component.ts:92</a></div>
                         </td>
                     </tr>
 
@@ -2738,7 +2840,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/pages/product/product.component.ts:62</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/pages/product/product.component.ts:63</a></div>
                         </td>
                     </tr>
 
@@ -2764,18 +2866,12 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>signal(false)</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">src/app/pages/product/product.component.ts:76</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">src/app/pages/product/product.component.ts:80</a></div>
                         </td>
                     </tr>
 
@@ -2795,18 +2891,12 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>signal(false)</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">src/app/pages/product/product.component.ts:83</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">src/app/pages/product/product.component.ts:87</a></div>
                         </td>
                     </tr>
 
@@ -2826,18 +2916,12 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>true</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">src/app/pages/product/product.component.ts:71</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/app/pages/product/product.component.ts:72</a></div>
                         </td>
                     </tr>
 
@@ -2868,7 +2952,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/app/pages/product/product.component.ts:68</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/pages/product/product.component.ts:69</a></div>
                         </td>
                     </tr>
 
@@ -2885,6 +2969,31 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="purchaseInfoVisible"></a>
+                    <span class="name">
+                        <span ><b>purchaseInfoVisible</b></span>
+                        <a href="#purchaseInfoVisible"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">src/app/pages/product/product.component.ts:93</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="quantityIncreased"></a>
                     <span class="name">
                         <span ><b>quantityIncreased</b></span>
@@ -2894,18 +3003,12 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>signal(false)</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">src/app/pages/product/product.component.ts:80</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">src/app/pages/product/product.component.ts:84</a></div>
                         </td>
                     </tr>
 
@@ -2936,7 +3039,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/pages/product/product.component.ts:69</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/app/pages/product/product.component.ts:70</a></div>
                         </td>
                     </tr>
 
@@ -2967,7 +3070,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/app/pages/product/product.component.ts:70</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">src/app/pages/product/product.component.ts:71</a></div>
                         </td>
                     </tr>
 
@@ -2995,7 +3098,32 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/app/pages/product/product.component.ts:72</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">src/app/pages/product/product.component.ts:73</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="screenshotModalClosing"></a>
+                    <span class="name">
+                        <span ><b>screenshotModalClosing</b></span>
+                        <a href="#screenshotModalClosing"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">src/app/pages/product/product.component.ts:90</a></div>
                         </td>
                     </tr>
 
@@ -3015,18 +3143,37 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>signal&lt;string | null&gt;(null)</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">src/app/pages/product/product.component.ts:84</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">src/app/pages/product/product.component.ts:88</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="screenshotModalOpen"></a>
+                    <span class="name">
+                        <span ><b>screenshotModalOpen</b></span>
+                        <a href="#screenshotModalOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">src/app/pages/product/product.component.ts:89</a></div>
                         </td>
                     </tr>
 
@@ -3057,7 +3204,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/app/pages/product/product.component.ts:64</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/pages/product/product.component.ts:65</a></div>
                         </td>
                     </tr>
 
@@ -3083,18 +3230,12 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>signal(false)</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/app/pages/product/product.component.ts:75</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">src/app/pages/product/product.component.ts:76</a></div>
                         </td>
                     </tr>
 
@@ -3129,7 +3270,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="123" class="link-to-prism">src/app/pages/product/product.component.ts:123</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="130" class="link-to-prism">src/app/pages/product/product.component.ts:130</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -3158,7 +3299,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="133" class="link-to-prism">src/app/pages/product/product.component.ts:133</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="140" class="link-to-prism">src/app/pages/product/product.component.ts:140</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -3191,7 +3332,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="140" class="link-to-prism">src/app/pages/product/product.component.ts:140</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="147" class="link-to-prism">src/app/pages/product/product.component.ts:147</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -3224,7 +3365,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="149" class="link-to-prism">src/app/pages/product/product.component.ts:149</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="156" class="link-to-prism">src/app/pages/product/product.component.ts:156</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -3257,7 +3398,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
 } from &#x27;@angular/core&#x27;;
 import { CommonModule } from &#x27;@angular/common&#x27;;
 import { TranslatePipe, TranslateModule } from &#x27;@ngx-translate/core&#x27;;
-import { ActivatedRoute, Router } from &#x27;@angular/router&#x27;;
+import { ActivatedRoute, Router, RouterModule } from &#x27;@angular/router&#x27;;
 import { DomSanitizer, SafeResourceUrl } from &#x27;@angular/platform-browser&#x27;;
 import { GameService } from &#x27;../../core/services/impl/game.service&#x27;;
 import { MediaService } from &#x27;../../core/services/impl/media.service&#x27;;
@@ -3301,6 +3442,7 @@ interface RecommendationSection {
     LocalizedCurrencyPipe,
     CarouselComponent,
     StripeModalComponent,
+    RouterModule,
   ],
   templateUrl: &#x27;./product.component.html&#x27;,
   styleUrls: [&#x27;./product.component.scss&#x27;],
@@ -3321,6 +3463,9 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   /** Estados para notificaciones visuales y modales. */
   showAuthModal &#x3D; signal(false);
+  authModalOpen &#x3D; false;
+  authModalClosing &#x3D; false;
+  private readonly authModalAnimMs &#x3D; 160;
   isAuthenticated &#x3D; signal(false);
   addedToCartSuccess &#x3D; signal(false);
   addedToFavoritesSuccess &#x3D; signal(false);
@@ -3330,8 +3475,11 @@ export class ProductComponent implements OnInit, OnDestroy {
   alreadyInFavorites &#x3D; signal(false);
   isScreenshotModalOpen &#x3D; signal(false);
   screenshotModalImage &#x3D; signal&lt;string | null&gt;(null);
+  screenshotModalOpen &#x3D; false;
+  screenshotModalClosing &#x3D; false;
   checkoutModalOpen &#x3D; signal(false);
   directCheckoutPayload &#x3D; signal&lt;{ gameId: number; platformId: number } | null&gt;(null);
+  purchaseInfoVisible &#x3D; signal(false);
 
   /** Configuración estática de todas las plataformas soportadas. */
   allPlatforms &#x3D; [
@@ -3433,6 +3581,13 @@ export class ProductComponent implements OnInit, OnDestroy {
         this.currentMediaIndex &#x3D; 0;
         this.selectedPlatform &#x3D; null;
         this.loadGame(id);
+      }
+    });
+    this.route.queryParamMap.subscribe((params) &#x3D;&gt; {
+      const payment &#x3D; params.get(&#x27;payment&#x27;);
+      const sessionId &#x3D; params.get(&#x27;session_id&#x27;);
+      if (payment &#x3D;&#x3D;&#x3D; &#x27;success&#x27; &amp;&amp; !!sessionId) {
+        this.purchaseInfoVisible.set(true);
       }
     });
 
@@ -3809,6 +3964,16 @@ export class ProductComponent implements OnInit, OnDestroy {
   checkAuth(): boolean {
     if (!this.isAuthenticated()) {
       this.showAuthModal.set(true);
+      this.authModalClosing &#x3D; false;
+      this.authModalOpen &#x3D; false;
+      this.renderer.setStyle(this.document.body, &#x27;overflow&#x27;, &#x27;hidden&#x27;);
+      if (typeof requestAnimationFrame !&#x3D;&#x3D; &#x27;undefined&#x27;) {
+        requestAnimationFrame(() &#x3D;&gt; {
+          if (!this.authModalClosing) this.authModalOpen &#x3D; true;
+        });
+      } else {
+        this.authModalOpen &#x3D; true;
+      }
       return false;
     }
     return true;
@@ -3816,28 +3981,62 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   /** Redirige al login tras confirmación en el modal. */
   confirmLogin() {
-    this.showAuthModal.set(false);
-    this.router.navigate([&#x27;/login&#x27;], {
-      state: { navigateTo: this.router.url },
-    });
+    if (this.authModalClosing) return;
+    this.authModalClosing &#x3D; true;
+    this.authModalOpen &#x3D; false;
+
+    const navigateTo &#x3D; this.router.url;
+    setTimeout(() &#x3D;&gt; {
+      this.showAuthModal.set(false);
+      this.authModalClosing &#x3D; false;
+      this.authModalOpen &#x3D; false;
+      this.renderer.removeStyle(this.document.body, &#x27;overflow&#x27;);
+      this.router.navigate([&#x27;/login&#x27;], { state: { navigateTo } });
+    }, this.authModalAnimMs);
   }
 
   /** Cierra el modal de autenticación. */
   cancelLogin() {
-    this.showAuthModal.set(false);
+    if (this.authModalClosing) return;
+    this.authModalClosing &#x3D; true;
+    this.authModalOpen &#x3D; false;
+
+    setTimeout(() &#x3D;&gt; {
+      this.showAuthModal.set(false);
+      this.authModalClosing &#x3D; false;
+      this.authModalOpen &#x3D; false;
+      this.renderer.removeStyle(this.document.body, &#x27;overflow&#x27;);
+    }, this.authModalAnimMs);
   }
 
   openScreenshotModal(imageUrl: string): void {
     if (!imageUrl) return;
     this.screenshotModalImage.set(imageUrl);
     this.isScreenshotModalOpen.set(true);
+    this.screenshotModalClosing &#x3D; false;
+    this.screenshotModalOpen &#x3D; false;
     this.renderer.setStyle(this.document.body, &#x27;overflow&#x27;, &#x27;hidden&#x27;);
+    if (typeof requestAnimationFrame !&#x3D;&#x3D; &#x27;undefined&#x27;) {
+      requestAnimationFrame(() &#x3D;&gt; {
+        if (!this.screenshotModalClosing) this.screenshotModalOpen &#x3D; true;
+      });
+    } else {
+      this.screenshotModalOpen &#x3D; true;
+    }
   }
 
   closeScreenshotModal(): void {
-    this.isScreenshotModalOpen.set(false);
-    this.screenshotModalImage.set(null);
-    this.renderer.removeStyle(this.document.body, &#x27;overflow&#x27;);
+    if (this.screenshotModalClosing) return;
+    this.screenshotModalClosing &#x3D; true;
+    this.screenshotModalOpen &#x3D; false;
+
+    setTimeout(() &#x3D;&gt; {
+      this.isScreenshotModalOpen.set(false);
+      this.screenshotModalImage.set(null);
+      this.screenshotModalClosing &#x3D; false;
+      this.screenshotModalOpen &#x3D; false;
+      this.renderer.removeStyle(this.document.body, &#x27;overflow&#x27;);
+    }, this.authModalAnimMs);
   }
 
   /**
@@ -3960,10 +4159,15 @@ export class ProductComponent implements OnInit, OnDestroy {
   onCheckoutCompleted(): void {
     this.checkoutModalOpen.set(false);
     this.directCheckoutPayload.set(null);
+    this.purchaseInfoVisible.set(true);
     const id &#x3D; this.route.snapshot.paramMap.get(&#x27;id&#x27;);
     if (id) {
       this.loadGame(id);
     }
+  }
+
+  closePurchaseInfo(): void {
+    this.purchaseInfoVisible.set(false);
   }
 
   /** Comprueba si el juego está disponible para una plataforma dada. */
@@ -4035,7 +4239,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   private convertToEmbedUrl(url: string): string {
     const videoId &#x3D; this.getVideoId(url);
     if (videoId) {
-      return &#x60;https://www.youtube-nocookie.com/embed/${videoId}?autoplay&#x3D;1&amp;mute&#x3D;1&amp;modestbranding&#x3D;1&amp;rel&#x3D;0&amp;showinfo&#x3D;0&amp;iv_load_policy&#x3D;3&#x60;;
+      return &#x60;https://www.youtube.com/embed/${videoId}?autoplay&#x3D;0&amp;mute&#x3D;1&amp;modestbranding&#x3D;1&amp;rel&#x3D;0&amp;showinfo&#x3D;0&amp;iv_load_policy&#x3D;3&#x60;;
     }
     return url;
   }
@@ -4104,6 +4308,45 @@ export class ProductComponent implements OnInit, OnDestroy {
         &lt;span class&#x3D;&quot;text-gray-400&quot;&gt;{{ game.rating }}&lt;/span&gt;
       &lt;/div&gt;
     &lt;/div&gt;
+    @if (purchaseInfoVisible()) {
+      &lt;div class&#x3D;&quot;lg:pr-6&quot;&gt;
+        &lt;div
+          class&#x3D;&quot;mb-8 md:mb-10 w-full rounded-lg border border-cyan-400/40 bg-cyan-500/10 px-4 py-3 text-sm text-cyan-100 flex items-start gap-3&quot;
+        &gt;
+          &lt;div class&#x3D;&quot;flex-1&quot;&gt;
+            &lt;p class&#x3D;&quot;font-semibold&quot;&gt;
+              {{ &quot;product.purchaseInfoTitle&quot; | translate }}
+            &lt;/p&gt;
+            &lt;p class&#x3D;&quot;mt-1&quot;&gt;
+              {{ &quot;product.purchaseInfoBodyStart&quot; | translate }}
+              &lt;a
+                routerLink&#x3D;&quot;/dashboard&quot;
+                class&#x3D;&quot;underline hover:text-cyan-200&quot;
+              &gt;
+                {{ &quot;product.purchaseInfoUserPageLink&quot; | translate }}
+              &lt;/a&gt;
+              {{ &quot;product.purchaseInfoBodyMiddle&quot; | translate }}
+              &lt;a
+                routerLink&#x3D;&quot;/help&quot;
+                fragment&#x3D;&quot;faq&quot;
+                class&#x3D;&quot;underline hover:text-cyan-200&quot;
+              &gt;
+                {{ &quot;product.purchaseInfoHelpFaqLink&quot; | translate }}
+              &lt;/a&gt;
+              {{ &quot;product.purchaseInfoBodyEnd&quot; | translate }}
+            &lt;/p&gt;
+          &lt;/div&gt;
+          &lt;button
+            type&#x3D;&quot;button&quot;
+            class&#x3D;&quot;text-cyan-200 hover:text-white transition-colors border-0 bg-transparent&quot;
+            (click)&#x3D;&quot;closePurchaseInfo()&quot;
+            [attr.aria-label]&#x3D;&quot;&#x27;common.cancel&#x27; | translate&quot;
+          &gt;
+            ✕
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    }
 
     &lt;div class&#x3D;&quot;grid grid-cols-1 lg:grid-cols-12 gap-8&quot;&gt;
       &lt;div class&#x3D;&quot;lg:col-span-8 space-y-8&quot;&gt;
@@ -4747,11 +4990,15 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   @if (isScreenshotModalOpen() &amp;&amp; screenshotModalImage()) {
     &lt;div
-      class&#x3D;&quot;fixed inset-x-0 top-16 bottom-0 bg-black/70 backdrop-blur-sm z-[1200] flex items-center justify-center p-4 md:p-6&quot;
+      class&#x3D;&quot;fixed inset-x-0 top-16 bottom-0 bg-black/70 backdrop-blur-sm z-[1200] flex items-center justify-center p-4 md:p-6 transition-opacity duration-180 ease-out&quot;
+      [class.opacity-0]&#x3D;&quot;!screenshotModalOpen&quot;
+      [class.opacity-100]&#x3D;&quot;screenshotModalOpen&quot;
+      [class.pointer-events-none]&#x3D;&quot;screenshotModalClosing || !screenshotModalOpen&quot;
       (click)&#x3D;&quot;closeScreenshotModal()&quot;
     &gt;
       &lt;div
-        class&#x3D;&quot;relative max-w-4xl max-h-full w-full flex items-center justify-center screenshot-modal-enter&quot;
+        class&#x3D;&quot;relative max-w-4xl max-h-full w-full flex items-center justify-center transition-transform duration-180 ease-out&quot;
+        [style.transform]&#x3D;&quot;screenshotModalOpen ? &#x27;scale(1) translateY(0px)&#x27; : &#x27;scale(0.98) translateY(10px)&#x27;&quot;
         (click)&#x3D;&quot;$event.stopPropagation()&quot;
       &gt;
         &lt;button
@@ -4776,10 +5023,14 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   @if (showAuthModal()) {
     &lt;div
-      class&#x3D;&quot;fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4&quot;
+      class&#x3D;&quot;fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-opacity duration-180 ease-out&quot;
+      [class.opacity-0]&#x3D;&quot;!authModalOpen&quot;
+      [class.opacity-100]&#x3D;&quot;authModalOpen&quot;
+      [class.pointer-events-none]&#x3D;&quot;authModalClosing || !authModalOpen&quot;
     &gt;
       &lt;div
-        class&#x3D;&quot;bg-gray-900 rounded-xl max-w-md w-full p-6 shadow-2xl transform transition-all&quot;
+        class&#x3D;&quot;bg-gray-900 rounded-xl max-w-md w-full p-6 shadow-2xl transition-transform duration-180 ease-out&quot;
+        [style.transform]&#x3D;&quot;authModalOpen ? &#x27;scale(1) translateY(0px)&#x27; : &#x27;scale(0.98) translateY(10px)&#x27;&quot;
       &gt;
         &lt;h3 class&#x3D;&quot;text-xl font-bold text-white mb-4&quot;&gt;
           {{ &quot;authGuard.loginRequiredTitle&quot; | translate }}
@@ -4891,8 +5142,8 @@ export class ProductComponent implements OnInit, OnDestroy {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="flex-1 w-full bg-gray-900 text-white font-sans pb-20">  <div [class.product-content-blurred]="isScreenshotModalOpen()">  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">    <div class="mb-6">      <h1        class="text-4xl font-bold text-white mb-2"        [class.animate-pulse]="game?.id === -1"        [class.text-gray-500]="game?.id === -1"      >        {{ game?.id === -1 ? (game?.title | translate) : game?.title }}      </h1>      <div class="flex items-center gap-2 text-sm" *ngIf="game?.id === -1">        <!-- Skeleton Stars -->        <div class="flex gap-1 animate-pulse">          <div            class="w-4 h-4 bg-gray-800 rounded-full"            *ngFor="let i of [1, 2, 3, 4, 5]"          ></div>        </div>        <div class="w-8 h-4 bg-gray-800 rounded animate-pulse"></div>      </div>      <div        class="flex items-center gap-2 text-sm"        *ngIf="game && game.id !== -1"      >        <div class="flex text-white">          <svg            *ngFor="let star of getRatingStars()"            xmlns="http://www.w3.org/2000/svg"            class="h-4 w-4 fill-current"            viewBox="0 0 20 20"            [title]="\'tooltips.rating\' | translate"          >            <path              d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"            />          </svg>          <svg            *ngFor="let star of getEmptyStars()"            xmlns="http://www.w3.org/2000/svg"            class="h-4 w-4 fill-current text-gray-500"            viewBox="0 0 20 20"            [title]="\'tooltips.rating\' | translate"          >            <path              d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"            />          </svg>        </div>        <span class="text-gray-400">{{ game.rating }}</span>      </div>    </div>    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">      <div class="lg:col-span-8 space-y-8">        <div class="relative">          <div            class="aspect-video bg-black rounded-lg overflow-hidden relative group"          >            <!-- Skeleton Main Player -->            <div              *ngIf="game?.id === -1"              class="w-full h-full bg-gray-700 animate-pulse absolute inset-0 z-20 pointer-events-none"            ></div>            <ng-container *ngIf="game && game.id !== -1">              <iframe                *ngIf="mediaItems[currentMediaIndex]?.type === \'video\'"                [src]="mediaItems[currentMediaIndex].url"                class="w-full h-full transition-opacity duration-300"                frameborder="0"                scrolling="no"                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"                allowfullscreen              ></iframe>              <img                *ngIf="mediaItems[currentMediaIndex]?.type === \'image\'"                [src]="mediaItems[currentMediaIndex].url"                [alt]="mediaItems[currentMediaIndex].label"                class="w-full h-full object-contain transition-opacity duration-300"                crossorigin="anonymous"                referrerpolicy="no-referrer"              />            </ng-container>            <button              (click)="previousMedia()"              [disabled]="currentMediaIndex === 0"              [class.opacity-30]="currentMediaIndex === 0"              [class.cursor-not-allowed]="currentMediaIndex === 0"              [class.cursor-pointer]="currentMediaIndex !== 0"              [class.hover:scale-110]="currentMediaIndex !== 0"              [class.active:scale-95]="currentMediaIndex !== 0"              class="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all duration-150 **opacity-0 group-hover:opacity-100** z-50 pointer-events-auto"              [title]="\'tooltips.previousMedia\' | translate"            >              <svg                xmlns="http://www.w3.org/2000/svg"                class="h-8 w-8"                fill="none"                viewBox="0 0 24 24"                stroke="currentColor"                stroke-width="3"              >                <path                  stroke-linecap="round"                  stroke-linejoin="round"                  d="M15 19l-7-7 7-7"                />              </svg>            </button>            <button              (click)="nextMedia()"              [disabled]="currentMediaIndex === mediaItems.length - 1"              [class.opacity-30]="currentMediaIndex === mediaItems.length - 1"              [class.cursor-not-allowed]="                currentMediaIndex === mediaItems.length - 1              "              [class.cursor-pointer]="                currentMediaIndex !== mediaItems.length - 1              "              [class.hover:scale-110]="                currentMediaIndex !== mediaItems.length - 1              "              [class.active:scale-95]="                currentMediaIndex !== mediaItems.length - 1              "              class="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all duration-150 **opacity-0 group-hover:opacity-100** z-50 pointer-events-auto"              [title]="\'tooltips.nextMedia\' | translate"            >              <svg                xmlns="http://www.w3.org/2000/svg"                class="h-8 w-8"                fill="none"                viewBox="0 0 24 24"                stroke="currentColor"                stroke-width="3"              >                <path                  stroke-linecap="round"                  stroke-linejoin="round"                  d="M9 5l7 7-7 7"                />              </svg>            </button>          </div>          <div class="flex justify-center gap-2 mt-4">            <div              *ngFor="let media of mediaItems; let i = index"              (click)="selectMedia(i)"              [class.border-cyan-400]="currentMediaIndex === i"              [class.border-4]="currentMediaIndex === i"              [class.scale-105]="currentMediaIndex === i"              [class.scale-90]="currentMediaIndex !== i"              [class.opacity-50]="currentMediaIndex !== i"              class="w-24 h-16 bg-black rounded-lg overflow-hidden border-2 border-gray-700 cursor-pointer hover:border-gray-500 transition-all flex items-center justify-center transform duration-150 relative active:scale-95"            >              <!-- Skeleton -->              <div                *ngIf="game?.id === -1"                class="w-full h-full bg-gray-700 animate-pulse pointer-events-none"              ></div>              <ng-container *ngIf="game && game.id !== -1">                <img                  *ngIf="media.type === \'image\'"                  [src]="media.url"                  [alt]="media.label"                  class="w-full h-full object-cover"                  crossorigin="anonymous"                  referrerpolicy="no-referrer"                />                <div                  *ngIf="media.type === \'video\'"                  class="w-full h-full relative flex items-center justify-center"                >                  <img                    *ngIf="media.thumbnail"                    [src]="media.thumbnail"                    [alt]="media.label"                    class="w-full h-full object-cover opacity-75"                    crossorigin="anonymous"                    referrerpolicy="no-referrer"                  />                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-6 w-6 text-white absolute"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"                      clip-rule="evenodd"                    />                  </svg>                  <span *ngIf="!media.thumbnail" class="text-gray-400 text-xs"                    >▶ {{ media.label }}</span                  >                </div>              </ng-container>            </div>          </div>        </div>        <div class="text-gray-300 space-y-4 leading-relaxed text-sm">          <!-- Description Skeleton -->          <div *ngIf="game?.id === -1" class="space-y-2 animate-pulse">            <div class="h-4 bg-gray-800 rounded w-full"></div>            <div class="h-4 bg-gray-800 rounded w-full"></div>            <div class="h-4 bg-gray-800 rounded w-3/4"></div>          </div>          <!-- Real Description -->          <p            *ngIf="game && game.id !== -1"            class="whitespace-pre-line text-justify"          >            {{ game.description }}          </p>        </div>        <div class="grid grid-cols-2 gap-4">          <div class="aspect-video bg-[#1e1e1e] rounded-lg overflow-hidden">            <!-- Skeleton for Screenshot 1 -->            <div              *ngIf="game?.id === -1"              class="w-full h-full bg-gray-700 animate-pulse pointer-events-none"            ></div>            <img              *ngIf="game && game.id !== -1 && screenshot1"              [src]="screenshot1"              alt="Screenshot 1"              class="w-full h-full object-cover cursor-zoom-in transition-transform duration-200 hover:scale-105"              (click)="openScreenshotModal(screenshot1)"              crossorigin="anonymous"              referrerpolicy="no-referrer"            />            <div              *ngIf="game && game.id !== -1 && !screenshot1"              class="w-full h-full bg-gray-800 flex items-center justify-center text-gray-600"            >              No Screenshot 1            </div>          </div>          <div class="aspect-video bg-[#1e1e1e] rounded-lg overflow-hidden">            <!-- Skeleton for Screenshot 2 -->            <div              *ngIf="game?.id === -1"              class="w-full h-full bg-gray-700 animate-pulse pointer-events-none"            ></div>            <img              *ngIf="game && game.id !== -1 && screenshot2"              [src]="screenshot2"              alt="Screenshot 2"              class="w-full h-full object-cover cursor-zoom-in transition-transform duration-200 hover:scale-105"              (click)="openScreenshotModal(screenshot2)"              crossorigin="anonymous"              referrerpolicy="no-referrer"            />            <div              *ngIf="game && game.id !== -1 && !screenshot2"              class="w-full h-full bg-gray-800 flex items-center justify-center text-gray-600"            >              No Screenshot 2            </div>          </div>        </div>      </div>      <div class="lg:col-span-4 space-y-2">        <div class="bg-gray-900 p-6 rounded-lg -mt-7">          <!-- Price Skeleton -->          <div            *ngIf="game?.id === -1"            class="h-10 w-32 bg-gray-800 rounded animate-pulse mb-6"          ></div>          <!-- Real Price -->          <div *ngIf="game?.id !== -1" class="flex items-baseline gap-3 mb-6">            <span class="text-white text-4xl font-bold">              <span                *ngIf="                  (game?.isOnSale && game?.salePrice !== null                    ? game?.salePrice                    : game?.price) === 0                "              >                {{ "product.free" | translate }}              </span>              <span                *ngIf="                  (game?.isOnSale && game?.salePrice !== null                    ? game?.salePrice                    : game?.price) !== 0                "              >                {{                  (game?.isOnSale && game?.salePrice                    ? game?.salePrice                    : game?.price                  ) | localizedCurrency                }}              </span>            </span>            <span              *ngIf="game?.isOnSale && game?.price && game?.price !== 0"              class="text-gray-500 line-through text-xl"              >{{ game?.price | localizedCurrency }}</span            >          </div>          <div class="mb-6">            <span class="text-gray-400 text-sm mb-3 block">{{              "product.platform" | translate            }}</span>            <!-- Platforms Skeleton -->            <div *ngIf="game?.id === -1" class="grid grid-cols-3 gap-2">              <div                class="h-20 bg-gray-800 rounded-lg animate-pulse"                *ngFor="let i of [1, 2, 3, 4, 5, 6]"              ></div>            </div>            <!-- Real Platforms -->            <div *ngIf="game?.id !== -1" class="grid grid-cols-3 gap-2">              <div                *ngFor="let platform of sortedPlatforms"                (click)="                  isPlatformAvailable(platform.name) &&                    selectPlatform(platform.name)                "                [class.border-cyan-400]="                  selectedPlatform === platform.name &&                  isPlatformAvailable(platform.name)                "                [class.border-4]="                  selectedPlatform === platform.name &&                  isPlatformAvailable(platform.name)                "                [class.scale-105]="                  selectedPlatform === platform.name &&                  isPlatformAvailable(platform.name)                "                [class.opacity-30]="!isPlatformAvailable(platform.name)"                [class.cursor-not-allowed]="!isPlatformAvailable(platform.name)"                [class.cursor-pointer]="isPlatformAvailable(platform.name)"                [style.background-color]="                  selectedPlatform === platform.name &&                  isPlatformAvailable(platform.name)                    ? \'rgb(55, 65, 81)\'                    : \'\'                "                class="bg-gray-800 hover:bg-gray-700 p-3 rounded-lg transition-all border-2 border-gray-700 flex items-center justify-center transform duration-150 active:scale-95"              >                <img                  [src]="platform.image"                  [alt]="platform.name"                  class="w-14 h-14 object-contain"                />              </div>            </div>          </div>          <div class="space-y-3">            <!-- Stock Skeleton -->            <div              *ngIf="game?.id === -1"              class="h-5 w-24 bg-gray-800 rounded animate-pulse mb-6 mx-auto"            ></div>            <div              *ngIf="game && game.id !== -1 && selectedPlatform"              class="flex items-center justify-center gap-2 mb-6"            >              <svg                *ngIf="getStockForPlatform(selectedPlatform) > 20"                xmlns="http://www.w3.org/2000/svg"                class="h-5 w-5 text-green-500"                viewBox="0 0 20 20"                fill="currentColor"              >                <path                  fill-rule="evenodd"                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"                  clip-rule="evenodd"                />              </svg>              <span                [class.text-green-500]="                  getStockForPlatform(selectedPlatform) > 20                "                [class.text-yellow-500]="                  getStockForPlatform(selectedPlatform) > 0 &&                  getStockForPlatform(selectedPlatform) <= 20                "                [class.text-red-500]="                  getStockForPlatform(selectedPlatform) === 0                "                class="text-sm font-bold"              >                <span *ngIf="getStockForPlatform(selectedPlatform) > 20">{{                  "product.inStock" | translate                }}</span>                <span                  *ngIf="                    getStockForPlatform(selectedPlatform) > 0 &&                    getStockForPlatform(selectedPlatform) <= 20                  "                  >{{ "product.fewLeft" | translate }}</span                >                <span *ngIf="getStockForPlatform(selectedPlatform) === 0">{{                  "product.outOfStock" | translate                }}</span>              </span>            </div>            <!-- Buttons Skeleton -->            <ng-container *ngIf="game?.id === -1">              <div class="w-full h-12 bg-gray-800 rounded animate-pulse"></div>              <div class="w-full h-12 bg-gray-800 rounded animate-pulse"></div>              <div class="w-full h-12 bg-gray-800 rounded animate-pulse"></div>            </ng-container>            <ng-container *ngIf="game && game.id !== -1">              <button                (click)="buyNow()"                [disabled]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.opacity-50]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.cursor-not-allowed]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.from-green-500]="buySuccess()"                [class.to-green-600]="buySuccess()"                [class.hover:from-green-400]="buySuccess()"                [class.hover:to-green-500]="buySuccess()"                class="w-full bg-gradient-to-r bg-cyan-400 hover:bg-cyan-300 hover:to-[#5a5a7a] text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"              >                @if (buySuccess()) {                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.goingToCart" | translate }}                } @else {                  <svg                    *ngIf="!selectedPlatform"                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                    [title]="\'tooltips.platformLocked\' | translate"                  >                    <path                      fill-rule="evenodd"                      d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.buy" | translate }}                }              </button>              <button                (click)="addToCart()"                [disabled]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.opacity-50]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.cursor-not-allowed]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.bg-green-600]="addedToCartSuccess()"                [class.hover:bg-green-500]="addedToCartSuccess()"                [class.bg-yellow-600]="quantityIncreased()"                [class.hover:bg-yellow-500]="quantityIncreased()"                class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"              >                @if (addedToCartSuccess()) {                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.addedToCart" | translate }}                } @else if (quantityIncreased()) {                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.quantityIncreased" | translate }}                } @else {                  {{ "product.addToCart" | translate }}                }              </button>              <button                (click)="addToFavorites()"                [disabled]="!selectedPlatform"                [class.opacity-50]="!selectedPlatform"                [class.cursor-not-allowed]="!selectedPlatform"                [class.bg-green-600]="addedToFavoritesSuccess()"                [class.hover:bg-green-500]="addedToFavoritesSuccess()"                [class.bg-red-600]="alreadyInFavorites()"                [class.hover:bg-red-500]="alreadyInFavorites()"                class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"              >                @if (addedToFavoritesSuccess()) {                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.addedToFavorites" | translate }}                } @else if (alreadyInFavorites()) {                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.alreadyInFavorites" | translate }}                } @else {                  {{ "product.addToFavorites" | translate }}                }              </button>            </ng-container>          </div>        </div>        <div class="bg-gray-900 p-6 rounded-lg">          <div            class="text-sm border border-gray-500 divide-y divide-gray-500 info-list rounded-lg"          >            <div class="grid grid-cols-2 item">              <span                class="text-gray-400 p-4 border-r border-gray-500 rounded-tl-lg"              >                {{ "product.developer" | translate }}              </span>              <span class="text-right text-gray-300 p-4 rounded-tr-lg">                <span *ngIf="game?.id !== -1">{{                  game?.Developer?.name || "N/A"                }}</span>                <div                  *ngIf="game?.id === -1"                  class="h-4 w-20 bg-gray-800 rounded animate-pulse ml-auto"                ></div>              </span>            </div>            <div class="grid grid-cols-2 item">              <span class="text-gray-400 p-4 border-r border-gray-500">                {{ "product.publisher" | translate }}              </span>              <span class="text-right text-gray-300 p-4">                <span *ngIf="game?.id !== -1">{{                  game?.Publisher?.name || "N/A"                }}</span>                <div                  *ngIf="game?.id === -1"                  class="h-4 w-20 bg-gray-800 rounded animate-pulse ml-auto"                ></div>              </span>            </div>            <div class="grid grid-cols-2 item">              <span class="text-gray-400 p-4 border-r border-gray-500">                {{ "product.releaseDate" | translate }}              </span>              <span class="text-right text-gray-300 p-4">                <span *ngIf="game?.id !== -1">{{                  game?.releaseDate                    ? (game?.releaseDate | date: "dd/MM/yyyy")                    : "N/A"                }}</span>                <div                  *ngIf="game?.id === -1"                  class="h-4 w-24 bg-gray-800 rounded animate-pulse ml-auto"                ></div>              </span>            </div>            <div class="grid grid-cols-2 item">              <span                class="text-gray-400 p-4 border-r border-gray-500 rounded-bl-lg"              >                {{ "product.refund" | translate }}              </span>              <span class="text-right text-gray-300 p-4 rounded-br-lg">                <span *ngIf="game?.id !== -1">{{                  game?.isRefundable ? "Si" : "No"                }}</span>                <div                  *ngIf="game?.id === -1"                  class="h-4 w-10 bg-gray-800 rounded animate-pulse ml-auto"                ></div>              </span>            </div>          </div>        </div>      </div>    </div>    <section      class="mt-6 pt-2 border-t border-white/10"      *ngIf="loadingRecommendations || recommendationSections.length > 0"    >      <div class="product-similar-carousel-scale space-y-6">        <app-carousel          *ngIf="loadingRecommendations"          [title]="\'product.similarGames\'"          [items]="recommendationSkeletonSections[0].items"          sectionId="similar-games-skeleton"        ></app-carousel>        <app-carousel          *ngIf="loadingRecommendations"          [title]="\'product.sameStudioGames\'"          [items]="recommendationSkeletonSections[1].items"          sectionId="same-studio-games-skeleton"        ></app-carousel>        <app-carousel          *ngIf="loadingRecommendations"          [title]="\'product.relatedGenres\'"          [items]="recommendationSkeletonSections[2].items"          sectionId="related-genres-games-skeleton"        ></app-carousel>        <app-carousel          *ngIf="loadingRecommendations"          [title]="\'product.topOnPlatforms\'"          [items]="recommendationSkeletonSections[3].items"          sectionId="top-platform-games-skeleton"        ></app-carousel>        <ng-container *ngIf="!loadingRecommendations">          <app-carousel            *ngFor="let section of recommendationSections; let i = index"            [class.hidden]="i === recommendationSections.length - 1"            [class.md:block]="i === recommendationSections.length - 1"            [title]="section.titleKey"            [items]="section.items"            [sectionId]="section.sectionId"            (itemClick)="goToProduct($event)"          ></app-carousel>        </ng-container>      </div>    </section>  </div>  </div>  @if (isScreenshotModalOpen() && screenshotModalImage()) {    <div      class="fixed inset-x-0 top-16 bottom-0 bg-black/70 backdrop-blur-sm z-[1200] flex items-center justify-center p-4 md:p-6"      (click)="closeScreenshotModal()"    >      <div        class="relative max-w-4xl max-h-full w-full flex items-center justify-center screenshot-modal-enter"        (click)="$event.stopPropagation()"      >        <button          class="absolute -top-3 -right-3 md:top-3 md:right-3 w-10 h-10 rounded-full bg-black/70 hover:bg-black/85 text-white border-none outline-none cursor-pointer flex items-center justify-center transition-colors z-10"          (click)="closeScreenshotModal()"          aria-label="Close screenshot preview"        >          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">            <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M18 6L6 18" />          </svg>        </button>        <img          [src]="screenshotModalImage()!"          alt="Screenshot preview"          class="max-w-full max-h-[calc(100vh-11rem)] object-contain rounded-lg shadow-2xl"          crossorigin="anonymous"          referrerpolicy="no-referrer"        />      </div>    </div>  }  @if (showAuthModal()) {    <div      class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"    >      <div        class="bg-gray-900 rounded-xl max-w-md w-full p-6 shadow-2xl transform transition-all"      >        <h3 class="text-xl font-bold text-white mb-4">          {{ "authGuard.loginRequiredTitle" | translate }}        </h3>        <p class="text-gray-300 mb-8">          {{ "authGuard.loginRequiredMessage" | translate }}        </p>        <div class="flex gap-4 justify-end">          <button            (click)="cancelLogin()"            class="px-6 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg transition-all font-medium border-0 outline-none"          >            {{ "authGuard.cancel" | translate }}          </button>          <button            (click)="confirmLogin()"            class="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg hover:from-cyan-400 hover:to-blue-400 transition-all font-medium border-0 outline-none"          >            {{ "authGuard.login" | translate }}          </button>        </div>      </div>    </div>  }  <app-stripe-modal    [open]="checkoutModalOpen()"    [titleKey]="\'product.buy\'"    [directCheckoutPayload]="directCheckoutPayload()"    (closed)="closeCheckoutModal()"    (completed)="onCheckoutCompleted()"  ></app-stripe-modal></div></div>'
-    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'StripeModalComponent', 'selector': 'app-stripe-modal'}];
+        var COMPONENT_TEMPLATE = '<div><div class="flex-1 w-full bg-gray-900 text-white font-sans pb-20">  <div [class.product-content-blurred]="isScreenshotModalOpen()">  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">    <div class="mb-6">      <h1        class="text-4xl font-bold text-white mb-2"        [class.animate-pulse]="game?.id === -1"        [class.text-gray-500]="game?.id === -1"      >        {{ game?.id === -1 ? (game?.title | translate) : game?.title }}      </h1>      <div class="flex items-center gap-2 text-sm" *ngIf="game?.id === -1">        <!-- Skeleton Stars -->        <div class="flex gap-1 animate-pulse">          <div            class="w-4 h-4 bg-gray-800 rounded-full"            *ngFor="let i of [1, 2, 3, 4, 5]"          ></div>        </div>        <div class="w-8 h-4 bg-gray-800 rounded animate-pulse"></div>      </div>      <div        class="flex items-center gap-2 text-sm"        *ngIf="game && game.id !== -1"      >        <div class="flex text-white">          <svg            *ngFor="let star of getRatingStars()"            xmlns="http://www.w3.org/2000/svg"            class="h-4 w-4 fill-current"            viewBox="0 0 20 20"            [title]="\'tooltips.rating\' | translate"          >            <path              d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"            />          </svg>          <svg            *ngFor="let star of getEmptyStars()"            xmlns="http://www.w3.org/2000/svg"            class="h-4 w-4 fill-current text-gray-500"            viewBox="0 0 20 20"            [title]="\'tooltips.rating\' | translate"          >            <path              d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"            />          </svg>        </div>        <span class="text-gray-400">{{ game.rating }}</span>      </div>    </div>    @if (purchaseInfoVisible()) {      <div class="lg:pr-6">        <div          class="mb-8 md:mb-10 w-full rounded-lg border border-cyan-400/40 bg-cyan-500/10 px-4 py-3 text-sm text-cyan-100 flex items-start gap-3"        >          <div class="flex-1">            <p class="font-semibold">              {{ "product.purchaseInfoTitle" | translate }}            </p>            <p class="mt-1">              {{ "product.purchaseInfoBodyStart" | translate }}              <a                routerLink="/dashboard"                class="underline hover:text-cyan-200"              >                {{ "product.purchaseInfoUserPageLink" | translate }}              </a>              {{ "product.purchaseInfoBodyMiddle" | translate }}              <a                routerLink="/help"                fragment="faq"                class="underline hover:text-cyan-200"              >                {{ "product.purchaseInfoHelpFaqLink" | translate }}              </a>              {{ "product.purchaseInfoBodyEnd" | translate }}            </p>          </div>          <button            type="button"            class="text-cyan-200 hover:text-white transition-colors border-0 bg-transparent"            (click)="closePurchaseInfo()"            [attr.aria-label]="\'common.cancel\' | translate"          >            ✕          </button>        </div>      </div>    }    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">      <div class="lg:col-span-8 space-y-8">        <div class="relative">          <div            class="aspect-video bg-black rounded-lg overflow-hidden relative group"          >            <!-- Skeleton Main Player -->            <div              *ngIf="game?.id === -1"              class="w-full h-full bg-gray-700 animate-pulse absolute inset-0 z-20 pointer-events-none"            ></div>            <ng-container *ngIf="game && game.id !== -1">              <iframe                *ngIf="mediaItems[currentMediaIndex]?.type === \'video\'"                [src]="mediaItems[currentMediaIndex].url"                class="w-full h-full transition-opacity duration-300"                frameborder="0"                scrolling="no"                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"                allowfullscreen              ></iframe>              <img                *ngIf="mediaItems[currentMediaIndex]?.type === \'image\'"                [src]="mediaItems[currentMediaIndex].url"                [alt]="mediaItems[currentMediaIndex].label"                class="w-full h-full object-contain transition-opacity duration-300"                crossorigin="anonymous"                referrerpolicy="no-referrer"              />            </ng-container>            <button              (click)="previousMedia()"              [disabled]="currentMediaIndex === 0"              [class.opacity-30]="currentMediaIndex === 0"              [class.cursor-not-allowed]="currentMediaIndex === 0"              [class.cursor-pointer]="currentMediaIndex !== 0"              [class.hover:scale-110]="currentMediaIndex !== 0"              [class.active:scale-95]="currentMediaIndex !== 0"              class="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all duration-150 **opacity-0 group-hover:opacity-100** z-50 pointer-events-auto"              [title]="\'tooltips.previousMedia\' | translate"            >              <svg                xmlns="http://www.w3.org/2000/svg"                class="h-8 w-8"                fill="none"                viewBox="0 0 24 24"                stroke="currentColor"                stroke-width="3"              >                <path                  stroke-linecap="round"                  stroke-linejoin="round"                  d="M15 19l-7-7 7-7"                />              </svg>            </button>            <button              (click)="nextMedia()"              [disabled]="currentMediaIndex === mediaItems.length - 1"              [class.opacity-30]="currentMediaIndex === mediaItems.length - 1"              [class.cursor-not-allowed]="                currentMediaIndex === mediaItems.length - 1              "              [class.cursor-pointer]="                currentMediaIndex !== mediaItems.length - 1              "              [class.hover:scale-110]="                currentMediaIndex !== mediaItems.length - 1              "              [class.active:scale-95]="                currentMediaIndex !== mediaItems.length - 1              "              class="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all duration-150 **opacity-0 group-hover:opacity-100** z-50 pointer-events-auto"              [title]="\'tooltips.nextMedia\' | translate"            >              <svg                xmlns="http://www.w3.org/2000/svg"                class="h-8 w-8"                fill="none"                viewBox="0 0 24 24"                stroke="currentColor"                stroke-width="3"              >                <path                  stroke-linecap="round"                  stroke-linejoin="round"                  d="M9 5l7 7-7 7"                />              </svg>            </button>          </div>          <div class="flex justify-center gap-2 mt-4">            <div              *ngFor="let media of mediaItems; let i = index"              (click)="selectMedia(i)"              [class.border-cyan-400]="currentMediaIndex === i"              [class.border-4]="currentMediaIndex === i"              [class.scale-105]="currentMediaIndex === i"              [class.scale-90]="currentMediaIndex !== i"              [class.opacity-50]="currentMediaIndex !== i"              class="w-24 h-16 bg-black rounded-lg overflow-hidden border-2 border-gray-700 cursor-pointer hover:border-gray-500 transition-all flex items-center justify-center transform duration-150 relative active:scale-95"            >              <!-- Skeleton -->              <div                *ngIf="game?.id === -1"                class="w-full h-full bg-gray-700 animate-pulse pointer-events-none"              ></div>              <ng-container *ngIf="game && game.id !== -1">                <img                  *ngIf="media.type === \'image\'"                  [src]="media.url"                  [alt]="media.label"                  class="w-full h-full object-cover"                  crossorigin="anonymous"                  referrerpolicy="no-referrer"                />                <div                  *ngIf="media.type === \'video\'"                  class="w-full h-full relative flex items-center justify-center"                >                  <img                    *ngIf="media.thumbnail"                    [src]="media.thumbnail"                    [alt]="media.label"                    class="w-full h-full object-cover opacity-75"                    crossorigin="anonymous"                    referrerpolicy="no-referrer"                  />                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-6 w-6 text-white absolute"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"                      clip-rule="evenodd"                    />                  </svg>                  <span *ngIf="!media.thumbnail" class="text-gray-400 text-xs"                    >▶ {{ media.label }}</span                  >                </div>              </ng-container>            </div>          </div>        </div>        <div class="text-gray-300 space-y-4 leading-relaxed text-sm">          <!-- Description Skeleton -->          <div *ngIf="game?.id === -1" class="space-y-2 animate-pulse">            <div class="h-4 bg-gray-800 rounded w-full"></div>            <div class="h-4 bg-gray-800 rounded w-full"></div>            <div class="h-4 bg-gray-800 rounded w-3/4"></div>          </div>          <!-- Real Description -->          <p            *ngIf="game && game.id !== -1"            class="whitespace-pre-line text-justify"          >            {{ game.description }}          </p>        </div>        <div class="grid grid-cols-2 gap-4">          <div class="aspect-video bg-[#1e1e1e] rounded-lg overflow-hidden">            <!-- Skeleton for Screenshot 1 -->            <div              *ngIf="game?.id === -1"              class="w-full h-full bg-gray-700 animate-pulse pointer-events-none"            ></div>            <img              *ngIf="game && game.id !== -1 && screenshot1"              [src]="screenshot1"              alt="Screenshot 1"              class="w-full h-full object-cover cursor-zoom-in transition-transform duration-200 hover:scale-105"              (click)="openScreenshotModal(screenshot1)"              crossorigin="anonymous"              referrerpolicy="no-referrer"            />            <div              *ngIf="game && game.id !== -1 && !screenshot1"              class="w-full h-full bg-gray-800 flex items-center justify-center text-gray-600"            >              No Screenshot 1            </div>          </div>          <div class="aspect-video bg-[#1e1e1e] rounded-lg overflow-hidden">            <!-- Skeleton for Screenshot 2 -->            <div              *ngIf="game?.id === -1"              class="w-full h-full bg-gray-700 animate-pulse pointer-events-none"            ></div>            <img              *ngIf="game && game.id !== -1 && screenshot2"              [src]="screenshot2"              alt="Screenshot 2"              class="w-full h-full object-cover cursor-zoom-in transition-transform duration-200 hover:scale-105"              (click)="openScreenshotModal(screenshot2)"              crossorigin="anonymous"              referrerpolicy="no-referrer"            />            <div              *ngIf="game && game.id !== -1 && !screenshot2"              class="w-full h-full bg-gray-800 flex items-center justify-center text-gray-600"            >              No Screenshot 2            </div>          </div>        </div>      </div>      <div class="lg:col-span-4 space-y-2">        <div class="bg-gray-900 p-6 rounded-lg -mt-7">          <!-- Price Skeleton -->          <div            *ngIf="game?.id === -1"            class="h-10 w-32 bg-gray-800 rounded animate-pulse mb-6"          ></div>          <!-- Real Price -->          <div *ngIf="game?.id !== -1" class="flex items-baseline gap-3 mb-6">            <span class="text-white text-4xl font-bold">              <span                *ngIf="                  (game?.isOnSale && game?.salePrice !== null                    ? game?.salePrice                    : game?.price) === 0                "              >                {{ "product.free" | translate }}              </span>              <span                *ngIf="                  (game?.isOnSale && game?.salePrice !== null                    ? game?.salePrice                    : game?.price) !== 0                "              >                {{                  (game?.isOnSale && game?.salePrice                    ? game?.salePrice                    : game?.price                  ) | localizedCurrency                }}              </span>            </span>            <span              *ngIf="game?.isOnSale && game?.price && game?.price !== 0"              class="text-gray-500 line-through text-xl"              >{{ game?.price | localizedCurrency }}</span            >          </div>          <div class="mb-6">            <span class="text-gray-400 text-sm mb-3 block">{{              "product.platform" | translate            }}</span>            <!-- Platforms Skeleton -->            <div *ngIf="game?.id === -1" class="grid grid-cols-3 gap-2">              <div                class="h-20 bg-gray-800 rounded-lg animate-pulse"                *ngFor="let i of [1, 2, 3, 4, 5, 6]"              ></div>            </div>            <!-- Real Platforms -->            <div *ngIf="game?.id !== -1" class="grid grid-cols-3 gap-2">              <div                *ngFor="let platform of sortedPlatforms"                (click)="                  isPlatformAvailable(platform.name) &&                    selectPlatform(platform.name)                "                [class.border-cyan-400]="                  selectedPlatform === platform.name &&                  isPlatformAvailable(platform.name)                "                [class.border-4]="                  selectedPlatform === platform.name &&                  isPlatformAvailable(platform.name)                "                [class.scale-105]="                  selectedPlatform === platform.name &&                  isPlatformAvailable(platform.name)                "                [class.opacity-30]="!isPlatformAvailable(platform.name)"                [class.cursor-not-allowed]="!isPlatformAvailable(platform.name)"                [class.cursor-pointer]="isPlatformAvailable(platform.name)"                [style.background-color]="                  selectedPlatform === platform.name &&                  isPlatformAvailable(platform.name)                    ? \'rgb(55, 65, 81)\'                    : \'\'                "                class="bg-gray-800 hover:bg-gray-700 p-3 rounded-lg transition-all border-2 border-gray-700 flex items-center justify-center transform duration-150 active:scale-95"              >                <img                  [src]="platform.image"                  [alt]="platform.name"                  class="w-14 h-14 object-contain"                />              </div>            </div>          </div>          <div class="space-y-3">            <!-- Stock Skeleton -->            <div              *ngIf="game?.id === -1"              class="h-5 w-24 bg-gray-800 rounded animate-pulse mb-6 mx-auto"            ></div>            <div              *ngIf="game && game.id !== -1 && selectedPlatform"              class="flex items-center justify-center gap-2 mb-6"            >              <svg                *ngIf="getStockForPlatform(selectedPlatform) > 20"                xmlns="http://www.w3.org/2000/svg"                class="h-5 w-5 text-green-500"                viewBox="0 0 20 20"                fill="currentColor"              >                <path                  fill-rule="evenodd"                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"                  clip-rule="evenodd"                />              </svg>              <span                [class.text-green-500]="                  getStockForPlatform(selectedPlatform) > 20                "                [class.text-yellow-500]="                  getStockForPlatform(selectedPlatform) > 0 &&                  getStockForPlatform(selectedPlatform) <= 20                "                [class.text-red-500]="                  getStockForPlatform(selectedPlatform) === 0                "                class="text-sm font-bold"              >                <span *ngIf="getStockForPlatform(selectedPlatform) > 20">{{                  "product.inStock" | translate                }}</span>                <span                  *ngIf="                    getStockForPlatform(selectedPlatform) > 0 &&                    getStockForPlatform(selectedPlatform) <= 20                  "                  >{{ "product.fewLeft" | translate }}</span                >                <span *ngIf="getStockForPlatform(selectedPlatform) === 0">{{                  "product.outOfStock" | translate                }}</span>              </span>            </div>            <!-- Buttons Skeleton -->            <ng-container *ngIf="game?.id === -1">              <div class="w-full h-12 bg-gray-800 rounded animate-pulse"></div>              <div class="w-full h-12 bg-gray-800 rounded animate-pulse"></div>              <div class="w-full h-12 bg-gray-800 rounded animate-pulse"></div>            </ng-container>            <ng-container *ngIf="game && game.id !== -1">              <button                (click)="buyNow()"                [disabled]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.opacity-50]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.cursor-not-allowed]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.from-green-500]="buySuccess()"                [class.to-green-600]="buySuccess()"                [class.hover:from-green-400]="buySuccess()"                [class.hover:to-green-500]="buySuccess()"                class="w-full bg-gradient-to-r bg-cyan-400 hover:bg-cyan-300 hover:to-[#5a5a7a] text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"              >                @if (buySuccess()) {                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.goingToCart" | translate }}                } @else {                  <svg                    *ngIf="!selectedPlatform"                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                    [title]="\'tooltips.platformLocked\' | translate"                  >                    <path                      fill-rule="evenodd"                      d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.buy" | translate }}                }              </button>              <button                (click)="addToCart()"                [disabled]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.opacity-50]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.cursor-not-allowed]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.bg-green-600]="addedToCartSuccess()"                [class.hover:bg-green-500]="addedToCartSuccess()"                [class.bg-yellow-600]="quantityIncreased()"                [class.hover:bg-yellow-500]="quantityIncreased()"                class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"              >                @if (addedToCartSuccess()) {                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.addedToCart" | translate }}                } @else if (quantityIncreased()) {                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.quantityIncreased" | translate }}                } @else {                  {{ "product.addToCart" | translate }}                }              </button>              <button                (click)="addToFavorites()"                [disabled]="!selectedPlatform"                [class.opacity-50]="!selectedPlatform"                [class.cursor-not-allowed]="!selectedPlatform"                [class.bg-green-600]="addedToFavoritesSuccess()"                [class.hover:bg-green-500]="addedToFavoritesSuccess()"                [class.bg-red-600]="alreadyInFavorites()"                [class.hover:bg-red-500]="alreadyInFavorites()"                class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"              >                @if (addedToFavoritesSuccess()) {                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.addedToFavorites" | translate }}                } @else if (alreadyInFavorites()) {                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.alreadyInFavorites" | translate }}                } @else {                  {{ "product.addToFavorites" | translate }}                }              </button>            </ng-container>          </div>        </div>        <div class="bg-gray-900 p-6 rounded-lg">          <div            class="text-sm border border-gray-500 divide-y divide-gray-500 info-list rounded-lg"          >            <div class="grid grid-cols-2 item">              <span                class="text-gray-400 p-4 border-r border-gray-500 rounded-tl-lg"              >                {{ "product.developer" | translate }}              </span>              <span class="text-right text-gray-300 p-4 rounded-tr-lg">                <span *ngIf="game?.id !== -1">{{                  game?.Developer?.name || "N/A"                }}</span>                <div                  *ngIf="game?.id === -1"                  class="h-4 w-20 bg-gray-800 rounded animate-pulse ml-auto"                ></div>              </span>            </div>            <div class="grid grid-cols-2 item">              <span class="text-gray-400 p-4 border-r border-gray-500">                {{ "product.publisher" | translate }}              </span>              <span class="text-right text-gray-300 p-4">                <span *ngIf="game?.id !== -1">{{                  game?.Publisher?.name || "N/A"                }}</span>                <div                  *ngIf="game?.id === -1"                  class="h-4 w-20 bg-gray-800 rounded animate-pulse ml-auto"                ></div>              </span>            </div>            <div class="grid grid-cols-2 item">              <span class="text-gray-400 p-4 border-r border-gray-500">                {{ "product.releaseDate" | translate }}              </span>              <span class="text-right text-gray-300 p-4">                <span *ngIf="game?.id !== -1">{{                  game?.releaseDate                    ? (game?.releaseDate | date: "dd/MM/yyyy")                    : "N/A"                }}</span>                <div                  *ngIf="game?.id === -1"                  class="h-4 w-24 bg-gray-800 rounded animate-pulse ml-auto"                ></div>              </span>            </div>            <div class="grid grid-cols-2 item">              <span                class="text-gray-400 p-4 border-r border-gray-500 rounded-bl-lg"              >                {{ "product.refund" | translate }}              </span>              <span class="text-right text-gray-300 p-4 rounded-br-lg">                <span *ngIf="game?.id !== -1">{{                  game?.isRefundable ? "Si" : "No"                }}</span>                <div                  *ngIf="game?.id === -1"                  class="h-4 w-10 bg-gray-800 rounded animate-pulse ml-auto"                ></div>              </span>            </div>          </div>        </div>      </div>    </div>    <section      class="mt-6 pt-2 border-t border-white/10"      *ngIf="loadingRecommendations || recommendationSections.length > 0"    >      <div class="product-similar-carousel-scale space-y-6">        <app-carousel          *ngIf="loadingRecommendations"          [title]="\'product.similarGames\'"          [items]="recommendationSkeletonSections[0].items"          sectionId="similar-games-skeleton"        ></app-carousel>        <app-carousel          *ngIf="loadingRecommendations"          [title]="\'product.sameStudioGames\'"          [items]="recommendationSkeletonSections[1].items"          sectionId="same-studio-games-skeleton"        ></app-carousel>        <app-carousel          *ngIf="loadingRecommendations"          [title]="\'product.relatedGenres\'"          [items]="recommendationSkeletonSections[2].items"          sectionId="related-genres-games-skeleton"        ></app-carousel>        <app-carousel          *ngIf="loadingRecommendations"          [title]="\'product.topOnPlatforms\'"          [items]="recommendationSkeletonSections[3].items"          sectionId="top-platform-games-skeleton"        ></app-carousel>        <ng-container *ngIf="!loadingRecommendations">          <app-carousel            *ngFor="let section of recommendationSections; let i = index"            [class.hidden]="i === recommendationSections.length - 1"            [class.md:block]="i === recommendationSections.length - 1"            [title]="section.titleKey"            [items]="section.items"            [sectionId]="section.sectionId"            (itemClick)="goToProduct($event)"          ></app-carousel>        </ng-container>      </div>    </section>  </div>  </div>  @if (isScreenshotModalOpen() && screenshotModalImage()) {    <div      class="fixed inset-x-0 top-16 bottom-0 bg-black/70 backdrop-blur-sm z-[1200] flex items-center justify-center p-4 md:p-6 transition-opacity duration-180 ease-out"      [class.opacity-0]="!screenshotModalOpen"      [class.opacity-100]="screenshotModalOpen"      [class.pointer-events-none]="screenshotModalClosing || !screenshotModalOpen"      (click)="closeScreenshotModal()"    >      <div        class="relative max-w-4xl max-h-full w-full flex items-center justify-center transition-transform duration-180 ease-out"        [style.transform]="screenshotModalOpen ? \'scale(1) translateY(0px)\' : \'scale(0.98) translateY(10px)\'"        (click)="$event.stopPropagation()"      >        <button          class="absolute -top-3 -right-3 md:top-3 md:right-3 w-10 h-10 rounded-full bg-black/70 hover:bg-black/85 text-white border-none outline-none cursor-pointer flex items-center justify-center transition-colors z-10"          (click)="closeScreenshotModal()"          aria-label="Close screenshot preview"        >          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">            <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M18 6L6 18" />          </svg>        </button>        <img          [src]="screenshotModalImage()!"          alt="Screenshot preview"          class="max-w-full max-h-[calc(100vh-11rem)] object-contain rounded-lg shadow-2xl"          crossorigin="anonymous"          referrerpolicy="no-referrer"        />      </div>    </div>  }  @if (showAuthModal()) {    <div      class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-opacity duration-180 ease-out"      [class.opacity-0]="!authModalOpen"      [class.opacity-100]="authModalOpen"      [class.pointer-events-none]="authModalClosing || !authModalOpen"    >      <div        class="bg-gray-900 rounded-xl max-w-md w-full p-6 shadow-2xl transition-transform duration-180 ease-out"        [style.transform]="authModalOpen ? \'scale(1) translateY(0px)\' : \'scale(0.98) translateY(10px)\'"      >        <h3 class="text-xl font-bold text-white mb-4">          {{ "authGuard.loginRequiredTitle" | translate }}        </h3>        <p class="text-gray-300 mb-8">          {{ "authGuard.loginRequiredMessage" | translate }}        </p>        <div class="flex gap-4 justify-end">          <button            (click)="cancelLogin()"            class="px-6 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg transition-all font-medium border-0 outline-none"          >            {{ "authGuard.cancel" | translate }}          </button>          <button            (click)="confirmLogin()"            class="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg hover:from-cyan-400 hover:to-blue-400 transition-all font-medium border-0 outline-none"          >            {{ "authGuard.login" | translate }}          </button>        </div>      </div>    </div>  }  <app-stripe-modal    [open]="checkoutModalOpen()"    [titleKey]="\'product.buy\'"    [directCheckoutPayload]="directCheckoutPayload()"    (closed)="closeCheckoutModal()"    (completed)="onCheckoutCompleted()"  ></app-stripe-modal></div></div>'
+    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PasswordRecoveryModalComponent', 'selector': 'app-password-recovery-modal'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'StripeModalComponent', 'selector': 'app-stripe-modal'}];
     var DIRECTIVES = [{'name': 'CopyOnClickDirective', 'selector': '[appCopyOnClick]'},{'name': 'HighlightDirective', 'selector': '[appHighlight]'},{'name': 'Tilt3DDirective', 'selector': '[appTilt3D]'}];
     var ACTUAL_COMPONENT = {'name': 'ProductComponent'};
 </script>

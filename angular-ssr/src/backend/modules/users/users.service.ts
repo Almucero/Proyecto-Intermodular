@@ -60,6 +60,17 @@ export async function createUser(
       region: true,
       postalCode: true,
       country: true,
+      emailNotificationsEnabled: true,
+      notificationEmail: true,
+      emailNotificationLanguage: true,
+      emailNotificationFrequency: true,
+      emailNotificationTopics: true,
+      emailNotificationPausedUntil: true,
+      emailQuietHoursStart: true,
+      emailQuietHoursEnd: true,
+      emailRecommendationIntervalDays: true,
+      emailNotificationMeta: true,
+      lastSeenAt: true,
     },
   });
 }
@@ -137,6 +148,17 @@ export async function findUserById(id: number) {
       region: true,
       postalCode: true,
       country: true,
+      emailNotificationsEnabled: true,
+      notificationEmail: true,
+      emailNotificationLanguage: true,
+      emailNotificationFrequency: true,
+      emailNotificationTopics: true,
+      emailNotificationPausedUntil: true,
+      emailQuietHoursStart: true,
+      emailQuietHoursEnd: true,
+      emailRecommendationIntervalDays: true,
+      emailNotificationMeta: true,
+      lastSeenAt: true,
       media: {
         select: {
           id: true,
@@ -211,6 +233,17 @@ export async function listUsers(filters?: {
       region: true,
       postalCode: true,
       country: true,
+      emailNotificationsEnabled: true,
+      notificationEmail: true,
+      emailNotificationLanguage: true,
+      emailNotificationFrequency: true,
+      emailNotificationTopics: true,
+      emailNotificationPausedUntil: true,
+      emailQuietHoursStart: true,
+      emailQuietHoursEnd: true,
+      emailRecommendationIntervalDays: true,
+      emailNotificationMeta: true,
+      lastSeenAt: true,
     },
     orderBy: { id: 'asc' },
   });
@@ -229,11 +262,72 @@ export async function deleteUser(id: number) {
 
 export async function updateProfile(
   userId: number,
-  data: { name?: string; email?: string },
+  data: {
+    name?: string;
+    email?: string;
+    nickname?: string | null;
+    addressLine1?: string | null;
+    addressLine2?: string | null;
+    city?: string | null;
+    region?: string | null;
+    postalCode?: string | null;
+    country?: string | null;
+    emailNotificationsEnabled?: boolean;
+    notificationEmail?: string | null;
+    emailNotificationLanguage?: string | null;
+    emailNotificationFrequency?: string;
+    emailNotificationTopics?: Record<string, boolean>;
+    emailNotificationPausedUntil?: Date | null;
+    emailQuietHoursStart?: number | null;
+    emailQuietHoursEnd?: number | null;
+    emailRecommendationIntervalDays?: number;
+    emailNotificationMeta?: Record<string, any> | null;
+    lastSeenAt?: Date;
+  },
 ) {
   return prisma.user.update({
     where: { id: userId },
-    data,
+    data: data as any,
+  });
+}
+
+export async function touchUserLastSeen(userId: number) {
+  return prisma.user.update({
+    where: { id: userId },
+    data: { lastSeenAt: new Date() },
+    select: { id: true, lastSeenAt: true },
+  });
+}
+
+export async function touchUserLastAppLocale(userId: number, locale: string) {
+  const l = locale.trim().toLowerCase();
+  if (!l) return;
+
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { emailNotificationMeta: true },
+  });
+  if (!user) return;
+
+  const meta = (user.emailNotificationMeta || {}) as Record<string, any>;
+  const prev = typeof meta.lastAppLocale === 'string' ? meta.lastAppLocale : '';
+  const prevAt = typeof meta.lastAppLocaleAt === 'number' ? meta.lastAppLocaleAt : 0;
+  const now = Date.now();
+
+  const tooSoon = now - prevAt < 6 * 60 * 60 * 1000;
+  const same = prev.toLowerCase().startsWith(l);
+  if (tooSoon && same) return;
+
+  await prisma.user.update({
+    where: { id: userId },
+    data: {
+      emailNotificationMeta: {
+        ...(meta as any),
+        lastAppLocale: l,
+        lastAppLocaleAt: now,
+      },
+    },
+    select: { id: true },
   });
 }
 

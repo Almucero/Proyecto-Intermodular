@@ -406,9 +406,9 @@ export class SearchComponent implements OnInit {
 
   /** Alterna la expansión de una sección de filtros en la UI. */
   toggleFilter(filterName: string): void {
-    // eslint-disable-next-line security/detect-object-injection
+     
     if (this.filtersExpanded[filterName] !== undefined) {
-      // eslint-disable-next-line security/detect-object-injection
+       
       this.filtersExpanded[filterName] = !this.filtersExpanded[filterName];
     }
   }
