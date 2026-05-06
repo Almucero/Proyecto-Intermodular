@@ -733,11 +733,15 @@
 
   @if (isScreenshotModalOpen() && screenshotModalImage()) {
     <div
-      class="fixed inset-x-0 top-16 bottom-0 bg-black/70 backdrop-blur-sm z-[1200] flex items-center justify-center p-4 md:p-6"
+      class="fixed inset-x-0 top-16 bottom-0 bg-black/70 backdrop-blur-sm z-[1200] flex items-center justify-center p-4 md:p-6 transition-opacity duration-180 ease-out"
+      [class.opacity-0]="!screenshotModalOpen"
+      [class.opacity-100]="screenshotModalOpen"
+      [class.pointer-events-none]="screenshotModalClosing || !screenshotModalOpen"
       (click)="closeScreenshotModal()"
     >
       <div
-        class="relative max-w-4xl max-h-full w-full flex items-center justify-center screenshot-modal-enter"
+        class="relative max-w-4xl max-h-full w-full flex items-center justify-center transition-transform duration-180 ease-out"
+        [style.transform]="screenshotModalOpen ? 'scale(1) translateY(0px)' : 'scale(0.98) translateY(10px)'"
         (click)="$event.stopPropagation()"
       >
         <button
@@ -762,10 +766,14 @@
 
   @if (showAuthModal()) {
     <div
-      class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-opacity duration-180 ease-out"
+      [class.opacity-0]="!authModalOpen"
+      [class.opacity-100]="authModalOpen"
+      [class.pointer-events-none]="authModalClosing || !authModalOpen"
     >
       <div
-        class="bg-gray-900 rounded-xl max-w-md w-full p-6 shadow-2xl transform transition-all"
+        class="bg-gray-900 rounded-xl max-w-md w-full p-6 shadow-2xl transition-transform duration-180 ease-out"
+        [style.transform]="authModalOpen ? 'scale(1) translateY(0px)' : 'scale(0.98) translateY(10px)'"
       >
         <h3 class="text-xl font-bold text-white mb-4">
           {{ "authGuard.loginRequiredTitle" | translate }}

@@ -487,6 +487,22 @@
     "googleButton": "Continue with Google",
     "githubButton": "Continue with GitHub"
   },
+  "passwordRecovery": {
+    "title": "Recover password",
+    "description": "Enter your email and we will send you a verification code.",
+    "sendCode": "Send code",
+    "enterCode": "Enter the 6-digit code we sent you.",
+    "resendIn": "Resend in",
+    "validFor": "Valid for:",
+    "codePlaceholder": "000000",
+    "codeFormat": "The code must have 6 digits",
+    "verifyCode": "Verify code",
+    "newPasswordLabel": "Set your new password",
+    "changePassword": "Change password",
+    "success": "Your password has been updated successfully.",
+    "resendCode": "Resend code",
+    "close": "Close"
+  },
 
   "errors": {
     "required": "This field is required",
@@ -518,7 +534,11 @@
     "ERR_AUTH_GOOGLE_VALIDATION": "Could not validate Google authentication",
     "ERR_AUTH_GITHUB_VALIDATION": "Could not validate GitHub authentication",
     "ERR_AUTH_GOOGLE_REGISTER": "Could not complete registration with Google",
-    "ERR_AUTH_GITHUB_REGISTER": "Could not complete registration with GitHub"
+    "ERR_AUTH_GITHUB_REGISTER": "Could not complete registration with GitHub",
+    "ERR_AUTH_PASSWORD_RECOVERY_REQUEST": "Could not start password recovery",
+    "ERR_AUTH_PASSWORD_RECOVERY_RATE_LIMIT": "Too many requests. Try again later.",
+    "ERR_AUTH_PASSWORD_RECOVERY_CODE": "The code is invalid or expired",
+    "ERR_AUTH_PASSWORD_RECOVERY_RESET": "Could not reset password"
   },
   "product": {
     "platform": "Platform",

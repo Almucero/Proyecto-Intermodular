@@ -74,6 +74,9 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   /** Estados para notificaciones visuales y modales. */
   showAuthModal = signal(false);
+  authModalOpen = false;
+  authModalClosing = false;
+  private readonly authModalAnimMs = 160;
   isAuthenticated = signal(false);
   addedToCartSuccess = signal(false);
   addedToFavoritesSuccess = signal(false);
@@ -83,6 +86,8 @@ export class ProductComponent implements OnInit, OnDestroy {
   alreadyInFavorites = signal(false);
   isScreenshotModalOpen = signal(false);
   screenshotModalImage = signal<string | null>(null);
+  screenshotModalOpen = false;
+  screenshotModalClosing = false;
   checkoutModalOpen = signal(false);
   directCheckoutPayload = signal<{ gameId: number; platformId: number } | null>(null);
   purchaseInfoVisible = signal(false);
@@ -570,6 +575,16 @@ export class ProductComponent implements OnInit, OnDestroy {
   checkAuth(): boolean {
     if (!this.isAuthenticated()) {
       this.showAuthModal.set(true);
+      this.authModalClosing = false;
+      this.authModalOpen = false;
+      this.renderer.setStyle(this.document.body, 'overflow', 'hidden');
+      if (typeof requestAnimationFrame !== 'undefined') {
+        requestAnimationFrame(() => {
+          if (!this.authModalClosing) this.authModalOpen = true;
+        });
+      } else {
+        this.authModalOpen = true;
+      }
       return false;
     }
     return true;
@@ -577,28 +592,62 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   /** Redirige al login tras confirmación en el modal. */
   confirmLogin() {
-    this.showAuthModal.set(false);
-    this.router.navigate(['/login'], {
-      state: { navigateTo: this.router.url },
-    });
+    if (this.authModalClosing) return;
+    this.authModalClosing = true;
+    this.authModalOpen = false;
+
+    const navigateTo = this.router.url;
+    setTimeout(() => {
+      this.showAuthModal.set(false);
+      this.authModalClosing = false;
+      this.authModalOpen = false;
+      this.renderer.removeStyle(this.document.body, 'overflow');
+      this.router.navigate(['/login'], { state: { navigateTo } });
+    }, this.authModalAnimMs);
   }
 
   /** Cierra el modal de autenticación. */
   cancelLogin() {
-    this.showAuthModal.set(false);
+    if (this.authModalClosing) return;
+    this.authModalClosing = true;
+    this.authModalOpen = false;
+
+    setTimeout(() => {
+      this.showAuthModal.set(false);
+      this.authModalClosing = false;
+      this.authModalOpen = false;
+      this.renderer.removeStyle(this.document.body, 'overflow');
+    }, this.authModalAnimMs);
   }
 
   openScreenshotModal(imageUrl: string): void {
     if (!imageUrl) return;
     this.screenshotModalImage.set(imageUrl);
     this.isScreenshotModalOpen.set(true);
+    this.screenshotModalClosing = false;
+    this.screenshotModalOpen = false;
     this.renderer.setStyle(this.document.body, 'overflow', 'hidden');
+    if (typeof requestAnimationFrame !== 'undefined') {
+      requestAnimationFrame(() => {
+        if (!this.screenshotModalClosing) this.screenshotModalOpen = true;
+      });
+    } else {
+      this.screenshotModalOpen = true;
+    }
   }
 
   closeScreenshotModal(): void {
-    this.isScreenshotModalOpen.set(false);
-    this.screenshotModalImage.set(null);
-    this.renderer.removeStyle(this.document.body, 'overflow');
+    if (this.screenshotModalClosing) return;
+    this.screenshotModalClosing = true;
+    this.screenshotModalOpen = false;
+
+    setTimeout(() => {
+      this.isScreenshotModalOpen.set(false);
+      this.screenshotModalImage.set(null);
+      this.screenshotModalClosing = false;
+      this.screenshotModalOpen = false;
+      this.renderer.removeStyle(this.document.body, 'overflow');
+    }, this.authModalAnimMs);
   }
 
   /**

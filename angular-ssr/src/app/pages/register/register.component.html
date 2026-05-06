@@ -277,6 +277,21 @@
             {{ githubError | translate }}
           </div>
         }
+        <div class="flex flex-col gap-4 mt-4 mb-3">
+          <button
+            class="rounded-full w-full px-4 py-2 font-medium bg-blue-400 hover:bg-blue-600 border border-blue-300 text-white transition-transform duration-150 active:scale-95"
+            type="submit"
+          >
+            {{ "register.createAccountButton" | translate }}
+          </button>
+          <button
+            type="button"
+            (click)="goBack()"
+            class="rounded-full w-full px-4 py-2 font-medium bg-gray-500 hover:bg-gray-600 border border-gray-400 text-white transition-transform duration-150 active:scale-95"
+          >
+            {{ "register.backButton" | translate }}
+          </button>
+        </div>
         <div class="my-4 flex items-center gap-3">
           <div class="h-px flex-1 bg-gray-500"></div>
           <span class="text-xs uppercase tracking-wider text-gray-300">o</span>
@@ -323,27 +338,6 @@
             {{ "errors.ERR_AUTH_GITHUB_NOT_CONFIGURED" | translate }}
           </div>
         }
-        <div class="my-4 flex items-center gap-3">
-          <div class="h-px flex-1 bg-gray-500"></div>
-          <span class="text-xs uppercase tracking-wider text-gray-300">o</span>
-          <div class="h-px flex-1 bg-gray-500"></div>
-        </div>
-
-        <div class="flex flex-col gap-4 mt-4 mb-3">
-          <button
-            class="rounded-full w-full px-4 py-2 font-medium bg-blue-400 hover:bg-blue-600 border border-blue-300 text-white transition-transform duration-150 active:scale-95"
-            type="submit"
-          >
-            {{ "register.createAccountButton" | translate }}
-          </button>
-          <button
-            type="button"
-            (click)="goBack()"
-            class="rounded-full w-full px-4 py-2 font-medium bg-gray-500 hover:bg-gray-600 border border-gray-400 text-white transition-transform duration-150 active:scale-95"
-          >
-            {{ "register.backButton" | translate }}
-          </button>
-        </div>
       </form>
     </div>
   </div>

@@ -164,26 +164,6 @@
             </span>
           }
         </div>
-        <div
-          class="mb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-0"
-        >
-          <label
-            class="flex items-center gap-2 text-white text-sm cursor-pointer"
-          >
-            <input
-              type="checkbox"
-              formControlName="rememberMe"
-              class="w-4 h-4 rounded border-gray-600 bg-gray-800 text-blue-400 focus:ring-2 focus:ring-blue-300"
-            />
-            <span>{{ "login.rememberMe" | translate }}</span>
-          </label>
-          <a
-            routerLink="/forgot-password"
-            class="text-blue-300 hover:text-blue-400 underline text-sm transition-transform duration-150 active:scale-95"
-          >
-            {{ "login.forgotPassword" | translate }}
-          </a>
-        </div>
         @if (loginError) {
           <div class="mb-3 text-red-500 text-center mix-blend-color-dodge">
             {{ loginError }}
@@ -199,6 +179,42 @@
             {{ githubError }}
           </div>
         }
+        <div
+          class="mb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-0"
+        >
+          <label
+            class="flex items-center gap-2 text-white text-sm cursor-pointer"
+          >
+            <input
+              type="checkbox"
+              formControlName="rememberMe"
+              class="w-4 h-4 rounded border-gray-600 bg-gray-800 text-blue-400 focus:ring-2 focus:ring-blue-300"
+            />
+            <span>{{ "login.rememberMe" | translate }}</span>
+          </label>
+          <button
+            type="button"
+            (click)="openPasswordRecoveryModal()"
+            class="text-blue-300 hover:text-blue-400 underline text-sm transition-transform duration-150 active:scale-95 bg-transparent border-0 p-0 outline-none"
+          >
+            {{ "login.forgotPassword" | translate }}
+          </button>
+        </div>
+        <div class="flex flex-col gap-4 mt-4 mb-3">
+          <button
+            class="rounded-full w-full px-4 py-2 font-medium bg-blue-400 hover:bg-blue-600 border border-blue-300 text-white transition-transform duration-150 active:scale-95"
+            type="submit"
+          >
+            {{ "login.loginButton" | translate }}
+          </button>
+          <button
+            type="button"
+            (click)="goBack()"
+            class="rounded-full w-full px-4 py-2 font-medium bg-gray-500 hover:bg-gray-600 border border-gray-400 text-white transition-transform duration-150 active:scale-95"
+          >
+            {{ "register.backButton" | translate }}
+          </button>
+        </div>
         <div class="my-4 flex items-center gap-3">
           <div class="h-px flex-1 bg-gray-500"></div>
           <span class="text-xs uppercase tracking-wider text-gray-300">o</span>
@@ -245,27 +261,12 @@
             GitHub Sign-In no configurado
           </div>
         }
-        <div class="my-4 flex items-center gap-3">
-          <div class="h-px flex-1 bg-gray-500"></div>
-          <span class="text-xs uppercase tracking-wider text-gray-300">o</span>
-          <div class="h-px flex-1 bg-gray-500"></div>
-        </div>
-        <div class="flex flex-col gap-4 mt-4 mb-3">
-          <button
-            class="rounded-full w-full px-4 py-2 font-medium bg-blue-400 hover:bg-blue-600 border border-blue-300 text-white transition-transform duration-150 active:scale-95"
-            type="submit"
-          >
-            {{ "login.loginButton" | translate }}
-          </button>
-          <button
-            type="button"
-            (click)="goBack()"
-            class="rounded-full w-full px-4 py-2 font-medium bg-gray-500 hover:bg-gray-600 border border-gray-400 text-white transition-transform duration-150 active:scale-95"
-          >
-            {{ "register.backButton" | translate }}
-          </button>
-        </div>
       </form>
     </div>
   </div>
+  @if (showPasswordRecoveryModal) {
+    <app-password-recovery-modal
+      (closed)="closePasswordRecoveryModal()"
+    ></app-password-recovery-modal>
+  }
 </div>

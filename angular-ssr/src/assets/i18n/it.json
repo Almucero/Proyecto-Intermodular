@@ -460,6 +460,22 @@
     "googleButton": "Continua con Google",
     "githubButton": "Continua con GitHub"
   },
+  "passwordRecovery": {
+    "title": "Recupera password",
+    "description": "Inserisci la tua email e ti invieremo un codice di verifica.",
+    "sendCode": "Invia codice",
+    "enterCode": "Inserisci il codice a 6 cifre che ti abbiamo inviato.",
+    "resendIn": "Rinvia in",
+    "validFor": "Valido per:",
+    "codePlaceholder": "000000",
+    "codeFormat": "Il codice deve avere 6 cifre",
+    "verifyCode": "Verifica codice",
+    "newPasswordLabel": "Imposta la tua nuova password",
+    "changePassword": "Cambia password",
+    "success": "La tua password è stata aggiornata correttamente.",
+    "resendCode": "Rinvia codice",
+    "close": "Chiudi"
+  },
 
   "errors": {
     "required": "Questo campo è obbligatorio",
@@ -491,7 +507,11 @@
     "ERR_AUTH_GOOGLE_VALIDATION": "Non è stato possibile convalidare l'autenticazione Google",
     "ERR_AUTH_GITHUB_VALIDATION": "Non è stato possibile convalidare l'autenticazione GitHub",
     "ERR_AUTH_GOOGLE_REGISTER": "Non è stato possibile completare la registrazione con Google",
-    "ERR_AUTH_GITHUB_REGISTER": "Non è stato possibile completare la registrazione con GitHub"
+    "ERR_AUTH_GITHUB_REGISTER": "Non è stato possibile completare la registrazione con GitHub",
+    "ERR_AUTH_PASSWORD_RECOVERY_REQUEST": "Non è stato possibile avviare il recupero password",
+    "ERR_AUTH_PASSWORD_RECOVERY_RATE_LIMIT": "Troppe richieste. Riprova più tardi.",
+    "ERR_AUTH_PASSWORD_RECOVERY_CODE": "Il codice non è valido o è scaduto",
+    "ERR_AUTH_PASSWORD_RECOVERY_RESET": "Non è stato possibile reimpostare la password"
   },
   "product": {
     "platform": "Piattaforma",

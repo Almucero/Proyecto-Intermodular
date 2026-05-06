@@ -15,6 +15,7 @@ import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { TranslatePipe } from '@ngx-translate/core';
 import { BaseAuthenticationService } from '../../core/services/impl/base-authentication.service';
+import { PasswordRecoveryModalComponent } from '../../shared/components/password-recovery/password-recovery.component';
 
 /**
  * Componente de la página de inicio de sesión.
@@ -23,7 +24,13 @@ import { BaseAuthenticationService } from '../../core/services/impl/base-authent
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, TranslatePipe],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    TranslatePipe,
+    PasswordRecoveryModalComponent,
+  ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
@@ -43,6 +50,7 @@ export class LoginComponent implements OnInit {
   isOAuthRedirectProcessing = false;
   googleError = '';
   githubError = '';
+  showPasswordRecoveryModal = false;
   googleClientId = '';
   githubClientId = '';
   private readonly GOOGLE_STATE_KEY = 'google_oauth_state_login';
@@ -296,6 +304,14 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['/register'], {
       state: { navigateTo: this.navigateTo },
     });
+  }
+
+  openPasswordRecoveryModal() {
+    this.showPasswordRecoveryModal = true;
+  }
+
+  closePasswordRecoveryModal() {
+    this.showPasswordRecoveryModal = false;
   }
 
   /** Vuelve a la página anterior en el historial. */

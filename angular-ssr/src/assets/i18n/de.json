@@ -465,6 +465,22 @@
     "googleButton": "Mit Google fortfahren",
     "githubButton": "Mit GitHub fortfahren"
   },
+  "passwordRecovery": {
+    "title": "Passwort wiederherstellen",
+    "description": "Gib deine E-Mail ein und wir senden dir einen Bestätigungscode.",
+    "sendCode": "Code senden",
+    "enterCode": "Gib den 6-stelligen Code ein, den wir dir gesendet haben.",
+    "resendIn": "Erneut senden in",
+    "validFor": "Gültig für:",
+    "codePlaceholder": "000000",
+    "codeFormat": "Der Code muss 6 Ziffern haben",
+    "verifyCode": "Code prüfen",
+    "newPasswordLabel": "Lege dein neues Passwort fest",
+    "changePassword": "Passwort ändern",
+    "success": "Dein Passwort wurde erfolgreich aktualisiert.",
+    "resendCode": "Code erneut senden",
+    "close": "Schließen"
+  },
   "errors": {
     "required": "Dieses Feld ist erforderlich",
     "email": "Ungültige E-Mail",
@@ -495,7 +511,11 @@
     "ERR_AUTH_GOOGLE_VALIDATION": "Google-Authentifizierung konnte nicht validiert werden",
     "ERR_AUTH_GITHUB_VALIDATION": "GitHub-Authentifizierung konnte nicht validiert werden",
     "ERR_AUTH_GOOGLE_REGISTER": "Registrierung mit Google konnte nicht abgeschlossen werden",
-    "ERR_AUTH_GITHUB_REGISTER": "Registrierung mit GitHub konnte nicht abgeschlossen werden"
+    "ERR_AUTH_GITHUB_REGISTER": "Registrierung mit GitHub konnte nicht abgeschlossen werden",
+    "ERR_AUTH_PASSWORD_RECOVERY_REQUEST": "Passwort-Wiederherstellung konnte nicht gestartet werden",
+    "ERR_AUTH_PASSWORD_RECOVERY_RATE_LIMIT": "Zu viele Anfragen. Bitte versuche es später erneut.",
+    "ERR_AUTH_PASSWORD_RECOVERY_CODE": "Der Code ist ungültig oder abgelaufen",
+    "ERR_AUTH_PASSWORD_RECOVERY_RESET": "Passwort konnte nicht zurückgesetzt werden"
   },
   "product": {
     "platform": "Plattform",
