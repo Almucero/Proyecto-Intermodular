@@ -129,6 +129,7 @@
 <li><a href="#build-ssr-y-variable-ssr_disable_backend">Build SSR y variable SSR_DISABLE_BACKEND</a></li>
 <li><a href="#rutas-y-endpoints-relevantes">Rutas y endpoints relevantes</a></li>
 <li><a href="#pagos-y-devoluciones-stripe">Pagos y devoluciones (Stripe)</a></li>
+<li><a href="#notificaciones-por-correo">Notificaciones por correo</a></li>
 <li><a href="#verificaciones-de-requisitos">Verificaciones de requisitos</a></li>
 <li><a href="#arrancar-el-proyecto-desde-cero">Arrancar el proyecto desde cero</a></li>
 <li><a href="#configuraci%C3%B3n-variables-de-entorno">Configuración (variables de entorno)</a></li>
@@ -164,6 +165,7 @@
 <li><strong>Swagger (swagger-jsdoc, swagger-ui-express)</strong>: documentación de la API en <code>/api-docs</code>.</li>
 <li><strong>Winston</strong>: logging estructurado en el backend.</li>
 <li><strong>dotenv</strong>: carga de variables desde <code>.env</code> al arrancar el backend.</li>
+<li><strong>Nodemailer</strong>: envío de correos transaccionales y de notificaciones.</li>
 <li><strong>ESLint</strong>: análisis estático de código mediante <code>eslint-plugin-security</code> para prevenir inyección de objetos, expresiones regulares inseguras y ejecución de comandos no seguros.</li>
 <li><strong>@angular/ssr</strong>: renderizado universal en servidor (Node.js) para mejorar el SEO y el rendimiento de carga inicial (LCP).</li>
 <li><strong>ngx-translate</strong>: internacionalización (i18n) en cliente y servidor.</li>
@@ -254,6 +256,14 @@
 <li><strong>*.schema.ts</strong>: Esquemas Zod para validar el body de las peticiones (registro, login, creación/actualización de juegos, etc.).</li>
 </ul>
 <p>Ejemplo de cadena en un endpoint protegido: petición → <code>auth</code> (opcional) → <code>validate(schema)</code> → <code>adminOnly</code> (opcional) → controlador → servicio → Prisma → respuesta JSON (serializada por el middleware global).</p>
+<h4>Módulo <code>notifications</code></h4>
+<p>El módulo <code>src/backend/modules/notifications</code> es un módulo de dominio interno orientado a eventos (no expone rutas HTTP propias), por eso no tiene <code>*.routes.ts</code> ni <code>*.controller.ts</code>.</p>
+<ul>
+<li><code>notifications.service.ts</code>: motor de notificaciones (lógica de negocio, jobs programados, deduplicación y envío).</li>
+<li><code>notifications.types.ts</code>: tipos compartidos del dominio de notificaciones.</li>
+<li><code>index.ts</code>: punto de entrada público del módulo para imports limpios desde otros módulos.</li>
+</ul>
+<p>Este módulo lo consumen <code>favorites</code>, <code>games</code>, <code>cart</code>, <code>purchases</code> y <code>app.ts</code> (scheduler), manteniendo la misma arquitectura por capas: controladores de dominio disparan eventos y <code>notifications</code> centraliza el comportamiento de correo.</p>
 <h3><code>src/backend/scripts/</code></h3>
 <ul>
 <li><strong>seedAdmin.ts</strong>: Crea o actualiza usuarios administradores a partir de las variables <code>ADMIN_EMAILS</code>, <code>ADMIN_PASSWORDS</code> (opcional) y <code>ADMIN_NAMES</code> (opcional). Usado en el pipeline <code>build:full</code> para asegurar que existan admins tras el despliegue.</li>
@@ -302,6 +312,11 @@
 <li><strong>Procesado del retorno en frontend</strong>:<ul>
 <li><code>login.component.ts</code> y <code>register.component.ts</code> detectan <code>code/state</code> (GitHub) o <code>id_token/state</code> (Google), validan <code>state</code>/<code>nonce</code> y completan sesión contra backend (<code>POST /api/auth/github</code> o <code>POST /api/auth/google</code>).</li>
 <li>Durante este paso se muestra una capa de procesamiento OAuth para evitar parpadeos de pantalla.</li>
+</ul>
+</li>
+<li><strong>Mensajes de error de registro y OAuth</strong>:<ul>
+<li>El backend devuelve códigos controlados (<code>code</code>) para conflictos/validaciones de registro (<code>ERR_AUTH_*</code>) y el frontend los traduce vía i18n.</li>
+<li>No se exponen mensajes técnicos internos de Prisma o de la capa de datos en la UI de registro.</li>
 </ul>
 </li>
 <li><strong>Persistencia de sesión</strong>:<ul>
@@ -404,14 +419,20 @@
 <li>El backend valida que el carrito no esté vacío, calcula importes y crea la sesión de Stripe en <code>mode: payment</code> y <code>ui_mode: embedded_page</code>.</li>
 <li>Stripe devuelve <code>clientSecret</code>, <code>sessionId</code> y <code>publishableKey</code>, que el frontend usa para montar el checkout embebido.</li>
 <li>Tras pago completado, el frontend confirma la sesión con <code>POST /api/cart/checkout/confirm</code>.</li>
+<li>Al cerrar checkout en ficha de producto, se muestra un aviso post-compra indicando dónde encontrar el código (página de usuario) y dónde consultar guías de activación (FAQ en ayuda).</li>
+<li>La página de ayuda (<code>/help</code>) incluye una guía extensa de activación por plataforma (PC, PlayStation, Xbox y Switch), navegación por secciones, capturas reales y una sección FAQ integrada y traducida para todos los idiomas soportados.</li>
+<li>El bloque FAQ de ayuda usa animación de expansión/colapso basada en Angular (<code>enter/leave</code>), con comportamiento estable y consistente con el patrón visual de filtros de búsqueda.</li>
+<li>Las capturas de la guía de ayuda son ampliables en modal al hacer clic (overlay, cierre por fondo/botón y tecla <code>Escape</code>), siguiendo el mismo patrón visual y de interacción que las capturas del detalle de producto.</li>
 </ol>
 <h3>Qué ocurre al confirmar una compra</h3>
 <ul>
 <li>Se valida que la sesión de Stripe esté pagada y pertenezca al usuario autenticado.</li>
 <li>Se completa la compra en base de datos dentro de operaciones transaccionales.</li>
 <li>Se crean registros de compra (<code>Purchase</code> y <code>PurchaseItem</code>) para que aparezcan en el historial del usuario.</li>
+<li>Cada item comprado expone también su <code>key</code> (clave de producto digital) para mostrarla de forma segura en el dashboard con modo oculto/visible.</li>
 <li>Se descuenta stock de los juegos/plataformas comprados.</li>
 <li>Se vacía el carrito del usuario para evitar duplicados tras un pago correcto.</li>
+<li>En compra directa (<code>/product/:id</code>), el frontend muestra confirmación contextual con enlaces a <code>dashboard</code> y <code>help#faq</code>.</li>
 </ul>
 <h3>Devoluciones y reembolsos</h3>
 <ul>
@@ -432,6 +453,55 @@
 <li>Stripe permite controlar idioma/locale en la creación de sesión para alinear el checkout con el idioma activo de la aplicación.</li>
 </ul>
 <hr>
+<h2>Notificaciones por correo</h2>
+<p>La aplicación incorpora un sistema de notificaciones por email en backend, centralizado en <code>src/backend/modules/notifications</code>.</p>
+<h3>Dónde se configura</h3>
+<ul>
+<li>Preferencias por usuario en <code>settings</code> (frontend): activación global, email destino, idioma, frecuencia (<code>immediate/daily/weekly</code>), horas silenciosas, pausa temporal y toggles por tipo.</li>
+<li>Persistencia en <code>User</code> (Prisma): campos <code>emailNotificationsEnabled</code>, <code>notificationEmail</code>, <code>emailNotificationLanguage</code>, <code>emailNotificationFrequency</code>, <code>emailNotificationTopics</code>, <code>emailNotificationPausedUntil</code>, <code>emailQuietHoursStart</code>, <code>emailQuietHoursEnd</code>, <code>emailRecommendationIntervalDays</code>, <code>emailNotificationMeta</code>, <code>lastSeenAt</code>.</li>
+</ul>
+<h3>Tipos de correo implementados</h3>
+<ul>
+<li>Ofertas inmediatas al añadir favoritos en oferta.</li>
+<li>Bajada de precio en favoritos (deduplicado por juego/plataforma).</li>
+<li>Reposición de stock en favoritos (una sola vez por juego/plataforma, persistente).</li>
+<li>Confirmación de compra.</li>
+<li>Confirmación de reembolso.</li>
+<li>Recordatorios de cesta (jobs diarios).</li>
+<li>Recordatorios por inactividad.</li>
+<li>Recomendaciones periódicas con intervalo configurable (1-30 días).</li>
+<li>Novedades por señales de búsqueda, compras y bloque de populares.</li>
+<li>Resumen semanal.</li>
+</ul>
+<h3>Variantes, traducciones y formato</h3>
+<ul>
+<li>Soporte de idioma en <code>es</code>, <code>en</code>, <code>fr</code>, <code>de</code>, <code>it</code> para asunto, títulos y cuerpos.</li>
+<li>Variantes múltiples por tipo de correo para evitar textos repetitivos.</li>
+<li>Plantillas HTML uniformes y versión texto.</li>
+<li>Respeto de horas silenciosas y pausas de notificaciones.</li>
+</ul>
+<h3>Factura/justificante adjunto</h3>
+<p>En compra y reembolso se adjunta PDF (<code>application/pdf</code>) con referencia, fecha, total y líneas de artículos:</p>
+<ul>
+<li>Referencia <code>PUR-&lt;id&gt;</code> / <code>REF-&lt;id&gt;</code> para compras/reembolsos internos.</li>
+<li>Referencia <code>STRIPE-&lt;sessionId&gt;</code> en confirmaciones de checkout Stripe.</li>
+</ul>
+<h3>Scheduler y ejecución</h3>
+<ul>
+<li>Arranque automático en backend (<code>startEmailNotificationScheduler</code>) fuera de entorno <code>test</code>.</li>
+<li>Ejecución inicial al arrancar + ciclo programado cada hora (<code>runEmailJobsNow</code>).</li>
+<li>Los jobs aplican reglas de frecuencia del usuario para envíos diarios/semanales.</li>
+</ul>
+<h3>Variables de entorno relacionadas</h3>
+<ul>
+<li><code>SMTP_HOST</code></li>
+<li><code>SMTP_PORT</code> (opcional, por defecto <code>587</code>)</li>
+<li><code>SMTP_USER</code></li>
+<li><code>SMTP_PASS</code></li>
+<li><code>SMTP_FROM</code> (opcional, por defecto <code>no-reply@gamesage.local</code>)</li>
+</ul>
+<p>Si no se define SMTP, el sistema omite el envío sin romper la ejecución del backend.</p>
+<hr>
 <h2>Verificaciones de requisitos</h2>
 <p>Antes de ejecutar determinados comandos (build, serve, dev, tests, seeds, etc.), el proyecto ejecuta comprobaciones previas que evitan fallos confusos y muestran errores legibles.</p>
 <ul>
@@ -440,6 +510,8 @@
 <li><p><strong><code>scripts/check-prisma.mjs</code></strong>: Comprueba que el cliente de Prisma esté generado (existe <code>node_modules/@prisma/client/index.d.ts</code>). Si no se ha ejecutado <code>npx prisma generate</code>, se muestra un error claro antes de que el compilador de TypeScript falle con mensajes sobre campos o tipos faltantes.</p>
 </li>
 <li><p><strong><code>scripts/serve-ssr.mjs</code></strong>: Antes de arrancar el servidor SSR compilado, valida que exista el build (<code>dist/game-sage/server/server.mjs</code>) y que exista un <code>.env</code> configurado. Si falta alguno, muestra un error directo indicando qué comando o paso previo ejecutar.</p>
+</li>
+<li><p><strong><code>scripts/serve-ssr-watch-safe.mjs</code></strong>: Wrapper de arranque usado en modo watch SSR. Espera a que el build de <code>dist/game-sage/server</code> esté estable y con imports presentes antes de arrancar el servidor, y reintenta automáticamente si detecta un <code>ERR_MODULE_NOT_FOUND</code> transitorio de chunks durante una recompilación.</p>
 </li>
 <li><p><strong><code>scripts/free-port.mjs</code></strong>: Utilidad interna que verifica si un puerto concreto está en uso y, solo en ese caso, mata el proceso asociado. Se usa desde los scripts <code>start</code>, <code>dev</code> y <code>serve:ssr</code> para evitar errores <code>EADDRINUSE</code> sin imprimir mensajes cuando el puerto ya está libre.</p>
 </li>
@@ -617,7 +689,7 @@ Si faltan dependencias, el script intenta instalarlas automaticamente y, si no p
 </li>
 <li><p><strong><code>npm run dev</code></strong><br>Alias de <code>npm run dev:backend</code>.</p>
 </li>
-<li><p><strong><code>npm run serve:ssr</code></strong><br>Modo desarrollo SSR con recarga automática: compila en <code>watch</code> y reinicia el servidor SSR cuando cambia <code>dist</code>.</p>
+<li><p><strong><code>npm run serve:ssr</code></strong><br>Modo desarrollo SSR con recarga automática: compila en <code>watch</code> y reinicia el servidor SSR cuando cambia <code>dist</code>. El reinicio usa un wrapper seguro para evitar caídas/ruido por chunks temporales no disponibles durante recompilaciones.</p>
 </li>
 <li><p><strong><code>npm run serve:ssr:https</code></strong><br>Igual que <code>serve:ssr</code>, pero además levanta un proxy HTTPS local (<code>https://localhost:3443 -&gt; http://localhost:3000</code>) para pruebas en contexto seguro (por ejemplo Stripe en local).</p>
 <p>Consideraciones reales de este modo:</p>
@@ -748,7 +820,7 @@ npm run serve:ssr:prod</code></pre></div><ul>
 <li>Las <code>Rules</code>, <code>Skills</code>, <code>Commands</code> y <code>Hooks</code> del proyecto se cargan automáticamente al abrir el repositorio en Cursor; no requieren pasos adicionales para estar disponibles.</li>
 <li>Los hooks y reglas solo tienen efecto dentro de Cursor Agent, no fuera del editor.</li>
 <li>Lo único que requiere configuración manual adicional es <code>MCP</code>: para usar GitHub, PostgreSQL o Jira, hay que tener definidas las variables de entorno correspondientes.</li>
-<li>Si se clona el proyecto en otra máquina, basta con abrirlo en Cursor para que se detecte <code>.cursor/</code>; después solo hay que configurar las variables necesarias para los MCP que se quieran utilizar.</li>
+<li>Si se clona el proyecto en otra máquina, tras abrir el repositorio en Cursor hay que revisar <code>Settings -&gt; MCP</code> y habilitar manualmente los servidores <code>github</code>, <code>jira</code> y <code>postgres</code> si aparecen en <code>Disabled</code>.</li>
 <li>Las variables sensibles de MCP deben mantenerse fuera del repositorio real. <code>.env</code> o variables de entorno del sistema son válidas, pero Cursor debe poder resolverlas al arrancar.</li>
 </ul>
 <h3>Sincronización de variables MCP para Cursor</h3>
@@ -767,6 +839,19 @@ npm run serve:ssr:prod</code></pre></div><ul>
 <li><code>JIRA_API_TOKEN</code></li>
 </ul>
 <p>Después de ejecutar el script, hay que cerrar y volver a abrir Cursor.</p>
+<h3>Resolución de problemas MCP en Cursor</h3>
+<ul>
+<li>Si en <code>Settings -&gt; MCP</code> aparece <code>MCP configuration errors</code> con mensaje de JSON inválido en un servidor externo (por ejemplo <code>extension-GitKraken</code>), pulsar <code>Open JSON</code> y corregir o eliminar la entrada rota.</li>
+<li>Ese error de un servidor externo puede impedir o degradar la carga de otros MCP.</li>
+<li>Tras corregir el JSON, ejecutar <code>Developer: Reload Window</code> en Cursor y volver a comprobar que <code>github</code>, <code>jira</code> y <code>postgres</code> estén en <code>Enabled</code>.</li>
+<li>En sesiones largas, el MCP de Jira puede quedarse en <code>Not connected</code> o devolver <code>Connection closed</code>; si pasa, cerrar y abrir Cursor y volver a revisar <code>Settings -&gt; MCP</code>.</li>
+<li>Si tras reabrir sigue igual, desactivar y reactivar manualmente el servidor Jira en <code>Settings -&gt; MCP</code>, y después ejecutar <code>Developer: Reload Window</code>.</li>
+</ul>
+<h3>Validación local antes de commit</h3>
+<ul>
+<li>En local ejecutar: <code>npm run build:ssr</code>, <code>npm run lint</code>, <code>npm audit --omit=dev</code>.</li>
+<li>No ejecutar <code>npm run vercel-build</code> en local: ese comando está orientado al pipeline de Vercel y puede regenerar artefactos no deseados (por ejemplo contenido en <code>docs/</code>).</li>
+</ul>
 <h3>Requisito adicional para Jira MCP</h3>
 <p>La integración de Jira en este proyecto usa un servidor MCP local lanzado con:</p>
 <b>Example :</b><div><pre class="line-numbers"><code class="language-bash">uvx mcp-atlassian</code></pre></div><p>Por tanto, antes de usar Jira en Cursor hay que tener <code>uv</code> instalado en el sistema. En Windows:</p>

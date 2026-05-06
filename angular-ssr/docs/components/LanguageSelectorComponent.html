@@ -156,7 +156,7 @@ Muestra el selector de banderas y gestiona la persistencia del idioma.</p>
         <h3>Implements</h3>
     </p>
     <p class="comment">
-                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                <code>OnInit</code>
     </p>
 
 
@@ -189,7 +189,7 @@ Muestra el selector de banderas y gestiona la persistencia del idioma.</p>
             <tr>
                 <td class="col-md-3">imports</td>
                 <td class="col-md-9">
-                                <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
+                            <code>CommonModule</code>
                             <code>TranslatePipe</code>
                 </td>
             </tr>
@@ -358,7 +358,7 @@ Muestra el selector de banderas y gestiona la persistencia del idioma.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>document:click(event: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+<code>document:click(event: Event)</code>
                 </td>
             </tr>
 
@@ -479,7 +479,7 @@ Muestra el selector de banderas y gestiona la persistencia del idioma.</p>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getFlagFor(code: <a href="../miscellaneous/typealiases.html#Language" target="_self">Language | undefined</a>)</code>
+                    <code>getFlagFor(code: <a href="../undefineds/Language.html" target="_self">Language | undefined</a>)</code>
                 </td>
             </tr>
 
@@ -592,7 +592,7 @@ Muestra el selector de banderas y gestiona la persistencia del idioma.</p>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>onDocumentClick(event: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                    <code>onDocumentClick(event: Event)</code>
                 </td>
             </tr>
 
@@ -632,7 +632,7 @@ Muestra el selector de banderas y gestiona la persistencia del idioma.</p>
                                         <tr>
                                                 <td>event</td>
                                             <td>
-                                                            <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                                        <code>Event</code>
                                             </td>
 
                                             <td>
@@ -668,7 +668,7 @@ Muestra el selector de banderas y gestiona la persistencia del idioma.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>setLanguage(lang: <a href="../miscellaneous/typealiases.html#Language" target="_self">Language</a>)</code>
+<code>setLanguage(lang: <a href="../undefineds/Language.html" target="_self">Language</a>)</code>
                 </td>
             </tr>
 
@@ -824,12 +824,6 @@ Muestra el selector de banderas y gestiona la persistencia del idioma.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>false</code>
                     </td>
                 </tr>
@@ -861,12 +855,6 @@ Muestra el selector de banderas y gestiona la persistencia del idioma.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>false</code>
                     </td>
                 </tr>
@@ -896,12 +884,6 @@ Muestra el selector de banderas y gestiona la persistencia del idioma.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>false</code>
@@ -977,12 +959,6 @@ Muestra el selector de banderas y gestiona la persistencia del idioma.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>inject(LanguageService)</code>
@@ -1422,7 +1398,7 @@ export class LanguageSelectorComponent implements OnInit {
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div><div class="relative flex items-center">  <button    #triggerButton    type="button"    (mousedown)="$event.preventDefault()"    (click)="toggleLangMenu(); $event.stopPropagation()"    class="flex items-center gap-1.5 p-0 bg-transparent border-none outline-none hover:opacity-80 focus:outline-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none cursor-pointer active:scale-95 transition-transform duration-150"    [title]="\'tooltips.languageSelector\' | translate"  >    <svg      xmlns="http://www.w3.org/2000/svg"      class="h-4 w-4 text-white transition-transform duration-300 pointer-events-none"      [class.rotate-180]="isLangMenuOpen && !isClosing"      fill="none"      viewBox="0 0 24 24"      stroke="currentColor"      stroke-width="2"    >      <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />    </svg>    <img      [src]="currentFlag"      alt="Language"      class="w-9 h-9 pointer-events-none transition-opacity duration-150"      [class.opacity-0]="flagIsChanging"    />  </button>  <div    *ngIf="isLangMenuOpen"    class="absolute top-full right-0 w-9 rounded-md shadow-xl overflow-hidden border-none bg-[#030712] translate-y-0 translate-x-0 lang-menu-background"    style="z-index: 1001; margin-top: 16px;"    [class.animate-slideDown]="!isClosing"    [class.animate-slideUp]="isClosing"  >    <div class="flex flex-col items-center py-1">      <button        *ngFor="let lang of availableLanguages"        type="button"        (mousedown)="$event.preventDefault()"        (click)="setLanguage(lang.code)"        class="p-1.5 hover:bg-gray-800 w-full flex justify-center bg-transparent border-none outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none transition-transform duration-150 active:scale-95"        [title]="lang.name"      >        <img [src]="lang.flag" [alt]="lang.name" class="w-6 h-6 rounded-sm" />      </button>    </div>  </div></div></div>'
-    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'StripeModalComponent', 'selector': 'app-stripe-modal'}];
+    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PasswordRecoveryModalComponent', 'selector': 'app-password-recovery-modal'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'StripeModalComponent', 'selector': 'app-stripe-modal'}];
     var DIRECTIVES = [{'name': 'CopyOnClickDirective', 'selector': '[appCopyOnClick]'},{'name': 'HighlightDirective', 'selector': '[appHighlight]'},{'name': 'Tilt3DDirective', 'selector': '[appTilt3D]'}];
     var ACTUAL_COMPONENT = {'name': 'LanguageSelectorComponent'};
 </script>

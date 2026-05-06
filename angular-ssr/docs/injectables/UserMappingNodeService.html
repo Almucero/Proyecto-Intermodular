@@ -238,8 +238,8 @@ Maneja propiedades computadas como el nombre de usuario y la imagen de perfil.</
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="66"
-                                    class="link-to-prism">src/app/core/repositories/impl/user-mapping-node.service.ts:66</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="75"
+                                    class="link-to-prism">src/app/core/repositories/impl/user-mapping-node.service.ts:75</a></div>
                         </td>
                     </tr>
 
@@ -374,8 +374,8 @@ Maneja propiedades computadas como el nombre de usuario y la imagen de perfil.</
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="74"
-                                    class="link-to-prism">src/app/core/repositories/impl/user-mapping-node.service.ts:74</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="83"
+                                    class="link-to-prism">src/app/core/repositories/impl/user-mapping-node.service.ts:83</a></div>
                         </td>
                     </tr>
 
@@ -516,8 +516,8 @@ Define getters dinámicos para <code>profileImage</code> y <code>username</code>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="70"
-                                    class="link-to-prism">src/app/core/repositories/impl/user-mapping-node.service.ts:70</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="79"
+                                    class="link-to-prism">src/app/core/repositories/impl/user-mapping-node.service.ts:79</a></div>
                         </td>
                     </tr>
 
@@ -583,8 +583,8 @@ Define getters dinámicos para <code>profileImage</code> y <code>username</code>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="79"
-                                    class="link-to-prism">src/app/core/repositories/impl/user-mapping-node.service.ts:79</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="88"
+                                    class="link-to-prism">src/app/core/repositories/impl/user-mapping-node.service.ts:88</a></div>
                         </td>
                     </tr>
 
@@ -652,8 +652,8 @@ Define getters dinámicos para <code>profileImage</code> y <code>username</code>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="97"
-                                    class="link-to-prism">src/app/core/repositories/impl/user-mapping-node.service.ts:97</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="106"
+                                    class="link-to-prism">src/app/core/repositories/impl/user-mapping-node.service.ts:106</a></div>
                         </td>
                     </tr>
 
@@ -747,6 +747,15 @@ export class UserMappingNodeService implements IBaseMapping&lt;User&gt; {
       region: data.region,
       postalCode: data.postalCode,
       country: data.country,
+      emailNotificationsEnabled: data.emailNotificationsEnabled,
+      notificationEmail: data.notificationEmail,
+      emailNotificationLanguage: data.emailNotificationLanguage,
+      emailNotificationFrequency: data.emailNotificationFrequency,
+      emailNotificationTopics: data.emailNotificationTopics,
+      emailNotificationPausedUntil: data.emailNotificationPausedUntil,
+      emailQuietHoursStart: data.emailQuietHoursStart,
+      emailQuietHoursEnd: data.emailQuietHoursEnd,
+      emailRecommendationIntervalDays: data.emailRecommendationIntervalDays,
       passwordHash: data.passwordHash || &#x27;&#x27;,
       media: data.media,
     };
@@ -817,6 +826,25 @@ export class UserMappingNodeService implements IBaseMapping&lt;User&gt; {
     if (data.region !&#x3D;&#x3D; undefined) payload.region &#x3D; data.region;
     if (data.postalCode !&#x3D;&#x3D; undefined) payload.postalCode &#x3D; data.postalCode;
     if (data.country !&#x3D;&#x3D; undefined) payload.country &#x3D; data.country;
+    if (data.emailNotificationsEnabled !&#x3D;&#x3D; undefined)
+      payload.emailNotificationsEnabled &#x3D; data.emailNotificationsEnabled;
+    if (data.notificationEmail !&#x3D;&#x3D; undefined)
+      payload.notificationEmail &#x3D; data.notificationEmail;
+    if (data.emailNotificationLanguage !&#x3D;&#x3D; undefined)
+      payload.emailNotificationLanguage &#x3D; data.emailNotificationLanguage;
+    if (data.emailNotificationFrequency !&#x3D;&#x3D; undefined)
+      payload.emailNotificationFrequency &#x3D; data.emailNotificationFrequency;
+    if (data.emailNotificationTopics !&#x3D;&#x3D; undefined)
+      payload.emailNotificationTopics &#x3D; data.emailNotificationTopics;
+    if (data.emailNotificationPausedUntil !&#x3D;&#x3D; undefined)
+      payload.emailNotificationPausedUntil &#x3D; data.emailNotificationPausedUntil;
+    if (data.emailQuietHoursStart !&#x3D;&#x3D; undefined)
+      payload.emailQuietHoursStart &#x3D; data.emailQuietHoursStart;
+    if (data.emailQuietHoursEnd !&#x3D;&#x3D; undefined)
+      payload.emailQuietHoursEnd &#x3D; data.emailQuietHoursEnd;
+    if (data.emailRecommendationIntervalDays !&#x3D;&#x3D; undefined)
+      payload.emailRecommendationIntervalDays &#x3D;
+        data.emailRecommendationIntervalDays;
 
     return payload;
   }

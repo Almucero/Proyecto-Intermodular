@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { auth } from '../../middleware/auth';
+import { optionalAuth } from '../../middleware/optional-auth';
 import { adminOnly } from '../../middleware/authorize';
 import { validate } from '../../middleware/validate';
 import { createGameSchema, updateGameSchema } from './games.schema';
@@ -136,7 +137,7 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/', listGamesCtrl);
+router.get('/', optionalAuth, listGamesCtrl);
 
 /**
  * @swagger

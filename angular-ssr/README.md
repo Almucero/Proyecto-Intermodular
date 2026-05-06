@@ -32,6 +32,7 @@ El proyecto está pensado para ofrecer una experiencia completa de principio a f
 - [Build SSR y variable SSR_DISABLE_BACKEND](#build-ssr-y-variable-ssr_disable_backend)
 - [Rutas y endpoints relevantes](#rutas-y-endpoints-relevantes)
 - [Pagos y devoluciones (Stripe)](#pagos-y-devoluciones-stripe)
+- [Notificaciones por correo](#notificaciones-por-correo)
 - [Verificaciones de requisitos](#verificaciones-de-requisitos)
 - [Arrancar el proyecto desde cero](#arrancar-el-proyecto-desde-cero)
 - [Configuración (variables de entorno)](#configuración-variables-de-entorno)
@@ -83,6 +84,7 @@ El chat con IA utiliza **Google Generative AI** (y dependencias como `@google/ge
 - **Swagger (swagger-jsdoc, swagger-ui-express)**: documentación de la API en `/api-docs`.
 - **Winston**: logging estructurado en el backend.
 - **dotenv**: carga de variables desde `.env` al arrancar el backend.
+- **Nodemailer**: envío de correos transaccionales y de notificaciones.
 - **ESLint**: análisis estático de código mediante `eslint-plugin-security` para prevenir inyección de objetos, expresiones regulares inseguras y ejecución de comandos no seguros.
 - **@angular/ssr**: renderizado universal en servidor (Node.js) para mejorar el SEO y el rendimiento de carga inicial (LCP).
 - **ngx-translate**: internacionalización (i18n) en cliente y servidor.
@@ -191,6 +193,16 @@ Cada dominio (auth, users, games, developers, publishers, genres, platforms, med
 - **\*.schema.ts**: Esquemas Zod para validar el body de las peticiones (registro, login, creación/actualización de juegos, etc.).
 
 Ejemplo de cadena en un endpoint protegido: petición → `auth` (opcional) → `validate(schema)` → `adminOnly` (opcional) → controlador → servicio → Prisma → respuesta JSON (serializada por el middleware global).
+
+#### Módulo `notifications`
+
+El módulo `src/backend/modules/notifications` es un módulo de dominio interno orientado a eventos (no expone rutas HTTP propias), por eso no tiene `*.routes.ts` ni `*.controller.ts`.
+
+- `notifications.service.ts`: motor de notificaciones (lógica de negocio, jobs programados, deduplicación y envío).
+- `notifications.types.ts`: tipos compartidos del dominio de notificaciones.
+- `index.ts`: punto de entrada público del módulo para imports limpios desde otros módulos.
+
+Este módulo lo consumen `favorites`, `games`, `cart`, `purchases` y `app.ts` (scheduler), manteniendo la misma arquitectura por capas: controladores de dominio disparan eventos y `notifications` centraliza el comportamiento de correo.
 
 ### `src/backend/scripts/`
 
@@ -379,6 +391,65 @@ La aplicación integra una pasarela de pago embebida con Stripe para cerrar comp
 - El checkout usa Stripe en modo test mientras se mantengan claves de test en `.env`.
 - En local, para minimizar advertencias de contexto no seguro, se recomienda `npm run serve:ssr:https` y abrir `https://localhost:3443`.
 - Stripe permite controlar idioma/locale en la creación de sesión para alinear el checkout con el idioma activo de la aplicación.
+
+---
+
+## Notificaciones por correo
+
+La aplicación incorpora un sistema de notificaciones por email en backend, centralizado en `src/backend/modules/notifications`.
+
+### Dónde se configura
+
+- Preferencias por usuario en `settings` (frontend): activación global, email destino, idioma, frecuencia (`immediate/daily/weekly`), horas silenciosas, pausa temporal y toggles por tipo.
+- Persistencia en `User` (Prisma): campos `emailNotificationsEnabled`, `notificationEmail`, `emailNotificationLanguage`, `emailNotificationFrequency`, `emailNotificationTopics`, `emailNotificationPausedUntil`, `emailQuietHoursStart`, `emailQuietHoursEnd`, `emailRecommendationIntervalDays`, `emailNotificationMeta`, `lastSeenAt`.
+
+### Tipos de correo implementados
+
+- Ofertas inmediatas al añadir favoritos en oferta.
+- Bajada de precio en favoritos (deduplicado por juego/plataforma).
+- Reposición de stock en favoritos (una sola vez por juego/plataforma, persistente).
+- Confirmación de compra.
+- Confirmación de reembolso.
+- Recordatorios de cesta (jobs diarios).
+- Recordatorios por inactividad.
+- Recomendaciones periódicas con intervalo configurable (1-30 días).
+- Novedades por señales de búsqueda, compras y bloque de populares.
+- Resumen semanal.
+
+### Variantes, traducciones y formato
+
+- Soporte de idioma en `es`, `en`, `fr`, `de`, `it` para asunto, títulos y cuerpos.
+- Variantes múltiples por tipo de correo para evitar textos repetitivos.
+- Plantillas HTML uniformes, responsive y compatibles con clientes de correo móviles.
+- Estructura común en todos los correos: saludo personalizado (`Hola/Hi... <nombre>`), bloque de contenido y footer fijo con enlace a ajustes.
+- El enlace de gestión en el footer apunta a `https://gamingsage.vercel.app/settings`.
+- Resolución robusta de imágenes: si la URL de media es relativa, se convierte a absoluta usando variables de entorno de app.
+- Respeto de horas silenciosas y pausas de notificaciones.
+
+### Factura/justificante adjunto
+
+En compra y reembolso se adjunta PDF (`application/pdf`) con referencia, fecha, total y líneas de artículos:
+
+- Referencia `PUR-<id>` / `REF-<id>` para compras/reembolsos internos.
+- Referencia `STRIPE-<sessionId>` en confirmaciones de checkout Stripe.
+
+### Scheduler y ejecución
+
+- Arranque automático en backend (`startEmailNotificationScheduler`) fuera de entorno `test`.
+- Ejecución inicial al arrancar + ciclo programado cada hora (`runEmailJobsNow`).
+- Los jobs aplican reglas de frecuencia del usuario para envíos diarios/semanales.
+
+### Variables de entorno relacionadas
+
+- `SMTP_HOST`
+- `SMTP_PORT` (opcional, por defecto `587`)
+- `SMTP_USER`
+- `SMTP_PASS`
+- `SMTP_FROM` (opcional, por defecto `no-reply@gamesage.local`)
+- `SMTP_FROM_NAME` (opcional, por defecto `Game Sage`; nombre visual del remitente)
+- `PUBLIC_APP_URL` o `FRONTEND_URL` o `APP_URL` (opcionales; recomendados para construir URLs absolutas de imagen en correos)
+
+Si no se define SMTP, el sistema omite el envío sin romper la ejecución del backend.
 
 ---
 

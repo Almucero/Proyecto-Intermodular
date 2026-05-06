@@ -13,6 +13,15 @@ export const updateUserSchema = z.object({
   region: z.string().optional(),
   postalCode: z.string().optional(),
   country: z.string().optional(),
+  emailNotificationsEnabled: z.boolean().optional(),
+  notificationEmail: z.string().email('Email inválido').nullable().optional(),
+  emailNotificationLanguage: z.string().min(2).max(10).nullable().optional(),
+  emailNotificationFrequency: z.enum(['immediate', 'daily', 'weekly']).optional(),
+  emailNotificationTopics: z.record(z.string(), z.boolean()).optional(),
+  emailNotificationPausedUntil: z.coerce.date().nullable().optional(),
+  emailQuietHoursStart: z.number().int().min(0).max(23).nullable().optional(),
+  emailQuietHoursEnd: z.number().int().min(0).max(23).nullable().optional(),
+  emailRecommendationIntervalDays: z.number().int().min(1).max(30).optional(),
 });
 
 export const updateProfileSchema = z.object({
@@ -28,6 +37,15 @@ export const updateProfileSchema = z.object({
   region: z.string().optional(),
   postalCode: z.string().optional(),
   country: z.string().optional(),
+  emailNotificationsEnabled: z.boolean().optional(),
+  notificationEmail: z.string().email('Email inválido').nullable().optional(),
+  emailNotificationLanguage: z.string().min(2).max(10).nullable().optional(),
+  emailNotificationFrequency: z.enum(['immediate', 'daily', 'weekly']).optional(),
+  emailNotificationTopics: z.record(z.string(), z.boolean()).optional(),
+  emailNotificationPausedUntil: z.coerce.date().nullable().optional(),
+  emailQuietHoursStart: z.number().int().min(0).max(23).nullable().optional(),
+  emailQuietHoursEnd: z.number().int().min(0).max(23).nullable().optional(),
+  emailRecommendationIntervalDays: z.number().int().min(1).max(30).optional(),
 });
 
 export const changePasswordSchema = z.object({

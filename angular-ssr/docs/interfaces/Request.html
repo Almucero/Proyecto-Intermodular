@@ -222,7 +222,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import type { Request, Response, NextFunction } from &#x27;express&#x27;;
 import jwt from &#x27;jsonwebtoken&#x27;;
 import { env } from &#x27;../config/env&#x27;;
-import { findUserAuthInfo } from &#x27;../modules/users/users.service&#x27;;
+import { findUserAuthInfo, touchUserLastAppLocale, touchUserLastSeen } from &#x27;../modules/users/users.service&#x27;;
 import { applySecurityHeaders, applyNoCacheHeaders } from &#x27;../../security-headers&#x27;;
 
 declare global {
@@ -289,6 +289,12 @@ export function auth(req: Request, res: Response, next: NextFunction) {
         email: payload.email,
         isAdmin: payload.isAdmin ?? false,
       };
+      void touchUserLastSeen(payload.sub);
+      const acceptLang &#x3D; req.headers[&#x27;accept-language&#x27;];
+      const langHeader &#x3D; Array.isArray(acceptLang) ? acceptLang[0] : acceptLang;
+      if (typeof langHeader &#x3D;&#x3D;&#x3D; &#x27;string&#x27; &amp;&amp; langHeader.trim()) {
+        void touchUserLastAppLocale(payload.sub, langHeader.split(&#x27;,&#x27;)[0] || langHeader);
+      }
       next();
     })
     .catch(() &#x3D;&gt; {

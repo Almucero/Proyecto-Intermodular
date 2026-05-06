@@ -12,6 +12,7 @@ import {
   getUserCart,
   clearCart,
 } from './cart.service';
+import { notifyPurchaseStatus } from '../notifications';
 
 const gameIdSchema = z.object({
   gameId: z.coerce
@@ -272,6 +273,17 @@ export async function confirmCheckoutSessionCtrl(
       return res.status(400).json({ errors: parsed.error.flatten() });
     }
     const purchase = await confirmCheckoutSession(user.sub, parsed.data.sessionId);
+    void notifyPurchaseStatus({
+      userId: user.sub,
+      type: 'purchase',
+      games: (purchase.items || []).map((it: any) => ({
+        title: it.title,
+        platform: it.platform?.name || 'Platform',
+        price: Number(it.purchasePrice ?? it.price ?? 0),
+      })),
+      total: Number(purchase.totalPrice ?? 0),
+      reference: `STRIPE-${parsed.data.sessionId}`,
+    });
     res.status(200).json(purchase);
   } catch (error: any) {
     if (
@@ -298,6 +310,17 @@ export async function confirmDirectCheckoutSessionCtrl(
       return res.status(400).json({ errors: parsed.error.flatten() });
     }
     const purchase = await confirmDirectCheckoutSession(user.sub, parsed.data.sessionId);
+    void notifyPurchaseStatus({
+      userId: user.sub,
+      type: 'purchase',
+      games: (purchase.items || []).map((it: any) => ({
+        title: it.title,
+        platform: it.platform?.name || 'Platform',
+        price: Number(it.purchasePrice ?? it.price ?? 0),
+      })),
+      total: Number(purchase.totalPrice ?? 0),
+      reference: `STRIPE-${parsed.data.sessionId}`,
+    });
     res.status(200).json(purchase);
   } catch (error: any) {
     if (

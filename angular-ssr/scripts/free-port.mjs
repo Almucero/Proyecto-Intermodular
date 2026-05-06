@@ -25,13 +25,30 @@ async function freePort(port) {
       return;
     }
 
-    // If we are here, port is in use. Kill it.
-    // We use npx kill-port because it handles cross-platform killing well by port
-    // but we suppress its output by capturing stdout
+    // If we are here, port is in use. Try kill-port first.
     const { stdout } = await execAsync(`npx kill-port ${port}`);
-    // Only log if we actually killed something or if the tool reports it
     if (stdout && stdout.trim()) {
-        console.log(`Port ${port} was in use. Process killed.`);
+      console.log(`Port ${port} was in use. Process killed.`);
+    }
+
+    // On Windows, kill-port can miss edge cases. Fallback: kill pids from netstat.
+    if (isWin) {
+      try {
+        const { stdout: used } = await execAsync(`netstat -ano | findstr :${port}`);
+        const pids = [...new Set(
+          used
+            .split(/\r?\n/)
+            .map((line) => line.trim())
+            .filter(Boolean)
+            .map((line) => line.split(/\s+/).pop())
+            .filter((pid) => pid && /^\d+$/.test(pid))
+        )];
+        for (const pid of pids) {
+          await execAsync(`taskkill /PID ${pid} /F`);
+        }
+      } catch {
+        // ignore fallback errors
+      }
     }
   } catch (error) {
     // Ignore errors during kill attempt
@@ -39,4 +56,4 @@ async function freePort(port) {
 }
 
 const port = process.argv[2];
-freePort(port);
+await freePort(port);

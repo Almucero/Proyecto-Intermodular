@@ -38,6 +38,15 @@ export class UserMappingNodeService implements IBaseMapping<User> {
       region: data.region,
       postalCode: data.postalCode,
       country: data.country,
+      emailNotificationsEnabled: data.emailNotificationsEnabled,
+      notificationEmail: data.notificationEmail,
+      emailNotificationLanguage: data.emailNotificationLanguage,
+      emailNotificationFrequency: data.emailNotificationFrequency,
+      emailNotificationTopics: data.emailNotificationTopics,
+      emailNotificationPausedUntil: data.emailNotificationPausedUntil,
+      emailQuietHoursStart: data.emailQuietHoursStart,
+      emailQuietHoursEnd: data.emailQuietHoursEnd,
+      emailRecommendationIntervalDays: data.emailRecommendationIntervalDays,
       passwordHash: data.passwordHash || '',
       media: data.media,
     };
@@ -108,6 +117,25 @@ export class UserMappingNodeService implements IBaseMapping<User> {
     if (data.region !== undefined) payload.region = data.region;
     if (data.postalCode !== undefined) payload.postalCode = data.postalCode;
     if (data.country !== undefined) payload.country = data.country;
+    if (data.emailNotificationsEnabled !== undefined)
+      payload.emailNotificationsEnabled = data.emailNotificationsEnabled;
+    if (data.notificationEmail !== undefined)
+      payload.notificationEmail = data.notificationEmail;
+    if (data.emailNotificationLanguage !== undefined)
+      payload.emailNotificationLanguage = data.emailNotificationLanguage;
+    if (data.emailNotificationFrequency !== undefined)
+      payload.emailNotificationFrequency = data.emailNotificationFrequency;
+    if (data.emailNotificationTopics !== undefined)
+      payload.emailNotificationTopics = data.emailNotificationTopics;
+    if (data.emailNotificationPausedUntil !== undefined)
+      payload.emailNotificationPausedUntil = data.emailNotificationPausedUntil;
+    if (data.emailQuietHoursStart !== undefined)
+      payload.emailQuietHoursStart = data.emailQuietHoursStart;
+    if (data.emailQuietHoursEnd !== undefined)
+      payload.emailQuietHoursEnd = data.emailQuietHoursEnd;
+    if (data.emailRecommendationIntervalDays !== undefined)
+      payload.emailRecommendationIntervalDays =
+        data.emailRecommendationIntervalDays;
 
     return payload;
   }

@@ -94,6 +94,15 @@ export class NodeAuthMappingService implements IAuthMapping {
       region: data.region,
       postalCode: data.postalCode,
       country: data.country,
+      emailNotificationsEnabled: data.emailNotificationsEnabled,
+      notificationEmail: data.notificationEmail,
+      emailNotificationLanguage: data.emailNotificationLanguage,
+      emailNotificationFrequency: data.emailNotificationFrequency,
+      emailNotificationTopics: data.emailNotificationTopics,
+      emailNotificationPausedUntil: data.emailNotificationPausedUntil,
+      emailQuietHoursStart: data.emailQuietHoursStart,
+      emailQuietHoursEnd: data.emailQuietHoursEnd,
+      emailRecommendationIntervalDays: data.emailRecommendationIntervalDays,
     };
 
     Object.defineProperty(user, 'profileImage', {

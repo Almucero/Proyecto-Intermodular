@@ -566,7 +566,7 @@ y lo convierte en un AppError con mensaje legible.</p>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>parseHttpError(error: <a href="https://angular.io/api/common/http/HttpErrorResponse" target="_blank">HttpErrorResponse</a>)</code>
+                    <code>parseHttpError(error: HttpErrorResponse)</code>
                 </td>
             </tr>
 
@@ -609,7 +609,7 @@ y lo convierte en un AppError con mensaje legible.</p>
                                         <tr>
                                                 <td>error</td>
                                             <td>
-                                                            <code><a href="https://angular.io/api/common/http/HttpErrorResponse" target="_blank" >HttpErrorResponse</a></code>
+                                                        <code>HttpErrorResponse</code>
                                             </td>
 
                                             <td>
@@ -748,7 +748,7 @@ el código del servicio.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>setError(message: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, type: <a href="../miscellaneous/enumerations.html#ErrorType" target="_self">ErrorType</a>, duration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>setError(message: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, type: <a href="../undefineds/ErrorType.html" target="_self">ErrorType</a>, duration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
@@ -878,12 +878,6 @@ de llamadas HTTP.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>signal&lt;AppError | null&gt;(null)</code>
                     </td>
                 </tr>
@@ -907,12 +901,6 @@ de llamadas HTTP.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>this.currentError.asReadonly()</code>
@@ -939,12 +927,6 @@ de llamadas HTTP.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new Map&lt;string, string&gt;([

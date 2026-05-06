@@ -386,7 +386,7 @@ export class RegisterComponent implements OnInit {
    * @param errorName Tipo de error.
    */
   private hasError(controlName: string, errorName: string): boolean {
-    // eslint-disable-next-line security/detect-object-injection
+     
     const control = this.formRegister.controls[controlName];
     return (control.touched || this.submitted) && control.hasError(errorName);
   }
