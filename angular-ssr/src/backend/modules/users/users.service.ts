@@ -299,6 +299,38 @@ export async function touchUserLastSeen(userId: number) {
   });
 }
 
+export async function touchUserLastAppLocale(userId: number, locale: string) {
+  const l = locale.trim().toLowerCase();
+  if (!l) return;
+
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { emailNotificationMeta: true },
+  });
+  if (!user) return;
+
+  const meta = (user.emailNotificationMeta || {}) as Record<string, any>;
+  const prev = typeof meta.lastAppLocale === 'string' ? meta.lastAppLocale : '';
+  const prevAt = typeof meta.lastAppLocaleAt === 'number' ? meta.lastAppLocaleAt : 0;
+  const now = Date.now();
+
+  const tooSoon = now - prevAt < 6 * 60 * 60 * 1000;
+  const same = prev.toLowerCase().startsWith(l);
+  if (tooSoon && same) return;
+
+  await prisma.user.update({
+    where: { id: userId },
+    data: {
+      emailNotificationMeta: {
+        ...(meta as any),
+        lastAppLocale: l,
+        lastAppLocaleAt: now,
+      },
+    },
+    select: { id: true },
+  });
+}
+
 export async function changePassword(
   userId: number,
   currentPassword: string,

@@ -62,6 +62,8 @@ export class LanguageService {
       this.translateService.use(lang);
       if (this.isBrowser) {
         localStorage.setItem(this.STORAGE_KEY, lang);
+        const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+        document.cookie = `app-language=${encodeURIComponent(lang)}; Path=/; Max-Age=31536000; SameSite=Lax${secure}`;
       }
     }
   }

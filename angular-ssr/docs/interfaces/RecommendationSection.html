@@ -302,7 +302,7 @@
 } from &#x27;@angular/core&#x27;;
 import { CommonModule } from &#x27;@angular/common&#x27;;
 import { TranslatePipe, TranslateModule } from &#x27;@ngx-translate/core&#x27;;
-import { ActivatedRoute, Router } from &#x27;@angular/router&#x27;;
+import { ActivatedRoute, Router, RouterModule } from &#x27;@angular/router&#x27;;
 import { DomSanitizer, SafeResourceUrl } from &#x27;@angular/platform-browser&#x27;;
 import { GameService } from &#x27;../../core/services/impl/game.service&#x27;;
 import { MediaService } from &#x27;../../core/services/impl/media.service&#x27;;
@@ -346,6 +346,7 @@ interface RecommendationSection {
     LocalizedCurrencyPipe,
     CarouselComponent,
     StripeModalComponent,
+    RouterModule,
   ],
   templateUrl: &#x27;./product.component.html&#x27;,
   styleUrls: [&#x27;./product.component.scss&#x27;],
@@ -366,6 +367,9 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   /** Estados para notificaciones visuales y modales. */
   showAuthModal &#x3D; signal(false);
+  authModalOpen &#x3D; false;
+  authModalClosing &#x3D; false;
+  private readonly authModalAnimMs &#x3D; 160;
   isAuthenticated &#x3D; signal(false);
   addedToCartSuccess &#x3D; signal(false);
   addedToFavoritesSuccess &#x3D; signal(false);
@@ -375,8 +379,11 @@ export class ProductComponent implements OnInit, OnDestroy {
   alreadyInFavorites &#x3D; signal(false);
   isScreenshotModalOpen &#x3D; signal(false);
   screenshotModalImage &#x3D; signal&lt;string | null&gt;(null);
+  screenshotModalOpen &#x3D; false;
+  screenshotModalClosing &#x3D; false;
   checkoutModalOpen &#x3D; signal(false);
   directCheckoutPayload &#x3D; signal&lt;{ gameId: number; platformId: number } | null&gt;(null);
+  purchaseInfoVisible &#x3D; signal(false);
 
   /** Configuración estática de todas las plataformas soportadas. */
   allPlatforms &#x3D; [
@@ -478,6 +485,13 @@ export class ProductComponent implements OnInit, OnDestroy {
         this.currentMediaIndex &#x3D; 0;
         this.selectedPlatform &#x3D; null;
         this.loadGame(id);
+      }
+    });
+    this.route.queryParamMap.subscribe((params) &#x3D;&gt; {
+      const payment &#x3D; params.get(&#x27;payment&#x27;);
+      const sessionId &#x3D; params.get(&#x27;session_id&#x27;);
+      if (payment &#x3D;&#x3D;&#x3D; &#x27;success&#x27; &amp;&amp; !!sessionId) {
+        this.purchaseInfoVisible.set(true);
       }
     });
 
@@ -854,6 +868,16 @@ export class ProductComponent implements OnInit, OnDestroy {
   checkAuth(): boolean {
     if (!this.isAuthenticated()) {
       this.showAuthModal.set(true);
+      this.authModalClosing &#x3D; false;
+      this.authModalOpen &#x3D; false;
+      this.renderer.setStyle(this.document.body, &#x27;overflow&#x27;, &#x27;hidden&#x27;);
+      if (typeof requestAnimationFrame !&#x3D;&#x3D; &#x27;undefined&#x27;) {
+        requestAnimationFrame(() &#x3D;&gt; {
+          if (!this.authModalClosing) this.authModalOpen &#x3D; true;
+        });
+      } else {
+        this.authModalOpen &#x3D; true;
+      }
       return false;
     }
     return true;
@@ -861,28 +885,62 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   /** Redirige al login tras confirmación en el modal. */
   confirmLogin() {
-    this.showAuthModal.set(false);
-    this.router.navigate([&#x27;/login&#x27;], {
-      state: { navigateTo: this.router.url },
-    });
+    if (this.authModalClosing) return;
+    this.authModalClosing &#x3D; true;
+    this.authModalOpen &#x3D; false;
+
+    const navigateTo &#x3D; this.router.url;
+    setTimeout(() &#x3D;&gt; {
+      this.showAuthModal.set(false);
+      this.authModalClosing &#x3D; false;
+      this.authModalOpen &#x3D; false;
+      this.renderer.removeStyle(this.document.body, &#x27;overflow&#x27;);
+      this.router.navigate([&#x27;/login&#x27;], { state: { navigateTo } });
+    }, this.authModalAnimMs);
   }
 
   /** Cierra el modal de autenticación. */
   cancelLogin() {
-    this.showAuthModal.set(false);
+    if (this.authModalClosing) return;
+    this.authModalClosing &#x3D; true;
+    this.authModalOpen &#x3D; false;
+
+    setTimeout(() &#x3D;&gt; {
+      this.showAuthModal.set(false);
+      this.authModalClosing &#x3D; false;
+      this.authModalOpen &#x3D; false;
+      this.renderer.removeStyle(this.document.body, &#x27;overflow&#x27;);
+    }, this.authModalAnimMs);
   }
 
   openScreenshotModal(imageUrl: string): void {
     if (!imageUrl) return;
     this.screenshotModalImage.set(imageUrl);
     this.isScreenshotModalOpen.set(true);
+    this.screenshotModalClosing &#x3D; false;
+    this.screenshotModalOpen &#x3D; false;
     this.renderer.setStyle(this.document.body, &#x27;overflow&#x27;, &#x27;hidden&#x27;);
+    if (typeof requestAnimationFrame !&#x3D;&#x3D; &#x27;undefined&#x27;) {
+      requestAnimationFrame(() &#x3D;&gt; {
+        if (!this.screenshotModalClosing) this.screenshotModalOpen &#x3D; true;
+      });
+    } else {
+      this.screenshotModalOpen &#x3D; true;
+    }
   }
 
   closeScreenshotModal(): void {
-    this.isScreenshotModalOpen.set(false);
-    this.screenshotModalImage.set(null);
-    this.renderer.removeStyle(this.document.body, &#x27;overflow&#x27;);
+    if (this.screenshotModalClosing) return;
+    this.screenshotModalClosing &#x3D; true;
+    this.screenshotModalOpen &#x3D; false;
+
+    setTimeout(() &#x3D;&gt; {
+      this.isScreenshotModalOpen.set(false);
+      this.screenshotModalImage.set(null);
+      this.screenshotModalClosing &#x3D; false;
+      this.screenshotModalOpen &#x3D; false;
+      this.renderer.removeStyle(this.document.body, &#x27;overflow&#x27;);
+    }, this.authModalAnimMs);
   }
 
   /**
@@ -1005,10 +1063,15 @@ export class ProductComponent implements OnInit, OnDestroy {
   onCheckoutCompleted(): void {
     this.checkoutModalOpen.set(false);
     this.directCheckoutPayload.set(null);
+    this.purchaseInfoVisible.set(true);
     const id &#x3D; this.route.snapshot.paramMap.get(&#x27;id&#x27;);
     if (id) {
       this.loadGame(id);
     }
+  }
+
+  closePurchaseInfo(): void {
+    this.purchaseInfoVisible.set(false);
   }
 
   /** Comprueba si el juego está disponible para una plataforma dada. */
@@ -1080,7 +1143,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   private convertToEmbedUrl(url: string): string {
     const videoId &#x3D; this.getVideoId(url);
     if (videoId) {
-      return &#x60;https://www.youtube-nocookie.com/embed/${videoId}?autoplay&#x3D;1&amp;mute&#x3D;1&amp;modestbranding&#x3D;1&amp;rel&#x3D;0&amp;showinfo&#x3D;0&amp;iv_load_policy&#x3D;3&#x60;;
+      return &#x60;https://www.youtube.com/embed/${videoId}?autoplay&#x3D;0&amp;mute&#x3D;1&amp;modestbranding&#x3D;1&amp;rel&#x3D;0&amp;showinfo&#x3D;0&amp;iv_load_policy&#x3D;3&#x60;;
     }
     return url;
   }

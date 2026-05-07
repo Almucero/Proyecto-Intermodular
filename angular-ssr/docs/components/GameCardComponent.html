@@ -153,8 +153,8 @@ y manejo de eventos de clic.</p>
         <h3>Implements</h3>
     </p>
     <p class="comment">
-                    <code><a href="https://angular.io/api/core/AfterViewInit" target="_blank" >AfterViewInit</a></code>
-                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+                <code>AfterViewInit</code>
+                <code>OnDestroy</code>
     </p>
 
 
@@ -191,7 +191,7 @@ y manejo de eventos de clic.</p>
             <tr>
                 <td class="col-md-3">imports</td>
                 <td class="col-md-9">
-                                <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
+                            <code>CommonModule</code>
                             <code>TranslatePipe</code>
                             <code>LocalizedCurrencyPipe</code>
                                 <code><a href="../directives/Tilt3DDirective.html" target="_self" >Tilt3DDirective</a></code>
@@ -342,7 +342,7 @@ y manejo de eventos de clic.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(cdr: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>, ngZone: <a href="https://angular.io/api/core/NgZone" target="_blank">NgZone</a>, platformId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a>)</code>
+<code>constructor(cdr: ChangeDetectorRef, ngZone: NgZone, platformId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -368,7 +368,7 @@ y manejo de eventos de clic.</p>
                                                         <td>cdr</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+                                                                    <code>ChangeDetectorRef</code>
                                                         </td>
                                                   
                                                     <td>
@@ -380,7 +380,7 @@ y manejo de eventos de clic.</p>
                                                         <td>ngZone</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/core/NgZone" target="_blank" >NgZone</a></code>
+                                                                    <code>NgZone</code>
                                                         </td>
                                                   
                                                     <td>
@@ -510,7 +510,7 @@ y manejo de eventos de clic.</p>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+                        <i>Type : </i>    <code>EventEmitter</code>
 
                     </td>
                 </tr>
@@ -788,7 +788,7 @@ y manejo de eventos de clic.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
+                        <i>Type : </i>    <code>ElementRef</code>
 
                     </td>
                 </tr>
@@ -829,12 +829,6 @@ y manejo de eventos de clic.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>false</code>
                     </td>
                 </tr>
@@ -864,12 +858,6 @@ y manejo de eventos de clic.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>false</code>
@@ -1285,7 +1273,7 @@ export class GameCardComponent implements AfterViewInit, OnDestroy {
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div><div  [class.w-56]="!fullWidth"  [class.w-full]="fullWidth"  class="group cursor-pointer transition-all duration-150 active:scale-95 mobile-responsive-card"  [class.pointer-events-none]="game.id === -1"  (click)="onClick()">  <div    appTilt3D    [tiltEnabled]="game.id !== -1"    [tiltImageScale]="1.03"    class="game-card-tilt-shell h-32 bg-gray-700 rounded-xl overflow-hidden relative mobile-responsive-image"    [class.animate-pulse]="game.id === -1"  >    <ng-container *ngIf="game.id !== -1">      <img        *ngIf="game.isOnSale"        src="assets/images/ui/sale.webp"        class="absolute top-0 left-0 w-16 h-16 z-30 pointer-events-none"      />      <img        [src]="coverUrl"        [alt]="game.title"        class="game-card-cover-image absolute inset-0 z-10 w-full h-full object-cover pointer-events-none"        crossorigin="anonymous"        referrerpolicy="no-referrer"      />    </ng-container>  </div>  <div    class="mt-2 flex justify-between items-center text-sm font-medium text-gray-300 overflow-hidden mobile-responsive-info"  >    <div      class="flex-1 min-w-0 mr-2 title-container h-5 flex items-center"      [class.mask-active]="isMoving && hasOverflow"    >      <div        *ngIf="game.id === -1"        class="h-4 w-3/4 bg-gray-700 rounded animate-pulse"      ></div>      <span        *ngIf="game.id !== -1"        #gameTitle        class="inline-block text-left whitespace-nowrap long-text-animate text-gray-300 group-hover:text-white transition-colors duration-500 ease-out"        [class.animate-running]="isMoving && hasOverflow"        [title]="game.title"      >        {{ game.title }}      </span>    </div>    <span class="whitespace-nowrap flex-shrink-0 flex items-center text-gray-300 group-hover:text-white transition-colors duration-500 ease-out">      <div        *ngIf="game.id === -1"        class="h-4 w-12 bg-gray-700 rounded animate-pulse"      ></div>      <ng-container *ngIf="game.id !== -1">        <span          *ngIf="            (game.isOnSale && game.salePrice !== null              ? game.salePrice              : game.price) === 0          "        >          {{ "product.free" | translate }}        </span>        <ng-container          *ngIf="            (game.isOnSale && game.salePrice !== null              ? game.salePrice              : game.price) !== 0          "        >          <span            *ngIf="game.isOnSale && game.salePrice !== null"            class="flex items-center gap-1.5"          >            <span>{{ game.salePrice | localizedCurrency }}</span>            <span class="text-gray-400 line-through text-xs">              {{ game.price | localizedCurrency: "none" }}            </span>          </span>          <span *ngIf="!game.isOnSale || game.salePrice === null">            {{ game.price | localizedCurrency }}          </span>        </ng-container>      </ng-container>    </span>  </div></div></div>'
-    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'StripeModalComponent', 'selector': 'app-stripe-modal'}];
+    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PasswordRecoveryModalComponent', 'selector': 'app-password-recovery-modal'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'StripeModalComponent', 'selector': 'app-stripe-modal'}];
     var DIRECTIVES = [{'name': 'CopyOnClickDirective', 'selector': '[appCopyOnClick]'},{'name': 'HighlightDirective', 'selector': '[appHighlight]'},{'name': 'Tilt3DDirective', 'selector': '[appTilt3D]'}];
     var ACTUAL_COMPONENT = {'name': 'GameCardComponent'};
 </script>

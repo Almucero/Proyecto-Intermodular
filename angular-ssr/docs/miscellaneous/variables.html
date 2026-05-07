@@ -490,6 +490,9 @@
                             <a href="#MAX_LOGIN_ATTEMPTS" title="src/backend/modules/users/users.service.ts" ><b>MAX_LOGIN_ATTEMPTS</b>&nbsp;&nbsp;&nbsp;(src/.../users.service.ts)</a>
                         </li>
                         <li>
+                            <a href="#MAX_PASSWORD_RECOVERY_ATTEMPTS" title="src/backend/modules/auth/auth.service.ts" ><b>MAX_PASSWORD_RECOVERY_ATTEMPTS</b>&nbsp;&nbsp;&nbsp;(src/.../auth.service.ts)</a>
+                        </li>
+                        <li>
                             <a href="#MEDIA_API_URL_TOKEN" title="src/app/core/repositories/repository.tokens.ts" ><b>MEDIA_API_URL_TOKEN</b>&nbsp;&nbsp;&nbsp;(src/.../repository.tokens.ts)</a>
                         </li>
                         <li>
@@ -527,6 +530,27 @@
                         </li>
                         <li>
                             <a href="#origWarn" title="src/suppress-warnings.ts" ><b>origWarn</b>&nbsp;&nbsp;&nbsp;(src/.../suppress-warnings.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#PASSWORD_RECOVERY_RESEND_INTERVAL_MS" title="src/backend/modules/auth/auth.service.ts" ><b>PASSWORD_RECOVERY_RESEND_INTERVAL_MS</b>&nbsp;&nbsp;&nbsp;(src/.../auth.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#PASSWORD_RECOVERY_TTL_MS" title="src/backend/modules/auth/auth.service.ts" ><b>PASSWORD_RECOVERY_TTL_MS</b>&nbsp;&nbsp;&nbsp;(src/.../auth.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#passwordRecoveryEmailContent" title="src/backend/modules/auth/auth.service.ts" ><b>passwordRecoveryEmailContent</b>&nbsp;&nbsp;&nbsp;(src/.../auth.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#passwordRecoveryRequestSchema" title="src/backend/modules/auth/auth.schema.ts" ><b>passwordRecoveryRequestSchema</b>&nbsp;&nbsp;&nbsp;(src/.../auth.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#passwordRecoveryResetSchema" title="src/backend/modules/auth/auth.schema.ts" ><b>passwordRecoveryResetSchema</b>&nbsp;&nbsp;&nbsp;(src/.../auth.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#passwordRecoveryStore" title="src/backend/modules/auth/auth.service.ts" ><b>passwordRecoveryStore</b>&nbsp;&nbsp;&nbsp;(src/.../auth.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#passwordRecoveryVerifySchema" title="src/backend/modules/auth/auth.schema.ts" ><b>passwordRecoveryVerifySchema</b>&nbsp;&nbsp;&nbsp;(src/.../auth.schema.ts)</a>
                         </li>
                         <li>
                             <a href="#PLATFORM_API_URL_TOKEN" title="src/app/core/repositories/repository.tokens.ts" ><b>PLATFORM_API_URL_TOKEN</b>&nbsp;&nbsp;&nbsp;(src/.../repository.tokens.ts)</a>
@@ -688,6 +712,9 @@
                             <a href="#routes" title="src/app/app.routes.ts" ><b>routes</b>&nbsp;&nbsp;&nbsp;(src/.../app.routes.ts)</a>
                         </li>
                         <li>
+                            <a href="#schedulerStarted" title="src/backend/modules/notifications/notifications.service.ts" ><b>schedulerStarted</b>&nbsp;&nbsp;&nbsp;(src/.../notifications.service.ts)</a>
+                        </li>
+                        <li>
                             <a href="#searchGamesInputSchema" title="src/backend/modules/chat/chat.service.ts" ><b>searchGamesInputSchema</b>&nbsp;&nbsp;&nbsp;(src/.../chat.service.ts)</a>
                         </li>
                         <li>
@@ -826,12 +853,6 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>dirname(__filename)</code>
                     </td>
                 </tr>
@@ -852,12 +873,6 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>fileURLToPath(import.meta.url)</code>
                     </td>
                 </tr>
@@ -876,12 +891,6 @@
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>shouldUseGeneratedSpec
@@ -2018,12 +2027,6 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>process.cwd()</code>
                     </td>
                 </tr>
@@ -2042,12 +2045,6 @@
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>(): Record&lt;string, unknown&gt; | null &#x3D;&gt; {
@@ -2094,12 +2091,6 @@
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>process.env[&#x27;VERCEL&#x27;] &#x3D;&#x3D;&#x3D; &#x27;1&#x27; || env.NODE_ENV &#x3D;&#x3D;&#x3D; &#x27;production&#x27;</code>
@@ -2153,12 +2144,6 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>generatedSwaggerSpec ?? swaggerJsdoc(options)</code>
                     </td>
                 </tr>
@@ -2177,12 +2162,6 @@
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>(value: string): string &#x3D;&gt; value.replace(/\\/g, &#x27;/&#x27;)</code>
@@ -2208,12 +2187,6 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>path.dirname(__filename)</code>
                     </td>
                 </tr>
@@ -2232,12 +2205,6 @@
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>fileURLToPath(import.meta.url)</code>
@@ -2260,12 +2227,6 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>path.join(MEDIA_BASE_PATH, &#x27;gameImages&#x27;)</code>
                     </td>
                 </tr>
@@ -2286,12 +2247,6 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>resolveMediaBasePath()</code>
                     </td>
                 </tr>
@@ -2310,12 +2265,6 @@
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>path.join(MEDIA_BASE_PATH, &#x27;userImages&#x27;)</code>
@@ -2339,12 +2288,6 @@
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
@@ -2376,12 +2319,6 @@
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
@@ -2425,12 +2362,6 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
   quantity: z.number().int().positive(&#x27;quantity debe ser al menos 1&#x27;),
   platformId: z
@@ -2460,12 +2391,6 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
   gameId: z.number().int().positive(&#x27;gameId debe ser un número positivo&#x27;),
   platformId: z
@@ -2490,12 +2415,6 @@
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
@@ -2599,12 +2518,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>env.NODE_ENV &#x3D;&#x3D;&#x3D; &#x27;production&#x27;
     ? corsOriginsFromEnv
     : [...new Set([...localhostOrigins, ...corsOriginsFromEnv])]</code>
@@ -2627,12 +2540,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>express()</code>
                     </td>
                 </tr>
@@ -2651,12 +2558,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>(
@@ -2756,12 +2657,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>env.CORS_ORIGIN
   ? env.CORS_ORIGIN.split(&#x27;,&#x27;)
       .map((o) &#x3D;&gt; o.trim())
@@ -2813,12 +2708,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>console.warn.bind(console)</code>
@@ -2878,12 +2767,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>(
   req: express.Request,
   res: express.Response,
@@ -2915,12 +2798,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new AngularNodeAppEngine({
   allowedHosts: isProduction ? undefined : [&#x27;localhost&#x27;, &#x27;127.0.0.1&#x27;],
 })</code>
@@ -2943,12 +2820,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>express()</code>
                     </td>
                 </tr>
@@ -2967,12 +2838,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>process.env[&#x27;SSR_DISABLE_BACKEND&#x27;] || isMainModule(import.meta.url)
@@ -3007,12 +2872,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>join(import.meta.dirname, &#x27;../browser&#x27;)</code>
                     </td>
                 </tr>
@@ -3031,12 +2890,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>join(browserDistFolder, &#x27;docs&#x27;)</code>
@@ -3059,12 +2912,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>join(import.meta.dirname, &#x27;../../../docs&#x27;)</code>
                     </td>
                 </tr>
@@ -3085,12 +2932,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>existsSync(docsDistFolder) ? docsDistFolder : docsFallbackFolder</code>
                     </td>
                 </tr>
@@ -3109,12 +2950,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>(
@@ -3149,12 +2984,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>(err: unknown): string | null &#x3D;&gt; {
   if (!isSetupError(err)) return null;
   const msg &#x3D; err instanceof Error ? err.message : String(err);
@@ -3180,12 +3009,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>(err: unknown): void &#x3D;&gt; {
@@ -3214,12 +3037,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>process.env[&#x27;NODE_ENV&#x27;] &#x3D;&#x3D;&#x3D; &#x27;production&#x27;</code>
                     </td>
                 </tr>
@@ -3238,12 +3055,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>(err: unknown): boolean &#x3D;&gt; {
@@ -3275,12 +3086,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>() &#x3D;&gt;
   import(&#x27;./backend/app&#x27;).then(({ default: backendApp }) &#x3D;&gt; {
     app.use(backendApp);
@@ -3302,12 +3107,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>async (req: express.Request, res: express.Response, next: express.NextFunction, response: Response | null) &#x3D;&gt; {
@@ -3403,12 +3202,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>(req: express.Request, res: express.Response, next: express.NextFunction): void &#x3D;&gt; {
   if (req.url?.startsWith(&#x27;/api&#x27;)) return next();
   const pathname &#x3D; (req.url ?? &#x27;&#x27;).replace(/\?.*$/, &#x27;&#x27;);
@@ -3442,12 +3235,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>createNodeRequestHandler(app)</code>
                     </td>
                 </tr>
@@ -3468,12 +3255,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>/\.(env|git|htaccess|zap\d+)|\.(idea|svn|hg|bzr|DS_Store)|server\.key|privatekey\.key|id_rsa|id_dsa|\.ssh\/|config\/database|WebServers\.xml|actuator\/|\.php|composer\.(json|lock)|sftp-config\.json|WS_FTP\.ini|filezilla\.xml|vim_settings\.xml|phpinfo|CHANGELOG\.txt|server-status|server-info/i</code>
                     </td>
                 </tr>
@@ -3492,12 +3273,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>() &#x3D;&gt; {
@@ -3587,12 +3362,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(&#x27;ApiUrl&#x27;)</code>
                     </td>
                 </tr>
@@ -3619,12 +3388,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;IAuthMapping&gt;(
   &#x27;IAuthMapping&#x27;,
 )</code>
@@ -3645,12 +3408,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(&#x27;AuthMeApiUrl&#x27;)</code>
@@ -3677,12 +3434,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(
@@ -3713,12 +3464,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(
   &#x27;AuthSignUpApiUrl&#x27;,
 )</code>
@@ -3747,12 +3492,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;IAuthentication&gt;(
   &#x27;IAuthentication&#x27;,
 )</code>
@@ -3775,12 +3514,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(&#x27;Backend&#x27;)</code>
                     </td>
                 </tr>
@@ -3799,12 +3532,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(
@@ -3829,12 +3556,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;
   IBaseMapping&lt;CartItem&gt;
 &gt;(&#x27;ICartItemRepositoryMapping&#x27;)</code>
@@ -3857,12 +3578,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;ICartItemRepository&gt;(&#x27;ICartItemRepository&#x27;)</code>
                     </td>
                 </tr>
@@ -3881,12 +3596,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(
@@ -3909,12 +3618,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(&#x27;ChatApiUrl&#x27;)</code>
@@ -3943,12 +3646,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;
   IBaseMapping&lt;ChatSession&gt;
 &gt;(&#x27;IChatRepositoryMapping&#x27;)</code>
@@ -3969,12 +3666,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;IChatRepository&gt;(
@@ -3999,12 +3690,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(
   &#x27;ChatResourceName&#x27;,
 )</code>
@@ -4025,12 +3710,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(
@@ -4061,12 +3740,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;
   IBaseMapping&lt;Developer&gt;
 &gt;(&#x27;IDeveloperRepositoryMapping&#x27;)</code>
@@ -4087,12 +3760,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;IDeveloperRepository&gt;(&#x27;IDeveloperRepository&#x27;)</code>
@@ -4121,12 +3788,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(
   &#x27;DeveloperResourceName&#x27;,
 )</code>
@@ -4147,12 +3808,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(
@@ -4177,12 +3832,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;
   IBaseMapping&lt;Favorite&gt;
 &gt;(&#x27;IFavoriteRepositoryMapping&#x27;)</code>
@@ -4205,12 +3854,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;IFavoriteRepository&gt;(&#x27;IFavoriteRepository&#x27;)</code>
                     </td>
                 </tr>
@@ -4229,12 +3872,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(
@@ -4257,12 +3894,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(&#x27;GameApiUrl&#x27;)</code>
@@ -4291,12 +3922,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;
   IBaseMapping&lt;Game&gt;
 &gt;(&#x27;IGameRepositoryMapping&#x27;)</code>
@@ -4317,12 +3942,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;IGameRepository&gt;(
@@ -4353,12 +3972,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(
   &#x27;GameResourceName&#x27;,
 )</code>
@@ -4379,12 +3992,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(&#x27;GenreApiUrl&#x27;)</code>
@@ -4413,12 +4020,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;
   IBaseMapping&lt;Genre&gt;
 &gt;(&#x27;IGenreRepositoryMapping&#x27;)</code>
@@ -4439,12 +4040,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;IGenreRepository&gt;(
@@ -4475,12 +4070,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(
   &#x27;GenreResourceName&#x27;,
 )</code>
@@ -4501,12 +4090,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(&#x27;MediaApiUrl&#x27;)</code>
@@ -4535,12 +4118,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;
   IBaseMapping&lt;Media&gt;
 &gt;(&#x27;IMediaRepositoryMapping&#x27;)</code>
@@ -4561,12 +4138,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;IMediaRepository&gt;(
@@ -4597,12 +4168,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(
   &#x27;MediaResourceName&#x27;,
 )</code>
@@ -4623,12 +4188,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(
@@ -4659,12 +4218,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;
   IBaseMapping&lt;Platform&gt;
 &gt;(&#x27;IPlatformRepositoryMapping&#x27;)</code>
@@ -4685,12 +4238,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;IPlatformRepository&gt;(&#x27;IPlatformRepository&#x27;)</code>
@@ -4719,12 +4266,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(
   &#x27;PlatformResourceName&#x27;,
 )</code>
@@ -4745,12 +4286,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(
@@ -4781,12 +4316,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;
   IBaseMapping&lt;Publisher&gt;
 &gt;(&#x27;IPublisherRepositoryMapping&#x27;)</code>
@@ -4807,12 +4336,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;IPublisherRepository&gt;(&#x27;IPublisherRepository&#x27;)</code>
@@ -4841,12 +4364,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(
   &#x27;PublisherResourceName&#x27;,
 )</code>
@@ -4867,12 +4384,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(
@@ -4897,12 +4408,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(
   &#x27;PurchaseItemApiUrl&#x27;,
 )</code>
@@ -4923,12 +4428,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;
@@ -4953,12 +4452,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;IPurchaseItemRepository&gt;(&#x27;IPurchaseItemRepository&#x27;)</code>
                     </td>
                 </tr>
@@ -4977,12 +4470,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(
@@ -5007,12 +4494,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;
   IBaseMapping&lt;Purchase&gt;
 &gt;(&#x27;IPurchaseRepositoryMapping&#x27;)</code>
@@ -5035,12 +4516,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;IPurchaseRepository&gt;(&#x27;IPurchaseRepository&#x27;)</code>
                     </td>
                 </tr>
@@ -5059,12 +4534,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(
@@ -5089,12 +4558,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;IBaseMapping&lt;any&gt;&gt;(
   &#x27;IBaseRepositoryMapping&#x27;,
 )</code>
@@ -5115,12 +4578,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;IBaseRepository&lt;any&gt;&gt;(
@@ -5151,12 +4608,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(&#x27;ResourceName&#x27;)</code>
                     </td>
                 </tr>
@@ -5181,12 +4632,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(&#x27;UploadApiUrl&#x27;)</code>
@@ -5215,12 +4660,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(&#x27;UserApiUrl&#x27;)</code>
                     </td>
                 </tr>
@@ -5247,12 +4686,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;
   IBaseMapping&lt;User&gt;
 &gt;(&#x27;IUserRepositoryMapping&#x27;)</code>
@@ -5273,12 +4706,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;IUserRepository&gt;(
@@ -5307,12 +4734,6 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>new InjectionToken&lt;string&gt;(
@@ -5353,6 +4774,10 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
       routes,
       withRouterConfig({
         onSameUrlNavigation: &#x27;reload&#x27;,
+      }),
+      withInMemoryScrolling({
+        anchorScrolling: &#x27;enabled&#x27;,
+        scrollPositionRestoration: &#x27;enabled&#x27;,
       }),
     ),
     provideHttpClient(
@@ -5536,7 +4961,7 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/FactoryProvider" target="_blank" >FactoryProvider</a></code>
+                        <i>Type : </i>    <code>FactoryProvider</code>
 
                     </td>
                 </tr>
@@ -5601,7 +5026,7 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/FactoryProvider" target="_blank" >FactoryProvider</a></code>
+                        <i>Type : </i>    <code>FactoryProvider</code>
 
                     </td>
                 </tr>
@@ -5630,12 +5055,6 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>createBaseMappingFactory&lt;CartItem&gt;(
   CART_ITEM_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
@@ -5660,7 +5079,7 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/FactoryProvider" target="_blank" >FactoryProvider</a></code>
+                        <i>Type : </i>    <code>FactoryProvider</code>
 
                     </td>
                 </tr>
@@ -5693,12 +5112,6 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>createBaseMappingFactory&lt;ChatSession&gt;(
   CHAT_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
@@ -5723,7 +5136,7 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/FactoryProvider" target="_blank" >FactoryProvider</a></code>
+                        <i>Type : </i>    <code>FactoryProvider</code>
 
                     </td>
                 </tr>
@@ -5756,12 +5169,6 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>createBaseMappingFactory&lt;Developer&gt;(
   DEVELOPER_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
@@ -5786,7 +5193,7 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/FactoryProvider" target="_blank" >FactoryProvider</a></code>
+                        <i>Type : </i>    <code>FactoryProvider</code>
 
                     </td>
                 </tr>
@@ -5819,12 +5226,6 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>createBaseMappingFactory&lt;Favorite&gt;(
   FAVORITE_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
@@ -5849,7 +5250,7 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/FactoryProvider" target="_blank" >FactoryProvider</a></code>
+                        <i>Type : </i>    <code>FactoryProvider</code>
 
                     </td>
                 </tr>
@@ -5882,12 +5283,6 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>createBaseMappingFactory&lt;Game&gt;(
   GAME_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
@@ -5912,7 +5307,7 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/FactoryProvider" target="_blank" >FactoryProvider</a></code>
+                        <i>Type : </i>    <code>FactoryProvider</code>
 
                     </td>
                 </tr>
@@ -5945,12 +5340,6 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>createBaseMappingFactory&lt;Genre&gt;(
   GENRE_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
@@ -5975,7 +5364,7 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/FactoryProvider" target="_blank" >FactoryProvider</a></code>
+                        <i>Type : </i>    <code>FactoryProvider</code>
 
                     </td>
                 </tr>
@@ -6008,12 +5397,6 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>createBaseMappingFactory&lt;Media&gt;(
   MEDIA_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
@@ -6038,7 +5421,7 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/FactoryProvider" target="_blank" >FactoryProvider</a></code>
+                        <i>Type : </i>    <code>FactoryProvider</code>
 
                     </td>
                 </tr>
@@ -6100,7 +5483,7 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/FactoryProvider" target="_blank" >FactoryProvider</a></code>
+                        <i>Type : </i>    <code>FactoryProvider</code>
 
                     </td>
                 </tr>
@@ -6149,12 +5532,6 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>createBaseMappingFactory&lt;Platform&gt;(
   PLATFORM_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
@@ -6179,7 +5556,7 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/FactoryProvider" target="_blank" >FactoryProvider</a></code>
+                        <i>Type : </i>    <code>FactoryProvider</code>
 
                     </td>
                 </tr>
@@ -6212,12 +5589,6 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>createBaseMappingFactory&lt;Publisher&gt;(
   PUBLISHER_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
@@ -6242,7 +5613,7 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/FactoryProvider" target="_blank" >FactoryProvider</a></code>
+                        <i>Type : </i>    <code>FactoryProvider</code>
 
                     </td>
                 </tr>
@@ -6275,12 +5646,6 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>createBaseMappingFactory&lt;PurchaseItem&gt;(
     PURCHASE_ITEM_REPOSITORY_MAPPING_TOKEN,
     [BACKEND_TOKEN],
@@ -6305,7 +5670,7 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/FactoryProvider" target="_blank" >FactoryProvider</a></code>
+                        <i>Type : </i>    <code>FactoryProvider</code>
 
                     </td>
                 </tr>
@@ -6338,12 +5703,6 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>createBaseMappingFactory&lt;Purchase&gt;(
   PURCHASE_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
@@ -6368,7 +5727,7 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/FactoryProvider" target="_blank" >FactoryProvider</a></code>
+                        <i>Type : </i>    <code>FactoryProvider</code>
 
                     </td>
                 </tr>
@@ -6401,12 +5760,6 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>createBaseMappingFactory&lt;User&gt;(
   USER_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
@@ -6431,7 +5784,7 @@ una arquitectura limpia y desacoplada.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/FactoryProvider" target="_blank" >FactoryProvider</a></code>
+                        <i>Type : </i>    <code>FactoryProvider</code>
 
                     </td>
                 </tr>
@@ -6526,12 +5879,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>rateLimit({
   windowMs: 60 * 60 * 1000,
   max: 5,
@@ -6560,12 +5907,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>rateLimit({
@@ -6600,12 +5941,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>(context: BootstrapContext) &#x3D;&gt;
   bootstrapApplication(AppComponent, config, context)</code>
                     </td>
@@ -6628,12 +5963,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
@@ -6661,12 +5990,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
   name: z
     .string()
@@ -6680,6 +6003,15 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
   region: z.string().optional(),
   postalCode: z.string().optional(),
   country: z.string().optional(),
+  emailNotificationsEnabled: z.boolean().optional(),
+  notificationEmail: z.string().email(&#x27;Email inválido&#x27;).nullable().optional(),
+  emailNotificationLanguage: z.string().min(2).max(10).nullable().optional(),
+  emailNotificationFrequency: z.enum([&#x27;immediate&#x27;, &#x27;daily&#x27;, &#x27;weekly&#x27;]).optional(),
+  emailNotificationTopics: z.record(z.string(), z.boolean()).optional(),
+  emailNotificationPausedUntil: z.coerce.date().nullable().optional(),
+  emailQuietHoursStart: z.number().int().min(0).max(23).nullable().optional(),
+  emailQuietHoursEnd: z.number().int().min(0).max(23).nullable().optional(),
+  emailRecommendationIntervalDays: z.number().int().min(1).max(30).optional(),
 })</code>
                     </td>
                 </tr>
@@ -6700,12 +6032,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
   name: z
     .string()
@@ -6719,6 +6045,15 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
   region: z.string().optional(),
   postalCode: z.string().optional(),
   country: z.string().optional(),
+  emailNotificationsEnabled: z.boolean().optional(),
+  notificationEmail: z.string().email(&#x27;Email inválido&#x27;).nullable().optional(),
+  emailNotificationLanguage: z.string().min(2).max(10).nullable().optional(),
+  emailNotificationFrequency: z.enum([&#x27;immediate&#x27;, &#x27;daily&#x27;, &#x27;weekly&#x27;]).optional(),
+  emailNotificationTopics: z.record(z.string(), z.boolean()).optional(),
+  emailNotificationPausedUntil: z.coerce.date().nullable().optional(),
+  emailQuietHoursStart: z.number().int().min(0).max(23).nullable().optional(),
+  emailQuietHoursEnd: z.number().int().min(0).max(23).nullable().optional(),
+  emailRecommendationIntervalDays: z.number().int().min(1).max(30).optional(),
 })</code>
                     </td>
                 </tr>
@@ -6740,12 +6075,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>async (
@@ -6779,12 +6108,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>async (
@@ -6823,12 +6146,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>async (
   req: Request,
   res: Response,
@@ -6863,12 +6180,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>async (
@@ -6906,12 +6217,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
   sessionId: z.number().int().positive().optional(),
   message: z.string().min(1, &#x27;El mensaje no puede estar vacío&#x27;),
@@ -6933,12 +6238,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
@@ -6966,12 +6265,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
   cartItemIds: z
     .array(z.coerce.number().int().positive())
@@ -6996,12 +6289,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
   id: z.coerce.number().int().positive(&#x27;ID inválido&#x27;),
 })</code>
@@ -7022,12 +6309,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
@@ -7051,12 +6332,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
@@ -7084,12 +6359,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
   status: z.enum([&#x27;completed&#x27;, &#x27;refunded&#x27;]).optional(),
 })</code>
@@ -7115,12 +6384,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
   cartItemIds: z
     .array(z.number().int().positive())
@@ -7143,12 +6406,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
@@ -7191,12 +6448,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
@@ -7259,12 +6510,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>winston.format.combine(
   winston.format.timestamp({ format: &#x27;YYYY-MM-DD HH:mm:ss&#x27; }),
   winston.format.colorize({ all: true }),
@@ -7289,12 +6534,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>env.NODE_ENV &#x3D;&#x3D;&#x3D; &#x27;development&#x27;
@@ -7353,12 +6592,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>winston.createLogger({
   level,
   levels,
@@ -7413,12 +6646,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>mergeApplicationConfig(appConfig, serverConfig)</code>
                     </td>
                 </tr>
@@ -7470,12 +6697,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
   sessionId: z.string().min(1, &#x27;sessionId es requerido&#x27;),
 })</code>
@@ -7498,12 +6719,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
   locale: z.string().trim().min(2).max(20).optional(),
 })</code>
@@ -7524,12 +6739,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
@@ -7557,12 +6766,6 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
@@ -7698,12 +6901,6 @@ reintenta la petición un número limitado de veces usando backoff progresivo.</
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
   name: z.string().min(1, &#x27;El nombre es requerido&#x27;),
 })</code>
@@ -7724,12 +6921,6 @@ reintenta la petición un número limitado de veces usando backoff progresivo.</
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
@@ -7755,12 +6946,6 @@ reintenta la petición un número limitado de veces usando backoff progresivo.</
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
@@ -7807,12 +6992,6 @@ reintenta la petición un número limitado de veces usando backoff progresivo.</
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
   title: z.string().min(1).optional(),
   description: z.string().optional(),
@@ -7857,12 +7036,6 @@ reintenta la petición un número limitado de veces usando backoff progresivo.</
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
   name: z.string().min(1, &#x27;El nombre del género es requerido&#x27;),
 })</code>
@@ -7883,12 +7056,6 @@ reintenta la petición un número limitado de veces usando backoff progresivo.</
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
@@ -7916,12 +7083,6 @@ reintenta la petición un número limitado de veces usando backoff progresivo.</
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
   name: z.string().min(1, &#x27;El nombre de la plataforma es requerido&#x27;),
 })</code>
@@ -7942,12 +7103,6 @@ reintenta la petición un número limitado de veces usando backoff progresivo.</
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
@@ -7975,12 +7130,6 @@ reintenta la petición un número limitado de veces usando backoff progresivo.</
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
   name: z.string().min(1, &#x27;El nombre es requerido&#x27;),
 })</code>
@@ -8001,12 +7150,6 @@ reintenta la petición un número limitado de veces usando backoff progresivo.</
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
@@ -8220,12 +7363,6 @@ Si el usuario es administrador, lo redirige al panel de administración.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>join(process.cwd(), &#x27;.env&#x27;)</code>
                     </td>
                 </tr>
@@ -8246,12 +7383,6 @@ Si el usuario es administrador, lo redirige al panel de administración.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>[&#x27;PORT&#x27;, &#x27;BCRYPT_SALT_ROUNDS&#x27;] as const</code>
                     </td>
                 </tr>
@@ -8270,12 +7401,6 @@ Si el usuario es administrador, lo redirige al panel de administración.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>[
@@ -8384,12 +7509,6 @@ Si el usuario es administrador, lo redirige al panel de administración.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
   gameId: z.coerce
     .number()
@@ -8418,12 +7537,6 @@ Si el usuario es administrador, lo redirige al panel de administración.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
   code: z.string().min(10, &#x27;Code de GitHub inválido&#x27;),
 })</code>
@@ -8444,12 +7557,6 @@ Si el usuario es administrador, lo redirige al panel de administración.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
@@ -8474,15 +7581,79 @@ Si el usuario es administrador, lo redirige al panel de administración.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
+                        <i>Default value : </i><code>z.object({
+  email: z.string().email(&#x27;Email inválido&#x27;),
+  password: z.string().min(8, &#x27;La contraseña debe tener al menos 8 caracteres&#x27;),
+})</code>
                     </td>
                 </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="passwordRecoveryRequestSchema"></a>
+                    <span class="name">
+                        <span ><b>passwordRecoveryRequestSchema</b></span>
+                        <a href="#passwordRecoveryRequestSchema"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
   email: z.string().email(&#x27;Email inválido&#x27;),
-  password: z.string().min(8, &#x27;La contraseña debe tener al menos 8 caracteres&#x27;),
+  locale: z.enum([&#x27;es&#x27;, &#x27;en&#x27;, &#x27;fr&#x27;, &#x27;de&#x27;, &#x27;it&#x27;]).default(&#x27;es&#x27;),
+})</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="passwordRecoveryResetSchema"></a>
+                    <span class="name">
+                        <span ><b>passwordRecoveryResetSchema</b></span>
+                        <a href="#passwordRecoveryResetSchema"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>z.object({
+  email: z.string().email(&#x27;Email inválido&#x27;),
+  code: z.string().regex(/^\d{6}$/, &#x27;Código inválido&#x27;),
+  newPassword: z.string().min(8, &#x27;La contraseña debe tener al menos 8 caracteres&#x27;),
+})</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="passwordRecoveryVerifySchema"></a>
+                    <span class="name">
+                        <span ><b>passwordRecoveryVerifySchema</b></span>
+                        <a href="#passwordRecoveryVerifySchema"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>z.object({
+  email: z.string().email(&#x27;Email inválido&#x27;),
+  code: z.string().regex(/^\d{6}$/, &#x27;Código inválido&#x27;),
 })</code>
                     </td>
                 </tr>
@@ -8501,12 +7672,6 @@ Si el usuario es administrador, lo redirige al panel de administración.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
@@ -8546,13 +7711,158 @@ Si el usuario es administrador, lo redirige al panel de administración.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
+                        <i>Default value : </i><code>new OAuth2Client(env.GOOGLE_CLIENT_ID)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="MAX_PASSWORD_RECOVERY_ATTEMPTS"></a>
+                    <span class="name">
+                        <span ><b>MAX_PASSWORD_RECOVERY_ATTEMPTS</b></span>
+                        <a href="#MAX_PASSWORD_RECOVERY_ATTEMPTS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
 
                     </td>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>new OAuth2Client(env.GOOGLE_CLIENT_ID)</code>
+                        <i>Default value : </i><code>5</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="PASSWORD_RECOVERY_RESEND_INTERVAL_MS"></a>
+                    <span class="name">
+                        <span ><b>PASSWORD_RECOVERY_RESEND_INTERVAL_MS</b></span>
+                        <a href="#PASSWORD_RECOVERY_RESEND_INTERVAL_MS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>60 * 1000</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="PASSWORD_RECOVERY_TTL_MS"></a>
+                    <span class="name">
+                        <span ><b>PASSWORD_RECOVERY_TTL_MS</b></span>
+                        <a href="#PASSWORD_RECOVERY_TTL_MS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>15 * 60 * 1000</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="passwordRecoveryEmailContent"></a>
+                    <span class="name">
+                        <span ><b>passwordRecoveryEmailContent</b></span>
+                        <a href="#passwordRecoveryEmailContent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Record&lt;string, literal type&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  es: {
+    subject: &#x27;Recuperación de contraseña - Game Sage&#x27;,
+    title: &#x27;Código de recuperación&#x27;,
+    message: &#x27;Usa este código para recuperar tu contraseña:&#x27;,
+    expiration: &#x27;El código caduca en 15 minutos.&#x27;,
+  },
+  en: {
+    subject: &#x27;Password recovery - Game Sage&#x27;,
+    title: &#x27;Recovery code&#x27;,
+    message: &#x27;Use this code to recover your password:&#x27;,
+    expiration: &#x27;The code expires in 15 minutes.&#x27;,
+  },
+  fr: {
+    subject: &#x27;Récupération du mot de passe - Game Sage&#x27;,
+    title: &#x27;Code de récupération&#x27;,
+    message: &#x27;Utilisez ce code pour récupérer votre mot de passe :&#x27;,
+    expiration: &#x27;Le code expire dans 15 minutes.&#x27;,
+  },
+  de: {
+    subject: &#x27;Passwort-Wiederherstellung - Game Sage&#x27;,
+    title: &#x27;Wiederherstellungscode&#x27;,
+    message: &#x27;Verwende diesen Code, um dein Passwort wiederherzustellen:&#x27;,
+    expiration: &#x27;Der Code läuft in 15 Minuten ab.&#x27;,
+  },
+  it: {
+    subject: &#x27;Recupero password - Game Sage&#x27;,
+    title: &#x27;Codice di recupero&#x27;,
+    message: &#x27;Usa questo codice per recuperare la tua password:&#x27;,
+    expiration: &#x27;Il codice scade tra 15 minuti.&#x27;,
+  },
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="passwordRecoveryStore"></a>
+                    <span class="name">
+                        <span ><b>passwordRecoveryStore</b></span>
+                        <a href="#passwordRecoveryStore"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Map&lt;
+  string,
+  {
+    codeHash: string;
+    expiresAt: number;
+    attempts: number;
+    nextAllowedAt: number;
+  }
+&gt;()</code>
                     </td>
                 </tr>
 
@@ -8573,12 +7883,6 @@ Si el usuario es administrador, lo redirige al panel de administración.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>trigger(&#x27;headerRevealAnimation&#x27;, [
@@ -8630,12 +7934,6 @@ Desplaza el header desde arriba hacia su posición original.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>trigger(&#x27;leaveAnimation&#x27;, [
 
   transition(
@@ -8682,12 +7980,6 @@ Desplaza el header desde arriba hacia su posición original.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>15 * 60 * 1000</code>
@@ -8739,12 +8031,6 @@ Desplaza el header desde arriba hacia su posición original.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>console.warn</code>
                     </td>
                 </tr>
@@ -8768,12 +8054,6 @@ Desplaza el header desde arriba hacia su posición original.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new PrismaClient()</code>
                     </td>
                 </tr>
@@ -8795,12 +8075,6 @@ Desplaza el header desde arriba hacia su posición original.</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>trigger(&#x27;revealAnimation&#x27;, [
@@ -8852,12 +8126,6 @@ Aplica una transición de opacidad y desplazamiento vertical (Y).</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>Router()</code>
                     </td>
                 </tr>
@@ -8879,12 +8147,6 @@ Aplica una transición de opacidad y desplazamiento vertical (Y).</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>Router()</code>
@@ -8910,12 +8172,6 @@ Aplica una transición de opacidad y desplazamiento vertical (Y).</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>Router()</code>
                     </td>
                 </tr>
@@ -8937,12 +8193,6 @@ Aplica una transición de opacidad y desplazamiento vertical (Y).</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>Router()</code>
@@ -8968,12 +8218,6 @@ Aplica una transición de opacidad y desplazamiento vertical (Y).</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>Router()</code>
                     </td>
                 </tr>
@@ -8995,12 +8239,6 @@ Aplica una transición de opacidad y desplazamiento vertical (Y).</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>Router()</code>
@@ -9026,12 +8264,6 @@ Aplica una transición de opacidad y desplazamiento vertical (Y).</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>Router()</code>
                     </td>
                 </tr>
@@ -9055,12 +8287,6 @@ Aplica una transición de opacidad y desplazamiento vertical (Y).</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>Router()</code>
                     </td>
                 </tr>
@@ -9079,12 +8305,6 @@ Aplica una transición de opacidad y desplazamiento vertical (Y).</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>multer({
@@ -9133,12 +8353,6 @@ Aplica una transición de opacidad y desplazamiento vertical (Y).</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>Router()</code>
                     </td>
                 </tr>
@@ -9160,12 +8374,6 @@ Aplica una transición de opacidad y desplazamiento vertical (Y).</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>Router()</code>
@@ -9191,12 +8399,6 @@ Aplica una transición de opacidad y desplazamiento vertical (Y).</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>Router()</code>
                     </td>
                 </tr>
@@ -9218,12 +8420,6 @@ Aplica una transición de opacidad y desplazamiento vertical (Y).</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>Router()</code>
@@ -9249,7 +8445,7 @@ Aplica una transición de opacidad y desplazamiento vertical (Y).</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/router/Routes" target="_blank" >Routes</a></code>
+                        <i>Type : </i>    <code>Routes</code>
 
                     </td>
                 </tr>
@@ -9374,6 +8570,29 @@ Aplica una transición de opacidad y desplazamiento vertical (Y).</p>
         </tbody>
     </table>
 </section>
+    <h3>src/backend/modules/notifications/notifications.service.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="schedulerStarted"></a>
+                    <span class="name">
+                        <span ><b>schedulerStarted</b></span>
+                        <a href="#schedulerStarted"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
     <h3>src/backend/modules/chat/chat.service.ts</h3>
     <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
@@ -9387,12 +8606,6 @@ Aplica una transición de opacidad y desplazamiento vertical (Y).</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
@@ -9422,12 +8635,6 @@ Aplica una transición de opacidad y desplazamiento vertical (Y).</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>app.listen(env.PORT, () &#x3D;&gt; {
@@ -9491,12 +8698,6 @@ Aplica una transición de opacidad y desplazamiento vertical (Y).</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>trigger(&#x27;slideMenuAnimation&#x27;, [
 
   transition(&#x27;:enter&#x27;, [
@@ -9542,12 +8743,6 @@ Desplaza el menú desde la izquierda (-100% a 0).</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>new Stripe(env.STRIPE_SECRET_KEY)</code>
                     </td>
                 </tr>
@@ -9569,12 +8764,6 @@ Desplaza el menú desde la izquierda (-100% a 0).</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
@@ -9607,12 +8796,6 @@ Desplaza el menú desde la izquierda (-100% a 0).</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>z.object({
   type: z.enum([&#x27;user&#x27;, &#x27;game&#x27;]),
   id: z
@@ -9643,12 +8826,6 @@ Desplaza el menú desde la izquierda (-100% a 0).</p>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>unknown</code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>(schema: ZodSchema&lt;any&gt;) &#x3D;&gt;

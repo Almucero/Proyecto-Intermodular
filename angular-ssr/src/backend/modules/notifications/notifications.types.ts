@@ -1,5 +1,11 @@
+/**
+ * Idiomas soportados por el motor de notificaciones por correo.
+ */
 export type Locale = 'es' | 'en' | 'fr' | 'de' | 'it';
 
+/**
+ * Claves de categorías/tópicos configurables en preferencias de notificación.
+ */
 export type TopicKey =
   | 'periodicRecommendations'
   | 'cartReminders'
@@ -10,6 +16,12 @@ export type TopicKey =
   | 'purchaseStatus'
   | 'inactiveAccount';
 
+/**
+ * Proyección mínima de usuario necesaria para resolver reglas de envío.
+ *
+ * Contiene preferencias de idioma, frecuencia, pausa temporal, quiet hours y
+ * metadatos operativos para deduplicación/scheduler.
+ */
 export type UserWithNotifications = {
   id: number;
   email: string;
@@ -27,6 +39,9 @@ export type UserWithNotifications = {
   lastSeenAt: Date;
 };
 
+/**
+ * Estructura de adjunto compatible con `nodemailer`.
+ */
 export type MailAttachment = {
   filename: string;
   content: Buffer | string;

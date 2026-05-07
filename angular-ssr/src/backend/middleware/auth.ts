@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { env } from '../config/env';
-import { findUserAuthInfo, touchUserLastSeen } from '../modules/users/users.service';
+import { findUserAuthInfo, touchUserLastAppLocale, touchUserLastSeen } from '../modules/users/users.service';
 import { applySecurityHeaders, applyNoCacheHeaders } from '../../security-headers';
 
 declare global {
@@ -69,6 +69,15 @@ export function auth(req: Request, res: Response, next: NextFunction) {
         isAdmin: payload.isAdmin ?? false,
       };
       void touchUserLastSeen(payload.sub);
+      const cookieHeader = req.headers.cookie || '';
+      const cookieLocaleMatch = cookieHeader.match(/(?:^|;\s*)app-language=([^;]+)/i);
+      const cookieLocale = cookieLocaleMatch?.[1] ? decodeURIComponent(cookieLocaleMatch[1]) : '';
+      const acceptLang = req.headers['accept-language'];
+      const langHeader = Array.isArray(acceptLang) ? acceptLang[0] : acceptLang;
+      const effectiveLocale = cookieLocale || (typeof langHeader === 'string' ? (langHeader.split(',')[0] || langHeader) : '');
+      if (effectiveLocale.trim()) {
+        void touchUserLastAppLocale(payload.sub, effectiveLocale);
+      }
       next();
     })
     .catch(() => {

@@ -420,7 +420,10 @@ La aplicación incorpora un sistema de notificaciones por email en backend, cent
 
 - Soporte de idioma en `es`, `en`, `fr`, `de`, `it` para asunto, títulos y cuerpos.
 - Variantes múltiples por tipo de correo para evitar textos repetitivos.
-- Plantillas HTML uniformes y versión texto.
+- Plantillas HTML uniformes, responsive y compatibles con clientes de correo móviles.
+- Estructura común en todos los correos: saludo personalizado (`Hola/Hi... <nombre>`), bloque de contenido y footer fijo con enlace a ajustes.
+- El enlace de gestión en el footer apunta a `https://gamingsage.vercel.app/settings`.
+- Resolución robusta de imágenes: si la URL de media es relativa, se convierte a absoluta usando variables de entorno de app.
 - Respeto de horas silenciosas y pausas de notificaciones.
 
 ### Factura/justificante adjunto
@@ -443,6 +446,8 @@ En compra y reembolso se adjunta PDF (`application/pdf`) con referencia, fecha, 
 - `SMTP_USER`
 - `SMTP_PASS`
 - `SMTP_FROM` (opcional, por defecto `no-reply@gamesage.local`)
+- `SMTP_FROM_NAME` (opcional, por defecto `Game Sage`; nombre visual del remitente)
+- `PUBLIC_APP_URL` o `FRONTEND_URL` o `APP_URL` (opcionales; recomendados para construir URLs absolutas de imagen en correos)
 
 Si no se define SMTP, el sistema omite el envío sin romper la ejecución del backend.
 

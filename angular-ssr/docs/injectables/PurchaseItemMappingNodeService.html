@@ -237,8 +237,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="39"
-                                    class="link-to-prism">src/app/core/repositories/impl/purchase-item-mapping-node.service.ts:39</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="41"
+                                    class="link-to-prism">src/app/core/repositories/impl/purchase-item-mapping-node.service.ts:41</a></div>
                         </td>
                     </tr>
 
@@ -373,8 +373,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="47"
-                                    class="link-to-prism">src/app/core/repositories/impl/purchase-item-mapping-node.service.ts:47</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="49"
+                                    class="link-to-prism">src/app/core/repositories/impl/purchase-item-mapping-node.service.ts:49</a></div>
                         </td>
                     </tr>
 
@@ -509,8 +509,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="43"
-                                    class="link-to-prism">src/app/core/repositories/impl/purchase-item-mapping-node.service.ts:43</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="45"
+                                    class="link-to-prism">src/app/core/repositories/impl/purchase-item-mapping-node.service.ts:45</a></div>
                         </td>
                     </tr>
 
@@ -576,8 +576,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="52"
-                                    class="link-to-prism">src/app/core/repositories/impl/purchase-item-mapping-node.service.ts:52</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="54"
+                                    class="link-to-prism">src/app/core/repositories/impl/purchase-item-mapping-node.service.ts:54</a></div>
                         </td>
                     </tr>
 
@@ -645,8 +645,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="63"
-                                    class="link-to-prism">src/app/core/repositories/impl/purchase-item-mapping-node.service.ts:63</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="65"
+                                    class="link-to-prism">src/app/core/repositories/impl/purchase-item-mapping-node.service.ts:65</a></div>
                         </td>
                     </tr>
 
@@ -733,8 +733,10 @@ export class PurchaseItemMappingNodeService implements IBaseMapping&lt;PurchaseI
         title: data.title,
         price: data.price,
         rating: data.rating,
+        key: data.key ?? null,
       },
       platform: data.platform,
+      key: data.key ?? data.game?.key ?? null,
     };
   }
 
