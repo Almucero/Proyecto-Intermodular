@@ -1,3 +1,4 @@
+/** Referencia al `console.warn` original. */
 const origWarn = console.warn;
 console.warn = (...args: unknown[]) => {
   const s = typeof args[0] === 'string' ? args[0] : String(args[0] ?? '');

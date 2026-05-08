@@ -22,24 +22,31 @@ import { IMediaRepository } from './interfaces/media-repository.interface';
 
 /** Token para el nombre del recurso genérico. */
 export const RESOURCE_NAME_TOKEN = new InjectionToken<string>('ResourceName');
+/** Token para nombre de recurso de desarrolladoras. */
 export const DEVELOPER_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
   'DeveloperResourceName',
 );
+/** Token para nombre de recurso de media. */
 export const MEDIA_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
   'MediaResourceName',
 );
+/** Token para nombre de recurso de juegos. */
 export const GAME_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
   'GameResourceName',
 );
+/** Token para nombre de recurso de géneros. */
 export const GENRE_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
   'GenreResourceName',
 );
+/** Token para nombre de recurso de plataformas. */
 export const PLATFORM_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
   'PlatformResourceName',
 );
+/** Token para nombre de recurso de publishers. */
 export const PUBLISHER_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
   'PublisherResourceName',
 );
+/** Token para nombre de recurso de usuarios. */
 export const USER_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
   'UserResourceName',
 );
@@ -115,48 +122,63 @@ export const UPLOAD_API_URL_TOKEN = new InjectionToken<string>('UploadApiUrl');
 /** Token para la URL de la API de chat. */
 export const CHAT_API_URL_TOKEN = new InjectionToken<string>('ChatApiUrl');
 
+/** Token para mapeo genérico base de entidades. */
 export const REPOSITORY_MAPPING_TOKEN = new InjectionToken<IBaseMapping<any>>(
   'IBaseRepositoryMapping',
 );
+/** Token para mapeo de desarrolladoras. */
 export const DEVELOPER_REPOSITORY_MAPPING_TOKEN = new InjectionToken<
   IBaseMapping<Developer>
 >('IDeveloperRepositoryMapping');
+/** Token para mapeo de media. */
 export const MEDIA_REPOSITORY_MAPPING_TOKEN = new InjectionToken<
   IBaseMapping<Media>
 >('IMediaRepositoryMapping');
+/** Token para mapeo de juegos. */
 export const GAME_REPOSITORY_MAPPING_TOKEN = new InjectionToken<
   IBaseMapping<Game>
 >('IGameRepositoryMapping');
+/** Token para mapeo de géneros. */
 export const GENRE_REPOSITORY_MAPPING_TOKEN = new InjectionToken<
   IBaseMapping<Genre>
 >('IGenreRepositoryMapping');
+/** Token para mapeo de plataformas. */
 export const PLATFORM_REPOSITORY_MAPPING_TOKEN = new InjectionToken<
   IBaseMapping<Platform>
 >('IPlatformRepositoryMapping');
+/** Token para mapeo de publishers. */
 export const PUBLISHER_REPOSITORY_MAPPING_TOKEN = new InjectionToken<
   IBaseMapping<Publisher>
 >('IPublisherRepositoryMapping');
+/** Token para mapeo de usuarios. */
 export const USER_REPOSITORY_MAPPING_TOKEN = new InjectionToken<
   IBaseMapping<User>
 >('IUserRepositoryMapping');
 
+/** Token del servicio de autenticación de dominio. */
 export const AUTH_TOKEN = new InjectionToken<IAuthentication>(
   'IAuthentication',
 );
+/** Token del mapeador de autenticación. */
 export const AUTH_MAPPING_TOKEN = new InjectionToken<IAuthMapping>(
   'IAuthMapping',
 );
+/** Token que define backend activo (http/local-storage). */
 export const BACKEND_TOKEN = new InjectionToken<string>('Backend');
 
+/** Token de nombre de recurso de carrito. */
 export const CART_ITEM_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
   'CartItemResourceName',
 );
+/** Token de nombre de recurso de compras. */
 export const PURCHASE_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
   'PurchaseResourceName',
 );
+/** Token de nombre de recurso de líneas de compra. */
 export const PURCHASE_ITEM_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
   'PurchaseItemResourceName',
 );
+/** Token de nombre de recurso de favoritos. */
 export const FAVORITE_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
   'FavoriteResourceName',
 );
@@ -166,24 +188,32 @@ import { IPurchaseRepository } from './interfaces/purchase-repository.interface'
 import { IPurchaseItemRepository } from './interfaces/purchase-item-repository.interface';
 import { IFavoriteRepository } from './interfaces/favorite-repository.interface';
 
+/** Token del repositorio de ítems de carrito. */
 export const CART_ITEM_REPOSITORY_TOKEN =
   new InjectionToken<ICartItemRepository>('ICartItemRepository');
+/** Token del repositorio de compras. */
 export const PURCHASE_REPOSITORY_TOKEN =
   new InjectionToken<IPurchaseRepository>('IPurchaseRepository');
+/** Token del repositorio de líneas de compra. */
 export const PURCHASE_ITEM_REPOSITORY_TOKEN =
   new InjectionToken<IPurchaseItemRepository>('IPurchaseItemRepository');
+/** Token del repositorio de favoritos. */
 export const FAVORITE_REPOSITORY_TOKEN =
   new InjectionToken<IFavoriteRepository>('IFavoriteRepository');
 
+/** Token de URL API de carrito. */
 export const CART_ITEM_API_URL_TOKEN = new InjectionToken<string>(
   'CartItemApiUrl',
 );
+/** Token de URL API de compras. */
 export const PURCHASE_API_URL_TOKEN = new InjectionToken<string>(
   'PurchaseApiUrl',
 );
+/** Token de URL API de líneas de compra. */
 export const PURCHASE_ITEM_API_URL_TOKEN = new InjectionToken<string>(
   'PurchaseItemApiUrl',
 );
+/** Token de URL API de favoritos. */
 export const FAVORITE_API_URL_TOKEN = new InjectionToken<string>(
   'FavoriteApiUrl',
 );
@@ -194,27 +224,34 @@ import { PurchaseItem } from '../models/purchase-item.model';
 import { Favorite } from '../models/favorite.model';
 import { ChatSession } from '../models/chat.model';
 
+/** Token de mapeo para ítems de carrito. */
 export const CART_ITEM_REPOSITORY_MAPPING_TOKEN = new InjectionToken<
   IBaseMapping<CartItem>
 >('ICartItemRepositoryMapping');
+/** Token de mapeo para compras. */
 export const PURCHASE_REPOSITORY_MAPPING_TOKEN = new InjectionToken<
   IBaseMapping<Purchase>
 >('IPurchaseRepositoryMapping');
+/** Token de mapeo para líneas de compra. */
 export const PURCHASE_ITEM_REPOSITORY_MAPPING_TOKEN = new InjectionToken<
   IBaseMapping<PurchaseItem>
 >('IPurchaseItemRepositoryMapping');
+/** Token de mapeo para favoritos. */
 export const FAVORITE_REPOSITORY_MAPPING_TOKEN = new InjectionToken<
   IBaseMapping<Favorite>
 >('IFavoriteRepositoryMapping');
+/** Token de mapeo para chat/sesiones. */
 export const CHAT_REPOSITORY_MAPPING_TOKEN = new InjectionToken<
   IBaseMapping<ChatSession>
 >('IChatRepositoryMapping');
 
 import { IChatRepository } from './interfaces/chat-repository.interface';
 
+/** Token del nombre de recurso para sesiones de chat. */
 export const CHAT_RESOURCE_NAME_TOKEN = new InjectionToken<string>(
   'ChatResourceName',
 );
+/** Token del repositorio de chat. */
 export const CHAT_REPOSITORY_TOKEN = new InjectionToken<IChatRepository>(
   'IChatRepository',
 );

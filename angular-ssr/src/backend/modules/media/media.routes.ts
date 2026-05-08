@@ -9,8 +9,10 @@ import {
 } from './media.controller';
 import { auth } from '../../middleware/auth';
 
+/** Router de endpoints de media. */
 const router = Router();
 
+/** Middleware multer para subida de imágenes en memoria. */
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {

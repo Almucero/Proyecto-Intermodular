@@ -14,8 +14,9 @@ import { IGameService } from '../interfaces/game-service.interface';
 })
 export class GameService extends BaseService<Game> implements IGameService {
   /**
-   * @param repository Repositorio de videojuegos inyectado.
-   */
+       * Documentado.
+       * @param repository Repositorio de videojuegos inyectado.
+       */
   constructor(
     @Inject(GAME_REPOSITORY_TOKEN) repository: IBaseRepository<Game>,
   ) {

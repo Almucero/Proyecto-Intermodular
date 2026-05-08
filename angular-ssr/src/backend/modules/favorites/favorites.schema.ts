@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+/** Esquema para añadir un juego a favoritos. */
 export const addToFavoritesSchema = z.object({
   gameId: z.number().int().positive('gameId debe ser un número positivo'),
   platformId: z
@@ -8,8 +9,10 @@ export const addToFavoritesSchema = z.object({
     .positive('platformId debe ser un número positivo'),
 });
 
+/** Tipo inferido del payload para añadir a favoritos. */
 export type AddToFavoritesInput = z.infer<typeof addToFavoritesSchema>;
 
+/** Esquema de respuesta serializada de favorito. */
 export const favoriteResponseSchema = z.object({
   id: z.number(),
   userId: z.number(),
@@ -31,4 +34,5 @@ export const favoriteResponseSchema = z.object({
     .optional(),
 });
 
+/** Tipo inferido de respuesta de favorito. */
 export type FavoriteResponse = z.infer<typeof favoriteResponseSchema>;

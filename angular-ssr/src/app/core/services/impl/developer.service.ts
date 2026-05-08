@@ -17,8 +17,9 @@ export class DeveloperService
   implements IDeveloperService
 {
   /**
-   * @param repository Repositorio de desarrolladoras inyectado.
-   */
+       * Documentado.
+       * @param repository Repositorio de desarrolladoras inyectado.
+       */
   constructor(
     @Inject(DEVELOPER_REPOSITORY_TOKEN) repository: IBaseRepository<Developer>,
   ) {

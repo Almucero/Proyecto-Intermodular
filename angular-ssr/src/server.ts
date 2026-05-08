@@ -10,6 +10,7 @@ import { join } from 'node:path';
 import { existsSync, readFileSync } from 'node:fs';
 import { applySecurityHeaders, applyNoCacheHeaders } from './security-headers';
 
+/** Detecta errores típicos de setup para mostrarlos en formato corto. */
 const isSetupError = (err: unknown): boolean => {
   const msg = err instanceof Error ? err.message : String(err);
   return (
@@ -21,6 +22,7 @@ const isSetupError = (err: unknown): boolean => {
   );
 };
 
+/** Devuelve un mensaje amigable de setup cuando aplica. */
 const getSetupMessage = (err: unknown): string | null => {
   if (!isSetupError(err)) return null;
   const msg = err instanceof Error ? err.message : String(err);
@@ -30,6 +32,7 @@ const getSetupMessage = (err: unknown): string | null => {
   return msg;
 };
 
+/** Selecciona bundle SEO traducido por idioma. */
 const getSeoTranslationForLang = (
   lang: string,
   seoTranslations: Record<
@@ -44,6 +47,7 @@ const getSeoTranslationForLang = (
   return seoTranslations.es;
 };
 
+/** Maneja errores de arranque antes de relanzarlos. */
 const handleSetupError = (err: unknown): void => {
   const short = getSetupMessage(err);
   if (short) {
@@ -60,12 +64,18 @@ process.on('unhandledRejection', (reason) => {
   handleSetupError(reason);
 });
 
+/** Directorio del build browser SSR. */
 const browserDistFolder = join(import.meta.dirname, '../browser');
+/** Directorio de docs copiado dentro de browser (si existe). */
 const docsDistFolder = join(browserDistFolder, 'docs');
+/** Directorio fallback de docs en raíz del repo. */
 const docsFallbackFolder = join(import.meta.dirname, '../../../docs');
+/** Directorio efectivo de docs a servir. */
 const docsFolder = existsSync(docsDistFolder) ? docsDistFolder : docsFallbackFolder;
+/** Indica si el servidor está en modo producción. */
 const isProduction = process.env['NODE_ENV'] === 'production';
 
+/** Aplicación Express que sirve SSR, docs y API embebida. */
 const app = express();
 app.disable('x-powered-by');
 app.use((req, res, next) => {
@@ -101,12 +111,15 @@ if (process.env['VERCEL']) {
     next();
   });
 }
+/** Motor SSR de Angular para procesar requests de frontend. */
 const angularApp = new AngularNodeAppEngine({
   allowedHosts: isProduction ? undefined : ['localhost', '127.0.0.1'],
 });
 
+/** Expresión para bloquear rutas sensibles expuestas por escaneos. */
 const SENSITIVE_PATH_SEGMENTS = /\.(env|git|htaccess|zap\d+)|\.(idea|svn|hg|bzr|DS_Store)|server\.key|privatekey\.key|id_rsa|id_dsa|\.ssh\/|config\/database|WebServers\.xml|actuator\/|\.php|composer\.(json|lock)|sftp-config\.json|WS_FTP\.ini|filezilla\.xml|vim_settings\.xml|phpinfo|CHANGELOG\.txt|server-status|server-info/i;
 
+/** Rechaza rutas numéricas/sensibles no pertenecientes a API. */
 const rejectSensitiveOrNumericOnlyPath = (req: express.Request, res: express.Response, next: express.NextFunction): void => {
   if (req.url?.startsWith('/api')) return next();
   const pathname = (req.url ?? '').replace(/\?.*$/, '');
@@ -122,6 +135,7 @@ const rejectSensitiveOrNumericOnlyPath = (req: express.Request, res: express.Res
   next();
 };
 
+/** Intercepta HTML SSR para inyectar idioma y metas SEO localizadas. */
 const processAngularResponse = async (req: express.Request, res: express.Response, next: express.NextFunction, response: Response | null) => {
   if (!response) {
     return next();
@@ -197,11 +211,13 @@ const processAngularResponse = async (req: express.Request, res: express.Respons
   }
 };
 
+/** Importa y monta la API backend dentro del servidor SSR. */
 const mountBackend = () =>
   import('./backend/app').then(({ default: backendApp }) => {
     app.use(backendApp);
   });
 
+/** Configura middlewares de estáticos, docs y fallback Angular SSR. */
 const setupAngularMiddleware = () => {
   app.use((req, res, next) => {
     applySecurityHeaders(req, res, next);
@@ -268,6 +284,7 @@ const setupAngularMiddleware = () => {
   });
 };
 
+/** Promesa de inicialización del backend en runtime no-main module. */
 const backendReady =
   process.env['SSR_DISABLE_BACKEND'] || isMainModule(import.meta.url)
     ? Promise.resolve()
@@ -291,6 +308,7 @@ if (process.env['SSR_DISABLE_BACKEND']) {
   setupAngularMiddleware();
 }
 
+/** Request handler exportado para runtimes serverless/edge. */
 export const reqHandler = createNodeRequestHandler(app);
 export { backendReady };
 

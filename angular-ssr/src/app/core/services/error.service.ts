@@ -17,11 +17,14 @@ import { AppError, ErrorType } from '../models/app-error';
  */
 @Injectable({ providedIn: 'root' })
 export class ErrorService {
-  private currentError = signal<AppError | null>(null);
+  /** Propiedad no documentada. */
+    private currentError = signal<AppError | null>(null);
 
-  error = this.currentError.asReadonly();
+  /** Propiedad no documentada. */
+    error = this.currentError.asReadonly();
 
-  private errorMap = new Map<string, string>([
+  /** Propiedad no documentada. */
+    private errorMap = new Map<string, string>([
     ['ERR_NETWORK', 'Error de conexión'],
     ['ERR_AUTH_INVALID', 'Credenciales incorrectas'],
     ['ERR_AUTH_EXPIRED', 'Sesión expirada'],

@@ -1,5 +1,13 @@
 import { prisma } from '../../config/db';
 
+/**
+ * Añade un favorito para combinación usuario-juego-plataforma.
+ *
+ * @param userId Identificador del usuario.
+ * @param gameId Identificador del juego.
+ * @param platformId Identificador de plataforma.
+ * @returns Favorito creado.
+ */
 export async function addToFavorites(
   userId: number,
   gameId: number,
@@ -49,6 +57,14 @@ export async function addToFavorites(
   });
 }
 
+/**
+ * Elimina un favorito existente por clave compuesta.
+ *
+ * @param userId Identificador del usuario.
+ * @param gameId Identificador del juego.
+ * @param platformId Identificador de plataforma.
+ * @returns Mensaje de confirmación.
+ */
 export async function removeFromFavorites(
   userId: number,
   gameId: number,
@@ -62,6 +78,12 @@ export async function removeFromFavorites(
   return { message: 'Juego removido de favoritos' };
 }
 
+/**
+ * Lista favoritos de un usuario con datos enriquecidos.
+ *
+ * @param userId Identificador del usuario.
+ * @returns Favoritos normalizados para frontend.
+ */
 export async function getUserFavorites(userId: number) {
   const favorites = await prisma.favorite.findMany({
     where: { userId },
@@ -108,6 +130,14 @@ export async function getUserFavorites(userId: number) {
   }));
 }
 
+/**
+ * Comprueba si un juego está en favoritos para una plataforma.
+ *
+ * @param userId Identificador del usuario.
+ * @param gameId Identificador del juego.
+ * @param platformId Identificador de plataforma.
+ * @returns `true` si existe favorito.
+ */
 export async function isFavorite(
   userId: number,
   gameId: number,

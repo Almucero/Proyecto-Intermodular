@@ -19,27 +19,33 @@ import { isPlatformBrowser } from '@angular/common';
   standalone: true,
 })
 export class HighlightDirective implements OnInit {
-  private _appHighlight: string = 'yellow';
+  /** Propiedad no documentada. */
+    private _appHighlight: string = 'yellow';
 
   /** Color de resaltado al entrar el cursor. Por defecto es amarillo. */
   @Input() set appHighlight(color: string) {
     if (color) this._appHighlight = color;
   }
 
-  get appHighlight(): string {
+  /** Accessor no documentado. */
+    get appHighlight(): string {
     return this._appHighlight;
   }
 
   /** Color de fondo por defecto cuando no hay resaltado. */
   @Input() highlightDefault: string = '';
 
-  private originalBackground: string = '';
+  /** Propiedad no documentada. */
+    private originalBackground: string = '';
 
   /**
-   * @param el Referencia al elemento.
-   * @param renderer Utilidad para manipular el DOM de forma segura.
-   * @param platformId Identificador de plataforma.
-   */
+       * Documentado.
+       * @param el Referencia al elemento.
+       *
+       * @param renderer Utilidad para manipular el DOM de forma segura.
+       *
+       * @param platformId Identificador de plataforma.
+       */
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,

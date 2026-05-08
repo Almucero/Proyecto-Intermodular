@@ -16,7 +16,10 @@ export class UiStateService {
     this.isMenuOpen.update((v) => !v);
   }
 
-  /** Establece explícitamente el estado del menú. */
+  /**
+     * Establece explícitamente el estado del menú.
+     * @param isOpen Parámetro no documentado.
+     */
   setMenuOpen(isOpen: boolean) {
     this.isMenuOpen.set(isOpen);
   }

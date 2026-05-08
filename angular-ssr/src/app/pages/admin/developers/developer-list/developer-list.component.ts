@@ -24,8 +24,10 @@ import { DeveloperFormComponent } from '../developer-form/developer-form.compone
   styleUrl: './developer-list.component.scss',
 })
 export class DeveloperListComponent implements OnInit {
-  private developerService = inject(DeveloperService);
-  private readonly MIN_SKELETON_MS = 550;
+  /** Propiedad no documentada. */
+    private developerService = inject(DeveloperService);
+  /** Propiedad no documentada. */
+    private readonly MIN_SKELETON_MS = 550;
 
   /** Referencia al contenedor con scroll para efectos visuales de sombras. */
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
@@ -115,7 +117,10 @@ export class DeveloperListComponent implements OnInit {
     this.showModal = true;
   }
 
-  /** Abre el modal para editar un desarrollador existente. */
+  /**
+     * Abre el modal para editar un desarrollador existente.
+     * @param id Parámetro no documentado.
+     */
   openEditModal(id: number) {
     this.selectedDeveloperId = id;
     this.showModal = true;
@@ -133,7 +138,10 @@ export class DeveloperListComponent implements OnInit {
     this.loadDevelopers();
   }
 
-  /** Abre el modal de confirmación para eliminar un desarrollador. */
+  /**
+     * Abre el modal de confirmación para eliminar un desarrollador.
+     * @param id Parámetro no documentado.
+     */
   openDeleteModal(id: number) {
     this.developerToDeleteId = id;
     this.showDeleteModal = true;

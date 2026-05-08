@@ -3,14 +3,24 @@ import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { take } from 'rxjs/operators';
 
+/** Servicio para construir y actualizar el título del documento por ruta/idioma. */
 @Injectable({
   providedIn: 'root',
 })
 export class PageTitleService {
+  /** Marca fija prefijada en todos los títulos de pestaña. */
   private readonly brand = 'GameSage';
+  /** Ruta actual normalizada usada para resolver la traducción del título. */
   private currentUrl = '/';
+  /** Título de producto en detalle, cuando aplica. */
   private currentProductTitle: string | null = null;
 
+  /**
+       * Documentado.
+       * @param title Servicio nativo para actualizar document.title.
+       *
+       * @param translateService Servicio i18n para resolver textos de título.
+       */
   constructor(
     private title: Title,
     private translateService: TranslateService,
@@ -20,6 +30,11 @@ export class PageTitleService {
     });
   }
 
+  /**
+   * Actualiza el estado de ruta para recalcular el título.
+   * @param url URL navegada actual.
+   * @returns No devuelve valor.
+   */
   updateFromRoute(url: string): void {
     this.currentUrl = this.normalizeUrl(url);
     if (!this.isProductRoute(this.currentUrl)) {
@@ -28,15 +43,25 @@ export class PageTitleService {
     this.apply();
   }
 
+  /**
+   * Define el título dinámico de producto en vistas de detalle.
+   * @param productTitle Nombre del producto.
+   * @returns No devuelve valor.
+   */
   setProductTitle(productTitle: string): void {
     this.currentProductTitle = productTitle?.trim() || null;
     this.apply();
   }
 
+  /**
+   * Fuerza una recomputación del título actual.
+   * @returns No devuelve valor.
+   */
   refresh(): void {
     this.apply();
   }
 
+  /** Aplica de forma síncrona/asíncrona el título final del documento. */
   private apply(): void {
     const key = this.resolveRouteTitleKey(this.currentUrl);
     if (this.isProductRoute(this.currentUrl) && this.currentProductTitle) {
@@ -59,6 +84,11 @@ export class PageTitleService {
     });
   }
 
+  /**
+   * Resuelve la key i18n según ruta.
+   * @param url Ruta normalizada.
+   * @returns Clave de traducción de título.
+   */
   private resolveRouteTitleKey(url: string): string {
     if (url === '/' || url === '') return 'pageTitle.home';
     if (url.startsWith('/login')) return 'pageTitle.login';
@@ -84,6 +114,12 @@ export class PageTitleService {
     return 'pageTitle.home';
   }
 
+  /**
+   * Obtiene traducción instantánea con fallback por defecto.
+   * @param key Clave i18n.
+   * @param defaultValue Texto por defecto.
+   * @returns Texto resuelto.
+   */
   private translateOrDefault(key: string, defaultValue: string): string {
     const value = this.translateService.instant(key);
     if (typeof value === 'string' && value !== key) {
@@ -92,6 +128,13 @@ export class PageTitleService {
     return defaultValue;
   }
 
+  /**
+   * Resuelve traducción asíncrona y notifica por callback.
+   * @param key Clave i18n.
+   * @param defaultValue Fallback textual.
+   * @param callback Callback con texto final.
+   * @returns No devuelve valor.
+   */
   private translateAsync(
     key: string,
     defaultValue: string,
@@ -114,10 +157,20 @@ export class PageTitleService {
       });
   }
 
+  /**
+   * Indica si la ruta corresponde a detalle de producto.
+   * @param url Ruta normalizada.
+   * @returns True si es detalle de producto.
+   */
   private isProductRoute(url: string): boolean {
     return url.startsWith('/product/');
   }
 
+  /**
+   * Normaliza una URL removiendo hash/query y asegurando slash inicial.
+   * @param url URL de entrada.
+   * @returns Ruta limpia.
+   */
   private normalizeUrl(url: string): string {
     const noHash = (url || '').split('#')[0];
     const noQuery = noHash.split('?')[0];

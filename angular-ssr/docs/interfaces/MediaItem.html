@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>game-sage documentation</title>
+        <title>Game Sage Documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -78,7 +78,7 @@
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
-                    <a href="../" class="navbar-brand">game-sage documentation</a>
+                    <a href="../" class="navbar-brand">Game Sage Documentation</a>
                     <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
                </div>
         </div>
@@ -144,6 +144,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Estructura de elemento visualizable en galería de producto.</p>
+
+            </p>
 
 
         <section data-compodoc="block-index">
@@ -226,6 +233,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Propiedad no documentada.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -264,6 +277,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Propiedad no documentada.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -297,6 +316,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Propiedad no documentada.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -335,6 +360,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Propiedad no documentada.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
             </section>
@@ -370,17 +401,26 @@ import { CarouselComponent } from &#x27;../../shared/components/carousel/carouse
 import { StripeModalComponent } from &#x27;../../shared/components/stripe-checkout/stripe-checkout.component&#x27;;
 import { Subscription } from &#x27;rxjs&#x27;;
 
+/** Estructura de elemento visualizable en galería de producto. */
 interface MediaItem {
-  type: &#x27;video&#x27; | &#x27;image&#x27;;
-  label: string;
-  url?: string | SafeResourceUrl;
-  thumbnail?: string;
+  /** Propiedad no documentada. */
+    type: &#x27;video&#x27; | &#x27;image&#x27;;
+  /** Propiedad no documentada. */
+    label: string;
+  /** Propiedad no documentada. */
+    url?: string | SafeResourceUrl;
+  /** Propiedad no documentada. */
+    thumbnail?: string;
 }
 
+/** Estructura de una sección de carrusel de recomendaciones. */
 interface RecommendationSection {
-  titleKey: string;
-  sectionId: string;
-  items: Game[];
+  /** Propiedad no documentada. */
+    titleKey: string;
+  /** Propiedad no documentada. */
+    sectionId: string;
+  /** Propiedad no documentada. */
+    items: Game[];
 }
 
 /**
@@ -411,30 +451,51 @@ export class ProductComponent implements OnInit, OnDestroy {
   currentMediaIndex: number &#x3D; 0;
   /** Lista de elementos multimedia procesados para el visor. */
   mediaItems: MediaItem[] &#x3D; [];
-  recommendationSections: RecommendationSection[] &#x3D; [];
-  recommendationSkeletonSections: RecommendationSection[] &#x3D; this.createRecommendationSkeletons();
-  loadingRecommendations &#x3D; true;
-  private routeSub?: Subscription;
+  /** Propiedad no documentada. */
+    recommendationSections: RecommendationSection[] &#x3D; [];
+  /** Propiedad no documentada. */
+    recommendationSkeletonSections: RecommendationSection[] &#x3D; this.createRecommendationSkeletons();
+  /** Propiedad no documentada. */
+    loadingRecommendations &#x3D; true;
+  /** Propiedad no documentada. */
+    private routeSub?: Subscription;
 
   /** Estados para notificaciones visuales y modales. */
   showAuthModal &#x3D; signal(false);
-  authModalOpen &#x3D; false;
-  authModalClosing &#x3D; false;
-  private readonly authModalAnimMs &#x3D; 160;
-  isAuthenticated &#x3D; signal(false);
-  addedToCartSuccess &#x3D; signal(false);
-  addedToFavoritesSuccess &#x3D; signal(false);
-  buySuccess &#x3D; signal(false);
-  quantityIncreased &#x3D; signal(false);
-  alreadyInCart &#x3D; signal(false);
-  alreadyInFavorites &#x3D; signal(false);
-  isScreenshotModalOpen &#x3D; signal(false);
-  screenshotModalImage &#x3D; signal&lt;string | null&gt;(null);
-  screenshotModalOpen &#x3D; false;
-  screenshotModalClosing &#x3D; false;
-  checkoutModalOpen &#x3D; signal(false);
-  directCheckoutPayload &#x3D; signal&lt;{ gameId: number; platformId: number } | null&gt;(null);
-  purchaseInfoVisible &#x3D; signal(false);
+  /** Propiedad no documentada. */
+    authModalOpen &#x3D; false;
+  /** Propiedad no documentada. */
+    authModalClosing &#x3D; false;
+  /** Propiedad no documentada. */
+    private readonly authModalAnimMs &#x3D; 160;
+  /** Propiedad no documentada. */
+    isAuthenticated &#x3D; signal(false);
+  /** Propiedad no documentada. */
+    addedToCartSuccess &#x3D; signal(false);
+  /** Propiedad no documentada. */
+    addedToFavoritesSuccess &#x3D; signal(false);
+  /** Propiedad no documentada. */
+    buySuccess &#x3D; signal(false);
+  /** Propiedad no documentada. */
+    quantityIncreased &#x3D; signal(false);
+  /** Propiedad no documentada. */
+    alreadyInCart &#x3D; signal(false);
+  /** Propiedad no documentada. */
+    alreadyInFavorites &#x3D; signal(false);
+  /** Propiedad no documentada. */
+    isScreenshotModalOpen &#x3D; signal(false);
+  /** Propiedad no documentada. */
+    screenshotModalImage &#x3D; signal&lt;string | null&gt;(null);
+  /** Propiedad no documentada. */
+    screenshotModalOpen &#x3D; false;
+  /** Propiedad no documentada. */
+    screenshotModalClosing &#x3D; false;
+  /** Propiedad no documentada. */
+    checkoutModalOpen &#x3D; signal(false);
+  /** Propiedad no documentada. */
+    directCheckoutPayload &#x3D; signal&lt;{ gameId: number; platformId: number } | null&gt;(null);
+  /** Propiedad no documentada. */
+    purchaseInfoVisible &#x3D; signal(false);
 
   /** Configuración estática de todas las plataformas soportadas. */
   allPlatforms &#x3D; [
@@ -505,7 +566,21 @@ export class ProductComponent implements OnInit, OnDestroy {
     )?.url;
   }
 
-  constructor(
+  /**
+     * Constructor no documentado.
+     * @param route Parámetro no documentado.
+     * @param gameService Parámetro no documentado.
+     * @param mediaService Parámetro no documentado.
+     * @param sanitizer Parámetro no documentado.
+     * @param cartItemService Parámetro no documentado.
+     * @param favoriteService Parámetro no documentado.
+     * @param authService Parámetro no documentado.
+     * @param router Parámetro no documentado.
+     * @param pageTitleService Parámetro no documentado.
+     * @param renderer Parámetro no documentado.
+     * @param document Parámetro no documentado.
+     */
+    constructor(
     @Inject(ActivatedRoute) private route: ActivatedRoute,
     private gameService: GameService,
     private mediaService: MediaService,
@@ -551,14 +626,18 @@ export class ProductComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
+  /** Método no documentado. */
+    ngOnDestroy(): void {
     this.routeSub?.unsubscribe();
     this.renderer.removeStyle(this.document.body, &#x27;overflow&#x27;);
     this.checkoutModalOpen.set(false);
     this.directCheckoutPayload.set(null);
   }
 
-  /** Crea un objeto juego vacío para el estado inicial de carga. */
+  /**
+     * Crea un objeto juego vacío para el estado inicial de carga.
+     * @returns Retorno no documentado.
+     */
   createPlaceholder(): Game {
     return {
       id: -1,
@@ -581,7 +660,12 @@ export class ProductComponent implements OnInit, OnDestroy {
     } as unknown as Game;
   }
 
-  private createCarouselPlaceholders(count &#x3D; 20): Game[] {
+  /**
+     * Método no documentado.
+     * @param count Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    private createCarouselPlaceholders(count &#x3D; 20): Game[] {
     return Array(count).fill({
       id: -1,
       title: &#x27;common.loading&#x27;,
@@ -603,7 +687,11 @@ export class ProductComponent implements OnInit, OnDestroy {
     } as unknown as Game);
   }
 
-  private createRecommendationSkeletons(): RecommendationSection[] {
+  /**
+     * Método no documentado.
+     * @returns Retorno no documentado.
+     */
+    private createRecommendationSkeletons(): RecommendationSection[] {
     const placeholders &#x3D; this.createCarouselPlaceholders();
     return [
       {
@@ -659,7 +747,12 @@ export class ProductComponent implements OnInit, OnDestroy {
     });
   }
 
-  private loadRecommendationCarousels(baseGame: Game, allMedia: any[]): void {
+  /**
+     * Método no documentado.
+     * @param baseGame Parámetro no documentado.
+     * @param allMedia Parámetro no documentado.
+     */
+    private loadRecommendationCarousels(baseGame: Game, allMedia: any[]): void {
     this.gameService.getAll({}).subscribe({
       next: (allGames) &#x3D;&gt; {
         const mediaByGameId &#x3D; new Map&lt;number, any[]&gt;();
@@ -796,7 +889,13 @@ export class ProductComponent implements OnInit, OnDestroy {
     });
   }
 
-  private scoreSimilarity(base: Game, candidate: Game): number {
+  /**
+     * Método no documentado.
+     * @param base Parámetro no documentado.
+     * @param candidate Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    private scoreSimilarity(base: Game, candidate: Game): number {
     let score &#x3D; 0;
 
     if (base.developerId &amp;&amp; candidate.developerId &#x3D;&#x3D;&#x3D; base.developerId) {
@@ -898,7 +997,11 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
   }
 
-  /** Obtiene la cantidad de stock para una plataforma específica. */
+  /**
+     * Obtiene la cantidad de stock para una plataforma específica.
+     * @param platformName Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getStockForPlatform(platformName: string | null): number {
     if (!this.game || !platformName) return 0;
     const platform &#x3D; this.allPlatforms.find((p) &#x3D;&gt; p.name &#x3D;&#x3D;&#x3D; platformName);
@@ -906,7 +1009,10 @@ export class ProductComponent implements OnInit, OnDestroy {
     return (this.game as any)[platform.stockKey] || 0;
   }
 
-  /** Obtiene el ID numérico de la plataforma seleccionada. */
+  /**
+     * Obtiene el ID numérico de la plataforma seleccionada.
+     * @returns Retorno no documentado.
+     */
   getSelectedPlatformId(): number | null {
     if (!this.selectedPlatform || !this.game?.platforms) return null;
     const platform &#x3D; this.game.platforms.find(
@@ -915,7 +1021,10 @@ export class ProductComponent implements OnInit, OnDestroy {
     return platform?.id || null;
   }
 
-  /** Verifica si el usuario está autenticado, mostrando un modal si no lo está. */
+  /**
+     * Verifica si el usuario está autenticado, mostrando un modal si no lo está.
+     * @returns Retorno no documentado.
+     */
   checkAuth(): boolean {
     if (!this.isAuthenticated()) {
       this.showAuthModal.set(true);
@@ -964,7 +1073,11 @@ export class ProductComponent implements OnInit, OnDestroy {
     }, this.authModalAnimMs);
   }
 
-  openScreenshotModal(imageUrl: string): void {
+  /**
+     * Método no documentado.
+     * @param imageUrl Parámetro no documentado.
+     */
+    openScreenshotModal(imageUrl: string): void {
     if (!imageUrl) return;
     this.screenshotModalImage.set(imageUrl);
     this.isScreenshotModalOpen.set(true);
@@ -980,7 +1093,8 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
   }
 
-  closeScreenshotModal(): void {
+  /** Método no documentado. */
+    closeScreenshotModal(): void {
     if (this.screenshotModalClosing) return;
     this.screenshotModalClosing &#x3D; true;
     this.screenshotModalOpen &#x3D; false;
@@ -1037,7 +1151,10 @@ export class ProductComponent implements OnInit, OnDestroy {
     });
   }
 
-  /** Incrementa la cantidad de un artículo ya existente en el carrito. */
+  /**
+     * Incrementa la cantidad de un artículo ya existente en el carrito.
+     * @param platformId Parámetro no documentado.
+     */
   private increaseQuantity(platformId: number) {
     if (!this.game) return;
     this.cartItemService.getAll().subscribe({
@@ -1106,12 +1223,14 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.checkoutModalOpen.set(true);
   }
 
-  closeCheckoutModal(): void {
+  /** Método no documentado. */
+    closeCheckoutModal(): void {
     this.checkoutModalOpen.set(false);
     this.directCheckoutPayload.set(null);
   }
 
-  onCheckoutCompleted(): void {
+  /** Método no documentado. */
+    onCheckoutCompleted(): void {
     this.checkoutModalOpen.set(false);
     this.directCheckoutPayload.set(null);
     this.purchaseInfoVisible.set(true);
@@ -1121,16 +1240,24 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
   }
 
-  closePurchaseInfo(): void {
+  /** Método no documentado. */
+    closePurchaseInfo(): void {
     this.purchaseInfoVisible.set(false);
   }
 
-  /** Comprueba si el juego está disponible para una plataforma dada. */
+  /**
+     * Comprueba si el juego está disponible para una plataforma dada.
+     * @param platformName Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   isPlatformAvailable(platformName: string): boolean {
     return this.game?.platforms?.some((p) &#x3D;&gt; p.name &#x3D;&#x3D;&#x3D; platformName) || false;
   }
 
-  /** Selecciona o deselecciona una plataforma. */
+  /**
+     * Selecciona o deselecciona una plataforma.
+     * @param platform Parámetro no documentado.
+     */
   selectPlatform(platform: string): void {
     this.selectedPlatform &#x3D;
       this.selectedPlatform &#x3D;&#x3D;&#x3D; platform ? null : platform;
@@ -1150,12 +1277,19 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
   }
 
-  /** Selecciona un medio específico por su índice. */
+  /**
+     * Selecciona un medio específico por su índice.
+     * @param index Parámetro no documentado.
+     */
   selectMedia(index: number): void {
     this.currentMediaIndex &#x3D; index;
   }
 
-  goToProduct(id: number): void {
+  /**
+     * Método no documentado.
+     * @param id Parámetro no documentado.
+     */
+    goToProduct(id: number): void {
     if (!Number.isFinite(id) || id &lt;&#x3D; 0) return;
     if (this.game?.id !&#x3D;&#x3D; id) {
       this.game &#x3D; this.createPlaceholder();
@@ -1169,14 +1303,20 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl(&#x60;/product/${id}&#x60;);
   }
 
-  /** Calcula cuántas estrellas llenas mostrar en el rating. */
+  /**
+     * Calcula cuántas estrellas llenas mostrar en el rating.
+     * @returns Retorno no documentado.
+     */
   getRatingStars(): number[] {
     const rating &#x3D; this.game?.rating || 0;
     const fullStars &#x3D; Math.floor(rating);
     return Array(fullStars).fill(0);
   }
 
-  /** Calcula cuántas estrellas vacías mostrar en el rating. */
+  /**
+     * Calcula cuántas estrellas vacías mostrar en el rating.
+     * @returns Retorno no documentado.
+     */
   getEmptyStars(): number[] {
     const rating &#x3D; this.game?.rating || 0;
     const fullStars &#x3D; Math.floor(rating);
@@ -1184,13 +1324,21 @@ export class ProductComponent implements OnInit, OnDestroy {
     return Array(emptyStars).fill(0);
   }
 
-  /** Extrae el ID de vídeo de una URL de YouTube. */
+  /**
+     * Extrae el ID de vídeo de una URL de YouTube.
+     * @param url Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   private getVideoId(url: string): string | null {
     const videoIdMatch &#x3D; url.match(/[?&amp;]v&#x3D;([^&amp;]+)/);
     return videoIdMatch ? videoIdMatch[1] : null;
   }
 
-  /** Convierte una URL de YouTube estándar en una URL de inserción (embed) segura. */
+  /**
+     * Convierte una URL de YouTube estándar en una URL de inserción (embed) segura.
+     * @param url Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   private convertToEmbedUrl(url: string): string {
     const videoId &#x3D; this.getVideoId(url);
     if (videoId) {
@@ -1199,7 +1347,8 @@ export class ProductComponent implements OnInit, OnDestroy {
     return url;
   }
 
-  @HostListener(&#x27;document:keydown.escape&#x27;)
+  /** Método no documentado. */
+    @HostListener(&#x27;document:keydown.escape&#x27;)
   onEscapePressed(): void {
     if (this.isScreenshotModalOpen()) {
       this.closeScreenshotModal();

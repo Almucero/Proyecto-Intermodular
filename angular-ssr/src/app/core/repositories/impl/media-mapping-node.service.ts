@@ -9,14 +9,23 @@ import { Media } from '../../models/media.model';
   providedIn: 'root',
 })
 export class MediaMappingNodeService implements IBaseMapping<Media> {
-  constructor() {}
+  /** Constructor no documentado. */
+    constructor() {}
 
-  /** Transforma una lista de medios. */
+  /**
+     * Transforma una lista de medios.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getAll(data: any): Media[] {
     return data.map((item: any) => this.getOne(item));
   }
 
-  /** Transforma un objeto media único de la API al modelo de la aplicación. */
+  /**
+     * Transforma un objeto media único de la API al modelo de la aplicación.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getOne(data: any): Media {
     return {
       id: data.id,
@@ -35,19 +44,38 @@ export class MediaMappingNodeService implements IBaseMapping<Media> {
     };
   }
 
-  getAdded(data: any): Media {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getAdded(data: any): Media {
     return this.getOne(data);
   }
 
-  getUpdated(data: any): Media {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getUpdated(data: any): Media {
     return this.getOne(data);
   }
 
-  getDeleted(data: any): Media {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getDeleted(data: any): Media {
     return this.getOne(data);
   }
 
-  /** Prepara un medio para ser creado. */
+  /**
+     * Prepara un medio para ser creado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   setAdd(data: Media): any {
     return {
       url: data.url,
@@ -65,7 +93,11 @@ export class MediaMappingNodeService implements IBaseMapping<Media> {
     };
   }
 
-  /** Prepara actualizaciones parciales (ej: cambiar el texto alternativo). */
+  /**
+     * Prepara actualizaciones parciales (ej: cambiar el texto alternativo).
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   setUpdate(data: any): any {
     const payload: any = {};
     if (data.altText !== undefined) payload.altText = data.altText;

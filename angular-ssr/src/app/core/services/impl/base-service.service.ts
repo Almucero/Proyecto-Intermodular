@@ -17,9 +17,11 @@ import { REPOSITORY_TOKEN } from '../../repositories/repository.tokens';
 })
 export class BaseService<T extends Model> implements IBaseService<T> {
   /**
-   * @param repository Repositorio inyectado que maneja la persistencia de los datos.
-   */
+       * Documentado.
+       * @param repository Repositorio inyectado que maneja la persistencia de los datos.
+       */
   constructor(
+    /** Repositorio inyectado que maneja la persistencia de los datos. */
     @Inject(REPOSITORY_TOKEN) protected repository: IBaseRepository<T>,
   ) {}
 

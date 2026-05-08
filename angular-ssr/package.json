@@ -1,6 +1,6 @@
 {
   "name": "game-sage",
-  "version": "0.0.0",
+  "version": "2.0.0",
   "scripts": {
     "ng": "node scripts/check-toolchain.mjs && ng",
     "start": "node scripts/free-port.mjs 4200 && node scripts/check-toolchain.mjs && ng serve",
@@ -36,8 +36,8 @@
     "swagger:generate": "node scripts/check-toolchain.mjs && node --import tsx scripts/generate-swagger-spec.mjs",
     "postinstall": "npx prisma generate",
     "docs": "npm run docs:serve",
-    "docs:serve": "compodoc -p tsconfig.doc.json -s --output docs",
-    "docs:build": "compodoc -p tsconfig.doc.json --output docs"
+    "docs:serve": "npm run docs:build && compodoc -s -d docs",
+    "docs:build": "compodoc -p tsconfig.doc.json --output docs -n \"Game Sage Documentation\" && node scripts/inject-docs-css.mjs"
   },
   "private": true,
   "dependencies": {

@@ -7,6 +7,13 @@ import {
   deleteGenre,
 } from './genres.service';
 
+/**
+ * Lista géneros con filtro opcional por nombre.
+ *
+ * @param _req Request HTTP.
+ * @param res Response HTTP.
+ * @returns Listado de géneros.
+ */
 export async function listGenresCtrl(_req: Request, res: Response) {
   try {
     const filters: any = {};
@@ -18,6 +25,13 @@ export async function listGenresCtrl(_req: Request, res: Response) {
   }
 }
 
+/**
+ * Obtiene un género por id.
+ *
+ * @param req Request con `id` en params.
+ * @param res Response HTTP.
+ * @returns Género solicitado.
+ */
 export async function getGenreCtrl(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);
@@ -34,6 +48,13 @@ export async function getGenreCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Crea un género.
+ *
+ * @param req Request con payload de creación.
+ * @param res Response HTTP.
+ * @returns Género creado.
+ */
 export async function createGenreCtrl(req: Request, res: Response) {
   try {
     const payload = { name: req.body.name };
@@ -46,6 +67,13 @@ export async function createGenreCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Actualiza un género existente.
+ *
+ * @param req Request con `id` y payload parcial.
+ * @param res Response HTTP.
+ * @returns Género actualizado.
+ */
 export async function updateGenreCtrl(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);
@@ -61,6 +89,13 @@ export async function updateGenreCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Elimina un género por id.
+ *
+ * @param req Request con `id` en params.
+ * @param res Response HTTP.
+ * @returns `204 No Content` al eliminar.
+ */
 export async function deleteGenreCtrl(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);

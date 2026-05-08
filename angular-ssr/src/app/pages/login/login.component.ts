@@ -47,27 +47,49 @@ export class LoginComponent implements OnInit {
   submitted = false;
   /** Ruta a la que redirigir tras un login exitoso. */
   navigateTo: string = '';
-  isOAuthRedirectProcessing = false;
-  googleError = '';
-  githubError = '';
-  showPasswordRecoveryModal = false;
-  googleClientId = '';
-  githubClientId = '';
-  private readonly GOOGLE_STATE_KEY = 'google_oauth_state_login';
-  private readonly GOOGLE_NONCE_KEY = 'google_oauth_nonce_login';
-  private readonly GOOGLE_REMEMBER_KEY = 'google_oauth_remember_login';
-  private readonly GOOGLE_TARGET_KEY = 'google_oauth_target';
-  private readonly GITHUB_STATE_KEY = 'github_oauth_state_login';
-  private readonly GITHUB_REMEMBER_KEY = 'github_oauth_remember_login';
-  private readonly SKIP_LOADING_KEY = 'skip_loading_screen_once';
+  /** Propiedad no documentada. */
+    isOAuthRedirectProcessing = false;
+  /** Propiedad no documentada. */
+    googleError = '';
+  /** Propiedad no documentada. */
+    githubError = '';
+  /** Propiedad no documentada. */
+    showPasswordRecoveryModal = false;
+  /** Propiedad no documentada. */
+    googleClientId = '';
+  /** Propiedad no documentada. */
+    githubClientId = '';
+  /** Propiedad no documentada. */
+    private readonly GOOGLE_STATE_KEY = 'google_oauth_state_login';
+  /** Propiedad no documentada. */
+    private readonly GOOGLE_NONCE_KEY = 'google_oauth_nonce_login';
+  /** Propiedad no documentada. */
+    private readonly GOOGLE_REMEMBER_KEY = 'google_oauth_remember_login';
+  /** Propiedad no documentada. */
+    private readonly GOOGLE_TARGET_KEY = 'google_oauth_target';
+  /** Propiedad no documentada. */
+    private readonly GITHUB_STATE_KEY = 'github_oauth_state_login';
+  /** Propiedad no documentada. */
+    private readonly GITHUB_REMEMBER_KEY = 'github_oauth_remember_login';
+  /** Propiedad no documentada. */
+    private readonly SKIP_LOADING_KEY = 'skip_loading_screen_once';
 
-  private router = inject(Router);
-  private auth = inject(BaseAuthenticationService);
-  private fb = inject(FormBuilder);
-  private location = inject(Location);
-  private platformId = inject(PLATFORM_ID);
+  /** Propiedad no documentada. */
+    private router = inject(Router);
+  /** Propiedad no documentada. */
+    private auth = inject(BaseAuthenticationService);
+  /** Propiedad no documentada. */
+    private fb = inject(FormBuilder);
+  /** Propiedad no documentada. */
+    private location = inject(Location);
+  /** Propiedad no documentada. */
+    private platformId = inject(PLATFORM_ID);
 
-  constructor(private http: HttpClient) {
+  /**
+     * Constructor no documentado.
+     * @param http Parámetro no documentado.
+     */
+    constructor(private http: HttpClient) {
     this.formLogin = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
@@ -87,7 +109,8 @@ export class LoginComponent implements OnInit {
       '/dashboard';
   }
 
-  ngOnInit(): void {
+  /** Método no documentado. */
+    ngOnInit(): void {
     this.processOAuthRedirect();
     this.loadGoogleClientId();
     this.loadGithubClientId();
@@ -117,7 +140,8 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  onGoogleSignInClick() {
+  /** Método no documentado. */
+    onGoogleSignInClick() {
     this.googleError = '';
     if (!this.googleClientId || !isPlatformBrowser(this.platformId)) {
       this.googleError = 'Google no está configurado en este entorno';
@@ -146,7 +170,8 @@ export class LoginComponent implements OnInit {
     window.location.assign(authUrl.toString());
   }
 
-  onGithubSignInClick() {
+  /** Método no documentado. */
+    onGithubSignInClick() {
     this.githubError = '';
     if (!this.githubClientId || !isPlatformBrowser(this.platformId)) {
       this.githubError = 'GitHub no está configurado en este entorno';
@@ -170,7 +195,8 @@ export class LoginComponent implements OnInit {
     window.location.assign(authUrl);
   }
 
-  private loadGoogleClientId() {
+  /** Método no documentado. */
+    private loadGoogleClientId() {
     if (!isPlatformBrowser(this.platformId)) return;
     this.http
       .get<{
@@ -187,7 +213,8 @@ export class LoginComponent implements OnInit {
       });
   }
 
-  private loadGithubClientId() {
+  /** Método no documentado. */
+    private loadGithubClientId() {
     if (!isPlatformBrowser(this.platformId)) return;
     this.http
       .get<{
@@ -204,7 +231,8 @@ export class LoginComponent implements OnInit {
       });
   }
 
-  private processOAuthRedirect() {
+  /** Método no documentado. */
+    private processOAuthRedirect() {
     if (!isPlatformBrowser(this.platformId)) return;
     const searchParams = new URLSearchParams(window.location.search);
     const hashParams = new URLSearchParams(
@@ -286,7 +314,12 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  private getNonceFromIdToken(idToken: string): string | null {
+  /**
+     * Método no documentado.
+     * @param idToken Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    private getNonceFromIdToken(idToken: string): string | null {
     try {
       const parts = idToken.split('.');
       if (parts.length < 2) return null;
@@ -306,11 +339,13 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  openPasswordRecoveryModal() {
+  /** Método no documentado. */
+    openPasswordRecoveryModal() {
     this.showPasswordRecoveryModal = true;
   }
 
-  closePasswordRecoveryModal() {
+  /** Método no documentado. */
+    closePasswordRecoveryModal() {
     this.showPasswordRecoveryModal = false;
   }
 
@@ -322,7 +357,8 @@ export class LoginComponent implements OnInit {
   /**
    * Obtiene la clave de traducción del error para un campo específico.
    * @param control Nombre del campo del formulario.
-   */
+     * @returns Retorno no documentado.
+     */
   getError(control: string) {
     switch (control) {
       case 'email':

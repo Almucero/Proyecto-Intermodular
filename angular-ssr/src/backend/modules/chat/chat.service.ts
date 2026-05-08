@@ -3,6 +3,7 @@ import { generateText, tool, stepCountIs } from 'ai';
 import { z } from 'zod';
 import { prisma } from '../../config/db';
 
+/** Esquema de entrada para herramienta semántica de búsqueda de juegos. */
 const searchGamesInputSchema = z.object({
   query: z
     .string()
@@ -11,14 +12,26 @@ const searchGamesInputSchema = z.object({
     ),
 });
 
+/** Resultado serializable de juego sugerido en respuestas de chat. */
 interface GameResult {
-  id: number;
-  title: string;
-  price: string;
-  genres: string;
-  platforms: string;
+  /** Propiedad no documentada. */
+    id: number;
+  /** Propiedad no documentada. */
+    title: string;
+  /** Propiedad no documentada. */
+    price: string;
+  /** Propiedad no documentada. */
+    genres: string;
+  /** Propiedad no documentada. */
+    platforms: string;
 }
 
+/**
+ * Lista sesiones de chat de un usuario.
+ *
+ * @param userId Identificador del usuario.
+ * @returns Sesiones ordenadas por actualización.
+ */
 export async function getUserSessions(userId: number) {
   return prisma.chatSession.findMany({
     where: { userId },
@@ -33,6 +46,13 @@ export async function getUserSessions(userId: number) {
   });
 }
 
+/**
+ * Obtiene una sesión de chat concreta con sus mensajes.
+ *
+ * @param sessionId Identificador de sesión.
+ * @param userId Identificador de usuario propietario.
+ * @returns Sesión encontrada.
+ */
 export async function getSession(sessionId: number, userId: number) {
   const session = await prisma.chatSession.findFirst({
     where: { id: sessionId, userId },
@@ -59,6 +79,13 @@ export async function getSession(sessionId: number, userId: number) {
   return session;
 }
 
+/**
+ * Elimina una sesión de chat del usuario.
+ *
+ * @param sessionId Identificador de sesión.
+ * @param userId Identificador del propietario.
+ * @returns Estado de eliminación.
+ */
 export async function deleteSession(sessionId: number, userId: number) {
   const session = await prisma.chatSession.findFirst({
     where: { id: sessionId, userId },
@@ -70,6 +97,14 @@ export async function deleteSession(sessionId: number, userId: number) {
   return { deleted: true };
 }
 
+/**
+ * Procesa un mensaje de usuario contra el asistente IA.
+ *
+ * @param userId Identificador de usuario autenticado.
+ * @param message Mensaje enviado.
+ * @param sessionId Sesión opcional para continuidad.
+ * @returns Respuesta del asistente y juegos encontrados.
+ */
 export async function processChat(
   userId: number,
   message: string,

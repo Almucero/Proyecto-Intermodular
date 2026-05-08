@@ -10,6 +10,7 @@ import {
 import { notifyFavoriteOfferImmediate } from '../notifications';
 import { logger } from '../../utils/logger';
 
+/** Valida `gameId` de params como entero positivo. */
 const gameIdSchema = z.object({
   gameId: z.coerce
     .number()
@@ -17,6 +18,14 @@ const gameIdSchema = z.object({
     .positive('gameId debe ser un número positivo'),
 });
 
+/**
+ * Añade un favorito para el usuario autenticado.
+ *
+ * @param req Request con payload de favorito.
+ * @param res Response HTTP.
+ * @param next Next middleware.
+ * @returns Favorito creado.
+ */
 export async function addToFavoritesCtrl(
   req: Request,
   res: Response,
@@ -62,6 +71,14 @@ export async function addToFavoritesCtrl(
   }
 }
 
+/**
+ * Elimina un favorito del usuario autenticado.
+ *
+ * @param req Request con `gameId` y `platformId`.
+ * @param res Response HTTP.
+ * @param next Next middleware.
+ * @returns Confirmación de eliminación.
+ */
 export async function removeFromFavoritesCtrl(
   req: Request,
   res: Response,
@@ -96,6 +113,14 @@ export async function removeFromFavoritesCtrl(
   }
 }
 
+/**
+ * Lista favoritos del usuario autenticado.
+ *
+ * @param req Request autenticada.
+ * @param res Response HTTP.
+ * @param next Next middleware.
+ * @returns Listado de favoritos.
+ */
 export async function getUserFavoritesCtrl(
   req: Request,
   res: Response,
@@ -112,6 +137,14 @@ export async function getUserFavoritesCtrl(
   }
 }
 
+/**
+ * Comprueba si un juego/plataforma está en favoritos del usuario.
+ *
+ * @param req Request con `gameId` y `platformId`.
+ * @param res Response HTTP.
+ * @param next Next middleware.
+ * @returns Estado booleano `isFavorite`.
+ */
 export async function isFavoriteCtrl(
   req: Request,
   res: Response,

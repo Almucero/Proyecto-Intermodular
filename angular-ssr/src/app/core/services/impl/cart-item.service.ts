@@ -13,16 +13,24 @@ import { BaseService } from './base-service.service';
 import { BaseAuthenticationService } from './base-authentication.service';
 import { ICartItemService } from '../interfaces/cart-item-service.interface';
 
+/** Respuesta backend para inicializar Stripe Checkout embebido. */
 export interface CheckoutSessionResponse {
-  clientSecret: string;
-  sessionId: string;
-  publishableKey: string;
+  /** Propiedad no documentada. */
+    clientSecret: string;
+  /** Propiedad no documentada. */
+    sessionId: string;
+  /** Propiedad no documentada. */
+    publishableKey: string;
 }
 
+/** Payload para crear checkout directo de un juego/plataforma. */
 export interface DirectCheckoutSessionPayload {
-  gameId: number;
-  platformId: number;
-  locale?: string;
+  /** Propiedad no documentada. */
+    gameId: number;
+  /** Propiedad no documentada. */
+    platformId: number;
+  /** Propiedad no documentada. */
+    locale?: string;
 }
 
 /**
@@ -36,18 +44,25 @@ export class CartItemService
   extends BaseService<CartItem>
   implements ICartItemService
 {
-  private isBrowser: boolean;
+  /** Propiedad no documentada. */
+    private isBrowser: boolean;
   /** Observable con el número actual de artículos en el carrito. */
   public cartCount$ = new BehaviorSubject<number>(this.getInitialCount());
 
   /**
-   * @param repository Repositorio de base para artículos del carrito.
-   * @param http Cliente HTTP para peticiones personalizadas.
-   * @param apiUrl URL base de la API.
-   * @param resource Nombre del recurso en la API.
-   * @param auth Servicio de autenticación para obtener el token.
-   * @param platformId ID de la plataforma (Browser/Server).
-   */
+       * Documentado.
+       * @param repository Repositorio de base para artículos del carrito.
+       *
+       * @param http Cliente HTTP para peticiones personalizadas.
+       *
+       * @param apiUrl URL base de la API.
+       *
+       * @param resource Nombre del recurso en la API.
+       *
+       * @param auth Servicio de autenticación para obtener el token.
+       *
+       * @param platformId ID de la plataforma (Browser/Server).
+       */
   constructor(
     @Inject(CART_ITEM_REPOSITORY_TOKEN) repository: IBaseRepository<CartItem>,
     private http: HttpClient,
@@ -178,7 +193,12 @@ export class CartItemService
       .pipe(tap(() => this.refreshCount()));
   }
 
-  createCheckoutSession(locale?: string): Observable<CheckoutSessionResponse> {
+  /**
+     * Método no documentado.
+     * @param locale Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    createCheckoutSession(locale?: string): Observable<CheckoutSessionResponse> {
     return this.http.post<CheckoutSessionResponse>(
       `${this.apiUrl}/${this.resource}/checkout-session`,
       locale ? { locale } : {},
@@ -186,7 +206,12 @@ export class CartItemService
     );
   }
 
-  createDirectCheckoutSession(
+  /**
+     * Método no documentado.
+     * @param payload Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    createDirectCheckoutSession(
     payload: DirectCheckoutSessionPayload,
   ): Observable<CheckoutSessionResponse> {
     return this.http.post<CheckoutSessionResponse>(
@@ -196,7 +221,12 @@ export class CartItemService
     );
   }
 
-  confirmCheckoutSession(sessionId: string): Observable<any> {
+  /**
+     * Método no documentado.
+     * @param sessionId Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    confirmCheckoutSession(sessionId: string): Observable<any> {
     return this.http.post(
       `${this.apiUrl}/${this.resource}/checkout/confirm`,
       { sessionId },
@@ -204,7 +234,12 @@ export class CartItemService
     );
   }
 
-  confirmDirectCheckoutSession(sessionId: string): Observable<any> {
+  /**
+     * Método no documentado.
+     * @param sessionId Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    confirmDirectCheckoutSession(sessionId: string): Observable<any> {
     return this.http.post(
       `${this.apiUrl}/${this.resource}/direct-checkout/confirm`,
       { sessionId },

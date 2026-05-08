@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>game-sage documentation</title>
+        <title>Game Sage Documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -78,7 +78,7 @@
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
-                    <a href="../" class="navbar-brand">game-sage documentation</a>
+                    <a href="../" class="navbar-brand">Game Sage Documentation</a>
                     <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
                </div>
         </div>
@@ -251,6 +251,8 @@ Cambia temporalmente el color de fondo para dar feedback visual.</p>
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>Documentado.</p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -291,6 +293,8 @@ Cambia temporalmente el color de fondo para dar feedback visual.</p>
                                                     </td>
                                                     
                                                         <td>
+                                                                <p>Parámetro no documentado.</p>
+
                                                         </td>
                                                 </tr>
                                                 <tr>
@@ -373,8 +377,8 @@ Cambia temporalmente el color de fondo para dar feedback visual.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="38"
-                            class="link-to-prism">src/app/directives/copy-on-click.directive.ts:38</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">src/app/directives/copy-on-click.directive.ts:42</a></div>
                 </td>
             </tr>
 
@@ -417,14 +421,16 @@ Copia el texto al portapapeles y cambia el fondo a verde momentáneamente.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="50"
-                                    class="link-to-prism">src/app/directives/copy-on-click.directive.ts:50</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="55"
+                                    class="link-to-prism">src/app/directives/copy-on-click.directive.ts:55</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Método no documentado.</p>
+</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -463,8 +469,8 @@ Copia el texto al portapapeles y cambia el fondo a verde momentáneamente.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="38"
-                                    class="link-to-prism">src/app/directives/copy-on-click.directive.ts:38</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="42"
+                                    class="link-to-prism">src/app/directives/copy-on-click.directive.ts:42</a></div>
                         </td>
                     </tr>
 
@@ -505,14 +511,16 @@ Copia el texto al portapapeles y cambia el fondo a verde momentáneamente.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="64"
-                                    class="link-to-prism">src/app/directives/copy-on-click.directive.ts:64</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="70"
+                                    class="link-to-prism">src/app/directives/copy-on-click.directive.ts:70</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                        <div class="io-description"><p>Método no documentado.</p>
+</div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -553,9 +561,13 @@ export class CopyOnClickDirective {
   @Input() appCopyOnClick: string &#x3D; &#x27;&#x27;;
 
   /**
-   * @param el Referencia al elemento del DOM.
-   * @param platformId Identificador de la plataforma (Browser/Server).
-   */
+       * Documentado.
+       * @param el Referencia al elemento del DOM.
+       *
+       * @param platformId Identificador de la plataforma (Browser/Server).
+         *
+       * @param translate Parámetro no documentado.
+       */
   constructor(
     private el: ElementRef,
     private translate: TranslateService,
@@ -578,7 +590,8 @@ export class CopyOnClickDirective {
     });
   }
 
-  private animateCopyIcon() {
+  /** Método no documentado. */
+    private animateCopyIcon() {
     const element &#x3D; this.el.nativeElement as HTMLElement;
     const originalTransition &#x3D; element.style.transition;
     const originalTransform &#x3D; element.style.transform;
@@ -592,7 +605,8 @@ export class CopyOnClickDirective {
     }, 160);
   }
 
-  private showCopiedPopup() {
+  /** Método no documentado. */
+    private showCopiedPopup() {
     const element &#x3D; this.el.nativeElement as HTMLElement;
     const rect &#x3D; element.getBoundingClientRect();
     const popup &#x3D; document.createElement(&#x27;span&#x27;);

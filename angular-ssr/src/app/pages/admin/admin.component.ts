@@ -16,10 +16,14 @@ import { BaseAuthenticationService } from '../../core/services/impl/base-authent
   styleUrl: './admin.component.scss',
 })
 export class AdminComponent implements OnInit {
-  private auth = inject(BaseAuthenticationService);
-  private router = inject(Router);
-  private platformId = inject(PLATFORM_ID);
-  isDesktopAdminView = true;
+  /** Propiedad no documentada. */
+    private auth = inject(BaseAuthenticationService);
+  /** Propiedad no documentada. */
+    private router = inject(Router);
+  /** Propiedad no documentada. */
+    private platformId = inject(PLATFORM_ID);
+  /** Propiedad no documentada. */
+    isDesktopAdminView = true;
 
   /**
    * Inicialización del componente de administración.
@@ -28,12 +32,14 @@ export class AdminComponent implements OnInit {
     this.updateViewportMode();
   }
 
-  @HostListener('window:resize')
+  /** Método no documentado. */
+    @HostListener('window:resize')
   onResize() {
     this.updateViewportMode();
   }
 
-  private updateViewportMode() {
+  /** Método no documentado. */
+    private updateViewportMode() {
     if (!isPlatformBrowser(this.platformId)) {
       this.isDesktopAdminView = true;
       return;

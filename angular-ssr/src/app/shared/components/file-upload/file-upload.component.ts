@@ -37,6 +37,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
  */
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 
+/** Clase no documentada. */
 @Component({
   selector: 'app-file-upload',
   standalone: true,
@@ -70,7 +71,8 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   /** Signal que almacena el archivo seleccionado actualmente. */
   selectedFile = signal<File | null>(null);
 
-  private translate = inject(TranslateService);
+  /** Propiedad no documentada. */
+    private translate = inject(TranslateService);
 
   /** URL para la previsualización del archivo (data URL o blob URL). */
   previewUrl = signal<string | null>(null);
@@ -90,16 +92,21 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   /** URL blob (object URL) interna para previsualizaciones. */
   private blobUrl: string | null = null;
 
-  private sanitizer = inject(DomSanitizer);
-  private platformId = inject(PLATFORM_ID);
+  /** Propiedad no documentada. */
+    private sanitizer = inject(DomSanitizer);
+  /** Propiedad no documentada. */
+    private platformId = inject(PLATFORM_ID);
 
-  private onChange: (file: File | null) => void = () => {};
-  private onTouched: () => void = () => {};
+  /** Propiedad no documentada. */
+    private onChange: (file: File | null) => void = () => {};
+  /** Propiedad no documentada. */
+    private onTouched: () => void = () => {};
 
   /**
    * Implementación de writeValue para ControlValueAccessor.
    * Recibe el valor (archivo) desde el formulario.
-   */
+     * @param file Parámetro no documentado.
+     */
   writeValue(file: File | null): void {
     if (file) {
       this.selectedFile.set(file);
@@ -109,15 +116,27 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
     }
   }
 
-  registerOnChange(fn: (file: File | null) => void): void {
+  /**
+     * Método no documentado.
+     * @param fn Parámetro no documentado.
+     */
+    registerOnChange(fn: (file: File | null) => void): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: () => void): void {
+  /**
+     * Método no documentado.
+     * @param fn Parámetro no documentado.
+     */
+    registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
 
-  setDisabledState(isDisabled: boolean): void {
+  /**
+     * Método no documentado.
+     * @param isDisabled Parámetro no documentado.
+     */
+    setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 
@@ -138,7 +157,10 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
     input.click();
   }
 
-  /** Maneja el inicio del arrastre sobre el componente. */
+  /**
+     * Maneja el inicio del arrastre sobre el componente.
+     * @param event Parámetro no documentado.
+     */
   onDragOver(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
@@ -147,7 +169,10 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
     }
   }
 
-  /** Maneja cuando el arrastre sale del área del componente. */
+  /**
+     * Maneja cuando el arrastre sale del área del componente.
+     * @param event Parámetro no documentado.
+     */
   onDragLeave(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
@@ -157,7 +182,8 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   /**
    * Maneja el evento de soltar archivos (drop).
    * Procesa el primer archivo soltado si no está deshabilitado.
-   */
+     * @param event Parámetro no documentado.
+     */
   onDrop(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
@@ -201,7 +227,11 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
     this.onTouched();
   }
 
-  /** Valida el tipo MIME contra la lista blanca. */
+  /**
+     * Valida el tipo MIME contra la lista blanca.
+     * @param file Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   private validateMimeType(file: File): boolean {
     if (this.acceptedMimeTypes.includes('*/*')) return true;
 
@@ -214,7 +244,11 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
     });
   }
 
-  /** Valida que el archivo no supere el tamaño máximo. */
+  /**
+     * Valida que el archivo no supere el tamaño máximo.
+     * @param file Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   private validateSize(file: File): boolean {
     const maxSizeInBytes = this.maxSizeInMB * 1024 * 1024;
     return file.size <= maxSizeInBytes;
@@ -272,12 +306,18 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
     this.revokeBlobUrl();
   }
 
-  /** Indica si hay una imagen cargada. */
+  /**
+     * Indica si hay una imagen cargada.
+     * @returns Retorno no documentado.
+     */
   isImage(): boolean {
     return this.selectedFile()?.type.startsWith('image/') || false;
   }
 
-  /** Indica si hay un PDF cargado. */
+  /**
+     * Indica si hay un PDF cargado.
+     * @returns Retorno no documentado.
+     */
   isPDF(): boolean {
     return this.selectedFile()?.type === 'application/pdf' || false;
   }
@@ -285,7 +325,8 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   /**
    * Formatea el tamaño en bytes a una cadena legible (KB, MB, etc.).
    * @param bytes Tamaño en bytes.
-   */
+     * @returns Retorno no documentado.
+     */
   formatFileSize(bytes: number): string {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;
@@ -297,7 +338,8 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
 
   /**
    * Obtiene un emoji descriptivo según el tipo de archivo.
-   */
+     * @returns Retorno no documentado.
+     */
   getFileIcon(): string {
     const file = this.selectedFile();
     if (!file) return '📄';

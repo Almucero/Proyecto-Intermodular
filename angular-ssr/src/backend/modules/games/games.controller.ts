@@ -11,6 +11,13 @@ import {
   recordSearchSignal,
 } from '../notifications';
 
+/**
+ * Lista juegos con filtros opcionales.
+ *
+ * @param req Request con query params de búsqueda.
+ * @param res Response HTTP.
+ * @returns Listado de juegos.
+ */
 export async function listGamesCtrl(req: Request, res: Response) {
   try {
     const filters: any = {};
@@ -35,6 +42,13 @@ export async function listGamesCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Obtiene un juego por id.
+ *
+ * @param req Request con `id` en params.
+ * @param res Response HTTP.
+ * @returns Juego solicitado.
+ */
 export async function getGameCtrl(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);
@@ -73,6 +87,13 @@ export async function getGameCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Crea un juego nuevo.
+ *
+ * @param req Request con payload de creación.
+ * @param res Response HTTP.
+ * @returns Juego creado.
+ */
 export async function createGameCtrl(req: Request, res: Response) {
   try {
     const payload: any = { ...req.body };
@@ -138,6 +159,13 @@ export async function createGameCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Actualiza un juego existente y evalúa notificaciones de precio/stock.
+ *
+ * @param req Request con `id` y payload parcial.
+ * @param res Response HTTP.
+ * @returns Juego actualizado.
+ */
 export async function updateGameCtrl(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);
@@ -205,6 +233,13 @@ export async function updateGameCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Elimina un juego por id.
+ *
+ * @param req Request con `id` en params.
+ * @param res Response HTTP.
+ * @returns `204 No Content` al eliminar.
+ */
 export async function deleteGameCtrl(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);

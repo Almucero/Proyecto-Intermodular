@@ -23,6 +23,7 @@ import {
   passwordRecoveryResetCtrl,
 } from './auth.controller';
 
+/** Router de endpoints de autenticación. */
 const router = Router();
 
 /**

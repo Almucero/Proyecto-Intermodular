@@ -11,22 +11,34 @@ import {
   AUTH_ME_API_URL_TOKEN,
 } from '../../repositories/repository.tokens';
 
+/** Clase no documentada. */
 @Injectable({
   providedIn: 'root',
 })
 export class NodeAuthenticationService extends BaseAuthenticationService {
-  private readonly AUTH_KEY = 'AUTH_TOKEN';
-  private isBrowser: boolean;
-  private autoLoginStarted = false;
+  /** Propiedad no documentada. */
+    private readonly AUTH_KEY = 'AUTH_TOKEN';
+  /** Propiedad no documentada. */
+    private isBrowser: boolean;
+  /** Propiedad no documentada. */
+    private autoLoginStarted = false;
 
   /**
-   * @param http Cliente HTTP para realizar peticiones.
-   * @param authMapping Mapeador para adaptar respuestas de la API.
-   * @param signInUrl URL del endpoint de inicio de sesión.
-   * @param signUpUrl URL del endpoint de registro.
-   * @param meUrl URL del endpoint para obtener el perfil del usuario actual.
-   * @param platformId ID de la plataforma (Browser/Server).
-   */
+       * Documentado.
+       * @param http Cliente HTTP para realizar peticiones.
+       *
+       * @param authMapping Mapeador para adaptar respuestas de la API.
+       *
+       * @param signInUrl URL del endpoint de inicio de sesión.
+       *
+       * @param signUpUrl URL del endpoint de registro.
+       *
+       * @param meUrl URL del endpoint para obtener el perfil del usuario actual.
+       *
+       * @param platformId ID de la plataforma (Browser/Server).
+         *
+       * @param ngZone Parámetro no documentado.
+       */
   constructor(
     protected http: HttpClient,
     @Inject(AUTH_MAPPING_TOKEN) protected override authMapping: IAuthMapping,
@@ -43,7 +55,8 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
   /**
    * Intenta recuperar la sesión del usuario al cargar la aplicación.
    * Si existe un token válido, obtiene los datos del usuario.
-   */
+     * @param startDelayMs Parámetro no documentado.
+     */
   public autoLogin(startDelayMs: number = 0) {
     if (this.autoLoginStarted) {
       return;
@@ -127,7 +140,8 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
    * Realiza el inicio de sesión.
    * @param authPayload Datos de acceso (email, password).
    * @param rememberMe Si es true, el token se guarda en localStorage (permanente).
-   */
+     * @returns Retorno no documentado.
+     */
   signIn(authPayload: any, rememberMe: boolean = false): Observable<any> {
     const payload = this.authMapping.signInPayload(authPayload);
     return this.http.post(this.signInUrl, payload).pipe(
@@ -139,7 +153,13 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
     );
   }
 
-  signInWithGoogle(idToken: string, rememberMe: boolean = false): Observable<any> {
+  /**
+     * Método no documentado.
+     * @param idToken Parámetro no documentado.
+     * @param rememberMe Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    signInWithGoogle(idToken: string, rememberMe: boolean = false): Observable<any> {
     const googleSignInUrl = this.signInUrl.replace(/\/login$/, '/google');
     return this.http.post(googleSignInUrl, { idToken }).pipe(
       tap((response: any) => {
@@ -150,7 +170,13 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
     );
   }
 
-  signInWithGithub(code: string, rememberMe: boolean = false): Observable<any> {
+  /**
+     * Método no documentado.
+     * @param code Parámetro no documentado.
+     * @param rememberMe Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    signInWithGithub(code: string, rememberMe: boolean = false): Observable<any> {
     const githubSignInUrl = this.signInUrl.replace(/\/login$/, '/github');
     return this.http.post(githubSignInUrl, { code }).pipe(
       tap((response: any) => {
@@ -161,17 +187,36 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
     );
   }
 
-  requestPasswordRecovery(email: string, locale: string): Observable<any> {
+  /**
+     * Método no documentado.
+     * @param email Parámetro no documentado.
+     * @param locale Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    requestPasswordRecovery(email: string, locale: string): Observable<any> {
     const url = this.signInUrl.replace(/\/login$/, '/password-recovery/request');
     return this.http.post(url, { email, locale });
   }
 
-  verifyPasswordRecovery(email: string, code: string): Observable<any> {
+  /**
+     * Método no documentado.
+     * @param email Parámetro no documentado.
+     * @param code Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    verifyPasswordRecovery(email: string, code: string): Observable<any> {
     const url = this.signInUrl.replace(/\/login$/, '/password-recovery/verify');
     return this.http.post(url, { email, code });
   }
 
-  resetPasswordRecovery(
+  /**
+     * Método no documentado.
+     * @param email Parámetro no documentado.
+     * @param code Parámetro no documentado.
+     * @param newPassword Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    resetPasswordRecovery(
     email: string,
     code: string,
     newPassword: string,
@@ -183,7 +228,8 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
   /**
    * Registra un nuevo usuario en la plataforma.
    * @param registerPayload Datos del registro.
-   */
+     * @returns Retorno no documentado.
+     */
   signUp(registerPayload: any): Observable<any> {
     const payload = this.authMapping.signUpPayload(registerPayload);
     return this.http.post(this.signUpUrl, payload).pipe(
@@ -197,7 +243,8 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
 
   /**
    * Cierra la sesión y limpia el almacenamiento local.
-   */
+     * @returns Retorno no documentado.
+     */
   signOut(): Observable<any> {
     if (this.isBrowser) {
       localStorage.removeItem(this.AUTH_KEY);
@@ -213,7 +260,8 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
 
   /**
    * Obtiene los datos del usuario autenticado actualmente desde la API.
-   */
+     * @returns Retorno no documentado.
+     */
   me(): Observable<any> {
     const token = this.getToken();
     const headers: any = token ? { Authorization: `Bearer ${token}` } : {};
@@ -228,7 +276,8 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
 
   /**
    * Devuelve el usuario actual en una Promesa.
-   */
+     * @returns Retorno no documentado.
+     */
   getCurrentUser(): Promise<any> {
     return new Promise((resolve, reject) => {
       const user = this._user.getValue();

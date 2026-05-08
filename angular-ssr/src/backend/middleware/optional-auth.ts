@@ -3,6 +3,13 @@ import jwt from 'jsonwebtoken';
 import { env } from '../config/env';
 import { touchUserLastAppLocale } from '../modules/users/users.service';
 
+/**
+ * Middleware de autenticación opcional para rutas públicas.
+ *
+ * @param req Request HTTP.
+ * @param _res Response HTTP.
+ * @param next Next middleware.
+ */
 export function optionalAuth(req: Request, _res: Response, next: NextFunction) {
   const header = req.headers.authorization;
   if (!header?.startsWith('Bearer ')) return next();

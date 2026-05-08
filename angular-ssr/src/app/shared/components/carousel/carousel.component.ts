@@ -45,7 +45,8 @@ export class CarouselComponent implements AfterViewInit {
   /** Posición de scroll inicial al empezar el arrastre. */
   scrollLeftPos = 0;
 
-  constructor() {}
+  /** Constructor no documentado. */
+    constructor() {}
 
   /**
    * Inicializa el estado del scroll tras la carga de la vista.
@@ -115,7 +116,8 @@ export class CarouselComponent implements AfterViewInit {
 
   /**
    * Inicia el seguimiento del arrastre con el ratón.
-   */
+     * @param e Parámetro no documentado.
+     */
   onMouseDown(e: MouseEvent): void {
     const carousel = this.carouselContainer.nativeElement;
     this.isDragging = false;
@@ -137,7 +139,8 @@ export class CarouselComponent implements AfterViewInit {
 
   /**
    * Realiza el desplazamiento del carrusel siguiendo el movimiento del ratón.
-   */
+     * @param e Parámetro no documentado.
+     */
   onMouseMove(e: MouseEvent): void {
     if (e.buttons !== 1) return;
     e.preventDefault();

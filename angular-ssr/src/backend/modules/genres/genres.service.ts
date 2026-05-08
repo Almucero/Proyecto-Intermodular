@@ -1,5 +1,11 @@
 import { prisma } from '../../config/db';
 
+/**
+ * Lista géneros con filtro opcional por nombre.
+ *
+ * @param filters Filtros opcionales.
+ * @returns Listado de géneros.
+ */
 export async function listGenres(filters?: { name?: string }) {
   const where: any = {};
   if (filters?.name)
@@ -11,6 +17,12 @@ export async function listGenres(filters?: { name?: string }) {
   });
 }
 
+/**
+ * Busca un género por id.
+ *
+ * @param id Identificador del género.
+ * @returns Género con juegos asociados.
+ */
 export async function findGenreById(id: number) {
   return await prisma.genre.findUnique({
     where: { id } as any,
@@ -42,10 +54,23 @@ export async function findGenreById(id: number) {
   });
 }
 
+/**
+ * Crea un género.
+ *
+ * @param data Datos de creación.
+ * @returns Género creado.
+ */
 export async function createGenre(data: { name: string }) {
   return await prisma.genre.create({ data, select: { id: true, name: true } });
 }
 
+/**
+ * Actualiza un género existente.
+ *
+ * @param id Identificador del género.
+ * @param data Datos parciales.
+ * @returns Género actualizado.
+ */
 export async function updateGenre(id: number, data: { name?: string }) {
   return await prisma.genre.update({
     where: { id } as any,
@@ -54,6 +79,12 @@ export async function updateGenre(id: number, data: { name?: string }) {
   });
 }
 
+/**
+ * Elimina un género por id.
+ *
+ * @param id Identificador del género.
+ * @returns Registro eliminado.
+ */
 export async function deleteGenre(id: number) {
   return await prisma.genre.delete({ where: { id } as any });
 }

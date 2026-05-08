@@ -25,8 +25,10 @@ import {
   styleUrls: ['./language-selector.component.scss'],
 })
 export class LanguageSelectorComponent implements OnInit {
-  private languageService = inject(LanguageService);
-  @ViewChild('triggerButton') triggerButton?: ElementRef<HTMLButtonElement>;
+  /** Propiedad no documentada. */
+    private languageService = inject(LanguageService);
+  /** Propiedad no documentada. */
+    @ViewChild('triggerButton') triggerButton?: ElementRef<HTMLButtonElement>;
 
   /** Indica si el menú desplegable de idiomas está abierto. */
   isLangMenuOpen = false;
@@ -46,7 +48,8 @@ export class LanguageSelectorComponent implements OnInit {
     { code: 'it', flag: 'assets/flags/italia.png', name: 'Italiano' },
   ];
 
-  ngOnInit(): void {
+  /** Método no documentado. */
+    ngOnInit(): void {
     try {
       const current = this.languageService.getCurrentLang();
       this.displayedFlag = this.getFlagFor(current);
@@ -58,7 +61,8 @@ export class LanguageSelectorComponent implements OnInit {
   /**
    * Obtiene la ruta de la bandera para un código de idioma.
    * @param code Código del idioma.
-   */
+     * @returns Retorno no documentado.
+     */
   private getFlagFor(code: Language | undefined): string {
     if (!code) return 'assets/flags/espana.png';
     const current = this.languages.find((l) => l.code === code);
@@ -122,7 +126,10 @@ export class LanguageSelectorComponent implements OnInit {
     this.closeLangMenu();
   }
 
-  /** Escucha clics globales para cerrar el menú si se pulsa fuera del componente. */
+  /**
+     * Escucha clics globales para cerrar el menú si se pulsa fuera del componente.
+     * @param event Parámetro no documentado.
+     */
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event): void {
     const target = event.target as HTMLElement;
@@ -134,7 +141,8 @@ export class LanguageSelectorComponent implements OnInit {
     }
   }
 
-  private blurTrigger(): void {
+  /** Método no documentado. */
+    private blurTrigger(): void {
     const btn = this.triggerButton?.nativeElement;
     if (btn) {
       btn.blur();

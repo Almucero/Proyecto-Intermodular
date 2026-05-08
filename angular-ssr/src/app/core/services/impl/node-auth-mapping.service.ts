@@ -10,12 +10,14 @@ import { SignInPayload, SignUpPayload, User } from '../../models/user.model';
   providedIn: 'root',
 })
 export class NodeAuthMappingService implements IAuthMapping {
-  constructor() {}
+  /** Constructor no documentado. */
+    constructor() {}
 
   /**
    * Prepara el payload para el inicio de sesión.
    * @param payload Datos de entrada del formulario.
-   */
+     * @returns Retorno no documentado.
+     */
   signInPayload(payload: SignInPayload): any {
     return {
       email: payload.email,
@@ -27,7 +29,8 @@ export class NodeAuthMappingService implements IAuthMapping {
    * Prepara el payload para el registro de un nuevo usuario.
    * Realiza transformaciones automáticas como generar el tag 'accountAt'.
    * @param payload Datos del registro.
-   */
+     * @returns Retorno no documentado.
+     */
   signUpPayload(payload: SignUpPayload): any {
     return {
       name: payload.name,
@@ -41,7 +44,8 @@ export class NodeAuthMappingService implements IAuthMapping {
 
   /**
    * Genera un ID de cuenta aleatorio.
-   */
+     * @returns Retorno no documentado.
+     */
   private generateAccountId(): string {
     return 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'.replace(/[x]/g, () => {
       return ((Math.random() * 16) | 0).toString(16);
@@ -50,21 +54,27 @@ export class NodeAuthMappingService implements IAuthMapping {
 
   /**
    * Mapea la respuesta de login al modelo User.
-   */
+     * @param response Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   signIn(response: any): User {
     return this.mapUser(response.user);
   }
 
   /**
    * Mapea la respuesta de registro al modelo User.
-   */
+     * @param response Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   signUp(response: any): User {
     return this.mapUser(response.user);
   }
 
   /**
    * Mapea el perfil del usuario al modelo User.
-   */
+     * @param response Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   me(response: any): User {
     return this.mapUser(response);
   }

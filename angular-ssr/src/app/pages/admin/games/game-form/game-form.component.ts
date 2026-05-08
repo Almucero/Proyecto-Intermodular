@@ -55,18 +55,29 @@ import { Inject } from '@angular/core';
   styleUrl: './game-form.component.scss',
 })
 export class GameFormComponent implements OnInit, OnChanges, AfterViewInit {
-  private fb = inject(FormBuilder);
-  private gameService = inject(GameService);
-  private developerService = inject(DeveloperService);
-  private publisherService = inject(PublisherService);
-  private genreService = inject(GenreService);
-  private platformService = inject(PlatformService);
-  private cdRef = inject(ChangeDetectorRef);
+  /** Propiedad no documentada. */
+    private fb = inject(FormBuilder);
+  /** Propiedad no documentada. */
+    private gameService = inject(GameService);
+  /** Propiedad no documentada. */
+    private developerService = inject(DeveloperService);
+  /** Propiedad no documentada. */
+    private publisherService = inject(PublisherService);
+  /** Propiedad no documentada. */
+    private genreService = inject(GenreService);
+  /** Propiedad no documentada. */
+    private platformService = inject(PlatformService);
+  /** Propiedad no documentada. */
+    private cdRef = inject(ChangeDetectorRef);
 
   /** Referencia al contenedor de géneros para gestionar efectos de scroll. */
   @ViewChild('genreContainer') genreContainer!: ElementRef;
 
-  constructor(
+  /**
+     * Constructor no documentado.
+     * @param mediaRepository Parámetro no documentado.
+     */
+    constructor(
     @Inject(MEDIA_REPOSITORY_TOKEN) private mediaRepository: IMediaRepository,
   ) {}
 
@@ -109,25 +120,36 @@ export class GameFormComponent implements OnInit, OnChanges, AfterViewInit {
 
   /** Listas de opciones cargadas desde el servidor para los selectores. */
   developers: Developer[] = [];
-  publishers: Publisher[] = [];
-  genres: Genre[] = [];
-  platforms: Platform[] = [];
+  /** Propiedad no documentada. */
+    publishers: Publisher[] = [];
+  /** Propiedad no documentada. */
+    genres: Genre[] = [];
+  /** Propiedad no documentada. */
+    platforms: Platform[] = [];
   /** URL de la imagen actual del juego (para edición). */
   currentImageUrl: string | null = null;
 
   /** Estados para controlar la visibilidad de mini-modales de creación rápida. */
   showDevModal = false;
-  newDevName = '';
-  showPubModal = false;
-  newPubName = '';
-  showGenreModal = false;
-  newGenreName = '';
-  showPlatformModal = false;
-  newPlatformName = '';
+  /** Propiedad no documentada. */
+    newDevName = '';
+  /** Propiedad no documentada. */
+    showPubModal = false;
+  /** Propiedad no documentada. */
+    newPubName = '';
+  /** Propiedad no documentada. */
+    showGenreModal = false;
+  /** Propiedad no documentada. */
+    newGenreName = '';
+  /** Propiedad no documentada. */
+    showPlatformModal = false;
+  /** Propiedad no documentada. */
+    newPlatformName = '';
 
   /** Control de sombras visuales para la lista de géneros con scroll. */
   showGenreTopShadow = false;
-  showGenreBottomShadow = false;
+  /** Propiedad no documentada. */
+    showGenreBottomShadow = false;
 
   /** Inicializa dependencias y carga datos iniciales. */
   ngOnInit(): void {
@@ -141,7 +163,10 @@ export class GameFormComponent implements OnInit, OnChanges, AfterViewInit {
     }
   }
 
-  /** Detecta cambios en el ID de entrada para conmutar entre creación y edición. */
+  /**
+     * Detecta cambios en el ID de entrada para conmutar entre creación y edición.
+     * @param changes Parámetro no documentado.
+     */
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['id']) {
       if (this.id) {
@@ -175,7 +200,10 @@ export class GameFormComponent implements OnInit, OnChanges, AfterViewInit {
     this.currentImageUrl = null;
   }
 
-  /** Carga los datos de un juego específico para su edición. */
+  /**
+     * Carga los datos de un juego específico para su edición.
+     * @param id Parámetro no documentado.
+     */
   loadGame(id: number) {
     this.gameService.getById(id.toString()).subscribe((game) => {
       if (game) {
@@ -273,7 +301,11 @@ export class GameFormComponent implements OnInit, OnChanges, AfterViewInit {
     });
   }
 
-  /** Maneja la selección/deselección de géneros (multiselect). */
+  /**
+     * Maneja la selección/deselección de géneros (multiselect).
+     * @param e Parámetro no documentado.
+     * @param genreId Parámetro no documentado.
+     */
   onGenreChange(e: any, genreId: number) {
     const currentIds: number[] = this.form.get('genreIds')?.value || [];
     if (e.target.checked) {
@@ -287,7 +319,11 @@ export class GameFormComponent implements OnInit, OnChanges, AfterViewInit {
     }
   }
 
-  /** Maneja la selección/deselección de plataformas (multiselect). */
+  /**
+     * Maneja la selección/deselección de plataformas (multiselect).
+     * @param e Parámetro no documentado.
+     * @param platformId Parámetro no documentado.
+     */
   onPlatformChange(e: any, platformId: number) {
     const currentIds: number[] = this.form.get('platformIds')?.value || [];
     if (e.target.checked) {
@@ -301,12 +337,20 @@ export class GameFormComponent implements OnInit, OnChanges, AfterViewInit {
     }
   }
 
-  /** Comprueba si un género está seleccionado actualmente. */
+  /**
+     * Comprueba si un género está seleccionado actualmente.
+     * @param id Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   isGenreSelected(id: number): boolean {
     return (this.form.get('genreIds')?.value || []).includes(id);
   }
 
-  /** Comprueba si una plataforma está seleccionada actualmente. */
+  /**
+     * Comprueba si una plataforma está seleccionada actualmente.
+     * @param id Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   isPlatformSelected(id: number): boolean {
     return (this.form.get('platformIds')?.value || []).includes(id);
   }
@@ -376,7 +420,10 @@ export class GameFormComponent implements OnInit, OnChanges, AfterViewInit {
       !atBottom && element.scrollHeight > element.clientHeight;
   }
 
-  /** Calcula el estilo CSS de máscara para los gradientes de scroll en géneros. */
+  /**
+     * Calcula el estilo CSS de máscara para los gradientes de scroll en géneros.
+     * @returns Retorno no documentado.
+     */
   getGenreMaskStyle(): string {
     const top = this.showGenreTopShadow ? 'transparent' : 'black';
     const bottom = this.showGenreBottomShadow ? 'transparent' : 'black';

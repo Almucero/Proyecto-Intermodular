@@ -19,6 +19,7 @@ import {
 } from './auth.schema';
 import { env } from '../../config/env';
 
+/** Construye el origen efectivo de la request considerando proxies. */
 function getRequestOrigin(req: Request): string {
   const forwardedProto = req.get('x-forwarded-proto')?.split(',')[0]?.trim();
   const forwardedHost = req.get('x-forwarded-host')?.split(',')[0]?.trim();
@@ -27,6 +28,7 @@ function getRequestOrigin(req: Request): string {
   return `${protocol}://${host}`;
 }
 
+/** Extrae una cookie concreta del header `cookie`. */
 function getCookieValue(req: Request, key: string): string | null {
   const cookies = req.headers.cookie;
   if (!cookies) return null;
@@ -45,6 +47,7 @@ function getCookieValue(req: Request, key: string): string | null {
   return null;
 }
 
+/** Controlador de registro local. */
 export async function registerCtrl(req: Request, res: Response) {
   try {
     const {
@@ -115,6 +118,7 @@ export async function registerCtrl(req: Request, res: Response) {
   }
 }
 
+/** Controlador de login local. */
 export async function loginCtrl(req: Request, res: Response) {
   try {
     const { email, password } = loginSchema.parse(req.body);
@@ -131,6 +135,7 @@ export async function loginCtrl(req: Request, res: Response) {
   }
 }
 
+/** Controlador de login OAuth con Google. */
 export async function googleLoginCtrl(req: Request, res: Response) {
   try {
     const { idToken } = googleLoginSchema.parse(req.body);
@@ -147,6 +152,7 @@ export async function googleLoginCtrl(req: Request, res: Response) {
   }
 }
 
+/** Devuelve client id público de Google para frontend. */
 export function googleClientIdCtrl(_req: Request, res: Response) {
   if (!env.GOOGLE_CLIENT_ID) {
     return res.status(200).json({ enabled: false, clientId: null });
@@ -156,6 +162,7 @@ export function googleClientIdCtrl(_req: Request, res: Response) {
     .json({ enabled: true, clientId: env.GOOGLE_CLIENT_ID });
 }
 
+/** Callback intermedio de Google: redirige a pantalla destino con params OAuth. */
 export function googleCallbackCtrl(_req: Request, res: Response) {
   const origin = getRequestOrigin(_req);
   const cookieTarget = getCookieValue(_req, 'google_oauth_target');
@@ -182,6 +189,7 @@ export function googleCallbackCtrl(_req: Request, res: Response) {
   res.redirect(302, destination.toString());
 }
 
+/** Controlador de login OAuth con GitHub. */
 export async function githubLoginCtrl(req: Request, res: Response) {
   try {
     const { code } = githubLoginSchema.parse(req.body);
@@ -195,6 +203,7 @@ export async function githubLoginCtrl(req: Request, res: Response) {
   }
 }
 
+/** Devuelve client id público de GitHub para frontend. */
 export function githubClientIdCtrl(_req: Request, res: Response) {
   if (!env.GITHUB_CLIENT_ID) {
     return res.status(200).json({ enabled: false, clientId: null });
@@ -204,6 +213,7 @@ export function githubClientIdCtrl(_req: Request, res: Response) {
     .json({ enabled: true, clientId: env.GITHUB_CLIENT_ID });
 }
 
+/** Callback intermedio de GitHub: redirige a frontend con params de retorno. */
 export function githubCallbackCtrl(req: Request, res: Response) {
   const code = typeof req.query['code'] === 'string' ? req.query['code'] : '';
   const state =
@@ -221,6 +231,7 @@ export function githubCallbackCtrl(req: Request, res: Response) {
   res.redirect(302, redirectUrl.toString());
 }
 
+/** Inicia el flujo de recuperación de contraseña. */
 export async function passwordRecoveryRequestCtrl(req: Request, res: Response) {
   try {
     const { email, locale } = passwordRecoveryRequestSchema.parse(req.body);
@@ -242,6 +253,7 @@ export async function passwordRecoveryRequestCtrl(req: Request, res: Response) {
   }
 }
 
+/** Verifica código de recuperación enviado al usuario. */
 export async function passwordRecoveryVerifyCtrl(req: Request, res: Response) {
   try {
     const { email, code } = passwordRecoveryVerifySchema.parse(req.body);
@@ -255,6 +267,7 @@ export async function passwordRecoveryVerifyCtrl(req: Request, res: Response) {
   }
 }
 
+/** Restablece la contraseña tras verificar código. */
 export async function passwordRecoveryResetCtrl(req: Request, res: Response) {
   try {
     const { email, code, newPassword } = passwordRecoveryResetSchema.parse(req.body);

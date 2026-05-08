@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>game-sage documentation</title>
+        <title>Game Sage Documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -78,7 +78,7 @@
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
-                    <a href="../" class="navbar-brand">game-sage documentation</a>
+                    <a href="../" class="navbar-brand">Game Sage Documentation</a>
                     <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
                </div>
         </div>
@@ -144,6 +144,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Usuario autenticado inyectado por middlewares de auth.</p>
+
+            </p>
 
 
         <section data-compodoc="block-index">
@@ -212,6 +219,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Propiedad no documentada.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
             </section>
@@ -227,12 +240,21 @@ import { applySecurityHeaders, applyNoCacheHeaders } from &#x27;../../security-h
 
 declare global {
   namespace Express {
+    /** Usuario autenticado inyectado por middlewares de auth. */
     interface Request {
-      user?: { sub: number; email: string; isAdmin?: boolean };
+      /** Propiedad no documentada. */
+        user?: { sub: number; email: string; isAdmin?: boolean };
     }
   }
 }
 
+/**
+ * Middleware de autenticación JWT obligatorio.
+ *
+ * @param req Request HTTP.
+ * @param res Response HTTP.
+ * @param next Next middleware.
+ */
 export function auth(req: Request, res: Response, next: NextFunction) {
   applySecurityHeaders(req, res);
   applyNoCacheHeaders(res);
@@ -290,10 +312,14 @@ export function auth(req: Request, res: Response, next: NextFunction) {
         isAdmin: payload.isAdmin ?? false,
       };
       void touchUserLastSeen(payload.sub);
+      const cookieHeader &#x3D; req.headers.cookie || &#x27;&#x27;;
+      const cookieLocaleMatch &#x3D; cookieHeader.match(/(?:^|;\s*)app-language&#x3D;([^;]+)/i);
+      const cookieLocale &#x3D; cookieLocaleMatch?.[1] ? decodeURIComponent(cookieLocaleMatch[1]) : &#x27;&#x27;;
       const acceptLang &#x3D; req.headers[&#x27;accept-language&#x27;];
       const langHeader &#x3D; Array.isArray(acceptLang) ? acceptLang[0] : acceptLang;
-      if (typeof langHeader &#x3D;&#x3D;&#x3D; &#x27;string&#x27; &amp;&amp; langHeader.trim()) {
-        void touchUserLastAppLocale(payload.sub, langHeader.split(&#x27;,&#x27;)[0] || langHeader);
+      const effectiveLocale &#x3D; cookieLocale || (typeof langHeader &#x3D;&#x3D;&#x3D; &#x27;string&#x27; ? (langHeader.split(&#x27;,&#x27;)[0] || langHeader) : &#x27;&#x27;);
+      if (effectiveLocale.trim()) {
+        void touchUserLastAppLocale(payload.sub, effectiveLocale);
       }
       next();
     })

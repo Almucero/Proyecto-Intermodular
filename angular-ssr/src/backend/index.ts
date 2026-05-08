@@ -2,6 +2,7 @@ import app from './app';
 import { env } from './config/env';
 import { logger } from './utils/logger';
 
+/** Servidor HTTP principal de la API backend. */
 const server = app.listen(env.PORT, () => {
   logger.info(`API escuchando en http://localhost:${env.PORT}`);
   logger.info(`Swagger: http://localhost:${env.PORT}/api-docs`);

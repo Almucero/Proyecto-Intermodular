@@ -58,20 +58,33 @@ export class AppComponent {
   public exitAnimationDuration = '800ms';
   /** Controla el estado visual del contenedor durante navegación. */
   public isRouteHidden = false;
-  public isRouteEntering = false;
-  private routeFadeTimer: ReturnType<typeof setTimeout> | null = null;
-  private readonly routeFadeDurationMs = 650;
-  private pendingInitialRouteReveal = false;
-  private shouldAnimateRouteTransition = true;
+  /** Propiedad no documentada. */
+    public isRouteEntering = false;
+  /** Propiedad no documentada. */
+    private routeFadeTimer: ReturnType<typeof setTimeout> | null = null;
+  /** Propiedad no documentada. */
+    private readonly routeFadeDurationMs = 650;
+  /** Propiedad no documentada. */
+    private pendingInitialRouteReveal = false;
+  /** Propiedad no documentada. */
+    private shouldAnimateRouteTransition = true;
 
-  private authService = inject(BaseAuthenticationService);
-  private router = inject(Router);
-  private uiState = inject(UiStateService);
-  private platformId = inject(PLATFORM_ID);
-  private document = inject(DOCUMENT);
-  private pageTitleService = inject(PageTitleService);
-  private loadingScreenEnabled = true;
-  public headerRevealEnabled = true;
+  /** Propiedad no documentada. */
+    private authService = inject(BaseAuthenticationService);
+  /** Propiedad no documentada. */
+    private router = inject(Router);
+  /** Propiedad no documentada. */
+    private uiState = inject(UiStateService);
+  /** Propiedad no documentada. */
+    private platformId = inject(PLATFORM_ID);
+  /** Propiedad no documentada. */
+    private document = inject(DOCUMENT);
+  /** Propiedad no documentada. */
+    private pageTitleService = inject(PageTitleService);
+  /** Propiedad no documentada. */
+    private loadingScreenEnabled = true;
+  /** Propiedad no documentada. */
+    public headerRevealEnabled = true;
 
   /**
    * Inicializa la aplicación, gestiona el auto-login y el estado de la pantalla de carga.
@@ -186,7 +199,8 @@ export class AppComponent {
     });
   }
 
-  private triggerRouteReveal() {
+  /** Método no documentado. */
+    private triggerRouteReveal() {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
@@ -210,7 +224,8 @@ export class AppComponent {
     });
   }
 
-  public onRouteActivated() {
+  /** Método no documentado. */
+    public onRouteActivated() {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
@@ -221,7 +236,12 @@ export class AppComponent {
     this.triggerRouteReveal();
   }
 
-  private isAdminRoute(url: string): boolean {
+  /**
+     * Método no documentado.
+     * @param url Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    private isAdminRoute(url: string): boolean {
     return /^\/admin(?:\/|$)/.test(url || '');
   }
 }

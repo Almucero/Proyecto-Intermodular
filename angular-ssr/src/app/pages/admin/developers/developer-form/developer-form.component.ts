@@ -30,8 +30,10 @@ import { Developer } from '../../../../core/models/developer.model';
   styleUrl: './developer-form.component.scss',
 })
 export class DeveloperFormComponent implements OnInit, OnChanges {
-  private fb = inject(FormBuilder);
-  private developerService = inject(DeveloperService);
+  /** Propiedad no documentada. */
+    private fb = inject(FormBuilder);
+  /** Propiedad no documentada. */
+    private developerService = inject(DeveloperService);
 
   /** ID del desarrollador a editar. Si es null, el formulario actúa en modo creación. */
   @Input() developerId: number | null = null;
@@ -61,7 +63,10 @@ export class DeveloperFormComponent implements OnInit, OnChanges {
     }
   }
 
-  /** Responde a los cambios en el ID de entrada para cambiar entre modos. */
+  /**
+     * Responde a los cambios en el ID de entrada para cambiar entre modos.
+     * @param changes Parámetro no documentado.
+     */
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['developerId']) {
       if (this.developerId) {
@@ -74,7 +79,10 @@ export class DeveloperFormComponent implements OnInit, OnChanges {
     }
   }
 
-  /** Carga la información de un desarrollador existente desde el servidor. */
+  /**
+     * Carga la información de un desarrollador existente desde el servidor.
+     * @param id Parámetro no documentado.
+     */
   loadDeveloper(id: number) {
     this.developerService.getById(id.toString()).subscribe((developer) => {
       if (developer) {

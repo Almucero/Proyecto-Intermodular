@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+/** Esquema de actualización de usuario (admin/owner). */
 export const updateUserSchema = z.object({
   name: z
     .string()
@@ -24,6 +25,7 @@ export const updateUserSchema = z.object({
   emailRecommendationIntervalDays: z.number().int().min(1).max(30).optional(),
 });
 
+/** Esquema de actualización de perfil del usuario autenticado. */
 export const updateProfileSchema = z.object({
   name: z
     .string()
@@ -48,6 +50,7 @@ export const updateProfileSchema = z.object({
   emailRecommendationIntervalDays: z.number().int().min(1).max(30).optional(),
 });
 
+/** Esquema de cambio de contraseña. */
 export const changePasswordSchema = z.object({
   currentPassword: z.string().min(1, 'La contraseña actual es requerida'),
   newPassword: z
@@ -55,6 +58,9 @@ export const changePasswordSchema = z.object({
     .min(8, 'La nueva contraseña debe tener al menos 8 caracteres'),
 });
 
+/** Tipo inferido para actualización de usuario. */
 export type UpdateUserInput = z.infer<typeof updateUserSchema>;
+/** Tipo inferido para actualización de perfil. */
 export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;
+/** Tipo inferido para cambio de contraseña. */
 export type ChangePasswordInput = z.infer<typeof changePasswordSchema>;

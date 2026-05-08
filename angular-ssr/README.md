@@ -799,9 +799,12 @@ Tras una clonación o reinstalación, usa **`npm run setup:secure`** para dejar 
 
 ### Documentación (Compodoc)
 
+El proyecto persigue mantener un **100% de cobertura de documentación** con Compodoc. Cualquier nuevo componente, directiva, servicio o clase relevante debe incluir sus correspondientes bloques JSDoc (`/** ... */`).
+
 - **`npm run docs`**: levanta la documentación web de Compodoc en local (usando `docs/`).
 - **`npm run docs:build`**: genera la documentación de Compodoc en la carpeta `docs/`.
 - **`npm run docs:serve`**: levanta la documentación web de Compodoc en local para abrirla en el navegador (usando `docs/`).
+- **`py scripts/coverage-report.py`** (o `python3`): analiza el reporte de cobertura HTML generado por `docs:build` y muestra en consola los símbolos que no alcanzan el 100%.
 
 ### Utilidades
 

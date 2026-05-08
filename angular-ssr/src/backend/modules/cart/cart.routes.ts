@@ -12,6 +12,7 @@ import {
   confirmDirectCheckoutSessionCtrl,
 } from './cart.controller';
 
+/** Router de endpoints de carrito. */
 const router = Router();
 
 /**

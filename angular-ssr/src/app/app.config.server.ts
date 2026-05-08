@@ -8,8 +8,10 @@ import { provideServerRendering, withRoutes } from '@angular/ssr';
 import { appConfig } from './app.config';
 import { serverRoutes } from './app.routes.server';
 
+/** Configuración de providers específica para ejecución SSR. */
 const serverConfig: ApplicationConfig = {
   providers: [provideServerRendering(withRoutes(serverRoutes))],
 };
 
+/** Configuración final de aplicación para servidor. */
 export const config = mergeApplicationConfig(appConfig, serverConfig);

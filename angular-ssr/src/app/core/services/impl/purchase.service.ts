@@ -23,8 +23,17 @@ export class PurchaseService
   implements IPurchaseService
 {
   /**
-   * @param repository Repositorio de compras inyectado.
-   */
+       * Documentado.
+       * @param repository Repositorio de compras inyectado.
+         *
+       * @param http Parámetro no documentado.
+         *
+       * @param apiUrl Parámetro no documentado.
+         *
+       * @param resource Parámetro no documentado.
+         *
+       * @param auth Parámetro no documentado.
+       */
   constructor(
     @Inject(PURCHASE_REPOSITORY_TOKEN) repository: IBaseRepository<Purchase>,
     private http: HttpClient,
@@ -35,7 +44,11 @@ export class PurchaseService
     super(repository);
   }
 
-  private getAuthHeaders(): any {
+  /**
+     * Método no documentado.
+     * @returns Retorno no documentado.
+     */
+    private getAuthHeaders(): any {
     const headers: any = {};
     const token = this.auth.getToken();
     if (token) headers['Authorization'] = `Bearer ${token}`;

@@ -22,9 +22,13 @@ export class CopyOnClickDirective {
   @Input() appCopyOnClick: string = '';
 
   /**
-   * @param el Referencia al elemento del DOM.
-   * @param platformId Identificador de la plataforma (Browser/Server).
-   */
+       * Documentado.
+       * @param el Referencia al elemento del DOM.
+       *
+       * @param platformId Identificador de la plataforma (Browser/Server).
+         *
+       * @param translate Parámetro no documentado.
+       */
   constructor(
     private el: ElementRef,
     private translate: TranslateService,
@@ -47,7 +51,8 @@ export class CopyOnClickDirective {
     });
   }
 
-  private animateCopyIcon() {
+  /** Método no documentado. */
+    private animateCopyIcon() {
     const element = this.el.nativeElement as HTMLElement;
     const originalTransition = element.style.transition;
     const originalTransform = element.style.transform;
@@ -61,7 +66,8 @@ export class CopyOnClickDirective {
     }, 160);
   }
 
-  private showCopiedPopup() {
+  /** Método no documentado. */
+    private showCopiedPopup() {
     const element = this.el.nativeElement as HTMLElement;
     const rect = element.getBoundingClientRect();
     const popup = document.createElement('span');

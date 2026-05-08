@@ -1,3 +1,9 @@
+/**
+ * Serializa estructuras que contienen tipos Prisma a JSON seguro.
+ *
+ * @param value Valor a serializar.
+ * @returns Estructura serializada.
+ */
 export function serializePrisma(value: any): any {
   if (value === null || value === undefined) return value;
 

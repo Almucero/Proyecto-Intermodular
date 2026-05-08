@@ -21,6 +21,7 @@ import {
   DirectCheckoutSessionPayload,
 } from '../../../core/services/impl/cart-item.service';
 
+/** Modal de checkout Stripe embebido para compra de carrito o compra directa. */
 @Component({
   selector: 'app-stripe-modal',
   standalone: true,
@@ -29,32 +30,58 @@ import {
   styleUrl: './stripe-checkout.component.scss',
 })
 export class StripeModalComponent implements OnChanges, OnDestroy {
-  @Input() open = false;
-  @Input() titleKey = 'cart.buy';
-  @Input() directCheckoutPayload: DirectCheckoutSessionPayload | null = null;
-  @Output() closed = new EventEmitter<void>();
-  @Output() completed = new EventEmitter<void>();
+  /** Propiedad no documentada. */
+    @Input() open = false;
+  /** Propiedad no documentada. */
+    @Input() titleKey = 'cart.buy';
+  /** Propiedad no documentada. */
+    @Input() directCheckoutPayload: DirectCheckoutSessionPayload | null = null;
+  /** Propiedad no documentada. */
+    @Output() closed = new EventEmitter<void>();
+  /** Propiedad no documentada. */
+    @Output() completed = new EventEmitter<void>();
 
-  checkoutLoading = signal(false);
-  checkoutEmbeddedReady = signal(false);
-  showCheckoutTopFade = signal(false);
-  showCheckoutBottomFade = signal(false);
-  checkoutHeaderHeight = signal(64);
-  checkoutFooterHeight = signal(64);
-  checkoutModalHeight = signal<number | null>(null);
-  error = signal<string | null>(null);
+  /** Propiedad no documentada. */
+    checkoutLoading = signal(false);
+  /** Propiedad no documentada. */
+    checkoutEmbeddedReady = signal(false);
+  /** Propiedad no documentada. */
+    showCheckoutTopFade = signal(false);
+  /** Propiedad no documentada. */
+    showCheckoutBottomFade = signal(false);
+  /** Propiedad no documentada. */
+    checkoutHeaderHeight = signal(64);
+  /** Propiedad no documentada. */
+    checkoutFooterHeight = signal(64);
+  /** Propiedad no documentada. */
+    checkoutModalHeight = signal<number | null>(null);
+  /** Propiedad no documentada. */
+    error = signal<string | null>(null);
 
-  private embeddedCheckout: StripeEmbeddedCheckout | null = null;
-  private checkoutInitToken = 0;
-  private readonly isBrowser: boolean;
-  private originalBodyOverflow = '';
-  private readonly onResize = () => {
+  /** Propiedad no documentada. */
+    private embeddedCheckout: StripeEmbeddedCheckout | null = null;
+  /** Propiedad no documentada. */
+    private checkoutInitToken = 0;
+  /** Propiedad no documentada. */
+    private readonly isBrowser: boolean;
+  /** Propiedad no documentada. */
+    private originalBodyOverflow = '';
+  /** Propiedad no documentada. */
+    private readonly onResize = () => {
     if (!this.open) return;
     this.updateCheckoutLayoutMetrics();
   };
-  private readonly embeddedContainerId = `stripe-checkout-embedded-${Math.random().toString(36).slice(2)}`;
+  /** Propiedad no documentada. */
+    private readonly embeddedContainerId = `stripe-checkout-embedded-${Math.random().toString(36).slice(2)}`;
 
-  constructor(
+  /**
+     * Constructor no documentado.
+     * @param cartItemService Parámetro no documentado.
+     * @param languageService Parámetro no documentado.
+     * @param document Parámetro no documentado.
+     * @param platformId Parámetro no documentado.
+     */
+    constructor(
     private cartItemService: CartItemService,
     private languageService: LanguageService,
     @Inject(DOCUMENT) private document: Document,
@@ -66,7 +93,11 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  /**
+     * Método no documentado.
+     * @param changes Parámetro no documentado.
+     */
+    ngOnChanges(changes: SimpleChanges): void {
     if (!changes['open']) return;
     if (this.open) {
       this.startCheckout();
@@ -75,27 +106,38 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
     this.closeInternal();
   }
 
-  ngOnDestroy(): void {
+  /** Método no documentado. */
+    ngOnDestroy(): void {
     this.closeInternal();
     if (this.isBrowser) {
       window.removeEventListener('resize', this.onResize);
     }
   }
 
-  requestClose(): void {
+  /** Método no documentado. */
+    requestClose(): void {
     this.closeInternal();
     this.closed.emit();
   }
 
-  onCheckoutEmbedScroll(): void {
+  /** Método no documentado. */
+    onCheckoutEmbedScroll(): void {
     this.updateCheckoutEmbedFadeState();
   }
 
-  getEmbeddedContainerId(): string {
+  /**
+     * Método no documentado.
+     * @returns Retorno no documentado.
+     */
+    getEmbeddedContainerId(): string {
     return this.embeddedContainerId;
   }
 
-  private async startCheckout(): Promise<void> {
+  /**
+     * Método no documentado.
+     * @returns Retorno no documentado.
+     */
+    private async startCheckout(): Promise<void> {
     if (!this.open || !this.isBrowser) return;
     this.closeInternal();
     const initToken = ++this.checkoutInitToken;
@@ -162,7 +204,8 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
     }
   }
 
-  private closeInternal(): void {
+  /** Método no documentado. */
+    private closeInternal(): void {
     this.checkoutInitToken++;
     if (this.embeddedCheckout) {
       this.embeddedCheckout.destroy();
@@ -176,7 +219,11 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
     this.setPageScrollLocked(false);
   }
 
-  private setPageScrollLocked(locked: boolean): void {
+  /**
+     * Método no documentado.
+     * @param locked Parámetro no documentado.
+     */
+    private setPageScrollLocked(locked: boolean): void {
     if (!this.isBrowser) return;
     if (locked) {
       this.originalBodyOverflow = this.document.body.style.overflow;
@@ -186,7 +233,8 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
     this.document.body.style.overflow = this.originalBodyOverflow || '';
   }
 
-  private updateCheckoutLayoutMetrics(): void {
+  /** Método no documentado. */
+    private updateCheckoutLayoutMetrics(): void {
     if (!this.isBrowser) return;
     const header = this.document.querySelector('header');
     const footer = this.document.querySelector('footer');
@@ -202,7 +250,8 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
     this.checkoutFooterHeight.set(Math.max(footerHeight, 1));
   }
 
-  private lockCheckoutModalInitialSize(): void {
+  /** Método no documentado. */
+    private lockCheckoutModalInitialSize(): void {
     if (!this.isBrowser) return;
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
@@ -216,7 +265,11 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
     });
   }
 
-  private waitForEmbeddedCheckoutVisible(): Promise<void> {
+  /**
+     * Método no documentado.
+     * @returns Retorno no documentado.
+     */
+    private waitForEmbeddedCheckoutVisible(): Promise<void> {
     if (!this.isBrowser) return Promise.resolve();
     const container = this.document.getElementById(this.embeddedContainerId);
     if (!container) return Promise.resolve();
@@ -254,7 +307,8 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
     });
   }
 
-  private resetCheckoutEmbedScroll(): void {
+  /** Método no documentado. */
+    private resetCheckoutEmbedScroll(): void {
     if (!this.isBrowser) return;
     const shell = this.document.querySelector('.checkout-embed-shell');
     const frame = this.document.querySelector('.checkout-embed-frame');
@@ -281,7 +335,8 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
     });
   }
 
-  private enableSingleAutoTopCorrection(): void {
+  /** Método no documentado. */
+    private enableSingleAutoTopCorrection(): void {
     if (!this.isBrowser) return;
     const shell = this.document.querySelector('.checkout-embed-shell');
     if (!(shell instanceof HTMLElement)) return;
@@ -295,7 +350,8 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
     shell.addEventListener('scroll', handleAutoScroll, { passive: true });
   }
 
-  private updateCheckoutEmbedFadeState(): void {
+  /** Método no documentado. */
+    private updateCheckoutEmbedFadeState(): void {
     if (!this.isBrowser) return;
     const shell = this.document.querySelector('.checkout-embed-shell');
     if (!(shell instanceof HTMLElement)) return;
@@ -305,7 +361,12 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
     this.showCheckoutBottomFade.set(currentTop < maxScrollTop - 2);
   }
 
-  private async finalizeEmbeddedCheckout(sessionId: string): Promise<void> {
+  /**
+     * Método no documentado.
+     * @param sessionId Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    private async finalizeEmbeddedCheckout(sessionId: string): Promise<void> {
     try {
       if (this.directCheckoutPayload) {
         await firstValueFrom(
@@ -324,7 +385,11 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
     }
   }
 
-  private getStripeCheckoutLocale(): string {
+  /**
+     * Método no documentado.
+     * @returns Retorno no documentado.
+     */
+    private getStripeCheckoutLocale(): string {
     const lang = this.languageService.getCurrentLang().toLowerCase();
     const base = lang.split('-')[0];
     const localeMap: Record<string, string> = {
@@ -339,7 +404,12 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
     return localeMap[base] ?? 'auto';
   }
 
-  private isValidCheckoutSessionResponse(
+  /**
+     * Método no documentado.
+     * @param value Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    private isValidCheckoutSessionResponse(
     value: unknown,
   ): value is CheckoutSessionResponse {
     if (!value || typeof value !== 'object') return false;

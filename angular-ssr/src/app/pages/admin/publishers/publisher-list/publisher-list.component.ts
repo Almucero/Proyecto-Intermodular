@@ -24,8 +24,10 @@ import { PublisherFormComponent } from '../publisher-form/publisher-form.compone
   styleUrl: './publisher-list.component.scss',
 })
 export class PublisherListComponent implements OnInit {
-  private publisherService = inject(PublisherService);
-  private readonly MIN_SKELETON_MS = 550;
+  /** Propiedad no documentada. */
+    private publisherService = inject(PublisherService);
+  /** Propiedad no documentada. */
+    private readonly MIN_SKELETON_MS = 550;
 
   /** Referencia al contenedor con scroll para manejar efectos visuales de sombras. */
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
@@ -114,7 +116,10 @@ export class PublisherListComponent implements OnInit {
     this.showModal = true;
   }
 
-  /** Abre el modal para editar un editor existente. */
+  /**
+     * Abre el modal para editar un editor existente.
+     * @param id Parámetro no documentado.
+     */
   openEditModal(id: number) {
     this.selectedPublisherId = id;
     this.showModal = true;
@@ -132,7 +137,10 @@ export class PublisherListComponent implements OnInit {
     this.loadPublishers();
   }
 
-  /** Abre el modal de confirmación para eliminar un editor. */
+  /**
+     * Abre el modal de confirmación para eliminar un editor.
+     * @param id Parámetro no documentado.
+     */
   openDeleteModal(id: number) {
     this.publisherToDeleteId = id;
     this.showDeleteModal = true;

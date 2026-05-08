@@ -1,5 +1,11 @@
 import { prisma } from '../../config/db';
 
+/**
+ * Lista publishers con filtro opcional por nombre.
+ *
+ * @param filters Filtros opcionales.
+ * @returns Listado de publishers.
+ */
 export async function listPublishers(filters?: { name?: string | undefined }) {
   try {
     const where: any = {};
@@ -19,6 +25,12 @@ export async function listPublishers(filters?: { name?: string | undefined }) {
   }
 }
 
+/**
+ * Busca un publisher por id.
+ *
+ * @param id Identificador del publisher.
+ * @returns Publisher encontrado o `null`.
+ */
 export async function findPublisherById(id: number) {
   try {
     return await prisma.publisher.findUnique({
@@ -57,6 +69,12 @@ export async function findPublisherById(id: number) {
   }
 }
 
+/**
+ * Crea un publisher.
+ *
+ * @param data Datos de creación.
+ * @returns Publisher creado.
+ */
 export async function createPublisher(data: { name: string }) {
   return await prisma.publisher.create({
     data,
@@ -64,6 +82,13 @@ export async function createPublisher(data: { name: string }) {
   });
 }
 
+/**
+ * Actualiza un publisher existente.
+ *
+ * @param id Identificador del publisher.
+ * @param data Datos parciales.
+ * @returns Publisher actualizado.
+ */
 export async function updatePublisher(id: number, data: { name?: string }) {
   return await prisma.publisher.update({
     where: { id } as any,
@@ -72,6 +97,12 @@ export async function updatePublisher(id: number, data: { name?: string }) {
   });
 }
 
+/**
+ * Elimina un publisher por id.
+ *
+ * @param id Identificador del publisher.
+ * @returns Registro eliminado.
+ */
 export async function deletePublisher(id: number) {
   return await prisma.publisher.delete({ where: { id } as any });
 }

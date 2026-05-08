@@ -6,12 +6,21 @@ import { applySecurityHeaders, applyNoCacheHeaders } from '../../security-header
 
 declare global {
   namespace Express {
+    /** Usuario autenticado inyectado por middlewares de auth. */
     interface Request {
-      user?: { sub: number; email: string; isAdmin?: boolean };
+      /** Propiedad no documentada. */
+        user?: { sub: number; email: string; isAdmin?: boolean };
     }
   }
 }
 
+/**
+ * Middleware de autenticación JWT obligatorio.
+ *
+ * @param req Request HTTP.
+ * @param res Response HTTP.
+ * @param next Next middleware.
+ */
 export function auth(req: Request, res: Response, next: NextFunction) {
   applySecurityHeaders(req, res);
   applyNoCacheHeaders(res);
