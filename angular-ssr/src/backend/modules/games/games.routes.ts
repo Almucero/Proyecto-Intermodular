@@ -12,6 +12,7 @@ import {
   deleteGameCtrl,
 } from './games.controller';
 
+/** Router de endpoints de juegos. */
 const router = Router();
 
 /**

@@ -30,8 +30,10 @@ import { Genre } from '../../../../core/models/genre.model';
   styleUrl: './genre-form.component.scss',
 })
 export class GenreFormComponent implements OnInit, OnChanges {
-  private fb = inject(FormBuilder);
-  private genreService = inject(GenreService);
+  /** Propiedad no documentada. */
+    private fb = inject(FormBuilder);
+  /** Propiedad no documentada. */
+    private genreService = inject(GenreService);
 
   /** ID del género a editar. Si es null, el formulario actúa en modo creación. */
   @Input() genreId: number | null = null;
@@ -61,7 +63,10 @@ export class GenreFormComponent implements OnInit, OnChanges {
     }
   }
 
-  /** Responde a los cambios en el ID de entrada para cambiar entre modos. */
+  /**
+     * Responde a los cambios en el ID de entrada para cambiar entre modos.
+     * @param changes Parámetro no documentado.
+     */
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['genreId']) {
       if (this.genreId) {
@@ -74,7 +79,10 @@ export class GenreFormComponent implements OnInit, OnChanges {
     }
   }
 
-  /** Carga la información de un género existente desde el servidor. */
+  /**
+     * Carga la información de un género existente desde el servidor.
+     * @param id Parámetro no documentado.
+     */
   loadGenre(id: number) {
     this.genreService.getById(id.toString()).subscribe((genre) => {
       if (genre) {

@@ -1,5 +1,12 @@
 import type { Request, Response, NextFunction } from 'express';
 
+/**
+ * Aplica cabeceras de seguridad y CSP a la respuesta.
+ *
+ * @param req Request HTTP.
+ * @param res Response HTTP.
+ * @param next Next middleware opcional.
+ */
 export function applySecurityHeaders(
   req: Request,
   res: Response,
@@ -64,6 +71,11 @@ export function applySecurityHeaders(
   }
 }
 
+/**
+ * Aplica cabeceras anti-cache para respuestas dinámicas.
+ *
+ * @param res Response HTTP.
+ */
 export function applyNoCacheHeaders(res: Response) {
   res.setHeader(
     'Cache-Control',

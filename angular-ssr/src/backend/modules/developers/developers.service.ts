@@ -1,5 +1,11 @@
 import { prisma } from '../../config/db';
 
+/**
+ * Lista desarrolladores con filtro opcional por nombre.
+ *
+ * @param filters Filtros opcionales.
+ * @returns Lista de desarrolladores.
+ */
 export async function listDevelopers(filters?: { name?: string | undefined }) {
   try {
     const where: any = {};
@@ -19,6 +25,12 @@ export async function listDevelopers(filters?: { name?: string | undefined }) {
   }
 }
 
+/**
+ * Busca un desarrollador por id.
+ *
+ * @param id Identificador del desarrollador.
+ * @returns Desarrollador encontrado o `null`.
+ */
 export async function findDeveloperById(id: number) {
   try {
     return await prisma.developer.findUnique({
@@ -57,6 +69,12 @@ export async function findDeveloperById(id: number) {
   }
 }
 
+/**
+ * Crea un desarrollador.
+ *
+ * @param data Datos de creación.
+ * @returns Desarrollador creado.
+ */
 export async function createDeveloper(data: { name: string }) {
   return await prisma.developer.create({
     data,
@@ -64,6 +82,13 @@ export async function createDeveloper(data: { name: string }) {
   });
 }
 
+/**
+ * Actualiza un desarrollador existente.
+ *
+ * @param id Identificador del desarrollador.
+ * @param data Datos parciales de actualización.
+ * @returns Desarrollador actualizado.
+ */
 export async function updateDeveloper(id: number, data: { name?: string }) {
   return await prisma.developer.update({
     where: { id } as any,
@@ -72,6 +97,12 @@ export async function updateDeveloper(id: number, data: { name?: string }) {
   });
 }
 
+/**
+ * Elimina un desarrollador por id.
+ *
+ * @param id Identificador del desarrollador.
+ * @returns Registro eliminado.
+ */
 export async function deleteDeveloper(id: number) {
   return await prisma.developer.delete({ where: { id } as any });
 }

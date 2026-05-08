@@ -21,7 +21,8 @@ export class ErrorToastComponent {
   /**
    * Devuelve un título descriptivo según el tipo de error.
    * @param type Tipo de error.
-   */
+     * @returns Retorno no documentado.
+     */
   getErrorTitle(type: ErrorType): string {
     const titles: Record<string, string> = {
       auth: 'Error de Autenticación',
@@ -37,7 +38,8 @@ export class ErrorToastComponent {
   /**
    * Devuelve la clase CSS de fondo (gradiente) basada en el tipo de error.
    * @param type Tipo de error.
-   */
+     * @returns Retorno no documentado.
+     */
   getBackgroundClass(type: ErrorType): string {
     const classes: Record<string, string> = {
       auth: 'bg-gradient-to-br from-red-600 via-red-500 to-pink-600',

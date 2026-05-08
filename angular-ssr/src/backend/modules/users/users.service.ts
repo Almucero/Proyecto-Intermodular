@@ -3,6 +3,15 @@ import bcrypt from 'bcryptjs';
 import { env } from '../../config/env';
 import type { Decimal } from '@prisma/client/runtime/library';
 
+/**
+ * Crea un usuario local con campos de perfil y notificaciones.
+ *
+ * @param email Email del usuario.
+ * @param name Nombre.
+ * @param surname Apellidos.
+ * @param passwordHash Hash bcrypt de contraseña.
+ * @returns Usuario creado con selección pública.
+ */
 export async function createUser(
   email: string,
   name: string,
@@ -75,14 +84,17 @@ export async function createUser(
   });
 }
 
+/** Busca usuario por email exacto. */
 export async function findUserByEmail(email: string) {
   return prisma.user.findUnique({ where: { email } });
 }
 
+/** Busca usuario por handle público `accountAt`. */
 export async function findUserByAccountAt(accountAt: string) {
   return prisma.user.findUnique({ where: { accountAt } });
 }
 
+/** Busca usuario para flujo de login con campos mínimos de autenticación. */
 export async function findUserByEmailForLogin(email: string) {
   return prisma.user.findUnique({
     where: { email },
@@ -97,9 +109,12 @@ export async function findUserByEmailForLogin(email: string) {
   });
 }
 
+/** Número máximo de intentos fallidos antes de bloqueo temporal. */
 const MAX_LOGIN_ATTEMPTS = 5;
+/** Duración del bloqueo temporal por intentos fallidos. */
 const LOCK_TIME_MS = 15 * 60 * 1000;
 
+/** Resetea contadores de bloqueo tras login correcto. */
 export async function recordLoginSuccess(userId: number) {
   await prisma.user.update({
     where: { id: userId },
@@ -107,6 +122,7 @@ export async function recordLoginSuccess(userId: number) {
   });
 }
 
+/** Incrementa intentos fallidos y bloquea temporalmente al superar umbral. */
 export async function recordLoginFailure(userId: number) {
   const user = await prisma.user.findUnique({
     where: { id: userId },
@@ -121,6 +137,7 @@ export async function recordLoginFailure(userId: number) {
   });
 }
 
+/** Devuelve metadatos de auth para validaciones de token. */
 export async function findUserAuthInfo(id: number) {
   return prisma.user.findUnique({
     where: { id },
@@ -128,6 +145,7 @@ export async function findUserAuthInfo(id: number) {
   });
 }
 
+/** Obtiene usuario completo por id con selección serializable para API. */
 export async function findUserById(id: number) {
   return prisma.user.findUnique({
     where: { id },
@@ -178,6 +196,7 @@ export async function findUserById(id: number) {
   });
 }
 
+/** Lista usuarios filtrables para paneles administrativos. */
 export async function listUsers(filters?: {
   email?: string | undefined;
   name?: string | undefined;
@@ -249,6 +268,7 @@ export async function listUsers(filters?: {
   });
 }
 
+/** Actualiza un usuario por id con payload parcial. */
 export async function updateUser(
   id: number,
   data: { name?: string; email?: string },
@@ -256,10 +276,12 @@ export async function updateUser(
   return prisma.user.update({ where: { id }, data });
 }
 
+/** Elimina usuario por id. */
 export async function deleteUser(id: number) {
   return prisma.user.delete({ where: { id } });
 }
 
+/** Actualiza perfil del usuario autenticado. */
 export async function updateProfile(
   userId: number,
   data: {
@@ -291,6 +313,7 @@ export async function updateProfile(
   });
 }
 
+/** Marca última actividad del usuario. */
 export async function touchUserLastSeen(userId: number) {
   return prisma.user.update({
     where: { id: userId },
@@ -299,6 +322,7 @@ export async function touchUserLastSeen(userId: number) {
   });
 }
 
+/** Persiste último idioma usado en la app para correos/localización. */
 export async function touchUserLastAppLocale(userId: number, locale: string) {
   const l = locale.trim().toLowerCase();
   if (!l) return;
@@ -331,6 +355,7 @@ export async function touchUserLastAppLocale(userId: number, locale: string) {
   });
 }
 
+/** Cambia contraseña verificando contraseña actual y rotando hash. */
 export async function changePassword(
   userId: number,
   currentPassword: string,

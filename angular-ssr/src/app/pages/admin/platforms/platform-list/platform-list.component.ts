@@ -24,8 +24,10 @@ import { PlatformFormComponent } from '../platform-form/platform-form.component'
   styleUrl: './platform-list.component.scss',
 })
 export class PlatformListComponent implements OnInit {
-  private platformService = inject(PlatformService);
-  private readonly MIN_SKELETON_MS = 550;
+  /** Propiedad no documentada. */
+    private platformService = inject(PlatformService);
+  /** Propiedad no documentada. */
+    private readonly MIN_SKELETON_MS = 550;
 
   /** Referencia al contenedor con scroll para manejar efectos visuales de sombras. */
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
@@ -115,7 +117,10 @@ export class PlatformListComponent implements OnInit {
     this.showModal = true;
   }
 
-  /** Abre el modal para editar una plataforma existente. */
+  /**
+     * Abre el modal para editar una plataforma existente.
+     * @param id Parámetro no documentado.
+     */
   openEditModal(id: number) {
     this.selectedPlatformId = id;
     this.showModal = true;
@@ -133,7 +138,10 @@ export class PlatformListComponent implements OnInit {
     this.loadPlatforms();
   }
 
-  /** Abre el modal de confirmación para eliminar una plataforma. */
+  /**
+     * Abre el modal de confirmación para eliminar una plataforma.
+     * @param id Parámetro no documentado.
+     */
   openDeleteModal(id: number) {
     this.platformToDeleteId = id;
     this.showDeleteModal = true;

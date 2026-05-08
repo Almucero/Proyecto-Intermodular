@@ -25,6 +25,7 @@ import chatRoutes from './modules/chat/chat.routes';
 import { startEmailNotificationScheduler } from './modules/notifications';
 import { prisma } from './config/db';
 
+/** Referencia original de `console.warn` para filtrado controlado. */
 const originalConsoleWarn = console.warn.bind(console);
 console.warn = (...args: unknown[]) => {
   const joined = args
@@ -44,6 +45,7 @@ console.warn = (...args: unknown[]) => {
   originalConsoleWarn(...args);
 };
 
+/** Instancia principal de Express para backend API. */
 const app = express();
 app.disable('x-powered-by');
 
@@ -78,20 +80,24 @@ app.use((req, res, next) => {
   applySecurityHeaders(req, res);
   next();
 });
+/** Orígenes CORS definidos explícitamente por variable de entorno. */
 const corsOriginsFromEnv = env.CORS_ORIGIN
   ? env.CORS_ORIGIN.split(',')
       .map((o) => o.trim())
       .filter(Boolean)
   : [];
+/** Orígenes locales permitidos en desarrollo. */
 const localhostOrigins = [
   `http://localhost:${env.PORT}`,
   'http://localhost:4200',
 ];
+/** Lista efectiva de orígenes CORS permitidos por entorno. */
 const allowedOrigins =
   env.NODE_ENV === 'production'
     ? corsOriginsFromEnv
     : [...new Set([...localhostOrigins, ...corsOriginsFromEnv])];
 
+/** Configuración CORS aplicada a toda la API. */
 const corsOptions: cors.CorsOptions = {
   origin: (origin, callback) => {
     if (!origin) {
@@ -193,6 +199,13 @@ app.get('/sitemap-products.xml', (req, res) => {
     });
 });
 
+/**
+ * Middleware de cabeceras de seguridad/no-cache para Swagger UI.
+ *
+ * @param req Request HTTP.
+ * @param res Response HTTP.
+ * @param next Next middleware.
+ */
 const swaggerSecurityHeaders = (
   req: express.Request,
   res: express.Response,
@@ -203,6 +216,12 @@ const swaggerSecurityHeaders = (
   next();
 };
 
+/**
+ * Construye un spec OpenAPI con `servers` dinámico por request.
+ *
+ * @param req Request HTTP.
+ * @returns Spec OpenAPI listo para render de Swagger UI.
+ */
 const buildSwaggerSpecForRequest = (
   req: express.Request,
 ): Record<string, unknown> => {
@@ -233,6 +252,7 @@ const buildSwaggerSpecForRequest = (
   return dynamicSpec;
 };
 
+/** Mapa de assets swagger a CDN oficial para evitar archivos locales. */
 const swaggerAssetRedirects: Record<string, string> = {
   'swagger-ui.css':
     'https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui.css',

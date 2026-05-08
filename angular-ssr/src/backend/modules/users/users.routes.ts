@@ -17,6 +17,7 @@ import {
   changePasswordCtrl,
 } from './users.controller';
 
+/** Router de endpoints de usuarios. */
 const router = Router();
 
 /**

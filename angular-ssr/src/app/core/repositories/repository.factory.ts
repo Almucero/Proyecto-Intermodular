@@ -234,53 +234,62 @@ export function createBaseAuthMappingFactory(
 }
 
 // Mappings Factories
+/** Factoría DI para mapeador de `Developer`. */
 export const DeveloperMappingFactory = createBaseMappingFactory<Developer>(
   DEVELOPER_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
   'developer',
 );
 
+/** Factoría DI para mapeador de `Game`. */
 export const GameMappingFactory = createBaseMappingFactory<Game>(
   GAME_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
   'game',
 );
 
+/** Factoría DI para mapeador de `Genre`. */
 export const GenreMappingFactory = createBaseMappingFactory<Genre>(
   GENRE_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
   'genre',
 );
 
+/** Factoría DI para mapeador de `Media`. */
 export const MediaMappingFactory = createBaseMappingFactory<Media>(
   MEDIA_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
   'media',
 );
 
+/** Factoría DI para mapeador de `Platform`. */
 export const PlatformMappingFactory = createBaseMappingFactory<Platform>(
   PLATFORM_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
   'platform',
 );
 
+/** Factoría DI para mapeador de `Publisher`. */
 export const PublisherMappingFactory = createBaseMappingFactory<Publisher>(
   PUBLISHER_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
   'publisher',
 );
 
+/** Factoría DI para mapeador de `User`. */
 export const UserMappingFactory = createBaseMappingFactory<User>(
   USER_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
   'user',
 );
 
+/** Factoría DI para mapeador de autenticación. */
 export const AuthMappingFactory: FactoryProvider = createBaseAuthMappingFactory(
   AUTH_MAPPING_TOKEN,
   [BACKEND_TOKEN],
 );
 
+/** Factoría DI para el servicio de autenticación principal. */
 export const AuthenticationServiceFactory: FactoryProvider = {
   provide: BaseAuthenticationService,
   useFactory: (
@@ -322,6 +331,7 @@ export const AuthenticationServiceFactory: FactoryProvider = {
   ],
 };
 
+/** Factoría DI para el servicio de media (subida/gestión). */
 export const MediaServiceFactory: FactoryProvider = {
   provide: BaseMediaService,
   useFactory: (
@@ -348,6 +358,7 @@ export const MediaServiceFactory: FactoryProvider = {
 };
 
 // Repository Factories
+/** Factoría DI del repositorio de desarrolladoras. */
 export const DeveloperRepositoryFactory: FactoryProvider =
   createBaseRepositoryFactory<Developer>(DEVELOPER_REPOSITORY_TOKEN, [
     BACKEND_TOKEN,
@@ -358,6 +369,7 @@ export const DeveloperRepositoryFactory: FactoryProvider =
     DEVELOPER_REPOSITORY_MAPPING_TOKEN,
   ]);
 
+/** Factoría DI del repositorio de juegos. */
 export const GameRepositoryFactory: FactoryProvider =
   createBaseRepositoryFactory<Game>(GAME_REPOSITORY_TOKEN, [
     BACKEND_TOKEN,
@@ -368,6 +380,7 @@ export const GameRepositoryFactory: FactoryProvider =
     GAME_REPOSITORY_MAPPING_TOKEN,
   ]);
 
+/** Factoría DI del repositorio de géneros. */
 export const GenreRepositoryFactory: FactoryProvider =
   createBaseRepositoryFactory<Genre>(GENRE_REPOSITORY_TOKEN, [
     BACKEND_TOKEN,
@@ -378,6 +391,7 @@ export const GenreRepositoryFactory: FactoryProvider =
     GENRE_REPOSITORY_MAPPING_TOKEN,
   ]);
 
+/** Factoría DI del repositorio de media. */
 export const MediaRepositoryFactory: FactoryProvider = {
   provide: MEDIA_REPOSITORY_TOKEN,
   useFactory: (
@@ -416,6 +430,7 @@ export const MediaRepositoryFactory: FactoryProvider = {
   ],
 };
 
+/** Factoría DI del repositorio de plataformas. */
 export const PlatformRepositoryFactory: FactoryProvider =
   createBaseRepositoryFactory<Platform>(PLATFORM_REPOSITORY_TOKEN, [
     BACKEND_TOKEN,
@@ -426,6 +441,7 @@ export const PlatformRepositoryFactory: FactoryProvider =
     PLATFORM_REPOSITORY_MAPPING_TOKEN,
   ]);
 
+/** Factoría DI del repositorio de publishers. */
 export const PublisherRepositoryFactory: FactoryProvider =
   createBaseRepositoryFactory<Publisher>(PUBLISHER_REPOSITORY_TOKEN, [
     BACKEND_TOKEN,
@@ -436,6 +452,7 @@ export const PublisherRepositoryFactory: FactoryProvider =
     PUBLISHER_REPOSITORY_MAPPING_TOKEN,
   ]);
 
+/** Factoría DI del repositorio de usuarios. */
 export const UserRepositoryFactory: FactoryProvider =
   createBaseRepositoryFactory<User>(USER_REPOSITORY_TOKEN, [
     BACKEND_TOKEN,
@@ -446,18 +463,21 @@ export const UserRepositoryFactory: FactoryProvider =
     USER_REPOSITORY_MAPPING_TOKEN,
   ]);
 
+/** Factoría DI para mapeador de `CartItem`. */
 export const CartItemMappingFactory = createBaseMappingFactory<CartItem>(
   CART_ITEM_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
   'cart-item',
 );
 
+/** Factoría DI para mapeador de `Purchase`. */
 export const PurchaseMappingFactory = createBaseMappingFactory<Purchase>(
   PURCHASE_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
   'purchase',
 );
 
+/** Factoría DI para mapeador de `PurchaseItem`. */
 export const PurchaseItemMappingFactory =
   createBaseMappingFactory<PurchaseItem>(
     PURCHASE_ITEM_REPOSITORY_MAPPING_TOKEN,
@@ -465,12 +485,14 @@ export const PurchaseItemMappingFactory =
     'purchase-item',
   );
 
+/** Factoría DI para mapeador de `Favorite`. */
 export const FavoriteMappingFactory = createBaseMappingFactory<Favorite>(
   FAVORITE_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
   'favorite',
 );
 
+/** Factoría DI del repositorio de carrito. */
 export const CartItemRepositoryFactory: FactoryProvider =
   createBaseRepositoryFactory<CartItem>(CART_ITEM_REPOSITORY_TOKEN, [
     BACKEND_TOKEN,
@@ -481,6 +503,7 @@ export const CartItemRepositoryFactory: FactoryProvider =
     CART_ITEM_REPOSITORY_MAPPING_TOKEN,
   ]);
 
+/** Factoría DI del repositorio de compras. */
 export const PurchaseRepositoryFactory: FactoryProvider =
   createBaseRepositoryFactory<Purchase>(PURCHASE_REPOSITORY_TOKEN, [
     BACKEND_TOKEN,
@@ -491,6 +514,7 @@ export const PurchaseRepositoryFactory: FactoryProvider =
     PURCHASE_REPOSITORY_MAPPING_TOKEN,
   ]);
 
+/** Factoría DI del repositorio de líneas de compra. */
 export const PurchaseItemRepositoryFactory: FactoryProvider =
   createBaseRepositoryFactory<PurchaseItem>(PURCHASE_ITEM_REPOSITORY_TOKEN, [
     BACKEND_TOKEN,
@@ -501,6 +525,7 @@ export const PurchaseItemRepositoryFactory: FactoryProvider =
     PURCHASE_ITEM_REPOSITORY_MAPPING_TOKEN,
   ]);
 
+/** Factoría DI del repositorio de favoritos. */
 export const FavoriteRepositoryFactory: FactoryProvider =
   createBaseRepositoryFactory<Favorite>(FAVORITE_REPOSITORY_TOKEN, [
     BACKEND_TOKEN,
@@ -511,12 +536,14 @@ export const FavoriteRepositoryFactory: FactoryProvider =
     FAVORITE_REPOSITORY_MAPPING_TOKEN,
   ]);
 
+/** Factoría DI para mapeador de `ChatSession`. */
 export const ChatMappingFactory = createBaseMappingFactory<ChatSession>(
   CHAT_REPOSITORY_MAPPING_TOKEN,
   [BACKEND_TOKEN],
   'chat',
 );
 
+/** Factoría DI del repositorio de chat. */
 export const ChatRepositoryFactory: FactoryProvider =
   createBaseRepositoryFactory<ChatSession>(CHAT_REPOSITORY_TOKEN, [
     BACKEND_TOKEN,

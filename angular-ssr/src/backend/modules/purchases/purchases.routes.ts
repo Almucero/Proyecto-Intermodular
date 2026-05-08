@@ -8,6 +8,7 @@ import {
   refundPurchaseCtrl,
 } from './purchases.controller';
 
+/** Router de endpoints de compras y reembolsos. */
 const router = Router();
 
 /**

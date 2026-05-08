@@ -41,13 +41,18 @@ export class HeaderComponent {
   /** Referencia al elemento del menú para detectar clics fuera. */
   @ViewChild('menu') menu!: ElementRef;
 
-  private authService = inject(BaseAuthenticationService);
-  private cartService = inject(CartItemService);
-  private favoriteService = inject(FavoriteService);
-  private router = inject(Router);
+  /** Propiedad no documentada. */
+    private authService = inject(BaseAuthenticationService);
+  /** Propiedad no documentada. */
+    private cartService = inject(CartItemService);
+  /** Propiedad no documentada. */
+    private favoriteService = inject(FavoriteService);
+  /** Propiedad no documentada. */
+    private router = inject(Router);
   /** Servicio de estado de la UI (menú abierto/cerrado). */
   public uiState = inject(UiStateService);
-  private platformId = inject(PLATFORM_ID);
+  /** Propiedad no documentada. */
+    private platformId = inject(PLATFORM_ID);
 
   /** Signal con los datos del usuario autenticado. */
   user = toSignal(this.authService.user$);
@@ -64,7 +69,8 @@ export class HeaderComponent {
   /** Indica si el usuario está actualmente en la página de búsqueda. */
   isSearchPage = false;
 
-  constructor() {
+  /** Constructor no documentado. */
+    constructor() {
     this.router.events.subscribe((event) => {
       if (typeof event === 'object' && 'url' in event) {
         this.isSearchPage = this.router.url.includes('/search');
@@ -112,7 +118,10 @@ export class HeaderComponent {
     this.searchActive = false;
   }
 
-  /** Escucha clics en el documento para cerrar el menú si se pincha fuera. */
+  /**
+     * Escucha clics en el documento para cerrar el menú si se pincha fuera.
+     * @param event Parámetro no documentado.
+     */
   @HostListener('document:click', ['$event'])
   onClick(event: Event) {
     if (

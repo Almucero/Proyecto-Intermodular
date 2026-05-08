@@ -15,9 +15,14 @@ import { Publisher } from '../../models/publisher.model';
   providedIn: 'root',
 })
 export class GameMappingNodeService implements IBaseMapping<Game> {
-  constructor() {}
+  /** Constructor no documentado. */
+    constructor() {}
 
-  /** Transforma una lista de juegos. */
+  /**
+     * Transforma una lista de juegos.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getAll(data: any): Game[] {
     return data.map((item: any) => this.getOne(item));
   }
@@ -26,7 +31,8 @@ export class GameMappingNodeService implements IBaseMapping<Game> {
    * Transforma un objeto juego de la API al modelo {@link Game}.
    * Mapea todas las relaciones y normaliza los nombres de propiedades (case sensitivity).
    * @param data Objeto de la API.
-   */
+     * @returns Retorno no documentado.
+     */
   getOne(data: any): Game {
     return {
       id: data.id,
@@ -78,15 +84,30 @@ export class GameMappingNodeService implements IBaseMapping<Game> {
     };
   }
 
-  getAdded(data: any): Game {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getAdded(data: any): Game {
     return this.getOne(data);
   }
 
-  getUpdated(data: any): Game {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getUpdated(data: any): Game {
     return this.getOne(data);
   }
 
-  getDeleted(data: any): Game {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getDeleted(data: any): Game {
     return this.getOne(data);
   }
 
@@ -94,7 +115,8 @@ export class GameMappingNodeService implements IBaseMapping<Game> {
    * Prepara el payload para crear un juego.
    * Convierte objetos complejos de géneros y plataformas en arrays de IDs/nombres.
    * @param data Modelo Game.
-   */
+     * @returns Retorno no documentado.
+     */
   setAdd(data: Game): any {
     const payload: any = {
       title: data.title,
@@ -129,7 +151,8 @@ export class GameMappingNodeService implements IBaseMapping<Game> {
    * Prepara el payload para actualizar un juego.
    * Limpia campos automáticos o de solo lectura.
    * @param data Atributos a actualizar.
-   */
+     * @returns Retorno no documentado.
+     */
   setUpdate(data: any): any {
     const payload: any = { ...data };
     if (data.genres) {

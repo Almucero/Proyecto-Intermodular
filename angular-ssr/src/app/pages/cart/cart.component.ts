@@ -39,11 +39,23 @@ export class CartComponent implements OnInit, OnDestroy {
   error = signal<string | null>(null);
   /** Estado de autenticación del usuario actual. */
   isAuthenticated = signal(false);
-  checkoutModalOpen = signal(false);
-  private checkoutHandled = false;
-  private readonly isBrowser: boolean;
+  /** Propiedad no documentada. */
+    checkoutModalOpen = signal(false);
+  /** Propiedad no documentada. */
+    private checkoutHandled = false;
+  /** Propiedad no documentada. */
+    private readonly isBrowser: boolean;
 
-  constructor(
+  /**
+     * Constructor no documentado.
+     * @param cartItemService Parámetro no documentado.
+     * @param mediaService Parámetro no documentado.
+     * @param authService Parámetro no documentado.
+     * @param route Parámetro no documentado.
+     * @param router Parámetro no documentado.
+     * @param platformId Parámetro no documentado.
+     */
+    constructor(
     private cartItemService: CartItemService,
     private mediaService: MediaService,
     private authService: BaseAuthenticationService,
@@ -71,11 +83,16 @@ export class CartComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
+  /** Método no documentado. */
+    ngOnDestroy() {
     this.closeCheckoutModal();
   }
 
-  private async handleCheckoutReturn() {
+  /**
+     * Método no documentado.
+     * @returns Retorno no documentado.
+     */
+    private async handleCheckoutReturn() {
     if (this.checkoutHandled) return;
     this.checkoutHandled = true;
     const paymentState = this.route.snapshot.queryParamMap.get('payment');
@@ -145,7 +162,8 @@ export class CartComponent implements OnInit, OnDestroy {
   /**
    * Incrementa en una unidad la cantidad de un artículo específico.
    * @param item El artículo a incrementar.
-   */
+     * @returns Retorno no documentado.
+     */
   async incrementQuantity(item: CartItem) {
     if (!item.gameId || !item.platformId) return;
     try {
@@ -166,7 +184,8 @@ export class CartComponent implements OnInit, OnDestroy {
    * Decrementa en una unidad la cantidad de un artículo.
    * Si la cantidad llega a cero, el artículo se elimina del carrito.
    * @param item El artículo a decrementar.
-   */
+     * @returns Retorno no documentado.
+     */
   async decrementQuantity(item: CartItem) {
     if (!item.gameId || !item.platformId) return;
     if (item.quantity > 1) {
@@ -190,7 +209,8 @@ export class CartComponent implements OnInit, OnDestroy {
   /**
    * Elimina permanentemente un artículo del carrito.
    * @param item El artículo a eliminar.
-   */
+     * @returns Retorno no documentado.
+     */
   async removeFromCart(item: CartItem) {
     if (!item.gameId || !item.platformId) return;
     try {
@@ -208,7 +228,8 @@ export class CartComponent implements OnInit, OnDestroy {
 
   /**
    * Vacía completamente el carrito de compras del usuario.
-   */
+     * @returns Retorno no documentado.
+     */
   async clearCart() {
     const items = this.cartItems();
     for (const item of items) {
@@ -224,7 +245,8 @@ export class CartComponent implements OnInit, OnDestroy {
   /**
    * Calcula el coste total de un artículo multiplicando precio por cantidad.
    * @param item El artículo a calcular.
-   */
+     * @returns Retorno no documentado.
+     */
   getItemTotal(item: CartItem): number {
     const price =
       item.game?.isOnSale && item.game?.salePrice !== null
@@ -235,7 +257,8 @@ export class CartComponent implements OnInit, OnDestroy {
 
   /**
    * Calcula la suma total acumulada de todos los productos en el carrito.
-   */
+     * @returns Retorno no documentado.
+     */
   getTotal(): number {
     return this.cartItems().reduce(
       (sum, item) => sum + this.getItemTotal(item),
@@ -243,30 +266,43 @@ export class CartComponent implements OnInit, OnDestroy {
     );
   }
 
-  /** Obtiene la imagen de portada de un artículo del carrito. */
+  /**
+     * Obtiene la imagen de portada de un artículo del carrito.
+     * @param item Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getGameImage(item: CartItem): string {
     return item.game?.media?.[0]?.url || 'assets/images/ui/placeholder.webp';
   }
 
-  /** Obtiene el nombre del desarrollador o editor del videojuego. */
+  /**
+     * Obtiene el nombre del desarrollador o editor del videojuego.
+     * @param item Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getGameDeveloper(item: CartItem): string {
     return (
       item.game?.Developer?.name || item.game?.Publisher?.name || 'Unknown'
     );
   }
 
-  /** Inicia el proceso de finalización de compra. */
+  /**
+     * Inicia el proceso de finalización de compra.
+     * @returns Retorno no documentado.
+     */
   async checkout() {
     if (this.cartItems().length === 0 || !this.isBrowser) return;
     this.error.set(null);
     this.checkoutModalOpen.set(true);
   }
 
-  closeCheckoutModal() {
+  /** Método no documentado. */
+    closeCheckoutModal() {
     this.checkoutModalOpen.set(false);
   }
 
-  onCheckoutCompleted() {
+  /** Método no documentado. */
+    onCheckoutCompleted() {
     this.error.set(null);
     this.loadCart();
     this.router.navigate([], {

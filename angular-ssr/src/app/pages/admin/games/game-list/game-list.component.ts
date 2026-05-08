@@ -25,8 +25,10 @@ import { GameFormComponent } from '../game-form/game-form.component';
   styleUrl: './game-list.component.scss',
 })
 export class GameListComponent implements OnInit {
-  private gameService = inject(GameService);
-  private readonly MIN_SKELETON_MS = 550;
+  /** Propiedad no documentada. */
+    private gameService = inject(GameService);
+  /** Propiedad no documentada. */
+    private readonly MIN_SKELETON_MS = 550;
 
   /** Referencia al contenedor con scroll para manejar efectos visuales de sombras. */
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
@@ -115,7 +117,10 @@ export class GameListComponent implements OnInit {
     this.showModal = true;
   }
 
-  /** Abre el modal para editar un videojuego existente. */
+  /**
+     * Abre el modal para editar un videojuego existente.
+     * @param id Parámetro no documentado.
+     */
   openEditModal(id: number) {
     this.selectedGameId = id;
     this.showModal = true;
@@ -133,7 +138,10 @@ export class GameListComponent implements OnInit {
     this.loadGames();
   }
 
-  /** Abre el modal de confirmación para eliminar un juego. */
+  /**
+     * Abre el modal de confirmación para eliminar un juego.
+     * @param id Parámetro no documentado.
+     */
   openDeleteModal(id: number) {
     this.gameToDeleteId = id;
     this.showDeleteModal = true;

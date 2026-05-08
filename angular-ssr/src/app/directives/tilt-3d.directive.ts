@@ -9,31 +9,55 @@ import {
   Renderer2,
 } from '@angular/core';
 
+/** Directiva para aplicar efecto 3D suave con reflejo en hover. */
 @Directive({
   selector: '[appTilt3D]',
   standalone: true,
 })
 export class Tilt3DDirective implements OnInit, OnDestroy {
-  @Input() tiltEnabled = true;
-  @Input() tiltMaxRotateDeg = 5;
-  @Input() tiltMaxTranslatePx = 3.5;
-  @Input() tiltHoverScale = 1.022;
-  @Input() tiltImageScale = 1.03;
-  @Input() tiltGlareMaxOpacity = 0.42;
+  /** Propiedad no documentada. */
+    @Input() tiltEnabled = true;
+  /** Propiedad no documentada. */
+    @Input() tiltMaxRotateDeg = 5;
+  /** Propiedad no documentada. */
+    @Input() tiltMaxTranslatePx = 3.5;
+  /** Propiedad no documentada. */
+    @Input() tiltHoverScale = 1.022;
+  /** Propiedad no documentada. */
+    @Input() tiltImageScale = 1.03;
+  /** Propiedad no documentada. */
+    @Input() tiltGlareMaxOpacity = 0.42;
 
-  private rafId: number | null = null;
-  private currentX = 0;
-  private currentY = 0;
-  private targetX = 0;
-  private targetY = 0;
-  private hoverCurrent = 0;
-  private hoverTarget = 0;
-  private readonly smoothFactor = 0.18;
-  private readonly hoverSmoothFactor = 0.22;
-  private readonly stopThreshold = 0.001;
-  private hostEl: HTMLElement;
+  /** Propiedad no documentada. */
+    private rafId: number | null = null;
+  /** Propiedad no documentada. */
+    private currentX = 0;
+  /** Propiedad no documentada. */
+    private currentY = 0;
+  /** Propiedad no documentada. */
+    private targetX = 0;
+  /** Propiedad no documentada. */
+    private targetY = 0;
+  /** Propiedad no documentada. */
+    private hoverCurrent = 0;
+  /** Propiedad no documentada. */
+    private hoverTarget = 0;
+  /** Propiedad no documentada. */
+    private readonly smoothFactor = 0.18;
+  /** Propiedad no documentada. */
+    private readonly hoverSmoothFactor = 0.22;
+  /** Propiedad no documentada. */
+    private readonly stopThreshold = 0.001;
+  /** Propiedad no documentada. */
+    private hostEl: HTMLElement;
 
-  constructor(
+  /**
+     * Constructor no documentado.
+     * @param elRef Parámetro no documentado.
+     * @param renderer Parámetro no documentado.
+     * @param ngZone Parámetro no documentado.
+     */
+    constructor(
     elRef: ElementRef<HTMLElement>,
     private renderer: Renderer2,
     private ngZone: NgZone,
@@ -41,7 +65,8 @@ export class Tilt3DDirective implements OnInit, OnDestroy {
     this.hostEl = elRef.nativeElement;
   }
 
-  ngOnInit(): void {
+  /** Método no documentado. */
+    ngOnInit(): void {
     this.renderer.addClass(this.hostEl, 'tilt-glare-surface');
     this.renderer.setStyle(this.hostEl, 'transformOrigin', 'center');
     this.renderer.setStyle(this.hostEl, 'willChange', 'transform, box-shadow');
@@ -52,21 +77,27 @@ export class Tilt3DDirective implements OnInit, OnDestroy {
     this.hostEl.style.setProperty('--cover-scale', '1');
   }
 
-  ngOnDestroy(): void {
+  /** Método no documentado. */
+    ngOnDestroy(): void {
     if (this.rafId !== null) {
       cancelAnimationFrame(this.rafId);
       this.rafId = null;
     }
   }
 
-  @HostListener('mouseenter')
+  /** Método no documentado. */
+    @HostListener('mouseenter')
   onMouseEnter(): void {
     if (!this.tiltEnabled) return;
     this.hoverTarget = 1;
     this.startAnimation();
   }
 
-  @HostListener('mousemove', ['$event'])
+  /**
+     * Método no documentado.
+     * @param event Parámetro no documentado.
+     */
+    @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
     if (!this.tiltEnabled) return;
     if (event.buttons === 1) return;
@@ -82,7 +113,8 @@ export class Tilt3DDirective implements OnInit, OnDestroy {
     this.startAnimation();
   }
 
-  @HostListener('mouseleave')
+  /** Método no documentado. */
+    @HostListener('mouseleave')
   onMouseLeave(): void {
     this.hoverTarget = 0;
     this.targetX = 0;
@@ -90,7 +122,8 @@ export class Tilt3DDirective implements OnInit, OnDestroy {
     this.startAnimation();
   }
 
-  private startAnimation(): void {
+  /** Método no documentado. */
+    private startAnimation(): void {
     if (this.rafId !== null) return;
 
     this.ngZone.runOutsideAngular(() => {

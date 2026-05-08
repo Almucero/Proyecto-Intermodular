@@ -1,3 +1,4 @@
+/** Variables de entorno para build de producción. */
 export const environment = {
   production: true,
   apiUrl: '',

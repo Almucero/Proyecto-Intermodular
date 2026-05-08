@@ -22,27 +22,55 @@ export class BaseRepositoryLocalStorageService<
   T extends Model,
 > implements IBaseRepository<T> {
   /**
-   * @param resource Nombre del recurso.
-   * @param mapping Mapeador de datos.
-   */
+       * Documentado.
+       * @param resource Nombre del recurso.
+       *
+       * @param mapping Mapeador de datos.
+       */
   constructor(
     @Inject(RESOURCE_NAME_TOKEN) protected resource: string,
     @Inject(REPOSITORY_MAPPING_TOKEN) protected mapping: IBaseMapping<T>,
   ) {}
 
-  getAll(filters: SearchParams): Observable<T[]> {
+  /**
+     * Método no documentado.
+     * @param filters Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getAll(filters: SearchParams): Observable<T[]> {
     throw new Error('Metodo no implementado.');
   }
-  getById(id: string): Observable<T | null> {
+  /**
+     * Método no documentado.
+     * @param id Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getById(id: string): Observable<T | null> {
     throw new Error('Metodo no implementado.');
   }
-  add(entity: T): Observable<T> {
+  /**
+     * Método no documentado.
+     * @param entity Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    add(entity: T): Observable<T> {
     throw new Error('Metodo no implementado.');
   }
-  update(id: string, entity: T): Observable<T> {
+  /**
+     * Método no documentado.
+     * @param id Parámetro no documentado.
+     * @param entity Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    update(id: string, entity: T): Observable<T> {
     throw new Error('Metodo no implementado.');
   }
-  delete(id: string): Observable<T> {
+  /**
+     * Método no documentado.
+     * @param id Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    delete(id: string): Observable<T> {
     throw new Error('Metodo no implementado.');
   }
 }

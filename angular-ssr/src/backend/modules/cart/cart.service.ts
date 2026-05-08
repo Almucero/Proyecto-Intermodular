@@ -3,8 +3,18 @@ import Stripe from 'stripe';
 import { env } from '../../config/env';
 import { completePurchase } from '../purchases/purchases.service';
 
+/** Cliente Stripe para crear y verificar sesiones de checkout. */
 const stripe = new Stripe(env.STRIPE_SECRET_KEY);
 
+/**
+ * Añade unidades de un juego/plataforma al carrito.
+ *
+ * @param userId Identificador del usuario.
+ * @param gameId Identificador del juego.
+ * @param platformId Identificador de la plataforma.
+ * @param quantity Unidades a agregar.
+ * @returns Item de carrito creado o incrementado.
+ */
 export async function addToCart(
   userId: number,
   gameId: number,
@@ -82,6 +92,14 @@ export async function addToCart(
   });
 }
 
+/**
+ * Elimina un item concreto del carrito por clave compuesta.
+ *
+ * @param userId Identificador del usuario.
+ * @param gameId Identificador del juego.
+ * @param platformId Identificador de la plataforma.
+ * @returns Mensaje de confirmación.
+ */
 export async function removeFromCart(
   userId: number,
   gameId: number,
@@ -95,6 +113,12 @@ export async function removeFromCart(
   return { message: 'Juego removido del carrito' };
 }
 
+/**
+ * Obtiene carrito enriquecido con datos de juego y plataforma.
+ *
+ * @param userId Identificador del usuario.
+ * @returns Lista de items serializados para frontend.
+ */
 export async function getUserCart(userId: number) {
   const cartItems = await prisma.cartItem.findMany({
     where: { userId },
@@ -144,6 +168,15 @@ export async function getUserCart(userId: number) {
   }));
 }
 
+/**
+ * Actualiza la cantidad de un item concreto de carrito.
+ *
+ * @param userId Identificador del usuario.
+ * @param gameId Identificador del juego.
+ * @param platformId Identificador de la plataforma.
+ * @param quantity Nueva cantidad.
+ * @returns Item de carrito actualizado.
+ */
 export async function updateQuantity(
   userId: number,
   gameId: number,
@@ -203,12 +236,26 @@ export async function updateQuantity(
   });
 }
 
+/**
+ * Elimina todos los items del carrito de un usuario.
+ *
+ * @param userId Identificador del usuario.
+ * @returns Resultado de borrado masivo.
+ */
 export async function clearCart(userId: number) {
   return prisma.cartItem.deleteMany({
     where: { userId },
   });
 }
 
+/**
+ * Crea una sesión de checkout embebida para el carrito completo.
+ *
+ * @param userId Identificador del usuario.
+ * @param origin Origen base para return URLs.
+ * @param locale Idioma deseado para Stripe.
+ * @returns Datos necesarios para montar checkout embebido.
+ */
 export async function createCheckoutSession(
   userId: number,
   origin: string,
@@ -224,7 +271,8 @@ export async function createCheckoutSession(
     'pt',
     'nl',
   ] as const;
-  type AllowedLocale = (typeof allowedLocales)[number];
+  /** Tipo no documentado. */
+    type AllowedLocale = (typeof allowedLocales)[number];
   const normalizedLocale = (locale || 'auto').toLowerCase();
   const stripeLocale = allowedLocales.includes(normalizedLocale as AllowedLocale)
     ? (normalizedLocale as AllowedLocale)
@@ -327,6 +375,7 @@ export async function createCheckoutSession(
   };
 }
 
+/** Campos de stock disponibles por plataforma en el modelo Game. */
 type StockField =
   | 'stockPc'
   | 'stockPs5'
@@ -335,6 +384,12 @@ type StockField =
   | 'stockPs4'
   | 'stockXboxOne';
 
+/**
+ * Mapea nombre de plataforma a su campo de stock correspondiente.
+ *
+ * @param platformName Nombre de plataforma.
+ * @returns Campo de stock en modelo `Game`.
+ */
 function getStockFieldByPlatformName(platformName: string): StockField {
   const normalized = platformName.trim().toLowerCase();
   if (normalized === 'pc') return 'stockPc';
@@ -346,6 +401,13 @@ function getStockFieldByPlatformName(platformName: string): StockField {
   throw new Error(`Plataforma no soportada para control de stock: ${platformName}`);
 }
 
+/**
+ * Lee el stock actual del juego según campo mapeado.
+ *
+ * @param game Registro de juego con campos de stock.
+ * @param stockField Campo concreto a consultar.
+ * @returns Stock actual para la plataforma indicada.
+ */
 function getGameStockByField(game: any, stockField: StockField): number {
   if (stockField === 'stockPc') return Number(game.stockPc ?? 0);
   if (stockField === 'stockPs5') return Number(game.stockPs5 ?? 0);
@@ -355,6 +417,16 @@ function getGameStockByField(game: any, stockField: StockField): number {
   return Number(game.stockXboxOne ?? 0);
 }
 
+/**
+ * Crea una sesión de checkout embebida para compra directa.
+ *
+ * @param userId Identificador del usuario.
+ * @param origin Origen base para return URLs.
+ * @param gameId Identificador del juego.
+ * @param platformId Identificador de la plataforma.
+ * @param locale Idioma deseado para Stripe.
+ * @returns Datos necesarios para montar checkout embebido.
+ */
 export async function createDirectCheckoutSession(
   userId: number,
   origin: string,
@@ -372,7 +444,8 @@ export async function createDirectCheckoutSession(
     'pt',
     'nl',
   ] as const;
-  type AllowedLocale = (typeof allowedLocales)[number];
+  /** Tipo no documentado. */
+    type AllowedLocale = (typeof allowedLocales)[number];
   const normalizedLocale = (locale || 'auto').toLowerCase();
   const stripeLocale = allowedLocales.includes(normalizedLocale as AllowedLocale)
     ? (normalizedLocale as AllowedLocale)
@@ -466,6 +539,13 @@ export async function createDirectCheckoutSession(
   };
 }
 
+/**
+ * Confirma checkout de carrito pagado y completa la compra.
+ *
+ * @param userId Identificador del usuario autenticado.
+ * @param sessionId Identificador de sesión Stripe.
+ * @returns Compra completada con items.
+ */
 export async function confirmCheckoutSession(userId: number, sessionId: string) {
   const session = await stripe.checkout.sessions.retrieve(sessionId);
 
@@ -493,6 +573,13 @@ export async function confirmCheckoutSession(userId: number, sessionId: string) 
   );
 }
 
+/**
+ * Confirma checkout directo pagado y crea compra transaccional.
+ *
+ * @param userId Identificador del usuario autenticado.
+ * @param sessionId Identificador de sesión Stripe.
+ * @returns Compra directa creada y normalizada para API.
+ */
 export async function confirmDirectCheckoutSession(
   userId: number,
   sessionId: string,

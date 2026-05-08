@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>game-sage documentation</title>
+        <title>Game Sage Documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -78,7 +78,7 @@
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
-                    <a href="../" class="navbar-brand">game-sage documentation</a>
+                    <a href="../" class="navbar-brand">Game Sage Documentation</a>
                     <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
                </div>
         </div>
@@ -204,6 +204,8 @@
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>Documentado.</p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -266,8 +268,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="49"
-                                    class="link-to-prism">src/app/core/services/impl/base-service.service.ts:49</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="51"
+                                    class="link-to-prism">src/app/core/services/impl/base-service.service.ts:51</a></div>
                         </td>
                     </tr>
 
@@ -341,8 +343,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="68"
-                                    class="link-to-prism">src/app/core/services/impl/base-service.service.ts:68</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="70"
+                                    class="link-to-prism">src/app/core/services/impl/base-service.service.ts:70</a></div>
                         </td>
                     </tr>
 
@@ -416,8 +418,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="31"
-                                    class="link-to-prism">src/app/core/services/impl/base-service.service.ts:31</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="33"
+                                    class="link-to-prism">src/app/core/services/impl/base-service.service.ts:33</a></div>
                         </td>
                     </tr>
 
@@ -491,8 +493,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="40"
-                                    class="link-to-prism">src/app/core/services/impl/base-service.service.ts:40</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="42"
+                                    class="link-to-prism">src/app/core/services/impl/base-service.service.ts:42</a></div>
                         </td>
                     </tr>
 
@@ -566,8 +568,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="59"
-                                    class="link-to-prism">src/app/core/services/impl/base-service.service.ts:59</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="61"
+                                    class="link-to-prism">src/app/core/services/impl/base-service.service.ts:61</a></div>
                         </td>
                     </tr>
 
@@ -662,9 +664,11 @@ import { REPOSITORY_TOKEN } from &#x27;../../repositories/repository.tokens&#x27
 })
 export class BaseService&lt;T extends Model&gt; implements IBaseService&lt;T&gt; {
   /**
-   * @param repository Repositorio inyectado que maneja la persistencia de los datos.
-   */
+       * Documentado.
+       * @param repository Repositorio inyectado que maneja la persistencia de los datos.
+       */
   constructor(
+    /** Repositorio inyectado que maneja la persistencia de los datos. */
     @Inject(REPOSITORY_TOKEN) protected repository: IBaseRepository&lt;T&gt;,
   ) {}
 

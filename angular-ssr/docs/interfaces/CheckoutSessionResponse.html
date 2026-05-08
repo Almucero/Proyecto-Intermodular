@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>game-sage documentation</title>
+        <title>Game Sage Documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -78,7 +78,7 @@
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
-                    <a href="../" class="navbar-brand">game-sage documentation</a>
+                    <a href="../" class="navbar-brand">Game Sage Documentation</a>
                     <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
                </div>
         </div>
@@ -144,6 +144,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Respuesta backend para inicializar Stripe Checkout embebido.</p>
+
+            </p>
 
 
         <section data-compodoc="block-index">
@@ -218,6 +225,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Propiedad no documentada.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -251,6 +264,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Propiedad no documentada.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -284,6 +303,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Propiedad no documentada.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
             </section>
@@ -306,16 +331,24 @@ import { BaseService } from &#x27;./base-service.service&#x27;;
 import { BaseAuthenticationService } from &#x27;./base-authentication.service&#x27;;
 import { ICartItemService } from &#x27;../interfaces/cart-item-service.interface&#x27;;
 
+/** Respuesta backend para inicializar Stripe Checkout embebido. */
 export interface CheckoutSessionResponse {
-  clientSecret: string;
-  sessionId: string;
-  publishableKey: string;
+  /** Propiedad no documentada. */
+    clientSecret: string;
+  /** Propiedad no documentada. */
+    sessionId: string;
+  /** Propiedad no documentada. */
+    publishableKey: string;
 }
 
+/** Payload para crear checkout directo de un juego/plataforma. */
 export interface DirectCheckoutSessionPayload {
-  gameId: number;
-  platformId: number;
-  locale?: string;
+  /** Propiedad no documentada. */
+    gameId: number;
+  /** Propiedad no documentada. */
+    platformId: number;
+  /** Propiedad no documentada. */
+    locale?: string;
 }
 
 /**
@@ -329,18 +362,25 @@ export class CartItemService
   extends BaseService&lt;CartItem&gt;
   implements ICartItemService
 {
-  private isBrowser: boolean;
+  /** Propiedad no documentada. */
+    private isBrowser: boolean;
   /** Observable con el número actual de artículos en el carrito. */
   public cartCount$ &#x3D; new BehaviorSubject&lt;number&gt;(this.getInitialCount());
 
   /**
-   * @param repository Repositorio de base para artículos del carrito.
-   * @param http Cliente HTTP para peticiones personalizadas.
-   * @param apiUrl URL base de la API.
-   * @param resource Nombre del recurso en la API.
-   * @param auth Servicio de autenticación para obtener el token.
-   * @param platformId ID de la plataforma (Browser/Server).
-   */
+       * Documentado.
+       * @param repository Repositorio de base para artículos del carrito.
+       *
+       * @param http Cliente HTTP para peticiones personalizadas.
+       *
+       * @param apiUrl URL base de la API.
+       *
+       * @param resource Nombre del recurso en la API.
+       *
+       * @param auth Servicio de autenticación para obtener el token.
+       *
+       * @param platformId ID de la plataforma (Browser/Server).
+       */
   constructor(
     @Inject(CART_ITEM_REPOSITORY_TOKEN) repository: IBaseRepository&lt;CartItem&gt;,
     private http: HttpClient,
@@ -471,7 +511,12 @@ export class CartItemService
       .pipe(tap(() &#x3D;&gt; this.refreshCount()));
   }
 
-  createCheckoutSession(locale?: string): Observable&lt;CheckoutSessionResponse&gt; {
+  /**
+     * Método no documentado.
+     * @param locale Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    createCheckoutSession(locale?: string): Observable&lt;CheckoutSessionResponse&gt; {
     return this.http.post&lt;CheckoutSessionResponse&gt;(
       &#x60;${this.apiUrl}/${this.resource}/checkout-session&#x60;,
       locale ? { locale } : {},
@@ -479,7 +524,12 @@ export class CartItemService
     );
   }
 
-  createDirectCheckoutSession(
+  /**
+     * Método no documentado.
+     * @param payload Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    createDirectCheckoutSession(
     payload: DirectCheckoutSessionPayload,
   ): Observable&lt;CheckoutSessionResponse&gt; {
     return this.http.post&lt;CheckoutSessionResponse&gt;(
@@ -489,7 +539,12 @@ export class CartItemService
     );
   }
 
-  confirmCheckoutSession(sessionId: string): Observable&lt;any&gt; {
+  /**
+     * Método no documentado.
+     * @param sessionId Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    confirmCheckoutSession(sessionId: string): Observable&lt;any&gt; {
     return this.http.post(
       &#x60;${this.apiUrl}/${this.resource}/checkout/confirm&#x60;,
       { sessionId },
@@ -497,7 +552,12 @@ export class CartItemService
     );
   }
 
-  confirmDirectCheckoutSession(sessionId: string): Observable&lt;any&gt; {
+  /**
+     * Método no documentado.
+     * @param sessionId Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    confirmDirectCheckoutSession(sessionId: string): Observable&lt;any&gt; {
     return this.http.post(
       &#x60;${this.apiUrl}/${this.resource}/direct-checkout/confirm&#x60;,
       { sessionId },

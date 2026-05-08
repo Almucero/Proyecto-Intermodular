@@ -7,6 +7,13 @@ import {
   deletePublisher,
 } from './publishers.service';
 
+/**
+ * Lista publishers con filtro opcional por nombre.
+ *
+ * @param req Request HTTP.
+ * @param res Response HTTP.
+ * @returns Listado de publishers.
+ */
 export async function listPublishersCtrl(req: Request, res: Response) {
   try {
     const filters: any = {};
@@ -18,6 +25,13 @@ export async function listPublishersCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Obtiene un publisher por id.
+ *
+ * @param req Request con `id` en params.
+ * @param res Response HTTP.
+ * @returns Publisher solicitado.
+ */
 export async function getPublisherCtrl(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);
@@ -38,6 +52,13 @@ export async function getPublisherCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Crea un publisher.
+ *
+ * @param req Request con payload de creación.
+ * @param res Response HTTP.
+ * @returns Publisher creado.
+ */
 export async function createPublisherCtrl(req: Request, res: Response) {
   try {
     const created = await createPublisher(req.body);
@@ -49,6 +70,13 @@ export async function createPublisherCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Actualiza un publisher existente.
+ *
+ * @param req Request con `id` y payload parcial.
+ * @param res Response HTTP.
+ * @returns Publisher actualizado.
+ */
 export async function updatePublisherCtrl(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);
@@ -63,6 +91,13 @@ export async function updatePublisherCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Elimina un publisher por id.
+ *
+ * @param req Request con `id`.
+ * @param res Response HTTP.
+ * @returns `204 No Content` al eliminar.
+ */
 export async function deletePublisherCtrl(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);

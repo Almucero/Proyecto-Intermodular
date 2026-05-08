@@ -14,8 +14,9 @@ import { IGenreService } from '../interfaces/genre-service.interface';
 })
 export class GenreService extends BaseService<Genre> implements IGenreService {
   /**
-   * @param repository Repositorio de géneros inyectado.
-   */
+       * Documentado.
+       * @param repository Repositorio de géneros inyectado.
+       */
   constructor(
     @Inject(GENRE_REPOSITORY_TOKEN) repository: IBaseRepository<Genre>,
   ) {

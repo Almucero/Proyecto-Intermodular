@@ -24,8 +24,10 @@ import { GenreFormComponent } from '../genre-form/genre-form.component';
   styleUrl: './genre-list.component.scss',
 })
 export class GenreListComponent implements OnInit {
-  private genreService = inject(GenreService);
-  private readonly MIN_SKELETON_MS = 550;
+  /** Propiedad no documentada. */
+    private genreService = inject(GenreService);
+  /** Propiedad no documentada. */
+    private readonly MIN_SKELETON_MS = 550;
 
   /** Referencia al contenedor con scroll para efectos visuales de sombras. */
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
@@ -115,7 +117,10 @@ export class GenreListComponent implements OnInit {
     this.showModal = true;
   }
 
-  /** Abre el modal para editar un género existente. */
+  /**
+     * Abre el modal para editar un género existente.
+     * @param id Parámetro no documentado.
+     */
   openEditModal(id: number) {
     this.selectedGenreId = id;
     this.showModal = true;
@@ -133,7 +138,10 @@ export class GenreListComponent implements OnInit {
     this.loadGenres();
   }
 
-  /** Abre el modal de confirmación para eliminar un género. */
+  /**
+     * Abre el modal de confirmación para eliminar un género.
+     * @param id Parámetro no documentado.
+     */
   openDeleteModal(id: number) {
     this.genreToDeleteId = id;
     this.showDeleteModal = true;

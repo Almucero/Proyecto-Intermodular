@@ -9,10 +9,16 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { v2 as cloudinary } from 'cloudinary';
 
+/** Filename ESM del script de seed. */
 const __filename = fileURLToPath(import.meta.url);
+/** Directorio actual del script de seed. */
 const __dirname = path.dirname(__filename);
 
-// Base de media configurable y tolerante a distintas ubicaciones
+/**
+ * Resuelve la ruta base de media soportando varias ubicaciones.
+ *
+ * @returns Ruta absoluta de la carpeta de media.
+ */
 function resolveMediaBasePath() {
   if (
     process.env.MEDIA_BASE_PATH &&
@@ -43,10 +49,19 @@ function resolveMediaBasePath() {
   return embeddedMedia;
 }
 
+/** Ruta base efectiva para assets de media. */
 const MEDIA_BASE_PATH = resolveMediaBasePath();
+/** Ruta local de imágenes de juegos. */
 const GAME_IMAGES_PATH = path.join(MEDIA_BASE_PATH, 'gameImages');
+/** Ruta local de imágenes de usuarios. */
 const USER_IMAGES_PATH = path.join(MEDIA_BASE_PATH, 'userImages');
 
+/**
+ * Resuelve una ruta de JSON tolerando distintas estructuras de carpeta.
+ *
+ * @param fileName Nombre del archivo json.
+ * @returns Ruta absoluta al archivo solicitado.
+ */
 function getJsonPath(fileName: string): string {
   const base = path.join(process.cwd(), 'backend-data');
   const inJsonFolder = path.join(base, 'json', fileName);

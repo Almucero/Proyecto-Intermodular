@@ -60,17 +60,22 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   userName: string = '';
   /** Controla la visibilidad del modal de autenticación requerida. */
   showAuthModal: boolean = false;
-  authModalOpen = false;
-  authModalClosing = false;
-  private readonly authModalAnimMs = 160;
+  /** Propiedad no documentada. */
+    authModalOpen = false;
+  /** Propiedad no documentada. */
+    authModalClosing = false;
+  /** Propiedad no documentada. */
+    private readonly authModalAnimMs = 160;
   /** Estado de autenticación del usuario. */
   isUserAuthenticated: boolean = false;
   /** URL del avatar del usuario. */
   userAvatar: string | null = null;
   /** Indica si las sesiones se están cargando inicialmente. */
   loadingSessions: boolean = true;
-  private readonly chatSessionsCountStorageKey = 'chatSessionsCount';
-  cachedSessionsCount = 0;
+  /** Propiedad no documentada. */
+    private readonly chatSessionsCountStorageKey = 'chatSessionsCount';
+  /** Propiedad no documentada. */
+    cachedSessionsCount = 0;
 
   /** Controla el estado de la barra lateral en dispositivos móviles. */
   isMobileSidebarOpen = false;
@@ -79,18 +84,23 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /** Control visual de degradados para scroll en el chat principal. */
   showMainTopFade = false;
-  showMainBottomFade = false;
+  /** Propiedad no documentada. */
+    showMainBottomFade = false;
   /** Control visual de degradados para scroll en la barra lateral. */
   showSidebarTopFade = false;
-  showSidebarBottomFade = false;
+  /** Propiedad no documentada. */
+    showSidebarBottomFade = false;
 
   /** Visibilidad de barras de scroll personalizadas. */
   showSidebarScrollbar = false;
-  showMainScrollbar = false;
+  /** Propiedad no documentada. */
+    showMainScrollbar = false;
   /** Temporizadores para ocultar las barras de scroll tras inactividad. */
   private sidebarActivityTimer: any;
-  private mainActivityTimer: any;
-  private viewSyncQueued = false;
+  /** Propiedad no documentada. */
+    private mainActivityTimer: any;
+  /** Propiedad no documentada. */
+    private viewSyncQueued = false;
 
   /** Alterna la visibilidad de la barra lateral móvil. */
   toggleMobileSidebar() {
@@ -102,7 +112,15 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isMobileSidebarOpen = false;
   }
 
-  constructor(
+  /**
+     * Constructor no documentado.
+     * @param chatService Parámetro no documentado.
+     * @param router Parámetro no documentado.
+     * @param authService Parámetro no documentado.
+     * @param translateService Parámetro no documentado.
+     * @param ngZone Parámetro no documentado.
+     */
+    constructor(
     private chatService: ChatService,
     private router: Router,
     private authService: BaseAuthenticationService,
@@ -149,11 +167,13 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  ngAfterViewInit(): void {
+  /** Método no documentado. */
+    ngAfterViewInit(): void {
     this.scheduleViewSync();
   }
 
-  private scheduleViewSync() {
+  /** Método no documentado. */
+    private scheduleViewSync() {
     if (this.viewSyncQueued) return;
     this.viewSyncQueued = true;
     this.ngZone.runOutsideAngular(() => {
@@ -253,7 +273,10 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
       el.scrollHeight - el.scrollTop - el.clientHeight > 10;
   }
 
-  /** Envía un mensaje basado en una sugerencia predefinida. */
+  /**
+     * Envía un mensaje basado en una sugerencia predefinida.
+     * @param key Parámetro no documentado.
+     */
   sendSuggestion(key: string) {
     const text = this.translateService.instant(key);
     this.userInput = text;
@@ -293,7 +316,10 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
     this.scheduleViewSync();
   }
 
-  /** Selecciona una sesión de historial y carga sus mensajes. */
+  /**
+     * Selecciona una sesión de historial y carga sus mensajes.
+     * @param session Parámetro no documentado.
+     */
   selectSession(session: ChatSession) {
     if (this.currentSession?.id === session.id) return;
 
@@ -310,7 +336,11 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  /** Elimina una sesión de chat permanentemente. */
+  /**
+     * Elimina una sesión de chat permanentemente.
+     * @param session Parámetro no documentado.
+     * @param event Parámetro no documentado.
+     */
   deleteSession(session: ChatSession, event: Event) {
     event.stopPropagation();
     if (!session.id) return;
@@ -381,12 +411,18 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  /** Redirige a la página de detalle de un producto sugerido. */
+  /**
+     * Redirige a la página de detalle de un producto sugerido.
+     * @param gameId Parámetro no documentado.
+     */
   navigateToGame(gameId: number) {
     this.router.navigate(['/product', gameId]);
   }
 
-  /** Verifica si el usuario está autenticado, de lo contrario muestra aviso. */
+  /**
+     * Verifica si el usuario está autenticado, de lo contrario muestra aviso.
+     * @returns Retorno no documentado.
+     */
   checkAuth(): boolean {
     if (!this.isUserAuthenticated) {
       this.showAuthModal = true;
@@ -434,7 +470,10 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
     }, this.authModalAnimMs);
   }
 
-  /** Maneja clicks en enlaces internos dentro del contenido generado por la IA (Markdown). */
+  /**
+     * Maneja clicks en enlaces internos dentro del contenido generado por la IA (Markdown).
+     * @param event Parámetro no documentado.
+     */
   handleContentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
     const anchor = target.closest('a');
@@ -452,7 +491,8 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * Convierte menciones de títulos de juegos en enlaces navegables dentro del texto de la respuesta.
-   */
+     * @param message Parámetro no documentado.
+     */
   private processMessageLinks(message: ChatMessage) {
     if (!message.games || message.games.length === 0) return;
 
@@ -472,21 +512,30 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  get recentSessionsCount(): number[] {
+  /** Accessor no documentado. */
+    get recentSessionsCount(): number[] {
     const count = Math.max(this.cachedSessionsCount ?? 0, 0);
     return Array(count)
       .fill(0)
       .map((x, i) => i + 1);
   }
 
-  private getInitialSessionsCount(): number {
+  /**
+     * Método no documentado.
+     * @returns Retorno no documentado.
+     */
+    private getInitialSessionsCount(): number {
     if (typeof localStorage === 'undefined') {
       return 0;
     }
     return parseInt(localStorage.getItem(this.chatSessionsCountStorageKey) || '0', 10);
   }
 
-  private updateCachedSessionsCount(count: number): void {
+  /**
+     * Método no documentado.
+     * @param count Parámetro no documentado.
+     */
+    private updateCachedSessionsCount(count: number): void {
     const safeCount = Math.max(count, 0);
     this.cachedSessionsCount = safeCount;
     if (typeof localStorage === 'undefined') {

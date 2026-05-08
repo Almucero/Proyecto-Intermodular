@@ -7,6 +7,7 @@ import {
   deleteSessionCtrl,
 } from './chat.controller';
 
+/** Router de endpoints de chat IA. */
 const router = Router();
 
 /**

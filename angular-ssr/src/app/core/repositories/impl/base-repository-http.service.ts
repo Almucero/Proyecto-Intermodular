@@ -27,12 +27,17 @@ export class BaseRepositoryHttpService<
   T extends Model,
 > implements IBaseRepository<T> {
   /**
-   * @param http Cliente HTTP.
-   * @param auth Servicio de autenticación para obtener tokens.
-   * @param apiUrl URL base de la API.
-   * @param resource Nombre del recurso (ej: 'games', 'users').
-   * @param mapping Mapeador para transformar datos entre API y modelos.
-   */
+       * Documentado.
+       * @param http Cliente HTTP.
+       *
+       * @param auth Servicio de autenticación para obtener tokens.
+       *
+       * @param apiUrl URL base de la API.
+       *
+       * @param resource Nombre del recurso (ej: 'games', 'users').
+       *
+       * @param mapping Mapeador para transformar datos entre API y modelos.
+       */
   constructor(
     protected http: HttpClient,
     @Inject(AUTH_TOKEN) protected auth: IAuthentication,
@@ -58,7 +63,8 @@ export class BaseRepositoryHttpService<
   /**
    * Obtiene todos los recursos aplicando filtros opcionales.
    * @param filters Parámetros de consulta (query params).
-   */
+     * @returns Retorno no documentado.
+     */
   getAll(filters: SearchParams): Observable<T[]> {
     return this.http
       .get<T[]>(`${this.apiUrl}/${this.resource}`, {
@@ -71,7 +77,8 @@ export class BaseRepositoryHttpService<
   /**
    * Obtiene un recurso específico por su ID.
    * @param id Identificador único.
-   */
+     * @returns Retorno no documentado.
+     */
   getById(id: string): Observable<T | null> {
     return this.http
       .get<T>(`${this.apiUrl}/${this.resource}/${id}`, {
@@ -83,7 +90,8 @@ export class BaseRepositoryHttpService<
   /**
    * Crea un nuevo recurso.
    * @param entity Datos del nuevo recurso.
-   */
+     * @returns Retorno no documentado.
+     */
   add(entity: T): Observable<T> {
     return this.http
       .post<T>(`${this.apiUrl}/${this.resource}`, entity, {
@@ -96,7 +104,8 @@ export class BaseRepositoryHttpService<
    * Actualiza parcialmente un recurso existente (usando PATCH).
    * @param id ID del recurso.
    * @param entity Datos a actualizar.
-   */
+     * @returns Retorno no documentado.
+     */
   update(id: string, entity: T): Observable<T> {
     return this.http
       .patch<T>(`${this.apiUrl}/${this.resource}/${id}`, entity, {
@@ -108,7 +117,8 @@ export class BaseRepositoryHttpService<
   /**
    * Elimina un recurso.
    * @param id ID del recurso a borrar.
-   */
+     * @returns Retorno no documentado.
+     */
   delete(id: string): Observable<T> {
     return this.http
       .delete<T>(`${this.apiUrl}/${this.resource}/${id}`, {

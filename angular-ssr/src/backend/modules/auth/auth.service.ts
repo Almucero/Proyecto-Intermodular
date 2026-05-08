@@ -15,7 +15,9 @@ import {
   recordLoginFailure,
 } from '../users/users.service';
 
+/** Cliente OAuth para validación de id_token de Google. */
 const googleOAuthClient = new OAuth2Client(env.GOOGLE_CLIENT_ID);
+/** Almacén en memoria para códigos de recuperación de contraseña. */
 const passwordRecoveryStore = new Map<
   string,
   {
@@ -25,10 +27,14 @@ const passwordRecoveryStore = new Map<
     nextAllowedAt: number;
   }
 >();
+/** TTL del código de recuperación (15 minutos). */
 const PASSWORD_RECOVERY_TTL_MS = 15 * 60 * 1000;
+/** Tiempo mínimo entre reenvíos de código de recuperación. */
 const PASSWORD_RECOVERY_RESEND_INTERVAL_MS = 60 * 1000;
+/** Máximo de intentos de verificación de código por solicitud. */
 const MAX_PASSWORD_RECOVERY_ATTEMPTS = 5;
 
+/** Textos localizados de correo para recuperación de contraseña. */
 const passwordRecoveryEmailContent: Record<
   string,
   { subject: string; title: string; message: string; expiration: string }
@@ -65,6 +71,12 @@ const passwordRecoveryEmailContent: Record<
   },
 };
 
+/**
+ * Divide un nombre completo en nombre y apellidos.
+ *
+ * @param fullName Nombre completo sin normalizar.
+ * @returns Objeto con `name` y `surname`.
+ */
 function splitDisplayName(fullName?: string | null): { name: string; surname: string } {
   const normalized = (fullName ?? '').trim().replace(/\s+/g, ' ');
   if (!normalized) {
@@ -80,6 +92,12 @@ function splitDisplayName(fullName?: string | null): { name: string; surname: st
   };
 }
 
+/**
+ * Normaliza un candidate handle para `accountAt`.
+ *
+ * @param value Texto de entrada.
+ * @returns Handle limpio con caracteres permitidos.
+ */
 function normalizeHandleCandidate(value?: string | null): string {
   return (value ?? '')
     .normalize('NFD')
@@ -89,6 +107,13 @@ function normalizeHandleCandidate(value?: string | null): string {
     .replace(/^[._-]+|[._-]+$/g, '');
 }
 
+/**
+ * Genera un `accountAt` único a partir de varios candidatos.
+ *
+ * @param candidates Lista de posibles alias.
+ * @param email Email del usuario para fallback.
+ * @returns Alias único con formato `@handle`.
+ */
 async function buildUniqueAccountAt(
   candidates: Array<string | null | undefined>,
   email: string,
@@ -112,6 +137,12 @@ async function buildUniqueAccountAt(
   return `@${baseCandidate}${Date.now()}`;
 }
 
+/**
+ * Firma un JWT de usuario con issuer/audience configurados.
+ *
+ * @param fullUser Usuario autenticado.
+ * @returns Token JWT listo para cliente.
+ */
 function signUserToken(fullUser: any): string {
   return jwt.sign(
     {
@@ -128,6 +159,11 @@ function signUserToken(fullUser: any): string {
   );
 }
 
+/**
+ * Registra un nuevo usuario local (email/password).
+ *
+ * @returns Usuario completo y token JWT.
+ */
 export async function register(
   email: string,
   name: string,
@@ -170,6 +206,11 @@ export async function register(
   return { user: fullUser, token };
 }
 
+/**
+ * Inicia sesión con credenciales locales.
+ *
+ * @returns Usuario completo y token JWT.
+ */
 export async function login(email: string, password: string) {
   const user = await findUserByEmailForLogin(email);
   if (!user) {
@@ -201,6 +242,12 @@ export async function login(email: string, password: string) {
   };
 }
 
+/**
+ * Inicia sesión/registro mediante Google OAuth.
+ *
+ * @param idToken Token de identidad de Google.
+ * @returns Usuario completo y token JWT.
+ */
 export async function loginWithGoogle(idToken: string) {
   if (!env.GOOGLE_CLIENT_ID) {
     const err = new Error('Inicio de sesión con Google no configurado') as Error & {
@@ -267,6 +314,12 @@ export async function loginWithGoogle(idToken: string) {
   };
 }
 
+/**
+ * Inicia sesión/registro mediante GitHub OAuth.
+ *
+ * @param code Código OAuth devuelto por GitHub.
+ * @returns Usuario completo y token JWT.
+ */
 export async function loginWithGithub(code: string) {
   if (!env.GITHUB_CLIENT_ID || !env.GITHUB_CLIENT_SECRET) {
     const err = new Error('Inicio de sesión con GitHub no configurado') as Error & {
@@ -395,10 +448,16 @@ export async function loginWithGithub(code: string) {
   return { user: fullUser, token };
 }
 
+/**
+ * Genera código numérico de recuperación de seis dígitos.
+ */
 function buildRecoveryCode(): string {
   return `${Math.floor(100000 + Math.random() * 900000)}`;
 }
 
+/**
+ * Envía correo de recuperación con código temporal.
+ */
 async function sendPasswordRecoveryEmail(
   to: string,
   locale: string,
@@ -448,6 +507,9 @@ async function sendPasswordRecoveryEmail(
   });
 }
 
+/**
+ * Solicita código de recuperación para un email.
+ */
 export async function requestPasswordRecovery(email: string, locale: string) {
   const normalizedEmail = email.trim().toLowerCase();
   const user = await findUserByEmail(normalizedEmail);
@@ -482,6 +544,9 @@ export async function requestPasswordRecovery(email: string, locale: string) {
   return { ok: true, expiresAt };
 }
 
+/**
+ * Valida un código de recuperación previamente emitido.
+ */
 export async function verifyPasswordRecoveryCode(email: string, code: string) {
   const normalizedEmail = email.trim().toLowerCase();
   const entry = passwordRecoveryStore.get(normalizedEmail);
@@ -510,6 +575,9 @@ export async function verifyPasswordRecoveryCode(email: string, code: string) {
   return { ok: true };
 }
 
+/**
+ * Restablece contraseña usando código de recuperación válido.
+ */
 export async function resetPasswordWithRecoveryCode(
   email: string,
   code: string,

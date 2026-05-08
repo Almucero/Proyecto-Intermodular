@@ -3,12 +3,19 @@ import { env } from '../../config/env';
 import { prisma } from '../../config/db';
 import { logger } from '../../utils/logger';
 
+/** Configuración global de Cloudinary para operaciones de media. */
 cloudinary.config({
   cloud_name: env.CLOUDINARY_CLOUD_NAME,
   api_key: env.CLOUDINARY_API_KEY,
   api_secret: env.CLOUDINARY_API_SECRET,
 });
 
+/**
+ * Lista recursos multimedia con filtros opcionales.
+ *
+ * @param filters Filtros por owner, carpeta, formato y tipo.
+ * @returns Lista de media normalizada por owner.
+ */
 export async function listMedia(filters?: {
   type?: 'user' | 'game';
   id?: number;
@@ -60,6 +67,12 @@ export async function listMedia(filters?: {
   });
 }
 
+/**
+ * Busca un recurso media por identificador.
+ *
+ * @param id Identificador del recurso.
+ * @returns Recurso encontrado con relaciones owner.
+ */
 export async function findMediaById(id: number) {
   return await prisma.media.findUnique({
     where: { id },
@@ -94,6 +107,12 @@ export async function findMediaById(id: number) {
   });
 }
 
+/**
+ * Sanitiza nombre para uso seguro dentro de carpetas Cloudinary.
+ *
+ * @param name Nombre original.
+ * @returns Nombre normalizado en kebab-case.
+ */
 function sanitizeFolderName(name: string): string {
   return name
     .toLowerCase()
@@ -103,6 +122,15 @@ function sanitizeFolderName(name: string): string {
     .replace(/^-+|-+$/g, '');
 }
 
+/**
+ * Sube un archivo multimedia para usuario o juego.
+ *
+ * @param type Tipo de owner (`user` o `game`).
+ * @param id Identificador del owner.
+ * @param file Archivo recibido por multer.
+ * @param altText Texto alternativo opcional.
+ * @returns Registro `media` creado en base de datos.
+ */
 export async function uploadMedia(
   type: 'user' | 'game',
   id: number,
@@ -168,6 +196,16 @@ export async function uploadMedia(
   });
 }
 
+/**
+ * Actualiza metadatos, owner o binario de un recurso media.
+ *
+ * @param id Identificador del recurso.
+ * @param file Nuevo archivo opcional.
+ * @param altText Nuevo texto alternativo opcional.
+ * @param newType Nuevo tipo de owner opcional.
+ * @param newId Nuevo owner id opcional.
+ * @returns Recurso actualizado.
+ */
 export async function updateMedia(
   id: number,
   file?: Express.Multer.File,
@@ -297,6 +335,12 @@ export async function updateMedia(
   return updated;
 }
 
+/**
+ * Elimina un recurso media de Cloudinary y base de datos.
+ *
+ * @param id Identificador del recurso.
+ * @returns Recurso eliminado.
+ */
 export async function deleteMedia(id: number) {
   const media = await prisma.media.findUnique({ where: { id } });
   if (!media) throw new Error('Media not found');
@@ -317,6 +361,12 @@ export async function deleteMedia(id: number) {
   return media;
 }
 
+/**
+ * Elimina carpeta remota en Cloudinary cuando queda vacía.
+ *
+ * @param folder Carpeta objetivo.
+ * @returns `void`.
+ */
 async function cleanupFolderIfEmpty(folder: string) {
   const remaining = await prisma.media.count({
     where: { folder, publicId: { not: null } },

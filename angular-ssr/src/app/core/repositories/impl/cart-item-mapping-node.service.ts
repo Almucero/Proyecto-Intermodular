@@ -13,7 +13,8 @@ export class CartItemMappingNodeService implements IBaseMapping<CartItem> {
   /**
    * Transforma una lista de artículos provenientes de la API.
    * @param data Datos sin procesar de la API.
-   */
+     * @returns Retorno no documentado.
+     */
   getAll(data: any): CartItem[] {
     return data.map((item: any) => this.getOne(item));
   }
@@ -22,7 +23,8 @@ export class CartItemMappingNodeService implements IBaseMapping<CartItem> {
    * Transforma un único artículo del carrito de la API al modelo de la aplicación.
    * Maneja diferentes estructuras posibles (mapeo defensivo).
    * @param data Objeto de la API.
-   */
+     * @returns Retorno no documentado.
+     */
   getOne(data: any): CartItem {
     return {
       id: data.cartItemId || data.id,
@@ -47,17 +49,29 @@ export class CartItemMappingNodeService implements IBaseMapping<CartItem> {
     };
   }
 
-  /** Transforma la respuesta de creación al modelo. */
+  /**
+     * Transforma la respuesta de creación al modelo.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getAdded(data: any): CartItem {
     return this.getOne(data);
   }
 
-  /** Transforma la respuesta de actualización al modelo. */
+  /**
+     * Transforma la respuesta de actualización al modelo.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getUpdated(data: any): CartItem {
     return this.getOne(data);
   }
 
-  /** Transforma la respuesta de eliminación al modelo. */
+  /**
+     * Transforma la respuesta de eliminación al modelo.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getDeleted(data: any): CartItem {
     return this.getOne(data);
   }
@@ -65,7 +79,8 @@ export class CartItemMappingNodeService implements IBaseMapping<CartItem> {
   /**
    * Prepara los datos del modelo para ser enviados en una creación.
    * @param data Modelo del artículo del carrito.
-   */
+     * @returns Retorno no documentado.
+     */
   setAdd(data: CartItem): any {
     return {
       userId: data.userId,
@@ -78,7 +93,8 @@ export class CartItemMappingNodeService implements IBaseMapping<CartItem> {
   /**
    * Prepara los datos para una actualización parcial.
    * @param data Atributos a actualizar.
-   */
+     * @returns Retorno no documentado.
+     */
   setUpdate(data: any): any {
     const payload: any = {};
     if (data.quantity !== undefined) payload.quantity = data.quantity;

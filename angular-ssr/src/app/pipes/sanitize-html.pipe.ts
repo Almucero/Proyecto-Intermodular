@@ -12,8 +12,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class SanitizeHtmlPipe implements PipeTransform {
   /**
-   * @param sanitizer Servicio de seguridad de Angular.
-   */
+       * Documentado.
+       * @param sanitizer Servicio de seguridad de Angular.
+       */
   constructor(private sanitizer: DomSanitizer) {}
 
   /**

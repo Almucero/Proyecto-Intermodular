@@ -16,8 +16,9 @@ export class PublisherService
   implements IPublisherService
 {
   /**
-   * @param repository Repositorio de distribuidoras inyectado.
-   */
+       * Documentado.
+       * @param repository Repositorio de distribuidoras inyectado.
+       */
   constructor(
     @Inject(PUBLISHER_REPOSITORY_TOKEN) repository: IBaseRepository<Publisher>,
   ) {

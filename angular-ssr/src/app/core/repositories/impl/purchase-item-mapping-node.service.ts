@@ -9,14 +9,23 @@ import { PurchaseItem } from '../../models/purchase-item.model';
   providedIn: 'root',
 })
 export class PurchaseItemMappingNodeService implements IBaseMapping<PurchaseItem> {
-  constructor() {}
+  /** Constructor no documentado. */
+    constructor() {}
 
-  /** Transforma una lista de artículos de compra. */
+  /**
+     * Transforma una lista de artículos de compra.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getAll(data: any): PurchaseItem[] {
     return data.map((item: any) => this.getOne(item));
   }
 
-  /** Transforma un único artículo de compra, incluyendo datos básicos del juego. */
+  /**
+     * Transforma un único artículo de compra, incluyendo datos básicos del juego.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getOne(data: any): PurchaseItem {
     return {
       id: data.itemId || data.id,
@@ -38,19 +47,38 @@ export class PurchaseItemMappingNodeService implements IBaseMapping<PurchaseItem
     };
   }
 
-  getAdded(data: any): PurchaseItem {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getAdded(data: any): PurchaseItem {
     return this.getOne(data);
   }
 
-  getUpdated(data: any): PurchaseItem {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getUpdated(data: any): PurchaseItem {
     return this.getOne(data);
   }
 
-  getDeleted(data: any): PurchaseItem {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getDeleted(data: any): PurchaseItem {
     return this.getOne(data);
   }
 
-  /** Prepara los datos para añadir un artículo a una compra. */
+  /**
+     * Prepara los datos para añadir un artículo a una compra.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   setAdd(data: PurchaseItem): any {
     return {
       purchaseId: data.purchaseId,
@@ -61,7 +89,11 @@ export class PurchaseItemMappingNodeService implements IBaseMapping<PurchaseItem
     };
   }
 
-  /** No se suelen actualizar artículos de compra individuales directamente. */
+  /**
+     * No se suelen actualizar artículos de compra individuales directamente.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   setUpdate(data: any): any {
     return {};
   }

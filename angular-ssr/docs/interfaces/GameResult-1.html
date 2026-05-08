@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>game-sage documentation</title>
+        <title>Game Sage Documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -78,7 +78,7 @@
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
-                    <a href="../" class="navbar-brand">game-sage documentation</a>
+                    <a href="../" class="navbar-brand">Game Sage Documentation</a>
                     <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
                </div>
         </div>
@@ -144,6 +144,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Resultado serializable de juego sugerido en respuestas de chat.</p>
+
+            </p>
 
 
         <section data-compodoc="block-index">
@@ -230,6 +237,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Propiedad no documentada.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -263,6 +276,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Propiedad no documentada.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -296,6 +315,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Propiedad no documentada.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -329,6 +354,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Propiedad no documentada.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -362,6 +393,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Propiedad no documentada.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
             </section>
@@ -374,6 +411,7 @@ import { generateText, tool, stepCountIs } from &#x27;ai&#x27;;
 import { z } from &#x27;zod&#x27;;
 import { prisma } from &#x27;../../config/db&#x27;;
 
+/** Esquema de entrada para herramienta semántica de búsqueda de juegos. */
 const searchGamesInputSchema &#x3D; z.object({
   query: z
     .string()
@@ -382,14 +420,26 @@ const searchGamesInputSchema &#x3D; z.object({
     ),
 });
 
+/** Resultado serializable de juego sugerido en respuestas de chat. */
 interface GameResult {
-  id: number;
-  title: string;
-  price: string;
-  genres: string;
-  platforms: string;
+  /** Propiedad no documentada. */
+    id: number;
+  /** Propiedad no documentada. */
+    title: string;
+  /** Propiedad no documentada. */
+    price: string;
+  /** Propiedad no documentada. */
+    genres: string;
+  /** Propiedad no documentada. */
+    platforms: string;
 }
 
+/**
+ * Lista sesiones de chat de un usuario.
+ *
+ * @param userId Identificador del usuario.
+ * @returns Sesiones ordenadas por actualización.
+ */
 export async function getUserSessions(userId: number) {
   return prisma.chatSession.findMany({
     where: { userId },
@@ -404,6 +454,13 @@ export async function getUserSessions(userId: number) {
   });
 }
 
+/**
+ * Obtiene una sesión de chat concreta con sus mensajes.
+ *
+ * @param sessionId Identificador de sesión.
+ * @param userId Identificador de usuario propietario.
+ * @returns Sesión encontrada.
+ */
 export async function getSession(sessionId: number, userId: number) {
   const session &#x3D; await prisma.chatSession.findFirst({
     where: { id: sessionId, userId },
@@ -430,6 +487,13 @@ export async function getSession(sessionId: number, userId: number) {
   return session;
 }
 
+/**
+ * Elimina una sesión de chat del usuario.
+ *
+ * @param sessionId Identificador de sesión.
+ * @param userId Identificador del propietario.
+ * @returns Estado de eliminación.
+ */
 export async function deleteSession(sessionId: number, userId: number) {
   const session &#x3D; await prisma.chatSession.findFirst({
     where: { id: sessionId, userId },
@@ -441,6 +505,14 @@ export async function deleteSession(sessionId: number, userId: number) {
   return { deleted: true };
 }
 
+/**
+ * Procesa un mensaje de usuario contra el asistente IA.
+ *
+ * @param userId Identificador de usuario autenticado.
+ * @param message Mensaje enviado.
+ * @param sessionId Sesión opcional para continuidad.
+ * @returns Respuesta del asistente y juegos encontrados.
+ */
 export async function processChat(
   userId: number,
   message: string,

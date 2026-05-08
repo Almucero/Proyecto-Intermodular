@@ -2,6 +2,7 @@ import { config } from 'dotenv';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 
+/** Ruta absoluta del archivo `.env` del proyecto. */
 const envPath = join(process.cwd(), '.env');
 config({ path: envPath, quiet: true });
 
@@ -12,6 +13,7 @@ if (!process.env['VERCEL'] && !existsSync(envPath)) {
   );
 }
 
+/** Variables obligatorias tratadas como string. */
 const STRING_KEYS = [
   'PORT',
   'NODE_ENV',
@@ -29,8 +31,14 @@ const STRING_KEYS = [
   'ADMIN_NAMES',
 ] as const;
 
+/** Variables obligatorias que deben ser numéricas y mayores a cero. */
 const NUMERIC_KEYS = ['PORT', 'BCRYPT_SALT_ROUNDS'] as const;
 
+/**
+ * Valida presencia y formato básico de variables de entorno.
+ *
+ * @throws Error Si faltan variables obligatorias o tienen formato inválido.
+ */
 function validate(): void {
   const missing: string[] = [];
   const invalid: string[] = [];
@@ -61,10 +69,14 @@ function validate(): void {
 
 validate();
 
+/** Tiempo de expiración JWT por defecto. */
 const defaultJwtExpiresIn = '7d';
+/** Issuer JWT por defecto. */
 const defaultJwtIssuer = 'game-sage';
+/** Audience JWT por defecto. */
 const defaultJwtAudience = 'game-sage-users';
 
+/** Configuración de entorno normalizada para backend y SSR. */
 export const env = {
   PORT: Number(process.env.PORT),
   NODE_ENV: process.env.NODE_ENV!,

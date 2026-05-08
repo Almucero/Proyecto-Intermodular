@@ -1,5 +1,11 @@
 import { prisma } from '../../config/db';
 
+/**
+ * Lista juegos con filtros y relaciones opcionales por `include`.
+ *
+ * @param filters Filtros de búsqueda y selección relacional.
+ * @returns Listado de juegos.
+ */
 export async function listGames(filters?: {
   title?: string | undefined;
   price?: number | undefined;
@@ -136,6 +142,12 @@ export async function listGames(filters?: {
   }
 }
 
+/**
+ * Busca un juego por id con relaciones principales.
+ *
+ * @param id Identificador del juego.
+ * @returns Juego encontrado o `null`.
+ */
 export async function findGameById(id: number) {
   try {
     return await prisma.game.findUnique({
@@ -185,6 +197,12 @@ export async function findGameById(id: number) {
   }
 }
 
+/**
+ * Crea un juego nuevo con relaciones de géneros/plataformas.
+ *
+ * @param data Payload de creación.
+ * @returns Juego creado.
+ */
 export async function createGame(data: any) {
   const payload: any = { ...data };
   if (data.genres) {
@@ -231,6 +249,13 @@ export async function createGame(data: any) {
   });
 }
 
+/**
+ * Actualiza un juego existente y sincroniza relaciones.
+ *
+ * @param id Identificador del juego.
+ * @param data Payload parcial de actualización.
+ * @returns Juego actualizado.
+ */
 export async function updateGame(id: number, data: any) {
   const payload: any = { ...data };
   if (data.genres) {
@@ -280,6 +305,12 @@ export async function updateGame(id: number, data: any) {
   });
 }
 
+/**
+ * Elimina un juego por id.
+ *
+ * @param id Identificador del juego.
+ * @returns Registro eliminado.
+ */
 export async function deleteGame(id: number) {
   return await prisma.game.delete({ where: { id } as any });
 }

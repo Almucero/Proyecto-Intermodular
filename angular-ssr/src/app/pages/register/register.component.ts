@@ -71,22 +71,40 @@ export class RegisterComponent implements OnInit {
   submitted = false;
   /** Ruta a la que redirigir tras el login posterior al registro. */
   navigateTo: string = '';
-  isOAuthRedirectProcessing = false;
-  googleError = '';
-  githubError = '';
-  googleClientId = '';
-  githubClientId = '';
-  private readonly GOOGLE_STATE_KEY = 'google_oauth_state_register';
-  private readonly GOOGLE_NONCE_KEY = 'google_oauth_nonce_register';
-  private readonly GOOGLE_TARGET_KEY = 'google_oauth_target';
-  private readonly GITHUB_STATE_KEY = 'github_oauth_state_register';
-  private readonly SKIP_LOADING_KEY = 'skip_loading_screen_once';
+  /** Propiedad no documentada. */
+    isOAuthRedirectProcessing = false;
+  /** Propiedad no documentada. */
+    googleError = '';
+  /** Propiedad no documentada. */
+    githubError = '';
+  /** Propiedad no documentada. */
+    googleClientId = '';
+  /** Propiedad no documentada. */
+    githubClientId = '';
+  /** Propiedad no documentada. */
+    private readonly GOOGLE_STATE_KEY = 'google_oauth_state_register';
+  /** Propiedad no documentada. */
+    private readonly GOOGLE_NONCE_KEY = 'google_oauth_nonce_register';
+  /** Propiedad no documentada. */
+    private readonly GOOGLE_TARGET_KEY = 'google_oauth_target';
+  /** Propiedad no documentada. */
+    private readonly GITHUB_STATE_KEY = 'github_oauth_state_register';
+  /** Propiedad no documentada. */
+    private readonly SKIP_LOADING_KEY = 'skip_loading_screen_once';
 
-  private router = inject(Router);
-  private auth = inject(BaseAuthenticationService);
-  private platformId = inject(PLATFORM_ID);
+  /** Propiedad no documentada. */
+    private router = inject(Router);
+  /** Propiedad no documentada. */
+    private auth = inject(BaseAuthenticationService);
+  /** Propiedad no documentada. */
+    private platformId = inject(PLATFORM_ID);
 
-  constructor(
+  /**
+     * Constructor no documentado.
+     * @param formSvc Parámetro no documentado.
+     * @param http Parámetro no documentado.
+     */
+    constructor(
     private formSvc: FormBuilder,
     private http: HttpClient,
   ) {
@@ -114,7 +132,8 @@ export class RegisterComponent implements OnInit {
       '/dashboard';
   }
 
-  ngOnInit(): void {
+  /** Método no documentado. */
+    ngOnInit(): void {
     this.processOAuthRedirect();
     this.loadGoogleClientId();
     this.loadGithubClientId();
@@ -160,7 +179,8 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  onGoogleSignInClick() {
+  /** Método no documentado. */
+    onGoogleSignInClick() {
     this.googleError = '';
     if (!this.googleClientId || !isPlatformBrowser(this.platformId)) {
       this.googleError = 'errors.ERR_AUTH_GOOGLE_NOT_CONFIGURED';
@@ -187,7 +207,8 @@ export class RegisterComponent implements OnInit {
     window.location.assign(authUrl.toString());
   }
 
-  onGithubSignInClick() {
+  /** Método no documentado. */
+    onGithubSignInClick() {
     this.githubError = '';
     if (!this.githubClientId || !isPlatformBrowser(this.platformId)) {
       this.githubError = 'errors.ERR_AUTH_GITHUB_NOT_CONFIGURED';
@@ -208,7 +229,8 @@ export class RegisterComponent implements OnInit {
     window.location.assign(authUrl);
   }
 
-  private loadGoogleClientId() {
+  /** Método no documentado. */
+    private loadGoogleClientId() {
     if (!isPlatformBrowser(this.platformId)) return;
     this.http
       .get<{
@@ -225,7 +247,8 @@ export class RegisterComponent implements OnInit {
       });
   }
 
-  private loadGithubClientId() {
+  /** Método no documentado. */
+    private loadGithubClientId() {
     if (!isPlatformBrowser(this.platformId)) return;
     this.http
       .get<{
@@ -242,7 +265,8 @@ export class RegisterComponent implements OnInit {
       });
   }
 
-  private processOAuthRedirect() {
+  /** Método no documentado. */
+    private processOAuthRedirect() {
     if (!isPlatformBrowser(this.platformId)) return;
     const searchParams = new URLSearchParams(window.location.search);
     const hashParams = new URLSearchParams(
@@ -320,7 +344,12 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  private getNonceFromIdToken(idToken: string): string | null {
+  /**
+     * Método no documentado.
+     * @param idToken Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    private getNonceFromIdToken(idToken: string): string | null {
     try {
       const parts = idToken.split('.');
       if (parts.length < 2) return null;
@@ -350,7 +379,8 @@ export class RegisterComponent implements OnInit {
   /**
    * Obtiene la clave de traducción del error para un campo del formulario.
    * @param control Nombre del campo.
-   */
+     * @returns Retorno no documentado.
+     */
   getError(control: string) {
     switch (control) {
       case 'name':
@@ -384,7 +414,8 @@ export class RegisterComponent implements OnInit {
    * Comprueba si un campo tiene un error específico y ha sido interactuado.
    * @param controlName Nombre del campo.
    * @param errorName Tipo de error.
-   */
+     * @returns Retorno no documentado.
+     */
   private hasError(controlName: string, errorName: string): boolean {
      
     const control = this.formRegister.controls[controlName];

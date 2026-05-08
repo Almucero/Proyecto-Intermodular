@@ -16,8 +16,9 @@ export class PlatformService
   implements IPlatformService
 {
   /**
-   * @param repository Repositorio de plataformas inyectado.
-   */
+       * Documentado.
+       * @param repository Repositorio de plataformas inyectado.
+       */
   constructor(
     @Inject(PLATFORM_REPOSITORY_TOKEN) repository: IBaseRepository<Platform>,
   ) {

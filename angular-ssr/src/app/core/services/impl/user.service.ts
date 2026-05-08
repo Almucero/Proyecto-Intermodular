@@ -14,8 +14,9 @@ import { IUserService } from '../interfaces/user-service.interface';
 })
 export class UserService extends BaseService<User> implements IUserService {
   /**
-   * @param repository Repositorio de usuarios inyectado.
-   */
+       * Documentado.
+       * @param repository Repositorio de usuarios inyectado.
+       */
   constructor(
     @Inject(USER_REPOSITORY_TOKEN) repository: IBaseRepository<User>,
   ) {

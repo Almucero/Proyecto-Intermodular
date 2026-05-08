@@ -55,10 +55,18 @@ export class GameCardComponent implements AfterViewInit, OnDestroy {
   isMoving = false;
   /** Indica si el título es más largo que el contenedor (requiere scroll). */
   hasOverflow = false;
-  private loopInterval: any;
-  private startTimeout: any;
+  /** Propiedad no documentada. */
+    private loopInterval: any;
+  /** Propiedad no documentada. */
+    private startTimeout: any;
 
-  constructor(
+  /**
+     * Constructor no documentado.
+     * @param cdr Parámetro no documentado.
+     * @param ngZone Parámetro no documentado.
+     * @param platformId Parámetro no documentado.
+     */
+    constructor(
     private cdr: ChangeDetectorRef,
     private ngZone: NgZone,
     @Inject(PLATFORM_ID) private platformId: Object,

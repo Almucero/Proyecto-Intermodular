@@ -24,18 +24,25 @@ export class FavoriteService
   extends BaseService<Favorite>
   implements IFavoriteService
 {
-  private isBrowser: boolean;
+  /** Propiedad no documentada. */
+    private isBrowser: boolean;
   /** Observable con el número total de favoritos del usuario actual. */
   public favoritesCount$ = new BehaviorSubject<number>(this.getInitialCount());
 
   /**
-   * @param repository Repositorio base para favoritos.
-   * @param http Cliente HTTP para operaciones personalizadas.
-   * @param apiUrl URL base de la API.
-   * @param resource Nombre del recurso de favoritos en la API.
-   * @param auth Servicio de autenticación.
-   * @param platformId ID de la plataforma de ejecución.
-   */
+       * Documentado.
+       * @param repository Repositorio base para favoritos.
+       *
+       * @param http Cliente HTTP para operaciones personalizadas.
+       *
+       * @param apiUrl URL base de la API.
+       *
+       * @param resource Nombre del recurso de favoritos en la API.
+       *
+       * @param auth Servicio de autenticación.
+       *
+       * @param platformId ID de la plataforma de ejecución.
+       */
   constructor(
     @Inject(FAVORITE_REPOSITORY_TOKEN) repository: IBaseRepository<Favorite>,
     private http: HttpClient,
@@ -60,7 +67,8 @@ export class FavoriteService
 
   /**
    * Recupera la cuenta inicial de favoritos desde el almacenamiento persistente.
-   */
+     * @returns Retorno no documentado.
+     */
   private getInitialCount(): number {
     if (typeof localStorage === 'undefined') {
       return 0;
@@ -91,7 +99,8 @@ export class FavoriteService
 
   /**
    * Obtiene las cabeceras de autenticación necesarias.
-   */
+     * @returns Retorno no documentado.
+     */
   private getAuthHeaders(): any {
     const headers: any = {};
     const token = this.auth.getToken();

@@ -5,6 +5,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { BaseAuthenticationService } from '../../core/services/impl/base-authentication.service';
 import { UserService } from '../../core/services/impl/user.service';
 
+/** Pantalla de preferencias de notificaciones por correo y cuenta. */
 @Component({
   selector: 'app-settings',
   imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
@@ -12,15 +13,23 @@ import { UserService } from '../../core/services/impl/user.service';
   styleUrl: './settings.component.scss',
 })
 export class SettingsComponent implements OnInit {
-  private readonly auth = inject(BaseAuthenticationService);
-  private readonly userService = inject(UserService);
-  private readonly fb = inject(FormBuilder);
+  /** Propiedad no documentada. */
+    private readonly auth = inject(BaseAuthenticationService);
+  /** Propiedad no documentada. */
+    private readonly userService = inject(UserService);
+  /** Propiedad no documentada. */
+    private readonly fb = inject(FormBuilder);
 
+  /** Estado de guardado en curso. */
   saving = false;
+  /** Marca visual de guardado exitoso. */
   saved = false;
+  /** Clave i18n del último error de guardado. */
   saveError = '';
+  /** Estado del segundo paso de confirmación de borrado de cuenta. */
   deleteAccountConfirmArmed = false;
 
+  /** Claves de tópicos de notificación configurables por el usuario. */
   readonly topicKeys = [
     'periodicRecommendations',
     'cartReminders',
@@ -32,6 +41,7 @@ export class SettingsComponent implements OnInit {
     'inactiveAccount',
   ] as const;
 
+  /** Formulario reactivo de preferencias de notificación por email. */
   readonly form = this.fb.group({
     emailNotificationsEnabled: [true, Validators.required],
     notificationEmail: ['', Validators.email],
@@ -52,6 +62,7 @@ export class SettingsComponent implements OnInit {
     ),
   });
 
+  /** Inicializa el formulario con datos del usuario autenticado. */
   ngOnInit(): void {
     this.auth.user$.subscribe((user) => {
       if (!user) return;
@@ -77,6 +88,7 @@ export class SettingsComponent implements OnInit {
     });
   }
 
+  /** Persiste la configuración de notificaciones del usuario actual. */
   saveSettings(): void {
     this.deleteAccountConfirmArmed = false;
     this.saved = false;
@@ -115,14 +127,17 @@ export class SettingsComponent implements OnInit {
       });
   }
 
+  /** Activa/desactiva la confirmación de borrado de cuenta. */
   onDeleteAccountClick(): void {
     this.deleteAccountConfirmArmed = !this.deleteAccountConfirmArmed;
   }
 
+  /** Cancela la acción de borrado y resetea su confirmación. */
   onCancelDeleteAccount(): void {
     this.deleteAccountConfirmArmed = false;
   }
 
+  /** Placeholder de confirmación final de borrado de cuenta. */
   onConfirmDeleteAccount(): void {
     this.deleteAccountConfirmArmed = false;
   }

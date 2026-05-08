@@ -30,8 +30,10 @@ import { Publisher } from '../../../../core/models/publisher.model';
   styleUrl: './publisher-form.component.scss',
 })
 export class PublisherFormComponent implements OnInit, OnChanges {
-  private fb = inject(FormBuilder);
-  private publisherService = inject(PublisherService);
+  /** Propiedad no documentada. */
+    private fb = inject(FormBuilder);
+  /** Propiedad no documentada. */
+    private publisherService = inject(PublisherService);
 
   /** ID del editor a editar. Si es null, el formulario actúa en modo creación. */
   @Input() publisherId: number | null = null;
@@ -61,7 +63,10 @@ export class PublisherFormComponent implements OnInit, OnChanges {
     }
   }
 
-  /** Detecta cambios en el ID de entrada para conmutar entre creación y edición. */
+  /**
+     * Detecta cambios en el ID de entrada para conmutar entre creación y edición.
+     * @param changes Parámetro no documentado.
+     */
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['publisherId']) {
       if (this.publisherId) {
@@ -74,7 +79,10 @@ export class PublisherFormComponent implements OnInit, OnChanges {
     }
   }
 
-  /** Carga la información de un editor existente desde el servidor. */
+  /**
+     * Carga la información de un editor existente desde el servidor.
+     * @param id Parámetro no documentado.
+     */
   loadPublisher(id: number) {
     this.publisherService.getById(id.toString()).subscribe((publisher) => {
       if (publisher) {

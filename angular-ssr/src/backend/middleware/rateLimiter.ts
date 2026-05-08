@@ -1,5 +1,6 @@
 import rateLimit from 'express-rate-limit';
 
+/** Limitador general para tráfico de API. */
 export const generalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
@@ -11,6 +12,7 @@ export const generalLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+/** Limitador estricto para endpoints de autenticación. */
 export const authLimiter = rateLimit({
   windowMs: 60 * 60 * 1000,
   max: 5,

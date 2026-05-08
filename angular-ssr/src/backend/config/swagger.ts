@@ -4,12 +4,17 @@ import { dirname, join } from 'path';
 import { env } from './env';
 import { existsSync, readFileSync } from 'fs';
 
+/** Filename ESM actual del módulo de swagger. */
 const __filename = fileURLToPath(import.meta.url);
+/** Directorio del archivo actual de configuración swagger. */
 const __dirname = dirname(__filename);
 
+/** Raíz del proyecto actual. */
 const projectRoot = process.cwd();
+/** Convierte rutas Windows a formato POSIX para swagger-jsdoc. */
 const toPosixPath = (value: string): string => value.replace(/\\/g, '/');
 
+/** Patrones de archivos `routes` a escanear para anotaciones OpenAPI. */
 const swaggerApiSources = [
   toPosixPath(join(projectRoot, 'src/backend/modules/**/*.routes.ts')),
   toPosixPath(join(projectRoot, 'src/backend/modules/**/*.routes.js')),
@@ -17,6 +22,7 @@ const swaggerApiSources = [
   toPosixPath(join(__dirname, '../modules/**/*.routes.js')),
 ];
 
+/** Opciones base para construir el spec OpenAPI de GameSage. */
 const options: swaggerJsdoc.Options = {
   definition: {
     openapi: '3.0.0',
@@ -1105,6 +1111,11 @@ const options: swaggerJsdoc.Options = {
   ],
 };
 
+/**
+ * Intenta leer un spec OpenAPI generado previamente desde rutas conocidas.
+ *
+ * @returns Spec parseado o `null` si no existe/parsea.
+ */
 const readGeneratedSwaggerSpec = (): Record<string, unknown> | null => {
   const candidates = [
     join(process.cwd(), 'swagger.generated.json'),
@@ -1133,10 +1144,13 @@ const readGeneratedSwaggerSpec = (): Record<string, unknown> | null => {
   return null;
 };
 
+/** Decide si se prioriza spec generado (producción/Vercel). */
 const shouldUseGeneratedSpec =
   process.env['VERCEL'] === '1' || env.NODE_ENV === 'production';
+/** Spec generado encontrado en disco cuando corresponde. */
 const generatedSwaggerSpec = shouldUseGeneratedSpec
   ? readGeneratedSwaggerSpec()
   : null;
 
+/** Spec OpenAPI final expuesto por la API. */
 export const swaggerSpec = generatedSwaggerSpec ?? swaggerJsdoc(options);

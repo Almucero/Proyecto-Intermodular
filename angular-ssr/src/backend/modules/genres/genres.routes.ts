@@ -11,6 +11,7 @@ import {
 import { auth } from '../../middleware/auth';
 import { adminOnly } from '../../middleware/authorize';
 
+/** Router de endpoints de géneros. */
 const router = Router();
 
 /**

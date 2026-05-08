@@ -9,6 +9,12 @@ cloudinary.config({
   api_secret: env.CLOUDINARY_API_SECRET,
 });
 
+/**
+ * Sanitiza nombre para uso como carpeta en Cloudinary.
+ *
+ * @param title Texto original.
+ * @returns Texto normalizado en kebab-case.
+ */
 function sanitizeFolderName(title: string): string {
   return title
     .toLowerCase()

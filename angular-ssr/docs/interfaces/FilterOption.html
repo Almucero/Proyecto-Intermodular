@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>game-sage documentation</title>
+        <title>Game Sage Documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -78,7 +78,7 @@
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
-                    <a href="../" class="navbar-brand">game-sage documentation</a>
+                    <a href="../" class="navbar-brand">Game Sage Documentation</a>
                     <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
                </div>
         </div>
@@ -144,6 +144,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Opción de selección para filtros de búsqueda en UI.</p>
+
+            </p>
 
 
         <section data-compodoc="block-index">
@@ -212,6 +219,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Propiedad no documentada.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -245,6 +258,12 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Propiedad no documentada.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
             </section>
@@ -271,9 +290,12 @@ import {
   animate,
 } from &#x27;@angular/animations&#x27;;
 
+/** Opción de selección para filtros de búsqueda en UI. */
 interface FilterOption {
-  value: string;
-  label: string;
+  /** Propiedad no documentada. */
+    value: string;
+  /** Propiedad no documentada. */
+    label: string;
 }
 
 /**
@@ -324,8 +346,10 @@ export class SearchComponent implements OnInit {
 
   /** Valores para el control deslizante (slider) de precio. */
   minPrice &#x3D; 0;
-  maxPrice &#x3D; 100;
-  priceValue &#x3D; 100;
+  /** Propiedad no documentada. */
+    maxPrice &#x3D; 100;
+  /** Propiedad no documentada. */
+    priceValue &#x3D; 100;
 
   /** Estado de expansión de los grupos de filtros en la barra lateral. */
   filtersExpanded: { [key: string]: boolean } &#x3D; {
@@ -336,10 +360,20 @@ export class SearchComponent implements OnInit {
 
   /** Opciones disponibles para los desplegables de filtros. */
   priceOptions: FilterOption[] &#x3D; [];
-  genreOptions: FilterOption[] &#x3D; [];
-  platformOptions: FilterOption[] &#x3D; [];
+  /** Propiedad no documentada. */
+    genreOptions: FilterOption[] &#x3D; [];
+  /** Propiedad no documentada. */
+    platformOptions: FilterOption[] &#x3D; [];
 
-  constructor(
+  /**
+     * Constructor no documentado.
+     * @param route Parámetro no documentado.
+     * @param router Parámetro no documentado.
+     * @param gameService Parámetro no documentado.
+     * @param platformService Parámetro no documentado.
+     * @param currencyService Parámetro no documentado.
+     */
+    constructor(
     private route: ActivatedRoute,
     private router: Router,
     private gameService: GameService,
@@ -367,7 +401,10 @@ export class SearchComponent implements OnInit {
     });
   }
 
-  /** Crea una lista de juegos &#x27;placeholder&#x27; para mostrar durante la carga. */
+  /**
+     * Crea una lista de juegos &#x27;placeholder&#x27; para mostrar durante la carga.
+     * @returns Retorno no documentado.
+     */
   createPlaceholders(): Game[] {
     return Array(40).fill({
       id: -1,
@@ -473,7 +510,10 @@ export class SearchComponent implements OnInit {
     });
   }
 
-  /** Maneja el cambio manual en el selector de precio. */
+  /**
+     * Maneja el cambio manual en el selector de precio.
+     * @param event Parámetro no documentado.
+     */
   onPriceChange(event: Event): void {
     const select &#x3D; event.target as HTMLSelectElement;
     this.selectedPrice &#x3D; select.value;
@@ -488,7 +528,10 @@ export class SearchComponent implements OnInit {
     this.applyFilters();
   }
 
-  /** Maneja el cambio en el filtro de género. */
+  /**
+     * Maneja el cambio en el filtro de género.
+     * @param event Parámetro no documentado.
+     */
   onGenreChange(event: Event): void {
     const select &#x3D; event.target as HTMLSelectElement;
     this.selectedGenre &#x3D; select.value;
@@ -496,7 +539,10 @@ export class SearchComponent implements OnInit {
     this.applyFilters();
   }
 
-  /** Maneja el cambio en el filtro de plataforma. */
+  /**
+     * Maneja el cambio en el filtro de plataforma.
+     * @param event Parámetro no documentado.
+     */
   onPlatformChange(event: Event): void {
     const select &#x3D; event.target as HTMLSelectElement;
     this.selectedPlatform &#x3D; select.value;
@@ -594,7 +640,12 @@ export class SearchComponent implements OnInit {
     this.filteredGames &#x3D; filtered;
   }
 
-  /** Filtra una lista de juegos por un rango o tipo de precio. */
+  /**
+     * Filtra una lista de juegos por un rango o tipo de precio.
+     * @param games Parámetro no documentado.
+     * @param priceRange Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   filterByPrice(games: Game[], priceRange: string): Game[] {
     if (priceRange &#x3D;&#x3D;&#x3D; &#x27;free&#x27;) {
       return games.filter((game) &#x3D;&gt; !game.price || game.price &#x3D;&#x3D;&#x3D; 0);
@@ -616,7 +667,12 @@ export class SearchComponent implements OnInit {
     });
   }
 
-  /** Filtra una lista de juegos por género. */
+  /**
+     * Filtra una lista de juegos por género.
+     * @param games Parámetro no documentado.
+     * @param genreKey Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   filterByGenre(games: Game[], genreKey: string): Game[] {
     return games.filter((game) &#x3D;&gt;
       game?.genres?.some(
@@ -625,7 +681,12 @@ export class SearchComponent implements OnInit {
     );
   }
 
-  /** Filtra una lista de juegos por plataforma. */
+  /**
+     * Filtra una lista de juegos por plataforma.
+     * @param games Parámetro no documentado.
+     * @param platformKey Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   filterByPlatform(games: Game[], platformKey: string): Game[] {
     return games.filter((game) &#x3D;&gt;
       game?.platforms?.some((p) &#x3D;&gt;
@@ -634,7 +695,10 @@ export class SearchComponent implements OnInit {
     );
   }
 
-  /** Elimina un filtro específico por su tipo. */
+  /**
+     * Elimina un filtro específico por su tipo.
+     * @param filterType Parámetro no documentado.
+     */
   removeFilter(filterType: string): void {
     if (filterType &#x3D;&#x3D;&#x3D; &#x27;price&#x27;) {
       this.selectedPrice &#x3D; &#x27;&#x27;;
@@ -658,7 +722,10 @@ export class SearchComponent implements OnInit {
     this.applyFilters();
   }
 
-  /** Alterna la expansión de una sección de filtros en la UI. */
+  /**
+     * Alterna la expansión de una sección de filtros en la UI.
+     * @param filterName Parámetro no documentado.
+     */
   toggleFilter(filterName: string): void {
      
     if (this.filtersExpanded[filterName] !&#x3D;&#x3D; undefined) {
@@ -667,7 +734,11 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  /** Obtiene la URL de la portada de un juego o un placeholder si no tiene. */
+  /**
+     * Obtiene la URL de la portada de un juego o un placeholder si no tiene.
+     * @param game Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getCoverUrl(game: Game): string {
     const coverImage &#x3D; game.media?.find((m) &#x3D;&gt;
       m.altText?.toLowerCase().includes(&#x27;cover&#x27;),
@@ -675,12 +746,20 @@ export class SearchComponent implements OnInit {
     return coverImage?.url || &#x27;assets/images/ui/placeholder.webp&#x27;;
   }
 
-  /** Navega a la página de detalle de un producto. */
+  /**
+     * Navega a la página de detalle de un producto.
+     * @param id Parámetro no documentado.
+     */
   goToProduct(id: number): void {
     this.router.navigate([&#x27;/product&#x27;, id.toString()]);
   }
 
-  formatPrice(value: number): string {
+  /**
+     * Método no documentado.
+     * @param value Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    formatPrice(value: number): string {
     const converted &#x3D; this.currencyService.convertFromEur(value);
     const code &#x3D; this.currencyService.getCurrencyCode();
     const locale &#x3D; this.currencyService.getLocaleCode();
