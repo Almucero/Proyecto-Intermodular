@@ -9,6 +9,13 @@ import {
   changePassword,
 } from './users.service';
 
+/**
+ * Lista usuarios con filtros opcionales desde query params.
+ *
+ * @param req Request HTTP.
+ * @param res Response HTTP.
+ * @returns Lista de usuarios sin `passwordHash`.
+ */
 export async function listUsersCtrl(req: Request, res: Response) {
   try {
     const filters: any = {};
@@ -36,6 +43,13 @@ export async function listUsersCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Obtiene un usuario por id con control de acceso propietario/admin.
+ *
+ * @param req Request con `id` en params.
+ * @param res Response HTTP.
+ * @returns Usuario solicitado sin `passwordHash`.
+ */
 export async function getUserCtrl(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);
@@ -58,6 +72,13 @@ export async function getUserCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Obtiene el perfil del usuario autenticado.
+ *
+ * @param req Request autenticada.
+ * @param res Response HTTP.
+ * @returns Usuario autenticado sin `passwordHash`.
+ */
 export async function meCtrl(req: Request, res: Response) {
   try {
     if (!req.user) {
@@ -83,6 +104,13 @@ export async function meCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Actualiza un usuario por id con control de acceso propietario/admin.
+ *
+ * @param req Request con `id` y payload parcial.
+ * @param res Response HTTP.
+ * @returns Usuario actualizado sin `passwordHash`.
+ */
 export async function updateUserCtrl(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);
@@ -107,6 +135,13 @@ export async function updateUserCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Elimina un usuario por id.
+ *
+ * @param req Request con `id` en params.
+ * @param res Response HTTP.
+ * @returns `204 No Content` si se elimina correctamente.
+ */
 export async function deleteUserCtrl(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);
@@ -124,6 +159,13 @@ export async function deleteUserCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Actualiza el perfil del usuario autenticado.
+ *
+ * @param req Request autenticada con payload parcial.
+ * @param res Response HTTP.
+ * @returns Perfil actualizado sin `passwordHash`.
+ */
 export async function updateProfileCtrl(req: Request, res: Response) {
   try {
     if (!req.user) {
@@ -149,6 +191,13 @@ export async function updateProfileCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Cambia la contraseña del usuario autenticado.
+ *
+ * @param req Request autenticada con `currentPassword` y `newPassword`.
+ * @param res Response HTTP.
+ * @returns Confirmación de cambio de contraseña.
+ */
 export async function changePasswordCtrl(req: Request, res: Response) {
   try {
     if (!req.user) {

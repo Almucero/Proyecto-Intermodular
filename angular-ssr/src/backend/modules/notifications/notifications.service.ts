@@ -7,6 +7,7 @@ import type {
   MailAttachment,
 } from './notifications.types';
 
+/** Flag para evitar arrancar múltiples veces el scheduler de notificaciones. */
 let schedulerStarted = false;
 
 /**
@@ -729,6 +730,12 @@ function escapeHtml(value: string): string {
     .replaceAll("'", '&#39;');
 }
 
+/**
+ * Resuelve una URL de imagen en formato absoluto para emails.
+ *
+ * @param raw URL potencialmente relativa o incompleta.
+ * @returns URL absoluta utilizable o `undefined`.
+ */
 function resolveImageUrl(raw?: string): string | undefined {
   if (!raw) return undefined;
   const value = raw.trim();
@@ -748,10 +755,23 @@ function resolveImageUrl(raw?: string): string | undefined {
   return undefined;
 }
 
+/**
+ * Escapa caracteres especiales para streams de texto PDF.
+ *
+ * @param value Texto de entrada.
+ * @returns Texto escapado.
+ */
 function pdfEscape(value: string): string {
   return value.replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
 }
 
+/**
+ * Divide texto en líneas de longitud máxima para render PDF.
+ *
+ * @param value Texto completo.
+ * @param maxChars Máximo de caracteres por línea.
+ * @returns Líneas ajustadas.
+ */
 function wrapPdfText(value: string, maxChars: number): string[] {
   const words = value.split(/\s+/).filter(Boolean);
   const lines: string[] = [];
@@ -769,6 +789,12 @@ function wrapPdfText(value: string, maxChars: number): string[] {
   return lines.length ? lines : [''];
 }
 
+/**
+ * Envuelve contenido HTML en layout común corporativo de email.
+ *
+ * @param input Datos de composición de cabecera, cuerpo y footer.
+ * @returns HTML completo del email.
+ */
 function wrapEmailLayout(input: {
   title: string;
   intro?: string;

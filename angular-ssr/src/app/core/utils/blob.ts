@@ -1,3 +1,9 @@
+/**
+ * Convierte un data URL en un Blob conservando su mime type.
+ * @param dataUrl URL codificada (base64 o data URI).
+ * @param callback Callback que recibe el Blob resultante.
+ * @returns No devuelve valor; entrega el resultado por callback.
+ */
 export function dataURLtoBlob(dataUrl: string, callback: (blob: Blob) => void) {
   var req = new XMLHttpRequest();
 

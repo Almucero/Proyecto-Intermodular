@@ -7,6 +7,13 @@ import {
   deleteDeveloper,
 } from './developers.service';
 
+/**
+ * Lista desarrolladores con filtros opcionales.
+ *
+ * @param req Request HTTP.
+ * @param res Response HTTP.
+ * @returns Listado de desarrolladores.
+ */
 export async function listDevelopersCtrl(req: Request, res: Response) {
   try {
     const filters: any = {};
@@ -18,6 +25,13 @@ export async function listDevelopersCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Obtiene un desarrollador por id.
+ *
+ * @param req Request con `id` en params.
+ * @param res Response HTTP.
+ * @returns Desarrollador con juegos asociados.
+ */
 export async function getDeveloperCtrl(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);
@@ -42,6 +56,13 @@ export async function getDeveloperCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Crea un desarrollador.
+ *
+ * @param req Request con payload de creación.
+ * @param res Response HTTP.
+ * @returns Desarrollador creado.
+ */
 export async function createDeveloperCtrl(req: Request, res: Response) {
   try {
     const created = await createDeveloper(req.body);
@@ -54,6 +75,13 @@ export async function createDeveloperCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Actualiza un desarrollador existente.
+ *
+ * @param req Request con `id` y payload parcial.
+ * @param res Response HTTP.
+ * @returns Desarrollador actualizado.
+ */
 export async function updateDeveloperCtrl(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);
@@ -68,6 +96,13 @@ export async function updateDeveloperCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Elimina un desarrollador por id.
+ *
+ * @param req Request con `id` en params.
+ * @param res Response HTTP.
+ * @returns `204 No Content` al eliminar.
+ */
 export async function deleteDeveloperCtrl(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);

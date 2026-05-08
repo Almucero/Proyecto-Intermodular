@@ -14,6 +14,7 @@ import {
   deletePublisherCtrl,
 } from './publishers.controller';
 
+/** Router de endpoints de publishers. */
 const router = Router();
 
 /**

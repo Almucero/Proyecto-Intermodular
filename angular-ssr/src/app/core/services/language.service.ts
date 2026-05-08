@@ -3,6 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
+/** Idiomas soportados por la aplicación para i18n y persistencia local. */
 export type Language = 'es' | 'en' | 'de' | 'fr' | 'it';
 
 /**
@@ -13,19 +14,25 @@ export type Language = 'es' | 'en' | 'de' | 'fr' | 'it';
   providedIn: 'root',
 })
 export class LanguageService {
-  private translateService = inject(TranslateService);
-  private platformId = inject(PLATFORM_ID);
-  private isBrowser = isPlatformBrowser(this.platformId);
+  /** Propiedad no documentada. */
+    private translateService = inject(TranslateService);
+  /** Propiedad no documentada. */
+    private platformId = inject(PLATFORM_ID);
+  /** Propiedad no documentada. */
+    private isBrowser = isPlatformBrowser(this.platformId);
 
-  private readonly STORAGE_KEY = 'app-language';
-  private readonly AVAILABLE_LANGUAGES: Language[] = [
+  /** Propiedad no documentada. */
+    private readonly STORAGE_KEY = 'app-language';
+  /** Propiedad no documentada. */
+    private readonly AVAILABLE_LANGUAGES: Language[] = [
     'es',
     'en',
     'de',
     'fr',
     'it',
   ];
-  private readonly DEFAULT_LANGUAGE: Language = 'es';
+  /** Propiedad no documentada. */
+    private readonly DEFAULT_LANGUAGE: Language = 'es';
 
   /** BehaviorSubject que mantiene el idioma actual. */
   private currentLangSubject = new BehaviorSubject<Language>(
@@ -34,7 +41,8 @@ export class LanguageService {
   /** Observable para suscribirse a los cambios de idioma. */
   currentLang$ = this.currentLangSubject.asObservable();
 
-  constructor() {
+  /** Constructor no documentado. */
+    constructor() {
     this.initializeLanguage();
   }
 
@@ -70,14 +78,16 @@ export class LanguageService {
 
   /**
    * Obtiene el código del idioma actual.
-   */
+     * @returns Retorno no documentado.
+     */
   getCurrentLang(): Language {
     return this.currentLangSubject.value;
   }
 
   /**
    * Recupera el idioma guardado en el navegador.
-   */
+     * @returns Retorno no documentado.
+     */
   private getSavedLanguage(): Language | null {
     if (!this.isBrowser) {
       return null;
@@ -88,7 +98,8 @@ export class LanguageService {
 
   /**
    * Intenta detectar el idioma preferido del usuario desde el navegador.
-   */
+     * @returns Retorno no documentado.
+     */
   private detectBrowserLanguage(): Language {
     if (!this.isBrowser) {
       return this.DEFAULT_LANGUAGE;
@@ -101,7 +112,9 @@ export class LanguageService {
 
   /**
    * Verifica si un código de idioma está soportado por la aplicación.
-   */
+     * @param lang Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   private isValidLanguage(lang: string | null): boolean {
     return !!lang && this.AVAILABLE_LANGUAGES.includes(lang as Language);
   }

@@ -9,7 +9,11 @@ import { Favorite } from '../../models/favorite.model';
   providedIn: 'root',
 })
 export class FavoriteMappingNodeService implements IBaseMapping<Favorite> {
-  /** Transforma una lista de favoritos provenientes de la API. */
+  /**
+     * Transforma una lista de favoritos provenientes de la API.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getAll(data: any): Favorite[] {
     return data.map((item: any) => this.getOne(item));
   }
@@ -17,7 +21,8 @@ export class FavoriteMappingNodeService implements IBaseMapping<Favorite> {
   /**
    * Transforma un único favorito de la API al modelo de la aplicación.
    * @param data Objeto de la API.
-   */
+     * @returns Retorno no documentado.
+     */
   getOne(data: any): Favorite {
     return {
       id: data.favoriteId || data.id,
@@ -41,19 +46,38 @@ export class FavoriteMappingNodeService implements IBaseMapping<Favorite> {
     };
   }
 
-  getAdded(data: any): Favorite {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getAdded(data: any): Favorite {
     return this.getOne(data);
   }
 
-  getUpdated(data: any): Favorite {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getUpdated(data: any): Favorite {
     return this.getOne(data);
   }
 
-  getDeleted(data: any): Favorite {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getDeleted(data: any): Favorite {
     return this.getOne(data);
   }
 
-  /** Prepara un favorito para ser creado. */
+  /**
+     * Prepara un favorito para ser creado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   setAdd(data: Favorite): any {
     return {
       userId: data.userId,
@@ -62,7 +86,11 @@ export class FavoriteMappingNodeService implements IBaseMapping<Favorite> {
     };
   }
 
-  /** No aplicable para favoritos. */
+  /**
+     * No aplicable para favoritos.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   setUpdate(data: any): any {
     return {};
   }

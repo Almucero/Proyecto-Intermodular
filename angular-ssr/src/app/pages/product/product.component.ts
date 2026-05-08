@@ -26,17 +26,26 @@ import { CarouselComponent } from '../../shared/components/carousel/carousel.com
 import { StripeModalComponent } from '../../shared/components/stripe-checkout/stripe-checkout.component';
 import { Subscription } from 'rxjs';
 
+/** Estructura de elemento visualizable en galería de producto. */
 interface MediaItem {
-  type: 'video' | 'image';
-  label: string;
-  url?: string | SafeResourceUrl;
-  thumbnail?: string;
+  /** Propiedad no documentada. */
+    type: 'video' | 'image';
+  /** Propiedad no documentada. */
+    label: string;
+  /** Propiedad no documentada. */
+    url?: string | SafeResourceUrl;
+  /** Propiedad no documentada. */
+    thumbnail?: string;
 }
 
+/** Estructura de una sección de carrusel de recomendaciones. */
 interface RecommendationSection {
-  titleKey: string;
-  sectionId: string;
-  items: Game[];
+  /** Propiedad no documentada. */
+    titleKey: string;
+  /** Propiedad no documentada. */
+    sectionId: string;
+  /** Propiedad no documentada. */
+    items: Game[];
 }
 
 /**
@@ -67,30 +76,51 @@ export class ProductComponent implements OnInit, OnDestroy {
   currentMediaIndex: number = 0;
   /** Lista de elementos multimedia procesados para el visor. */
   mediaItems: MediaItem[] = [];
-  recommendationSections: RecommendationSection[] = [];
-  recommendationSkeletonSections: RecommendationSection[] = this.createRecommendationSkeletons();
-  loadingRecommendations = true;
-  private routeSub?: Subscription;
+  /** Propiedad no documentada. */
+    recommendationSections: RecommendationSection[] = [];
+  /** Propiedad no documentada. */
+    recommendationSkeletonSections: RecommendationSection[] = this.createRecommendationSkeletons();
+  /** Propiedad no documentada. */
+    loadingRecommendations = true;
+  /** Propiedad no documentada. */
+    private routeSub?: Subscription;
 
   /** Estados para notificaciones visuales y modales. */
   showAuthModal = signal(false);
-  authModalOpen = false;
-  authModalClosing = false;
-  private readonly authModalAnimMs = 160;
-  isAuthenticated = signal(false);
-  addedToCartSuccess = signal(false);
-  addedToFavoritesSuccess = signal(false);
-  buySuccess = signal(false);
-  quantityIncreased = signal(false);
-  alreadyInCart = signal(false);
-  alreadyInFavorites = signal(false);
-  isScreenshotModalOpen = signal(false);
-  screenshotModalImage = signal<string | null>(null);
-  screenshotModalOpen = false;
-  screenshotModalClosing = false;
-  checkoutModalOpen = signal(false);
-  directCheckoutPayload = signal<{ gameId: number; platformId: number } | null>(null);
-  purchaseInfoVisible = signal(false);
+  /** Propiedad no documentada. */
+    authModalOpen = false;
+  /** Propiedad no documentada. */
+    authModalClosing = false;
+  /** Propiedad no documentada. */
+    private readonly authModalAnimMs = 160;
+  /** Propiedad no documentada. */
+    isAuthenticated = signal(false);
+  /** Propiedad no documentada. */
+    addedToCartSuccess = signal(false);
+  /** Propiedad no documentada. */
+    addedToFavoritesSuccess = signal(false);
+  /** Propiedad no documentada. */
+    buySuccess = signal(false);
+  /** Propiedad no documentada. */
+    quantityIncreased = signal(false);
+  /** Propiedad no documentada. */
+    alreadyInCart = signal(false);
+  /** Propiedad no documentada. */
+    alreadyInFavorites = signal(false);
+  /** Propiedad no documentada. */
+    isScreenshotModalOpen = signal(false);
+  /** Propiedad no documentada. */
+    screenshotModalImage = signal<string | null>(null);
+  /** Propiedad no documentada. */
+    screenshotModalOpen = false;
+  /** Propiedad no documentada. */
+    screenshotModalClosing = false;
+  /** Propiedad no documentada. */
+    checkoutModalOpen = signal(false);
+  /** Propiedad no documentada. */
+    directCheckoutPayload = signal<{ gameId: number; platformId: number } | null>(null);
+  /** Propiedad no documentada. */
+    purchaseInfoVisible = signal(false);
 
   /** Configuración estática de todas las plataformas soportadas. */
   allPlatforms = [
@@ -161,7 +191,21 @@ export class ProductComponent implements OnInit, OnDestroy {
     )?.url;
   }
 
-  constructor(
+  /**
+     * Constructor no documentado.
+     * @param route Parámetro no documentado.
+     * @param gameService Parámetro no documentado.
+     * @param mediaService Parámetro no documentado.
+     * @param sanitizer Parámetro no documentado.
+     * @param cartItemService Parámetro no documentado.
+     * @param favoriteService Parámetro no documentado.
+     * @param authService Parámetro no documentado.
+     * @param router Parámetro no documentado.
+     * @param pageTitleService Parámetro no documentado.
+     * @param renderer Parámetro no documentado.
+     * @param document Parámetro no documentado.
+     */
+    constructor(
     @Inject(ActivatedRoute) private route: ActivatedRoute,
     private gameService: GameService,
     private mediaService: MediaService,
@@ -207,14 +251,18 @@ export class ProductComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
+  /** Método no documentado. */
+    ngOnDestroy(): void {
     this.routeSub?.unsubscribe();
     this.renderer.removeStyle(this.document.body, 'overflow');
     this.checkoutModalOpen.set(false);
     this.directCheckoutPayload.set(null);
   }
 
-  /** Crea un objeto juego vacío para el estado inicial de carga. */
+  /**
+     * Crea un objeto juego vacío para el estado inicial de carga.
+     * @returns Retorno no documentado.
+     */
   createPlaceholder(): Game {
     return {
       id: -1,
@@ -237,7 +285,12 @@ export class ProductComponent implements OnInit, OnDestroy {
     } as unknown as Game;
   }
 
-  private createCarouselPlaceholders(count = 20): Game[] {
+  /**
+     * Método no documentado.
+     * @param count Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    private createCarouselPlaceholders(count = 20): Game[] {
     return Array(count).fill({
       id: -1,
       title: 'common.loading',
@@ -259,7 +312,11 @@ export class ProductComponent implements OnInit, OnDestroy {
     } as unknown as Game);
   }
 
-  private createRecommendationSkeletons(): RecommendationSection[] {
+  /**
+     * Método no documentado.
+     * @returns Retorno no documentado.
+     */
+    private createRecommendationSkeletons(): RecommendationSection[] {
     const placeholders = this.createCarouselPlaceholders();
     return [
       {
@@ -315,7 +372,12 @@ export class ProductComponent implements OnInit, OnDestroy {
     });
   }
 
-  private loadRecommendationCarousels(baseGame: Game, allMedia: any[]): void {
+  /**
+     * Método no documentado.
+     * @param baseGame Parámetro no documentado.
+     * @param allMedia Parámetro no documentado.
+     */
+    private loadRecommendationCarousels(baseGame: Game, allMedia: any[]): void {
     this.gameService.getAll({}).subscribe({
       next: (allGames) => {
         const mediaByGameId = new Map<number, any[]>();
@@ -452,7 +514,13 @@ export class ProductComponent implements OnInit, OnDestroy {
     });
   }
 
-  private scoreSimilarity(base: Game, candidate: Game): number {
+  /**
+     * Método no documentado.
+     * @param base Parámetro no documentado.
+     * @param candidate Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    private scoreSimilarity(base: Game, candidate: Game): number {
     let score = 0;
 
     if (base.developerId && candidate.developerId === base.developerId) {
@@ -554,7 +622,11 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
   }
 
-  /** Obtiene la cantidad de stock para una plataforma específica. */
+  /**
+     * Obtiene la cantidad de stock para una plataforma específica.
+     * @param platformName Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getStockForPlatform(platformName: string | null): number {
     if (!this.game || !platformName) return 0;
     const platform = this.allPlatforms.find((p) => p.name === platformName);
@@ -562,7 +634,10 @@ export class ProductComponent implements OnInit, OnDestroy {
     return (this.game as any)[platform.stockKey] || 0;
   }
 
-  /** Obtiene el ID numérico de la plataforma seleccionada. */
+  /**
+     * Obtiene el ID numérico de la plataforma seleccionada.
+     * @returns Retorno no documentado.
+     */
   getSelectedPlatformId(): number | null {
     if (!this.selectedPlatform || !this.game?.platforms) return null;
     const platform = this.game.platforms.find(
@@ -571,7 +646,10 @@ export class ProductComponent implements OnInit, OnDestroy {
     return platform?.id || null;
   }
 
-  /** Verifica si el usuario está autenticado, mostrando un modal si no lo está. */
+  /**
+     * Verifica si el usuario está autenticado, mostrando un modal si no lo está.
+     * @returns Retorno no documentado.
+     */
   checkAuth(): boolean {
     if (!this.isAuthenticated()) {
       this.showAuthModal.set(true);
@@ -620,7 +698,11 @@ export class ProductComponent implements OnInit, OnDestroy {
     }, this.authModalAnimMs);
   }
 
-  openScreenshotModal(imageUrl: string): void {
+  /**
+     * Método no documentado.
+     * @param imageUrl Parámetro no documentado.
+     */
+    openScreenshotModal(imageUrl: string): void {
     if (!imageUrl) return;
     this.screenshotModalImage.set(imageUrl);
     this.isScreenshotModalOpen.set(true);
@@ -636,7 +718,8 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
   }
 
-  closeScreenshotModal(): void {
+  /** Método no documentado. */
+    closeScreenshotModal(): void {
     if (this.screenshotModalClosing) return;
     this.screenshotModalClosing = true;
     this.screenshotModalOpen = false;
@@ -693,7 +776,10 @@ export class ProductComponent implements OnInit, OnDestroy {
     });
   }
 
-  /** Incrementa la cantidad de un artículo ya existente en el carrito. */
+  /**
+     * Incrementa la cantidad de un artículo ya existente en el carrito.
+     * @param platformId Parámetro no documentado.
+     */
   private increaseQuantity(platformId: number) {
     if (!this.game) return;
     this.cartItemService.getAll().subscribe({
@@ -762,12 +848,14 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.checkoutModalOpen.set(true);
   }
 
-  closeCheckoutModal(): void {
+  /** Método no documentado. */
+    closeCheckoutModal(): void {
     this.checkoutModalOpen.set(false);
     this.directCheckoutPayload.set(null);
   }
 
-  onCheckoutCompleted(): void {
+  /** Método no documentado. */
+    onCheckoutCompleted(): void {
     this.checkoutModalOpen.set(false);
     this.directCheckoutPayload.set(null);
     this.purchaseInfoVisible.set(true);
@@ -777,16 +865,24 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
   }
 
-  closePurchaseInfo(): void {
+  /** Método no documentado. */
+    closePurchaseInfo(): void {
     this.purchaseInfoVisible.set(false);
   }
 
-  /** Comprueba si el juego está disponible para una plataforma dada. */
+  /**
+     * Comprueba si el juego está disponible para una plataforma dada.
+     * @param platformName Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   isPlatformAvailable(platformName: string): boolean {
     return this.game?.platforms?.some((p) => p.name === platformName) || false;
   }
 
-  /** Selecciona o deselecciona una plataforma. */
+  /**
+     * Selecciona o deselecciona una plataforma.
+     * @param platform Parámetro no documentado.
+     */
   selectPlatform(platform: string): void {
     this.selectedPlatform =
       this.selectedPlatform === platform ? null : platform;
@@ -806,12 +902,19 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
   }
 
-  /** Selecciona un medio específico por su índice. */
+  /**
+     * Selecciona un medio específico por su índice.
+     * @param index Parámetro no documentado.
+     */
   selectMedia(index: number): void {
     this.currentMediaIndex = index;
   }
 
-  goToProduct(id: number): void {
+  /**
+     * Método no documentado.
+     * @param id Parámetro no documentado.
+     */
+    goToProduct(id: number): void {
     if (!Number.isFinite(id) || id <= 0) return;
     if (this.game?.id !== id) {
       this.game = this.createPlaceholder();
@@ -825,14 +928,20 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl(`/product/${id}`);
   }
 
-  /** Calcula cuántas estrellas llenas mostrar en el rating. */
+  /**
+     * Calcula cuántas estrellas llenas mostrar en el rating.
+     * @returns Retorno no documentado.
+     */
   getRatingStars(): number[] {
     const rating = this.game?.rating || 0;
     const fullStars = Math.floor(rating);
     return Array(fullStars).fill(0);
   }
 
-  /** Calcula cuántas estrellas vacías mostrar en el rating. */
+  /**
+     * Calcula cuántas estrellas vacías mostrar en el rating.
+     * @returns Retorno no documentado.
+     */
   getEmptyStars(): number[] {
     const rating = this.game?.rating || 0;
     const fullStars = Math.floor(rating);
@@ -840,13 +949,21 @@ export class ProductComponent implements OnInit, OnDestroy {
     return Array(emptyStars).fill(0);
   }
 
-  /** Extrae el ID de vídeo de una URL de YouTube. */
+  /**
+     * Extrae el ID de vídeo de una URL de YouTube.
+     * @param url Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   private getVideoId(url: string): string | null {
     const videoIdMatch = url.match(/[?&]v=([^&]+)/);
     return videoIdMatch ? videoIdMatch[1] : null;
   }
 
-  /** Convierte una URL de YouTube estándar en una URL de inserción (embed) segura. */
+  /**
+     * Convierte una URL de YouTube estándar en una URL de inserción (embed) segura.
+     * @param url Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   private convertToEmbedUrl(url: string): string {
     const videoId = this.getVideoId(url);
     if (videoId) {
@@ -855,7 +972,8 @@ export class ProductComponent implements OnInit, OnDestroy {
     return url;
   }
 
-  @HostListener('document:keydown.escape')
+  /** Método no documentado. */
+    @HostListener('document:keydown.escape')
   onEscapePressed(): void {
     if (this.isScreenshotModalOpen()) {
       this.closeScreenshotModal();

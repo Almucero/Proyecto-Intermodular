@@ -26,6 +26,7 @@ import { SearchComponent } from './pages/search/search.component';
 import { adminGuard } from './core/guards/admin.guard';
 import { customerGuard } from './core/guards/customer.guard';
 
+/** Tabla de rutas principal del cliente Angular. */
 export const routes: Routes = [
   {
     path: '',

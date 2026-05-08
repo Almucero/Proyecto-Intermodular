@@ -7,6 +7,7 @@ import {
   isFavoriteCtrl,
 } from './favorites.controller';
 
+/** Router de endpoints de favoritos. */
 const router = Router();
 
 /**

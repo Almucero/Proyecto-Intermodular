@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+/** Esquema para subida de media multipart. */
 export const uploadMediaSchema = z.object({
   type: z.enum(['user', 'game']),
   id: z
@@ -11,6 +12,7 @@ export const uploadMediaSchema = z.object({
   altText: z.string().optional(),
 });
 
+/** Esquema para actualización de media multipart. */
 export const updateMediaSchema = z.object({
   type: z.enum(['user', 'game']).optional(),
   id: z
@@ -23,5 +25,7 @@ export const updateMediaSchema = z.object({
   altText: z.string().optional(),
 });
 
+/** Tipo inferido para subida de media. */
 export type UploadMediaInput = z.infer<typeof uploadMediaSchema>;
+/** Tipo inferido para actualización de media. */
 export type UpdateMediaInput = z.infer<typeof updateMediaSchema>;

@@ -17,9 +17,12 @@ import {
   animate,
 } from '@angular/animations';
 
+/** Opción de selección para filtros de búsqueda en UI. */
 interface FilterOption {
-  value: string;
-  label: string;
+  /** Propiedad no documentada. */
+    value: string;
+  /** Propiedad no documentada. */
+    label: string;
 }
 
 /**
@@ -70,8 +73,10 @@ export class SearchComponent implements OnInit {
 
   /** Valores para el control deslizante (slider) de precio. */
   minPrice = 0;
-  maxPrice = 100;
-  priceValue = 100;
+  /** Propiedad no documentada. */
+    maxPrice = 100;
+  /** Propiedad no documentada. */
+    priceValue = 100;
 
   /** Estado de expansión de los grupos de filtros en la barra lateral. */
   filtersExpanded: { [key: string]: boolean } = {
@@ -82,10 +87,20 @@ export class SearchComponent implements OnInit {
 
   /** Opciones disponibles para los desplegables de filtros. */
   priceOptions: FilterOption[] = [];
-  genreOptions: FilterOption[] = [];
-  platformOptions: FilterOption[] = [];
+  /** Propiedad no documentada. */
+    genreOptions: FilterOption[] = [];
+  /** Propiedad no documentada. */
+    platformOptions: FilterOption[] = [];
 
-  constructor(
+  /**
+     * Constructor no documentado.
+     * @param route Parámetro no documentado.
+     * @param router Parámetro no documentado.
+     * @param gameService Parámetro no documentado.
+     * @param platformService Parámetro no documentado.
+     * @param currencyService Parámetro no documentado.
+     */
+    constructor(
     private route: ActivatedRoute,
     private router: Router,
     private gameService: GameService,
@@ -113,7 +128,10 @@ export class SearchComponent implements OnInit {
     });
   }
 
-  /** Crea una lista de juegos 'placeholder' para mostrar durante la carga. */
+  /**
+     * Crea una lista de juegos 'placeholder' para mostrar durante la carga.
+     * @returns Retorno no documentado.
+     */
   createPlaceholders(): Game[] {
     return Array(40).fill({
       id: -1,
@@ -219,7 +237,10 @@ export class SearchComponent implements OnInit {
     });
   }
 
-  /** Maneja el cambio manual en el selector de precio. */
+  /**
+     * Maneja el cambio manual en el selector de precio.
+     * @param event Parámetro no documentado.
+     */
   onPriceChange(event: Event): void {
     const select = event.target as HTMLSelectElement;
     this.selectedPrice = select.value;
@@ -234,7 +255,10 @@ export class SearchComponent implements OnInit {
     this.applyFilters();
   }
 
-  /** Maneja el cambio en el filtro de género. */
+  /**
+     * Maneja el cambio en el filtro de género.
+     * @param event Parámetro no documentado.
+     */
   onGenreChange(event: Event): void {
     const select = event.target as HTMLSelectElement;
     this.selectedGenre = select.value;
@@ -242,7 +266,10 @@ export class SearchComponent implements OnInit {
     this.applyFilters();
   }
 
-  /** Maneja el cambio en el filtro de plataforma. */
+  /**
+     * Maneja el cambio en el filtro de plataforma.
+     * @param event Parámetro no documentado.
+     */
   onPlatformChange(event: Event): void {
     const select = event.target as HTMLSelectElement;
     this.selectedPlatform = select.value;
@@ -340,7 +367,12 @@ export class SearchComponent implements OnInit {
     this.filteredGames = filtered;
   }
 
-  /** Filtra una lista de juegos por un rango o tipo de precio. */
+  /**
+     * Filtra una lista de juegos por un rango o tipo de precio.
+     * @param games Parámetro no documentado.
+     * @param priceRange Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   filterByPrice(games: Game[], priceRange: string): Game[] {
     if (priceRange === 'free') {
       return games.filter((game) => !game.price || game.price === 0);
@@ -362,7 +394,12 @@ export class SearchComponent implements OnInit {
     });
   }
 
-  /** Filtra una lista de juegos por género. */
+  /**
+     * Filtra una lista de juegos por género.
+     * @param games Parámetro no documentado.
+     * @param genreKey Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   filterByGenre(games: Game[], genreKey: string): Game[] {
     return games.filter((game) =>
       game?.genres?.some(
@@ -371,7 +408,12 @@ export class SearchComponent implements OnInit {
     );
   }
 
-  /** Filtra una lista de juegos por plataforma. */
+  /**
+     * Filtra una lista de juegos por plataforma.
+     * @param games Parámetro no documentado.
+     * @param platformKey Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   filterByPlatform(games: Game[], platformKey: string): Game[] {
     return games.filter((game) =>
       game?.platforms?.some((p) =>
@@ -380,7 +422,10 @@ export class SearchComponent implements OnInit {
     );
   }
 
-  /** Elimina un filtro específico por su tipo. */
+  /**
+     * Elimina un filtro específico por su tipo.
+     * @param filterType Parámetro no documentado.
+     */
   removeFilter(filterType: string): void {
     if (filterType === 'price') {
       this.selectedPrice = '';
@@ -404,7 +449,10 @@ export class SearchComponent implements OnInit {
     this.applyFilters();
   }
 
-  /** Alterna la expansión de una sección de filtros en la UI. */
+  /**
+     * Alterna la expansión de una sección de filtros en la UI.
+     * @param filterName Parámetro no documentado.
+     */
   toggleFilter(filterName: string): void {
      
     if (this.filtersExpanded[filterName] !== undefined) {
@@ -413,7 +461,11 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  /** Obtiene la URL de la portada de un juego o un placeholder si no tiene. */
+  /**
+     * Obtiene la URL de la portada de un juego o un placeholder si no tiene.
+     * @param game Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getCoverUrl(game: Game): string {
     const coverImage = game.media?.find((m) =>
       m.altText?.toLowerCase().includes('cover'),
@@ -421,12 +473,20 @@ export class SearchComponent implements OnInit {
     return coverImage?.url || 'assets/images/ui/placeholder.webp';
   }
 
-  /** Navega a la página de detalle de un producto. */
+  /**
+     * Navega a la página de detalle de un producto.
+     * @param id Parámetro no documentado.
+     */
   goToProduct(id: number): void {
     this.router.navigate(['/product', id.toString()]);
   }
 
-  formatPrice(value: number): string {
+  /**
+     * Método no documentado.
+     * @param value Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    formatPrice(value: number): string {
     const converted = this.currencyService.convertFromEur(value);
     const code = this.currencyService.getCurrencyCode();
     const locale = this.currencyService.getLocaleCode();

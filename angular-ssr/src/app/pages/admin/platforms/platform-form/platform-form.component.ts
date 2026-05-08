@@ -31,8 +31,10 @@ import { Platform } from '../../../../core/models/platform.model';
   styleUrl: './platform-form.component.scss',
 })
 export class PlatformFormComponent implements OnInit, OnChanges {
-  private fb = inject(FormBuilder);
-  private platformService = inject(PlatformService);
+  /** Propiedad no documentada. */
+    private fb = inject(FormBuilder);
+  /** Propiedad no documentada. */
+    private platformService = inject(PlatformService);
 
   /** ID de la plataforma a editar. Si es null, el formulario opera en modo creación. */
   @Input() platformId: number | null = null;
@@ -62,7 +64,10 @@ export class PlatformFormComponent implements OnInit, OnChanges {
     }
   }
 
-  /** Detecta cambios en el ID de entrada para conmutar entre creación y edición. */
+  /**
+     * Detecta cambios en el ID de entrada para conmutar entre creación y edición.
+     * @param changes Parámetro no documentado.
+     */
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['platformId']) {
       if (this.platformId) {
@@ -75,7 +80,10 @@ export class PlatformFormComponent implements OnInit, OnChanges {
     }
   }
 
-  /** Carga los datos de una plataforma específica desde el servidor. */
+  /**
+     * Carga los datos de una plataforma específica desde el servidor.
+     * @param id Parámetro no documentado.
+     */
   loadPlatform(id: number) {
     this.platformService.getById(id.toString()).subscribe((platform) => {
       if (platform) {

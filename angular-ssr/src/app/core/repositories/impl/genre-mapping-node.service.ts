@@ -9,14 +9,23 @@ import { Genre } from '../../models/genre.model';
   providedIn: 'root',
 })
 export class GenreMappingNodeService implements IBaseMapping<Genre> {
-  constructor() {}
+  /** Constructor no documentado. */
+    constructor() {}
 
-  /** Transforma una lista de géneros. */
+  /**
+     * Transforma una lista de géneros.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getAll(data: any): Genre[] {
     return data.map((item: any) => this.getOne(item));
   }
 
-  /** Transforma un género único. */
+  /**
+     * Transforma un género único.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getOne(data: any): Genre {
     return {
       id: data.id,
@@ -24,26 +33,49 @@ export class GenreMappingNodeService implements IBaseMapping<Genre> {
     };
   }
 
-  getAdded(data: any): Genre {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getAdded(data: any): Genre {
     return this.getOne(data);
   }
 
-  getUpdated(data: any): Genre {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getUpdated(data: any): Genre {
     return this.getOne(data);
   }
 
-  getDeleted(data: any): Genre {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getDeleted(data: any): Genre {
     return this.getOne(data);
   }
 
-  /** Prepara un género para ser creado. */
+  /**
+     * Prepara un género para ser creado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   setAdd(data: Genre): any {
     return {
       name: data.name,
     };
   }
 
-  /** Prepara los cambios para actualizar un género. */
+  /**
+     * Prepara los cambios para actualizar un género.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   setUpdate(data: any): any {
     const payload: any = {};
     if (data.name) {

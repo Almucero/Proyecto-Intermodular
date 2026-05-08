@@ -14,6 +14,7 @@ import {
   deleteDeveloperCtrl,
 } from './developers.controller';
 
+/** Router de endpoints de desarrolladores. */
 const router = Router();
 
 /**

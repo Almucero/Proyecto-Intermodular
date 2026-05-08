@@ -10,9 +10,14 @@ import { User } from '../../models/user.model';
   providedIn: 'root',
 })
 export class UserMappingNodeService implements IBaseMapping<User> {
-  constructor() {}
+  /** Constructor no documentado. */
+    constructor() {}
 
-  /** Transforma una lista de usuarios de la API. */
+  /**
+     * Transforma una lista de usuarios de la API.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getAll(data: any): User[] {
     return data.map((item: any) => this.getOne(item));
   }
@@ -21,7 +26,8 @@ export class UserMappingNodeService implements IBaseMapping<User> {
    * Transforma un objeto usuario de la API al modelo {@link User}.
    * Define getters dinámicos para `profileImage` y `username` para compatibilidad.
    * @param data Objeto de la API.
-   */
+     * @returns Retorno no documentado.
+     */
   getOne(data: any): User {
     const user: any = {
       id: data.id,
@@ -72,19 +78,38 @@ export class UserMappingNodeService implements IBaseMapping<User> {
     return user as User;
   }
 
-  getAdded(data: any): User {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getAdded(data: any): User {
     return this.getOne(data);
   }
 
-  getUpdated(data: any): User {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getUpdated(data: any): User {
     return this.getOne(data);
   }
 
-  getDeleted(data: any): User {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getDeleted(data: any): User {
     return this.getOne(data);
   }
 
-  /** Prepara un nuevo usuario para el registro. */
+  /**
+     * Prepara un nuevo usuario para el registro.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   setAdd(data: User): any {
     return {
       name: data.name,
@@ -102,7 +127,11 @@ export class UserMappingNodeService implements IBaseMapping<User> {
     };
   }
 
-  /** Prepara los datos para actualizar el perfil del usuario. */
+  /**
+     * Prepara los datos para actualizar el perfil del usuario.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   setUpdate(data: any): any {
     const payload: any = {};
     if (data.name !== undefined) payload.name = data.name;

@@ -8,5 +8,6 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class NodeRepositoryService {
-  constructor() {}
+  /** Constructor no documentado. */
+    constructor() {}
 }

@@ -1,6 +1,13 @@
 import type { Request, Response, NextFunction } from 'express';
 import { serializePrisma } from '../utils/serialize';
 
+/**
+ * Middleware que serializa respuestas JSON con tipos Prisma.
+ *
+ * @param req Request HTTP.
+ * @param res Response HTTP.
+ * @param next Next middleware.
+ */
 export function responseSerializer(
   req: Request,
   res: Response,

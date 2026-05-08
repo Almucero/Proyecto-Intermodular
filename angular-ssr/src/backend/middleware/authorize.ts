@@ -2,6 +2,13 @@ import type { Request, Response, NextFunction } from 'express';
 import { env } from '../config/env';
 import { applySecurityHeaders, applyNoCacheHeaders } from '../../security-headers';
 
+/**
+ * Middleware de autorización exclusiva para administradores.
+ *
+ * @param req Request HTTP.
+ * @param res Response HTTP.
+ * @param next Next middleware.
+ */
 export function adminOnly(req: Request, res: Response, next: NextFunction) {
   applySecurityHeaders(req, res);
   applyNoCacheHeaders(res);

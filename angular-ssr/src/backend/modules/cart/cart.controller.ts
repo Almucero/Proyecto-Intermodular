@@ -14,6 +14,7 @@ import {
 } from './cart.service';
 import { notifyPurchaseStatus } from '../notifications';
 
+/** Valida `gameId` de ruta como entero positivo. */
 const gameIdSchema = z.object({
   gameId: z.coerce
     .number()
@@ -21,14 +22,17 @@ const gameIdSchema = z.object({
     .positive('gameId debe ser un número positivo'),
 });
 
+/** Valida payload para confirmar una sesión de checkout Stripe. */
 const confirmCheckoutSchema = z.object({
   sessionId: z.string().min(1, 'sessionId es requerido'),
 });
 
+/** Valida payload para crear checkout desde carrito. */
 const createCheckoutSessionSchema = z.object({
   locale: z.string().trim().min(2).max(20).optional(),
 });
 
+/** Valida payload para checkout directo de un juego/plataforma. */
 const createDirectCheckoutSessionSchema = z.object({
   gameId: z.coerce.number().int().positive('gameId debe ser un número positivo'),
   platformId: z.coerce
@@ -38,6 +42,14 @@ const createDirectCheckoutSessionSchema = z.object({
   locale: z.string().trim().min(2).max(20).optional(),
 });
 
+/**
+ * Añade un juego/plataforma al carrito del usuario autenticado.
+ *
+ * @param req Request con usuario autenticado y payload de carrito.
+ * @param res Response HTTP.
+ * @param next Next middleware para propagación de errores.
+ * @returns Respuesta con item de carrito creado/actualizado.
+ */
 export async function addToCartCtrl(
   req: Request,
   res: Response,
@@ -83,6 +95,14 @@ export async function addToCartCtrl(
   }
 }
 
+/**
+ * Elimina un juego/plataforma del carrito del usuario.
+ *
+ * @param req Request con `gameId` en params y `platformId` en query.
+ * @param res Response HTTP.
+ * @param next Next middleware para propagación de errores.
+ * @returns Respuesta de eliminación.
+ */
 export async function removeFromCartCtrl(
   req: Request,
   res: Response,
@@ -116,6 +136,14 @@ export async function removeFromCartCtrl(
   }
 }
 
+/**
+ * Actualiza la cantidad de un item existente en carrito.
+ *
+ * @param req Request con identificadores y nueva cantidad.
+ * @param res Response HTTP.
+ * @param next Next middleware para propagación de errores.
+ * @returns Respuesta con item actualizado.
+ */
 export async function updateCartQuantityCtrl(
   req: Request,
   res: Response,
@@ -158,6 +186,14 @@ export async function updateCartQuantityCtrl(
   }
 }
 
+/**
+ * Devuelve el carrito completo del usuario autenticado.
+ *
+ * @param req Request con usuario autenticado.
+ * @param res Response HTTP.
+ * @param next Next middleware para propagación de errores.
+ * @returns Lista de items de carrito del usuario.
+ */
 export async function getUserCartCtrl(
   req: Request,
   res: Response,
@@ -174,6 +210,14 @@ export async function getUserCartCtrl(
   }
 }
 
+/**
+ * Vacía por completo el carrito del usuario autenticado.
+ *
+ * @param req Request con usuario autenticado.
+ * @param res Response HTTP.
+ * @param next Next middleware para propagación de errores.
+ * @returns Confirmación de carrito vaciado.
+ */
 export async function clearCartCtrl(
   req: Request,
   res: Response,
@@ -190,6 +234,14 @@ export async function clearCartCtrl(
   }
 }
 
+/**
+ * Crea sesión de Stripe Checkout para todos los items del carrito.
+ *
+ * @param req Request con usuario autenticado y locale opcional.
+ * @param res Response HTTP.
+ * @param next Next middleware para propagación de errores.
+ * @returns Credenciales cliente para Stripe embebido.
+ */
 export async function createCheckoutSessionCtrl(
   req: Request,
   res: Response,
@@ -224,6 +276,14 @@ export async function createCheckoutSessionCtrl(
   }
 }
 
+/**
+ * Crea sesión de Stripe Checkout para compra directa.
+ *
+ * @param req Request con usuario, juego, plataforma y locale opcional.
+ * @param res Response HTTP.
+ * @param next Next middleware para propagación de errores.
+ * @returns Credenciales cliente para Stripe embebido.
+ */
 export async function createDirectCheckoutSessionCtrl(
   req: Request,
   res: Response,
@@ -261,6 +321,14 @@ export async function createDirectCheckoutSessionCtrl(
   }
 }
 
+/**
+ * Confirma el pago de checkout de carrito y dispara notificación de compra.
+ *
+ * @param req Request con usuario autenticado y `sessionId`.
+ * @param res Response HTTP.
+ * @param next Next middleware para propagación de errores.
+ * @returns Compra confirmada.
+ */
 export async function confirmCheckoutSessionCtrl(
   req: Request,
   res: Response,
@@ -298,6 +366,14 @@ export async function confirmCheckoutSessionCtrl(
   }
 }
 
+/**
+ * Confirma el pago de checkout directo y dispara notificación de compra.
+ *
+ * @param req Request con usuario autenticado y `sessionId`.
+ * @param res Response HTTP.
+ * @param next Next middleware para propagación de errores.
+ * @returns Compra directa confirmada.
+ */
 export async function confirmDirectCheckoutSessionCtrl(
   req: Request,
   res: Response,

@@ -16,8 +16,9 @@ export class PurchaseItemService
   implements IPurchaseItemService
 {
   /**
-   * @param repository Repositorio de artículos de compra inyectado.
-   */
+       * Documentado.
+       * @param repository Repositorio de artículos de compra inyectado.
+       */
   constructor(
     @Inject(PURCHASE_ITEM_REPOSITORY_TOKEN)
     repository: IBaseRepository<PurchaseItem>,

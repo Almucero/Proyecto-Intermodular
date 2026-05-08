@@ -10,31 +10,44 @@ import { notifyPurchaseStatus } from '../notifications';
 import { logger } from '../../utils/logger';
 import { env } from '../../config/env';
 
+/** Valida payload de checkout manual con ids de carrito. */
 const checkoutSchema = z.object({
   cartItemIds: z
     .array(z.coerce.number().int().positive())
     .min(1, 'Al menos un juego es requerido'),
 });
 
+/** Valida payload de reembolso en POST. */
 const refundSchema = z.object({
   reason: z
     .string()
     .min(5, 'La razón debe tener al menos 5 caracteres')
     .max(500),
 });
+/** Valida payload de compatibilidad en PATCH para reembolso. */
 const refundPatchSchema = z.object({
   reason: z.string().min(5).max(500).optional(),
   refundReason: z.string().min(5).max(500).optional(),
 });
 
+/** Valida `id` de compra en params. */
 const purchaseIdSchema = z.object({
   id: z.coerce.number().int().positive('ID inválido'),
 });
 
+/** Valida filtro de estado en querystring. */
 const statusQuerySchema = z.object({
   status: z.enum(['completed', 'refunded']).optional(),
 });
 
+/**
+ * Procesa checkout manual de los items indicados y notifica compra.
+ *
+ * @param req Request autenticada con ids de carrito.
+ * @param res Response HTTP.
+ * @param next Next middleware.
+ * @returns Compra creada.
+ */
 export async function checkoutCtrl(
   req: Request,
   res: Response,
@@ -84,6 +97,14 @@ export async function checkoutCtrl(
   }
 }
 
+/**
+ * Lista compras del usuario autenticado con filtro opcional por estado.
+ *
+ * @param req Request autenticada.
+ * @param res Response HTTP.
+ * @param next Next middleware.
+ * @returns Listado de compras.
+ */
 export async function getUserPurchasesCtrl(
   req: Request,
   res: Response,
@@ -112,6 +133,14 @@ export async function getUserPurchasesCtrl(
   }
 }
 
+/**
+ * Recupera detalle de una compra del usuario autenticado.
+ *
+ * @param req Request con id de compra en params.
+ * @param res Response HTTP.
+ * @param next Next middleware.
+ * @returns Compra solicitada.
+ */
 export async function getPurchaseCtrl(
   req: Request,
   res: Response,
@@ -143,6 +172,14 @@ export async function getPurchaseCtrl(
   }
 }
 
+/**
+ * Reembolsa una compra existente y notifica el estado por email.
+ *
+ * @param req Request con id de compra y razón.
+ * @param res Response HTTP.
+ * @param next Next middleware.
+ * @returns Compra actualizada a estado `refunded`.
+ */
 export async function refundPurchaseCtrl(
   req: Request,
   res: Response,
@@ -200,6 +237,14 @@ export async function refundPurchaseCtrl(
   }
 }
 
+/**
+ * Endpoint PATCH de compatibilidad para reembolsos legacy.
+ *
+ * @param req Request con id de compra y `reason/refundReason`.
+ * @param res Response HTTP.
+ * @param next Next middleware.
+ * @returns Compra actualizada a estado `refunded`.
+ */
 export async function refundPurchasePatchCompatCtrl(
   req: Request,
   res: Response,

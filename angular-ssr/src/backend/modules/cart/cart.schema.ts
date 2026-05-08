@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+/** Esquema para añadir un juego al carrito. */
 export const addToCartSchema = z.object({
   gameId: z.number().int().positive('gameId debe ser un número positivo'),
   quantity: z
@@ -13,8 +14,10 @@ export const addToCartSchema = z.object({
     .positive('platformId debe ser un número positivo'),
 });
 
+/** Tipo inferido del payload para añadir al carrito. */
 export type AddToCartInput = z.infer<typeof addToCartSchema>;
 
+/** Esquema para actualizar cantidad de un item de carrito. */
 export const updateCartQuantitySchema = z.object({
   quantity: z.number().int().positive('quantity debe ser al menos 1'),
   platformId: z
@@ -23,8 +26,10 @@ export const updateCartQuantitySchema = z.object({
     .positive('platformId debe ser un número positivo'),
 });
 
+/** Tipo inferido del payload para actualizar cantidad. */
 export type UpdateCartQuantityInput = z.infer<typeof updateCartQuantitySchema>;
 
+/** Esquema de respuesta serializada de item de carrito. */
 export const cartItemResponseSchema = z.object({
   id: z.number(),
   userId: z.number(),
@@ -48,4 +53,5 @@ export const cartItemResponseSchema = z.object({
     .optional(),
 });
 
+/** Tipo inferido de respuesta de item de carrito. */
 export type CartItemResponse = z.infer<typeof cartItemResponseSchema>;

@@ -1,6 +1,7 @@
 import { prisma } from '../../config/db';
 import { Prisma } from '@prisma/client';
 
+/** Campos de stock disponibles por plataforma en el modelo Game. */
 type StockField =
   | 'stockPc'
   | 'stockPs5'
@@ -9,6 +10,12 @@ type StockField =
   | 'stockPs4'
   | 'stockXboxOne';
 
+/**
+ * Mapea nombre de plataforma a campo de stock de `Game`.
+ *
+ * @param platformName Nombre visible de plataforma.
+ * @returns Campo de stock correspondiente.
+ */
 function getStockFieldByPlatformName(platformName: string): StockField {
   const normalized = platformName.trim().toLowerCase();
   if (normalized === 'pc') return 'stockPc';
@@ -20,6 +27,13 @@ function getStockFieldByPlatformName(platformName: string): StockField {
   throw new Error(`Plataforma no soportada para control de stock: ${platformName}`);
 }
 
+/**
+ * Obtiene stock actual del juego según el campo solicitado.
+ *
+ * @param game Registro de juego con campos de stock.
+ * @param stockField Campo de stock objetivo.
+ * @returns Unidades disponibles.
+ */
 function getGameStockByField(game: any, stockField: StockField): number {
   if (stockField === 'stockPc') return Number(game.stockPc ?? 0);
   if (stockField === 'stockPs5') return Number(game.stockPs5 ?? 0);
@@ -29,6 +43,13 @@ function getGameStockByField(game: any, stockField: StockField): number {
   return Number(game.stockXboxOne ?? 0);
 }
 
+/**
+ * Completa una compra desde ids de items de carrito.
+ *
+ * @param userId Identificador del usuario.
+ * @param cartItemIds Identificadores de carrito a comprar.
+ * @returns Compra creada con sus items normalizados.
+ */
 export async function completePurchase(userId: number, cartItemIds: number[]) {
   if (cartItemIds.length === 0) {
     throw new Error('Debe proporcionar al menos un artículo del carrito');
@@ -176,6 +197,13 @@ export async function completePurchase(userId: number, cartItemIds: number[]) {
   };
 }
 
+/**
+ * Lista compras del usuario con filtro opcional por estado.
+ *
+ * @param userId Identificador del usuario.
+ * @param status Estado opcional de compra.
+ * @returns Listado de compras serializadas.
+ */
 export async function getUserPurchases(
   userId: number,
   status?: 'completed' | 'refunded',
@@ -231,6 +259,13 @@ export async function getUserPurchases(
   }));
 }
 
+/**
+ * Recupera una compra concreta del usuario autenticado.
+ *
+ * @param userId Identificador del usuario.
+ * @param purchaseId Identificador de compra.
+ * @returns Compra encontrada.
+ */
 export async function getPurchase(userId: number, purchaseId: number) {
   const purchase = await prisma.purchase.findFirst({
     where: {
@@ -284,6 +319,14 @@ export async function getPurchase(userId: number, purchaseId: number) {
   };
 }
 
+/**
+ * Reembolsa una compra y repone stock en las plataformas afectadas.
+ *
+ * @param userId Identificador del usuario.
+ * @param purchaseId Identificador de compra.
+ * @param reason Motivo de reembolso.
+ * @returns Compra actualizada.
+ */
 export async function refundPurchase(
   userId: number,
   purchaseId: number,

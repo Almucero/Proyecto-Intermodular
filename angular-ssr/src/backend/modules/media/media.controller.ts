@@ -7,6 +7,13 @@ import {
   uploadMedia,
 } from './media.service';
 
+/**
+ * Lista recursos multimedia con filtros opcionales.
+ *
+ * @param req Request con query params.
+ * @param res Response HTTP.
+ * @returns Listado de media.
+ */
 export async function listMediaCtrl(req: Request, res: Response) {
   try {
     const filters: any = {};
@@ -24,6 +31,13 @@ export async function listMediaCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Obtiene un recurso media por id.
+ *
+ * @param req Request con `id` en params.
+ * @param res Response HTTP.
+ * @returns Recurso solicitado.
+ */
 export async function getMediaCtrl(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);
@@ -53,6 +67,13 @@ export async function getMediaCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Actualiza metadatos/archivo de un recurso media.
+ *
+ * @param req Request con `id`, archivo opcional y cambios.
+ * @param res Response HTTP.
+ * @returns Recurso actualizado.
+ */
 export async function updateMediaCtrl(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);
@@ -112,6 +133,13 @@ export async function updateMediaCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Elimina un recurso media.
+ *
+ * @param req Request con `id` en params.
+ * @param res Response HTTP.
+ * @returns Recurso eliminado.
+ */
 export async function deleteMediaCtrl(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);
@@ -154,6 +182,13 @@ export async function deleteMediaCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Sube un nuevo recurso multimedia para usuario o juego.
+ *
+ * @param req Request con multipart `file`.
+ * @param res Response HTTP.
+ * @returns Recurso creado.
+ */
 export async function uploadMediaCtrl(req: Request, res: Response) {
   try {
     if (!req.file) {

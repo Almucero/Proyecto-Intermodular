@@ -43,13 +43,20 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements AfterViewInit, OnDestroy {
-  private auth = inject(BaseAuthenticationService);
-  private userService = inject(UserService);
-  private mediaService = inject(MediaService);
-  private purchaseService = inject(PurchaseService);
-  private router = inject(Router);
-  private platformId = inject(PLATFORM_ID);
-  private translate = inject(TranslateService);
+  /** Propiedad no documentada. */
+    private auth = inject(BaseAuthenticationService);
+  /** Propiedad no documentada. */
+    private userService = inject(UserService);
+  /** Propiedad no documentada. */
+    private mediaService = inject(MediaService);
+  /** Propiedad no documentada. */
+    private purchaseService = inject(PurchaseService);
+  /** Propiedad no documentada. */
+    private router = inject(Router);
+  /** Propiedad no documentada. */
+    private platformId = inject(PLATFORM_ID);
+  /** Propiedad no documentada. */
+    private translate = inject(TranslateService);
 
   /** Señal que contiene los datos del usuario autenticado. */
   user = toSignal(this.auth.user$);
@@ -57,26 +64,38 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   purchases = signal<any[]>([]);
   /** Señal con la lista de compras que han sido reembolsadas. */
   returns = signal<any[]>([]);
-  purchasesLoading = signal(true);
-  returnsLoading = signal(true);
-  purchasesSkeletonCount = signal(0);
-  returnsSkeletonCount = signal(0);
-  purchaseItemsSkeletonCount = signal(2);
-  returnItemsSkeletonCount = signal(2);
-  purchaseSkeletonCards = computed(() =>
+  /** Propiedad no documentada. */
+    purchasesLoading = signal(true);
+  /** Propiedad no documentada. */
+    returnsLoading = signal(true);
+  /** Propiedad no documentada. */
+    purchasesSkeletonCount = signal(0);
+  /** Propiedad no documentada. */
+    returnsSkeletonCount = signal(0);
+  /** Propiedad no documentada. */
+    purchaseItemsSkeletonCount = signal(2);
+  /** Propiedad no documentada. */
+    returnItemsSkeletonCount = signal(2);
+  /** Propiedad no documentada. */
+    purchaseSkeletonCards = computed(() =>
     this.buildSkeletonRange(this.purchasesSkeletonCount()),
   );
-  returnSkeletonCards = computed(() =>
+  /** Propiedad no documentada. */
+    returnSkeletonCards = computed(() =>
     this.buildSkeletonRange(this.returnsSkeletonCount()),
   );
-  purchaseSkeletonItems = computed(() =>
+  /** Propiedad no documentada. */
+    purchaseSkeletonItems = computed(() =>
     this.buildSkeletonRange(this.purchaseItemsSkeletonCount()),
   );
-  returnSkeletonItems = computed(() =>
+  /** Propiedad no documentada. */
+    returnSkeletonItems = computed(() =>
     this.buildSkeletonRange(this.returnItemsSkeletonCount()),
   );
-  private minSkeletonDelayDone = signal(false);
-  dashboardLoading = computed(
+  /** Propiedad no documentada. */
+    private minSkeletonDelayDone = signal(false);
+  /** Propiedad no documentada. */
+    dashboardLoading = computed(
     () =>
       !this.minSkeletonDelayDone() ||
       !this.user() ||
@@ -122,19 +141,30 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   selectedImageFile: File | null = null;
   /** URL temporal para la previsualización de la nueva imagen de perfil. */
   previewImageUrl: string | null = null;
-  @ViewChildren('actionSizeButton')
+  /** Propiedad no documentada. */
+    @ViewChildren('actionSizeButton')
   private actionSizeButtons!: QueryList<ElementRef<HTMLButtonElement>>;
-  private actionButtonsChangesSubscription?: Subscription;
-  private purchasesSubscription?: Subscription;
-  private returnsSubscription?: Subscription;
-  private readonly resizeHandler = () => this.syncActionButtonsWidth();
-  private skeletonDelayTimeoutId: ReturnType<typeof setTimeout> | null = null;
-  private readonly purchasesSkeletonCacheKey = 'dashboard.purchasesSkeletonCount';
-  private readonly returnsSkeletonCacheKey = 'dashboard.returnsSkeletonCount';
-  private readonly purchaseItemsSkeletonCacheKey =
+  /** Propiedad no documentada. */
+    private actionButtonsChangesSubscription?: Subscription;
+  /** Propiedad no documentada. */
+    private purchasesSubscription?: Subscription;
+  /** Propiedad no documentada. */
+    private returnsSubscription?: Subscription;
+  /** Propiedad no documentada. */
+    private readonly resizeHandler = () => this.syncActionButtonsWidth();
+  /** Propiedad no documentada. */
+    private skeletonDelayTimeoutId: ReturnType<typeof setTimeout> | null = null;
+  /** Propiedad no documentada. */
+    private readonly purchasesSkeletonCacheKey = 'dashboard.purchasesSkeletonCount';
+  /** Propiedad no documentada. */
+    private readonly returnsSkeletonCacheKey = 'dashboard.returnsSkeletonCount';
+  /** Propiedad no documentada. */
+    private readonly purchaseItemsSkeletonCacheKey =
     'dashboard.purchaseItemsSkeletonCount';
-  private readonly returnItemsSkeletonCacheKey = 'dashboard.returnItemsSkeletonCount';
-  private visiblePurchaseKeys = signal<Map<number, boolean>>(new Map());
+  /** Propiedad no documentada. */
+    private readonly returnItemsSkeletonCacheKey = 'dashboard.returnItemsSkeletonCount';
+  /** Propiedad no documentada. */
+    private visiblePurchaseKeys = signal<Map<number, boolean>>(new Map());
 
   /**
    * Obtiene la URL de la imagen de perfil, priorizando la previsualización local,
@@ -151,7 +181,8 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     return 'assets/icons/user.png';
   }
 
-  constructor() {
+  /** Constructor no documentado. */
+    constructor() {
     /**
      * Sincroniza los datos editables cuando cambia el usuario autenticado.
      */
@@ -176,7 +207,8 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     this.loadSkeletonCountsFromCache();
   }
 
-  ngAfterViewInit() {
+  /** Método no documentado. */
+    ngAfterViewInit() {
     if (!isPlatformBrowser(this.platformId)) return;
     this.actionButtonsChangesSubscription = this.actionSizeButtons.changes.subscribe(
       () => {
@@ -187,7 +219,8 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     setTimeout(() => this.syncActionButtonsWidth(), 0);
   }
 
-  ngOnDestroy() {
+  /** Método no documentado. */
+    ngOnDestroy() {
     if (isPlatformBrowser(this.platformId)) {
       window.removeEventListener('resize', this.resizeHandler);
     }
@@ -200,7 +233,8 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  private startMinimumSkeletonDelay() {
+  /** Método no documentado. */
+    private startMinimumSkeletonDelay() {
     this.minSkeletonDelayDone.set(false);
     this.skeletonDelayTimeoutId = setTimeout(() => {
       this.minSkeletonDelayDone.set(true);
@@ -208,7 +242,8 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     }, 1200);
   }
 
-  private loadPurchases() {
+  /** Método no documentado. */
+    private loadPurchases() {
     this.purchasesLoading.set(true);
     this.purchasesSubscription?.unsubscribe();
     this.purchasesSubscription = this.purchaseService
@@ -242,7 +277,8 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       });
   }
 
-  private loadReturns() {
+  /** Método no documentado. */
+    private loadReturns() {
     this.returnsLoading.set(true);
     this.returnsSubscription?.unsubscribe();
     this.returnsSubscription = this.purchaseService
@@ -370,7 +406,10 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  /** Maneja el evento de selección de archivo por parte del usuario. */
+  /**
+     * Maneja el evento de selección de archivo por parte del usuario.
+     * @param event Parámetro no documentado.
+     */
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
@@ -381,14 +420,20 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  /** Cierra la sesión del usuario y redirige al login. */
+  /**
+     * Cierra la sesión del usuario y redirige al login.
+     * @returns Retorno no documentado.
+     */
   async onLogout() {
     this.auth.signOut().subscribe(() => {
       this.router.navigate(['/login']);
     });
   }
 
-  /** Abre el modal para solicitar un reembolso de una compra específica. */
+  /**
+     * Abre el modal para solicitar un reembolso de una compra específica.
+     * @param purchaseId Parámetro no documentado.
+     */
   openRefundModal(purchaseId: number) {
     this.selectedPurchaseId.set(purchaseId);
     this.refundReason.set('');
@@ -430,7 +475,8 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  private syncActionButtonsWidth() {
+  /** Método no documentado. */
+    private syncActionButtonsWidth() {
     const buttons =
       this.actionSizeButtons?.toArray().map((btn) => btn.nativeElement) ?? [];
     if (buttons.length === 0) return;
@@ -445,16 +491,28 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  private buildSkeletonRange(count: number): number[] {
+  /**
+     * Método no documentado.
+     * @param count Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    private buildSkeletonRange(count: number): number[] {
     return Array.from({ length: Math.max(0, count) }, (_, i) => i + 1);
   }
 
-  private normalizeSkeletonCount(value: number, fallback: number): number {
+  /**
+     * Método no documentado.
+     * @param value Parámetro no documentado.
+     * @param fallback Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    private normalizeSkeletonCount(value: number, fallback: number): number {
     if (!Number.isFinite(value)) return Math.max(0, Math.round(fallback));
     return Math.max(0, Math.round(value));
   }
 
-  private loadSkeletonCountsFromCache(): void {
+  /** Método no documentado. */
+    private loadSkeletonCountsFromCache(): void {
     if (!isPlatformBrowser(this.platformId)) return;
     const purchasesCount = Number(localStorage.getItem(this.purchasesSkeletonCacheKey));
     const returnsCount = Number(localStorage.getItem(this.returnsSkeletonCacheKey));
@@ -476,7 +534,8 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     );
   }
 
-  private persistSkeletonCounts(): void {
+  /** Método no documentado. */
+    private persistSkeletonCounts(): void {
     if (!isPlatformBrowser(this.platformId)) return;
     localStorage.setItem(
       this.purchasesSkeletonCacheKey,
@@ -493,7 +552,12 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     );
   }
 
-  formatPurchaseDate(value: Date | string | null | undefined): string {
+  /**
+     * Método no documentado.
+     * @param value Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    formatPurchaseDate(value: Date | string | null | undefined): string {
     if (!value) return '-';
     const date = value instanceof Date ? value : new Date(value);
     if (Number.isNaN(date.getTime())) return '-';
@@ -522,11 +586,20 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     return `${day} ${month} ${year}, ${hh}:${mm}:${ss}`;
   }
 
-  isPurchaseKeyVisible(itemId: number): boolean {
+  /**
+     * Método no documentado.
+     * @param itemId Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    isPurchaseKeyVisible(itemId: number): boolean {
     return this.visiblePurchaseKeys().get(itemId) ?? false;
   }
 
-  togglePurchaseKeyVisibility(itemId: number): void {
+  /**
+     * Método no documentado.
+     * @param itemId Parámetro no documentado.
+     */
+    togglePurchaseKeyVisibility(itemId: number): void {
     this.visiblePurchaseKeys.update((state) => {
       const nextState = new Map(state);
       nextState.set(itemId, !(state.get(itemId) ?? false));

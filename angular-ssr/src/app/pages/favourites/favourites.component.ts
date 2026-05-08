@@ -34,7 +34,15 @@ export class FavouritesComponent implements OnInit {
   /** Estado de autenticación del usuario. */
   isAuthenticated = signal(false);
 
-  constructor(
+  /**
+     * Constructor no documentado.
+     * @param favoriteService Parámetro no documentado.
+     * @param cartItemService Parámetro no documentado.
+     * @param mediaService Parámetro no documentado.
+     * @param authService Parámetro no documentado.
+     * @param router Parámetro no documentado.
+     */
+    constructor(
     private favoriteService: FavoriteService,
     private cartItemService: CartItemService,
     private mediaService: MediaService,
@@ -92,7 +100,8 @@ export class FavouritesComponent implements OnInit {
   /**
    * Añade un juego favorito al carrito y lo elimina de la lista de favoritos.
    * @param fav El objeto del favorito a procesar.
-   */
+     * @returns Retorno no documentado.
+     */
   async addToCart(fav: Favorite) {
     if (!fav.gameId || !fav.platformId) return;
     try {
@@ -110,7 +119,8 @@ export class FavouritesComponent implements OnInit {
   /**
    * Elimina un juego de la lista de favoritos.
    * @param fav El objeto del favorito a eliminar.
-   */
+     * @returns Retorno no documentado.
+     */
   async removeFromFavorites(fav: Favorite) {
     if (!fav.gameId || !fav.platformId) return;
     try {
@@ -127,7 +137,8 @@ export class FavouritesComponent implements OnInit {
 
   /**
    * Mueve todos los juegos favoritos al carrito a la vez.
-   */
+     * @returns Retorno no documentado.
+     */
   async transferAllToCart() {
     for (const favorite of this.favorites()) {
       if (favorite.gameId && favorite.platformId) {
@@ -136,12 +147,20 @@ export class FavouritesComponent implements OnInit {
     }
   }
 
-  /** Obtiene la imagen representativa de un juego favorito. */
+  /**
+     * Obtiene la imagen representativa de un juego favorito.
+     * @param fav Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getGameImage(fav: Favorite): string {
     return fav.game?.media?.[0]?.url || 'assets/images/ui/placeholder.webp';
   }
 
-  /** Obtiene el nombre del desarrollador o editor del juego. */
+  /**
+     * Obtiene el nombre del desarrollador o editor del juego.
+     * @param fav Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getGameDeveloper(fav: Favorite): string {
     return fav.game?.Developer?.name || fav.game?.Publisher?.name || 'Unknown';
   }

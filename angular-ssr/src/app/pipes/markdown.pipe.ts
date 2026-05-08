@@ -12,8 +12,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class MarkdownPipe implements PipeTransform {
   /**
-   * @param sanitizer Servicio para desinfectar contenido HTML.
-   */
+       * Documentado.
+       * @param sanitizer Servicio para desinfectar contenido HTML.
+       */
   constructor(private sanitizer: DomSanitizer) {}
 
   /**

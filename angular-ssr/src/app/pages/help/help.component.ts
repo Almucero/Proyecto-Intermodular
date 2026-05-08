@@ -49,11 +49,19 @@ export class HelpComponent {
   isScreenshotModalOpen = signal(false);
   /** URL de imagen actualmente abierta en el modal. */
   screenshotModalImage = signal<string | null>(null);
-  screenshotModalOpen = false;
-  screenshotModalClosing = false;
-  private readonly screenshotModalAnimMs = 160;
+  /** Propiedad no documentada. */
+    screenshotModalOpen = false;
+  /** Propiedad no documentada. */
+    screenshotModalClosing = false;
+  /** Propiedad no documentada. */
+    private readonly screenshotModalAnimMs = 160;
 
-  constructor(
+  /**
+     * Constructor no documentado.
+     * @param renderer Parámetro no documentado.
+     * @param document Parámetro no documentado.
+     */
+    constructor(
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document: Document,
   ) {}
@@ -101,7 +109,8 @@ export class HelpComponent {
     }, this.screenshotModalAnimMs);
   }
 
-  @HostListener('document:keydown.escape')
+  /** Método no documentado. */
+    @HostListener('document:keydown.escape')
   onEscapePressed(): void {
     if (this.isScreenshotModalOpen()) {
       this.closeScreenshotModal();

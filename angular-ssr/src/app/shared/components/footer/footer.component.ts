@@ -19,7 +19,8 @@ import {
   styleUrls: ['./footer.component.scss'],
 })
 export class FooterComponent {
-  private languageService = inject(LanguageService);
+  /** Propiedad no documentada. */
+    private languageService = inject(LanguageService);
   /** Estado global de la interfaz de usuario. */
   public uiState = inject(UiStateService);
   /** Año actual para el copyright. */

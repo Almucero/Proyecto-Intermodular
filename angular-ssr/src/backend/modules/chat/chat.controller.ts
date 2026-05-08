@@ -7,6 +7,14 @@ import {
 } from './chat.service';
 import { chatInputSchema, sessionIdParamSchema } from './chat.schema';
 
+/**
+ * Procesa un mensaje de chat del usuario autenticado.
+ *
+ * @param req Request con payload de chat.
+ * @param res Response HTTP.
+ * @param next Next middleware.
+ * @returns Respuesta del asistente y juegos encontrados.
+ */
 export const chatCtrl = async (
   req: Request,
   res: Response,
@@ -22,6 +30,14 @@ export const chatCtrl = async (
   }
 };
 
+/**
+ * Lista sesiones de chat del usuario autenticado.
+ *
+ * @param req Request autenticada.
+ * @param res Response HTTP.
+ * @param next Next middleware.
+ * @returns Listado de sesiones.
+ */
 export const listSessionsCtrl = async (
   req: Request,
   res: Response,
@@ -36,6 +52,14 @@ export const listSessionsCtrl = async (
   }
 };
 
+/**
+ * Obtiene detalle de una sesión de chat por id.
+ *
+ * @param req Request con `id` de sesión.
+ * @param res Response HTTP.
+ * @param next Next middleware.
+ * @returns Sesión con mensajes ordenados.
+ */
 export const getSessionCtrl = async (
   req: Request,
   res: Response,
@@ -54,6 +78,14 @@ export const getSessionCtrl = async (
   }
 };
 
+/**
+ * Elimina una sesión de chat del usuario autenticado.
+ *
+ * @param req Request con `id` de sesión.
+ * @param res Response HTTP.
+ * @param next Next middleware.
+ * @returns Confirmación de borrado.
+ */
 export const deleteSessionCtrl = async (
   req: Request,
   res: Response,

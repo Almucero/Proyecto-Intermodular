@@ -9,12 +9,20 @@ import { ChatSession, ChatMessage } from '../../models/chat.model';
   providedIn: 'root',
 })
 export class ChatMappingNodeService implements IBaseMapping<ChatSession> {
-  /** Transforma una lista de sesiones de chat de la API. */
+  /**
+     * Transforma una lista de sesiones de chat de la API.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getAll(data: any): ChatSession[] {
     return data.map((item: any) => this.getOne(item));
   }
 
-  /** Transforma una sesión de chat única. */
+  /**
+     * Transforma una sesión de chat única.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getOne(data: any): ChatSession {
     return {
       id: data.id,
@@ -27,7 +35,11 @@ export class ChatMappingNodeService implements IBaseMapping<ChatSession> {
     };
   }
 
-  /** Mapea un mensaje individual dentro de una sesión. */
+  /**
+     * Mapea un mensaje individual dentro de una sesión.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   private mapMessage(data: any): ChatMessage {
     return {
       id: data.id,
@@ -38,26 +50,49 @@ export class ChatMappingNodeService implements IBaseMapping<ChatSession> {
     };
   }
 
-  getAdded(data: any): ChatSession {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getAdded(data: any): ChatSession {
     return this.getOne(data);
   }
 
-  getUpdated(data: any): ChatSession {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getUpdated(data: any): ChatSession {
     return this.getOne(data);
   }
 
-  getDeleted(data: any): ChatSession {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getDeleted(data: any): ChatSession {
     return this.getOne(data);
   }
 
-  /** Prepara una sesión para ser creada. */
+  /**
+     * Prepara una sesión para ser creada.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   setAdd(data: ChatSession): any {
     return {
       title: data.title,
     };
   }
 
-  /** Prepara los cambios para actualizar una sesión. */
+  /**
+     * Prepara los cambios para actualizar una sesión.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   setUpdate(data: any): any {
     return {
       title: data.title,

@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+/** Esquema de creación de juego. */
 export const createGameSchema = z.object({
   title: z.string().min(1, 'El título es requerido'),
   description: z.string().optional(),
@@ -26,6 +27,7 @@ export const createGameSchema = z.object({
   platforms: z.array(z.string()).optional(),
 });
 
+/** Esquema de actualización parcial de juego. */
 export const updateGameSchema = z.object({
   title: z.string().min(1).optional(),
   description: z.string().optional(),
@@ -49,5 +51,7 @@ export const updateGameSchema = z.object({
   platforms: z.array(z.string()).optional(),
 });
 
+/** Tipo inferido para creación de juego. */
 export type CreateGameInput = z.infer<typeof createGameSchema>;
+/** Tipo inferido para actualización de juego. */
 export type UpdateGameInput = z.infer<typeof updateGameSchema>;

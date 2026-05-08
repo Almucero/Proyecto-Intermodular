@@ -7,6 +7,13 @@ import {
   deletePlatform,
 } from './platforms.service';
 
+/**
+ * Lista plataformas con filtro opcional por nombre.
+ *
+ * @param _req Request HTTP.
+ * @param res Response HTTP.
+ * @returns Listado de plataformas.
+ */
 export async function listPlatformsCtrl(_req: Request, res: Response) {
   try {
     const filters: any = {};
@@ -18,6 +25,13 @@ export async function listPlatformsCtrl(_req: Request, res: Response) {
   }
 }
 
+/**
+ * Obtiene una plataforma por id.
+ *
+ * @param req Request con `id`.
+ * @param res Response HTTP.
+ * @returns Plataforma solicitada.
+ */
 export async function getPlatformCtrl(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);
@@ -35,6 +49,13 @@ export async function getPlatformCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Crea una plataforma.
+ *
+ * @param req Request con payload de creación.
+ * @param res Response HTTP.
+ * @returns Plataforma creada.
+ */
 export async function createPlatformCtrl(req: Request, res: Response) {
   try {
     const payload = { name: req.body.name };
@@ -47,6 +68,13 @@ export async function createPlatformCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Actualiza una plataforma existente.
+ *
+ * @param req Request con `id` y payload parcial.
+ * @param res Response HTTP.
+ * @returns Plataforma actualizada.
+ */
 export async function updatePlatformCtrl(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);
@@ -62,6 +90,13 @@ export async function updatePlatformCtrl(req: Request, res: Response) {
   }
 }
 
+/**
+ * Elimina una plataforma por id.
+ *
+ * @param req Request con `id`.
+ * @param res Response HTTP.
+ * @returns `204 No Content` al eliminar.
+ */
 export async function deletePlatformCtrl(req: Request, res: Response) {
   try {
     const id = Number(req.params.id);

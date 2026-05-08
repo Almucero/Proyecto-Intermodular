@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>game-sage documentation</title>
+        <title>Game Sage Documentation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -78,7 +78,7 @@
 
         <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
                <div class="d-flex">
-                    <a href="../" class="navbar-brand">game-sage documentation</a>
+                    <a href="../" class="navbar-brand">Game Sage Documentation</a>
                     <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
                </div>
         </div>
@@ -219,8 +219,8 @@ Utiliza Angular Signals para un rendimiento óptimo.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="20"
-                                    class="link-to-prism">src/app/core/services/impl/ui-state.service.ts:20</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="23"
+                                    class="link-to-prism">src/app/core/services/impl/ui-state.service.ts:23</a></div>
                         </td>
                     </tr>
 
@@ -239,6 +239,7 @@ Utiliza Angular Signals para un rendimiento óptimo.</p>
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Description</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -253,6 +254,10 @@ Utiliza Angular Signals para un rendimiento óptimo.</p>
                                             </td>
 
 
+                                            <td>
+                                                    <p>Parámetro no documentado.</p>
+
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -368,7 +373,10 @@ export class UiStateService {
     this.isMenuOpen.update((v) &#x3D;&gt; !v);
   }
 
-  /** Establece explícitamente el estado del menú. */
+  /**
+     * Establece explícitamente el estado del menú.
+     * @param isOpen Parámetro no documentado.
+     */
   setMenuOpen(isOpen: boolean) {
     this.isMenuOpen.set(isOpen);
   }

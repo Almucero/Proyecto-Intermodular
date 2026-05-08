@@ -9,14 +9,23 @@ import { Developer } from '../../models/developer.model';
   providedIn: 'root',
 })
 export class DeveloperMappingNodeService implements IBaseMapping<Developer> {
-  constructor() {}
+  /** Constructor no documentado. */
+    constructor() {}
 
-  /** Transforma una lista de desarrolladoras de la API. */
+  /**
+     * Transforma una lista de desarrolladoras de la API.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getAll(data: any): Developer[] {
     return data.map((item: any) => this.getOne(item));
   }
 
-  /** Transforma una desarrolladora única. */
+  /**
+     * Transforma una desarrolladora única.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getOne(data: any): Developer {
     return {
       id: data.id,
@@ -24,26 +33,49 @@ export class DeveloperMappingNodeService implements IBaseMapping<Developer> {
     };
   }
 
-  getAdded(data: any): Developer {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getAdded(data: any): Developer {
     return this.getOne(data);
   }
 
-  getUpdated(data: any): Developer {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getUpdated(data: any): Developer {
     return this.getOne(data);
   }
 
-  getDeleted(data: any): Developer {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getDeleted(data: any): Developer {
     return this.getOne(data);
   }
 
-  /** Prepara una desarrolladora para ser creada. */
+  /**
+     * Prepara una desarrolladora para ser creada.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   setAdd(data: Developer): any {
     return {
       name: data.name,
     };
   }
 
-  /** Prepara los cambios para actualizar una desarrolladora. */
+  /**
+     * Prepara los cambios para actualizar una desarrolladora.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   setUpdate(data: any): any {
     const payload: any = {};
     if (data.name) {

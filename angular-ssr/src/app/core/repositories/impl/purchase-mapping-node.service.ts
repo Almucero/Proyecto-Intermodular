@@ -9,14 +9,23 @@ import { Purchase } from '../../models/purchase.model';
   providedIn: 'root',
 })
 export class PurchaseMappingNodeService implements IBaseMapping<Purchase> {
-  constructor() {}
+  /** Constructor no documentado. */
+    constructor() {}
 
-  /** Transforma una lista de compras. */
+  /**
+     * Transforma una lista de compras.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getAll(data: any): Purchase[] {
     return data.map((item: any) => this.getOne(item));
   }
 
-  /** Transforma una compra única, incluyendo sus artículos relacionados. */
+  /**
+     * Transforma una compra única, incluyendo sus artículos relacionados.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getOne(data: any): Purchase {
     return {
       id: data.id,
@@ -30,19 +39,38 @@ export class PurchaseMappingNodeService implements IBaseMapping<Purchase> {
     };
   }
 
-  getAdded(data: any): Purchase {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getAdded(data: any): Purchase {
     return this.getOne(data);
   }
 
-  getUpdated(data: any): Purchase {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getUpdated(data: any): Purchase {
     return this.getOne(data);
   }
 
-  getDeleted(data: any): Purchase {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getDeleted(data: any): Purchase {
     return this.getOne(data);
   }
 
-  /** Prepara una compra para ser registrada. */
+  /**
+     * Prepara una compra para ser registrada.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   setAdd(data: Purchase): any {
     return {
       userId: data.userId,
@@ -51,7 +79,11 @@ export class PurchaseMappingNodeService implements IBaseMapping<Purchase> {
     };
   }
 
-  /** Prepara actualizaciones de estado o motivos de devolución. */
+  /**
+     * Prepara actualizaciones de estado o motivos de devolución.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   setUpdate(data: any): any {
     const payload: any = {};
     if (data.status !== undefined) payload.status = data.status;

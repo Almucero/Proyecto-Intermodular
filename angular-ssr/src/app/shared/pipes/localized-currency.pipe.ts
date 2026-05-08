@@ -1,15 +1,27 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { CurrencyService } from '../../core/services/currency.service';
 
+/** Pipe para mostrar importes según idioma/moneda activos del usuario. */
 @Pipe({
   name: 'localizedCurrency',
   standalone: true,
   pure: false,
 })
 export class LocalizedCurrencyPipe implements PipeTransform {
-  constructor(private currencyService: CurrencyService) {}
+  /**
+     * Constructor no documentado.
+     * @param currencyService Parámetro no documentado.
+     */
+    constructor(private currencyService: CurrencyService) {}
 
-  transform(
+  /**
+     * Método no documentado.
+     * @param value Parámetro no documentado.
+     * @param display Parámetro no documentado.
+     * @param digitsInfo Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    transform(
     value: number | string | null | undefined,
     display: 'symbol' | 'code' | 'none' = 'symbol',
     digitsInfo = '1.2-2',

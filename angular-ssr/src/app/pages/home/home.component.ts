@@ -32,12 +32,18 @@ import { CarouselComponent } from '../../shared/components/carousel/carousel.com
 export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Capas para el efecto parallax del banner. */
   @ViewChild('backgroundFallbackLayer') backgroundFallbackLayer!: ElementRef;
-  @ViewChild('backgroundLayer') backgroundLayer!: ElementRef;
-  @ViewChild('jokerLayer') jokerLayer!: ElementRef;
-  @ViewChild('titleLayer') titleLayer!: ElementRef;
-  @ViewChild('geraltLayer') geraltLayer!: ElementRef;
-  @ViewChild('bottomLayer') bottomLayer!: ElementRef;
-  @ViewChild('mainContent') mainContent!: ElementRef;
+  /** Propiedad no documentada. */
+    @ViewChild('backgroundLayer') backgroundLayer!: ElementRef;
+  /** Propiedad no documentada. */
+    @ViewChild('jokerLayer') jokerLayer!: ElementRef;
+  /** Propiedad no documentada. */
+    @ViewChild('titleLayer') titleLayer!: ElementRef;
+  /** Propiedad no documentada. */
+    @ViewChild('geraltLayer') geraltLayer!: ElementRef;
+  /** Propiedad no documentada. */
+    @ViewChild('bottomLayer') bottomLayer!: ElementRef;
+  /** Propiedad no documentada. */
+    @ViewChild('mainContent') mainContent!: ElementRef;
 
   /** Lista de géneros principales para el menú de categorías. */
   genres = [
@@ -83,22 +89,33 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   isClosingGenreDropdown = false;
   /** Indica si se está visualizando en un dispositivo móvil. */
   isMobile = false;
-  hideSideCharacters = false;
-  sideCharactersVisibilityReady = false;
+  /** Propiedad no documentada. */
+    hideSideCharacters = false;
+  /** Propiedad no documentada. */
+    sideCharactersVisibilityReady = false;
 
   /** Listas de juegos cargados para las diferentes secciones. */
   bestSellers: Game[] = this.createPlaceholders();
-  onSaleGames: Game[] = this.createPlaceholders();
-  topRatedGames: Game[] = this.createPlaceholders();
+  /** Propiedad no documentada. */
+    onSaleGames: Game[] = this.createPlaceholders();
+  /** Propiedad no documentada. */
+    topRatedGames: Game[] = this.createPlaceholders();
 
-  private router = inject(Router);
-  private http = inject(HttpClient);
-  private platformId = inject(PLATFORM_ID);
+  /** Propiedad no documentada. */
+    private router = inject(Router);
+  /** Propiedad no documentada. */
+    private http = inject(HttpClient);
+  /** Propiedad no documentada. */
+    private platformId = inject(PLATFORM_ID);
 
-  private targetScrollY = 0;
-  private lastTargetScrollY = 0;
-  private rafId: number | null = null;
-  private genreTiltStates = new Map<
+  /** Propiedad no documentada. */
+    private targetScrollY = 0;
+  /** Propiedad no documentada. */
+    private lastTargetScrollY = 0;
+  /** Propiedad no documentada. */
+    private rafId: number | null = null;
+  /** Propiedad no documentada. */
+    private genreTiltStates = new Map<
     string,
     {
       el: HTMLElement;
@@ -111,9 +128,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       hoverTarget: number;
     }
   >();
-  private genreTiltMaxRotateDeg = 5;
-  private genreTiltMaxTranslatePx = 3.5;
-  private current = {
+  /** Propiedad no documentada. */
+    private genreTiltMaxRotateDeg = 5;
+  /** Propiedad no documentada. */
+    private genreTiltMaxTranslatePx = 3.5;
+  /** Propiedad no documentada. */
+    private current = {
     backgroundY: 0,
     bottomY: 0,
     mainContentY: 0,
@@ -122,11 +142,20 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     blurBackground: 0,
     blurCharacters: 0,
   };
-  private overlapCheckFrame = 0;
-  private sideCharactersHideLocked = false;
-  private lastViewportKey = '';
+  /** Propiedad no documentada. */
+    private overlapCheckFrame = 0;
+  /** Propiedad no documentada. */
+    private sideCharactersHideLocked = false;
+  /** Propiedad no documentada. */
+    private lastViewportKey = '';
 
-  constructor(
+  /**
+     * Constructor no documentado.
+     * @param gameService Parámetro no documentado.
+     * @param mediaService Parámetro no documentado.
+     * @param ngZone Parámetro no documentado.
+     */
+    constructor(
     private gameService: GameService,
     private mediaService: MediaService,
     private ngZone: NgZone,
@@ -146,7 +175,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  ngAfterViewInit(): void {
+  /** Método no documentado. */
+    ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
@@ -159,7 +189,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.startParallaxLoop();
   }
 
-  ngOnDestroy(): void {
+  /** Método no documentado. */
+    ngOnDestroy(): void {
     if (this.rafId !== null && isPlatformBrowser(this.platformId)) {
       cancelAnimationFrame(this.rafId);
       this.rafId = null;
@@ -177,7 +208,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.requestSideCharactersVisibilityCheck();
   }
 
-  @HostListener('window:orientationchange', [])
+  /** Método no documentado. */
+    @HostListener('window:orientationchange', [])
   onOrientationChange() {
     this.requestSideCharactersVisibilityCheck();
   }
@@ -220,7 +252,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.startParallaxLoop();
   }
 
-  private startParallaxLoop() {
+  /** Método no documentado. */
+    private startParallaxLoop() {
     if (this.rafId !== null) return;
     this.ngZone.runOutsideAngular(() => {
       const tick = () => {
@@ -231,7 +264,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  private renderParallaxFrame() {
+  /** Método no documentado. */
+    private renderParallaxFrame() {
     const scrollPosition = this.targetScrollY;
     const scrollingUp = this.targetScrollY < this.lastTargetScrollY;
 
@@ -361,11 +395,19 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  private lerp(current: number, target: number, alpha: number) {
+  /**
+     * Método no documentado.
+     * @param current Parámetro no documentado.
+     * @param target Parámetro no documentado.
+     * @param alpha Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    private lerp(current: number, target: number, alpha: number) {
     return current + (target - current) * alpha;
   }
 
-  private requestSideCharactersVisibilityCheck() {
+  /** Método no documentado. */
+    private requestSideCharactersVisibilityCheck() {
     if (!isPlatformBrowser(this.platformId)) return;
     this.refreshSideCharactersLockForViewport();
     this.updateSideCharactersVisibility();
@@ -376,7 +418,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => this.updateSideCharactersVisibility(), 120);
   }
 
-  private refreshSideCharactersLockForViewport() {
+  /** Método no documentado. */
+    private refreshSideCharactersLockForViewport() {
     const viewportKey = `${window.innerWidth}x${window.innerHeight}`;
     if (viewportKey !== this.lastViewportKey) {
       this.lastViewportKey = viewportKey;
@@ -384,7 +427,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  updateSideCharactersVisibility() {
+  /** Método no documentado. */
+    updateSideCharactersVisibility() {
     if (!isPlatformBrowser(this.platformId)) return;
     if (!this.jokerLayer || !this.geraltLayer || !this.titleLayer) return;
     this.refreshSideCharactersLockForViewport();
@@ -510,24 +554,41 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  /** Navega a la página de detalle de un producto. */
+  /**
+     * Navega a la página de detalle de un producto.
+     * @param id Parámetro no documentado.
+     */
   goToProduct(id: number) {
     this.router.navigate(['/product', id]);
   }
 
-  /** Navega a la página de búsqueda filtrando por género. */
+  /**
+     * Navega a la página de búsqueda filtrando por género.
+     * @param nombre Parámetro no documentado.
+     */
   goToGenres(nombre: string) {
     this.router.navigate(['/search'], { queryParams: { genre: nombre } });
   }
 
-  onGenreTiltEnter(key: string, el: HTMLElement): void {
+  /**
+     * Método no documentado.
+     * @param key Parámetro no documentado.
+     * @param el Parámetro no documentado.
+     */
+    onGenreTiltEnter(key: string, el: HTMLElement): void {
     if (!isPlatformBrowser(this.platformId)) return;
     const state = this.ensureGenreTiltState(key, el);
     state.hoverTarget = 1;
     this.startGenreTiltAnimation(state);
   }
 
-  onGenreTiltMove(event: MouseEvent, key: string, el: HTMLElement): void {
+  /**
+     * Método no documentado.
+     * @param event Parámetro no documentado.
+     * @param key Parámetro no documentado.
+     * @param el Parámetro no documentado.
+     */
+    onGenreTiltMove(event: MouseEvent, key: string, el: HTMLElement): void {
     if (!isPlatformBrowser(this.platformId)) return;
     if (event.buttons === 1) return;
     const state = this.ensureGenreTiltState(key, el);
@@ -539,7 +600,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.startGenreTiltAnimation(state);
   }
 
-  onGenreTiltLeave(key: string, el: HTMLElement): void {
+  /**
+     * Método no documentado.
+     * @param key Parámetro no documentado.
+     * @param el Parámetro no documentado.
+     */
+    onGenreTiltLeave(key: string, el: HTMLElement): void {
     if (!isPlatformBrowser(this.platformId)) return;
     const state = this.ensureGenreTiltState(key, el);
     state.hoverTarget = 0;
@@ -548,7 +614,13 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.startGenreTiltAnimation(state);
   }
 
-  private ensureGenreTiltState(key: string, el: HTMLElement) {
+  /**
+     * Método no documentado.
+     * @param key Parámetro no documentado.
+     * @param el Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    private ensureGenreTiltState(key: string, el: HTMLElement) {
     const existing = this.genreTiltStates.get(key);
     if (existing) {
       existing.el = el;
@@ -568,7 +640,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     return created;
   }
 
-  private startGenreTiltAnimation(state: {
+  /**
+     * Método no documentado.
+     * @param state Parámetro no documentado.
+     */
+    private startGenreTiltAnimation(state: {
     el: HTMLElement;
     rafId: number | null;
     currentX: number;
@@ -631,7 +707,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     state.rafId = requestAnimationFrame(step);
   }
 
-  /** Crea una lista de juegos 'placeholder' para estados de carga. */
+  /**
+     * Crea una lista de juegos 'placeholder' para estados de carga.
+     * @returns Retorno no documentado.
+     */
   createPlaceholders(): Game[] {
     return Array(20).fill({
       id: -1,
@@ -653,7 +732,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     } as unknown as Game);
   }
 
-  /** Escucha clics fuera para cerrar el menú de géneros. */
+  /**
+     * Escucha clics fuera para cerrar el menú de géneros.
+     * @param event Parámetro no documentado.
+     */
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event): void {
     const target = event.target as HTMLElement;

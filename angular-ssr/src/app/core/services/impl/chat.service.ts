@@ -28,12 +28,17 @@ export class ChatService
   implements IChatService
 {
   /**
-   * @param repository Repositorio para persistencia de sesiones.
-   * @param http Cliente HTTP.
-   * @param chatApiUrl URL de la API del chat (IA).
-   * @param apiUrl URL base de la API.
-   * @param auth Servicio de autenticación.
-   */
+       * Documentado.
+       * @param repository Repositorio para persistencia de sesiones.
+       *
+       * @param http Cliente HTTP.
+       *
+       * @param chatApiUrl URL de la API del chat (IA).
+       *
+       * @param apiUrl URL base de la API.
+       *
+       * @param auth Servicio de autenticación.
+       */
   constructor(
     @Inject(CHAT_REPOSITORY_TOKEN) repository: IBaseRepository<ChatSession>,
     private http: HttpClient,
@@ -46,7 +51,8 @@ export class ChatService
 
   /**
    * Crea las cabeceras de autorización necesarias.
-   */
+     * @returns Retorno no documentado.
+     */
   private getAuthHeaders(): HttpHeaders {
     const token = this.auth.getToken();
     return token
@@ -56,7 +62,8 @@ export class ChatService
 
   /**
    * Obtiene todas las sesiones de chat del usuario.
-   */
+     * @returns Retorno no documentado.
+     */
   getSessions(): Observable<ChatSession[]> {
     return this.repository.getAll({});
   }
@@ -64,14 +71,17 @@ export class ChatService
   /**
    * Obtiene el detalle de una sesión específica.
    * @param id ID de la sesión.
-   */
+     * @returns Retorno no documentado.
+     */
   getSession(id: number): Observable<ChatSession> {
     return this.repository.getById(id.toString()) as Observable<ChatSession>;
   }
 
   /**
    * Elimina una sesión de chat.
-   */
+     * @param id Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   deleteSession(id: number): Observable<{ deleted: boolean }> {
     return this.repository
       .delete(id.toString())
@@ -81,7 +91,8 @@ export class ChatService
   /**
    * Envía un mensaje a la IA o servicio de chat.
    * @param payload Contenido del mensaje y metadatos de la sesión.
-   */
+     * @returns Retorno no documentado.
+     */
   sendMessage(payload: SendMessagePayload): Observable<ChatResponse> {
     return this.http.post<ChatResponse>(this.chatApiUrl, payload, {
       headers: this.getAuthHeaders(),

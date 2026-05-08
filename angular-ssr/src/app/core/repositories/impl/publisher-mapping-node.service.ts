@@ -9,14 +9,23 @@ import { Publisher } from '../../models/publisher.model';
   providedIn: 'root',
 })
 export class PublisherMappingNodeService implements IBaseMapping<Publisher> {
-  constructor() {}
+  /** Constructor no documentado. */
+    constructor() {}
 
-  /** Transforma una lista de distribuidoras. */
+  /**
+     * Transforma una lista de distribuidoras.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getAll(data: any): Publisher[] {
     return data.map((item: any) => this.getOne(item));
   }
 
-  /** Transforma una distribuidora única. */
+  /**
+     * Transforma una distribuidora única.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   getOne(data: any): Publisher {
     return {
       id: data.id,
@@ -24,26 +33,49 @@ export class PublisherMappingNodeService implements IBaseMapping<Publisher> {
     };
   }
 
-  getAdded(data: any): Publisher {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getAdded(data: any): Publisher {
     return this.getOne(data);
   }
 
-  getUpdated(data: any): Publisher {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getUpdated(data: any): Publisher {
     return this.getOne(data);
   }
 
-  getDeleted(data: any): Publisher {
+  /**
+     * Método no documentado.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    getDeleted(data: any): Publisher {
     return this.getOne(data);
   }
 
-  /** Prepara una distribuidora para ser creada. */
+  /**
+     * Prepara una distribuidora para ser creada.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   setAdd(data: Publisher): any {
     return {
       name: data.name,
     };
   }
 
-  /** Prepara los cambios para actualizar una distribuidora. */
+  /**
+     * Prepara los cambios para actualizar una distribuidora.
+     * @param data Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   setUpdate(data: any): any {
     const payload: any = {};
     if (data.name) {

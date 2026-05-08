@@ -34,33 +34,87 @@ export abstract class BaseAuthenticationService implements IAuthentication {
   public ready$: Observable<boolean> = this._ready.asObservable();
 
   /**
-   * @param authMapping Mapeador para transformar datos de la API al modelo de la aplicación.
-   */
+       * Documentado.
+       * @param authMapping Mapeador para transformar datos de la API al modelo de la aplicación.
+       */
   constructor(protected authMapping: IAuthMapping) {}
 
-  /** Obtiene el usuario actual de forma asíncrona. */
+  /**
+     * Obtiene el usuario actual de forma asíncrona.
+     * @returns Retorno no documentado.
+     */
   abstract getCurrentUser(): Promise<any>;
-  /** Inicia sesión con credenciales. */
+  /**
+     * Inicia sesión con credenciales.
+     * @param authPayload Parámetro no documentado.
+     * @param rememberMe Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   abstract signIn(authPayload: any, rememberMe?: boolean): Observable<any>;
-  /** Registra un nuevo usuario. */
+  /**
+     * Registra un nuevo usuario.
+     * @param registerPayload Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   abstract signUp(registerPayload: any): Observable<any>;
-  /** Inicia sesión o alta con Google. */
+  /**
+     * Inicia sesión o alta con Google.
+     * @param idToken Parámetro no documentado.
+     * @param rememberMe Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   abstract signInWithGoogle(idToken: string, rememberMe?: boolean): Observable<any>;
-  /** Inicia sesión o alta con GitHub. */
+  /**
+     * Inicia sesión o alta con GitHub.
+     * @param code Parámetro no documentado.
+     * @param rememberMe Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
   abstract signInWithGithub(code: string, rememberMe?: boolean): Observable<any>;
-  abstract requestPasswordRecovery(email: string, locale: string): Observable<any>;
-  abstract verifyPasswordRecovery(email: string, code: string): Observable<any>;
-  abstract resetPasswordRecovery(
+  /**
+     * Método no documentado.
+     * @param email Parámetro no documentado.
+     * @param locale Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    abstract requestPasswordRecovery(email: string, locale: string): Observable<any>;
+  /**
+     * Método no documentado.
+     * @param email Parámetro no documentado.
+     * @param code Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    abstract verifyPasswordRecovery(email: string, code: string): Observable<any>;
+  /**
+     * Método no documentado.
+     * @param email Parámetro no documentado.
+     * @param code Parámetro no documentado.
+     * @param newPassword Parámetro no documentado.
+     * @returns Retorno no documentado.
+     */
+    abstract resetPasswordRecovery(
     email: string,
     code: string,
     newPassword: string,
   ): Observable<any>;
-  /** Cierra la sesión activa. */
+  /**
+     * Cierra la sesión activa.
+     * @returns Retorno no documentado.
+     */
   abstract signOut(): Observable<any>;
-  /** Obtiene la información del perfil del usuario autenticado. */
+  /**
+     * Obtiene la información del perfil del usuario autenticado.
+     * @returns Retorno no documentado.
+     */
   abstract me(): Observable<any>;
-  /** Intenta iniciar sesión automáticamente (ej. usando un token en localStorage). */
+  /**
+     * Intenta iniciar sesión automáticamente (ej. usando un token en localStorage).
+     * @param startDelayMs Parámetro no documentado.
+     */
   abstract autoLogin(startDelayMs?: number): void;
-  /** Recupera el token de acceso actual (JWT). */
+  /**
+     * Recupera el token de acceso actual (JWT).
+     * @returns Retorno no documentado.
+     */
   abstract getToken(): string | null;
 }

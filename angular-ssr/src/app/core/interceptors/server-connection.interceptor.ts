@@ -1,6 +1,7 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { catchError, retry, timer, throwError } from 'rxjs';
 
+/** Timestamp hasta el que se bloquean reintentos idempotentes tras fallos transitorios. */
 let connectionCooldownUntil = 0;
 
 /**

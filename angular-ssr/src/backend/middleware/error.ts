@@ -3,6 +3,14 @@ import { env } from '../config/env';
 import { logger } from '../utils/logger';
 import { applySecurityHeaders, applyNoCacheHeaders } from '../../security-headers';
 
+/**
+ * Middleware global de manejo de errores HTTP.
+ *
+ * @param err Error capturado.
+ * @param req Request HTTP.
+ * @param res Response HTTP.
+ * @param _next Next middleware.
+ */
 export function errorHandler(
   err: any,
   req: Request,
