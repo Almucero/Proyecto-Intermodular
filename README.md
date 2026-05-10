@@ -18,6 +18,7 @@ GameSage reúne en un solo proyecto todo lo aprendido durante el curso, integran
    - [Aplicación Web (Angular)](#aplicación-web-angular)
    - [Aplicación Móvil (Kotlin)](#aplicación-móvil-kotlin)
    - [Prototipo en Figma](#prototipo-en-figma)
+   - [Cuadro de Mando (PowerBI)](#cuadro-de-mando-powerbi)
 5. [Enlaces de Interés](#enlaces-de-interés)
 
 ---
@@ -49,6 +50,7 @@ El sistema se compone de:
 - Una **aplicación web Angular SSR + API REST** unificadas en un solo proyecto desplegado en Vercel.
 - Una **aplicación móvil nativa en Kotlin** que consume la API REST.
 - Un **prototipo de diseño UI/UX en Figma**.
+- Un **cuadro de mando en PowerBI** para el análisis de los datos de la plataforma.
 
 ---
 
@@ -94,6 +96,12 @@ El sistema se compone de:
 
 - **Diseño:** Prototipo UI/UX de alta fidelidad.
 - **Uso:** Base de referencia para la estructura visual y flujo de usuario de ambas aplicaciones.
+
+### Cuadro de Mando (PowerBI)
+
+- **Herramienta:** Microsoft Power BI.
+- **Archivo:** `PowerBI/InfomePBI.pbix`.
+- **Funcionalidad:** Visualización y análisis interactivo de los datos generados por la plataforma.
 
 ---
 
