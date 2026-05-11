@@ -335,4 +335,168 @@
     <string name="lang_name_de">Deutsch</string>
     <string name="lang_name_fr">Français</string>
     <string name="lang_name_it">Italiano</string>
+
+    <!-- Help Screen -->
+    <string name="help_title">Aide</string>
+    <string name="help_toc_title">Contenu</string>
+    <string name="help_toc_description">Utilisez cet index pour accéder rapidement à la section dont vous avez besoin.</string>
+    <string name="help_hero_description">Vous trouverez ici des guides clairs pour activer vos jeux et résoudre les problèmes les plus courants. Tout est pensé pour vous accompagner du début à la fin sans vous perdre.</string>
+    <string name="help_faq_title">Foire aux questions (FAQ)</string>
+
+    <string name="help_nav_activation">Activation et échange de clés</string>
+    <string name="help_nav_activation_short">Activation</string>
+    <string name="help_nav_pc">PC (Steam/Epic)</string>
+    <string name="help_nav_playstation">PlayStation</string>
+    <string name="help_nav_xbox">Xbox</string>
+    <string name="help_nav_switch">Switch</string>
+    <string name="help_nav_faq">Foire aux questions</string>
+    <string name="help_nav_contact">Contact</string>
+
+    <string name="help_activation_title">Activation et échange de clés</string>
+    <string name="help_activation_intro_start">Après votre achat, le code d’activation (clé) apparaît dans le </string>
+    <string name="help_activation_intro_link">panneau utilisateur</string>
+    <string name="help_activation_intro_end">. Le processus est le même pour toutes les plateformes : vous copiez la clé, vous l’échangez dans la boutique correspondante et vous vérifiez que le jeu apparaît dans votre bibliothèque.</string>
+    
+    <string name="help_before_start_title">Avant de commencer</string>
+    <string name="help_before_start_item1">Préparez votre clé : vous pouvez la visualiser en appuyant sur l’icône de l’œil dans le tableau de bord.</string>
+    <string name="help_before_start_item2">Assurez-vous d’être connecté à Internet sur votre console/PC.</string>
+    <string name="help_before_start_item3">Ouvrez la boutique officielle de votre plateforme (pas de sites tiers).</string>
+    <string name="help_before_start_item4">Respectez les majuscules/minuscules et copiez exactement le texte de la clé.</string>
+
+    <string name="help_where_key_title">Où trouver la clé</string>
+    <string name="help_where_key_caption">Capture d’écran du tableau de bord montrant la clé avec l’icône de l’œil.</string>
+    
+    <string name="help_global_process_title">Procédure générale (pas à pas)</string>
+    <string name="help_global_process_item1">Allez dans le panneau utilisateur.</string>
+    <string name="help_global_process_item2">Localisez votre achat et sélectionnez le jeu dont vous souhaitez activer le code.</string>
+    <string name="help_global_process_item3">Révélez la clé et copiez-la. Si la clé est floue, appuyez sur l’icône de l’œil.</string>
+    <string name="help_global_process_item4">Ouvrez la boutique officielle de la plateforme et recherchez l’option « Utiliser un code ».</string>
+    <string name="help_global_process_item5">Collez la clé et confirmez. Si le système vous demande de vérifier votre identité, faites-le.</string>
+    <string name="help_global_process_item6">Vérifiez que le jeu apparaît dans votre bibliothèque et téléchargez-le/installez-le si nécessaire.</string>
+
+    <string name="help_note_title">Note importante</string>
+    <string name="help_note_body">Une clé ne peut généralement être utilisée qu’une seule fois. Une fois activé, le jeu devrait apparaître dans votre bibliothèque. Si vous recevez une erreur telle que « code non valide », « déjà utilisé » ou « non disponible », consultez la section FAQ ou contactez l’assistance.</string>
+
+    <string name="help_pc_title">PC (Steam et Epic Games)</string>
+    <string name="help_pc_intro">Sur PC, la clé est normalement échangée dans la boutique du lanceur que vous utilisez. Dans ce guide, vous trouverez deux parcours : Steam et Epic Games. Suivez celui qui correspond.</string>
+    <string name="help_steam_title">Steam (PC)</string>
+    <string name="help_steam_caption">Menu Steam où l’on échange une clé produit.</string>
+    <string name="help_steam_step1">Ouvrez Steam (avec votre compte déjà connecté).</string>
+    <string name="help_steam_step2">Recherchez « Jeux » et entrez dans « Activer un produit sur Steam ».</string>
+    <string name="help_steam_step3">Collez la clé exactement et confirmez.</string>
+    <string name="help_steam_step4">Attendez que Steam traite l’échange.</string>
+    <string name="help_steam_step5">Ouvrez votre bibliothèque, trouvez le jeu et appuyez sur « Installer ».</string>
+
+    <string name="help_epic_title">Epic Games (PC)</string>
+    <string name="help_epic_caption">Écran d’Epic Games où l’on échange un code.</string>
+    <string name="help_epic_step1">Ouvrez Epic Games Launcher (avec votre compte déjà connecté).</string>
+    <string name="help_epic_step2">Allez dans la boutique et recherchez « Utiliser un code ».</string>
+    <string name="help_epic_step3">Collez la clé et confirmez.</string>
+    <string name="help_epic_step4">Attendez le résultat de l’échange.</string>
+    <string name="help_epic_step5">Vérifiez votre bibliothèque et téléchargez/installez le jeu.</string>
+
+    <string name="help_pc_final_check_title">Vérification finale sur PC</string>
+    <string name="help_pc_final_check_item1">Confirmez que l’achat apparaît dans votre bibliothèque (Steam/Epic).</string>
+    <string name="help_pc_final_check_item2">Lancez le jeu pour vérifier qu’il a été correctement activé.</string>
+    <string name="help_pc_final_check_item3">Si le jeu n’apparaît pas, consultez les FAQ (par exemple « déjà utilisé » ou « code non valide »).</string>
+
+    <string name="help_ps_title">PlayStation (PS5 et PS4)</string>
+    <string name="help_ps_intro">L’échange s’effectue avec votre compte PlayStation dans la boutique officielle. Les étapes sont très similaires entre la PS5 et la PS4.</string>
+    <string name="help_ps_console_title">Utiliser sur la console</string>
+    <string name="help_ps_console_caption">Écran « Utiliser un code » dans le PlayStation Store.</string>
+    <string name="help_ps_console_step1">Connectez-vous à votre compte PlayStation.</string>
+    <string name="help_ps_console_step2">Ouvrez le PlayStation Store.</string>
+    <string name="help_ps_console_step3">Recherchez « Utiliser des codes ».</string>
+    <string name="help_ps_console_step4">Collez ou saisissez la clé et confirmez.</string>
+    <string name="help_ps_console_step5">Attendez la confirmation de l’échange.</string>
+    <string name="help_ps_console_step6">Allez dans votre bibliothèque et téléchargez/installez le contenu.</string>
+
+    <string name="help_ps_web_title">Si vous avez une alternative web</string>
+    <string name="help_ps_web_intro">Si l’option d’échange n’apparaît pas, essayez de l’utiliser depuis le site officiel de PlayStation avec le même compte.</string>
+    <string name="help_ps_web_step1">Accédez à la page d’échange officielle de PlayStation.</string>
+    <string name="help_ps_web_step2">Connectez-vous avec votre compte utilisateur.</string>
+    <string name="help_ps_web_step3">Collez la clé, confirmez et vérifiez votre bibliothèque.</string>
+
+    <string name="help_xbox_title">Xbox (Xbox Series X et Xbox One)</string>
+    <string name="help_xbox_intro">Sur Xbox, l’échange s’effectue depuis le Microsoft Store avec votre compte. Les Xbox Series X et Xbox One suivent la même logique.</string>
+    <string name="help_xbox_console_title">Utiliser sur la console</string>
+    <string name="help_xbox_console_caption">Menu du Microsoft Store où l’on échange un code.</string>
+    <string name="help_xbox_console_step1">Connectez-vous avec votre compte Microsoft sur la console.</string>
+    <string name="help_xbox_console_step2">Ouvrez le Microsoft Store.</string>
+    <string name="help_xbox_console_step3">Recherchez « Utiliser un code ».</string>
+    <string name="help_xbox_console_step4">Saisissez ou collez la clé et confirmez.</string>
+    <string name="help_xbox_console_step5">Vérifiez que le jeu apparaît dans votre bibliothèque.</string>
+    <string name="help_xbox_console_step6">Téléchargez/installez le jeu si le système vous le demande.</string>
+
+    <string name="help_xbox_web_title">Utiliser sur le web</string>
+    <string name="help_xbox_web_intro">Si vous préférez le faire depuis un navigateur, utilisez la page d’échange officielle de Microsoft. C’est utile si vous préférez copier la clé depuis votre téléphone.</string>
+    <string name="help_xbox_web_step1">Ouvrez le site d’échange officiel de Microsoft.</string>
+    <string name="help_xbox_web_step2">Connectez-vous avec votre compte.</string>
+    <string name="help_xbox_web_step3">Collez la clé et confirmez.</string>
+    <string name="help_xbox_web_step4">Retournez sur votre console et synchronisez/vérifiez votre bibliothèque.</string>
+
+    <string name="help_switch_title">Nintendo Switch</string>
+    <string name="help_switch_intro">Sur Switch, l’échange s’effectue depuis le Nintendo eShop avec votre compte. Vous pouvez le faire directement sur la console.</string>
+    <string name="help_switch_console_title">Utiliser dans le Nintendo eShop</string>
+    <string name="help_switch_console_caption">Menu du Nintendo eShop où l’on échange un code.</string>
+    <string name="help_switch_console_step1">Assurez-vous d’avoir une connexion Internet sur la console.</string>
+    <string name="help_switch_console_step2">Connectez-vous avec votre compte Nintendo.</string>
+    <string name="help_switch_console_step3">Ouvrez le Nintendo eShop.</string>
+    <string name="help_switch_console_step4">Recherchez « Saisir un code ».</string>
+    <string name="help_switch_console_step5">Collez ou saisissez la clé et confirmez.</string>
+    <string name="help_switch_console_step6">Attendez la confirmation et vérifiez votre bibliothèque.</string>
+
+    <string name="help_switch_web_title">Si vous préférez utiliser un navigateur</string>
+    <string name="help_switch_web_intro">Certains utilisateurs préfèrent effectuer l’échange depuis une page officielle de Nintendo dans le navigateur. La clé et le processus sont équivalents : seul l’appareil change.</string>
+    <string name="help_switch_web_step1">Ouvrez le site d’échange officiel de Nintendo.</string>
+    <string name="help_switch_web_step2">Connectez-vous avec votre compte.</string>
+    <string name="help_switch_web_step3">Collez la clé et confirmez.</string>
+    <string name="help_switch_web_step4">Synchronisez sur la console et vérifiez votre bibliothèque.</string>
+
+    <string name="help_final_verification_title">Vérification finale (pour toutes les plateformes)</string>
+    <string name="help_final_verification_item1">Vérifiez que le jeu apparaît dans la bibliothèque de votre plateforme.</string>
+    <string name="help_final_verification_item2">Si des fichiers doivent être installés, terminez le téléchargement.</string>
+    <string name="help_final_verification_item3">Si le jeu n’apparaît pas ou si le système indique que le code n’est pas valide, consultez la section FAQ ou utilisez le contact d’assistance.</string>
+
+    <string name="help_contact_note_title">Ça ne fonctionne toujours pas ?</string>
+    <string name="help_contact_note_start">Vérifiez si le code correspond à votre plateforme. Si l’erreur persiste, contactez l’assistance depuis la page de </string>
+    <string name="help_contact_note_link">contact</string>
+    <string name="help_contact_note_end"> et incluez le plus de détails possible (plateforme, message d’erreur et clé).</string>
+
+    <string name="help_faq_note">Si vous le souhaitez, vous pouvez aller directement au tableau de bord pour afficher la clé. Utilisez le bouton/menu de navigation à votre arrivée.</string>
+    <string name="help_faq_q1">Où puis-je trouver ma clé d’activation ?</string>
+    <string name="help_faq_a1">Votre clé est affichée dans le panneau utilisateur. Dans la section achats/retours, localisez le jeu acheté et recherchez l’étiquette « Clé ». Elle est généralement masquée (floue) pour protéger votre vie privée ; appuyez sur l’icône de l’œil pour la révéler et la copier. Si vous le souhaitez, vous pouvez aller directement au tableau de bord pour afficher la clé. Utilisez le bouton/menu de navigation à votre arrivée.</string>
+    <string name="help_faq_q2">Dois-je utiliser la clé « une seule fois » ou puis-je la réutiliser ?</string>
+    <string name="help_faq_a2">Dans la plupart des boutiques, une clé ne peut être utilisée qu’une seule fois. Après l’échange, le jeu est lié à votre compte. Si vous essayez de l’utiliser à nouveau, la boutique peut afficher des messages tels que « déjà utilisé ».</string>
+    <string name="help_faq_q3">La boutique indique « code non valide » ou « non disponible ». Que dois-je faire ?</string>
+    <string name="help_faq_a3">Tout d’abord, vérifiez que vous utilisez la bonne plateforme (PC, PlayStation, Xbox ou Switch). Ensuite, copiez exactement la clé (sans espaces ni retours à la ligne) et vérifiez bien les majuscules/minuscules. Si l’erreur persiste, réessayez plus tard (les serveurs peuvent prendre du temps). Si l’échec continue, consultez la FAQ et contactez l’assistance avec le message exact de la boutique.</string>
+    <string name="help_faq_q4">Puis-je utiliser la clé sur une plateforme différente de celle de l’achat ?</string>
+    <string name="help_faq_a4">Généralement non. Les clés sont liées à une plateforme spécifique. Par exemple, une clé PlayStation ne peut pas être utilisée sur Xbox ou Nintendo Switch. Utilisez-la toujours sur la plateforme indiquée lors de l’achat pour éviter les erreurs.</string>
+    <string name="help_faq_q5">J’ai utilisé la clé, mais le jeu met du temps à apparaître dans la bibliothèque. Est-ce normal ?</string>
+    <string name="help_faq_a5">Oui. Les boutiques peuvent mettre quelques minutes (ou plus) pour mettre à jour votre bibliothèque. S’il n’apparaît pas après un certain temps, déconnectez-vous et reconnectez-vous, attendez un moment et actualisez votre bibliothèque.</string>
+    <string name="help_faq_q6">Un abonnement (PS Plus, Xbox Live, etc.) est-il nécessaire pour l’échange ?</string>
+    <string name="help_faq_a6">Généralement non. L’échange ajoute le jeu à votre bibliothèque. Cependant, certains modes en ligne peuvent nécessiter un abonnement actif selon la plateforme et le jeu.</string>
+    <string name="help_faq_q7">Puis-je utiliser la clé depuis un téléphone ou un navigateur au lieu de la console ?</string>
+    <string name="help_faq_a7">Cela dépend de la boutique. En général, les boutiques officielles peuvent proposer une option web, mais le processus se fait souvent directement sur la console. Si votre boutique permet l’échange via un site web, utilisez toujours le site officiel et le même compte que celui où vous souhaitez voir le jeu.</string>
+    <string name="help_faq_q8">Que signifie « déjà utilisé / already redeemed » ?</string>
+    <string name="help_faq_a8">Cela signifie que cette clé a été utilisée précédemment (par un autre achat ou un échange antérieur). Si ce n’est pas vous, vérifiez que vous utilisez le même compte de boutique et contactez l’assistance avec la plateforme et le message exact.</string>
+    <string name="help_faq_q9">Dans le tableau de bord, la clé est floue. Comment la voir pour la copier ?</string>
+    <string name="help_faq_a9">Appuyez sur l’icône de l’œil dans le tableau de bord pour afficher la clé temporairement. Ensuite, copiez-la et effectuez l’échange dans la boutique. Évitez de partager la clé et, si possible, remettez-la en mode flou.</string>
+    <string name="help_faq_q10">Puis-je revoir la clé après l’avoir activée ?</string>
+    <string name="help_faq_a10">Souvent oui. La clé reste généralement disponible dans votre historique d’achats pour que vous puissiez l’utiliser pour l’assistance si nécessaire. Si elle est à nouveau floue, utilisez l’icône de l’œil.</string>
+    <string name="help_faq_q11">J’ai utilisé la clé, mais le jeu n’apparaît pas. Comment résoudre ce problème ?</string>
+    <string name="help_faq_a11">Vérifiez que vous êtes connecté avec le bon compte de boutique. Fermez et rouvrez le lanceur/l’application, attendez un moment et actualisez la bibliothèque. Si le jeu ne s’affiche toujours pas, contactez l’assistance en incluant le message d’erreur ou l’état affiché par la boutique.</string>
+    <string name="help_faq_q12">Que se passe-t-il si mon achat a été remboursé/annulé ?</string>
+    <string name="help_faq_a12">Si votre achat a été remboursé, la boutique ou les services de plateforme peuvent révoquer l’accès au fil du temps. Dans ce cas, l’échange peut échouer ou le jeu peut ne pas apparaître. Contactez l’assistance pour vérifier l’état exact de la commande.</string>
+    <string name="help_faq_q13">Les clés ont-elles une date d’expiration ?</string>
+    <string name="help_faq_a13">Normalement non, mais certaines boutiques peuvent imposer des limites par région ou politique interne. Si la boutique indique une expiration ou indique que le code n’est pas valide, vérifiez la bonne plateforme et contactez l’assistance avec le message exact.</string>
+    <string name="help_faq_q14">Comment éviter les arnaques et le mauvais usage des codes ?</string>
+    <string name="help_faq_a14">Ne partagez jamais votre clé complète. Utilisez-la uniquement dans la boutique officielle correspondante et méfiez-vous des messages demandant votre clé « pour aider » ou vous menant vers des pages non officielles. Si un lien semble suspect, ne l’utilisez pas.</string>
+    <string name="help_faq_q15">Puis-je activer sur deux appareils différents ?</string>
+    <string name="help_faq_a15">L’activation est généralement liée à votre compte. Vous pouvez l’utiliser une fois, puis installer le jeu sur d’autres appareils en utilisant le même compte de boutique. Si vous essayez d’utiliser à nouveau la même clé, cela peut échouer.</string>
+    <string name="help_faq_q16">Quand dois-je contacter l’assistance et quelles informations dois-je envoyer ?</string>
+    <string name="help_faq_a16">Contactez l’assistance si l’échange échoue et que les étapes de vérification ne résolvent pas le problème. Indiquez la plateforme (PC, PlayStation, Xbox ou Switch), le message exact de la boutique et, si possible, une capture d’écran de l’erreur. Par sécurité, évitez d’envoyer la clé complète par des canaux non officiels.</string>
+    <string name="help_close">Fermer</string>
+    <string name="help_keyword_dashboard">dashboard</string>
+    <string name="help_keyword_user_panel">panneau utilisateur</string>
 </resources>

@@ -62,6 +62,7 @@ import com.gamesage.kotlin.ui.pages.dashboard.CaptureScreen
 import com.gamesage.kotlin.ui.pages.dashboard.DashboardScreen
 import com.gamesage.kotlin.ui.pages.dashboard.DashboardScreenViewModel
 import com.gamesage.kotlin.ui.pages.favorites.FavoritesScreen
+import com.gamesage.kotlin.ui.pages.help.HelpScreen
 import com.gamesage.kotlin.ui.pages.home.HomeScreen
 import com.gamesage.kotlin.ui.pages.login.LoginScreen
 import com.gamesage.kotlin.ui.pages.privacy.PrivacyScreen
@@ -266,6 +267,19 @@ fun NavGraph(
             composable<Destinations.Privacy> {
                 PrivacyScreen(
                     onNavigateBack = { navController.popBackStack() }
+                )
+            }
+
+            composable<Destinations.Help> {
+                HelpScreen(
+                    onContactClick = { navController.navigate(Destinations.Contact) },
+                    onDashboardClick = {
+                        if (token != null) {
+                            navController.navigate(Destinations.Dashboard)
+                        } else {
+                            navController.navigate(Destinations.Login)
+                        }
+                    }
                 )
             }
 
