@@ -144,7 +144,10 @@ fun MenuBottomSheetContent(
                 MenuItemRow(
                     icon = Icons.Default.Info,
                     text = stringResource(R.string.menu_help),
-                    onClick = { /* TODO */ }
+                    onClick = {
+                        navController.navigate(Destinations.Help)
+                        onCloseMenu()
+                    }
                 )
 
                 // Opción: Contacto

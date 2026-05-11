@@ -335,4 +335,168 @@
     <string name="lang_name_de">Deutsch</string>
     <string name="lang_name_fr">Français</string>
     <string name="lang_name_it">Italiano</string>
+
+    <!-- Help Screen -->
+    <string name="help_title">Aiuto</string>
+    <string name="help_toc_title">Contenuto</string>
+    <string name="help_toc_description">Usa questo indice per saltare rapidamente alla sezione di cui hai bisogno.</string>
+    <string name="help_hero_description">Qui trovi guide chiare per attivare i tuoi giochi e risolvere i problemi più comuni. Tutto è pensato per accompagnarti dall’inizio alla fine senza confonderti.</string>
+    <string name="help_faq_title">Domande frequenti (FAQ)</string>
+
+    <string name="help_nav_activation">Attivazione e riscatto delle chiavi</string>
+    <string name="help_nav_activation_short">Attivazione</string>
+    <string name="help_nav_pc">PC (Steam/Epic)</string>
+    <string name="help_nav_playstation">PlayStation</string>
+    <string name="help_nav_xbox">Xbox</string>
+    <string name="help_nav_switch">Switch</string>
+    <string name="help_nav_faq">Domande frequenti</string>
+    <string name="help_nav_contact">Contatto</string>
+
+    <string name="help_activation_title">Attivazione e riscatto delle chiavi</string>
+    <string name="help_activation_intro_start">Dopo l’acquisto, il codice di attivazione (chiave) appare nel </string>
+    <string name="help_activation_intro_link">Pannello utente</string>
+    <string name="help_activation_intro_end">. Il processo è lo stesso per tutte le piattaforme: copi la chiave, la riscatti nel negozio corrispondente e verifichi che il gioco compaia nella tua libreria.</string>
+    
+    <string name="help_before_start_title">Prima di iniziare</string>
+    <string name="help_before_start_item1">Tieni pronta la tua chiave: puoi visualizzarla toccando l’icona dell’occhio nel dashboard.</string>
+    <string name="help_before_start_item2">Assicurati di essere connesso a internet sulla tua console/PC.</string>
+    <string name="help_before_start_item3">Apri il negozio ufficiale della tua piattaforma (non siti di terze parti).</string>
+    <string name="help_before_start_item4">Rispetta maiuscole/minuscole e copia esattamente il testo della chiave.</string>
+
+    <string name="help_where_key_title">Dove trovare la chiave</string>
+    <string name="help_where_key_caption">Schermata del dashboard in cui si vede la chiave con l’icona dell’occhio.</string>
+    
+    <string name="help_global_process_title">Procedura generale (passo dopo passo)</string>
+    <string name="help_global_process_item1">Vai al Pannello utente.</string>
+    <string name="help_global_process_item2">Individua il tuo acquisto e seleziona il gioco di cui vuoi attivare il codice.</string>
+    <string name="help_global_process_item3">Mostra la chiave e copiala. Se la chiave è sfocata, premi l’icona dell’occhio.</string>
+    <string name="help_global_process_item4">Apri il negozio ufficiale della piattaforma e cerca l’opzione “Redeem code” / “Riscatta codice”.</string>
+    <string name="help_global_process_item5">Incolla la chiave e conferma. Se il sistema ti chiede di verificare la tua identità, fallo.</string>
+    <string name="help_global_process_item6">Verifica che il gioco appaia nella tua libreria e scaricalo/installalo se necessario.</string>
+
+    <string name="help_note_title">Nota importante</string>
+    <string name="help_note_body">Di solito una chiave può essere riscattata una sola volta. Una volta attivato, il gioco dovrebbe apparire nella tua libreria. Se ricevi un errore come “codice non valido”, “già riscattato” o “non disponibile”, consulta la sezione FAQ o contatta l’assistenza.</string>
+
+    <string name="help_pc_title">PC (Steam ed Epic Games)</string>
+    <string name="help_pc_intro">Su PC, la chiave viene normalmente riscattata nello store del launcher che usi. In questa guida trovi due percorsi: Steam ed Epic Games. Segui quello corretto.</string>
+    <string name="help_steam_title">Steam (PC)</string>
+    <string name="help_steam_caption">Menu di Steam dove si riscatta una chiave prodotto.</string>
+    <string name="help_steam_step1">Apri Steam (con il tuo account già connesso).</string>
+    <string name="help_steam_step2">Cerca “Giochi” o “Games” ed entra in “Attiva un prodotto su Steam”.</string>
+    <string name="help_steam_step3">Incolla la chiave esattamente e conferma.</string>
+    <string name="help_steam_step4">Attendi che Steam elabori il riscatto.</string>
+    <string name="help_steam_step5">Apri la tua libreria, trova il gioco e premi “Installa”.</string>
+
+    <string name="help_epic_title">Epic Games (PC)</string>
+    <string name="help_epic_caption">Schermata di Epic Games dove si riscatta un codice.</string>
+    <string name="help_epic_step1">Apri Epic Games Launcher (con il tuo account già connesso).</string>
+    <string name="help_epic_step2">Vai allo store e cerca “Redeem Code” / “Riscatta codice”.</string>
+    <string name="help_epic_step3">Incolla la chiave e conferma.</string>
+    <string name="help_epic_step4">Attendi l’esito del riscatto.</string>
+    <string name="help_epic_step5">Controlla la tua libreria e scarica/installa il gioco.</string>
+
+    <string name="help_pc_final_check_title">Verifica finale su PC</string>
+    <string name="help_pc_final_check_item1">Conferma che l’acquisto appaia nella tua libreria (Steam/Epic).</string>
+    <string name="help_pc_final_check_item2">Avvia il gioco per verificare che sia stato attivato correttamente.</string>
+    <string name="help_pc_final_check_item3">Se il gioco non appare, consulta le FAQ (ad esempio “già riscattato” o “codice non valido”).</string>
+
+    <string name="help_ps_title">PlayStation (PS5 e PS4)</string>
+    <string name="help_ps_intro">Il riscatto si effettua dal tuo account PlayStation nello store ufficiale. I passaggi sono molto simili tra PS5 e PS4.</string>
+    <string name="help_ps_console_title">Riscatto su console</string>
+    <string name="help_ps_console_caption">Schermata \"Riscatta codice\" nel PlayStation Store.</string>
+    <string name="help_ps_console_step1">Accedi al tuo account PlayStation.</string>
+    <string name="help_ps_console_step2">Apri il PlayStation Store.</string>
+    <string name="help_ps_console_step3">Cerca “Riscatta codici” / “Redeem Codes”.</string>
+    <string name="help_ps_console_step4">Incolla o digita la chiave e conferma.</string>
+    <string name="help_ps_console_step5">Attendi la conferma del riscatto.</string>
+    <string name="help_ps_console_step6">Vai alla tua libreria e scarica/installa il contenuto.</string>
+
+    <string name="help_ps_web_title">Se hai un’alternativa web</string>
+    <string name="help_ps_web_intro">Se l’opzione di riscatto non appare, prova a riscattare dal sito ufficiale PlayStation usando lo stesso account.</string>
+    <string name="help_ps_web_step1">Apri la pagina ufficiale di riscatto PlayStation.</string>
+    <string name="help_ps_web_step2">Accedi con il tuo account.</string>
+    <string name="help_ps_web_step3">Incolla la chiave, conferma e controlla la libreria.</string>
+
+    <string name="help_xbox_title">Xbox (Xbox Series X e Xbox One)</string>
+    <string name="help_xbox_intro">Su Xbox, il riscatto si effettua dal Microsoft Store con il tuo account. Sia Series X che Xbox One seguono la stessa logica.</string>
+    <string name="help_xbox_console_title">Riscatto su console</string>
+    <string name="help_xbox_console_caption">Menu del Microsoft Store dove si riscatta un codice.</string>
+    <string name="help_xbox_console_step1">Accedi con il tuo account Microsoft sulla console.</string>
+    <string name="help_xbox_console_step2">Apri il Microsoft Store.</string>
+    <string name="help_xbox_console_step3">Cerca “Redeem code” / “Riscatta codice”.</string>
+    <string name="help_xbox_console_step4">Inserisci o incolla la chiave e conferma.</string>
+    <string name="help_xbox_console_step5">Controlla che il gioco appaia nella tua libreria.</string>
+    <string name="help_xbox_console_step6">Scarica/installa il gioco se il sistema te lo chiede.</string>
+
+    <string name="help_xbox_web_title">Riscatto sul web</string>
+    <string name="help_xbox_web_intro">Se preferisci farlo da browser, usa la pagina ufficiale di riscatto Microsoft. È utile se preferisci copiare la chiave dal telefono.</string>
+    <string name="help_xbox_web_step1">Apri il sito ufficiale di riscatto Microsoft.</string>
+    <string name="help_xbox_web_step2">Accedi con il tuo account.</string>
+    <string name="help_xbox_web_step3">Incolla la chiave e conferma.</string>
+    <string name="help_xbox_web_step4">Torna sulla console e sincronizza/controlla la libreria.</string>
+
+    <string name="help_switch_title">Nintendo Switch</string>
+    <string name="help_switch_intro">Su Switch, il riscatto si effettua dal Nintendo eShop con il tuo account. Puoi farlo direttamente dalla console.</string>
+    <string name="help_switch_console_title">Riscatto nel Nintendo eShop</string>
+    <string name="help_switch_console_caption">Menu del Nintendo eShop dove si riscatta un codice.</string>
+    <string name="help_switch_console_step1">Assicurati di avere una connessione a internet sulla console.</string>
+    <string name="help_switch_console_step2">Accedi al tuo account Nintendo.</string>
+    <string name="help_switch_console_step3">Apri il Nintendo eShop.</string>
+    <string name="help_switch_console_step4">Cerca “Enter Code” / “Inserisci codice”.</string>
+    <string name="help_switch_console_step5">Incolla o digita la chiave e conferma.</string>
+    <string name="help_switch_console_step6">Attendi la conferma e controlla la tua libreria.</string>
+
+    <string name="help_switch_web_title">Se preferisci usare un browser</string>
+    <string name="help_switch_web_intro">Alcuni utenti preferiscono riscattare da una pagina ufficiale Nintendo nel browser. La chiave e il processo sono equivalenti: cambia solo il dispositivo.</string>
+    <string name="help_switch_web_step1">Apri il sito ufficiale di riscatto Nintendo.</string>
+    <string name="help_switch_web_step2">Accedi con il tuo account.</string>
+    <string name="help_switch_web_step3">Incolla la chiave e conferma.</string>
+    <string name="help_switch_web_step4">Sincronizza sulla console e controlla la libreria.</string>
+
+    <string name="help_final_verification_title">Verifica finale (per tutte le piattaforme)</string>
+    <string name="help_final_verification_item1">Controlla che il gioco appaia nella libreria della tua piattaforma.</string>
+    <string name="help_final_verification_item2">Se è necessario installare file, completa il download.</string>
+    <string name="help_final_verification_item3">Se il gioco non appare o il sistema indica che il codice non è valido, consulta le FAQ o usa il contatto di supporto.</string>
+
+    <string name="help_contact_note_title">Non funziona ancora?</string>
+    <string name="help_contact_note_start">Controlla che il codice corrisponda alla tua piattaforma. Se l’errore persiste, contatta il supporto dalla pagina </string>
+    <string name="help_contact_note_link">contatto</string>
+    <string name="help_contact_note_end"> e includi il maggior numero possibile di dettagli (piattaforma, messaggio di errore e chiave).</string>
+
+    <string name="help_faq_note">Se vuoi, puoi andare direttamente al dashboard per visualizzare la chiave. Usa il pulsante/menu di navigazione quando entri.</string>
+    <string name="help_faq_q1">Dove posso trovare la mia chiave di attivazione?</string>
+    <string name="help_faq_a1">La chiave viene mostrata nel pannello utente. Nella sezione acquisti/resi, individua il gioco acquistato e cerca l’etichetta “Key”. Di solito è nascosta (sfocata) per proteggere la tua privacy; premi l’icona dell’occhio per visualizzarla e copiarla. Se vuoi, puoi andare direttamente al dashboard per visualizzare la chiave. Usa il pulsante/menu di navigazione quando entri.</string>
+    <string name="help_faq_q2">Devo riscattare la chiave “una sola volta” o posso riutilizzarla?</string>
+    <string name="help_faq_a2">Nella maggior parte dei negozi, una chiave si può riscattare una sola volta. Dopo il riscatto, il gioco viene associato al tuo account. Se provi a riscattarla di nuovo, il negozio può mostrarti messaggi come “già riscattata”.</string>
+    <string name="help_faq_q3">Il negozio dice “codice non valido” o “non disponibile”. Cosa devo fare?</string>
+    <string name="help_faq_a3">Prima di tutto, controlla di usare la piattaforma corretta (PC, PlayStation, Xbox o Switch). Poi, copia la chiave esattamente (senza spazi o a capo) e verifica maiuscole/minuscole. Se l’errore continua, riprova più tardi (a volte i server impiegano un po’). Se continua a fallire, consulta la FAQ e contatta l’assistenza con il messaggio esatto del negozio.</string>
+    <string name="help_faq_q4">Posso riscattare la chiave su una piattaforma diversa da quella dell’acquisto?</string>
+    <string name="help_faq_a4">Di solito no. Le chiavi sono legate a una piattaforma specifica. Ad esempio, una chiave PlayStation non si può riscattare su Xbox o Nintendo Switch. Per evitare errori, riscattala sempre sulla piattaforma indicata nell’acquisto.</string>
+    <string name="help_faq_q5">Ho riscattato la chiave, ma il gioco impiega tempo a comparire in libreria. È normale?</string>
+    <string name="help_faq_a5">Sì. I negozi possono impiegare minuti (o più) per aggiornare la libreria. Se dopo un po’ non compare, esci e rientra, aspetta un attimo e aggiorna la libreria.</string>
+    <string name="help_faq_q6">Serve un abbonamento (PS Plus, Xbox Live, ecc.) per riscattare?</string>
+    <string name="help_faq_a6">Generalmente no. Il riscatto aggiunge il gioco alla libreria. Tuttavia, alcuni modi online possono richiedere un abbonamento attivo in base alla piattaforma e al gioco.</string>
+    <string name="help_faq_q7">Posso riscattare la chiave da telefono o browser invece che dalla console?</string>
+    <string name="help_faq_a7">Dipende dal negozio. In generale, i negozi ufficiali possono offrire un’opzione web, ma spesso il processo avviene direttamente in console. Se il tuo negozio permette il riscatto dal web, usa sempre il sito ufficiale e lo stesso account dove vuoi che compaia il gioco.</string>
+    <string name="help_faq_q8">Cosa significa “già riscattata / already redeemed”?</string>
+    <string name="help_faq_a8">Significa che quella chiave è stata riscattata in precedenza (tramite un altro acquisto o un riscatto precedente). Se non l’hai fatto tu, verifica di usare lo stesso account del negozio e contatta il supporto con piattaforma e messaggio esatto.</string>
+    <string name="help_faq_q9">Nel dashboard la chiave è sfocata. Come la vedo per copiarla?</string>
+    <string name="help_faq_a9">Premi l’icona dell’occhio nel dashboard per mostrare la chiave temporaneamente. Poi copiala e completane il riscatto nel negozio. Evita di condividere la chiave e, se puoi, rimettitela in modalità sfocata.</string>
+    <string name="help_faq_q10">Posso rivedere la chiave dopo averla attivata?</string>
+    <string name="help_faq_a10">Spesso sì. La chiave di solito resta disponibile nella cronologia degli acquisti, così puoi usarla per supporto se serve. Se ricompare sfocata, usa di nuovo l’occhio.</string>
+    <string name="help_faq_q11">Ho riscattato la chiave, ma il gioco non appare. Come risolvo?</string>
+    <string name="help_faq_a11">Controlla di essere loggato con l’account corretto del negozio. Chiudi e riapri launcher/app, aspetta un momento e aggiorna la libreria. Se il gioco non compare comunque, contatta il supporto includendo il messaggio di errore o lo stato mostrato dal negozio.</string>
+    <string name="help_faq_q12">Cosa succede se il mio acquisto è stato rimborsato/annullato?</string>
+    <string name="help_faq_a12">Se il tuo acquisto è stato rimborsato, il negozio o i servizi della piattaforma possono revocare l’accesso nel tempo. In questo caso il riscatto può fallire o il gioco potrebbe non comparire. Contatta il supporto per verificare lo stato esatto dell’ordine.</string>
+    <string name="help_faq_q13">Le chiavi hanno una scadenza?</string>
+    <string name="help_faq_a13">Normalmente no, ma alcuni negozi possono imporre limiti per regione o policy interne. Se il negozio indica scadenza o dice che il codice non è valido, verifica la piattaforma corretta e contatta il supporto con il messaggio esatto.</string>
+    <string name="help_faq_q14">Come evito truffe e uso improprio dei codici?</string>
+    <string name="help_faq_a14">Non condividere mai la chiave completa. Riscattala solo nel negozio ufficiale corrispondente e diffida da messaggi che chiedono la tua chiave “per aiutare” o che ti portano su pagine non ufficiali. Se un link sembra sospetto, non usarlo.</string>
+    <string name="help_faq_q15">Posso attivare da due dispositivi diversi?</string>
+    <string name="help_faq_a15">L’attivazione di solito è legata al tuo account. Puoi riscattare una volta e poi installare il gioco su altri dispositivi usando lo stesso account del negozio. Se provi a riscattare di nuovo la stessa chiave, potrebbe fallire.</string>
+    <string name="help_faq_q16">Quando devo contattare il supporto e che informazioni devo inviare?</string>
+    <string name="help_faq_a16">Contatta il supporto se il riscatto fallisce e i passaggi di verifica non risolvono il problema. Indica la piattaforma (PC, PlayStation, Xbox o Switch), il messaggio esatto del negozio e, se possibile, una screenshot dell’errore. Per sicurezza, evita di inviare la chiave completa attraverso canali non ufficiali.</string>
+    <string name="help_close">Chiudi</string>
+    <string name="help_keyword_dashboard">dashboard</string>
+    <string name="help_keyword_user_panel">pannello utente</string>
 </resources>

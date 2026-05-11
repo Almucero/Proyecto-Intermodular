@@ -55,4 +55,6 @@ sealed class Destinations(@Suppress("unused") val route: String) {
     @Serializable
     data class Chat(val sessionId: Int = -1) : Destinations("chat?sessionId=$sessionId")
 
+    @Serializable
+    object Help : Destinations("help")
 }
