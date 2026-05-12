@@ -499,4 +499,39 @@
     <string name="help_close">Schließen</string>
     <string name="help_keyword_dashboard">dashboard</string>
     <string name="help_keyword_user_panel">Benutzerbereich</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_title">Einstellungen</string>
+    <string name="settings_notifications_masterToggle">E-Mail-Benachrichtigungen</string>
+    <string name="settings_notifications_masterToggleHint">Alle E-Mail-Kommunikationen aktivieren oder deaktivieren.</string>
+    <string name="settings_notifications_deliveryTitle">Zustelleinstellungen</string>
+    <string name="settings_notifications_destinationEmail">Benachrichtigungs-E-Mail</string>
+    <string name="settings_notifications_destinationEmailPlaceholder">beispiel@email.de</string>
+    <string name="settings_notifications_language">E-Mail-Sprache</string>
+    <string name="settings_notifications_languageAuto">Automatische Erkennung</string>
+    <string name="settings_notifications_frequency">Häufigkeit</string>
+    <string name="settings_notifications_frequencyImmediate">Sofort</string>
+    <string name="settings_notifications_frequencyDaily">Täglich</string>
+    <string name="settings_notifications_frequencyWeekly">Wöchentlich</string>
+    <string name="settings_notifications_recommendationIntervalDays">Tage zwischen Empfehlungen</string>
+    <string name="settings_notifications_quietStart">Ruhezeit Beginn (0-23)</string>
+    <string name="settings_notifications_quietEnd">Ruhezeit Ende (0-23)</string>
+    <string name="settings_notifications_pauseDays">Benachrichtigungen pausieren (Tage)</string>
+    <string name="settings_notifications_categoriesTitle">Benachrichtigungskategorien</string>
+    <string name="settings_notifications_topics_periodicRecommendations">Periodische Empfehlungen</string>
+    <string name="settings_notifications_topics_cartReminders">Warenkorb-Erinnerungen</string>
+    <string name="settings_notifications_topics_favoriteDiscounts">Rabatte auf Favoriten</string>
+    <string name="settings_notifications_topics_backInStock">Wieder auf Lager</string>
+    <string name="settings_notifications_topics_categoryNews">Kategorie-Neuigkeiten</string>
+    <string name="settings_notifications_topics_weeklyDigest">Wöchentliche Zusammenfassung</string>
+    <string name="settings_notifications_topics_purchaseStatus">Kaufstatus</string>
+    <string name="settings_notifications_topics_inactiveAccount">Inaktives Konto</string>
+    <string name="settings_notifications_saveButton">Änderungen speichern</string>
+    <string name="settings_notifications_saving">Speichern...</string>
+    <string name="settings_notifications_savedOk">Einstellungen erfolgreich gespeichert!</string>
+    <string name="settings_notifications_saveError">Fehler beim Speichern der Einstellungen.</string>
+    <string name="settings_delete_account">Konto löschen</string>
+    <string name="settings_delete_confirm_msg">Nicht rückgängig zu machen. Sind Sie sicher?</string>
+    <string name="settings_delete_yes">Ja</string>
+    <string name="settings_delete_no">Nein</string>
 </resources>

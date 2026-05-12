@@ -69,6 +69,7 @@ import com.gamesage.kotlin.ui.pages.privacy.PrivacyScreen
 import com.gamesage.kotlin.ui.pages.product.ProductScreen
 import com.gamesage.kotlin.ui.pages.register.RegisterScreen
 import com.gamesage.kotlin.ui.pages.search.SearchScreen
+import com.gamesage.kotlin.ui.pages.settings.SettingsScreen
 import com.gamesage.kotlin.utils.LanguageUtils.setLocale
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
@@ -391,6 +392,10 @@ fun NavGraph(
                     }
                 )
             }
+
+            composable<Destinations.Settings> {
+                SettingsScreen()
+            }
         }
         }
 
@@ -430,6 +435,7 @@ fun NavGraph(
         ) {
             Menu(
                 navController = navController,
+                token = token,
                 show = showBottomSheet,
                 onDismiss = {
                     showBottomSheet = false

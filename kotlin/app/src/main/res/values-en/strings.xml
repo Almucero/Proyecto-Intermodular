@@ -499,4 +499,39 @@
     <string name="help_close">Close</string>
     <string name="help_keyword_dashboard">dashboard</string>
     <string name="help_keyword_user_panel">user panel</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_notifications_masterToggle">Email Notifications</string>
+    <string name="settings_notifications_masterToggleHint">Enable or disable all email communications.</string>
+    <string name="settings_notifications_deliveryTitle">Delivery Settings</string>
+    <string name="settings_notifications_destinationEmail">Notification Email</string>
+    <string name="settings_notifications_destinationEmailPlaceholder">example@email.com</string>
+    <string name="settings_notifications_language">Email Language</string>
+    <string name="settings_notifications_languageAuto">Auto Detection</string>
+    <string name="settings_notifications_frequency">Frequency</string>
+    <string name="settings_notifications_frequencyImmediate">Immediate</string>
+    <string name="settings_notifications_frequencyDaily">Daily</string>
+    <string name="settings_notifications_frequencyWeekly">Weekly</string>
+    <string name="settings_notifications_recommendationIntervalDays">Days between Recommendations</string>
+    <string name="settings_notifications_quietStart">Quiet Hours Start (0-23)</string>
+    <string name="settings_notifications_quietEnd">Quiet Hours End (0-23)</string>
+    <string name="settings_notifications_pauseDays">Pause Notifications (Days)</string>
+    <string name="settings_notifications_categoriesTitle">Notification Categories</string>
+    <string name="settings_notifications_topics_periodicRecommendations">Periodic Recommendations</string>
+    <string name="settings_notifications_topics_cartReminders">Cart Reminders</string>
+    <string name="settings_notifications_topics_favoriteDiscounts">Favorite Discounts</string>
+    <string name="settings_notifications_topics_backInStock">Back in Stock</string>
+    <string name="settings_notifications_topics_categoryNews">Category News</string>
+    <string name="settings_notifications_topics_weeklyDigest">Weekly Digest</string>
+    <string name="settings_notifications_topics_purchaseStatus">Purchase Status</string>
+    <string name="settings_notifications_topics_inactiveAccount">Inactive Account</string>
+    <string name="settings_notifications_saveButton">Save Changes</string>
+    <string name="settings_notifications_saving">Saving...</string>
+    <string name="settings_notifications_savedOk">Settings saved successfully!</string>
+    <string name="settings_notifications_saveError">Error saving settings.</string>
+    <string name="settings_delete_account">Delete Account</string>
+    <string name="settings_delete_confirm_msg">Not reversible. Are you sure?</string>
+    <string name="settings_delete_yes">Yes</string>
+    <string name="settings_delete_no">No</string>
 </resources>
