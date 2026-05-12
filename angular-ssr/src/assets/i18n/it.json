@@ -32,7 +32,6 @@
     "settings": "Impostazioni",
     "help": "Aiuto",
     "contact": "Contatto",
-
     "privacy": "Privacy",
     "conditions": "Termini e condizioni",
     "cookies": "Impostazioni cookie",
@@ -532,7 +531,6 @@
     "resendCode": "Rinvia codice",
     "close": "Chiudi"
   },
-
   "errors": {
     "required": "Questo campo è obbligatorio",
     "email": "Email non valida",
@@ -642,8 +640,7 @@
     "returns": "Resi",
     "refundReason": "Motivo",
     "viewProduct": "Vedi prodotto",
-    "keyLabel": "Chiave:"
-    ,
+    "keyLabel": "Chiave:",
     "placeholders": {
       "displayName": "Inserisci il nome visualizzato",
       "emailAddress": "Inserisci il tuo indirizzo e-mail",
@@ -655,7 +652,9 @@
       "region": "Inserisci la tua regione/provincia",
       "postalCode": "Inserisci il tuo CAP",
       "country": "Inserisci il tuo paese"
-    }
+    },
+    "showMore": "Mostra altro",
+    "showLess": "Mostra meno"
   },
   "tooltips": {
     "menu": "Apri menu",

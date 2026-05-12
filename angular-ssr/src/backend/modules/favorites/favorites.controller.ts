@@ -52,9 +52,6 @@ export async function addToFavoritesCtrl(
       price: (favorite as any).game?.price != null ? Number((favorite as any).game?.price) : null,
     });
 
-    logger.info(
-      `User ${user.sub} added game ${gameId} (platform ${platformId}) to favorites`,
-    );
     res.status(201).json(favorite);
   } catch (error: any) {
     if (error.code === 'P2002') {
@@ -101,9 +98,6 @@ export async function removeFromFavoritesCtrl(
 
     const result = await removeFromFavorites(user.sub, gameId, platformId);
 
-    logger.info(
-      `User ${user.sub} removed game ${gameId} (platform ${platformId}) from favorites`,
-    );
     res.status(200).json(result);
   } catch (error: any) {
     if (error.code === 'P2025') {

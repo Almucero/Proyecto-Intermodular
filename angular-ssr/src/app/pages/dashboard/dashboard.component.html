@@ -4,163 +4,190 @@
       {{ "dashboard.user" | translate }}
     </h1>
     @if (dashboardLoading()) {
-      <div class="flex flex-col lg:flex-row gap-8 lg:gap-0 lg:items-stretch">
-        <div class="flex-none lg:w-1/4 flex flex-col items-center lg:pr-15">
-          <div class="w-48 h-48 rounded-full bg-gray-700 ring-4 ring-gray-600 shadow-2xl"></div>
+    <div class="flex flex-col lg:flex-row gap-8 lg:gap-0 lg:items-stretch">
+      <div class="flex-none lg:w-1/4 flex flex-col items-center lg:pr-15">
+        <div class="w-48 h-48 rounded-full bg-gray-700 ring-4 ring-gray-600 shadow-2xl"></div>
+      </div>
+      <div class="hidden lg:flex flex-none items-center lg:px-0">
+        <div class="w-0.5 h-full bg-gray-700"></div>
+      </div>
+      <div class="flex-1 space-y-8 lg:pl-12">
+        <div>
+          <div class="h-10 w-64 bg-gray-700 rounded mb-3"></div>
+          <div class="h-5 w-52 bg-gray-700 rounded mb-2"></div>
+          <div class="h-4 w-48 bg-gray-700 rounded"></div>
         </div>
-        <div class="hidden lg:flex flex-none items-center lg:px-0">
-          <div class="w-0.5 h-full bg-gray-700"></div>
+
+        <section>
+          <h3 class="text-xl font-bold text-white mb-6 text-left">
+            {{ "dashboard.accountInfo" | translate }}
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            @for (item of [1, 2]; track item) {
+            <div class="h-11 bg-gray-700 rounded-md animate-pulse"></div>
+            }
+          </div>
+        </section>
+
+        <section>
+          <h3 class="text-xl font-bold text-white mb-2 text-left">
+            {{ "dashboard.personalData" | translate }}
+          </h3>
+          <p class="text-gray-500 text-sm mb-6 text-left">
+            {{ "dashboard.personalDataNote" | translate }}
+            <a routerLink="/privacy"
+              class="text-cyan-400 underline hover:text-cyan-300 transition-transform duration-150 active:scale-95">{{
+              "dashboard.privacyPolicy" | translate }}</a>
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            @for (item of [1, 2]; track item) {
+            <div class="h-11 bg-gray-700 rounded-md animate-pulse"></div>
+            }
+          </div>
+        </section>
+
+        <section>
+          <h3 class="text-xl font-bold text-white mb-6 text-left">
+            {{ "dashboard.address" | translate }}
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            @for (item of [1, 2, 3, 4, 5, 6]; track item) {
+            <div class="h-11 bg-gray-700 rounded-md animate-pulse"></div>
+            }
+          </div>
+        </section>
+
+        <div class="mt-12 lg:mt-8">
+          <button class="border-0 bg-cyan-400/70 text-white font-medium py-2 px-6 rounded opacity-70 cursor-not-allowed"
+            disabled>
+            {{ "dashboard.configure" | translate }}
+          </button>
         </div>
-        <div class="flex-1 space-y-8 lg:pl-12">
-          <div>
-            <div class="h-10 w-64 bg-gray-700 rounded mb-3"></div>
-            <div class="h-5 w-52 bg-gray-700 rounded mb-2"></div>
-            <div class="h-4 w-48 bg-gray-700 rounded"></div>
-          </div>
 
-          <section>
-            <h3 class="text-xl font-bold text-white mb-6 text-left">
-              {{ "dashboard.accountInfo" | translate }}
-            </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              @for (item of [1, 2]; track item) {
-                <div class="h-11 bg-gray-700 rounded-md animate-pulse"></div>
-              }
-            </div>
-          </section>
-
-          <section>
-            <h3 class="text-xl font-bold text-white mb-2 text-left">
-              {{ "dashboard.personalData" | translate }}
-            </h3>
-            <p class="text-gray-500 text-sm mb-6 text-left">
-              {{ "dashboard.personalDataNote" | translate }}
-              <a
-                routerLink="/privacy"
-                class="text-cyan-400 underline hover:text-cyan-300 transition-transform duration-150 active:scale-95"
-                >{{ "dashboard.privacyPolicy" | translate }}</a
-              >
-            </p>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              @for (item of [1, 2]; track item) {
-                <div class="h-11 bg-gray-700 rounded-md animate-pulse"></div>
-              }
-            </div>
-          </section>
-
-          <section>
-            <h3 class="text-xl font-bold text-white mb-6 text-left">
-              {{ "dashboard.address" | translate }}
-            </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              @for (item of [1, 2, 3, 4, 5, 6]; track item) {
-                <div class="h-11 bg-gray-700 rounded-md animate-pulse"></div>
-              }
-            </div>
-          </section>
-
-          <div class="mt-12 lg:mt-8">
-            <button
-              class="border-0 bg-cyan-400/70 text-white font-medium py-2 px-6 rounded opacity-70 cursor-not-allowed"
-              disabled
-            >
-              {{ "dashboard.configure" | translate }}
-            </button>
-          </div>
-
-          <section class="mt-4 md:mt-8">
-            <h3 class="text-xl font-bold text-white mb-6 text-left">
-              {{ "dashboard.purchases" | translate }}
-            </h3>
-            <div class="space-y-4">
-              @for (card of purchaseSkeletonCards(); track card) {
-                <div class="bg-gray-800 rounded-lg p-3 md:p-5 shadow-lg">
-                  <div class="flex justify-between items-center mb-4 border-b border-gray-700 pb-2">
-                    <div class="h-4 w-40 bg-gray-700 rounded"></div>
-                    <div class="h-6 w-20 bg-gray-700 rounded"></div>
+        <section class="mt-4 md:mt-8">
+          <h3 class="text-xl font-bold text-white mb-6 text-left">
+            {{ "dashboard.purchases" | translate }}
+          </h3>
+          <div class="space-y-4">
+            @for (card of purchaseSkeletonCards(); track card; let sIdx = $index) {
+            <div class="bg-gray-800 rounded-lg p-3 md:p-5 shadow-lg animate-pulse">
+              <div
+                class="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-2 md:mb-4 border-b border-gray-700 pb-2 gap-2 md:gap-0">
+                <div class="flex items-center gap-4">
+                  <div class="h-4 w-36 bg-gray-700 rounded"></div>
+                  <div class="h-6 w-20 bg-gray-700 rounded"></div>
+                </div>
+                <div class="h-7 w-16 bg-gray-700 rounded"></div>
+              </div>
+              <div class="space-y-2 md:space-y-3">
+                @for (row of getSkeletonItemsForCard(sIdx, 'purchases'); track row) {
+                <div
+                  class="bg-gray-700/30 rounded-lg p-3 md:p-4 flex flex-col md:flex-row gap-2 md:gap-4 items-start md:items-center">
+                  <div class="w-full md:flex-1">
+                    <div class="h-5 w-48 bg-gray-700 rounded mb-1.5"></div>
+                    <div class="flex flex-wrap items-center gap-2 mb-2">
+                      <div class="h-4 w-14 bg-gray-700 rounded"></div>
+                      <div class="h-4 w-24 bg-gray-700 rounded"></div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <div class="h-3.5 w-10 bg-gray-700 rounded"></div>
+                      <div class="h-3.5 w-32 bg-gray-700 rounded"></div>
+                      <div class="h-4 w-4 bg-gray-700 rounded-full"></div>
+                    </div>
                   </div>
-                  <div class="space-y-3">
-                    @for (row of purchaseSkeletonItems(); track row) {
-                      <div class="bg-gray-700/30 rounded-lg p-4 flex justify-between items-center">
-                        <div class="space-y-2">
-                          <div class="h-5 w-44 bg-gray-700 rounded"></div>
-                          <div class="h-4 w-28 bg-gray-700 rounded"></div>
-                        </div>
-                        <div class="h-5 w-16 bg-gray-700 rounded"></div>
-                      </div>
-                    }
+                  <div
+                    class="w-full md:w-auto flex flex-row justify-between md:justify-end items-center mt-1 md:mt-0 pt-2 md:pt-0 border-t border-gray-600 md:border-0 md:gap-4">
+                    <div class="h-4 w-8 bg-gray-700 rounded"></div>
+                    <div class="h-5 w-16 bg-gray-700 rounded"></div>
                   </div>
                 </div>
+                }
+              </div>
+            </div>
+            }
+
+            <div class="mt-6 flex justify-center gap-4">
+              @if (purchasesHasMore()) {
+              <div class="h-10 w-36 bg-gray-700/50 rounded animate-pulse"></div>
+              } @else if (purchasesLimit() > 5) {
+              <div class="h-10 w-36 bg-gray-700/50 rounded animate-pulse"></div>
               }
             </div>
-          </section>
+          </div>
+        </section>
 
-          <section class="mt-4 md:mt-8">
-            <h3 class="text-xl font-bold text-white mb-6 text-left">
-              {{ "dashboard.returns" | translate }}
-            </h3>
-            <div class="space-y-4">
-              @for (card of returnSkeletonCards(); track card) {
-                <div class="bg-gray-800 rounded-lg p-3 md:p-5 shadow-lg">
-                  <div class="flex justify-between items-center mb-4 border-b border-gray-700 pb-2">
-                    <div class="h-4 w-40 bg-gray-700 rounded"></div>
-                    <div class="h-6 w-20 bg-gray-700 rounded"></div>
+        <section class="mt-4 md:mt-8">
+          <h3 class="text-xl font-bold text-white mb-6 text-left">
+            {{ "dashboard.returns" | translate }}
+          </h3>
+          <div class="space-y-4">
+            @for (card of returnSkeletonCards(); track card; let sIdx = $index) {
+            <div class="bg-gray-800 rounded-lg p-3 md:p-5 shadow-lg relative overflow-hidden animate-pulse">
+              <div class="absolute left-0 top-0 bottom-0 w-1 bg-red-500/40"></div>
+              <div
+                class="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-2 md:mb-4 border-b border-gray-700 pb-2 pl-3 gap-1 md:gap-0">
+                <div class="h-4 w-36 bg-gray-700 rounded"></div>
+                <div class="h-7 w-16 bg-gray-700 rounded"></div>
+              </div>
+              <div class="mb-2 md:mb-4 bg-red-900/10 p-2 md:p-3 rounded-md ml-3 flex items-center gap-2">
+                <div class="h-4 w-4 md:h-5 md:w-5 bg-gray-700 rounded-full flex-shrink-0"></div>
+                <div class="flex items-center gap-1.5">
+                  <div class="h-3 w-16 bg-gray-700 rounded"></div>
+                  <div class="h-3.5 w-44 bg-gray-700 rounded"></div>
+                </div>
+              </div>
+              <div class="space-y-2 md:space-y-3 ml-3">
+                @for (row of getSkeletonItemsForCard(sIdx, 'returns'); track row) {
+                <div
+                  class="bg-gray-700/30 rounded-lg p-3 md:p-4 flex flex-col md:flex-row gap-2 md:gap-4 items-start md:items-center opacity-75">
+                  <div class="w-full md:flex-1">
+                    <div class="h-5 w-48 bg-gray-700 rounded mb-1.5"></div>
+                    <div class="flex flex-wrap items-center gap-2">
+                      <div class="h-4 w-14 bg-gray-700 rounded"></div>
+                    </div>
                   </div>
-                  <div class="h-9 w-72 max-w-full bg-gray-700 rounded mb-4"></div>
-                  <div class="space-y-3">
-                    @for (row of returnSkeletonItems(); track row) {
-                      <div class="bg-gray-700/30 rounded-lg p-4 flex justify-between items-center">
-                        <div class="space-y-2">
-                          <div class="h-5 w-44 bg-gray-700 rounded"></div>
-                          <div class="h-4 w-28 bg-gray-700 rounded"></div>
-                        </div>
-                        <div class="h-5 w-16 bg-gray-700 rounded"></div>
-                      </div>
-                    }
+                  <div
+                    class="w-full md:w-auto flex flex-row justify-between md:justify-end items-center mt-1 md:mt-0 pt-2 md:pt-0 border-t border-gray-600 md:border-0 md:gap-4">
+                    <div class="h-4 w-8 bg-gray-700 rounded"></div>
+                    <div class="h-5 w-16 bg-gray-700 rounded"></div>
                   </div>
                 </div>
+                }
+              </div>
+            </div>
+            }
+
+            <div class="mt-6 flex justify-center gap-4">
+              @if (returnsHasMore()) {
+              <div class="h-10 w-36 bg-gray-700/50 rounded animate-pulse"></div>
+              } @else if (returnsLimit() > 5) {
+              <div class="h-10 w-36 bg-gray-700/50 rounded animate-pulse"></div>
               }
             </div>
-          </section>
-
-          <div class="mt-16 lg:mt-10 mb-2">
-            <button
-              class="border-0 bg-red-600/70 text-white font-medium py-2 px-6 rounded opacity-70 cursor-not-allowed"
-              disabled
-            >
-              <span>{{ "dashboard.logout" | translate }}</span>
-            </button>
           </div>
+        </section>
+
+        <div class="mt-16 lg:mt-10 mb-2">
+          <button class="border-0 bg-red-600/70 text-white font-medium py-2 px-6 rounded opacity-70 cursor-not-allowed"
+            disabled>
+            <span>{{ "dashboard.logout" | translate }}</span>
+          </button>
         </div>
       </div>
+    </div>
     } @else {
     <div class="flex flex-col lg:flex-row gap-8 lg:gap-0 lg:items-stretch">
       <div class="flex-none lg:w-1/4 flex flex-col items-center lg:pr-15">
         <div class="relative group">
-          <div
-            class="relative w-48 h-48 rounded-full overflow-hidden ring-4 ring-white shadow-2xl"
-          >
-            <img
-              [src]="profileImage"
-              alt="User"
-              class="w-full h-full object-cover"
-            />
+          <div class="relative w-48 h-48 rounded-full overflow-hidden ring-4 ring-white shadow-2xl">
+            <img [src]="profileImage" alt="User" class="w-full h-full object-cover" />
           </div>
-          <button
-            *ngIf="isEditing"
-            (click)="fileInput.click()"
+          <button *ngIf="isEditing" (click)="fileInput.click()"
             class="absolute bottom-0 right-0 bg-cyan-400 hover:bg-cyan-300 text-white p-3 rounded-full shadow-lg transition-transform transform hover:scale-110 focus:outline-none active:scale-95"
-            [title]="'tooltips.changeProfileImage' | translate"
-          >
+            [title]="'tooltips.changeProfileImage' | translate">
             <img src="assets/icons/camera.png" alt="camera" class="w-10 h-10" />
           </button>
-          <input
-            #fileInput
-            type="file"
-            class="hidden"
-            accept="image/*"
-            (change)="onFileSelected($event)"
-          />
+          <input #fileInput type="file" class="hidden" accept="image/*" (change)="onFileSelected($event)" />
         </div>
       </div>
       <div class="hidden lg:flex flex-none items-center lg:px-0">
@@ -171,29 +198,17 @@
           <h2 class="text-3xl font-bold text-white text-left mobile-center-text">
             {{ ((user()?.name || "") + " " + (user()?.surname || "")).trim() || user()?.name || "-" }}
           </h2>
-          <div
-            class="flex items-center justify-start gap-2 text-gray-400 mt-1 mobile-center-row"
-          >
+          <div class="flex items-center justify-start gap-2 text-gray-400 mt-1 mobile-center-row">
             <span>{{ user()?.nickname || userHandle || "-" }}</span>
-            <img
-              src="assets/icons/copy.png"
-              alt="copy"
+            <img src="assets/icons/copy.png" alt="copy"
               class="w-4 h-4 cursor-pointer hover:opacity-80 transition-transform duration-150 active:scale-95"
-              [appCopyOnClick]="user()?.nickname || userHandle"
-              [title]="'tooltips.copyUsername' | translate"
-            />
+              [appCopyOnClick]="user()?.nickname || userHandle" [title]="'tooltips.copyUsername' | translate" />
           </div>
-          <div
-            class="flex items-center justify-start gap-2 text-gray-500 text-sm mt-1 mobile-center-row"
-          >
+          <div class="flex items-center justify-start gap-2 text-gray-500 text-sm mt-1 mobile-center-row">
             <span>ID: {{ userId || "-" }}</span>
-            <img
-              src="assets/icons/copy.png"
-              alt="copy"
+            <img src="assets/icons/copy.png" alt="copy"
               class="w-4 h-4 cursor-pointer hover:opacity-80 transition-transform duration-150 active:scale-95"
-              [appCopyOnClick]="userId"
-              [title]="'tooltips.copyId' | translate"
-            />
+              [appCopyOnClick]="userId" [title]="'tooltips.copyId' | translate" />
           </div>
         </div>
 
@@ -204,36 +219,22 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <div class="relative">
-                <input
-                  type="text"
-                  [(ngModel)]="editableUser.nickname"
-                  [placeholder]="'dashboard.placeholders.displayName' | translate"
-                  [readonly]="!isEditing"
-                  [class.bg-gray-800]="!isEditing"
-                  [class.bg-gray-700]="isEditing"
-                  class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors"
-                />
-                <label
-                  class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white"
-                  >{{ "dashboard.displayName" | translate }}</label
-                >
+                <input type="text" [(ngModel)]="editableUser.nickname"
+                  [placeholder]="'dashboard.placeholders.displayName' | translate" [readonly]="!isEditing"
+                  [class.bg-gray-800]="!isEditing" [class.bg-gray-700]="isEditing"
+                  class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors" />
+                <label class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white">{{
+                  "dashboard.displayName" | translate }}</label>
               </div>
             </div>
             <div>
               <div class="relative">
-                <input
-                  type="text"
-                  [(ngModel)]="editableUser.email"
-                  [placeholder]="'dashboard.placeholders.emailAddress' | translate"
-                  [readonly]="!isEditing"
-                  [class.bg-gray-800]="!isEditing"
-                  [class.bg-gray-700]="isEditing"
-                  class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors"
-                />
-                <label
-                  class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white"
-                  >{{ "dashboard.emailAddress" | translate }}</label
-                >
+                <input type="text" [(ngModel)]="editableUser.email"
+                  [placeholder]="'dashboard.placeholders.emailAddress' | translate" [readonly]="!isEditing"
+                  [class.bg-gray-800]="!isEditing" [class.bg-gray-700]="isEditing"
+                  class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors" />
+                <label class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white">{{
+                  "dashboard.emailAddress" | translate }}</label>
               </div>
             </div>
           </div>
@@ -245,42 +246,26 @@
           </h3>
           <p class="text-gray-500 text-sm mb-6 text-left">
             {{ "dashboard.personalDataNote" | translate }}
-            <a
-              routerLink="/privacy"
-              class="text-cyan-400 underline hover:text-cyan-300 transition-transform duration-150 active:scale-95"
-              >{{ "dashboard.privacyPolicy" | translate }}</a
-            >
+            <a routerLink="/privacy"
+              class="text-cyan-400 underline hover:text-cyan-300 transition-transform duration-150 active:scale-95">{{
+              "dashboard.privacyPolicy" | translate }}</a>
           </p>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="relative">
-              <input
-                type="text"
-                [(ngModel)]="editableUser.name"
-                [placeholder]="'dashboard.placeholders.name' | translate"
-                [readonly]="!isEditing"
-                [class.bg-gray-800]="!isEditing"
-                [class.bg-gray-700]="isEditing"
-                class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors"
-              />
-              <label
-                class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white"
-                >{{ "dashboard.name" | translate }}</label
-              >
+              <input type="text" [(ngModel)]="editableUser.name"
+                [placeholder]="'dashboard.placeholders.name' | translate" [readonly]="!isEditing"
+                [class.bg-gray-800]="!isEditing" [class.bg-gray-700]="isEditing"
+                class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors" />
+              <label class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white">{{ "dashboard.name"
+                | translate }}</label>
             </div>
             <div class="relative">
-              <input
-                type="text"
-                [(ngModel)]="editableUser.surname"
-                [placeholder]="'dashboard.placeholders.surname' | translate"
-                [readonly]="!isEditing"
-                [class.bg-gray-800]="!isEditing"
-                [class.bg-gray-700]="isEditing"
-                class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors"
-              />
-              <label
-                class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white"
-                >{{ "dashboard.surname" | translate }}</label
-              >
+              <input type="text" [(ngModel)]="editableUser.surname"
+                [placeholder]="'dashboard.placeholders.surname' | translate" [readonly]="!isEditing"
+                [class.bg-gray-800]="!isEditing" [class.bg-gray-700]="isEditing"
+                class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors" />
+              <label class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white">{{
+                "dashboard.surname" | translate }}</label>
             </div>
           </div>
         </section>
@@ -291,461 +276,416 @@
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="relative">
-              <input
-                type="text"
-                [(ngModel)]="address.line1"
-                [placeholder]="'dashboard.placeholders.addressLine1' | translate"
-                [readonly]="!isEditing"
-                [class.bg-gray-800]="!isEditing"
-                [class.bg-gray-700]="isEditing"
-                class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors"
-              />
-              <label
-                class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white"
-                >{{ "dashboard.addressLine1" | translate }}</label
-              >
+              <input type="text" [(ngModel)]="address.line1"
+                [placeholder]="'dashboard.placeholders.addressLine1' | translate" [readonly]="!isEditing"
+                [class.bg-gray-800]="!isEditing" [class.bg-gray-700]="isEditing"
+                class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors" />
+              <label class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white">{{
+                "dashboard.addressLine1" | translate }}</label>
             </div>
             <div class="relative">
-              <input
-                type="text"
-                [(ngModel)]="address.line2"
-                [placeholder]="'dashboard.placeholders.addressLine2' | translate"
-                [readonly]="!isEditing"
-                [class.bg-gray-800]="!isEditing"
-                [class.bg-gray-700]="isEditing"
-                class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors"
-              />
-              <label
-                class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white"
-                >{{ "dashboard.addressLine2" | translate }}</label
-              >
+              <input type="text" [(ngModel)]="address.line2"
+                [placeholder]="'dashboard.placeholders.addressLine2' | translate" [readonly]="!isEditing"
+                [class.bg-gray-800]="!isEditing" [class.bg-gray-700]="isEditing"
+                class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors" />
+              <label class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white">{{
+                "dashboard.addressLine2" | translate }}</label>
             </div>
             <div class="relative">
-              <input
-                type="text"
-                [(ngModel)]="address.city"
-                [placeholder]="'dashboard.placeholders.city' | translate"
-                [readonly]="!isEditing"
-                [class.bg-gray-800]="!isEditing"
-                [class.bg-gray-700]="isEditing"
-                class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors"
-              />
-              <label
-                class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white"
-                >{{ "dashboard.city" | translate }}</label
-              >
+              <input type="text" [(ngModel)]="address.city" [placeholder]="'dashboard.placeholders.city' | translate"
+                [readonly]="!isEditing" [class.bg-gray-800]="!isEditing" [class.bg-gray-700]="isEditing"
+                class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors" />
+              <label class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white">{{ "dashboard.city"
+                | translate }}</label>
             </div>
             <div class="relative">
-              <input
-                type="text"
-                [(ngModel)]="address.region"
-                [placeholder]="'dashboard.placeholders.region' | translate"
-                [readonly]="!isEditing"
-                [class.bg-gray-800]="!isEditing"
-                [class.bg-gray-700]="isEditing"
-                class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors"
-              />
-              <label
-                class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white"
-                >{{ "dashboard.region" | translate }}</label
-              >
+              <input type="text" [(ngModel)]="address.region"
+                [placeholder]="'dashboard.placeholders.region' | translate" [readonly]="!isEditing"
+                [class.bg-gray-800]="!isEditing" [class.bg-gray-700]="isEditing"
+                class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors" />
+              <label class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white">{{
+                "dashboard.region" | translate }}</label>
             </div>
             <div class="relative">
-              <input
-                type="text"
-                [(ngModel)]="address.postalCode"
-                [placeholder]="'dashboard.placeholders.postalCode' | translate"
-                [readonly]="!isEditing"
-                [class.bg-gray-800]="!isEditing"
-                [class.bg-gray-700]="isEditing"
-                class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors"
-              />
-              <label
-                class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white"
-                >{{ "dashboard.postalCode" | translate }}</label
-              >
+              <input type="text" [(ngModel)]="address.postalCode"
+                [placeholder]="'dashboard.placeholders.postalCode' | translate" [readonly]="!isEditing"
+                [class.bg-gray-800]="!isEditing" [class.bg-gray-700]="isEditing"
+                class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors" />
+              <label class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white">{{
+                "dashboard.postalCode" | translate }}</label>
             </div>
             <div class="relative">
-              <input
-                type="text"
-                [(ngModel)]="address.country"
-                [placeholder]="'dashboard.placeholders.country' | translate"
-                [readonly]="!isEditing"
-                [class.bg-gray-800]="!isEditing"
-                [class.bg-gray-700]="isEditing"
-                class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors"
-              />
-              <label
-                class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white"
-                >{{ "dashboard.country" | translate }}</label
-              >
+              <input type="text" [(ngModel)]="address.country"
+                [placeholder]="'dashboard.placeholders.country' | translate" [readonly]="!isEditing"
+                [class.bg-gray-800]="!isEditing" [class.bg-gray-700]="isEditing"
+                class="w-full border-0 rounded-md py-2 px-4 text-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-center transition-colors" />
+              <label class="absolute -top-2.5 left-3 bg-gray-900 rounded-md px-1 text-xs text-white">{{
+                "dashboard.country" | translate }}</label>
             </div>
           </div>
         </section>
 
         <div class="mt-12 lg:mt-8 flex justify-center lg:justify-start">
           <div class="inline-flex flex-col gap-2 lg:flex-row lg:gap-4">
-            <button
-              #actionSizeButton
-              (click)="toggleEdit()"
-              class="border-0 bg-cyan-400 hover:bg-cyan-300 text-white font-medium py-2 px-6 rounded transition-colors duration-150 active:scale-95 focus:outline-none"
-            >
+            <button #actionSizeButton (click)="toggleEdit()"
+              class="border-0 bg-cyan-400 hover:bg-cyan-300 text-white font-medium py-2 px-6 rounded transition-colors duration-150 active:scale-95 focus:outline-none">
               {{
-                isEditing
-                  ? ("dashboard.cancel" | translate)
-                  : ("dashboard.configure" | translate)
+              isEditing
+              ? ("dashboard.cancel" | translate)
+              : ("dashboard.configure" | translate)
               }}
             </button>
 
-            <button
-              #actionSizeButton
-              *ngIf="isEditing"
-              (click)="saveChanges()"
-              class="border-0 bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded transition-colors flex items-center justify-center gap-2 duration-150 active:scale-95 focus:outline-none"
-            >
+            <button #actionSizeButton *ngIf="isEditing" (click)="saveChanges()"
+              class="border-0 bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded transition-colors flex items-center justify-center gap-2 duration-150 active:scale-95 focus:outline-none">
               {{ "dashboard.save" | translate }}
             </button>
           </div>
         </div>
 
         @if ((purchasesLoading() && purchasesSkeletonCount() > 0) || purchases().length > 0) {
-          <section class="mt-4 md:mt-8">
-            <h3 class="text-xl font-bold text-white mb-6 text-left">
-              {{ "dashboard.purchases" | translate }}
-            </h3>
-            @if (purchasesLoading()) {
-              <div class="space-y-4">
-                @for (s of purchaseSkeletonCards(); track s) {
-                  <div class="bg-gray-800 rounded-lg p-3 md:p-5 shadow-lg animate-pulse">
-                    <div
-                      class="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-2 md:mb-4 border-b border-gray-700 pb-2 gap-2 md:gap-0"
-                    >
-                      <div class="flex items-center gap-4 w-full md:w-auto">
-                        <div class="h-4 w-40 bg-gray-700 rounded"></div>
-                        <div class="h-7 w-24 bg-gray-700 rounded"></div>
-                      </div>
-                      <div class="h-6 w-20 bg-gray-700 rounded"></div>
+        <section class="mt-4 md:mt-8">
+          <h3 class="text-xl font-bold text-white mb-6 text-left">
+            {{ "dashboard.purchases" | translate }}
+          </h3>
+          @if (purchasesLoading()) {
+          <div class="space-y-4">
+            @for (s of purchaseSkeletonCards(); track s; let sIdx = $index) {
+            <div class="bg-gray-800 rounded-lg p-3 md:p-5 shadow-lg animate-pulse">
+              <!-- Header: fecha + botón devolver + precio total -->
+              <div
+                class="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-2 md:mb-4 border-b border-gray-700 pb-2 gap-2 md:gap-0">
+                <div class="flex items-center gap-4">
+                  <div class="h-4 w-36 bg-gray-700 rounded"></div>
+                  <div class="h-6 w-20 bg-gray-700 rounded"></div>
+                </div>
+                <div class="h-7 w-16 bg-gray-700 rounded"></div>
+              </div>
+              <!-- Ítems del pedido -->
+              <div class="space-y-2 md:space-y-3">
+                @for (itemSkel of getSkeletonItemsForCard(sIdx, 'purchases'); track itemSkel) {
+                <div
+                  class="bg-gray-700/30 rounded-lg p-3 md:p-4 flex flex-col md:flex-row gap-2 md:gap-4 items-start md:items-center">
+                  <div class="w-full md:flex-1">
+                    <div class="h-5 w-48 bg-gray-700 rounded mb-1.5"></div>
+                    <div class="flex flex-wrap items-center gap-2 mb-2">
+                      <div class="h-4 w-14 bg-gray-700 rounded"></div>
+                      <div class="h-4 w-24 bg-gray-700 rounded"></div>
                     </div>
-                    <div class="space-y-2 md:space-y-3">
-                      @for (itemSkel of purchaseSkeletonItems(); track itemSkel) {
-                        <div
-                          class="bg-gray-700/30 rounded-lg p-3 md:p-4 flex flex-col md:flex-row gap-2 md:gap-4 items-start md:items-center"
-                        >
-                          <div class="w-full md:flex-1">
-                            <div class="h-5 w-44 bg-gray-700 rounded mb-2"></div>
-                            <div class="flex items-center gap-2">
-                              <div class="h-4 w-16 bg-gray-700 rounded"></div>
-                              <div class="h-4 w-28 bg-gray-700 rounded"></div>
-                            </div>
-                          </div>
-                          <div
-                            class="w-full md:w-auto flex flex-row justify-between md:justify-end items-center mt-1 md:mt-0 pt-2 md:pt-0 border-t border-gray-600 md:border-0 md:gap-4"
-                          >
-                            <div class="h-4 w-8 bg-gray-700 rounded"></div>
-                            <div class="h-5 w-16 bg-gray-700 rounded"></div>
-                          </div>
-                        </div>
-                      }
+                    <div class="flex items-center gap-2">
+                      <div class="h-3.5 w-10 bg-gray-700 rounded"></div>
+                      <div class="h-3.5 w-32 bg-gray-700 rounded"></div>
+                      <div class="h-4 w-4 bg-gray-700 rounded-full"></div>
                     </div>
                   </div>
-                }
-              </div>
-            } @else {
-              <div class="space-y-4">
-                @for (purchase of purchases(); track purchase.id) {
-                  <div class="bg-gray-800 rounded-lg p-3 md:p-5 shadow-lg">
-                    <div
-                      class="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-2 md:mb-4 border-b border-gray-700 pb-2 gap-2 md:gap-0"
-                    >
-                      <div class="flex items-center gap-4">
-                        <span
-                          class="text-gray-400 text-xs md:text-sm flex items-center gap-2"
-                        >
-                          📅 {{ formatPurchaseDate(purchase.purchasedAt) }}
-                        </span>
-                        <button
-                          (click)="openRefundModal(purchase.id)"
-                          class="bg-red-500/20 hover:bg-red-500/40 text-red-400 hover:text-red-300 px-3 py-1 rounded text-xs md:text-sm font-semibold transition-colors border-0 outline-none ring-0 focus:outline-none focus:ring-0"
-                        >
-                          {{ "dashboard.return" | translate }}
-                        </button>
-                      </div>
-                      <span class="text-cyan-400 font-bold text-lg md:text-xl"
-                        >{{ purchase.totalPrice | number: "1.2-2" }}€</span
-                      >
-                    </div>
-                    <div class="space-y-2 md:space-y-3">
-                      @for (item of purchase.items; track item.id) {
-                        <div
-                          class="bg-gray-700/30 rounded-lg p-3 md:p-4 flex flex-col md:flex-row gap-2 md:gap-4 items-start md:items-center hover:bg-gray-700/50 transition-colors"
-                        >
-                          <div class="w-full md:flex-1">
-                            <p
-                              class="text-white font-bold text-base md:text-lg mb-0.5 md:mb-1"
-                            >
-                              {{ item.title }}
-                            </p>
-                            <div
-                              class="flex flex-wrap items-center gap-2 text-xs md:text-sm text-gray-400"
-                            >
-                              <span
-                                class="bg-gray-900 px-2 py-0.5 rounded text-[10px] md:text-xs uppercase tracking-wider"
-                                >{{ item.platform?.name }}</span
-                              >
-                              <a
-                                [routerLink]="['/product', item.id]"
-                                class="text-cyan-400 hover:text-cyan-300 hover:underline cursor-pointer flex items-center gap-1 transition-colors mt-0.5 md:mt-0"
-                              >
-                                {{ "dashboard.viewProduct" | translate }}
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  class="h-3 w-3"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                >
-                                  <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                                  />
-                                </svg>
-                              </a>
-                            </div>
-                            <div class="purchase-key-row mt-2">
-                              <span class="text-[11px] md:text-xs text-gray-400"
-                                >{{ "dashboard.keyLabel" | translate }}</span
-                              >
-                              <span
-                                class="purchase-key-value text-[11px] md:text-xs text-gray-200"
-                                [class.is-visible]="isPurchaseKeyVisible(item.itemId ?? item.id)"
-                              >
-                                {{ item.key || "-" }}
-                              </span>
-                              <button
-                                type="button"
-                                class="purchase-key-toggle"
-                                [attr.aria-label]="
-                                  isPurchaseKeyVisible(item.itemId ?? item.id)
-                                    ? ('tooltips.hideKey' | translate)
-                                    : ('tooltips.showKey' | translate)
-                                "
-                                [title]="
-                                  isPurchaseKeyVisible(item.itemId ?? item.id)
-                                    ? ('tooltips.hideKey' | translate)
-                                    : ('tooltips.showKey' | translate)
-                                "
-                                (click)="togglePurchaseKeyVisibility(item.itemId ?? item.id)"
-                              >
-                                @if (isPurchaseKeyVisible(item.itemId ?? item.id)) {
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="1.8"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                  >
-                                    <path
-                                      d="M3 3l18 18M10.58 10.58a2 2 0 002.83 2.83M9.88 5.09A10.94 10.94 0 0112 5c5 0 9.27 3.11 11 7-1.02 2.29-2.72 4.2-4.84 5.39M6.61 6.61C4.62 7.83 3.06 9.68 2 12c1.73 3.89 6 7 10 7 1.61 0 3.15-.39 4.53-1.09"
-                                    />
-                                  </svg>
-                                } @else {
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="1.8"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                  >
-                                    <path
-                                      d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"
-                                    />
-                                    <circle cx="12" cy="12" r="3" />
-                                  </svg>
-                                }
-                              </button>
-                            </div>
-                          </div>
-                          <div
-                            class="w-full md:w-auto flex flex-row justify-between md:justify-end items-center mt-1 md:mt-0 pt-2 md:pt-0 border-t border-gray-600 md:border-0 md:gap-4"
-                          >
-                            <span class="text-gray-500 text-xs text-right"
-                              >x{{ item.quantity }}</span
-                            >
-                            <span
-                              class="text-white font-bold text-sm md:text-base text-right"
-                              >{{ item.purchasePrice | number: "1.2-2" }}€</span
-                            >
-                          </div>
-                        </div>
-                      }
-                    </div>
+                  <div
+                    class="w-full md:w-auto flex flex-row justify-between md:justify-end items-center mt-1 md:mt-0 pt-2 md:pt-0 border-t border-gray-600 md:border-0 md:gap-4">
+                    <div class="h-4 w-8 bg-gray-700 rounded"></div>
+                    <div class="h-5 w-16 bg-gray-700 rounded"></div>
                   </div>
+                </div>
                 }
               </div>
+            </div>
             }
-          </section>
+            <div class="mt-6 flex justify-center gap-4">
+              @if (purchasesHasMore()) {
+              <div class="h-10 w-36 bg-gray-700/50 rounded animate-pulse"></div>
+              } @else if (purchasesLimit() > 5) {
+              <div class="h-10 w-36 bg-gray-700/50 rounded animate-pulse"></div>
+              }
+            </div>
+          </div>
+          } @else {
+          <div class="space-y-4">
+            @for (purchase of purchases().slice(0, purchasesLimit()); track purchase.id; let i = $index) {
+            <div class="bg-gray-800 rounded-lg p-3 md:p-5 shadow-lg overflow-hidden" [@expandCollapse]
+              [@.disabled]="i < 5">
+
+              @if (i >= 5 && expandingPurchases()) {
+              <div
+                class="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-2 md:mb-4 border-b border-gray-700 pb-2 gap-2 md:gap-0 animate-pulse">
+                <div class="flex items-center gap-4 w-full md:w-auto">
+                  <div class="h-4 w-40 bg-gray-700 rounded"></div>
+                  <div class="h-7 w-24 bg-gray-700 rounded"></div>
+                </div>
+                <div class="h-6 w-20 bg-gray-700 rounded"></div>
+              </div>
+              <div class="space-y-2 md:space-y-3 animate-pulse">
+                @for (itemSkel of getSkeletonItemsForCard(i, 'returns'); track itemSkel) {
+                <div
+                  class="bg-gray-700/30 rounded-lg p-3 md:p-4 flex flex-col md:flex-row gap-2 md:gap-4 items-start md:items-center">
+                  <div class="w-full md:flex-1">
+                    <div class="h-5 w-44 bg-gray-700 rounded mb-2"></div>
+                    <div class="flex items-center gap-2">
+                      <div class="h-4 w-16 bg-gray-700 rounded"></div>
+                      <div class="h-4 w-28 bg-gray-700 rounded"></div>
+                    </div>
+                  </div>
+                  <div
+                    class="w-full md:w-auto flex flex-row justify-between md:justify-end items-center mt-1 md:mt-0 pt-2 md:pt-0 border-t border-gray-600 md:border-0 md:gap-4">
+                    <div class="h-4 w-8 bg-gray-700 rounded"></div>
+                    <div class="h-5 w-16 bg-gray-700 rounded"></div>
+                  </div>
+                </div>
+                }
+              </div>
+              } @else {
+              <div
+                class="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-2 md:mb-4 border-b border-gray-700 pb-2 gap-2 md:gap-0">
+                <div class="flex items-center gap-4">
+                  <span class="text-gray-400 text-xs md:text-sm flex items-center gap-2">
+                    📅 {{ formatPurchaseDate(purchase.purchasedAt) }}
+                  </span>
+                  <button (click)="openRefundModal(purchase.id)"
+                    class="bg-red-500/20 hover:bg-red-500/40 text-red-400 hover:text-red-300 px-3 py-1 rounded text-xs md:text-sm font-semibold transition-colors border-0 outline-none ring-0 focus:outline-none focus:ring-0">
+                    {{ "dashboard.return" | translate }}
+                  </button>
+                </div>
+                <span class="text-cyan-400 font-bold text-lg md:text-xl">{{ purchase.totalPrice | number: "1.2-2"
+                  }}€</span>
+              </div>
+              <div class="space-y-2 md:space-y-3">
+                @for (item of purchase.items; track item.id) {
+                <div
+                  class="bg-gray-700/30 rounded-lg p-3 md:p-4 flex flex-col md:flex-row gap-2 md:gap-4 items-start md:items-center hover:bg-gray-700/50 transition-colors">
+                  <div class="w-full md:flex-1">
+                    <p class="text-white font-bold text-base md:text-lg mb-0.5 md:mb-1">
+                      {{ item.title }}
+                    </p>
+                    <div class="flex flex-wrap items-center gap-2 text-xs md:text-sm text-gray-400">
+                      <span class="bg-gray-900 px-2 py-0.5 rounded text-[10px] md:text-xs uppercase tracking-wider">{{
+                        item.platform?.name }}</span>
+                      <a [routerLink]="['/product', item.id]"
+                        class="text-cyan-400 hover:text-cyan-300 hover:underline cursor-pointer flex items-center gap-1 transition-colors mt-0.5 md:mt-0">
+                        {{ "dashboard.viewProduct" | translate }}
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24"
+                          stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                      </a>
+                    </div>
+                    <div class="purchase-key-row mt-2">
+                      <span class="text-[11px] md:text-xs text-gray-400">{{ "dashboard.keyLabel" | translate }}</span>
+                      <span class="purchase-key-value text-[11px] md:text-xs text-gray-200"
+                        [class.is-visible]="isPurchaseKeyVisible(item.itemId ?? item.id)">
+                        {{ item.key || "-" }}
+                      </span>
+                      <button type="button" class="purchase-key-toggle" [attr.aria-label]="
+                                  isPurchaseKeyVisible(item.itemId ?? item.id)
+                                    ? ('tooltips.hideKey' | translate)
+                                    : ('tooltips.showKey' | translate)
+                                " [title]="
+                                  isPurchaseKeyVisible(item.itemId ?? item.id)
+                                    ? ('tooltips.hideKey' | translate)
+                                    : ('tooltips.showKey' | translate)
+                                " (click)="togglePurchaseKeyVisibility(item.itemId ?? item.id)">
+                        @if (isPurchaseKeyVisible(item.itemId ?? item.id)) {
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                          stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                          <path
+                            d="M3 3l18 18M10.58 10.58a2 2 0 002.83 2.83M9.88 5.09A10.94 10.94 0 0112 5c5 0 9.27 3.11 11 7-1.02 2.29-2.72 4.2-4.84 5.39M6.61 6.61C4.62 7.83 3.06 9.68 2 12c1.73 3.89 6 7 10 7 1.61 0 3.15-.39 4.53-1.09" />
+                        </svg>
+                        } @else {
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                          stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" />
+                          <circle cx="12" cy="12" r="3" />
+                        </svg>
+                        }
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    class="w-full md:w-auto flex flex-row justify-between md:justify-end items-center mt-1 md:mt-0 pt-2 md:pt-0 border-t border-gray-600 md:border-0 md:gap-4">
+                    <span class="text-gray-500 text-xs text-right">x{{ item.quantity }}</span>
+                    <span class="text-white font-bold text-sm md:text-base text-right">{{ item.purchasePrice | number:
+                      "1.2-2" }}€</span>
+                  </div>
+                </div>
+                }
+              </div>
+              }
+            </div>
+            }
+            <div class="mt-6 flex justify-center gap-4">
+              @if (expandingPurchases()) {
+              <div class="h-10 w-36 bg-gray-700/50 rounded animate-pulse"></div>
+              } @else if (purchases().length > purchasesLimit()) {
+              <button (click)="showMorePurchases()"
+                class="border-0 bg-cyan-400/20 hover:bg-cyan-400/30 text-cyan-400 font-medium py-2 px-6 rounded transition-colors duration-150 active:scale-95 focus:outline-none flex-none w-auto">
+                {{ 'dashboard.showMore' | translate }}
+              </button>
+              } @else if (purchasesLimit() > 5) {
+              <button (click)="showLessPurchases()"
+                class="border-0 bg-cyan-400/20 hover:bg-cyan-400/30 text-cyan-400 font-medium py-2 px-6 rounded transition-colors duration-150 active:scale-95 focus:outline-none flex-none w-auto">
+                {{ 'dashboard.showLess' | translate }}
+              </button>
+              }
+            </div>
+          </div>
+          }
+        </section>
         }
         @if ((returnsLoading() && returnsSkeletonCount() > 0) || returns().length > 0) {
-          <section class="mt-4 md:mt-8">
-            <h3 class="text-xl font-bold text-white mb-6 text-left">
-              {{ "dashboard.returns" | translate }}
-            </h3>
-            @if (returnsLoading()) {
-              <div class="space-y-4">
-                @for (s of returnSkeletonCards(); track s) {
-                  <div
-                    class="bg-gray-800 rounded-lg p-3 md:p-5 shadow-lg relative overflow-hidden animate-pulse"
-                  >
-                    <div
-                      class="absolute left-0 top-0 bottom-0 w-1 bg-red-500/40"
-                    ></div>
-                    <div
-                      class="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-2 md:mb-4 border-b border-gray-700 pb-2 pl-3 gap-1 md:gap-0"
-                    >
-                      <div class="h-4 w-40 bg-gray-700 rounded"></div>
-                      <div class="h-6 w-20 bg-gray-700 rounded"></div>
-                    </div>
-                    <div
-                      class="mb-2 md:mb-4 bg-red-900/10 p-2 md:p-3 rounded-md text-xs md:text-sm text-red-200 ml-3 flex items-center gap-2"
-                    >
-                      <div class="h-4 w-4 md:h-5 md:w-5 bg-gray-700 rounded-full"></div>
-                      <div class="h-4 w-52 bg-gray-700 rounded"></div>
-                    </div>
-                    <div class="space-y-2 md:space-y-3 ml-3">
-                      @for (itemSkel of returnSkeletonItems(); track itemSkel) {
-                        <div
-                          class="bg-gray-700/30 rounded-lg p-3 md:p-4 flex flex-col md:flex-row gap-2 md:gap-4 items-start md:items-center opacity-75"
-                        >
-                          <div class="w-full md:flex-1">
-                            <div class="h-5 w-44 bg-gray-700 rounded mb-2"></div>
-                            <div class="flex items-center gap-2">
-                              <div class="h-4 w-16 bg-gray-700 rounded"></div>
-                              <div class="h-4 w-28 bg-gray-700 rounded"></div>
-                            </div>
-                          </div>
-                          <div
-                            class="w-full md:w-auto flex flex-row justify-between md:justify-end items-center mt-1 md:mt-0 pt-2 md:pt-0 border-t border-gray-600 md:border-0 md:gap-4"
-                          >
-                            <div class="h-4 w-8 bg-gray-700 rounded"></div>
-                            <div class="h-5 w-16 bg-gray-700 rounded"></div>
-                          </div>
-                        </div>
-                      }
+        <section class="mt-4 md:mt-8">
+          <h3 class="text-xl font-bold text-white mb-6 text-left">
+            {{ "dashboard.returns" | translate }}
+          </h3>
+          @if (returnsLoading()) {
+          <div class="space-y-4">
+            @for (s of returnSkeletonCards(); track s; let sIdx = $index) {
+            <div class="bg-gray-800 rounded-lg p-3 md:p-5 shadow-lg relative overflow-hidden animate-pulse">
+              <div class="absolute left-0 top-0 bottom-0 w-1 bg-red-500/40"></div>
+              <div
+                class="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-2 md:mb-4 border-b border-gray-700 pb-2 pl-3 gap-1 md:gap-0">
+                <div class="h-4 w-40 bg-gray-700 rounded"></div>
+                <div class="h-6 w-20 bg-gray-700 rounded"></div>
+              </div>
+              <div
+                class="mb-2 md:mb-4 bg-red-900/10 p-2 md:p-3 rounded-md text-xs md:text-sm text-red-200 ml-3 flex items-center gap-2">
+                <div class="h-4 w-4 md:h-5 md:w-5 bg-gray-700 rounded-full"></div>
+                <div class="h-4 w-52 bg-gray-700 rounded"></div>
+              </div>
+              <div class="space-y-2 md:space-y-3 ml-3">
+                @for (itemSkel of getSkeletonItemsForCard(sIdx, 'returns'); track itemSkel) {
+                <div
+                  class="bg-gray-700/30 rounded-lg p-3 md:p-4 flex flex-col md:flex-row gap-2 md:gap-4 items-start md:items-center opacity-75">
+                  <div class="w-full md:flex-1">
+                    <div class="h-5 w-44 bg-gray-700 rounded mb-2"></div>
+                    <div class="flex items-center gap-2">
+                      <div class="h-4 w-16 bg-gray-700 rounded"></div>
+                      <div class="h-4 w-28 bg-gray-700 rounded"></div>
                     </div>
                   </div>
-                }
-              </div>
-            } @else {
-              <div class="space-y-4">
-                @for (ret of returns(); track ret.id) {
                   <div
-                    class="bg-gray-800 rounded-lg p-3 md:p-5 shadow-lg relative overflow-hidden"
-                  >
-                    <div
-                      class="absolute left-0 top-0 bottom-0 w-1 bg-red-500/50"
-                    ></div>
-
-                    <div
-                      class="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-2 md:mb-4 border-b border-gray-700 pb-2 pl-3 gap-1 md:gap-0"
-                    >
-                      <span class="text-gray-400 text-xs md:text-sm flex items-center gap-2">
-                        📅 {{ formatPurchaseDate(ret.purchasedAt) }}
-                      </span>
-                      <span class="text-red-400 font-bold text-lg md:text-xl"
-                        >{{ ret.totalPrice | number: "1.2-2" }}€</span
-                      >
-                    </div>
-                    <div
-                      class="mb-2 md:mb-4 bg-red-900/10 p-2 md:p-3 rounded-md text-xs md:text-sm text-red-200 ml-3 flex items-center gap-2"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-4 w-4 md:h-5 md:w-5 text-red-400"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                        />
-                      </svg>
-                      <span
-                        ><span
-                          class="font-bold uppercase text-[10px] md:text-xs tracking-wide"
-                          >{{ "dashboard.refundReason" | translate }}:</span
-                        >
-                        {{ ret.refundReason }}</span
-                      >
-                    </div>
-                    <div class="space-y-2 md:space-y-3 ml-3">
-                      @for (item of ret.items; track item.id) {
-                        <div
-                          class="bg-gray-700/30 rounded-lg p-3 md:p-4 flex flex-col md:flex-row gap-2 md:gap-4 items-start md:items-center opacity-75 grayscale hover:grayscale-0 transition-all"
-                        >
-                          <div class="w-full md:flex-1">
-                            <p
-                              class="text-white font-bold text-base md:text-lg mb-0.5 md:mb-1"
-                            >
-                              {{ item.title }}
-                            </p>
-                            <div
-                              class="flex flex-wrap items-center gap-2 text-xs md:text-sm text-gray-400"
-                            >
-                              <span
-                                class="bg-gray-900 px-2 py-0.5 rounded text-[10px] md:text-xs uppercase tracking-wider"
-                                >{{ item.platform?.name }}</span
-                              >
-                              <a
-                                [routerLink]="['/product', item.id]"
-                                class="text-cyan-400 hover:text-cyan-300 hover:underline cursor-pointer flex items-center gap-1 transition-colors mt-0.5 md:mt-0"
-                              >
-                                {{ "dashboard.viewProduct" | translate }}
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  class="h-3 w-3"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                >
-                                  <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                                  />
-                                </svg>
-                              </a>
-                            </div>
-                          </div>
-                          <div
-                            class="w-full md:w-auto flex flex-row justify-between md:justify-end items-center mt-1 md:mt-0 pt-2 md:pt-0 border-t border-gray-600 md:border-0 md:gap-4"
-                          >
-                            <span class="text-gray-500 text-xs text-right"
-                              >x{{ item.quantity }}</span
-                            >
-                            <span
-                              class="text-gray-400 font-bold line-through decoration-red-500/50 text-sm md:text-base text-right"
-                            >
-                              {{ item.purchasePrice | number: "1.2-2" }}€
-                            </span>
-                          </div>
-                        </div>
-                      }
-                    </div>
+                    class="w-full md:w-auto flex flex-row justify-between md:justify-end items-center mt-1 md:mt-0 pt-2 md:pt-0 border-t border-gray-600 md:border-0 md:gap-4">
+                    <div class="h-4 w-8 bg-gray-700 rounded"></div>
+                    <div class="h-5 w-16 bg-gray-700 rounded"></div>
                   </div>
+                </div>
                 }
               </div>
+            </div>
             }
-          </section>
+            <div class="mt-6 flex justify-center gap-4">
+              @if (returnsHasMore()) {
+              <div class="h-10 w-36 bg-gray-700/50 rounded animate-pulse"></div>
+              } @else if (returnsLimit() > 5) {
+              <div class="h-10 w-36 bg-gray-700/50 rounded animate-pulse"></div>
+              }
+            </div>
+          </div>
+          } @else {
+          <div class="space-y-4">
+            @for (ret of returns().slice(0, returnsLimit()); track ret.id; let i = $index) {
+            <div class="bg-gray-800 rounded-lg p-3 md:p-5 shadow-lg relative overflow-hidden" [@expandCollapse]
+              [@.disabled]="i < 5">
+
+              @if (i >= 5 && expandingReturns()) {
+              <div
+                class="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-2 md:mb-4 border-b border-gray-700 pb-2 gap-2 md:gap-0 animate-pulse">
+                <div class="flex items-center gap-4 w-full md:w-auto">
+                  <div class="h-4 w-40 bg-gray-700 rounded"></div>
+                  <div class="h-7 w-24 bg-gray-700 rounded"></div>
+                </div>
+                <div class="h-6 w-20 bg-gray-700 rounded"></div>
+              </div>
+              <div class="space-y-2 md:space-y-3 animate-pulse">
+                @for (itemSkel of getSkeletonItemsForCard(i, 'returns'); track itemSkel) {
+                <div
+                  class="bg-gray-700/30 rounded-lg p-3 md:p-4 flex flex-col md:flex-row gap-2 md:gap-4 items-start md:items-center">
+                  <div class="w-full md:flex-1">
+                    <div class="h-5 w-44 bg-gray-700 rounded mb-2"></div>
+                    <div class="flex items-center gap-2">
+                      <div class="h-4 w-16 bg-gray-700 rounded"></div>
+                      <div class="h-4 w-28 bg-gray-700 rounded"></div>
+                    </div>
+                  </div>
+                  <div
+                    class="w-full md:w-auto flex flex-row justify-between md:justify-end items-center mt-1 md:mt-0 pt-2 md:pt-0 border-t border-gray-600 md:border-0 md:gap-4">
+                    <div class="h-4 w-8 bg-gray-700 rounded"></div>
+                    <div class="h-5 w-16 bg-gray-700 rounded"></div>
+                  </div>
+                </div>
+                }
+              </div>
+              } @else {
+              <div class="absolute left-0 top-0 bottom-0 w-1 bg-red-500/50"></div>
+
+              <div
+                class="flex flex-col md:flex-row md:justify-between items-start md:items-center mb-2 md:mb-4 border-b border-gray-700 pb-2 pl-3 gap-1 md:gap-0">
+                <span class="text-gray-400 text-xs md:text-sm flex items-center gap-2">
+                  📅 {{ formatPurchaseDate(ret.purchasedAt) }}
+                </span>
+                <span class="text-red-400 font-bold text-lg md:text-xl">{{ ret.totalPrice | number: "1.2-2" }}€</span>
+              </div>
+              <div
+                class="mb-2 md:mb-4 bg-red-900/10 p-2 md:p-3 rounded-md text-xs md:text-sm text-red-200 ml-3 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5 text-red-400" fill="none"
+                  viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <span><span class="font-bold uppercase text-[10px] md:text-xs tracking-wide">{{ "dashboard.refundReason"
+                    | translate }}:</span>
+                  {{ ret.refundReason }}</span>
+              </div>
+              <div class="space-y-2 md:space-y-3 ml-3">
+                @for (item of ret.items; track item.id) {
+                <div
+                  class="bg-gray-700/30 rounded-lg p-3 md:p-4 flex flex-col md:flex-row gap-2 md:gap-4 items-start md:items-center opacity-75 grayscale hover:grayscale-0 transition-all">
+                  <div class="w-full md:flex-1">
+                    <p class="text-white font-bold text-base md:text-lg mb-0.5 md:mb-1">
+                      {{ item.title }}
+                    </p>
+                    <div class="flex flex-wrap items-center gap-2 text-xs md:text-sm text-gray-400">
+                      <span class="bg-gray-900 px-2 py-0.5 rounded text-[10px] md:text-xs uppercase tracking-wider">{{
+                        item.platform?.name }}</span>
+                      <a [routerLink]="['/product', item.id]"
+                        class="text-cyan-400 hover:text-cyan-300 hover:underline cursor-pointer flex items-center gap-1 transition-colors mt-0.5 md:mt-0">
+                        {{ "dashboard.viewProduct" | translate }}
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24"
+                          stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                  <div
+                    class="w-full md:w-auto flex flex-row justify-between md:justify-end items-center mt-1 md:mt-0 pt-2 md:pt-0 border-t border-gray-600 md:border-0 md:gap-4">
+                    <span class="text-gray-500 text-xs text-right">x{{ item.quantity }}</span>
+                    <span
+                      class="text-gray-400 font-bold line-through decoration-red-500/50 text-sm md:text-base text-right">
+                      {{ item.purchasePrice | number: "1.2-2" }}€
+                    </span>
+                  </div>
+                </div>
+                }
+              </div>
+              }
+            </div>
+            }
+            <div class="mt-6 flex justify-center gap-4">
+              @if (expandingReturns()) {
+              <div class="h-10 w-36 bg-gray-700/50 rounded animate-pulse"></div>
+              } @else if (returns().length > returnsLimit()) {
+              <button (click)="showMoreReturns()"
+                class="border-0 bg-cyan-400/20 hover:bg-cyan-400/30 text-cyan-400 font-medium py-2 px-6 rounded transition-colors duration-150 active:scale-95 focus:outline-none flex-none w-auto">
+                {{ 'dashboard.showMore' | translate }}
+              </button>
+              } @else if (returnsLimit() > 5) {
+              <button (click)="showLessReturns()"
+                class="border-0 bg-cyan-400/20 hover:bg-cyan-400/30 text-cyan-400 font-medium py-2 px-6 rounded transition-colors duration-150 active:scale-95 focus:outline-none flex-none w-auto">
+                {{ 'dashboard.showLess' | translate }}
+              </button>
+              }
+            </div>
+          </div>
+          }
+        </section>
         }
 
         <!--Ya que no tiene funcionalidad actual, se deja en comentado por ahora-->
@@ -830,11 +770,8 @@
         </section> -->
 
         <div class="mt-16 lg:mt-10 mb-2 flex justify-center lg:justify-start">
-          <button
-            #actionSizeButton
-            (click)="onLogout()"
-            class="border-0 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-6 rounded transition-colors flex items-center justify-center gap-2 duration-150 active:scale-95 focus:outline-none"
-          >
+          <button #actionSizeButton (click)="onLogout()"
+            class="border-0 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-6 rounded transition-colors flex items-center justify-center gap-2 duration-150 active:scale-95 focus:outline-none">
             <span>{{ "dashboard.logout" | translate }}</span>
           </button>
         </div>
@@ -845,44 +782,33 @@
 </div>
 
 @if (isRefundModalOpen()) {
-  <div
-    class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-  >
-    <div class="bg-gray-900 rounded-xl max-w-md w-full p-6 shadow-2xl">
-      <h3 class="text-xl font-bold text-white mb-4">
-        {{ "dashboard.refundReasonTitle" | translate }}
-      </h3>
+<div class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+  <div class="bg-gray-900 rounded-xl max-w-md w-full p-6 shadow-2xl">
+    <h3 class="text-xl font-bold text-white mb-4">
+      {{ "dashboard.refundReasonTitle" | translate }}
+    </h3>
 
-      <div class="mb-4">
-        <textarea
-          [ngModel]="refundReason()"
-          (ngModelChange)="refundReason.set($event)"
-          rows="4"
-          class="w-full bg-gray-800 rounded-lg p-3 text-white transition-colors resize-none placeholder-gray-500 border-0 outline-none ring-0 focus:outline-none focus:ring-0"
-          [placeholder]="'dashboard.refundReasonPlaceholder' | translate"
-        ></textarea>
-        @if (refundError()) {
-          <p class="text-red-400 text-sm mt-2">
-            {{ refundError() | translate }}
-          </p>
-        }
-      </div>
+    <div class="mb-4">
+      <textarea [ngModel]="refundReason()" (ngModelChange)="refundReason.set($event)" rows="4"
+        class="w-full bg-gray-800 rounded-lg p-3 text-white transition-colors resize-none placeholder-gray-500 border-0 outline-none ring-0 focus:outline-none focus:ring-0"
+        [placeholder]="'dashboard.refundReasonPlaceholder' | translate"></textarea>
+      @if (refundError()) {
+      <p class="text-red-400 text-sm mt-2">
+        {{ refundError() | translate }}
+      </p>
+      }
+    </div>
 
-      <div class="flex justify-end gap-3">
-        <button
-          (click)="closeRefundModal()"
-          class="px-4 py-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition-colors border-0 outline-none ring-0 focus:outline-none focus:ring-0"
-        >
-          {{ "dashboard.refundCancel" | translate }}
-        </button>
-        <button
-          (click)="confirmRefund()"
-          [disabled]="!refundReason() || refundReason().length < 10"
-          class="px-4 py-2 rounded-lg bg-red-500 text-white font-bold hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed border-0 outline-none ring-0 focus:outline-none focus:ring-0"
-        >
-          {{ "dashboard.refundAccept" | translate }}
-        </button>
-      </div>
+    <div class="flex justify-end gap-3">
+      <button (click)="closeRefundModal()"
+        class="px-4 py-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition-colors border-0 outline-none ring-0 focus:outline-none focus:ring-0">
+        {{ "dashboard.refundCancel" | translate }}
+      </button>
+      <button (click)="confirmRefund()" [disabled]="!refundReason() || refundReason().length < 10"
+        class="px-4 py-2 rounded-lg bg-red-500 text-white font-bold hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed border-0 outline-none ring-0 focus:outline-none focus:ring-0">
+        {{ "dashboard.refundAccept" | translate }}
+      </button>
     </div>
   </div>
+</div>
 }

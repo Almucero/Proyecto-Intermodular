@@ -85,10 +85,10 @@ export class HelpComponent {
     this.screenshotModalClosing = false;
     this.screenshotModalOpen = false;
     this.renderer.setStyle(this.document.body, 'overflow', 'hidden');
-    if (typeof requestAnimationFrame !== 'undefined') {
-      requestAnimationFrame(() => {
+    if (typeof setTimeout !== 'undefined') {
+      setTimeout(() => {
         if (!this.screenshotModalClosing) this.screenshotModalOpen = true;
-      });
+      }, 10);
     } else {
       this.screenshotModalOpen = true;
     }

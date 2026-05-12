@@ -559,7 +559,6 @@
     "resendCode": "Resend code",
     "close": "Close"
   },
-
   "errors": {
     "required": "This field is required",
     "email": "Invalid email",
@@ -669,8 +668,7 @@
     "returns": "Returns",
     "refundReason": "Reason",
     "viewProduct": "View product page",
-    "keyLabel": "Key:"
-    ,
+    "keyLabel": "Key:",
     "placeholders": {
       "displayName": "Enter your display name",
       "emailAddress": "Enter your email address",
@@ -682,7 +680,9 @@
       "region": "Enter your region/state",
       "postalCode": "Enter your postal code",
       "country": "Enter your country"
-    }
+    },
+    "showMore": "Show more",
+    "showLess": "Show less"
   },
   "tooltips": {
     "menu": "Open menu",

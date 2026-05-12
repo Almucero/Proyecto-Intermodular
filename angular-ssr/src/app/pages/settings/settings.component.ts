@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 import { BaseAuthenticationService } from '../../core/services/impl/base-authentication.service';
 import { UserService } from '../../core/services/impl/user.service';
 
@@ -19,6 +20,9 @@ export class SettingsComponent implements OnInit {
     private readonly userService = inject(UserService);
   /** Propiedad no documentada. */
     private readonly fb = inject(FormBuilder);
+    private readonly router = inject(Router);
+
+  isAuthenticated = signal(false);
 
   /** Estado de guardado en curso. */
   saving = false;
@@ -65,6 +69,7 @@ export class SettingsComponent implements OnInit {
   /** Inicializa el formulario con datos del usuario autenticado. */
   ngOnInit(): void {
     this.auth.user$.subscribe((user) => {
+      this.isAuthenticated.set(!!user);
       if (!user) return;
       const topicsFromUser = (user.emailNotificationTopics ?? {}) as Record<string, boolean>;
       const topicsPatch = this.topicKeys.reduce(
@@ -140,5 +145,9 @@ export class SettingsComponent implements OnInit {
   /** Placeholder de confirmación final de borrado de cuenta. */
   onConfirmDeleteAccount(): void {
     this.deleteAccountConfirmArmed = false;
+  }
+
+  goToLogin(): void {
+    this.router.navigate(['/login']);
   }
 }
