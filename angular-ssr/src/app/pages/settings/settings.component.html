@@ -3,6 +3,17 @@
     <h1 class="text-3xl font-bold text-cyan-300 mb-8 text-center">
       {{ "settings.title" | translate }}
     </h1>
+
+    @if (!isAuthenticated()) {
+      <div class="text-center text-gray-400 py-12">
+        <a
+          (click)="goToLogin()"
+          class="text-cyan-400 hover:text-cyan-300 cursor-pointer transition-colors"
+          >{{ "authGuard.login" | translate }}</a
+        >
+        {{ "authGuard.toSeeContent" | translate }}
+      </div>
+    } @else {
     <form [formGroup]="form" (ngSubmit)="saveSettings()" class="space-y-6">
       <div class="space-y-6" [class.pointer-events-none]="deleteAccountConfirmArmed">
       <section class="bg-gray-800/70 rounded-xl px-5 pt-5 pb-5 border border-gray-700">
@@ -35,11 +46,11 @@
           />
         </div>
 
-        <div class="grid md:grid-cols-2 gap-4">
+        <div class="grid md:grid-cols-3 gap-4">
           <div>
             <label class="block text-sm text-gray-300 mb-1" [attr.title]="'settings.notifications.hints.language' | translate">{{ "settings.notifications.language" | translate }}</label>
             <div class="relative">
-              <select formControlName="emailNotificationLanguage" class="w-full px-4 pr-12 h-11 rounded-md border border-gray-600 bg-gray-900 text-white focus:outline-none appearance-none" [attr.title]="'settings.notifications.hints.languageSelect' | translate">
+              <select formControlName="emailNotificationLanguage" class="w-full px-4 pr-16 h-11 rounded-md border border-gray-600 bg-gray-900 text-white focus:outline-none appearance-none text-ellipsis overflow-hidden whitespace-nowrap" [attr.title]="'settings.notifications.hints.languageSelect' | translate">
                 <option value="">{{ "settings.notifications.languageAuto" | translate }}</option>
                 <option value="es">Español</option>
                 <option value="en">English</option>
@@ -57,7 +68,7 @@
           <div>
             <label class="block text-sm text-gray-300 mb-1" [attr.title]="'settings.notifications.hints.frequency' | translate">{{ "settings.notifications.frequency" | translate }}</label>
             <div class="relative">
-              <select formControlName="emailNotificationFrequency" class="w-full px-4 pr-12 h-11 rounded-md border border-gray-600 bg-gray-900 text-white focus:outline-none appearance-none" [attr.title]="'settings.notifications.hints.frequencySelect' | translate">
+              <select formControlName="emailNotificationFrequency" class="w-full px-4 pr-16 h-11 rounded-md border border-gray-600 bg-gray-900 text-white focus:outline-none appearance-none text-ellipsis overflow-hidden whitespace-nowrap" [attr.title]="'settings.notifications.hints.frequencySelect' | translate">
                 <option value="immediate">{{ "settings.notifications.frequencyImmediate" | translate }}</option>
                 <option value="daily">{{ "settings.notifications.frequencyDaily" | translate }}</option>
                 <option value="weekly">{{ "settings.notifications.frequencyWeekly" | translate }}</option>
@@ -69,11 +80,10 @@
               </span>
             </div>
           </div>
-        </div>
-
-        <div>
-          <label class="block text-sm text-gray-300 mb-1" [attr.title]="'settings.notifications.hints.recommendationIntervalDays' | translate">{{ "settings.notifications.recommendationIntervalDays" | translate }}</label>
-          <input type="number" min="1" max="30" formControlName="emailRecommendationIntervalDays" class="w-full md:w-48 px-4 h-11 rounded-md border border-gray-600 bg-gray-900 text-white" [attr.title]="'settings.notifications.hints.recommendationIntervalDaysInput' | translate" />
+          <div>
+            <label class="block text-sm text-gray-300 mb-1" [attr.title]="'settings.notifications.hints.recommendationIntervalDays' | translate">{{ "settings.notifications.recommendationIntervalDays" | translate }}</label>
+            <input type="number" min="1" max="30" formControlName="emailRecommendationIntervalDays" class="w-full px-4 h-11 rounded-md border border-gray-600 bg-gray-900 text-white" [attr.title]="'settings.notifications.hints.recommendationIntervalDaysInput' | translate" />
+          </div>
         </div>
 
         <div class="grid md:grid-cols-3 gap-4">
@@ -164,5 +174,6 @@
         }
       </div>
     </form>
+    }
   </div>
 </div>

@@ -670,8 +670,7 @@
     "returns": "Devoluciones",
     "refundReason": "Motivo",
     "viewProduct": "Ver página del producto",
-    "keyLabel": "Clave:"
-    ,
+    "keyLabel": "Clave:",
     "placeholders": {
       "displayName": "Introduce tu nombre en pantalla",
       "emailAddress": "Introduce tu correo electrónico",
@@ -683,7 +682,9 @@
       "region": "Introduce tu región/provincia",
       "postalCode": "Introduce tu código postal",
       "country": "Introduce tu país"
-    }
+    },
+    "showMore": "Mostrar más",
+    "showLess": "Mostrar menos"
   },
   "tooltips": {
     "menu": "Abrir menú",

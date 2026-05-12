@@ -686,7 +686,7 @@ function getLocalized(locale: Locale) {
       ],
     },
   };
-  return c[locale];
+  return { ...c[locale], lang: locale };
 }
 
 /**
@@ -796,6 +796,7 @@ function wrapPdfText(value: string, maxChars: number): string[] {
  * @returns HTML completo del email.
  */
 function wrapEmailLayout(input: {
+  lang?: string;
   title: string;
   intro?: string;
   bodyHtml: string;
@@ -817,7 +818,17 @@ function wrapEmailLayout(input: {
     ? `<p style="margin:0 0 16px 0;color:#475569;line-height:1.6;font-size:15px;word-break:break-word">${escapeHtml(input.intro)}</p>`
     : '';
 
-  return `
+  const lang = input.lang ? escapeHtml(input.lang) : 'es';
+
+  return `<!DOCTYPE html>
+<html lang="${lang}" xml:lang="${lang}" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Language" content="${lang}">
+  <title>${escapeHtml(input.title)}</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f8fafc;">
     <div style="font-family:Arial,sans-serif;padding:16px 8px;color:#0f172a">
       <div style="max-width:760px;margin:0 auto;background:#ffffff;border:1px solid #e2e8f0;border-radius:14px;padding:18px">
         ${greetingBlock}
@@ -831,7 +842,8 @@ function wrapEmailLayout(input: {
         </div>
       </div>
     </div>
-  `;
+</body>
+</html>`;
 }
 
 /**
@@ -862,13 +874,14 @@ function listHtml(
     footerManage: string;
     footerCopyright: string;
     footerAddress: string;
+    lang?: string;
   },
 ) {
   const cards = games
     .map((g) => {
       const priceBadge = g.price ? `<span style="display:block;width:max-content;background:#eef2ff;color:#3730a3;padding:4px 9px;border-radius:999px;font-size:12px;font-weight:700;line-height:1.2">${escapeHtml(g.price)}</span>` : '';
       const gameBadge = g.badge ? `<span style="display:block;width:max-content;background:#f1f5f9;color:#334155;padding:4px 9px;border-radius:999px;font-size:11px;font-weight:700;line-height:1.2">${escapeHtml(g.badge)}</span>` : '';
-      const subtitle = g.subtitle ? `<div style="color:#64748b;font-size:13px;line-height:1.5;margin-top:8px;word-break:break-word">${escapeHtml(g.subtitle)}</div>` : '';
+      const subtitle = g.subtitle ? `<div class="notranslate" style="color:#64748b;font-size:13px;line-height:1.5;margin-top:8px;word-break:break-word">${escapeHtml(g.subtitle)}</div>` : '';
       const platform = g.platform ? `<div style="color:#334155;font-size:13px;margin-top:6px">${escapeHtml(g.platform)}</div>` : '';
       const resolvedImageUrl = resolveImageUrl(g.imageUrl);
       const image = resolvedImageUrl
@@ -881,7 +894,7 @@ function listHtml(
               ${image}
             </td>
             <td style="padding:14px 14px 14px 8px;vertical-align:top">
-              <div style="color:#0f172a;font-size:16px;line-height:1.3;font-weight:700;margin:0 0 4px 0">${escapeHtml(g.title)}</div>
+              <div class="notranslate" style="color:#0f172a;font-size:16px;line-height:1.3;font-weight:700;margin:0 0 4px 0">${escapeHtml(g.title)}</div>
               ${platform}
               <div style="margin-top:8px;display:flex;flex-direction:column;align-items:flex-start;gap:6px">${gameBadge}${priceBadge}</div>
               ${subtitle}
@@ -898,9 +911,11 @@ function listHtml(
     footerManage: 'Manage your notification settings',
     footerCopyright: 'Copyright © 2026 Game Sage. All rights reserved.',
     footerAddress: '440 N Barranca Ave #4133 Covina, CA 91723',
+    lang: 'en',
   };
   const t = l10n || fallback;
   return wrapEmailLayout({
+    lang: t.lang,
     title,
     intro,
     bodyHtml: cards,
@@ -937,7 +952,7 @@ function sectionHtml(
     .map((g) => {
       const priceBadge = g.price ? `<span style="display:block;width:max-content;background:#eef2ff;color:#3730a3;padding:4px 9px;border-radius:999px;font-size:12px;font-weight:700;line-height:1.2">${escapeHtml(g.price)}</span>` : '';
       const gameBadge = g.badge ? `<span style="display:block;width:max-content;background:#f1f5f9;color:#334155;padding:4px 9px;border-radius:999px;font-size:11px;font-weight:700;line-height:1.2">${escapeHtml(g.badge)}</span>` : '';
-      const subtitle = g.subtitle ? `<div style="color:#64748b;font-size:13px;line-height:1.5;margin-top:8px;word-break:break-word">${escapeHtml(g.subtitle)}</div>` : '';
+      const subtitle = g.subtitle ? `<div class="notranslate" style="color:#64748b;font-size:13px;line-height:1.5;margin-top:8px;word-break:break-word">${escapeHtml(g.subtitle)}</div>` : '';
       const platform = g.platform ? `<div style="color:#334155;font-size:13px;margin-top:6px">${escapeHtml(g.platform)}</div>` : '';
       const resolvedImageUrl = resolveImageUrl(g.imageUrl);
       const image = resolvedImageUrl
@@ -950,7 +965,7 @@ function sectionHtml(
               ${image}
             </td>
             <td style="padding:12px 12px 12px 8px;vertical-align:top">
-              <div style="color:#0f172a;font-size:15px;line-height:1.3;font-weight:700;margin:0 0 4px 0">${escapeHtml(g.title)}</div>
+              <div class="notranslate" style="color:#0f172a;font-size:15px;line-height:1.3;font-weight:700;margin:0 0 4px 0">${escapeHtml(g.title)}</div>
               ${platform}
               <div style="margin-top:8px;display:flex;flex-direction:column;align-items:flex-start;gap:6px">${gameBadge}${priceBadge}</div>
               ${subtitle}
@@ -1758,6 +1773,7 @@ async function runCategoryNewsAndPopular(users: UserWithNotifications[]) {
     if (!merged.length) continue;
     const text = pickVariant(l.categoryNewsTextVariants, `${user.id}-${merged.length}-${Date.now()}`);
     const html = wrapEmailLayout({
+      lang: l.lang,
       title: l.popularTitle,
       intro: text,
       recipientName: user.name,

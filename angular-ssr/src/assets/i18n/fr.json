@@ -647,8 +647,7 @@
     "reasonTooShort": "Le motif doit comporter au moins 10 caractères.",
     "refundReason": "Motif",
     "viewProduct": "Voir le produit",
-    "keyLabel": "Clé :"
-    ,
+    "keyLabel": "Clé :",
     "placeholders": {
       "displayName": "Saisissez votre nom d’affichage",
       "emailAddress": "Saisissez votre adresse e-mail",
@@ -660,7 +659,9 @@
       "region": "Saisissez votre région/département",
       "postalCode": "Saisissez votre code postal",
       "country": "Saisissez votre pays"
-    }
+    },
+    "showMore": "Voir plus",
+    "showLess": "Voir moins"
   },
   "tooltips": {
     "menu": "Ouvrir le menu",

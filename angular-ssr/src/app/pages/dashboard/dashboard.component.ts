@@ -11,6 +11,7 @@ import {
   signal,
   PLATFORM_ID,
 } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
@@ -41,22 +42,33 @@ import { Subscription } from 'rxjs';
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
+  animations: [
+    trigger('expandCollapse', [
+      transition(':enter', [
+        style({ height: '0px', opacity: 0, overflow: 'hidden' }),
+        animate('280ms ease-out', style({ height: '*', opacity: 1 })),
+      ]),
+      transition(':leave', [
+        animate('300ms ease-in-out', style({ height: '0px', opacity: 0, overflow: 'hidden' })),
+      ]),
+    ]),
+  ],
 })
 export class DashboardComponent implements AfterViewInit, OnDestroy {
   /** Propiedad no documentada. */
-    private auth = inject(BaseAuthenticationService);
+  private auth = inject(BaseAuthenticationService);
   /** Propiedad no documentada. */
-    private userService = inject(UserService);
+  private userService = inject(UserService);
   /** Propiedad no documentada. */
-    private mediaService = inject(MediaService);
+  private mediaService = inject(MediaService);
   /** Propiedad no documentada. */
-    private purchaseService = inject(PurchaseService);
+  private purchaseService = inject(PurchaseService);
   /** Propiedad no documentada. */
-    private router = inject(Router);
+  private router = inject(Router);
   /** Propiedad no documentada. */
-    private platformId = inject(PLATFORM_ID);
+  private platformId = inject(PLATFORM_ID);
   /** Propiedad no documentada. */
-    private translate = inject(TranslateService);
+  private translate = inject(TranslateService);
 
   /** Señal que contiene los datos del usuario autenticado. */
   user = toSignal(this.auth.user$);
@@ -64,38 +76,56 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   purchases = signal<any[]>([]);
   /** Señal con la lista de compras que han sido reembolsadas. */
   returns = signal<any[]>([]);
+  purchasesLimit = signal(5);
+  returnsLimit = signal(5);
+  /** Indica (desde caché) si hay más compras que el límite visible inicial. */
+  purchasesHasMore = signal(true);
+  /** Indica (desde caché) si hay más devoluciones que el límite visible inicial. */
+  returnsHasMore = signal(true);
+  expandingPurchases = signal(false);
+  expandingReturns = signal(false);
+  collapsingPurchases = signal(false);
+  collapsingReturns = signal(false);
   /** Propiedad no documentada. */
-    purchasesLoading = signal(true);
+  purchasesLoading = signal(true);
   /** Propiedad no documentada. */
-    returnsLoading = signal(true);
+  returnsLoading = signal(true);
   /** Propiedad no documentada. */
-    purchasesSkeletonCount = signal(0);
+  purchasesSkeletonCount = signal(0);
   /** Propiedad no documentada. */
-    returnsSkeletonCount = signal(0);
+  returnsSkeletonCount = signal(0);
   /** Propiedad no documentada. */
-    purchaseItemsSkeletonCount = signal(2);
+  purchaseItemsSkeletonCounts = signal<number[]>([]);
   /** Propiedad no documentada. */
-    returnItemsSkeletonCount = signal(2);
+  returnItemsSkeletonCounts = signal<number[]>([]);
   /** Propiedad no documentada. */
-    purchaseSkeletonCards = computed(() =>
-    this.buildSkeletonRange(this.purchasesSkeletonCount()),
+  purchaseSkeletonCards = computed(() =>
+    this.buildSkeletonRange(Math.min(this.purchasesSkeletonCount(), this.purchasesLimit())),
   );
   /** Propiedad no documentada. */
-    returnSkeletonCards = computed(() =>
-    this.buildSkeletonRange(this.returnsSkeletonCount()),
+  returnSkeletonCards = computed(() =>
+    this.buildSkeletonRange(Math.min(this.returnsSkeletonCount(), this.returnsLimit())),
   );
   /** Propiedad no documentada. */
-    purchaseSkeletonItems = computed(() =>
-    this.buildSkeletonRange(this.purchaseItemsSkeletonCount()),
+  purchaseSkeletonItems = computed(() =>
+    this.buildSkeletonRange(
+      this.purchaseItemsSkeletonCounts().length > 0
+        ? Math.round(this.purchaseItemsSkeletonCounts().reduce((a, b) => a + b, 0) / this.purchaseItemsSkeletonCounts().length)
+        : 2
+    ),
   );
   /** Propiedad no documentada. */
-    returnSkeletonItems = computed(() =>
-    this.buildSkeletonRange(this.returnItemsSkeletonCount()),
+  returnSkeletonItems = computed(() =>
+    this.buildSkeletonRange(
+      this.returnItemsSkeletonCounts().length > 0
+        ? Math.round(this.returnItemsSkeletonCounts().reduce((a, b) => a + b, 0) / this.returnItemsSkeletonCounts().length)
+        : 2
+    ),
   );
   /** Propiedad no documentada. */
-    private minSkeletonDelayDone = signal(false);
+  private minSkeletonDelayDone = signal(false);
   /** Propiedad no documentada. */
-    dashboardLoading = computed(
+  dashboardLoading = computed(
     () =>
       !this.minSkeletonDelayDone() ||
       !this.user() ||
@@ -142,29 +172,33 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   /** URL temporal para la previsualización de la nueva imagen de perfil. */
   previewImageUrl: string | null = null;
   /** Propiedad no documentada. */
-    @ViewChildren('actionSizeButton')
+  @ViewChildren('actionSizeButton')
   private actionSizeButtons!: QueryList<ElementRef<HTMLButtonElement>>;
   /** Propiedad no documentada. */
-    private actionButtonsChangesSubscription?: Subscription;
+  private actionButtonsChangesSubscription?: Subscription;
   /** Propiedad no documentada. */
-    private purchasesSubscription?: Subscription;
+  private purchasesSubscription?: Subscription;
   /** Propiedad no documentada. */
-    private returnsSubscription?: Subscription;
+  private returnsSubscription?: Subscription;
   /** Propiedad no documentada. */
-    private readonly resizeHandler = () => this.syncActionButtonsWidth();
+  private readonly resizeHandler = () => this.syncActionButtonsWidth();
   /** Propiedad no documentada. */
-    private skeletonDelayTimeoutId: ReturnType<typeof setTimeout> | null = null;
+  private skeletonDelayTimeoutId: ReturnType<typeof setTimeout> | null = null;
   /** Propiedad no documentada. */
-    private readonly purchasesSkeletonCacheKey = 'dashboard.purchasesSkeletonCount';
+  private readonly purchasesSkeletonCacheKey = 'dashboard.purchasesSkeletonCount';
   /** Propiedad no documentada. */
-    private readonly returnsSkeletonCacheKey = 'dashboard.returnsSkeletonCount';
+  private readonly returnsSkeletonCacheKey = 'dashboard.returnsSkeletonCount';
   /** Propiedad no documentada. */
-    private readonly purchaseItemsSkeletonCacheKey =
+  private readonly purchaseItemsSkeletonCacheKey =
     'dashboard.purchaseItemsSkeletonCount';
   /** Propiedad no documentada. */
-    private readonly returnItemsSkeletonCacheKey = 'dashboard.returnItemsSkeletonCount';
+  private readonly returnItemsSkeletonCacheKey = 'dashboard.returnItemsSkeletonCount';
+  /** Clave de caché que indica si hay más compras que el límite visible. */
+  private readonly purchasesHasMoreCacheKey = 'dashboard.purchasesHasMore';
+  /** Clave de caché que indica si hay más devoluciones que el límite visible. */
+  private readonly returnsHasMoreCacheKey = 'dashboard.returnsHasMore';
   /** Propiedad no documentada. */
-    private visiblePurchaseKeys = signal<Map<number, boolean>>(new Map());
+  private visiblePurchaseKeys = signal<Map<number, boolean>>(new Map());
 
   /**
    * Obtiene la URL de la imagen de perfil, priorizando la previsualización local,
@@ -182,7 +216,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   }
 
   /** Constructor no documentado. */
-    constructor() {
+  constructor() {
     /**
      * Sincroniza los datos editables cuando cambia el usuario autenticado.
      */
@@ -208,7 +242,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   }
 
   /** Método no documentado. */
-    ngAfterViewInit() {
+  ngAfterViewInit() {
     if (!isPlatformBrowser(this.platformId)) return;
     this.actionButtonsChangesSubscription = this.actionSizeButtons.changes.subscribe(
       () => {
@@ -220,7 +254,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   }
 
   /** Método no documentado. */
-    ngOnDestroy() {
+  ngOnDestroy() {
     if (isPlatformBrowser(this.platformId)) {
       window.removeEventListener('resize', this.resizeHandler);
     }
@@ -234,7 +268,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   }
 
   /** Método no documentado. */
-    private startMinimumSkeletonDelay() {
+  private startMinimumSkeletonDelay() {
     this.minSkeletonDelayDone.set(false);
     this.skeletonDelayTimeoutId = setTimeout(() => {
       this.minSkeletonDelayDone.set(true);
@@ -243,7 +277,13 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   }
 
   /** Método no documentado. */
-    private loadPurchases() {
+  getSkeletonItemsForCard(index: number, type: 'purchases' | 'returns'): number[] {
+    const countsArray = type === 'purchases' ? this.purchaseItemsSkeletonCounts() : this.returnItemsSkeletonCounts();
+    const count = countsArray[index] !== undefined ? countsArray[index] : 1;
+    return Array.from({ length: Math.max(1, count) }, (_, i) => i);
+  }
+
+  private loadPurchases() {
     this.purchasesLoading.set(true);
     this.purchasesSubscription?.unsubscribe();
     this.purchasesSubscription = this.purchaseService
@@ -252,33 +292,28 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
         next: (data) => {
           this.purchases.set(data);
           const cards = this.normalizeSkeletonCount(data.length, this.purchasesSkeletonCount());
-          const avgItems =
-            data.length > 0
-              ? Math.round(
-                  data.reduce(
-                    (acc, purchase) => acc + (Array.isArray(purchase.items) ? purchase.items.length : 0),
-                    0,
-                  ) / data.length,
-                )
-              : this.purchaseItemsSkeletonCount();
-          const items = this.normalizeSkeletonCount(avgItems, this.purchaseItemsSkeletonCount());
+          const itemCounts = data.map(purchase => Array.isArray(purchase.items) ? purchase.items.length : 0);
           this.purchasesSkeletonCount.set(cards);
-          this.purchaseItemsSkeletonCount.set(items);
+          this.purchaseItemsSkeletonCounts.set(itemCounts);
+          // Persist el flag hasMore directamente con el dato real (evita race condition)
+          if (isPlatformBrowser(this.platformId)) {
+            localStorage.setItem(this.purchasesHasMoreCacheKey, String(data.length > 5));
+          }
+          this.purchasesHasMore.set(data.length > 5);
           this.persistSkeletonCounts();
           this.purchasesLoading.set(false);
         },
         error: () => {
           this.purchases.set([]);
           this.purchasesSkeletonCount.set(0);
-          this.purchaseItemsSkeletonCount.set(0);
-          this.persistSkeletonCounts();
+          this.purchaseItemsSkeletonCounts.set([]);
           this.purchasesLoading.set(false);
         },
       });
   }
 
   /** Método no documentado. */
-    private loadReturns() {
+  private loadReturns() {
     this.returnsLoading.set(true);
     this.returnsSubscription?.unsubscribe();
     this.returnsSubscription = this.purchaseService
@@ -287,29 +322,59 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
         next: (data) => {
           this.returns.set(data);
           const cards = this.normalizeSkeletonCount(data.length, this.returnsSkeletonCount());
-          const avgItems =
-            data.length > 0
-              ? Math.round(
-                  data.reduce(
-                    (acc, purchase) => acc + (Array.isArray(purchase.items) ? purchase.items.length : 0),
-                    0,
-                  ) / data.length,
-                )
-              : this.returnItemsSkeletonCount();
-          const items = this.normalizeSkeletonCount(avgItems, this.returnItemsSkeletonCount());
+          const itemCounts = data.map(ret => Array.isArray(ret.items) ? ret.items.length : 0);
           this.returnsSkeletonCount.set(cards);
-          this.returnItemsSkeletonCount.set(items);
+          this.returnItemsSkeletonCounts.set(itemCounts);
+          // Persist el flag hasMore directamente con el dato real (evita race condition)
+          if (isPlatformBrowser(this.platformId)) {
+            localStorage.setItem(this.returnsHasMoreCacheKey, String(data.length > 5));
+          }
+          this.returnsHasMore.set(data.length > 5);
           this.persistSkeletonCounts();
           this.returnsLoading.set(false);
         },
         error: () => {
           this.returns.set([]);
           this.returnsSkeletonCount.set(0);
-          this.returnItemsSkeletonCount.set(0);
-          this.persistSkeletonCounts();
+          this.returnItemsSkeletonCounts.set([]);
           this.returnsLoading.set(false);
         },
       });
+  }
+
+  /** Muestra todas las compras y activa el estado de expansión temporal. */
+  showMorePurchases() {
+    this.expandingPurchases.set(true);
+    this.purchasesLimit.set(this.purchases().length);
+    setTimeout(() => {
+      this.expandingPurchases.set(false);
+    }, 800);
+  }
+
+  /** Restaura el límite de compras a 5. */
+  showLessPurchases() {
+    this.collapsingPurchases.set(true);
+    this.purchasesLimit.set(5);
+    setTimeout(() => {
+      this.collapsingPurchases.set(false);
+    }, 300);
+  }
+  /** Muestra todas las devoluciones y activa el estado de expansión temporal. */
+  showMoreReturns() {
+    this.expandingReturns.set(true);
+    this.returnsLimit.set(this.returns().length);
+    setTimeout(() => {
+      this.expandingReturns.set(false);
+    }, 800);
+  }
+
+  /** Restaura el límite de devoluciones a 5. */
+  showLessReturns() {
+    this.collapsingReturns.set(true);
+    this.returnsLimit.set(5);
+    setTimeout(() => {
+      this.collapsingReturns.set(false);
+    }, 300);
   }
 
   /** Activa o desactiva el modo de edición de perfil. */
@@ -373,7 +438,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
         this.isEditing = false;
         this.clearImagePreview();
       },
-      error: () => {},
+      error: () => { },
     });
   }
 
@@ -476,7 +541,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   }
 
   /** Método no documentado. */
-    private syncActionButtonsWidth() {
+  private syncActionButtonsWidth() {
     const buttons =
       this.actionSizeButtons?.toArray().map((btn) => btn.nativeElement) ?? [];
     if (buttons.length === 0) return;
@@ -496,7 +561,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
      * @param count Parámetro no documentado.
      * @returns Retorno no documentado.
      */
-    private buildSkeletonRange(count: number): number[] {
+  private buildSkeletonRange(count: number): number[] {
     return Array.from({ length: Math.max(0, count) }, (_, i) => i + 1);
   }
 
@@ -506,36 +571,57 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
      * @param fallback Parámetro no documentado.
      * @returns Retorno no documentado.
      */
-    private normalizeSkeletonCount(value: number, fallback: number): number {
+  private normalizeSkeletonCount(value: number, fallback: number): number {
     if (!Number.isFinite(value)) return Math.max(0, Math.round(fallback));
     return Math.max(0, Math.round(value));
   }
 
   /** Método no documentado. */
-    private loadSkeletonCountsFromCache(): void {
+  /** Carga desde localStorage los contadores de skeleton para compras y devoluciones,
+   *  incluyendo el número exacto de juegos por cada entrada (array CSV). */
+  private loadSkeletonCountsFromCache(): void {
     if (!isPlatformBrowser(this.platformId)) return;
+
     const purchasesCount = Number(localStorage.getItem(this.purchasesSkeletonCacheKey));
     const returnsCount = Number(localStorage.getItem(this.returnsSkeletonCacheKey));
-    const purchaseItemsCount = Number(
-      localStorage.getItem(this.purchaseItemsSkeletonCacheKey),
-    );
-    const returnItemsCount = Number(localStorage.getItem(this.returnItemsSkeletonCacheKey));
+
     this.purchasesSkeletonCount.set(
       this.normalizeSkeletonCount(purchasesCount, this.purchasesSkeletonCount()),
     );
     this.returnsSkeletonCount.set(
       this.normalizeSkeletonCount(returnsCount, this.returnsSkeletonCount()),
     );
-    this.purchaseItemsSkeletonCount.set(
-      this.normalizeSkeletonCount(purchaseItemsCount, this.purchaseItemsSkeletonCount()),
+
+    // Restaurar el número exacto de ítems por tarjeta desde CSV
+    const purchaseItemsRaw = localStorage.getItem(this.purchaseItemsSkeletonCacheKey) ?? '';
+    const returnItemsRaw = localStorage.getItem(this.returnItemsSkeletonCacheKey) ?? '';
+
+    const parseCsv = (raw: string): number[] =>
+      raw
+        .split(',')
+        .map((v) => parseInt(v, 10))
+        .filter((n) => Number.isFinite(n) && n > 0);
+
+    const purchaseItemCounts = parseCsv(purchaseItemsRaw);
+    const returnItemCounts = parseCsv(returnItemsRaw);
+
+    if (purchaseItemCounts.length > 0) {
+      this.purchaseItemsSkeletonCounts.set(purchaseItemCounts);
+    }
+    if (returnItemCounts.length > 0) {
+      this.returnItemsSkeletonCounts.set(returnItemCounts);
+    }
+
+    this.purchasesHasMore.set(
+      localStorage.getItem(this.purchasesHasMoreCacheKey) === 'true',
     );
-    this.returnItemsSkeletonCount.set(
-      this.normalizeSkeletonCount(returnItemsCount, this.returnItemsSkeletonCount()),
+    this.returnsHasMore.set(
+      localStorage.getItem(this.returnsHasMoreCacheKey) === 'true',
     );
   }
 
   /** Método no documentado. */
-    private persistSkeletonCounts(): void {
+  private persistSkeletonCounts(): void {
     if (!isPlatformBrowser(this.platformId)) return;
     localStorage.setItem(
       this.purchasesSkeletonCacheKey,
@@ -544,11 +630,11 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     localStorage.setItem(this.returnsSkeletonCacheKey, String(this.returnsSkeletonCount()));
     localStorage.setItem(
       this.purchaseItemsSkeletonCacheKey,
-      String(this.purchaseItemsSkeletonCount()),
+      this.purchaseItemsSkeletonCounts().join(','),
     );
     localStorage.setItem(
       this.returnItemsSkeletonCacheKey,
-      String(this.returnItemsSkeletonCount()),
+      this.returnItemsSkeletonCounts().join(','),
     );
   }
 
@@ -557,7 +643,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
      * @param value Parámetro no documentado.
      * @returns Retorno no documentado.
      */
-    formatPurchaseDate(value: Date | string | null | undefined): string {
+  formatPurchaseDate(value: Date | string | null | undefined): string {
     if (!value) return '-';
     const date = value instanceof Date ? value : new Date(value);
     if (Number.isNaN(date.getTime())) return '-';
@@ -591,7 +677,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
      * @param itemId Parámetro no documentado.
      * @returns Retorno no documentado.
      */
-    isPurchaseKeyVisible(itemId: number): boolean {
+  isPurchaseKeyVisible(itemId: number): boolean {
     return this.visiblePurchaseKeys().get(itemId) ?? false;
   }
 
@@ -599,7 +685,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
      * Método no documentado.
      * @param itemId Parámetro no documentado.
      */
-    togglePurchaseKeyVisibility(itemId: number): void {
+  togglePurchaseKeyVisibility(itemId: number): void {
     this.visiblePurchaseKeys.update((state) => {
       const nextState = new Map(state);
       nextState.set(itemId, !(state.get(itemId) ?? false));
