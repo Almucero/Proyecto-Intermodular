@@ -3,6 +3,7 @@ package com.gamesage.kotlin.data.remote
 import com.gamesage.kotlin.data.UserDataSource
 import com.gamesage.kotlin.data.model.User
 import com.gamesage.kotlin.data.remote.api.UsersApi
+import com.gamesage.kotlin.data.remote.model.UpdateProfileRequest
 import com.gamesage.kotlin.data.remote.model.UserApiModel
 import com.gamesage.kotlin.data.remote.model.toDomain
 import kotlinx.coroutines.CoroutineScope
@@ -62,6 +63,16 @@ class UserRemoteDataSource @Inject constructor(
         }
     }
 
+    override suspend fun updateMe(user: UpdateProfileRequest): Result<User> {
+        return try {
+            val apiModel = api.updateOwnUser(user)
+            val domainUser = mapToDomain(apiModel)
+            Result.success(domainUser)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     private fun mapToDomain(apiModel: UserApiModel): User {
         return User(
             id = apiModel.id,
@@ -84,7 +95,16 @@ class UserRemoteDataSource @Inject constructor(
             postalCode = apiModel.postalCode,
             country = apiModel.country,
             avatar = apiModel.avatar ?: apiModel.media?.lastOrNull()?.url,
-            media = apiModel.media?.map { it.toDomain() }
+            media = apiModel.media?.map { it.toDomain() },
+            emailNotificationsEnabled = apiModel.emailNotificationsEnabled,
+            notificationEmail = apiModel.notificationEmail,
+            emailNotificationLanguage = apiModel.emailNotificationLanguage,
+            emailNotificationFrequency = apiModel.emailNotificationFrequency,
+            emailRecommendationIntervalDays = apiModel.emailRecommendationIntervalDays,
+            emailQuietHoursStart = apiModel.emailQuietHoursStart,
+            emailQuietHoursEnd = apiModel.emailQuietHoursEnd,
+            emailNotificationPausedUntil = apiModel.emailNotificationPausedUntil,
+            emailNotificationTopics = apiModel.emailNotificationTopics
         )
     }
 }

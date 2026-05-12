@@ -46,6 +46,7 @@ import com.gamesage.kotlin.ui.navigation.Destinations
 @Composable
 fun Menu(
     navController: NavHostController,
+    token: String?,
     show: Boolean, // Controla si el menú es visible o no
     onDismiss: () -> Unit, // Acción para cerrar el menú
     onClearSearch: () -> Unit // Limpia el texto de búsqueda antes de navegar
@@ -81,6 +82,7 @@ fun Menu(
             // Contenedor del contenido del menú
             MenuBottomSheetContent(
                 navController = navController,
+                token = token,
                 onCloseMenu = onDismiss,
                 onClearSearch = onClearSearch
             )
@@ -91,6 +93,7 @@ fun Menu(
 @Composable
 fun MenuBottomSheetContent(
     navController: NavHostController,
+    token: String?,
     onCloseMenu: () -> Unit,
     onClearSearch: () -> Unit = {}
 ) {
@@ -139,7 +142,14 @@ fun MenuBottomSheetContent(
                 MenuItemRow(
                     icon = Icons.Default.Settings,
                     text = stringResource(R.string.menu_settings),
-                    onClick = { /* TODO */ }
+                    onClick = {
+                        if (token != null) {
+                            navController.navigate(Destinations.Settings)
+                        } else {
+                            navController.navigate(Destinations.Login)
+                        }
+                        onCloseMenu()
+                    }
                 )
                 MenuItemRow(
                     icon = Icons.Default.Info,

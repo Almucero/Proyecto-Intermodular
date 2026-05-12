@@ -272,7 +272,7 @@
     <!-- Notificación diaria de juego destacado -->
     <string name="notification_daily_sale_title">¡Oferta del Día!</string>
     <string name="notification_daily_recommendation_title">Recomendación del Día</string>
-    <string name="notification_daily_sale_message">¡%1$s tiene un precio especial! Échale un vistazo.</string>
+    <string name="notification_daily_sale_message">¡%1$s tiene un precio especial! Ã‰chale un vistazo.</string>
     <string name="notification_daily_recommendation_message">Hoy te recomendamos: %1$s</string>
 
     <!-- Errores genéricos de conexión / acciones -->
@@ -354,7 +354,7 @@
     <string name="lang_name_es">Español</string>
     <string name="lang_name_en">English</string>
     <string name="lang_name_de">Deutsch</string>
-    <string name="lang_name_fr">Français</string>
+    <string name="lang_name_fr">FranÃ§ais</string>
     <string name="lang_name_it">Italiano</string>
 
     <!-- Help Screen -->
@@ -391,27 +391,27 @@
     <string name="help_global_process_item1">Accede al panel de usuario.</string>
     <string name="help_global_process_item2">Localiza tu compra y selecciona el juego cuyo código quieras activar.</string>
     <string name="help_global_process_item3">Revela la clave y cópiala. Si la clave está borrosa, pulsa el icono del ojo.</string>
-    <string name="help_global_process_item4">Abre la tienda oficial de la plataforma y busca la opción “Canjear código”.</string>
+    <string name="help_global_process_item4">Abre la tienda oficial de la plataforma y busca la opción â€œCanjear códigoâ€.</string>
     <string name="help_global_process_item5">Pega la clave y confirma. Si el sistema te pide verificar tu identidad, hazlo.</string>
     <string name="help_global_process_item6">Verifica que el juego aparezca en tu biblioteca y descárgalo/instálalo si es necesario.</string>
 
     <string name="help_note_title">Nota importante</string>
-    <string name="help_note_body">Una clave suele canjearse una sola vez. Una vez activado, el juego debe aparecer en tu biblioteca. Si recibes un error como “código no válido”, “ya canjeado” o “no disponible”, revisa el apartado de FAQ o contacta con soporte.</string>
+    <string name="help_note_body">Una clave suele canjearse una sola vez. Una vez activado, el juego debe aparecer en tu biblioteca. Si recibes un error como â€œcódigo no válidoâ€, â€œya canjeadoâ€ o â€œno disponibleâ€, revisa el apartado de FAQ o contacta con soporte.</string>
 
     <string name="help_pc_title">PC (Steam y Epic Games)</string>
     <string name="help_pc_intro">En PC, la clave suele canjearse en la tienda del launcher que utilices. En esta guía te dejamos dos rutas: Steam y Epic Games. Sigue la que corresponda.</string>
     <string name="help_steam_title">Steam (PC)</string>
     <string name="help_steam_caption">Menú de Steam donde se canjea una clave de producto.</string>
     <string name="help_steam_step1">Abre Steam (con tu cuenta iniciada).</string>
-    <string name="help_steam_step2">Busca “Juegos” y entra en “Activar un producto en Steam”.</string>
+    <string name="help_steam_step2">Busca â€œJuegosâ€ y entra en â€œActivar un producto en Steamâ€.</string>
     <string name="help_steam_step3">Pega la clave exactamente y confirma.</string>
     <string name="help_steam_step4">Espera a que Steam procese el canje.</string>
-    <string name="help_steam_step5">Abre tu biblioteca, busca el juego y pulsa “Instalar”.</string>
+    <string name="help_steam_step5">Abre tu biblioteca, busca el juego y pulsa â€œInstalarâ€.</string>
 
     <string name="help_epic_title">Epic Games (PC)</string>
     <string name="help_epic_caption">Pantalla de Epic Games donde se canjea un código.</string>
     <string name="help_epic_step1">Abre Epic Games Launcher (con tu cuenta iniciada).</string>
-    <string name="help_epic_step2">Ve a la tienda y busca “Canjear código”.</string>
+    <string name="help_epic_step2">Ve a la tienda y busca â€œCanjear códigoâ€.</string>
     <string name="help_epic_step3">Pega la clave y confirma.</string>
     <string name="help_epic_step4">Espera al resultado del canje.</string>
     <string name="help_epic_step5">Revisa tu biblioteca y descarga/instala el juego.</string>
@@ -419,7 +419,7 @@
     <string name="help_pc_final_check_title">Comprobación final en PC</string>
     <string name="help_pc_final_check_item1">Confirma que la compra aparezca en tu biblioteca (Steam/Epic).</string>
     <string name="help_pc_final_check_item2">Lanza el juego para verificar que se ha activado correctamente.</string>
-    <string name="help_pc_final_check_item3">Si el juego no aparece, revisa las FAQ (por ejemplo “ya canjeado” o “código no válido”).</string>
+    <string name="help_pc_final_check_item3">Si el juego no aparece, revisa las FAQ (por ejemplo â€œya canjeadoâ€ o â€œcódigo no válidoâ€).</string>
 
     <string name="help_ps_title">PlayStation (PS5 y PS4)</string>
     <string name="help_ps_intro">El canje se realiza con tu cuenta de PlayStation en la tienda oficial. Los pasos son muy similares entre PS5 y PS4.</string>
@@ -427,7 +427,7 @@
     <string name="help_ps_console_caption">Pantalla de \"Canjear código\" en PlayStation Store.</string>
     <string name="help_ps_console_step1">Inicia sesión en tu cuenta de PlayStation.</string>
     <string name="help_ps_console_step2">Abre PlayStation Store.</string>
-    <string name="help_ps_console_step3">Busca “Canjear códigos”.</string>
+    <string name="help_ps_console_step3">Busca â€œCanjear códigosâ€.</string>
     <string name="help_ps_console_step4">Pega o escribe la clave y confirma.</string>
     <string name="help_ps_console_step5">Espera a la confirmación del canje.</string>
     <string name="help_ps_console_step6">Ve a tu biblioteca y descarga/instala el contenido.</string>
@@ -444,7 +444,7 @@
     <string name="help_xbox_console_caption">Menú de Microsoft Store donde se canjea un código.</string>
     <string name="help_xbox_console_step1">Inicia sesión con tu cuenta de Microsoft en la consola.</string>
     <string name="help_xbox_console_step2">Abre Microsoft Store.</string>
-    <string name="help_xbox_console_step3">Busca “Canjear código”.</string>
+    <string name="help_xbox_console_step3">Busca â€œCanjear códigoâ€.</string>
     <string name="help_xbox_console_step4">Introduce o pega la clave y confirma.</string>
     <string name="help_xbox_console_step5">Revisa que el juego aparezca en tu biblioteca.</string>
     <string name="help_xbox_console_step6">Descarga/instala el juego si el sistema te lo pide.</string>
@@ -463,7 +463,7 @@
     <string name="help_switch_console_step1">Asegúrate de tener conexión a internet en la consola.</string>
     <string name="help_switch_console_step2">Inicia sesión con tu cuenta de Nintendo.</string>
     <string name="help_switch_console_step3">Abre Nintendo eShop.</string>
-    <string name="help_switch_console_step4">Busca “Introducir código”.</string>
+    <string name="help_switch_console_step4">Busca â€œIntroducir códigoâ€.</string>
     <string name="help_switch_console_step5">Pega o escribe la clave y confirma.</string>
     <string name="help_switch_console_step6">Espera a la confirmación y revisa tu biblioteca.</string>
 
@@ -486,10 +486,10 @@
 
     <string name="help_faq_note">Si quieres, puedes ir directamente al panel de usuario para ver la clave. Usa el botón de navegación/menú cuando entres.</string>
     <string name="help_faq_q1">¿Dónde encuentro mi clave de activación?</string>
-    <string name="help_faq_a1">Tu clave se muestra en el panel de usuario. En el apartado de compras/devoluciones, localiza el juego que compraste y busca la etiqueta “Key”. Por defecto puede estar oculta (borrosa) para proteger tu privacidad; pulsa en el icono del ojo para revelarla y copiarla. Si quieres, puedes ir directamente al dashboard para ver la clave. Usa el botón/menú de navegación cuando entres.</string>
-    <string name="help_faq_q2">¿Tengo que canjear la clave “una sola vez” o puedo reutilizarla?</string>
-    <string name="help_faq_a2">En la mayoría de tiendas, una clave se puede canjear solo una vez. Tras el canje, el juego queda vinculado a tu cuenta. Si intentas canjear de nuevo, la tienda puede mostrar mensajes como “ya canjeado”.</string>
-    <string name="help_faq_q3">La tienda dice “código no válido” o “no disponible”. ¿Qué hago?</string>
+    <string name="help_faq_a1">Tu clave se muestra en el panel de usuario. En el apartado de compras/devoluciones, localiza el juego que compraste y busca la etiqueta â€œKeyâ€. Por defecto puede estar oculta (borrosa) para proteger tu privacidad; pulsa en el icono del ojo para revelarla y copiarla. Si quieres, puedes ir directamente al dashboard para ver la clave. Usa el botón/menú de navegación cuando entres.</string>
+    <string name="help_faq_q2">¿Tengo que canjear la clave â€œuna sola vezâ€ o puedo reutilizarla?</string>
+    <string name="help_faq_a2">En la mayoría de tiendas, una clave se puede canjear solo una vez. Tras el canje, el juego queda vinculado a tu cuenta. Si intentas canjear de nuevo, la tienda puede mostrar mensajes como â€œya canjeadoâ€.</string>
+    <string name="help_faq_q3">La tienda dice â€œcódigo no válidoâ€ o â€œno disponibleâ€. ¿Qué hago?</string>
     <string name="help_faq_a3">Primero, asegúrate de estar usando la plataforma correcta (PC, PlayStation, Xbox o Switch). Segundo, copia la clave exactamente (sin espacios ni saltos de línea) y revisa bien mayúsculas/minúsculas. Si el error persiste, intenta canjear de nuevo más tarde (los servidores pueden tardar). Si sigue fallando, revisa las FAQ y contacta con soporte con el mensaje exacto de la tienda.</string>
     <string name="help_faq_q4">¿Puedo canjear la clave en una plataforma distinta a la que compré?</string>
     <string name="help_faq_a4">Normalmente no. Las claves suelen estar vinculadas a una plataforma específica. Por ejemplo, una clave de PlayStation no se puede canjear en Xbox o Nintendo Switch. Canjea en la misma plataforma indicada en tu compra para evitar errores.</string>
@@ -499,7 +499,7 @@
     <string name="help_faq_a6">Generalmente no. El canje añade el juego a tu biblioteca. Sin embargo, algunos modos online pueden requerir una suscripción activa dependiendo de la plataforma y el juego.</string>
     <string name="help_faq_q7">¿Puedo canjear la clave desde el móvil o un navegador en lugar de la consola?</string>
     <string name="help_faq_a7">Depende de la tienda. En general, las tiendas oficiales suelen ofrecer opciones de canje web, pero la mayoría de veces el proceso se hace directamente en la consola. Si tu tienda lo permite mediante una página web, usa siempre el sitio oficial y la misma cuenta que quieras usar.</string>
-    <string name="help_faq_q8">¿Qué significa “ya canjeado / already redeemed”?</string>
+    <string name="help_faq_q8">¿Qué significa â€œya canjeado / already redeemedâ€?</string>
     <string name="help_faq_a8">Significa que esa clave ya fue canjeada anteriormente (por otra compra o un canje previo). Si no lo has hecho tú, confirma que estás usando la misma cuenta de la tienda y contacta con soporte con la plataforma y el mensaje exacto.</string>
     <string name="help_faq_q9">En el panel de usuario la clave está borrosa. ¿Cómo la veo para copiarla?</string>
     <string name="help_faq_a9">Pulsa el icono del ojo en el panel de usuario para revelar la clave temporalmente. Luego cópiala y realiza el canje en la tienda. Evita compartir la clave y vuelve a ponerla borrosa si el sistema lo permite.</string>
@@ -512,7 +512,7 @@
     <string name="help_faq_q13">¿Las claves caducan?</string>
     <string name="help_faq_a13">Normalmente las claves no caducan, pero algunas tiendas pueden poner límites por región o política interna. Si la tienda indica caducidad o dice que el código no es válido, verifica la plataforma correcta y contacta con soporte con el mensaje exacto.</string>
     <string name="help_faq_q14">¿Cómo evito estafas y mal uso de los códigos?</string>
-    <string name="help_faq_a14">Nunca compartas tu clave completa. Canjea solo en la tienda oficial correspondiente y desconfía de mensajes que te pidan tu clave “para ayudar” o que te lleven a páginas no oficiales. Si encuentras un enlace sospechoso, no lo uses.</string>
+    <string name="help_faq_a14">Nunca compartas tu clave completa. Canjea solo en la tienda oficial correspondiente y desconfía de mensajes que te pidan tu clave â€œpara ayudarâ€ o que te lleven a páginas no oficiales. Si encuentras un enlace sospechoso, no lo uses.</string>
     <string name="help_faq_q15">¿Puedo canjear/activar en dos dispositivos distintos?</string>
     <string name="help_faq_a15">El canje suele estar vinculado a tu cuenta. Puedes canjear una vez y luego instalar el juego en otros dispositivos usando la misma cuenta de la tienda. Si intentas canjear de nuevo con la misma clave, puede fallar.</string>
     <string name="help_faq_q16">¿Cuándo debo contactar con soporte y qué información debo enviar?</string>
@@ -520,4 +520,38 @@
     <string name="help_close">Cerrar</string>
     <string name="help_keyword_dashboard">dashboard</string>
     <string name="help_keyword_user_panel">panel de usuario</string>
+    <!-- Settings Screen -->
+    <string name="settings_title">Ajustes</string>
+    <string name="settings_notifications_masterToggle">Notificaciones por Correo</string>
+    <string name="settings_notifications_masterToggleHint">Habilita o deshabilita todas las comunicaciones por email.</string>
+    <string name="settings_notifications_deliveryTitle">Configuración de Entrega</string>
+    <string name="settings_notifications_destinationEmail">Email de Notificaciones</string>
+    <string name="settings_notifications_destinationEmailPlaceholder">ejemplo@correo.com</string>
+    <string name="settings_notifications_language">Idioma de los Correos</string>
+    <string name="settings_notifications_languageAuto">Detección Automática</string>
+    <string name="settings_notifications_frequency">Frecuencia</string>
+    <string name="settings_notifications_frequencyImmediate">Inmediata</string>
+    <string name="settings_notifications_frequencyDaily">Diaria</string>
+    <string name="settings_notifications_frequencyWeekly">Semanal</string>
+    <string name="settings_notifications_recommendationIntervalDays">Días entre Recomendaciones</string>
+    <string name="settings_notifications_quietStart">Hora de Inicio Silencio (0-23)</string>
+    <string name="settings_notifications_quietEnd">Hora de Fin Silencio (0-23)</string>
+    <string name="settings_notifications_pauseDays">Pausar Notificaciones (Días)</string>
+    <string name="settings_notifications_categoriesTitle">Categorías de Notificación</string>
+    <string name="settings_notifications_topics_periodicRecommendations">Recomendaciones Periódicas</string>
+    <string name="settings_notifications_topics_cartReminders">Recordatorios de Carrito</string>
+    <string name="settings_notifications_topics_favoriteDiscounts">Descuentos en Favoritos</string>
+    <string name="settings_notifications_topics_backInStock">De nuevo en Stock</string>
+    <string name="settings_notifications_topics_categoryNews">Novedades de Categorías</string>
+    <string name="settings_notifications_topics_weeklyDigest">Resumen Semanal</string>
+    <string name="settings_notifications_topics_purchaseStatus">Estado de Compras</string>
+    <string name="settings_notifications_topics_inactiveAccount">Cuenta Inactiva</string>
+    <string name="settings_notifications_saveButton">Guardar Cambios</string>
+    <string name="settings_notifications_saving">Guardando...</string>
+    <string name="settings_notifications_savedOk">¡Ajustes guardados correctamente!</string>
+    <string name="settings_notifications_saveError">Error al guardar los ajustes.</string>
+    <string name="settings_delete_account">Borrar cuenta</string>
+    <string name="settings_delete_confirm_msg">No reversible. ¿Seguro?</string>
+    <string name="settings_delete_yes">Sí</string>
+    <string name="settings_delete_no">No</string>
 </resources>

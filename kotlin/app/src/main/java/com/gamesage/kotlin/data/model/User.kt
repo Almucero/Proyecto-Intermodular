@@ -23,5 +23,14 @@ data class User(
     val postalCode: String?,
     val country: String?,
     val avatar: String?,
-    val media: List<Media>?
+    val media: List<Media>?,
+    val emailNotificationsEnabled: Boolean? = null,
+    val notificationEmail: String? = null,
+    val emailNotificationLanguage: String? = null,
+    val emailNotificationFrequency: String? = null,
+    val emailRecommendationIntervalDays: Int? = null,
+    val emailQuietHoursStart: Int? = null,
+    val emailQuietHoursEnd: Int? = null,
+    val emailNotificationPausedUntil: String? = null,
+    val emailNotificationTopics: Map<String, Boolean>? = null
 )

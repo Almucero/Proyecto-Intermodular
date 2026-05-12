@@ -6,6 +6,7 @@ import com.gamesage.kotlin.data.model.User
 import com.gamesage.kotlin.data.remote.api.GameSageApi
 import com.gamesage.kotlin.data.remote.model.SignUpRequest
 import com.gamesage.kotlin.data.remote.model.SignInRequest
+import com.gamesage.kotlin.data.remote.model.UpdateProfileRequest
 import com.gamesage.kotlin.di.LocalDataSource
 import com.gamesage.kotlin.di.RemoteDataSource
 import kotlinx.coroutines.CoroutineScope
@@ -65,6 +66,15 @@ class UserRepositoryImpl @Inject constructor(
         } else {
             localDataSource.me()
         }
+    }
+
+    override suspend fun updateMe(request: UpdateProfileRequest): Result<User> {
+        val remoteResult = remoteDataSource.updateMe(request)
+        if (remoteResult.isSuccess) {
+            val user = remoteResult.getOrNull()!!
+            localDataSource.addAll(listOf(user))
+        }
+        return remoteResult
     }
     override suspend fun readAll(): Result<List<User>> {
         return remoteDataSource.readAll()
