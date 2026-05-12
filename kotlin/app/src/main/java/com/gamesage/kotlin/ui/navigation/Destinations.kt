@@ -57,4 +57,7 @@ sealed class Destinations(@Suppress("unused") val route: String) {
 
     @Serializable
     object Help : Destinations("help")
+
+    @Serializable
+    object Settings : Destinations("settings")
 }

@@ -3,6 +3,7 @@ package com.gamesage.kotlin.data.local.user
 import com.gamesage.kotlin.data.UserDataSource
 import com.gamesage.kotlin.data.local.user.exceptions.UserNotFoundException
 import com.gamesage.kotlin.data.model.User
+import com.gamesage.kotlin.data.remote.model.UpdateProfileRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -42,6 +43,10 @@ class UserLocalDataSource @Inject constructor(
             Result.failure(UserNotFoundException())
         else
             Result.success(entity.toModel())
+    }
+
+    override suspend fun updateMe(user: UpdateProfileRequest): Result<User> {
+        return Result.failure(UnsupportedOperationException("Local update not supported directly"))
     }
 
     override suspend fun clear() {
