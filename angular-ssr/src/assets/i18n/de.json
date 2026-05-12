@@ -33,7 +33,6 @@
     "settings": "Einstellungen",
     "help": "Hilfe",
     "contact": "Kontakt",
-
     "privacy": "Datenschutz",
     "conditions": "AGB",
     "cookies": "Cookie-Einstellungen",
@@ -646,8 +645,7 @@
     "returns": "Rücksendungen",
     "refundReason": "Grund",
     "viewProduct": "Produkt ansehen",
-    "keyLabel": "Schlüssel:"
-    ,
+    "keyLabel": "Schlüssel:",
     "placeholders": {
       "displayName": "Anzeigenamen eingeben",
       "emailAddress": "E-Mail-Adresse eingeben",
@@ -659,7 +657,9 @@
       "region": "Region/Bundesland eingeben",
       "postalCode": "Postleitzahl eingeben",
       "country": "Land eingeben"
-    }
+    },
+    "showMore": "Mehr anzeigen",
+    "showLess": "Weniger anzeigen"
   },
   "tooltips": {
     "menu": "Menü öffnen",

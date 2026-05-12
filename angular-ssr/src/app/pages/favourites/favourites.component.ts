@@ -140,11 +140,23 @@ export class FavouritesComponent implements OnInit {
      * @returns Retorno no documentado.
      */
   async transferAllToCart() {
-    for (const favorite of this.favorites()) {
+    const items = [...this.favorites()];
+    this.favorites.set([]); // Optimistic local update
+
+    const promises = items.map(async (favorite) => {
       if (favorite.gameId && favorite.platformId) {
-        await this.addToCart(favorite);
+        try {
+          await this.cartItemService.add({
+            gameId: favorite.gameId,
+            platformId: favorite.platformId,
+            quantity: 1
+          } as CartItem).toPromise();
+          await this.favoriteService.deleteWithPlatform(favorite.gameId, favorite.platformId).toPromise();
+        } catch (e) {}
       }
-    }
+    });
+
+    await Promise.all(promises);
   }
 
   /**
