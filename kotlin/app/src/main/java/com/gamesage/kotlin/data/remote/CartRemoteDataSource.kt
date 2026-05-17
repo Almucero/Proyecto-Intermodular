@@ -5,6 +5,9 @@ import com.gamesage.kotlin.data.model.CartItem
 import com.gamesage.kotlin.data.model.Game
 import com.gamesage.kotlin.data.remote.api.CartApi
 import com.gamesage.kotlin.data.remote.model.CartItemApiModel
+import com.gamesage.kotlin.data.remote.model.CheckoutSessionResponse
+import com.gamesage.kotlin.data.remote.model.ConfirmCheckoutRequest
+import com.gamesage.kotlin.data.remote.model.CreateCheckoutSessionRequest
 import com.gamesage.kotlin.data.remote.model.toDomain
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -129,6 +132,24 @@ class CartRemoteDataSource @Inject constructor(
     override suspend fun clear(): Result<Unit> {
         return try {
             cartApi.clearCart()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun createCheckoutSession(locale: String?): Result<CheckoutSessionResponse> {
+        return try {
+            val response = cartApi.createCheckoutSession(CreateCheckoutSessionRequest(locale))
+            Result.success(response)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun confirmCheckoutSession(sessionId: String): Result<Unit> {
+        return try {
+            cartApi.confirmCheckoutSession(ConfirmCheckoutRequest(sessionId))
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
