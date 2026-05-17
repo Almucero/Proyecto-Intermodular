@@ -60,9 +60,11 @@
       <input
         type="text"
         [placeholder]="'common.searchPlaceholder' | translate"
+        [(ngModel)]="searchQuery"
         class="search-input bg-transparent outline-none text-gray-300 border-none flex-1 min-w-0"
         (focus)="onSearchFocus()"
         (blur)="onSearchBlur()"
+        (input)="onSearchInput($event)"
         (keydown)="onSearch($event)"
       />
     </div>
@@ -137,6 +139,8 @@
           "
           [alt]="user()?.nickname || 'User'"
           class="w-10 h-10 rounded-full object-cover transition-transform duration-150 active:scale-95 mobile-icon-size-user"
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
         />
       </a>
     </button>

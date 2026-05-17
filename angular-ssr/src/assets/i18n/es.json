@@ -8,6 +8,8 @@
     "slug": "Slug",
     "save": "Guardar",
     "cancel": "Cancelar",
+    "yes": "Sí",
+    "no": "No",
     "image": "Imagen",
     "upload": {
       "maxSize": "Tamaño máx:",
@@ -171,6 +173,20 @@
       "frequencyImmediate": "Inmediata",
       "frequencyDaily": "Resumen diario",
       "frequencyWeekly": "Resumen semanal",
+      "selectLanguage": "Seleccionar idioma",
+      "selectFrequency": "Seleccionar frecuencia",
+      "languages": {
+        "es": "Español",
+        "en": "Inglés",
+        "fr": "Francés",
+        "de": "Alemán"
+      },
+      "frequencies": {
+        "daily": "Diario",
+        "weekly": "Semanal",
+        "monthly": "Mensual",
+        "never": "Nunca"
+      },
       "quietStart": "No molestar desde (hora)",
       "quietEnd": "No molestar hasta (hora)",
       "pauseDays": "Pausar envíos (días)",
@@ -212,6 +228,12 @@
         "inactiveAccount": "Recordatorios por inactividad de cuenta",
         "seasonalCampaigns": "Campañas estacionales y promociones especiales"
       }
+    },
+    "account": {
+      "deleteButton": "Eliminar cuenta",
+      "confirmDelete": "¿SEGURO QUE QUIERES ELIMINAR TU CUENTA?",
+      "deleteSuccess": "Cuenta eliminada correctamente",
+      "deleteError": "Error al eliminar la cuenta"
     }
   },
   "contact": {
@@ -488,6 +510,7 @@
     "reset": "restablecer",
     "removeFilter": "Eliminar filtro",
     "noResults": "No se encontraron más resultados...",
+    "loading": "Actualizando resultados...",
     "filters": {
       "price": {
         "label": "Precio",
@@ -627,7 +650,8 @@
     "purchaseInfoUserPageLink": "página de usuario",
     "purchaseInfoBodyMiddle": " y las guías de activación están en ",
     "purchaseInfoHelpFaqLink": "Preguntas frecuentes de la página de ayuda",
-    "purchaseInfoBodyEnd": "."
+    "purchaseInfoBodyEnd": ".",
+    "translationLimitReached": "Límite de traducción alcanzado. Mostrando texto original."
   },
   "dashboard": {
     "user": "Usuario",
@@ -837,5 +861,11 @@
     "phone_number": "+34 123 45 43 21",
     "address": "Dirección",
     "address_text": "Calle Sancha de Lara s/n,\nBarrio Centro Histórico,\nDistrito Centro, Málaga\nComarca de Málaga, Málaga"
+  },
+  "unsavedChanges": {
+    "title": "Cambios sin guardar",
+    "message": "Tienes cambios sin guardar. Si abandonas esta página, se perderán.",
+    "stay": "Quedarse",
+    "discard": "Descartar"
   }
 }

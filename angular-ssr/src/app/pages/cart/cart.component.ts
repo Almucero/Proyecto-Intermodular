@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID, signal, ViewEncapsulation } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -9,7 +9,7 @@ import { BaseAuthenticationService } from '../../core/services/impl/base-authent
 import { CartItem } from '../../core/models/cart-item.model';
 import { Media } from '../../core/models/media.model';
 import { firstValueFrom } from 'rxjs';
-import { LocalizedCurrencyPipe } from '../../shared/pipes/localized-currency.pipe';
+import { LocalizedCurrencyPipe } from '../../pipes/localized-currency.pipe';
 import { StripeModalComponent } from '../../shared/components/stripe-checkout/stripe-checkout.component';
 
 /**
@@ -29,6 +29,7 @@ import { StripeModalComponent } from '../../shared/components/stripe-checkout/st
   ],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class CartComponent implements OnInit, OnDestroy {
   /** Lista de artículos en el carrito del usuario. */
@@ -39,12 +40,14 @@ export class CartComponent implements OnInit, OnDestroy {
   error = signal<string | null>(null);
   /** Estado de autenticación del usuario actual. */
   isAuthenticated = signal(false);
+  /** Indica si el servicio de autenticación ha terminado la verificación de inicio de sesión. */
+  isAuthReady = signal(false);
   /** Propiedad no documentada. */
-    checkoutModalOpen = signal(false);
+  checkoutModalOpen = signal(false);
   /** Propiedad no documentada. */
-    private checkoutHandled = false;
+  private checkoutHandled = false;
   /** Propiedad no documentada. */
-    private readonly isBrowser: boolean;
+  private readonly isBrowser: boolean;
 
   /**
      * Constructor no documentado.
@@ -55,7 +58,7 @@ export class CartComponent implements OnInit, OnDestroy {
      * @param router Parámetro no documentado.
      * @param platformId Parámetro no documentado.
      */
-    constructor(
+  constructor(
     private cartItemService: CartItemService,
     private mediaService: MediaService,
     private authService: BaseAuthenticationService,
@@ -66,25 +69,26 @@ export class CartComponent implements OnInit, OnDestroy {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
-  /**
-   * Inicializa el componente verificando la sesión del usuario.
-   * Si está autenticado, procede a cargar el contenido del carrito.
-   */
   ngOnInit() {
-    this.authService.authenticated$.subscribe((isAuth) => {
-      this.isAuthenticated.set(isAuth);
-      if (isAuth) {
-        this.handleCheckoutReturn().finally(() => {
-          this.loadCart();
+    this.authService.ready$.subscribe((ready) => {
+      this.isAuthReady.set(ready);
+      if (ready) {
+        this.authService.authenticated$.subscribe((isAuth) => {
+          this.isAuthenticated.set(isAuth);
+          if (isAuth) {
+            this.handleCheckoutReturn().finally(() => {
+              this.loadCart();
+            });
+          } else {
+            this.loading.set(false);
+          }
         });
-      } else {
-        this.loading.set(false);
       }
     });
   }
 
   /** Método no documentado. */
-    ngOnDestroy() {
+  ngOnDestroy() {
     this.closeCheckoutModal();
   }
 
@@ -92,7 +96,7 @@ export class CartComponent implements OnInit, OnDestroy {
      * Método no documentado.
      * @returns Retorno no documentado.
      */
-    private async handleCheckoutReturn() {
+  private async handleCheckoutReturn() {
     if (this.checkoutHandled) return;
     this.checkoutHandled = true;
     const paymentState = this.route.snapshot.queryParamMap.get('payment');
@@ -177,7 +181,7 @@ export class CartComponent implements OnInit, OnDestroy {
             : i,
         ),
       );
-    } catch (error) {}
+    } catch (error) { }
   }
 
   /**
@@ -200,7 +204,7 @@ export class CartComponent implements OnInit, OnDestroy {
               : i,
           ),
         );
-      } catch (error) {}
+      } catch (error) { }
     } else {
       await this.removeFromCart(item);
     }
@@ -223,7 +227,7 @@ export class CartComponent implements OnInit, OnDestroy {
             !(i.gameId === item.gameId && i.platformId === item.platformId),
         ),
       );
-    } catch (error) {}
+    } catch (error) { }
   }
 
   /**
@@ -297,12 +301,12 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   /** Método no documentado. */
-    closeCheckoutModal() {
+  closeCheckoutModal() {
     this.checkoutModalOpen.set(false);
   }
 
   /** Método no documentado. */
-    onCheckoutCompleted() {
+  onCheckoutCompleted() {
     this.error.set(null);
     this.loadCart();
     this.router.navigate([], {

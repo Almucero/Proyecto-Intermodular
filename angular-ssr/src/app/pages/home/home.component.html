@@ -54,15 +54,17 @@
       <h2
         class="text-4xl font-bold font-cinzel text-cyan-300 mb-4 text-center difuminadoTexto mobile-title"
       >
-        ── {{ "genres.title" | translate }} ──
+        <span class="hidden sm:inline">── </span>{{ "genres.title" | translate }}<span class="hidden sm:inline"> ──</span>
       </h2>
       <section class="relative z-50 genres-section">
-        <div
-          class="flex flex-wrap justify-center items-center gap-3 py-1 px-4 pr-10 max-w-full genres-wrapper"
-        >
+        <!-- div invisible solo para medir el ancho disponible con ResizeObserver -->
+        <div #genresContainer class="absolute inset-0 pointer-events-none -z-10"></div>
+
+        <!-- Contenedor visible: ancho = contenido (pills), centrado con mx-auto -->
+        <div class="relative w-max max-w-full mx-auto flex flex-nowrap items-center gap-3 py-1 px-4">
           <div
-            *ngFor="let gen of visibleGenres; let isLast = last"
-            class="relative flex items-center"
+            *ngFor="let gen of visibleGenres"
+            class="relative flex items-center flex-none"
           >
             <span
               #genrePill
@@ -75,49 +77,52 @@
             >
               {{ gen.key | translate }}
             </span>
+          </div>
 
-            <div
-              *ngIf="isLast"
-              class="absolute left-full top-1/2 -translate-y-1/2 ml-3 z-10 genre-dropdown-container"
+          <!-- Flecha: absolute left-full = justo tras la última pill, sin afectar el layout -->
+          <div
+            *ngIf="dropdownItems.length > 0"
+            class="absolute left-full top-1/2 -translate-y-1/2 ml-1"
+          >
+            <button
+              (click)="toggleAllGenres(); $event.stopPropagation()"
+              class="flex items-center justify-center w-8 h-8 rounded-full text-cyan-300 hover:text-cyan-400 hover:bg-white/5 transition-all duration-150 active:scale-95 bg-transparent border-none cursor-pointer"
             >
-              <div class="relative inline-flex items-center">
-                <button
-                  (click)="toggleAllGenres(); $event.stopPropagation()"
-                  class="flex items-center justify-center w-8 h-8 rounded-full text-cyan-300 hover:text-cyan-400 hover:bg-white/5 transition-all duration-150 active:scale-95 bg-transparent border-none cursor-pointer"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6 transition-transform duration-300"
-                    [class.rotate-180]="
-                      showAllGenres && !isClosingGenreDropdown
-                    "
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 transition-transform duration-300"
+                [class.rotate-180]="showAllGenres && !isClosingGenreDropdown"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+            <div
+              *ngIf="showAllGenres"
+              class="absolute top-full left-1/2 -translate-x-1/2 mt-4 bg-gray-800 rounded-lg shadow-xl z-[99999] genre-dropdown-menu genre-dropdown-min-width overflow-hidden"
+              [class.animate-fadeIn]="!isClosingGenreDropdown"
+              [class.animate-fadeOut]="isClosingGenreDropdown"
+            >
+              <div
+                #dropdownScrollContainer
+                (scroll)="onDropdownScroll($event)"
+                class="genre-dropdown-scroll-container"
+              >
+                <div class="flex flex-col py-1">
+                  <button
+                    *ngFor="let gen of dropdownItems"
+                    (click)="goToGenres(gen.value); closeGenreDropdown()"
+                    class="px-4 py-2 hover:bg-gray-800 text-left bg-transparent border-none transition-colors duration-150 active:scale-95 text-white cursor-pointer whitespace-nowrap genre-dropdown-item"
                   >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </button>
-                <div
-                  *ngIf="showAllGenres"
-                  class="absolute top-full left-1/2 -translate-x-1/2 mt-4 bg-gray-800 rounded-lg shadow-xl max-h-80 overflow-y-auto z-[99999] scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800 genre-dropdown-menu genre-dropdown-min-width"
-                  [class.animate-fadeIn]="!isClosingGenreDropdown"
-                  [class.animate-fadeOut]="isClosingGenreDropdown"
-                >
-                  <div class="flex flex-col py-1">
-                    <button
-                      *ngFor="let gen of dropdownItems"
-                      (click)="goToGenres(gen.value); closeGenreDropdown()"
-                      class="px-4 py-2 hover:bg-gray-800 text-left bg-transparent border-none transition-colors duration-150 active:scale-95 text-white cursor-pointer whitespace-nowrap genre-dropdown-item"
-                    >
-                      {{ gen.key | translate }}
-                    </button>
-                  </div>
+                    {{ gen.key | translate }}
+                  </button>
                 </div>
               </div>
             </div>
@@ -130,6 +135,7 @@
       <app-carousel
         [title]="'home.bestSellers'"
         [items]="bestSellers"
+        [loading]="carouselsLoading()"
         sectionId="masVendidos"
         (itemClick)="goToProduct($event)"
       ></app-carousel>
@@ -139,6 +145,7 @@
       <app-carousel
         [title]="'home.offers'"
         [items]="onSaleGames"
+        [loading]="carouselsLoading()"
         sectionId="ofertas"
         (itemClick)="goToProduct($event)"
       ></app-carousel>
@@ -148,9 +155,9 @@
       <app-carousel
         [title]="'home.topRated'"
         [items]="topRatedGames"
+        [loading]="carouselsLoading()"
         sectionId="mejorValorados"
         (itemClick)="goToProduct($event)"
       ></app-carousel>
     </div>
   </div>
-</div>

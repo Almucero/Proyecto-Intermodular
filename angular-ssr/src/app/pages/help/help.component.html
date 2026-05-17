@@ -11,9 +11,7 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
       <aside class="lg:col-span-4 hidden lg:block">
-        <div
-          class="bg-gray-800/60 backdrop-blur-md border border-gray-700/50 rounded-3xl p-4 shadow-2xl"
-        >
+        <div class="help-toc-container">
           <h3 class="text-xl font-bold text-cyan-300 mb-3">
             {{ "help.tocTitle" | translate }}
           </h3>
@@ -100,7 +98,7 @@
                 {{ "help.activation.whereKeyTitle" | translate }}
               </h3>
                         <div class="relative inline-block w-full overflow-hidden rounded-lg group">
-            <img class="help-guide-img help-placeholder-img--wide cursor-zoom-in transition-transform duration-200 hover:scale-105" src="assets/images/help/image1.webp" alt="Ayuda 1" loading="lazy" decoding="async" (click)="openScreenshotModal('assets/images/help/image1.webp')" />
+            <img class="help-guide-img help-placeholder-img--wide cursor-zoom-in transition-transform duration-200 hover:scale-105" src="assets/images/help/image1.webp" alt="Ayuda 1" loading="eager" fetchpriority="high" decoding="async" (click)="openScreenshotModal('assets/images/help/image1.webp')" />
             <div class="absolute bottom-2 right-2 bg-black/70 backdrop-blur-sm text-white p-1.5 rounded-md shadow-sm pointer-events-none">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />

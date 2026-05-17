@@ -25,6 +25,15 @@
   }
 }
 
+.help-toc-container {
+  background: rgba(31, 41, 55, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 1.5rem;
+  padding: 1rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
 .help-toc {
   display: flex;
   flex-direction: column;
@@ -36,7 +45,7 @@
   width: 100%;
   padding: 0.4rem 0.6rem;
   border-radius: 0.75rem;
-  border: 1px solid rgba(148, 163, 184, 0.35);
+  border: 1px solid rgba(148, 163, 184, 0.28);
   background: rgba(17, 24, 39, 0.35);
   color: rgba(226, 232, 240, 0.95);
   font-weight: 600;

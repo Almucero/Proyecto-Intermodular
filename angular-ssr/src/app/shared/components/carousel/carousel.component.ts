@@ -28,6 +28,8 @@ export class CarouselComponent implements AfterViewInit {
   @Input() title: string = '';
   /** Lista de juegos a mostrar. */
   @Input() items: Game[] = [];
+  /** Indica si el carrusel está en estado de carga (muestra skeletons). */
+  @Input() loading: boolean = false;
   /** ID único de la sección para propósitos de accesibilidad o anclaje. */
   @Input() sectionId: string = '';
   /** Evento emitido al hacer clic en un juego (emite el ID del juego). */
@@ -45,8 +47,26 @@ export class CarouselComponent implements AfterViewInit {
   /** Posición de scroll inicial al empezar el arrastre. */
   scrollLeftPos = 0;
 
+  /** Lista de juegos ficticios para mostrar skeletons. */
+  get skeletonGames(): Game[] {
+    return Array(12).fill({
+      id: -1,
+      title: '',
+      price: 0,
+      isOnSale: false,
+      isRefundable: false,
+      numberOfSales: 0,
+      stockPc: 0,
+      stockPs5: 0,
+      stockXboxX: 0,
+      stockSwitch: 0,
+      stockPs4: 0,
+      stockXboxOne: 0,
+    } as any);
+  }
+
   /** Constructor no documentado. */
-    constructor() {}
+  constructor() {}
 
   /**
    * Inicializa el estado del scroll tras la carga de la vista.

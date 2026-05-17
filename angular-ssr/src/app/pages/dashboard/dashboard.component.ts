@@ -10,8 +10,10 @@ import {
   inject,
   signal,
   PLATFORM_ID,
+  HostListener,
 } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { CanComponentDeactivate } from '../../core/guards/can-deactivate.guard';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
@@ -49,12 +51,13 @@ import { Subscription } from 'rxjs';
         animate('280ms ease-out', style({ height: '*', opacity: 1 })),
       ]),
       transition(':leave', [
-        animate('300ms ease-in-out', style({ height: '0px', opacity: 0, overflow: 'hidden' })),
+        style({ overflow: 'hidden' }),
+        animate('300ms ease-in-out', style({ height: '0px', opacity: 0 })),
       ]),
     ]),
   ],
 })
-export class DashboardComponent implements AfterViewInit, OnDestroy {
+export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponentDeactivate {
   /** Propiedad no documentada. */
   private auth = inject(BaseAuthenticationService);
   /** Propiedad no documentada. */
@@ -530,9 +533,9 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
 
     this.purchaseService.refund(id, reason).subscribe({
       next: () => {
-        if (isPlatformBrowser(this.platformId)) {
-          window.location.reload();
-        }
+        this.loadPurchases();
+        this.loadReturns();
+        this.closeRefundModal();
       },
       error: () => {
         this.refundError.set('dashboard.refundError');
@@ -691,5 +694,16 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       nextState.set(itemId, !(state.get(itemId) ?? false));
       return nextState;
     });
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any): void {
+    if (this.isEditing) {
+      $event.returnValue = true;
+    }
+  }
+
+  hasUnsavedChanges(): boolean {
+    return this.isEditing;
   }
 }
