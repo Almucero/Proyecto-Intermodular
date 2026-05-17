@@ -1,6 +1,11 @@
 package com.gamesage.kotlin.ui.pages.cart
 
 import android.annotation.SuppressLint
+import android.webkit.WebChromeClient
+import android.webkit.WebResourceRequest
+import android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -9,6 +14,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,12 +31,17 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -48,8 +59,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -60,6 +73,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.gamesage.kotlin.R
+import com.gamesage.kotlin.utils.LanguageUtils
 
 @SuppressLint("DefaultLocale")
 @Composable
@@ -70,6 +84,7 @@ fun CartScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
+    val stripeSession by viewModel.stripeSession.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
 
     // Estado del scroll para el efecto de degradado
@@ -263,6 +278,24 @@ fun CartScreen(
                         )
                 )
             }
+
+            // Diálogo de Stripe Checkout
+            stripeSession?.let { session ->
+                val context = LocalContext.current
+                val locale = LanguageUtils.getSavedLanguage(context)
+                StripeCheckoutDialog(
+                    publishableKey = session.publishableKey,
+                    clientSecret = session.clientSecret,
+                    sessionId = session.sessionId,
+                    locale = locale,
+                    onComplete = { sessionId ->
+                        viewModel.confirmCheckout(sessionId)
+                    },
+                    onDismiss = {
+                        viewModel.cancelCheckout()
+                    }
+                )
+            }
         }
     }
 }
@@ -273,7 +306,7 @@ fun OutlinedIconButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    shape: androidx.compose.ui.graphics.Shape = RoundedCornerShape(8.dp),
+    shape: Shape = RoundedCornerShape(8.dp),
     colors: IconButtonColors = IconButtonDefaults.outlinedIconButtonColors(),
     border: BorderStroke? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
@@ -324,7 +357,7 @@ fun CartItemRow(
             .background(Color(0xFF1F2937), RoundedCornerShape(8.dp))
             .clickable { onClick() }
             .padding(12.dp)
-            .height(androidx.compose.foundation.layout.IntrinsicSize.Min)
+            .height(IntrinsicSize.Min)
     ) {
         // COLUMNA IZQUIERDA: Imagen y Controles
         Column(
@@ -433,6 +466,95 @@ fun CartItemRow(
                         fontWeight = FontWeight.Bold
                     )
                 }
+            }
+        }
+    }
+}
+
+
+@Composable
+fun StripeCheckoutDialog(
+    publishableKey: String,
+    clientSecret: String,
+    sessionId: String,
+    locale: String,
+    onComplete: (String) -> Unit,
+    onDismiss: () -> Unit
+) {
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(
+            usePlatformDefaultWidth = false,
+            dismissOnBackPress = true,
+            dismissOnClickOutside = false
+        )
+    ) {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = Color(0xFF111827)
+        ) {
+            Column(modifier = Modifier.fillMaxSize()) {
+                // Cabecera superior del modal de pago
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color(0xFF1F2937))
+                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = stringResource(R.string.stripe_dialog_title),
+                        color = Color(0xFF93E3FE),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    IconButton(onClick = onDismiss) {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = stringResource(R.string.cancel),
+                            tint = Color.White
+                        )
+                    }
+                }
+                
+                // WebView nativo que carga el asset html de Stripe
+                AndroidView(
+                    factory = { context ->
+                        WebView(context).apply {
+                            settings.javaScriptEnabled = true
+                            settings.domStorageEnabled = true
+                            settings.mixedContentMode = MIXED_CONTENT_ALWAYS_ALLOW
+                            
+                            // Permite que Stripe reconozca el WebView como aplicación segura
+                            settings.userAgentString = settings.userAgentString + " MobileApp"
+                            
+                            webChromeClient = WebChromeClient()
+                            webViewClient = object : WebViewClient() {
+                                override fun shouldOverrideUrlLoading(
+                                    view: WebView?,
+                                    request: WebResourceRequest?
+                                ): Boolean {
+                                    return false
+                                }
+                            }
+                            
+                            // Registra la interfaz JavaScript para recibir la confirmación de pago
+                            addJavascriptInterface(object {
+                                @android.webkit.JavascriptInterface
+                                fun onPaymentCompleted(completedSessionId: String) {
+                                    post {
+                                        onComplete(completedSessionId)
+                                    }
+                                }
+                            }, "StripeAndroid")
+                            
+                            val url = "file:///android_asset/stripe_checkout.html?publishableKey=$publishableKey&clientSecret=$clientSecret&sessionId=$sessionId&locale=$locale"
+                            loadUrl(url)
+                        }
+                    },
+                    modifier = Modifier.fillMaxSize()
+                )
             }
         }
     }

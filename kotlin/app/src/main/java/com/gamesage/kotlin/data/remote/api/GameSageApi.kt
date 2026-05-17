@@ -19,6 +19,10 @@ import com.gamesage.kotlin.data.remote.model.MediaApiModel
 import com.gamesage.kotlin.data.remote.model.SendMessageRequest
 import com.gamesage.kotlin.data.remote.model.UserApiModel
 import com.gamesage.kotlin.data.remote.model.UpdateProfileRequest
+import com.gamesage.kotlin.data.remote.model.CheckoutSessionResponse
+import com.gamesage.kotlin.data.remote.model.ConfirmCheckoutRequest
+import com.gamesage.kotlin.data.remote.model.CreateCheckoutSessionRequest
+import com.gamesage.kotlin.data.remote.model.DirectCheckoutRequest
 import retrofit2.http.Body
 
 interface GameSageApi:
@@ -131,6 +135,18 @@ interface CartApi {
     suspend fun removeFromCart(@Path("gameId") gameId: Int, @Query("platformId") platformId: Int)
     @DELETE("api/cart")
     suspend fun clearCart()
+
+    @POST("api/cart/checkout-session")
+    suspend fun createCheckoutSession(@Body body: CreateCheckoutSessionRequest): CheckoutSessionResponse
+
+    @POST("api/cart/direct-checkout-session")
+    suspend fun createDirectCheckoutSession(@Body body: DirectCheckoutRequest): CheckoutSessionResponse
+
+    @POST("api/cart/checkout/confirm")
+    suspend fun confirmCheckoutSession(@Body body: ConfirmCheckoutRequest): Any
+
+    @POST("api/cart/direct-checkout/confirm")
+    suspend fun confirmDirectCheckoutSession(@Body body: ConfirmCheckoutRequest): Any
 }
 interface FavoritesApi {
     @GET("api/favorites")

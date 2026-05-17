@@ -3,6 +3,8 @@ package com.gamesage.kotlin.data.repository.cart
 import com.gamesage.kotlin.data.CartDataSource
 import com.gamesage.kotlin.data.local.cart.CartLocalDataSource
 import com.gamesage.kotlin.data.model.CartItem
+import com.gamesage.kotlin.data.remote.CartRemoteDataSource
+import com.gamesage.kotlin.data.remote.model.CheckoutSessionResponse
 import com.gamesage.kotlin.di.LocalDataSource
 import com.gamesage.kotlin.di.RemoteDataSource
 import kotlinx.coroutines.CoroutineScope
@@ -87,6 +89,18 @@ class CartRepositoryImpl @Inject constructor(
     // Devuelve resultado
     override suspend fun clear(): Result<Unit> {
         val result = remoteDataSource.clear()
+        if (result.isSuccess) {
+            localDataSource.clear()
+        }
+        return result
+    }
+
+    override suspend fun createCheckoutSession(locale: String?): Result<CheckoutSessionResponse> {
+        return (remoteDataSource as CartRemoteDataSource).createCheckoutSession(locale)
+    }
+
+    override suspend fun confirmCheckoutSession(sessionId: String): Result<Unit> {
+        val result = (remoteDataSource as CartRemoteDataSource).confirmCheckoutSession(sessionId)
         if (result.isSuccess) {
             localDataSource.clear()
         }

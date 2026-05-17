@@ -534,4 +534,5 @@
     <string name="settings_delete_confirm_msg">Nicht rückgängig zu machen. Sind Sie sicher?</string>
     <string name="settings_delete_yes">Ja</string>
     <string name="settings_delete_no">Nein</string>
+    <string name="stripe_dialog_title">Kaufen</string>
 </resources>

@@ -534,4 +534,5 @@
     <string name="settings_delete_confirm_msg">Not reversible. Are you sure?</string>
     <string name="settings_delete_yes">Yes</string>
     <string name="settings_delete_no">No</string>
+    <string name="stripe_dialog_title">Buy</string>
 </resources>
