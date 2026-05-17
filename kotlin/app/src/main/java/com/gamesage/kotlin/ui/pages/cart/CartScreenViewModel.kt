@@ -9,6 +9,7 @@ import com.gamesage.kotlin.data.repository.cart.CartRepository
 import com.gamesage.kotlin.utils.LanguageUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import com.gamesage.kotlin.data.remote.model.CheckoutSessionResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -54,6 +55,10 @@ class CartScreenViewModel @Inject constructor(
     // Para mostrar mensajes de error temporales (tipo Snackbar)
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> = _errorMessage.asStateFlow()
+
+    // Sesión activa de Stripe Checkout
+    private val _stripeSession = MutableStateFlow<CheckoutSessionResponse?>(null)
+    val stripeSession: StateFlow<CheckoutSessionResponse?> = _stripeSession.asStateFlow()
 
     // Cuando se crea el ViewModel, automáticamente observa el carrito.
     init {
@@ -163,22 +168,42 @@ class CartScreenViewModel @Inject constructor(
         }
     }
 
-    // Simula el proceso de pago/checkout
+    // Inicia el proceso de pago/checkout con Stripe
     fun checkout() {
         viewModelScope.launch {
             loadingManager.setBlocking(true)
-            // En una app real aquí se llamaría a la API de pedidos. 
-            // Por ahora, vaciamos el carrito como señal de compra completada.
-            val result = cartRepository.clear()
+            val locale = LanguageUtils.getSavedLanguage(context)
+            val result = cartRepository.createCheckoutSession(locale)
             if (result.isSuccess) {
-                _errorMessage.value =
-                    localizedContext.getString(R.string.cart_checkout_success)
+                _stripeSession.value = result.getOrNull()
             } else {
                 _errorMessage.value =
                     localizedContext.getString(R.string.cart_checkout_error)
             }
             loadingManager.setBlocking(false)
         }
+    }
+
+    // Confirma el pago de Stripe completado
+    fun confirmCheckout(sessionId: String) {
+        viewModelScope.launch {
+            loadingManager.setBlocking(true)
+            val result = cartRepository.confirmCheckoutSession(sessionId)
+            if (result.isSuccess) {
+                _errorMessage.value =
+                    localizedContext.getString(R.string.cart_checkout_success)
+                _stripeSession.value = null
+            } else {
+                _errorMessage.value =
+                    localizedContext.getString(R.string.cart_checkout_error)
+            }
+            loadingManager.setBlocking(false)
+        }
+    }
+
+    // Cancela el flujo de Stripe actual
+    fun cancelCheckout() {
+        _stripeSession.value = null
     }
 
     // Limpia el mensaje de error después de mostrarlo
