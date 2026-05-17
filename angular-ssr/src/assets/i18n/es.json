@@ -127,6 +127,7 @@
     "title": "Chat IA",
     "new_chat": "Nuevo Chat",
     "untitled_chat": "Chat sin título",
+    "edit_title": "Editar título",
     "no_sessions": "No hay conversaciones anteriores",
     "welcome_title": "¿En qué puedo ayudarte hoy{{name}}?",
     "welcome_subtitle": "Soy Sage, tu asistente de videojuegos. Pregúntame sobre recomendaciones, detalles de juegos o cualquier otra cosa.",
@@ -145,7 +146,7 @@
     "unitPrice": "Precio Unitario",
     "addToCart": "Añadir a la cesta",
     "removeFromFavorites": "Eliminar de favoritos",
-    "transferAll": "Transferir todos los productos a la cesta",
+    "transferAll": "Transferir todos a la cesta",
     "empty": "No tienes juegos en favoritos"
   },
   "cart": {

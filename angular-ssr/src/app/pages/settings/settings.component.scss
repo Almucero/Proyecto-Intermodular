@@ -15,6 +15,66 @@
 
 .settings-dropdown-menu {
   border: 1px solid rgba(148, 163, 184, 0.28) !important;
+  overflow: hidden;
+}
+
+.settings-dropdown-scroll-container {
+  max-height: 140px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(34, 211, 238, 0.2) transparent;
+
+  /* Efecto de difuminado dinámico */
+  mask-image: linear-gradient(to bottom,
+      rgba(0, 0, 0, var(--scroll-top-mask, 1)) 0%,
+      black var(--scroll-top-mask-stop, 0px),
+      black var(--scroll-bottom-mask-stop, 100%),
+      rgba(0, 0, 0, var(--scroll-bottom-mask, 1)) 100%);
+  -webkit-mask-image: linear-gradient(to bottom,
+      rgba(0, 0, 0, var(--scroll-top-mask, 1)) 0%,
+      black var(--scroll-top-mask-stop, 0px),
+      black var(--scroll-bottom-mask-stop, 100%),
+      rgba(0, 0, 0, var(--scroll-bottom-mask, 1)) 100%);
+  transition: mask-image 0.2s ease, -webkit-mask-image 0.2s ease;
+
+  &::-webkit-scrollbar {
+    width: 8px; /* Ancho total mayor para poder separarlo del borde derecho */
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(34, 211, 238, 0.2);
+    background-clip: padding-box;
+    border-right: 4px solid transparent; /* Separa visualmente la barra del borde derecho */
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(34, 211, 238, 0.4);
+    background-clip: padding-box;
+    border-right: 4px solid transparent;
+  }
+
+  button {
+    background: transparent !important;
+    border: none !important;
+    color: #ffffff !important;
+    cursor: pointer !important;
+    outline: none !important;
+    box-shadow: none !important;
+    transition: background-color 150ms ease !important;
+
+    &:hover {
+      background-color: rgba(6, 182, 212, 0.15) !important;
+    }
+
+    &.active-option {
+      background-color: rgba(6, 182, 212, 0.25) !important;
+    }
+  }
 }
 
 .settings-chip {
@@ -27,4 +87,118 @@
 
 .settings-delete-parent {
   border: 1px solid rgba(148, 163, 184, 0.28) !important;
+}
+
+@media (max-width: 767px) {
+  .settings-screen-wrapper {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+
+    .max-w-5xl {
+      padding-left: 0.875rem !important;
+      padding-right: 0.875rem !important;
+      margin-bottom: 1.5rem !important;
+    }
+
+    h1.text-3xl {
+      font-size: 1.75rem !important;
+      margin-bottom: 1.25rem !important;
+    }
+
+    form.space-y-6,
+    .space-y-6 {
+      > * + * {
+        margin-top: 1.125rem !important;
+      }
+    }
+
+    .settings-card {
+      padding: 1rem !important;
+      border-radius: 0.75rem !important;
+    }
+
+    .settings-card {
+      span.block.text-lg {
+        font-size: 1rem !important;
+      }
+
+      span.block.text-sm {
+        font-size: 0.8rem !important;
+        margin-top: 0.25rem !important;
+      }
+
+      h3.text-lg {
+        font-size: 1.05rem !important;
+        margin-bottom: 0.75rem !important;
+      }
+
+      label.block {
+        font-size: 0.8rem !important;
+        margin-bottom: 0.375rem !important;
+      }
+
+      .settings-input {
+        height: 2.5rem !important;
+        padding-left: 0.875rem !important;
+        padding-right: 0.875rem !important;
+        font-size: 0.875rem !important;
+      }
+
+      button.settings-input {
+        height: 2.5rem !important;
+      }
+
+      .grid.md\:grid-cols-3 {
+        gap: 0.75rem !important;
+      }
+
+      .grid.md\:grid-cols-3.gap-4 {
+        gap: 0.75rem !important;
+      }
+
+      .grid.md\:grid-cols-2 {
+        gap: 0.5rem !important;
+      }
+
+      .settings-chip {
+        padding: 0.5rem 0.75rem !important;
+        font-size: 0.85rem !important;
+
+        input[type="checkbox"] {
+          width: 1rem !important;
+          height: 1rem !important;
+        }
+      }
+    }
+
+    .flex.flex-col.md\:flex-row {
+      gap: 0.75rem !important;
+      padding-top: 1rem !important;
+    }
+
+    .settings-button {
+      padding-top: 0.625rem !important;
+      padding-bottom: 0.625rem !important;
+      font-size: 0.9rem !important;
+    }
+
+    .settings-delete-parent {
+      height: auto !important;
+      padding: 0.75rem 1rem !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: 0.75rem !important;
+      border-radius: 0.75rem !important;
+
+      span {
+        text-align: center !important;
+        font-size: 0.8rem !important;
+      }
+
+      .flex {
+        justify-content: center !important;
+        gap: 0.5rem !important;
+      }
+    }
+  }
 }

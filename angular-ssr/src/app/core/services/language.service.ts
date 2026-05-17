@@ -41,8 +41,13 @@ export class LanguageService {
   /** Observable para suscribirse a los cambios de idioma. */
   currentLang$ = this.currentLangSubject.asObservable();
 
+  /** BehaviorSubject que indica si hay una transición de cambio de idioma en progreso. */
+  private isChangingSubject = new BehaviorSubject<boolean>(false);
+  /** Observable para suscribirse al estado de cambio de idioma en progreso. */
+  isChanging$ = this.isChangingSubject.asObservable();
+
   /** Constructor no documentado. */
-    constructor() {
+  constructor() {
     this.initializeLanguage();
   }
 
@@ -53,25 +58,46 @@ export class LanguageService {
   private initializeLanguage() {
     const savedLang = this.getSavedLanguage();
     if (savedLang) {
-      this.setLanguage(savedLang);
+      this.setLanguage(savedLang, true);
     } else {
       const browserLang = this.detectBrowserLanguage();
-      this.setLanguage(browserLang);
+      this.setLanguage(browserLang, true);
     }
   }
 
   /**
    * Cambia el idioma actual de la aplicación.
    * @param lang Identificador del idioma (ej. 'es', 'en').
+   * @param forceImmediate Si es true, el cambio se ejecuta inmediatamente sin transiciones graduales.
    */
-  setLanguage(lang: Language) {
+  setLanguage(lang: Language, forceImmediate: boolean = false) {
     if (this.AVAILABLE_LANGUAGES.includes(lang)) {
-      this.currentLangSubject.next(lang);
-      this.translateService.use(lang);
-      if (this.isBrowser) {
-        localStorage.setItem(this.STORAGE_KEY, lang);
-        const secure = window.location.protocol === 'https:' ? '; Secure' : '';
-        document.cookie = `app-language=${encodeURIComponent(lang)}; Path=/; Max-Age=31536000; SameSite=Lax${secure}`;
+      if (this.currentLangSubject.value === lang) {
+        return;
+      }
+
+      if (forceImmediate || !this.isBrowser) {
+        this.currentLangSubject.next(lang);
+        this.translateService.use(lang);
+        if (this.isBrowser) {
+          localStorage.setItem(this.STORAGE_KEY, lang);
+          const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+          document.cookie = `app-language=${encodeURIComponent(lang)}; Path=/; Max-Age=31536000; SameSite=Lax${secure}`;
+        }
+      } else {
+        this.isChangingSubject.next(true);
+
+        setTimeout(() => {
+          this.currentLangSubject.next(lang);
+          this.translateService.use(lang);
+          localStorage.setItem(this.STORAGE_KEY, lang);
+          const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+          document.cookie = `app-language=${encodeURIComponent(lang)}; Path=/; Max-Age=31536000; SameSite=Lax${secure}`;
+
+          setTimeout(() => {
+            this.isChangingSubject.next(false);
+          }, 120);
+        }, 180);
       }
     }
   }

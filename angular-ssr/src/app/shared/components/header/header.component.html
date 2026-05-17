@@ -1,6 +1,7 @@
 <header
   [class.search-active]="searchActive"
   [class.menu-active]="uiState.isMenuOpen()"
+  [class.chat-sidebar-active]="uiState.isChatSidebarOpen()"
   [class.search-page]="isSearchPage"
   [class.border-none]="uiState.isMenuOpen()"
   class="flex-none relative flex items-center justify-between px-6 py-1 border-b border-gray-800 bg-gray-950 select-none mobile-responsive-header z-50"
@@ -59,6 +60,8 @@
       </a>
       <input
         type="text"
+        id="header-search-input"
+        name="headerSearchInput"
         [placeholder]="'common.searchPlaceholder' | translate"
         [(ngModel)]="searchQuery"
         class="search-input bg-transparent outline-none text-gray-300 border-none flex-1 min-w-0"
@@ -75,7 +78,9 @@
     (click)="closeSearch(); uiState.isMenuOpen() && toggleMenu()"
   ></div>
   <div class="flex items-center gap-4 text-2xl mobile-header-icons">
-    <app-language-selector class="mobile-hide tablet-hide relative z-[1001]"></app-language-selector>
+    <app-language-selector
+      class="mobile-hide tablet-hide relative z-[1001]"
+    ></app-language-selector>
     <button
       class="p-0 bg-transparent border-none hover:opacity-80 focus:outline-none transition-transform duration-150 active:scale-95"
       [title]="'tooltips.aiChat' | translate"

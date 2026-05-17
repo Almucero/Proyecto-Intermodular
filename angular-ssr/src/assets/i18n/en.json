@@ -127,6 +127,7 @@
     "title": "AI Chat",
     "new_chat": "New Chat",
     "untitled_chat": "Untitled Chat",
+    "edit_title": "Edit title",
     "no_sessions": "No previous conversations",
     "welcome_title": "How can I help you today{{name}}?",
     "welcome_subtitle": "I am Sage, your gaming assistant. Ask me about recommendations, game details, or anything else.",

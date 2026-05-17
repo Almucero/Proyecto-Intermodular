@@ -20,6 +20,8 @@ export class UiStateService {
   /** Señal que se activa cuando la animación de salida del loader ha terminado completamente. */
   loaderAnimationDone = signal(false);
 
+  isChatSidebarOpen = signal(false);
+
   /** Alterna el estado del menú. */
   toggleMenu() {
     this.isMenuOpen.update((v) => !v);

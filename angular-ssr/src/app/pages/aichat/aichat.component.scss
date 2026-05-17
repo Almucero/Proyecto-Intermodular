@@ -93,12 +93,12 @@
 .sidebar-item {
   transition: all 0.2s ease-in-out;
   border-left: 3px solid transparent;
-  
+
   &:hover {
     background: rgba(34, 211, 238, 0.1);
     border-left-color: rgba(34, 211, 238, 0.5);
   }
-  
+
   &.active {
     background: rgba(34, 211, 238, 0.15);
     border-left-color: #22d3ee;
@@ -126,4 +126,247 @@
 
 .stable-scrollbar-gutter {
   scrollbar-gutter: stable;
+}
+
+@keyframes pulsing-glow-chat {
+  0% {
+    box-shadow: 0 0 4px rgba(165, 243, 252, 0.35);
+    border-color: rgba(165, 243, 252, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 8px rgba(165, 243, 252, 0.65);
+    border-color: rgba(165, 243, 252, 0.7);
+  }
+  100% {
+    box-shadow: 0 0 4px rgba(165, 243, 252, 0.35);
+    border-color: rgba(165, 243, 252, 0.35);
+  }
+}
+
+.chat-input-wrapper {
+  background-color: #1f2937 !important;
+  border: 1px solid rgba(148, 163, 184, 0.28) !important;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease !important;
+
+  &.focused {
+    background-color: #374151 !important;
+    border: 1px solid rgba(165, 243, 252, 0.45) !important;
+    animation: pulsing-glow-chat 2s infinite ease-in-out !important;
+  }
+}
+
+.chat-input {
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.chat-send-btn {
+  background-color: #374151 !important; // Gris normal de siempre por defecto
+  color: #6b7280 !important; // Icono gris atenuado por defecto
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease !important;
+
+  &:hover {
+    background-color: #4b5563 !important;
+  }
+}
+
+// Al pulsar para escribir (cuando el input tiene foco), el botón se vuelve azul cian (como el botón Nuevo Chat)
+.chat-input-wrapper.focused .chat-send-btn {
+  background-color: #0e7490 !important;
+  color: #ffffff !important;
+
+  &:hover {
+    background-color: #0891b2 !important; // hover:bg-cyan-600
+  }
+}
+
+.chat-main-content {
+  opacity: 0; // Oculto por defecto para evitar parpadeos de transición inicial
+
+  &.opacity-100 {
+    opacity: 1 !important;
+  }
+}
+
+// Animación de entrada de tarjeta de chat
+.session-card {
+  animation: session-enter 200ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  overflow: hidden;
+  transform-origin: top;
+
+  &.no-enter-animation:not(.session-deleting) {
+    animation: none !important;
+  }
+}
+
+// Animación de salida (deleting) de tarjeta de chat
+.session-deleting {
+  animation: session-exit 200ms cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+  pointer-events: none;
+}
+
+@keyframes session-enter {
+  0% {
+    opacity: 0;
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    transform: scale(0.95) translateY(-8px);
+  }
+  100% {
+    opacity: 1;
+    max-height: 100px;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes session-exit {
+  0% {
+    opacity: 1;
+    max-height: 100px;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    transform: scale(0.95) translateY(-8px);
+  }
+}
+
+.capitalize-first-letter {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+}
+
+.edit-title-btn,
+.edit-title-action {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0.25rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  outline: none !important;
+  border-radius: 0.375rem !important;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease !important;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+  }
+}
+
+.title-edit-input {
+  background-color: #1f2937 !important;
+  border: 1px solid rgba(148, 163, 184, 0.28) !important;
+  color: #ffffff !important;
+  border-radius: 0.75rem !important;
+  padding: 0.375rem 0.75rem !important;
+  font-size: 0.875rem !important;
+  max-width: 100% !important;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease !important;
+  outline: none !important;
+
+  &:focus {
+    background-color: #374151 !important;
+    border: 1px solid rgba(165, 243, 252, 0.45) !important;
+    animation: pulsing-glow-chat 2s infinite ease-in-out !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
+.select-none {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+}
+
+.drag-none {
+  -webkit-user-drag: none !important;
+}
+
+.tilt-glare-surface {
+  position: relative !important;
+  overflow: hidden !important;
+  isolation: isolate !important;
+
+  &::after {
+    content: "" !important;
+    position: absolute !important;
+    inset: -24% !important;
+    z-index: 20 !important;
+    pointer-events: none !important;
+    opacity: var(--gloss-alpha) !important;
+    background:
+      radial-gradient(
+        42% 32% at var(--gloss-x) var(--gloss-y),
+        rgba(255, 255, 255, 0.55) 0%,
+        rgba(255, 255, 255, 0.22) 34%,
+        rgba(255, 255, 255, 0) 72%
+      ),
+      linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0.12) 8%,
+        rgba(255, 255, 255, 0) 36%,
+        rgba(255, 255, 255, 0.06) 68%,
+        rgba(255, 255, 255, 0) 100%
+      ) !important;
+    mix-blend-mode: screen !important;
+    transition: opacity 180ms ease !important;
+  }
+}
+
+:host {
+  * {
+    -webkit-tap-highlight-color: transparent !important;
+  }
+}
+
+button,
+.cursor-pointer {
+  outline: none !important;
+
+  &:focus,
+  &:focus-within,
+  &:focus-visible,
+  &:active {
+    outline: none !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+
+    --tw-ring-shadow: 0 0 transparent !important;
+    --tw-ring-offset-shadow: 0 0 transparent !important;
+    --tw-ring-color: transparent !important;
+  }
+
+  &::-moz-focus-inner {
+    border: 0 !important;
+  }
 }

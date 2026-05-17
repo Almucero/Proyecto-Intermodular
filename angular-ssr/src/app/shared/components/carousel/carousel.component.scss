@@ -16,7 +16,12 @@
   }
 
   .mobile-responsive-padding {
-    padding-left: 1.5rem !important; /* Increased padding to start further right */
-    padding-right: 0.5rem !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .mobile-responsive-container {
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
   }
 }
