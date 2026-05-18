@@ -68,6 +68,19 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.gamesage.kotlin.R
 import com.gamesage.kotlin.data.model.Game
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.ui.composed
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.painter.ColorPainter
+import androidx.compose.ui.text.style.TextOverflow
 import java.time.format.DateTimeFormatter
 
 // Pantalla principal del detalle de un juego. Gestiona el estado global y la navegación.
@@ -251,6 +264,45 @@ fun ProductContent(
         )
         Spacer(modifier = Modifier.height(24.dp))
         GameInfoTable(state.game)                // Tabla con desarrollador, editorial, fecha y reembolso
+        
+        // Separador visual premium
+        Spacer(modifier = Modifier.height(32.dp))
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(Color.White.copy(alpha = 0.1f))
+        )
+
+        // Secciones de Recomendación
+        RecommendationHorizontalList(
+            title = stringResource(R.string.product_similar_games),
+            games = state.similarGames,
+            isLoading = state.loadingRecommendations,
+            onGameClick = { newGameId -> viewModel.loadGame(newGameId) }
+        )
+
+        RecommendationHorizontalList(
+            title = stringResource(R.string.product_same_studio_games),
+            games = state.sameStudioGames,
+            isLoading = state.loadingRecommendations,
+            onGameClick = { newGameId -> viewModel.loadGame(newGameId) }
+        )
+
+        RecommendationHorizontalList(
+            title = stringResource(R.string.product_related_genres_games),
+            games = state.relatedGenresGames,
+            isLoading = state.loadingRecommendations,
+            onGameClick = { newGameId -> viewModel.loadGame(newGameId) }
+        )
+
+        RecommendationHorizontalList(
+            title = stringResource(R.string.product_top_platform_games),
+            games = state.topPlatformGames,
+            isLoading = state.loadingRecommendations,
+            onGameClick = { newGameId -> viewModel.loadGame(newGameId) }
+        )
+
         Spacer(modifier = Modifier.height(32.dp))
     }
 }
@@ -790,7 +842,7 @@ fun InfoRow(label: String, value: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(androidx.compose.foundation.layout.IntrinsicSize.Min)
+            .height(IntrinsicSize.Min)
             .background(Color(0xFF111827)),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -818,4 +870,181 @@ fun InfoRow(label: String, value: String) {
                 .padding(16.dp)
         )
     }
+}
+
+// Lista horizontal de juegos recomendados con Shimmer o LazyRow real.
+@Composable
+fun RecommendationHorizontalList(
+    title: String,
+    games: List<Game>,
+    isLoading: Boolean,
+    onGameClick: (Long) -> Unit
+) {
+    if (isLoading) {
+        RecommendationHorizontalListSkeleton(title)
+    } else if (games.isNotEmpty()) {
+        Column(modifier = Modifier.padding(top = 24.dp)) {
+            Text(
+                text = title.uppercase(),
+                modifier = Modifier.padding(horizontal = 4.dp),
+                color = Color(0xFF93E3FE),
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp,
+                letterSpacing = 1.sp
+            )
+
+            Spacer(Modifier.height(12.dp))
+
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                contentPadding = PaddingValues(horizontal = 4.dp)
+            ) {
+                items(games.size) { index ->
+                    RecommendationGameCard(games[index], onGameClick)
+                }
+            }
+        }
+    }
+}
+
+// Tarjeta individual de juego en la recomendación.
+@Composable
+fun RecommendationGameCard(game: Game, onGameClick: (Long) -> Unit) {
+    Column(
+        modifier = Modifier
+            .width(150.dp)
+            .clickable { onGameClick(game.id.toLong()) }
+    ) {
+        Box(
+            modifier = Modifier
+                .height(110.dp)
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(12.dp))
+                .background(Color(0xFF1F2937)),
+            contentAlignment = Alignment.Center
+        ) {
+            val imageUrl = game.media?.firstOrNull()?.url ?: "https://imgs.search.brave.com/fYkD5wfC_-Rme5c7BsUqQrc85GwiSHKVsArtXOFqpBc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA2LzQzLzk3LzA4/LzM2MF9GXzY0Mzk3/MDg2OV9xWVduenp1/em5iTU83VGF5bVFp/cndNblE1ZmlRSFpi/dS5qcGc"
+            AsyncImage(
+                model = imageUrl,
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop,
+                error = ColorPainter(Color(0xFF374151)),
+                placeholder = ColorPainter(Color(0xFF1F2937))
+            )
+        }
+
+        Spacer(Modifier.height(8.dp))
+
+        Text(
+            text = game.title,
+            color = Color.White,
+            fontWeight = FontWeight.Medium,
+            fontSize = 14.sp,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+
+        Spacer(Modifier.height(4.dp))
+
+        game.price?.let { price ->
+            val currentPrice = if (game.isOnSale && game.salePrice != null) game.salePrice else price
+            val isFree = currentPrice == 0.0
+            val priceText = if (isFree) {
+                if (game.isOnSale && game.salePrice != null) {
+                    stringResource(id = R.string.home_free_sale, String.format("%.2f", price))
+                } else {
+                    stringResource(id = R.string.home_free)
+                }
+            } else {
+                if (game.isOnSale && game.salePrice != null) {
+                    stringResource(id = R.string.home_price_sale, String.format("%.2f", game.salePrice), String.format("%.2f", price))
+                } else {
+                    String.format("%.2f€", price)
+                }
+            }
+
+            Text(
+                text = priceText,
+                color = if (game.isOnSale) Color(0xFFE57373) else Color.LightGray,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 12.sp
+            )
+        }
+    }
+}
+
+// Esqueleto de carga shimmer para las recomendaciones.
+@Composable
+fun RecommendationHorizontalListSkeleton(title: String) {
+    Column(modifier = Modifier.padding(top = 24.dp)) {
+        Text(
+            text = title.uppercase(),
+            modifier = Modifier.padding(horizontal = 4.dp),
+            color = Color(0xFF93E3FE),
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
+            letterSpacing = 1.sp
+        )
+        Spacer(Modifier.height(12.dp))
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(horizontal = 4.dp)
+        ) {
+            items(3) {
+                Column(
+                    modifier = Modifier.width(150.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .height(110.dp)
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(12.dp))
+                            .shimmerEffect()
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    Box(
+                        modifier = Modifier
+                            .height(14.dp)
+                            .fillMaxWidth(0.8f)
+                            .clip(RoundedCornerShape(4.dp))
+                            .shimmerEffect()
+                    )
+                    Spacer(Modifier.height(6.dp))
+                    Box(
+                        modifier = Modifier
+                            .height(12.dp)
+                            .width(50.dp)
+                            .clip(RoundedCornerShape(4.dp))
+                            .shimmerEffect()
+                    )
+                }
+            }
+        }
+    }
+}
+
+fun Modifier.shimmerEffect(): Modifier = composed {
+    val transition = rememberInfiniteTransition(label = "shimmer")
+    val translateAnim by transition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1000f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 1200, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "shimmerAnim"
+    )
+
+    val brush = Brush.linearGradient(
+        colors = listOf(
+            Color(0xFF1F2937),
+            Color(0xFF374151),
+            Color(0xFF1F2937)
+        ),
+        start = Offset.Zero,
+        end = Offset(x = translateAnim, y = translateAnim)
+    )
+
+    this.background(brush)
 }

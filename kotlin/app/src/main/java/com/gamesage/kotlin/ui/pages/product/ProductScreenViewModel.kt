@@ -32,7 +32,12 @@ sealed class ProductUiState {
         val addedToCartSuccess: Boolean = false,      // Flag temporal de confirmación al añadir al carrito
         val addedToFavoritesSuccess: Boolean = false, // Flag temporal de confirmación al añadir a favoritos
         val navigateToCart: Boolean = false,          // Flag para redirigir al carrito tras "Comprar ya"
-        val error: String? = null                     // Mensaje de error temporal para mostrar en la UI
+        val error: String? = null,                    // Mensaje de error temporal para mostrar en la UI
+        val similarGames: List<Game> = emptyList(),
+        val sameStudioGames: List<Game> = emptyList(),
+        val relatedGenresGames: List<Game> = emptyList(),
+        val topPlatformGames: List<Game> = emptyList(),
+        val loadingRecommendations: Boolean = true
     ) : ProductUiState()
     object Error : ProductUiState()
 }
@@ -117,6 +122,9 @@ class ProductScreenViewModel @Inject constructor(
                         game = game,
                         selectedPlatform = selectedPlatform
                     )
+
+                    // Carga las recomendaciones de forma asíncrona para no retrasar la visualización del juego
+                    loadRecommendations(game)
                 },
                 onFailure = {
                     // Si algo falla, mostramos el estado de error
@@ -124,6 +132,142 @@ class ProductScreenViewModel @Inject constructor(
                 }
             )
         }
+    }
+
+    // Carga los carruseles de recomendaciones calculando similitudes
+    private fun loadRecommendations(baseGame: Game) {
+        viewModelScope.launch {
+            gameRepository.readAll().fold(
+                onSuccess = { allGames ->
+                    val candidates = allGames.filter { it.id != baseGame.id }
+                    
+                    // Fallback de juegos populares (ordenados por ventas y rating decrecientes)
+                    val popularFallback = candidates.sortedWith(
+                        compareByDescending<Game> { it.numberOfSales }
+                            .thenByDescending { it.rating ?: 0f }
+                    )
+                    
+                    // Función de ayuda para tomar items únicos sin duplicados entre carruseles
+                    val usedIds = mutableSetOf<Int>()
+                    fun takeUnique(items: List<Game>, amount: Int): List<Game> {
+                        val picked = mutableListOf<Game>()
+                        for (game in items) {
+                            if (picked.size >= amount) break
+                            if (game.id in usedIds) continue
+                            picked.add(game)
+                            usedIds.add(game.id)
+                        }
+                        return picked
+                    }
+                    
+                    fun fillWithFallback(primary: List<Game>, amount: Int): List<Game> {
+                        val picked = takeUnique(primary, amount).toMutableList()
+                        if (picked.size < amount) {
+                            val fallback = popularFallback.filter { it.id !in usedIds }
+                            picked.addAll(takeUnique(fallback, amount - picked.size))
+                        }
+                        return picked
+                    }
+                    
+                    // 1. Juegos Similares (usando el algoritmo de puntuación)
+                    val similarRanked = candidates.map { candidate ->
+                        candidate to scoreSimilarity(baseGame, candidate)
+                    }.filter { it.second > 0 }
+                     .sortedWith(
+                         compareByDescending<Pair<Game, Int>> { it.second }
+                             .thenByDescending { it.first.numberOfSales }
+                             .thenByDescending { it.first.rating ?: 0f }
+                     ).map { it.first }
+                    val similarGames = fillWithFallback(similarRanked, 20)
+                    
+                    // 2. Mismo Estudio (mismo desarrollador o editora)
+                    val sameStudioPool = candidates.filter { g ->
+                        (baseGame.developerId != null && g.developerId == baseGame.developerId) ||
+                        (baseGame.publisherId != null && g.publisherId == baseGame.publisherId)
+                    }.sortedWith(
+                        compareByDescending<Game> { it.numberOfSales }
+                            .thenByDescending { it.rating ?: 0f }
+                    )
+                    val sameStudioGames = fillWithFallback(sameStudioPool, 20)
+                    
+                    // 3. Mismos Géneros (comparten al menos un género)
+                    val baseGenres = baseGame.genres?.map { it.name.lowercase().trim() }?.toSet() ?: emptySet()
+                    val relatedGenresPool = candidates.filter { g ->
+                        g.genres?.any { it.name.lowercase().trim() in baseGenres } == true
+                    }.sortedWith(
+                        compareByDescending<Game> { it.rating ?: 0f }
+                            .thenByDescending { it.numberOfSales }
+                    )
+                    val relatedGenresGames = fillWithFallback(relatedGenresPool, 20)
+                    
+                    // 4. Top en Plataformas Compatibles (mismas plataformas)
+                    val basePlatforms = baseGame.platforms?.map { it.name.lowercase().trim() }?.toSet() ?: emptySet()
+                    val topOnPlatformsPool = candidates.filter { g ->
+                        g.platforms?.any { it.name.lowercase().trim() in basePlatforms } == true
+                    }.sortedWith(
+                        compareByDescending<Game> { it.numberOfSales }
+                            .thenByDescending { it.rating ?: 0f }
+                    )
+                    val topOnPlatformsGames = fillWithFallback(topOnPlatformsPool, 20)
+                    
+                    _uiState.update { state ->
+                        if (state is ProductUiState.Success) {
+                            state.copy(
+                                similarGames = similarGames,
+                                sameStudioGames = sameStudioGames,
+                                relatedGenresGames = relatedGenresGames,
+                                topPlatformGames = topOnPlatformsGames,
+                                loadingRecommendations = false
+                            )
+                        } else state
+                    }
+                },
+                onFailure = {
+                    _uiState.update { state ->
+                        if (state is ProductUiState.Success) {
+                            state.copy(loadingRecommendations = false)
+                        } else state
+                    }
+                }
+            )
+        }
+    }
+
+    // Calcula los puntos de coincidencia de similitud entre dos juegos
+    private fun scoreSimilarity(base: Game, candidate: Game): Int {
+        var score = 0
+        
+        if (base.developerId != null && candidate.developerId == base.developerId) {
+            score += 4
+        }
+        
+        if (base.publisherId != null && candidate.publisherId == base.publisherId) {
+            score += 3
+        }
+        
+        val baseGenres = base.genres?.map { it.name.lowercase().trim() }?.toSet() ?: emptySet()
+        val candidateGenres = candidate.genres?.map { it.name.lowercase().trim() }?.toSet() ?: emptySet()
+        val sharedGenres = baseGenres.intersect(candidateGenres).size
+        score += sharedGenres * 3
+        
+        val basePlatforms = base.platforms?.map { it.name.lowercase().trim() }?.toSet() ?: emptySet()
+        val candidatePlatforms = candidate.platforms?.map { it.name.lowercase().trim() }?.toSet() ?: emptySet()
+        val sharedPlatforms = basePlatforms.intersect(candidatePlatforms).size
+        score += sharedPlatforms * 2
+        
+        val basePrice = if (base.isOnSale) base.salePrice else base.price
+        val candidatePrice = if (candidate.isOnSale) candidate.salePrice else candidate.price
+        val priceDiff = Math.abs((basePrice ?: 0.0) - (candidatePrice ?: 0.0))
+        if (priceDiff <= 5) score += 2
+        else if (priceDiff <= 15) score += 1
+        
+        val baseRating = base.rating ?: 0f
+        val candidateRating = candidate.rating ?: 0f
+        if (Math.abs(baseRating - candidateRating) <= 0.7f) score += 1
+        
+        if (base.isOnSale && candidate.isOnSale) score += 1
+        
+        return score
     }
 
     // Construye la lista interna de MediaItems (vídeo + portada) para el carrusel
