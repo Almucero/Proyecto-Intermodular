@@ -120,6 +120,10 @@
     <string name="product_login_message">Vous devez vous connecter pour effectuer cette action</string>
     <string name="product_login_button">Se connecter</string>
     <string name="product_platform">Plateforme</string>
+    <string name="product_similar_games">Jeux similaires</string>
+    <string name="product_same_studio_games">Même studio ou éditeur</string>
+    <string name="product_related_genres_games">Mêmes genres</string>
+    <string name="product_top_platform_games">Top sur plateformes compatibles</string>
 
     <string name="dashboard_image_error">Erreur de traitement de l\'image</string>
     <string name="dashboard_user_section">Utilisateur</string>
