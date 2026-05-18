@@ -120,6 +120,10 @@
     <string name="product_login_message">You must log in to perform this action</string>
     <string name="product_login_button">Log In</string>
     <string name="product_platform">Platform</string>
+    <string name="product_similar_games">Similar games</string>
+    <string name="product_same_studio_games">Same studio or publisher</string>
+    <string name="product_related_genres_games">Same genres</string>
+    <string name="product_top_platform_games">Top on compatible platforms</string>
 
     <string name="dashboard_image_error">Error processing image</string>
     <string name="dashboard_user_section">User</string>
