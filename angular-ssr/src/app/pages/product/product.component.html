@@ -86,6 +86,8 @@
                 [src]="mediaItems[currentMediaIndex].url"
                 [alt]="mediaItems[currentMediaIndex].label"
                 class="w-full h-full object-contain transition-opacity duration-300"
+                crossorigin="anonymous"
+                referrerpolicy="no-referrer"
               />
             </ng-container>
 
@@ -175,6 +177,8 @@
                   [src]="media.url"
                   [alt]="media.label"
                   class="w-full h-full object-cover"
+                  crossorigin="anonymous"
+                  referrerpolicy="no-referrer"
                 />
                 <div
                   *ngIf="media.type === 'video'"
@@ -185,6 +189,8 @@
                     [src]="media.thumbnail"
                     [alt]="media.label"
                     class="w-full h-full object-cover opacity-75"
+                    crossorigin="anonymous"
+                    referrerpolicy="no-referrer"
                   />
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -235,6 +241,8 @@
               [src]="screenshot1"
               alt="Screenshot 1"
               class="w-full h-full object-cover"
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
             />
             <div
               *ngIf="game && game.id !== -1 && !screenshot1"
@@ -254,6 +262,8 @@
               [src]="screenshot2"
               alt="Screenshot 2"
               class="w-full h-full object-cover"
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
             />
             <div
               *ngIf="game && game.id !== -1 && !screenshot2"

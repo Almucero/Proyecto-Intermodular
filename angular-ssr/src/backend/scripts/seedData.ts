@@ -1,4 +1,7 @@
 import 'dotenv/config';
+
+/* eslint-disable security/detect-non-literal-fs-filename, security/detect-object-injection */
+
 import { prisma } from '../config/db';
 import bcrypt from 'bcryptjs';
 import fs from 'fs';

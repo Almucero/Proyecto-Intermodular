@@ -361,7 +361,9 @@ export class SearchComponent implements OnInit {
   }
 
   toggleFilter(filterName: string): void {
+    // eslint-disable-next-line security/detect-object-injection
     if (this.filtersExpanded[filterName] !== undefined) {
+      // eslint-disable-next-line security/detect-object-injection
       this.filtersExpanded[filterName] = !this.filtersExpanded[filterName];
     }
   }

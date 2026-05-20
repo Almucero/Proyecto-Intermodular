@@ -62,8 +62,11 @@ async function crearAdmin() {
   }
 
   for (let i = 0; i < emails.length; i++) {
+    // eslint-disable-next-line security/detect-object-injection
     const email = emails[i];
+    // eslint-disable-next-line security/detect-object-injection
     const password = passwords[i] || 'ChangeMe123!';
+    // eslint-disable-next-line security/detect-object-injection
     const name = names[i] || 'Admin';
     const passwordHash = await bcrypt.hash(password, saltRounds);
     const createPayload: any = {

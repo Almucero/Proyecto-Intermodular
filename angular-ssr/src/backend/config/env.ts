@@ -5,6 +5,7 @@ import { join } from 'node:path';
 const envPath = join(process.cwd(), '.env');
 config({ path: envPath, quiet: true });
 
+// eslint-disable-next-line security/detect-non-literal-fs-filename
 if (!process.env['VERCEL'] && !existsSync(envPath)) {
   throw new Error(
     'No se encontró .env. Cópialo desde .env.example y configura las variables necesarias.',
@@ -33,11 +34,13 @@ function validate(): void {
   const invalid: string[] = [];
 
   for (const k of STRING_KEYS) {
+    // eslint-disable-next-line security/detect-object-injection
     const v = process.env[k];
     if (v === undefined || v === '') missing.push(k);
   }
 
   for (const k of NUMERIC_KEYS) {
+    // eslint-disable-next-line security/detect-object-injection
     const v = process.env[k];
     if (v === undefined || v === '') continue;
     const n = Number(v);

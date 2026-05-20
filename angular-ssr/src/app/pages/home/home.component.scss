@@ -112,11 +112,19 @@
   overflow: hidden;
   background-image: url("/assets/images/fondo.webp");
   background-size: cover;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .contenedor-imagenes img {
   position: absolute;
   pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .background {
@@ -206,6 +214,12 @@
 }
 .genres-section {
   margin-bottom: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+  .tablet-hide {
+    display: none !important;
+  }
 }
 
 @media (max-width: 768px) {

@@ -16,6 +16,7 @@ export function serializePrisma(value: any): any {
   if (typeof value === 'object') {
     const out: any = {};
     for (const k of Object.keys(value)) {
+      // eslint-disable-next-line security/detect-object-injection
       out[k] = serializePrisma(value[k]);
     }
     return out;

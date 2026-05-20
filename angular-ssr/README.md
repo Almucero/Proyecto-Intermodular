@@ -1,6 +1,6 @@
-## GameSage SSR - Plataforma de videojuegos
+# GameSage SSR - Plataforma de videojuegos
 
-### Introducción
+## Introducción
 
 GameSage es una plataforma web centrada en videojuegos que integra en un solo proyecto el frontend, el backend y la base de datos. La aplicación está construida como una **aplicación Angular con renderizado en servidor (SSR)** y un **backend HTTP** que se ejecuta en el mismo proceso Node.js, de modo que no hace falta desplegar por separado una SPA y una API: un único servidor atiende tanto las páginas web como las peticiones a la API REST.
 
@@ -76,6 +76,7 @@ El chat con IA utiliza **Google Generative AI** (y dependencias como `@google/ge
 - **Swagger (swagger-jsdoc, swagger-ui-express)**: documentación de la API en `/api-docs`.
 - **Winston**: logging estructurado en el backend.
 - **dotenv**: carga de variables desde `.env` al arrancar el backend.
+- **ESLint**: análisis estático de código mediante `eslint-plugin-security` para prevenir inyección de objetos, expresiones regulares inseguras y ejecución de comandos no seguros.
 
 El proyecto aplica buenas prácticas OWASP: headers de seguridad (X-Frame-Options, X-Content-Type-Options, Referrer-Policy) en el servidor; CORS restringido en producción mediante `CORS_ORIGIN`; en desarrollo se permiten automáticamente `http://localhost:PORT` y `http://localhost:4200`; redirección a HTTPS en producción; errores sin detalles sensibles en producción; control de acceso (IDOR) en usuarios; sanitización de enlaces en contenido (markdown); script `npm run audit` para revisar dependencias.
 
@@ -311,13 +312,13 @@ Si el proyecto se recibe como ZIP o carpeta, este paso puede omitirse.
 
 El backend usa PostgreSQL a través de Prisma. Hay que disponer de una instancia accesible y de las URLs de conexión en el `.env`.
 
-**Opción A – PostgreSQL local (o cualquier proveedor)**
+#### Opción A – PostgreSQL local (o cualquier proveedor)
 
 - Instalar PostgreSQL desde [postgresql.org](https://www.postgresql.org/download/) o con un gestor de paquetes (Chocolatey, Homebrew, etc.), o usar cualquier otro proveedor de PostgreSQL.
 - Crear una base de datos y un usuario con permisos (por ejemplo `gamesage` / `gamesage`).
 - La URL de conexión típica es: `postgresql://usuario:password@localhost:5432/nombre_bd`. Esa URL y, si aplica, la URL directa sin pooler se configuran en el paso de variables de entorno.
 
-**Opción B – Neon desde Vercel**
+#### Opción B – Neon desde Vercel
 
 - Si el proyecto se despliega o se gestiona desde **Vercel**, la base de datos PostgreSQL tipo Neon se puede crear y administrar desde el propio panel de Vercel (Vercel permite crear y enlazar este tipo de base de datos).
 - Lo único necesario es disponer de las URLs que Vercel proporciona: `POSTGRES_PRISMA_URL` y `POSTGRES_URL_NON_POOLING` (o la que corresponda para migraciones). Esas URLs se copian al `.env` y se gestionan desde Vercel; no hace falta crear la base manualmente en neon.tech.
@@ -353,14 +354,14 @@ En la raíz del proyecto ejecutar:
 
 ```bash
 npm install
-npm audit fix
+npm audit fix --omit=dev
 ```
 
-Se instalan las dependencias de `package.json` y las devDependencies (Angular CLI, Prisma, Jest, etc.). Puede tardar varios minutos. `npm audit fix` corrige vulnerabilidades conocidas en las dependencias (por ejemplo avisos de severidad moderada).
+Se instalan las dependencias de `package.json` y las devDependencies (Angular CLI, Prisma, Jest, etc.). Puede tardar varios minutos. `npm audit fix --omit=dev` corrige vulnerabilidades conocidas en las dependencias de producción, omitiendo las de desarrollo (para evitar conflictos conocidos con herramientas como ESLint).
 
 **Si en Windows PowerShell aparece** *"running scripts is disabled on this system"* al ejecutar `npm`:
 
-- Usa el ejecutable en formato cmd: `npm.cmd install` y `npm.cmd audit fix` (y en general `npm.cmd` en lugar de `npm` para el resto de comandos), o
+- Usa el ejecutable en formato cmd: `npm.cmd install` y `npm.cmd audit fix --omit=dev` (y en general `npm.cmd` en lugar de `npm` para el resto de comandos), o
 - Abre PowerShell como administrador y ejecuta: `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine` para permitir scripts locales como `npm.ps1`.
 
 ### 7. Prisma: generar cliente y migrar
@@ -427,7 +428,7 @@ El servidor quedará escuchando en `http://localhost:<PORT>` (por defecto 3000).
 cp .env.example .env
 # Editar .env con BD, Cloudinary, JWT, etc.
 npm install
-npm audit fix
+npm audit fix --omit=dev
 npx prisma generate
 npx prisma migrate deploy
 npm run seed:admin
@@ -499,7 +500,7 @@ Los comandos están definidos en `package.json`. Para un arranque desde cero com
   - `seed:admin`
   - `build:ssr`
 
-Tras instalar dependencias (`npm install`) conviene ejecutar **`npm audit fix`** para resolver vulnerabilidades reportadas por npm.
+Tras instalar dependencias (`npm install`) conviene ejecutar **`npm audit fix --omit=dev`** para resolver vulnerabilidades reportadas por npm.
 
 ### Tests
 
@@ -532,13 +533,14 @@ Tras instalar dependencias (`npm install`) conviene ejecutar **`npm audit fix`**
 
 ### Utilidades
 
-- **`npm run audit`**: ejecuta `npm audit --audit-level=high` para revisar vulnerabilidades en dependencias (OWASP A06).
-- **`npm audit fix`**: corrige vulnerabilidades en dependencias (recomendado tras `npm install`).
+- **`npm run audit`**: ejecuta `npm audit --audit-level=high --omit=dev` para revisar vulnerabilidades en dependencias de producción (OWASP A06).
+- **`npm run lint`**: ejecuta el análisis estático de código buscando vulnerabilidades de seguridad (vía ESLint y plugin de seguridad).
+- **`npm audit fix --omit=dev`**: corrige vulnerabilidades en dependencias de producción (recomendado tras `npm install`).
 - **`npm run watch`**: build en watch (config development).
 - **`npm run format`**: formateo con Prettier.
 - **`npm run clean`**: borra `dist`, `logs`, `coverage`.
 - **`npm run clean:full`**: borra `dist`, `node_modules`, `logs`, `coverage`.
-- **`npm run reinstall`**: reinstalación completa (`clean:full` + `npm install`); después ejecutar `npm audit fix`.
+- **`npm run reinstall`**: reinstalación completa (`clean:full` + `npm install`); después ejecutar `npm audit fix --omit=dev`.
 
 ---
 
@@ -550,7 +552,7 @@ Los siguientes comandos cubren la mayoría de flujos habituales:
 
 ```bash
 npm install
-npm audit fix
+npm audit fix --omit=dev
 ```
 
 - **Build SSR + ejecución local**:

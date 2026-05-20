@@ -186,18 +186,28 @@ export class ProductComponent implements OnInit {
     }
 
     if (this.game.videoUrl) {
-      const videoId = this.getVideoId(this.game.videoUrl);
-      const embedUrl = this.convertToEmbedUrl(this.game.videoUrl);
-      const thumbnailUrl = videoId
-        ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
-        : undefined;
+      const isImage = this.game.videoUrl.match(/\.(jpeg|jpg|gif|png|webp|avif|svg)$/i) != null;
 
-      this.mediaItems.push({
-        type: 'video',
-        label: 'Video',
-        url: this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl),
-        thumbnail: thumbnailUrl,
-      });
+      if (isImage) {
+        this.mediaItems.push({
+          type: 'image',
+          label: 'Video (Image)',
+          url: this.game.videoUrl,
+        });
+      } else {
+        const videoId = this.getVideoId(this.game.videoUrl);
+        const embedUrl = this.convertToEmbedUrl(this.game.videoUrl);
+        const thumbnailUrl = videoId
+          ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
+          : undefined;
+
+        this.mediaItems.push({
+          type: 'video',
+          label: 'Video',
+          url: this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl),
+          thumbnail: thumbnailUrl,
+        });
+      }
     }
 
     if (this.coverImage) {
