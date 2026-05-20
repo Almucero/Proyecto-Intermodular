@@ -31,12 +31,12 @@ export function applySecurityHeaders(req: Request, res: Response, next?: NextFun
   if (isProduction) {
     // Producción: script-src más estricto sin unsafe-inline/eval, upgrade-insecure-requests
     csp += "script-src 'self' https://cdnjs.cloudflare.com https://www.gstatic.com https://generativelanguage.googleapis.com https://js.stripe.com https://accounts.google.com https://accounts.gstatic.com; ";
-    csp += "connect-src 'self' https://res.cloudinary.com https://generativelanguage.googleapis.com https://api.stripe.com https://r.stripe.com https://m.stripe.network https://js.stripe.com https://hooks.stripe.com https://accounts.google.com https://accounts.gstatic.com; ";
+    csp += "connect-src 'self' https://res.cloudinary.com https://generativelanguage.googleapis.com https://api.stripe.com https://r.stripe.com https://m.stripe.network https://js.stripe.com https://hooks.stripe.com https://accounts.google.com https://accounts.gstatic.com https://cdnjs.cloudflare.com; ";
     csp += "upgrade-insecure-requests;";
   } else {
     // Desarrollo: permite WebSocket para HMR (Hot Module Replacement) e unsafe-inline/eval para debug
     csp += "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://www.gstatic.com https://generativelanguage.googleapis.com https://js.stripe.com https://accounts.google.com https://accounts.gstatic.com; ";
-    csp += "connect-src 'self' ws://localhost:* http://localhost:* https://res.cloudinary.com https://generativelanguage.googleapis.com https://api.stripe.com https://r.stripe.com https://m.stripe.network https://js.stripe.com https://hooks.stripe.com https://accounts.google.com https://accounts.gstatic.com; ";
+    csp += "connect-src 'self' ws://localhost:* http://localhost:* https://res.cloudinary.com https://generativelanguage.googleapis.com https://api.stripe.com https://r.stripe.com https://m.stripe.network https://js.stripe.com https://hooks.stripe.com https://accounts.google.com https://accounts.gstatic.com https://cdnjs.cloudflare.com; ";
   }
 
   res.setHeader('Content-Security-Policy', csp);

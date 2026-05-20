@@ -7,6 +7,7 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
+import { existsSync } from 'node:fs';
 import { applySecurityHeaders, applyNoCacheHeaders } from './security-headers';
 
 const isSetupError = (err: unknown): boolean => {
@@ -60,6 +61,9 @@ process.on('unhandledRejection', (reason) => {
 });
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
+const docsDistFolder = join(browserDistFolder, 'docs');
+const docsFallbackFolder = join(import.meta.dirname, '../../../docs');
+const docsFolder = existsSync(docsDistFolder) ? docsDistFolder : docsFallbackFolder;
 
 const app = express();
 app.disable('x-powered-by');
@@ -83,6 +87,15 @@ if (process.env['VERCEL']) {
       req.url = pathParam.length > 0 ? '/' + pathParam.replace(/^\//, '') + qs : '/';
     } else if (req.url === '/api') {
       req.url = '/';
+    } else if (req.url?.includes('?')) {
+      const q = req.url.indexOf('?');
+      const pathname = req.url.slice(0, q);
+      const params = new URLSearchParams(req.url.slice(q + 1));
+      if (params.has('__path')) {
+        params.delete('__path');
+        const qs = params.toString() ? '?' + params.toString() : '';
+        req.url = pathname + qs;
+      }
     }
     next();
   });
@@ -194,6 +207,22 @@ const setupAngularMiddleware = () => {
   });
 
   app.use(rejectSensitiveOrNumericOnlyPath);
+  app.use(
+    '/docs',
+    express.static(docsFolder, {
+      maxAge: '1h',
+      etag: true,
+      lastModified: true,
+      redirect: false,
+      index: 'index.html',
+      setHeaders: (res) => {
+        res.setHeader('Cache-Control', 'public, max-age=3600');
+      },
+    }),
+  );
+  app.get('/docs', (_req, res) => {
+    res.redirect(302, '/docs/');
+  });
   app.use(
     express.static(browserDistFolder, {
       maxAge: '1y',

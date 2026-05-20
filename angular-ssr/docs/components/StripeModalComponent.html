@@ -1,0 +1,2363 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>game-sage documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">game-sage documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  StripeModalComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/shared/components/stripe-checkout/stripe-checkout.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-stripe-modal</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
+                            <code>TranslateModule</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./stripe-checkout.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./stripe-checkout.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#checkoutEmbeddedReady" >checkoutEmbeddedReady</a>
+                            </li>
+                            <li>
+                                <a href="#checkoutFooterHeight" >checkoutFooterHeight</a>
+                            </li>
+                            <li>
+                                <a href="#checkoutHeaderHeight" >checkoutHeaderHeight</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#checkoutInitToken" >checkoutInitToken</a>
+                            </li>
+                            <li>
+                                <a href="#checkoutLoading" >checkoutLoading</a>
+                            </li>
+                            <li>
+                                <a href="#checkoutModalHeight" >checkoutModalHeight</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#embeddedCheckout" >embeddedCheckout</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#embeddedContainerId" >embeddedContainerId</a>
+                            </li>
+                            <li>
+                                <a href="#error" >error</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#isBrowser" >isBrowser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#onResize" >onResize</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#originalBodyOverflow" >originalBodyOverflow</a>
+                            </li>
+                            <li>
+                                <a href="#showCheckoutBottomFade" >showCheckoutBottomFade</a>
+                            </li>
+                            <li>
+                                <a href="#showCheckoutTopFade" >showCheckoutTopFade</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#closeInternal" >closeInternal</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#enableSingleAutoTopCorrection" >enableSingleAutoTopCorrection</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#finalizeEmbeddedCheckout" >finalizeEmbeddedCheckout</a>
+                            </li>
+                            <li>
+                                <a href="#getEmbeddedContainerId" >getEmbeddedContainerId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getStripeCheckoutLocale" >getStripeCheckoutLocale</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#isValidCheckoutSessionResponse" >isValidCheckoutSessionResponse</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#lockCheckoutModalInitialSize" >lockCheckoutModalInitialSize</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#onCheckoutEmbedScroll" >onCheckoutEmbedScroll</a>
+                            </li>
+                            <li>
+                                <a href="#requestClose" >requestClose</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#resetCheckoutEmbedScroll" >resetCheckoutEmbedScroll</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#setPageScrollLocked" >setPageScrollLocked</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#startCheckout" >startCheckout</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#updateCheckoutEmbedFadeState" >updateCheckoutEmbedFadeState</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#updateCheckoutLayoutMetrics" >updateCheckoutLayoutMetrics</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#waitForEmbeddedCheckoutVisible" >waitForEmbeddedCheckoutVisible</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#directCheckoutPayload" >directCheckoutPayload</a>
+                            </li>
+                            <li>
+                                <a href="#open" >open</a>
+                            </li>
+                            <li>
+                                <a href="#titleKey" >titleKey</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#closed" >closed</a>
+                            </li>
+                            <li>
+                                <a href="#completed" >completed</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(cartItemService: <a href="../injectables/CartItemService.html" target="_self">CartItemService</a>, languageService: <a href="../injectables/LanguageService.html" target="_self">LanguageService</a>, document: Document, platformId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:55</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>cartItemService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/CartItemService.html" target="_self" >CartItemService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>languageService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/LanguageService.html" target="_self" >LanguageService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>document</td>
+                                                  
+                                                        <td>
+                                                                    <code>Document</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>platformId</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank" >Object</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="directCheckoutPayload"></a>
+                        <b>directCheckoutPayload</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/DirectCheckoutSessionPayload.html" target="_self" >DirectCheckoutSessionPayload | null</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:34</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="open"></a>
+                        <b>open</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:32</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="titleKey"></a>
+                        <b>titleKey</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;cart.buy&#x27;</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:33</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section data-compodoc="block-outputs">
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="closed"></a>
+                        <b>closed</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:35</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="completed"></a>
+                        <b>completed</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:36</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeInternal"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>closeInternal</b></span>
+                        <a href="#closeInternal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>closeInternal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="165"
+                                    class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:165</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="enableSingleAutoTopCorrection"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>enableSingleAutoTopCorrection</b></span>
+                        <a href="#enableSingleAutoTopCorrection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>enableSingleAutoTopCorrection()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="284"
+                                    class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:284</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="finalizeEmbeddedCheckout"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>finalizeEmbeddedCheckout</b></span>
+                        <a href="#finalizeEmbeddedCheckout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>finalizeEmbeddedCheckout(sessionId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="308"
+                                    class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:308</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>sessionId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getEmbeddedContainerId"></a>
+                    <span class="name">
+                        <span ><b>getEmbeddedContainerId</b></span>
+                        <a href="#getEmbeddedContainerId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getEmbeddedContainerId()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="94"
+                                    class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:94</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getStripeCheckoutLocale"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getStripeCheckoutLocale</b></span>
+                        <a href="#getStripeCheckoutLocale"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getStripeCheckoutLocale()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="327"
+                                    class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:327</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isValidCheckoutSessionResponse"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>isValidCheckoutSessionResponse</b></span>
+                        <a href="#isValidCheckoutSessionResponse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isValidCheckoutSessionResponse(value: unknown)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="342"
+                                    class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:342</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/CheckoutSessionResponse.html" target="_self" >CheckoutSessionResponse</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="lockCheckoutModalInitialSize"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>lockCheckoutModalInitialSize</b></span>
+                        <a href="#lockCheckoutModalInitialSize"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>lockCheckoutModalInitialSize()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="205"
+                                    class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:205</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <span ><b>ngOnChanges</b></span>
+                        <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="69"
+                                    class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:69</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>changes</td>
+                                            <td>
+                                                            <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="78"
+                                    class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:78</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onCheckoutEmbedScroll"></a>
+                    <span class="name">
+                        <span ><b>onCheckoutEmbedScroll</b></span>
+                        <a href="#onCheckoutEmbedScroll"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onCheckoutEmbedScroll()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="90"
+                                    class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:90</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="requestClose"></a>
+                    <span class="name">
+                        <span ><b>requestClose</b></span>
+                        <a href="#requestClose"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>requestClose()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="85"
+                                    class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:85</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resetCheckoutEmbedScroll"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>resetCheckoutEmbedScroll</b></span>
+                        <a href="#resetCheckoutEmbedScroll"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>resetCheckoutEmbedScroll()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="257"
+                                    class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:257</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setPageScrollLocked"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>setPageScrollLocked</b></span>
+                        <a href="#setPageScrollLocked"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setPageScrollLocked(locked: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="179"
+                                    class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:179</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>locked</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="startCheckout"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>startCheckout</b></span>
+                        <a href="#startCheckout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>startCheckout()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="98"
+                                    class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:98</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateCheckoutEmbedFadeState"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>updateCheckoutEmbedFadeState</b></span>
+                        <a href="#updateCheckoutEmbedFadeState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateCheckoutEmbedFadeState()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="298"
+                                    class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:298</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateCheckoutLayoutMetrics"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>updateCheckoutLayoutMetrics</b></span>
+                        <a href="#updateCheckoutLayoutMetrics"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateCheckoutLayoutMetrics()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="189"
+                                    class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:189</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="waitForEmbeddedCheckoutVisible"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>waitForEmbeddedCheckoutVisible</b></span>
+                        <a href="#waitForEmbeddedCheckoutVisible"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>waitForEmbeddedCheckoutVisible()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="219"
+                                    class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:219</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkoutEmbeddedReady"></a>
+                    <span class="name">
+                        <span ><b>checkoutEmbeddedReady</b></span>
+                        <a href="#checkoutEmbeddedReady"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkoutFooterHeight"></a>
+                    <span class="name">
+                        <span ><b>checkoutFooterHeight</b></span>
+                        <a href="#checkoutFooterHeight"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(64)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:43</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkoutHeaderHeight"></a>
+                    <span class="name">
+                        <span ><b>checkoutHeaderHeight</b></span>
+                        <a href="#checkoutHeaderHeight"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(64)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkoutInitToken"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>checkoutInitToken</b></span>
+                        <a href="#checkoutInitToken"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkoutLoading"></a>
+                    <span class="name">
+                        <span ><b>checkoutLoading</b></span>
+                        <a href="#checkoutLoading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:38</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkoutModalHeight"></a>
+                    <span class="name">
+                        <span ><b>checkoutModalHeight</b></span>
+                        <a href="#checkoutModalHeight"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;number | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="embeddedCheckout"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>embeddedCheckout</b></span>
+                        <a href="#embeddedCheckout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>StripeEmbeddedCheckout | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="embeddedContainerId"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>embeddedContainerId</b></span>
+                        <a href="#embeddedContainerId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x60;stripe-checkout-embedded-${Math.random().toString(36).slice(2)}&#x60;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="error"></a>
+                    <span class="name">
+                        <span ><b>error</b></span>
+                        <a href="#error"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isBrowser"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>isBrowser</b></span>
+                        <a href="#isBrowser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onResize"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>onResize</b></span>
+                        <a href="#onResize"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="originalBodyOverflow"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>originalBodyOverflow</b></span>
+                        <a href="#originalBodyOverflow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showCheckoutBottomFade"></a>
+                    <span class="name">
+                        <span ><b>showCheckoutBottomFade</b></span>
+                        <a href="#showCheckoutBottomFade"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showCheckoutTopFade"></a>
+                    <span class="name">
+                        <span ><b>showCheckoutTopFade</b></span>
+                        <a href="#showCheckoutTopFade"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/shared/components/stripe-checkout/stripe-checkout.component.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  OnChanges,
+  OnDestroy,
+  Output,
+  PLATFORM_ID,
+  SimpleChanges,
+  signal,
+} from &#x27;@angular/core&#x27;;
+import { CommonModule, DOCUMENT, isPlatformBrowser } from &#x27;@angular/common&#x27;;
+import { TranslateModule } from &#x27;@ngx-translate/core&#x27;;
+import { firstValueFrom } from &#x27;rxjs&#x27;;
+import { StripeEmbeddedCheckout, loadStripe } from &#x27;@stripe/stripe-js&#x27;;
+import { LanguageService } from &#x27;../../../core/services/language.service&#x27;;
+import {
+  CartItemService,
+  CheckoutSessionResponse,
+  DirectCheckoutSessionPayload,
+} from &#x27;../../../core/services/impl/cart-item.service&#x27;;
+
+@Component({
+  selector: &#x27;app-stripe-modal&#x27;,
+  standalone: true,
+  imports: [CommonModule, TranslateModule],
+  templateUrl: &#x27;./stripe-checkout.component.html&#x27;,
+  styleUrl: &#x27;./stripe-checkout.component.scss&#x27;,
+})
+export class StripeModalComponent implements OnChanges, OnDestroy {
+  @Input() open &#x3D; false;
+  @Input() titleKey &#x3D; &#x27;cart.buy&#x27;;
+  @Input() directCheckoutPayload: DirectCheckoutSessionPayload | null &#x3D; null;
+  @Output() closed &#x3D; new EventEmitter&lt;void&gt;();
+  @Output() completed &#x3D; new EventEmitter&lt;void&gt;();
+
+  checkoutLoading &#x3D; signal(false);
+  checkoutEmbeddedReady &#x3D; signal(false);
+  showCheckoutTopFade &#x3D; signal(false);
+  showCheckoutBottomFade &#x3D; signal(false);
+  checkoutHeaderHeight &#x3D; signal(64);
+  checkoutFooterHeight &#x3D; signal(64);
+  checkoutModalHeight &#x3D; signal&lt;number | null&gt;(null);
+  error &#x3D; signal&lt;string | null&gt;(null);
+
+  private embeddedCheckout: StripeEmbeddedCheckout | null &#x3D; null;
+  private checkoutInitToken &#x3D; 0;
+  private readonly isBrowser: boolean;
+  private originalBodyOverflow &#x3D; &#x27;&#x27;;
+  private readonly onResize &#x3D; () &#x3D;&gt; {
+    if (!this.open) return;
+    this.updateCheckoutLayoutMetrics();
+  };
+  private readonly embeddedContainerId &#x3D; &#x60;stripe-checkout-embedded-${Math.random().toString(36).slice(2)}&#x60;;
+
+  constructor(
+    private cartItemService: CartItemService,
+    private languageService: LanguageService,
+    @Inject(DOCUMENT) private document: Document,
+    @Inject(PLATFORM_ID) platformId: Object,
+  ) {
+    this.isBrowser &#x3D; isPlatformBrowser(platformId);
+    if (this.isBrowser) {
+      window.addEventListener(&#x27;resize&#x27;, this.onResize, { passive: true });
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!changes[&#x27;open&#x27;]) return;
+    if (this.open) {
+      this.startCheckout();
+      return;
+    }
+    this.closeInternal();
+  }
+
+  ngOnDestroy(): void {
+    this.closeInternal();
+    if (this.isBrowser) {
+      window.removeEventListener(&#x27;resize&#x27;, this.onResize);
+    }
+  }
+
+  requestClose(): void {
+    this.closeInternal();
+    this.closed.emit();
+  }
+
+  onCheckoutEmbedScroll(): void {
+    this.updateCheckoutEmbedFadeState();
+  }
+
+  getEmbeddedContainerId(): string {
+    return this.embeddedContainerId;
+  }
+
+  private async startCheckout(): Promise&lt;void&gt; {
+    if (!this.open || !this.isBrowser) return;
+    this.closeInternal();
+    const initToken &#x3D; ++this.checkoutInitToken;
+    try {
+      this.error.set(null);
+      this.checkoutLoading.set(true);
+      this.checkoutEmbeddedReady.set(false);
+      this.updateCheckoutLayoutMetrics();
+      this.setPageScrollLocked(true);
+      this.lockCheckoutModalInitialSize();
+      const checkoutLocale &#x3D; this.getStripeCheckoutLocale();
+      const payload &#x3D; this.directCheckoutPayload
+        ? { ...this.directCheckoutPayload, locale: checkoutLocale }
+        : null;
+      const response &#x3D; await firstValueFrom(
+        payload
+          ? this.cartItemService.createDirectCheckoutSession(payload)
+          : this.cartItemService.createCheckoutSession(checkoutLocale),
+      );
+      if (!this.isValidCheckoutSessionResponse(response)) {
+        throw new Error(&#x27;Respuesta inválida al crear la sesión de pago&#x27;);
+      }
+      const stripe &#x3D; await loadStripe(response.publishableKey);
+      if (!stripe) {
+        throw new Error(&#x27;Stripe no disponible&#x27;);
+      }
+      if (typeof stripe.createEmbeddedCheckoutPage !&#x3D;&#x3D; &#x27;function&#x27;) {
+        throw new Error(
+          &#x27;Stripe embedded checkout no está disponible en este navegador/runtime&#x27;,
+        );
+      }
+      const checkout &#x3D; await stripe.createEmbeddedCheckoutPage({
+        clientSecret: response.clientSecret,
+        onComplete: async () &#x3D;&gt; {
+          await this.finalizeEmbeddedCheckout(response.sessionId);
+        },
+      });
+      if (initToken !&#x3D;&#x3D; this.checkoutInitToken || !this.open) {
+        checkout.destroy();
+        return;
+      }
+      checkout.mount(&#x60;#${this.embeddedContainerId}&#x60;);
+      this.embeddedCheckout &#x3D; checkout;
+      await this.waitForEmbeddedCheckoutVisible();
+      if (initToken !&#x3D;&#x3D; this.checkoutInitToken || !this.open) {
+        this.closeInternal();
+        return;
+      }
+      this.enableSingleAutoTopCorrection();
+      this.resetCheckoutEmbedScroll();
+      this.checkoutEmbeddedReady.set(true);
+      this.updateCheckoutEmbedFadeState();
+      this.checkoutLoading.set(false);
+    } catch (error) {
+      if (initToken !&#x3D;&#x3D; this.checkoutInitToken) {
+        return;
+      }
+      this.error.set(
+        error instanceof Error
+          ? &#x60;Failed to initialize Stripe checkout: ${error.message}&#x60;
+          : &#x27;Failed to initialize Stripe checkout&#x27;,
+      );
+      this.checkoutLoading.set(false);
+    }
+  }
+
+  private closeInternal(): void {
+    this.checkoutInitToken++;
+    if (this.embeddedCheckout) {
+      this.embeddedCheckout.destroy();
+      this.embeddedCheckout &#x3D; null;
+    }
+    this.checkoutLoading.set(false);
+    this.checkoutEmbeddedReady.set(false);
+    this.showCheckoutTopFade.set(false);
+    this.showCheckoutBottomFade.set(false);
+    this.checkoutModalHeight.set(null);
+    this.setPageScrollLocked(false);
+  }
+
+  private setPageScrollLocked(locked: boolean): void {
+    if (!this.isBrowser) return;
+    if (locked) {
+      this.originalBodyOverflow &#x3D; this.document.body.style.overflow;
+      this.document.body.style.overflow &#x3D; &#x27;hidden&#x27;;
+      return;
+    }
+    this.document.body.style.overflow &#x3D; this.originalBodyOverflow || &#x27;&#x27;;
+  }
+
+  private updateCheckoutLayoutMetrics(): void {
+    if (!this.isBrowser) return;
+    const header &#x3D; this.document.querySelector(&#x27;header&#x27;);
+    const footer &#x3D; this.document.querySelector(&#x27;footer&#x27;);
+    const headerHeight &#x3D;
+      header instanceof HTMLElement
+        ? Math.round(header.getBoundingClientRect().height)
+        : 64;
+    const footerHeight &#x3D;
+      footer instanceof HTMLElement
+        ? Math.round(footer.getBoundingClientRect().height)
+        : 64;
+    this.checkoutHeaderHeight.set(Math.max(headerHeight, 1));
+    this.checkoutFooterHeight.set(Math.max(footerHeight, 1));
+  }
+
+  private lockCheckoutModalInitialSize(): void {
+    if (!this.isBrowser) return;
+    requestAnimationFrame(() &#x3D;&gt; {
+      requestAnimationFrame(() &#x3D;&gt; {
+        const modal &#x3D; this.document.querySelector(&#x27;.checkout-modal-content&#x27;);
+        if (!(modal instanceof HTMLElement)) return;
+        const measuredHeight &#x3D; Math.round(modal.getBoundingClientRect().height);
+        if (measuredHeight &gt; 0) {
+          this.checkoutModalHeight.set(measuredHeight);
+        }
+      });
+    });
+  }
+
+  private waitForEmbeddedCheckoutVisible(): Promise&lt;void&gt; {
+    if (!this.isBrowser) return Promise.resolve();
+    const container &#x3D; this.document.getElementById(this.embeddedContainerId);
+    if (!container) return Promise.resolve();
+    return new Promise((resolve) &#x3D;&gt; {
+      let settled &#x3D; false;
+      let timeoutId: ReturnType&lt;typeof setTimeout&gt; | null &#x3D; null;
+      let observer: MutationObserver | null &#x3D; null;
+
+      const finish &#x3D; () &#x3D;&gt; {
+        if (settled) return;
+        settled &#x3D; true;
+        if (observer) observer.disconnect();
+        if (timeoutId) clearTimeout(timeoutId);
+        resolve();
+      };
+
+      const bindIframe &#x3D; (iframe: HTMLIFrameElement) &#x3D;&gt; {
+        iframe.addEventListener(&#x27;load&#x27;, finish, { once: true });
+      };
+
+      const existingIframe &#x3D; container.querySelector(&#x27;iframe&#x27;);
+      if (existingIframe instanceof HTMLIFrameElement) {
+        bindIframe(existingIframe);
+      } else {
+        observer &#x3D; new MutationObserver(() &#x3D;&gt; {
+          const iframe &#x3D; container.querySelector(&#x27;iframe&#x27;);
+          if (iframe instanceof HTMLIFrameElement) {
+            bindIframe(iframe);
+          }
+        });
+        observer.observe(container, { childList: true, subtree: true });
+      }
+
+      timeoutId &#x3D; setTimeout(finish, 4000);
+    });
+  }
+
+  private resetCheckoutEmbedScroll(): void {
+    if (!this.isBrowser) return;
+    const shell &#x3D; this.document.querySelector(&#x27;.checkout-embed-shell&#x27;);
+    const frame &#x3D; this.document.querySelector(&#x27;.checkout-embed-frame&#x27;);
+    const modal &#x3D; this.document.querySelector(&#x27;.checkout-modal-content&#x27;);
+    const embedded &#x3D; this.document.getElementById(this.embeddedContainerId);
+    const targets &#x3D; [shell, frame, modal, embedded].filter(
+      (el): el is HTMLElement &#x3D;&gt; el instanceof HTMLElement,
+    );
+
+    const scrollToTopAll &#x3D; () &#x3D;&gt; {
+      for (const el of targets) {
+        el.scrollTop &#x3D; 0;
+        el.scrollTo({ top: 0, behavior: &#x27;auto&#x27; });
+      }
+    };
+
+    scrollToTopAll();
+    requestAnimationFrame(() &#x3D;&gt; {
+      scrollToTopAll();
+      requestAnimationFrame(scrollToTopAll);
+      requestAnimationFrame(() &#x3D;&gt; {
+        this.updateCheckoutEmbedFadeState();
+      });
+    });
+  }
+
+  private enableSingleAutoTopCorrection(): void {
+    if (!this.isBrowser) return;
+    const shell &#x3D; this.document.querySelector(&#x27;.checkout-embed-shell&#x27;);
+    if (!(shell instanceof HTMLElement)) return;
+    const handleAutoScroll &#x3D; () &#x3D;&gt; {
+      if (shell.scrollTop &gt; 0) {
+        shell.scrollTop &#x3D; 0;
+        shell.removeEventListener(&#x27;scroll&#x27;, handleAutoScroll);
+        this.updateCheckoutEmbedFadeState();
+      }
+    };
+    shell.addEventListener(&#x27;scroll&#x27;, handleAutoScroll, { passive: true });
+  }
+
+  private updateCheckoutEmbedFadeState(): void {
+    if (!this.isBrowser) return;
+    const shell &#x3D; this.document.querySelector(&#x27;.checkout-embed-shell&#x27;);
+    if (!(shell instanceof HTMLElement)) return;
+    const maxScrollTop &#x3D; Math.max(shell.scrollHeight - shell.clientHeight, 0);
+    const currentTop &#x3D; Math.max(shell.scrollTop, 0);
+    this.showCheckoutTopFade.set(currentTop &gt; 2);
+    this.showCheckoutBottomFade.set(currentTop &lt; maxScrollTop - 2);
+  }
+
+  private async finalizeEmbeddedCheckout(sessionId: string): Promise&lt;void&gt; {
+    try {
+      if (this.directCheckoutPayload) {
+        await firstValueFrom(
+          this.cartItemService.confirmDirectCheckoutSession(sessionId),
+        );
+      } else {
+        await firstValueFrom(this.cartItemService.confirmCheckoutSession(sessionId));
+        this.cartItemService.refreshCount();
+      }
+      this.error.set(null);
+      this.completed.emit();
+    } catch (error) {
+      this.error.set(&#x27;Failed to confirm Stripe payment&#x27;);
+    } finally {
+      this.requestClose();
+    }
+  }
+
+  private getStripeCheckoutLocale(): string {
+    const lang &#x3D; this.languageService.getCurrentLang().toLowerCase();
+    const base &#x3D; lang.split(&#x27;-&#x27;)[0];
+    const localeMap: Record&lt;string, string&gt; &#x3D; {
+      es: &#x27;es&#x27;,
+      en: &#x27;en&#x27;,
+      fr: &#x27;fr&#x27;,
+      de: &#x27;de&#x27;,
+      it: &#x27;it&#x27;,
+      pt: &#x27;pt&#x27;,
+      nl: &#x27;nl&#x27;,
+    };
+    return localeMap[base] ?? &#x27;auto&#x27;;
+  }
+
+  private isValidCheckoutSessionResponse(
+    value: unknown,
+  ): value is CheckoutSessionResponse {
+    if (!value || typeof value !&#x3D;&#x3D; &#x27;object&#x27;) return false;
+    const data &#x3D; value as Record&lt;string, unknown&gt;;
+    return (
+      typeof data[&#x27;clientSecret&#x27;] &#x3D;&#x3D;&#x3D; &#x27;string&#x27; &amp;&amp;
+      typeof data[&#x27;sessionId&#x27;] &#x3D;&#x3D;&#x3D; &#x27;string&#x27; &amp;&amp;
+      typeof data[&#x27;publishableKey&#x27;] &#x3D;&#x3D;&#x3D; &#x27;string&#x27;
+    );
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">@if (open) {
+  &lt;div
+    class&#x3D;&quot;checkout-modal-overlay&quot;
+    (click)&#x3D;&quot;requestClose()&quot;
+    [style.--checkout-header-height.px]&#x3D;&quot;checkoutHeaderHeight()&quot;
+    [style.--checkout-footer-height.px]&#x3D;&quot;checkoutFooterHeight()&quot;
+  &gt;
+    &lt;div
+      class&#x3D;&quot;checkout-modal-content&quot;
+      (click)&#x3D;&quot;$event.stopPropagation()&quot;
+      [style.height.px]&#x3D;&quot;checkoutModalHeight() ?? null&quot;
+      [style.max-height.px]&#x3D;&quot;checkoutModalHeight() ?? null&quot;
+    &gt;
+      &lt;div class&#x3D;&quot;checkout-modal-header&quot;&gt;
+        &lt;span class&#x3D;&quot;checkout-corner-title&quot;&gt;{{ titleKey | translate }}&lt;/span&gt;
+        &lt;button
+          type&#x3D;&quot;button&quot;
+          class&#x3D;&quot;checkout-modal-close&quot;
+          (click)&#x3D;&quot;requestClose()&quot;
+          aria-label&#x3D;&quot;Close&quot;
+        &gt;
+          ×
+        &lt;/button&gt;
+      &lt;/div&gt;
+      @if (error()) {
+        &lt;div class&#x3D;&quot;checkout-error&quot;&gt;{{ error() }}&lt;/div&gt;
+      }
+      &lt;div class&#x3D;&quot;checkout-embed-shell&quot; (scroll)&#x3D;&quot;onCheckoutEmbedScroll()&quot;&gt;
+        &lt;div
+          class&#x3D;&quot;checkout-embed-fade checkout-embed-fade-top&quot;
+          [class.checkout-embed-fade-hidden]&#x3D;&quot;!showCheckoutTopFade()&quot;
+        &gt;&lt;/div&gt;
+        &lt;div class&#x3D;&quot;checkout-embed-frame&quot;&gt;
+          &lt;div [id]&#x3D;&quot;getEmbeddedContainerId()&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div
+          class&#x3D;&quot;checkout-embed-fade checkout-embed-fade-bottom&quot;
+          [class.checkout-embed-fade-hidden]&#x3D;&quot;!showCheckoutBottomFade()&quot;
+        &gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+}
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div>@if (open) {  <div    class="checkout-modal-overlay"    (click)="requestClose()"    [style.--checkout-header-height.px]="checkoutHeaderHeight()"    [style.--checkout-footer-height.px]="checkoutFooterHeight()"  >    <div      class="checkout-modal-content"      (click)="$event.stopPropagation()"      [style.height.px]="checkoutModalHeight() ?? null"      [style.max-height.px]="checkoutModalHeight() ?? null"    >      <div class="checkout-modal-header">        <span class="checkout-corner-title">{{ titleKey | translate }}</span>        <button          type="button"          class="checkout-modal-close"          (click)="requestClose()"          aria-label="Close"        >          ×        </button>      </div>      @if (error()) {        <div class="checkout-error">{{ error() }}</div>      }      <div class="checkout-embed-shell" (scroll)="onCheckoutEmbedScroll()">        <div          class="checkout-embed-fade checkout-embed-fade-top"          [class.checkout-embed-fade-hidden]="!showCheckoutTopFade()"        ></div>        <div class="checkout-embed-frame">          <div [id]="getEmbeddedContainerId()"></div>        </div>        <div          class="checkout-embed-fade checkout-embed-fade-bottom"          [class.checkout-embed-fade-hidden]="!showCheckoutBottomFade()"        ></div>      </div>    </div>  </div>}</div>'
+    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'StripeModalComponent', 'selector': 'app-stripe-modal'}];
+    var DIRECTIVES = [{'name': 'CopyOnClickDirective', 'selector': '[appCopyOnClick]'},{'name': 'HighlightDirective', 'selector': '[appHighlight]'},{'name': 'Tilt3DDirective', 'selector': '[appTilt3D]'}];
+    var ACTUAL_COMPONENT = {'name': 'StripeModalComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'StripeModalComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

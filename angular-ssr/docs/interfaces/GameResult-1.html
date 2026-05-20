@@ -140,17 +140,10 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/core/models/chat.model.ts</code>
+            <code>src/backend/modules/chat/chat.service.ts</code>
         </p>
 
 
-            <p class="comment">
-                <h3>Description</h3>
-            </p>
-            <p class="comment">
-                <p>Estructura simplificada de un juego devuelto por el motor de recomendaciones.</p>
-
-            </p>
 
 
         <section data-compodoc="block-index">
@@ -237,12 +230,6 @@
 
 
 
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-description"><p>Lista de géneros como cadena de texto.</p>
-</div>
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -276,12 +263,6 @@
 
 
 
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-description"><p>ID del juego en la base de datos.</p>
-</div>
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -315,12 +296,6 @@
 
 
 
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-description"><p>Lista de plataformas como cadena de texto.</p>
-</div>
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -354,12 +329,6 @@
 
 
 
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-description"><p>Precio formateado.</p>
-</div>
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -393,12 +362,6 @@
 
 
 
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-description"><p>Título del juego.</p>
-</div>
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
             </section>
@@ -406,78 +369,252 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Model } from &#x27;./base.model&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { google } from &#x27;@ai-sdk/google&#x27;;
+import { generateText, tool, stepCountIs } from &#x27;ai&#x27;;
+import { z } from &#x27;zod&#x27;;
+import { prisma } from &#x27;../../config/db&#x27;;
 
-/**
- * Representa un mensaje individual dentro de una sesión de chat.
- */
-export interface ChatMessage {
-  /** Identificador único del mensaje. */
-  id?: number;
-  /** Rol del emisor: usuario o asistente IA. */
-  role: &#x27;user&#x27; | &#x27;assistant&#x27;;
-  /** Contenido de texto del mensaje (soporta Markdown). */
-  content: string;
-  /** Fecha de creación del mensaje. */
-  createdAt?: string;
-  /** Juegos recomendados o mencionados en este mensaje. */
-  games?: GameResult[];
-}
+const searchGamesInputSchema &#x3D; z.object({
+  query: z
+    .string()
+    .describe(
+      &#x27;El término de búsqueda. Si es genérico usa &quot;accion&quot; o &quot;aventura&quot; por ejemplo&#x27;,
+    ),
+});
 
-/**
- * Representa una sesión de conversación histórica entre el usuario y la IA.
- */
-export interface ChatSession extends Model {
-  /** ID del usuario propietario de la sesión. */
-  userId?: number;
-  /** Título autogenerado o asignado a la conversación. */
-  title?: string;
-  /** Fecha de inicio de la sesión. */
-  createdAt?: string;
-  /** Fecha de la última actividad. */
-  updatedAt?: string;
-  /** Historial completo de mensajes. */
-  messages?: ChatMessage[];
-  /** Metadatos adicionales como el conteo de mensajes. */
-  _count?: { messages: number };
-}
-
-/**
- * Estructura simplificada de un juego devuelto por el motor de recomendaciones.
- */
-export interface GameResult {
-  /** ID del juego en la base de datos. */
+interface GameResult {
   id: number;
-  /** Título del juego. */
   title: string;
-  /** Precio formateado. */
   price: string;
-  /** Lista de géneros como cadena de texto. */
   genres: string;
-  /** Lista de plataformas como cadena de texto. */
   platforms: string;
 }
 
-/**
- * Respuesta devuelta por la API de Chat IA.
- */
-export interface ChatResponse {
-  /** ID de la sesión (puede ser nueva o existente). */
-  sessionId: number;
-  /** Texto de respuesta generado por la IA. */
-  text: string;
-  /** Lista de objetos de juegos detectados en la recomendación. */
-  games: GameResult[];
+export async function getUserSessions(userId: number) {
+  return prisma.chatSession.findMany({
+    where: { userId },
+    select: {
+      id: true,
+      title: true,
+      createdAt: true,
+      updatedAt: true,
+      _count: { select: { messages: true } },
+    },
+    orderBy: { updatedAt: &#x27;desc&#x27; },
+  });
 }
 
-/**
- * Datos necesarios para enviar un nuevo mensaje al chat.
- */
-export interface SendMessagePayload {
-  /** Texto enviado por el usuario. */
-  message: string;
-  /** ID de la sesión existente. Si es nulo, se creará una nueva. */
-  sessionId?: number;
+export async function getSession(sessionId: number, userId: number) {
+  const session &#x3D; await prisma.chatSession.findFirst({
+    where: { id: sessionId, userId },
+    select: {
+      id: true,
+      title: true,
+      createdAt: true,
+      updatedAt: true,
+      messages: {
+        select: {
+          id: true,
+          role: true,
+          content: true,
+          games: true,
+          createdAt: true,
+        },
+        orderBy: { createdAt: &#x27;asc&#x27; },
+      },
+    },
+  });
+  if (!session) {
+    throw new Error(&#x27;Sesión no encontrada&#x27;);
+  }
+  return session;
+}
+
+export async function deleteSession(sessionId: number, userId: number) {
+  const session &#x3D; await prisma.chatSession.findFirst({
+    where: { id: sessionId, userId },
+  });
+  if (!session) {
+    throw new Error(&#x27;Sesión no encontrada&#x27;);
+  }
+  await prisma.chatSession.delete({ where: { id: sessionId } });
+  return { deleted: true };
+}
+
+export async function processChat(
+  userId: number,
+  message: string,
+  sessionId?: number,
+) {
+  const foundGames: GameResult[] &#x3D; [];
+
+  let session: { id: number; title: string | null };
+
+  if (sessionId) {
+    const existing &#x3D; await prisma.chatSession.findFirst({
+      where: { id: sessionId, userId },
+      select: { id: true, title: true },
+    });
+    if (!existing) {
+      throw new Error(&#x27;Sesión no encontrada&#x27;);
+    }
+    session &#x3D; existing;
+  } else {
+    session &#x3D; await prisma.chatSession.create({
+      data: {
+        userId,
+        title: message.slice(0, 50),
+      },
+      select: { id: true, title: true },
+    });
+  }
+
+  await prisma.chatMessage.create({
+    data: {
+      sessionId: session.id,
+      role: &#x27;user&#x27;,
+      content: message,
+    },
+  });
+
+  const previousMessages &#x3D; await prisma.chatMessage.findMany({
+    where: { sessionId: session.id },
+    orderBy: { createdAt: &#x27;asc&#x27; },
+    take: 10,
+    select: { role: true, content: true },
+  });
+
+  const systemPrompt &#x3D; &#x60;
+    Eres el asistente virtual experto de la tienda &quot;GameSage&quot;, llamado &quot;Sage&quot;.
+    Tu objetivo es ayudar a usuarios a encontrar juegos en nuestro catálogo.
+    
+    TIENES ACCESO A UNA HERRAMIENTA LLAMADA &#x27;searchGames&#x27;.
+    - Si el usuario pregunta por un género, usa la herramienta con el nombre del género.
+    - Si pregunta por un juego específico, busca por el título.
+    - Si pregunta &quot;¿qué tienes?&quot;, &quot;¿qué recomiendas?&quot; o similar, busca términos generales como &quot;accion&quot; o &quot;aventura&quot;, NUNCA envíes &quot;undefined&quot; o dejes el campo vacío.
+    - Si saluda, responde amablemente sin usar herramientas.
+
+    IMPORTANTE:
+    - SIEMPRE empieza tu respuesta con una frase amable o conversacional antes de listar los juegos (ej: &quot;¡Claro! Aquí tienes algunas opciones interesantes:&quot;, &quot;¡Por supuesto! He encontrado estos títulos para ti:&quot;).
+    - SOLO puedes recomendar juegos que la herramienta &#x27;searchGames&#x27; te haya devuelto. NO inventes juegos ni recomiendes títulos que no estén en la respuesta de la herramienta.
+    - Si la herramienta devuelve una lista vacía, di honestamente que no tenemos juegos de ese tipo en este momento.
+    - Cuando encuentres juegos, menciona el nombre, una descripción breve, precio y plataformas. Usa un formato limpio (viñetas o negritas).
+    - En tus respuestas no hagas referencia textual a la herramienta &quot;searchGames&quot;.
+    - Mantén un tono entusiasta y servicial, como un vendedor experto y gamer.
+    - Te pueden llegar a hablar en cualquiera de es estos idiomas, por lo que responde acorde: Español, Ingles, Frances, Italiano, Aleman.
+  &#x60;;
+
+  const messages &#x3D; previousMessages.map(
+    (m: { role: string; content: string }) &#x3D;&gt; ({
+      role: m.role as &#x27;user&#x27; | &#x27;assistant&#x27;,
+      content: m.content,
+    }),
+  );
+
+  const tools &#x3D; {
+    searchGames: tool({
+      description:
+        &#x27;Busca videojuegos en la base de datos por nombre, género o descripción.&#x27;,
+      inputSchema: searchGamesInputSchema,
+      execute: async ({ query }) &#x3D;&gt; {
+        const cleanQuery &#x3D; query &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27; || !query ? &#x27;&#x27; : query.trim();
+        try {
+          const whereClause: any &#x3D;
+            cleanQuery &#x3D;&#x3D;&#x3D; &#x27;&#x27;
+              ? {}
+              : {
+                  OR: [
+                    { title: { contains: cleanQuery, mode: &#x27;insensitive&#x27; } },
+                    {
+                      description: {
+                        contains: cleanQuery,
+                        mode: &#x27;insensitive&#x27;,
+                      },
+                    },
+                    {
+                      genres: {
+                        some: {
+                          name: { contains: cleanQuery, mode: &#x27;insensitive&#x27; },
+                        },
+                      },
+                    },
+                  ],
+                };
+          const games &#x3D; await prisma.game.findMany({
+            where: whereClause,
+            take: 5,
+            orderBy: { id: &#x27;desc&#x27; },
+            select: {
+              id: true,
+              title: true,
+              price: true,
+              genres: { select: { name: true } },
+              platforms: { select: { name: true } },
+            },
+          });
+          if (games.length &#x3D;&#x3D;&#x3D; 0) {
+            return &#x27;No se encontraron juegos con ese criterio.&#x27;;
+          }
+          const gamesList &#x3D; games.map((g: any) &#x3D;&gt; ({
+            id: g.id,
+            title: g.title,
+            price: g.price ? g.price.toString() : &#x27;N/A&#x27;,
+            genres: g.genres
+              .map((gen: { name: string }) &#x3D;&gt; gen.name)
+              .join(&#x27;, &#x27;),
+            platforms: g.platforms
+              .map((p: { name: string }) &#x3D;&gt; p.name)
+              .join(&#x27;, &#x27;),
+          }));
+          foundGames.push(...gamesList);
+          return JSON.stringify(gamesList);
+        } catch {
+          return &#x27;Error técnico al buscar en la base de datos.&#x27;;
+        }
+      },
+    }),
+  };
+
+  let result;
+
+  try {
+    result &#x3D; await generateText({
+      model: google(&#x27;gemini-2.5-flash&#x27;),
+      system: systemPrompt,
+      messages,
+      stopWhen: stepCountIs(5),
+      tools,
+    });
+  } catch (error) {
+    try {
+      result &#x3D; await generateText({
+        model: google(&#x27;gemini-2-flash&#x27;),
+        system: systemPrompt,
+        messages,
+        stopWhen: stepCountIs(5),
+        tools,
+      });
+    } catch (error2) {
+      result &#x3D; {
+        text: &#x27;Lo siento, he alcanzado mi límite diario de consultas. Por favor, inténtalo de nuevo mañana.&#x27;,
+      };
+    }
+  }
+
+  await prisma.chatMessage.create({
+    data: {
+      sessionId: session.id,
+      role: &#x27;assistant&#x27;,
+      content: result.text,
+      games: foundGames.length &gt; 0 ? (foundGames as any) : undefined,
+    },
+  });
+
+  return {
+    sessionId: session.id,
+    text: result.text,
+    games: foundGames,
+  };
 }
 </code></pre>
     </div>

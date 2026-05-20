@@ -261,6 +261,7 @@ import { PlatformService } from &#x27;../../core/services/impl/platform.service&
 import { Game } from &#x27;../../core/models/game.model&#x27;;
 import { GameCardComponent } from &#x27;../../shared/components/game-card/game-card.component&#x27;;
 import { FormsModule } from &#x27;@angular/forms&#x27;;
+import { CurrencyService } from &#x27;../../core/services/currency.service&#x27;;
 
 import {
   trigger,
@@ -343,6 +344,7 @@ export class SearchComponent implements OnInit {
     private router: Router,
     private gameService: GameService,
     private platformService: PlatformService,
+    private currencyService: CurrencyService,
   ) {}
 
   /**
@@ -516,7 +518,7 @@ export class SearchComponent implements OnInit {
         this.activeFilters.push({
           type: &#x27;price&#x27;,
           value: this.selectedPrice,
-          label: &#x60;Max: ${this.priceValue}€&#x60;,
+          label: &#x60;Max: ${this.formatPrice(this.priceValue)}&#x60;,
         });
       } else {
         const priceOption &#x3D; this.priceOptions.find(
@@ -676,6 +678,18 @@ export class SearchComponent implements OnInit {
   /** Navega a la página de detalle de un producto. */
   goToProduct(id: number): void {
     this.router.navigate([&#x27;/product&#x27;, id.toString()]);
+  }
+
+  formatPrice(value: number): string {
+    const converted &#x3D; this.currencyService.convertFromEur(value);
+    const code &#x3D; this.currencyService.getCurrencyCode();
+    const locale &#x3D; this.currencyService.getLocaleCode();
+    return new Intl.NumberFormat(locale, {
+      style: &#x27;currency&#x27;,
+      currency: code,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(converted);
   }
 }
 </code></pre>

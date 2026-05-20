@@ -158,6 +158,7 @@ selección de plataformas y opciones de compra/favoritos.</p>
     </p>
     <p class="comment">
                     <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
     </p>
 
 
@@ -192,6 +193,9 @@ selección de plataformas y opciones de compra/favoritos.</p>
                 <td class="col-md-9">
                                 <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
                             <code>TranslateModule</code>
+                            <code>LocalizedCurrencyPipe</code>
+                                <code><a href="../components/CarouselComponent.html" target="_self" >CarouselComponent</a></code>
+                                <code><a href="../components/StripeModalComponent.html" target="_self" >StripeModalComponent</a></code>
                 </td>
             </tr>
 
@@ -249,7 +253,13 @@ selección de plataformas y opciones de compra/favoritos.</p>
                                 <a href="#buySuccess" >buySuccess</a>
                             </li>
                             <li>
+                                <a href="#checkoutModalOpen" >checkoutModalOpen</a>
+                            </li>
+                            <li>
                                 <a href="#currentMediaIndex" >currentMediaIndex</a>
+                            </li>
+                            <li>
+                                <a href="#directCheckoutPayload" >directCheckoutPayload</a>
                             </li>
                             <li>
                                 <a href="#game" >game</a>
@@ -258,10 +268,30 @@ selección de plataformas y opciones de compra/favoritos.</p>
                                 <a href="#isAuthenticated" >isAuthenticated</a>
                             </li>
                             <li>
+                                <a href="#isScreenshotModalOpen" >isScreenshotModalOpen</a>
+                            </li>
+                            <li>
+                                <a href="#loadingRecommendations" >loadingRecommendations</a>
+                            </li>
+                            <li>
                                 <a href="#mediaItems" >mediaItems</a>
                             </li>
                             <li>
                                 <a href="#quantityIncreased" >quantityIncreased</a>
+                            </li>
+                            <li>
+                                <a href="#recommendationSections" >recommendationSections</a>
+                            </li>
+                            <li>
+                                <a href="#recommendationSkeletonSections" >recommendationSkeletonSections</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#routeSub" >routeSub</a>
+                            </li>
+                            <li>
+                                <a href="#screenshotModalImage" >screenshotModalImage</a>
                             </li>
                             <li>
                                 <a href="#selectedPlatform" >selectedPlatform</a>
@@ -300,6 +330,12 @@ selección de plataformas y opciones de compra/favoritos.</p>
                                 <a href="#checkAuth" >checkAuth</a>
                             </li>
                             <li>
+                                <a href="#closeCheckoutModal" >closeCheckoutModal</a>
+                            </li>
+                            <li>
+                                <a href="#closeScreenshotModal" >closeScreenshotModal</a>
+                            </li>
+                            <li>
                                 <a href="#confirmLogin" >confirmLogin</a>
                             </li>
                             <li>
@@ -307,7 +343,15 @@ selección de plataformas y opciones de compra/favoritos.</p>
                                 <a href="#convertToEmbedUrl" >convertToEmbedUrl</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#createCarouselPlaceholders" >createCarouselPlaceholders</a>
+                            </li>
+                            <li>
                                 <a href="#createPlaceholder" >createPlaceholder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#createRecommendationSkeletons" >createRecommendationSkeletons</a>
                             </li>
                             <li>
                                 <a href="#getEmptyStars" >getEmptyStars</a>
@@ -326,6 +370,9 @@ selección de plataformas y opciones de compra/favoritos.</p>
                                 <a href="#getVideoId" >getVideoId</a>
                             </li>
                             <li>
+                                <a href="#goToProduct" >goToProduct</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
                                 <a href="#increaseQuantity" >increaseQuantity</a>
                             </li>
@@ -336,13 +383,34 @@ selección de plataformas y opciones de compra/favoritos.</p>
                                 <a href="#loadGame" >loadGame</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#loadRecommendationCarousels" >loadRecommendationCarousels</a>
+                            </li>
+                            <li>
                                 <a href="#nextMedia" >nextMedia</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
                             </li>
                             <li>
                                 <a href="#ngOnInit" >ngOnInit</a>
                             </li>
                             <li>
+                                <a href="#onCheckoutCompleted" >onCheckoutCompleted</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#onEscapePressed" >onEscapePressed</a>
+                            </li>
+                            <li>
+                                <a href="#openScreenshotModal" >openScreenshotModal</a>
+                            </li>
+                            <li>
                                 <a href="#previousMedia" >previousMedia</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#scoreSimilarity" >scoreSimilarity</a>
                             </li>
                             <li>
                                 <a href="#selectMedia" >selectMedia</a>
@@ -357,6 +425,20 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
 
 
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>HostListeners</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#document:keydown.escape" >document:keydown.escape</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
                     <tr>
                         <td class="col-md-4">
@@ -391,12 +473,12 @@ selección de plataformas y opciones de compra/favoritos.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, gameService: <a href="../injectables/GameService.html" target="_self">GameService</a>, mediaService: <a href="../injectables/MediaService.html" target="_self">MediaService</a>, sanitizer: <a href="https://angular.io/api/platform-browser/DomSanitizer" target="_blank">DomSanitizer</a>, cartItemService: <a href="../injectables/CartItemService.html" target="_self">CartItemService</a>, favoriteService: <a href="../injectables/FavoriteService.html" target="_self">FavoriteService</a>, authService: <a href="../injectables/BaseAuthenticationService.html" target="_self">BaseAuthenticationService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>)</code>
+<code>constructor(route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, gameService: <a href="../injectables/GameService.html" target="_self">GameService</a>, mediaService: <a href="../injectables/MediaService.html" target="_self">MediaService</a>, sanitizer: <a href="https://angular.io/api/platform-browser/DomSanitizer" target="_blank">DomSanitizer</a>, cartItemService: <a href="../injectables/CartItemService.html" target="_self">CartItemService</a>, favoriteService: <a href="../injectables/FavoriteService.html" target="_self">FavoriteService</a>, authService: <a href="../injectables/BaseAuthenticationService.html" target="_self">BaseAuthenticationService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, pageTitleService: <a href="../injectables/PageTitleService.html" target="_self">PageTitleService</a>, renderer: <a href="https://angular.io/api/core/Renderer2" target="_blank">Renderer2</a>, document: Document)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="121" class="link-to-prism">src/app/pages/product/product.component.ts:121</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="155" class="link-to-prism">src/app/pages/product/product.component.ts:155</a></div>
                             </td>
                         </tr>
 
@@ -509,6 +591,42 @@ selección de plataformas y opciones de compra/favoritos.</p>
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>pageTitleService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/PageTitleService.html" target="_self" >PageTitleService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>renderer</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/Renderer2" target="_blank" >Renderer2</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>document</td>
+                                                  
+                                                        <td>
+                                                                    <code>Document</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -521,7 +639,36 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
 
 
+    <section data-compodoc="block-methods">
+    <h3>HostListeners</h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="document:keydown.escape"></a>
+                    <span class="name">
+                        <span ><b>document:keydown.escape</b></span>
+                        <a href="#document:keydown.escape"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>document:keydown.escape()</code>
+                </td>
+            </tr>
 
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="796"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:796</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
     <section data-compodoc="block-methods">
     
     <h3 id="methods">
@@ -547,8 +694,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="292"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:292</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="598"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:598</a></div>
                         </td>
                     </tr>
 
@@ -586,8 +733,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="360"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:360</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="666"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:666</a></div>
                         </td>
                     </tr>
 
@@ -625,8 +772,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="202"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:202</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="495"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:495</a></div>
                         </td>
                     </tr>
 
@@ -664,15 +811,15 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="387"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:387</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="693"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:693</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Añade al carrito y redirige inmediatamente a la página de pago/carrito.</p>
+                        <div class="io-description"><p>Prepara compra individual y abre Stripe directamente.</p>
 </div>
 
                         <div class="io-description">
@@ -703,8 +850,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="285"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:285</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="578"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:578</a></div>
                         </td>
                     </tr>
 
@@ -742,8 +889,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="268"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:268</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="561"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:561</a></div>
                         </td>
                     </tr>
 
@@ -755,6 +902,80 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeCheckoutModal"></a>
+                    <span class="name">
+                        <span ><b>closeCheckoutModal</b></span>
+                        <a href="#closeCheckoutModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeCheckoutModal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="707"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:707</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeScreenshotModal"></a>
+                    <span class="name">
+                        <span ><b>closeScreenshotModal</b></span>
+                        <a href="#closeScreenshotModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeScreenshotModal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="589"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:589</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                         </div>
                 </td>
@@ -781,8 +1002,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="277"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:277</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="570"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:570</a></div>
                         </td>
                     </tr>
 
@@ -822,8 +1043,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="473"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:473</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="787"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:787</a></div>
                         </td>
                     </tr>
 
@@ -875,6 +1096,79 @@ selección de plataformas y opciones de compra/favoritos.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="createCarouselPlaceholders"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>createCarouselPlaceholders</b></span>
+                        <a href="#createCarouselPlaceholders"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>createCarouselPlaceholders(count: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="226"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:226</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>count</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>20</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/Game.html" target="_self" >Game[]</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="createPlaceholder"></a>
                     <span class="name">
                         <span ><b>createPlaceholder</b></span>
@@ -891,8 +1185,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="152"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:152</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="204"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:204</a></div>
                         </td>
                     </tr>
 
@@ -904,6 +1198,45 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="../interfaces/Game.html" target="_self" >Game</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createRecommendationSkeletons"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>createRecommendationSkeletons</b></span>
+                        <a href="#createRecommendationSkeletons"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>createRecommendationSkeletons()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="248"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:248</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/RecommendationSection.html" target="_self" >RecommendationSection[]</a></code>
 
                         </div>
                 </td>
@@ -930,8 +1263,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="459"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:459</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="773"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:773</a></div>
                         </td>
                     </tr>
 
@@ -969,8 +1302,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="452"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:452</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="766"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:766</a></div>
                         </td>
                     </tr>
 
@@ -1008,8 +1341,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="259"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:259</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="552"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:552</a></div>
                         </td>
                     </tr>
 
@@ -1047,8 +1380,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="251"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:251</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="544"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:544</a></div>
                         </td>
                     </tr>
 
@@ -1118,8 +1451,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="467"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:467</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="781"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:781</a></div>
                         </td>
                     </tr>
 
@@ -1171,6 +1504,73 @@ selección de plataformas y opciones de compra/favoritos.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="goToProduct"></a>
+                    <span class="name">
+                        <span ><b>goToProduct</b></span>
+                        <a href="#goToProduct"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>goToProduct(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="751"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:751</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="increaseQuantity"></a>
                     <span class="name">
                             <span class="modifier">Private</span>
@@ -1189,8 +1589,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="333"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:333</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="639"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:639</a></div>
                         </td>
                     </tr>
 
@@ -1258,8 +1658,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="422"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:422</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="722"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:722</a></div>
                         </td>
                     </tr>
 
@@ -1327,8 +1727,8 @@ selección de plataformas y opciones de compra/favoritos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="179"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:179</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="279"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:279</a></div>
                         </td>
                     </tr>
 
@@ -1386,6 +1786,87 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="loadRecommendationCarousels"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>loadRecommendationCarousels</b></span>
+                        <a href="#loadRecommendationCarousels"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadRecommendationCarousels(baseGame: <a href="../interfaces/Game.html" target="_self">Game</a>, allMedia: any[])</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="304"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:304</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>baseGame</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Game.html" target="_self" >Game</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>allMedia</td>
+                                            <td>
+                                                        <code>any[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="nextMedia"></a>
                     <span class="name">
                         <span ><b>nextMedia</b></span>
@@ -1402,8 +1883,8 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="440"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:440</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="740"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:740</a></div>
                         </td>
                     </tr>
 
@@ -1412,6 +1893,43 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 <td class="col-md-4">
                         <div class="io-description"><p>Avanza al siguiente medio en el visor.</p>
 </div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="196"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:196</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -1441,8 +1959,8 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="137"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:137</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="174"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:174</a></div>
                         </td>
                     </tr>
 
@@ -1456,6 +1974,156 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                         </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onCheckoutCompleted"></a>
+                    <span class="name">
+                        <span ><b>onCheckoutCompleted</b></span>
+                        <a href="#onCheckoutCompleted"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onCheckoutCompleted()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="712"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:712</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onEscapePressed"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>onEscapePressed</b></span>
+                        <a href="#onEscapePressed"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onEscapePressed()</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;document:keydown.escape&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="796"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:796</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openScreenshotModal"></a>
+                    <span class="name">
+                        <span ><b>openScreenshotModal</b></span>
+                        <a href="#openScreenshotModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openScreenshotModal(imageUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="582"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:582</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>imageUrl</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1480,8 +2148,8 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="433"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:433</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="733"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:733</a></div>
                         </td>
                     </tr>
 
@@ -1495,6 +2163,87 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                         </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scoreSimilarity"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>scoreSimilarity</b></span>
+                        <a href="#scoreSimilarity"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>scoreSimilarity(base: <a href="../interfaces/Game.html" target="_self">Game</a>, candidate: <a href="../interfaces/Game.html" target="_self">Game</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="441"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:441</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>base</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Game.html" target="_self" >Game</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>candidate</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Game.html" target="_self" >Game</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1519,8 +2268,8 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="447"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:447</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="747"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:747</a></div>
                         </td>
                     </tr>
 
@@ -1588,8 +2337,8 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="427"
-                                    class="link-to-prism">src/app/pages/product/product.component.ts:427</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="727"
+                                    class="link-to-prism">src/app/pages/product/product.component.ts:727</a></div>
                         </td>
                     </tr>
 
@@ -1667,7 +2416,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/pages/product/product.component.ts:47</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/pages/product/product.component.ts:77</a></div>
                         </td>
                     </tr>
 
@@ -1698,7 +2447,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/pages/product/product.component.ts:48</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">src/app/pages/product/product.component.ts:78</a></div>
                         </td>
                     </tr>
 
@@ -1727,32 +2476,32 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                         <i>Default value : </i><code>[
     {
       name: &#x27;PC&#x27;,
-      image: &#x27;assets/images/platforms/pc.png&#x27;,
+      image: &#x27;assets/images/platforms/pc.webp&#x27;,
       stockKey: &#x27;stockPc&#x27; as const,
     },
     {
       name: &#x27;PS5&#x27;,
-      image: &#x27;assets/images/platforms/ps5.png&#x27;,
+      image: &#x27;assets/images/platforms/ps5.webp&#x27;,
       stockKey: &#x27;stockPs5&#x27; as const,
     },
     {
       name: &#x27;Xbox Series X&#x27;,
-      image: &#x27;assets/images/platforms/xbox-series-x.png&#x27;,
+      image: &#x27;assets/images/platforms/xbox-series-x.webp&#x27;,
       stockKey: &#x27;stockXboxX&#x27; as const,
     },
     {
       name: &#x27;Switch&#x27;,
-      image: &#x27;assets/images/platforms/switch.png&#x27;,
+      image: &#x27;assets/images/platforms/switch.webp&#x27;,
       stockKey: &#x27;stockSwitch&#x27; as const,
     },
     {
       name: &#x27;PS4&#x27;,
-      image: &#x27;assets/images/platforms/ps4.png&#x27;,
+      image: &#x27;assets/images/platforms/ps4.webp&#x27;,
       stockKey: &#x27;stockPs4&#x27; as const,
     },
     {
       name: &#x27;Xbox One&#x27;,
-      image: &#x27;assets/images/platforms/xbox-one.png&#x27;,
+      image: &#x27;assets/images/platforms/xbox-one.webp&#x27;,
       stockKey: &#x27;stockXboxOne&#x27; as const,
     },
   ]</code>
@@ -1760,7 +2509,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/pages/product/product.component.ts:55</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">src/app/pages/product/product.component.ts:89</a></div>
                         </td>
                     </tr>
 
@@ -1797,7 +2546,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/pages/product/product.component.ts:51</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">src/app/pages/product/product.component.ts:81</a></div>
                         </td>
                     </tr>
 
@@ -1828,7 +2577,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/pages/product/product.component.ts:52</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">src/app/pages/product/product.component.ts:82</a></div>
                         </td>
                     </tr>
 
@@ -1859,7 +2608,38 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/pages/product/product.component.ts:49</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/pages/product/product.component.ts:79</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkoutModalOpen"></a>
+                    <span class="name">
+                        <span ><b>checkoutModalOpen</b></span>
+                        <a href="#checkoutModalOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/app/pages/product/product.component.ts:85</a></div>
                         </td>
                     </tr>
 
@@ -1890,7 +2670,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/pages/product/product.component.ts:40</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/pages/product/product.component.ts:66</a></div>
                         </td>
                     </tr>
 
@@ -1900,6 +2680,37 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
 </div>
                 </td>
             </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="directCheckoutPayload"></a>
+                    <span class="name">
+                        <span ><b>directCheckoutPayload</b></span>
+                        <a href="#directCheckoutPayload"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;{ gameId: number; platformId: number } | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">src/app/pages/product/product.component.ts:86</a></div>
+                        </td>
+                    </tr>
+
 
         </tbody>
     </table>
@@ -1927,7 +2738,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/pages/product/product.component.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/pages/product/product.component.ts:62</a></div>
                         </td>
                     </tr>
 
@@ -1964,7 +2775,69 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/pages/product/product.component.ts:46</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">src/app/pages/product/product.component.ts:76</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isScreenshotModalOpen"></a>
+                    <span class="name">
+                        <span ><b>isScreenshotModalOpen</b></span>
+                        <a href="#isScreenshotModalOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">src/app/pages/product/product.component.ts:83</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadingRecommendations"></a>
+                    <span class="name">
+                        <span ><b>loadingRecommendations</b></span>
+                        <a href="#loadingRecommendations"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">src/app/pages/product/product.component.ts:71</a></div>
                         </td>
                     </tr>
 
@@ -1995,7 +2868,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/pages/product/product.component.ts:42</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/app/pages/product/product.component.ts:68</a></div>
                         </td>
                     </tr>
 
@@ -2032,7 +2905,128 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/pages/product/product.component.ts:50</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">src/app/pages/product/product.component.ts:80</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="recommendationSections"></a>
+                    <span class="name">
+                        <span ><b>recommendationSections</b></span>
+                        <a href="#recommendationSections"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/RecommendationSection.html" target="_self" >RecommendationSection[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/pages/product/product.component.ts:69</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="recommendationSkeletonSections"></a>
+                    <span class="name">
+                        <span ><b>recommendationSkeletonSections</b></span>
+                        <a href="#recommendationSkeletonSections"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/RecommendationSection.html" target="_self" >RecommendationSection[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.createRecommendationSkeletons()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/app/pages/product/product.component.ts:70</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="routeSub"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>routeSub</b></span>
+                        <a href="#routeSub"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/app/pages/product/product.component.ts:72</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="screenshotModalImage"></a>
+                    <span class="name">
+                        <span ><b>screenshotModalImage</b></span>
+                        <a href="#screenshotModalImage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">src/app/pages/product/product.component.ts:84</a></div>
                         </td>
                     </tr>
 
@@ -2063,7 +3057,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/pages/product/product.component.ts:38</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/app/pages/product/product.component.ts:64</a></div>
                         </td>
                     </tr>
 
@@ -2100,7 +3094,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/pages/product/product.component.ts:45</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/app/pages/product/product.component.ts:75</a></div>
                         </td>
                     </tr>
 
@@ -2135,7 +3129,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">src/app/pages/product/product.component.ts:89</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="123" class="link-to-prism">src/app/pages/product/product.component.ts:123</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -2164,7 +3158,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="99" class="link-to-prism">src/app/pages/product/product.component.ts:99</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="133" class="link-to-prism">src/app/pages/product/product.component.ts:133</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -2197,7 +3191,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">src/app/pages/product/product.component.ts:106</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="140" class="link-to-prism">src/app/pages/product/product.component.ts:140</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -2230,7 +3224,7 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="115" class="link-to-prism">src/app/pages/product/product.component.ts:115</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="149" class="link-to-prism">src/app/pages/product/product.component.ts:149</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -2252,7 +3246,15 @@ Selecciona automáticamente la plataforma si solo hay una disponible.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, signal, Inject } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  OnInit,
+  OnDestroy,
+  signal,
+  Inject,
+  HostListener,
+  Renderer2,
+} from &#x27;@angular/core&#x27;;
 import { CommonModule } from &#x27;@angular/common&#x27;;
 import { TranslatePipe, TranslateModule } from &#x27;@ngx-translate/core&#x27;;
 import { ActivatedRoute, Router } from &#x27;@angular/router&#x27;;
@@ -2265,12 +3267,24 @@ import { BaseAuthenticationService } from &#x27;../../core/services/impl/base-au
 import { CartItem } from &#x27;../../core/models/cart-item.model&#x27;;
 import { Favorite } from &#x27;../../core/models/favorite.model&#x27;;
 import { Game } from &#x27;../../core/models/game.model&#x27;;
+import { LocalizedCurrencyPipe } from &#x27;../../shared/pipes/localized-currency.pipe&#x27;;
+import { PageTitleService } from &#x27;../../core/services/page-title.service&#x27;;
+import { DOCUMENT } from &#x27;@angular/common&#x27;;
+import { CarouselComponent } from &#x27;../../shared/components/carousel/carousel.component&#x27;;
+import { StripeModalComponent } from &#x27;../../shared/components/stripe-checkout/stripe-checkout.component&#x27;;
+import { Subscription } from &#x27;rxjs&#x27;;
 
 interface MediaItem {
   type: &#x27;video&#x27; | &#x27;image&#x27;;
   label: string;
   url?: string | SafeResourceUrl;
   thumbnail?: string;
+}
+
+interface RecommendationSection {
+  titleKey: string;
+  sectionId: string;
+  items: Game[];
 }
 
 /**
@@ -2281,11 +3295,17 @@ interface MediaItem {
 @Component({
   selector: &#x27;app-product&#x27;,
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    LocalizedCurrencyPipe,
+    CarouselComponent,
+    StripeModalComponent,
+  ],
   templateUrl: &#x27;./product.component.html&#x27;,
   styleUrls: [&#x27;./product.component.scss&#x27;],
 })
-export class ProductComponent implements OnInit {
+export class ProductComponent implements OnInit, OnDestroy {
   /** Objeto del juego cargado. */
   game: Game | null &#x3D; this.createPlaceholder();
   /** Plataforma seleccionada actualmente por el usuario. */
@@ -2294,6 +3314,10 @@ export class ProductComponent implements OnInit {
   currentMediaIndex: number &#x3D; 0;
   /** Lista de elementos multimedia procesados para el visor. */
   mediaItems: MediaItem[] &#x3D; [];
+  recommendationSections: RecommendationSection[] &#x3D; [];
+  recommendationSkeletonSections: RecommendationSection[] &#x3D; this.createRecommendationSkeletons();
+  loadingRecommendations &#x3D; true;
+  private routeSub?: Subscription;
 
   /** Estados para notificaciones visuales y modales. */
   showAuthModal &#x3D; signal(false);
@@ -2304,37 +3328,41 @@ export class ProductComponent implements OnInit {
   quantityIncreased &#x3D; signal(false);
   alreadyInCart &#x3D; signal(false);
   alreadyInFavorites &#x3D; signal(false);
+  isScreenshotModalOpen &#x3D; signal(false);
+  screenshotModalImage &#x3D; signal&lt;string | null&gt;(null);
+  checkoutModalOpen &#x3D; signal(false);
+  directCheckoutPayload &#x3D; signal&lt;{ gameId: number; platformId: number } | null&gt;(null);
 
   /** Configuración estática de todas las plataformas soportadas. */
   allPlatforms &#x3D; [
     {
       name: &#x27;PC&#x27;,
-      image: &#x27;assets/images/platforms/pc.png&#x27;,
+      image: &#x27;assets/images/platforms/pc.webp&#x27;,
       stockKey: &#x27;stockPc&#x27; as const,
     },
     {
       name: &#x27;PS5&#x27;,
-      image: &#x27;assets/images/platforms/ps5.png&#x27;,
+      image: &#x27;assets/images/platforms/ps5.webp&#x27;,
       stockKey: &#x27;stockPs5&#x27; as const,
     },
     {
       name: &#x27;Xbox Series X&#x27;,
-      image: &#x27;assets/images/platforms/xbox-series-x.png&#x27;,
+      image: &#x27;assets/images/platforms/xbox-series-x.webp&#x27;,
       stockKey: &#x27;stockXboxX&#x27; as const,
     },
     {
       name: &#x27;Switch&#x27;,
-      image: &#x27;assets/images/platforms/switch.png&#x27;,
+      image: &#x27;assets/images/platforms/switch.webp&#x27;,
       stockKey: &#x27;stockSwitch&#x27; as const,
     },
     {
       name: &#x27;PS4&#x27;,
-      image: &#x27;assets/images/platforms/ps4.png&#x27;,
+      image: &#x27;assets/images/platforms/ps4.webp&#x27;,
       stockKey: &#x27;stockPs4&#x27; as const,
     },
     {
       name: &#x27;Xbox One&#x27;,
-      image: &#x27;assets/images/platforms/xbox-one.png&#x27;,
+      image: &#x27;assets/images/platforms/xbox-one.webp&#x27;,
       stockKey: &#x27;stockXboxOne&#x27; as const,
     },
   ];
@@ -2383,6 +3411,9 @@ export class ProductComponent implements OnInit {
     private favoriteService: FavoriteService,
     private authService: BaseAuthenticationService,
     @Inject(Router) private router: Router,
+    private pageTitleService: PageTitleService,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document,
   ) {}
 
   /**
@@ -2391,15 +3422,30 @@ export class ProductComponent implements OnInit {
   ngOnInit(): void {
     this.game &#x3D; this.createPlaceholder();
     this.buildMediaItems();
-
-    const id &#x3D; this.route.snapshot.paramMap.get(&#x27;id&#x27;);
-    if (id) {
-      this.loadGame(id);
-    }
+    this.routeSub &#x3D; this.route.paramMap.subscribe((params) &#x3D;&gt; {
+      const id &#x3D; params.get(&#x27;id&#x27;);
+      if (id) {
+        this.game &#x3D; this.createPlaceholder();
+        this.buildMediaItems();
+        this.recommendationSections &#x3D; [];
+        this.recommendationSkeletonSections &#x3D; this.createRecommendationSkeletons();
+        this.loadingRecommendations &#x3D; true;
+        this.currentMediaIndex &#x3D; 0;
+        this.selectedPlatform &#x3D; null;
+        this.loadGame(id);
+      }
+    });
 
     this.authService.authenticated$.subscribe((isAuth) &#x3D;&gt; {
       this.isAuthenticated.set(isAuth);
     });
+  }
+
+  ngOnDestroy(): void {
+    this.routeSub?.unsubscribe();
+    this.renderer.removeStyle(this.document.body, &#x27;overflow&#x27;);
+    this.checkoutModalOpen.set(false);
+    this.directCheckoutPayload.set(null);
   }
 
   /** Crea un objeto juego vacío para el estado inicial de carga. */
@@ -2425,18 +3471,71 @@ export class ProductComponent implements OnInit {
     } as unknown as Game;
   }
 
+  private createCarouselPlaceholders(count &#x3D; 20): Game[] {
+    return Array(count).fill({
+      id: -1,
+      title: &#x27;common.loading&#x27;,
+      description: &#x27;&#x27;,
+      price: 0,
+      rating: 0,
+      releaseDate: new Date(),
+      stockPc: 0,
+      stockPs5: 0,
+      stockXboxX: 0,
+      stockSwitch: 0,
+      stockPs4: 0,
+      stockXboxOne: 0,
+      numberOfSales: 0,
+      isOnSale: false,
+      isRefundable: false,
+      media: [],
+      platforms: [],
+    } as unknown as Game);
+  }
+
+  private createRecommendationSkeletons(): RecommendationSection[] {
+    const placeholders &#x3D; this.createCarouselPlaceholders();
+    return [
+      {
+        titleKey: &#x27;product.similarGames&#x27;,
+        sectionId: &#x27;similar-games&#x27;,
+        items: placeholders,
+      },
+      {
+        titleKey: &#x27;product.sameStudioGames&#x27;,
+        sectionId: &#x27;same-studio-games&#x27;,
+        items: placeholders,
+      },
+      {
+        titleKey: &#x27;product.relatedGenres&#x27;,
+        sectionId: &#x27;related-genres-games&#x27;,
+        items: placeholders,
+      },
+      {
+        titleKey: &#x27;product.topOnPlatforms&#x27;,
+        sectionId: &#x27;top-platform-games&#x27;,
+        items: placeholders,
+      },
+    ];
+  }
+
   /**
    * Carga los datos del juego y sus medios asociados.
    * Selecciona automáticamente la plataforma si solo hay una disponible.
    * @param id ID del juego.
    */
   loadGame(id: string): void {
+    this.loadingRecommendations &#x3D; true;
+    this.recommendationSections &#x3D; [];
+    this.recommendationSkeletonSections &#x3D; this.createRecommendationSkeletons();
     this.gameService.getById(id).subscribe((game) &#x3D;&gt; {
       if (game) {
         this.mediaService.getAll({}).subscribe((allMedia) &#x3D;&gt; {
           game.media &#x3D; allMedia.filter((m) &#x3D;&gt; m.gameId &#x3D;&#x3D;&#x3D; game.id);
           this.game &#x3D; game;
+          this.pageTitleService.setProductTitle(game.title);
           this.buildMediaItems();
+          this.loadRecommendationCarousels(game, allMedia);
 
           const availablePlatforms &#x3D; this.allPlatforms.filter((platform) &#x3D;&gt;
             this.isPlatformAvailable(platform.name),
@@ -2448,6 +3547,194 @@ export class ProductComponent implements OnInit {
         });
       }
     });
+  }
+
+  private loadRecommendationCarousels(baseGame: Game, allMedia: any[]): void {
+    this.gameService.getAll({}).subscribe({
+      next: (allGames) &#x3D;&gt; {
+        const mediaByGameId &#x3D; new Map&lt;number, any[]&gt;();
+        for (const media of allMedia) {
+          if (typeof media.gameId !&#x3D;&#x3D; &#x27;number&#x27;) continue;
+          if (!mediaByGameId.has(media.gameId)) {
+            mediaByGameId.set(media.gameId, []);
+          }
+          mediaByGameId.get(media.gameId)!.push(media);
+        }
+
+        const candidates &#x3D; allGames
+          .filter((g) &#x3D;&gt; g.id !&#x3D;&#x3D; baseGame.id)
+          .map((g) &#x3D;&gt; ({
+            ...g,
+            media: mediaByGameId.get(g.id) ?? [],
+          }));
+
+        const popularFallback &#x3D; [...candidates].sort(
+          (a, b) &#x3D;&gt;
+            (b.numberOfSales ?? 0) - (a.numberOfSales ?? 0) ||
+            (b.rating ?? 0) - (a.rating ?? 0),
+        );
+        const usedIds &#x3D; new Set&lt;number&gt;();
+        const takeUnique &#x3D; (items: Game[], amount: number): Game[] &#x3D;&gt; {
+          const picked: Game[] &#x3D; [];
+          for (const game of items) {
+            if (picked.length &gt;&#x3D; amount) break;
+            if (usedIds.has(game.id)) continue;
+            picked.push(game);
+            usedIds.add(game.id);
+          }
+          return picked;
+        };
+        const fillWithFallback &#x3D; (primary: Game[], amount: number): Game[] &#x3D;&gt; {
+          const picked &#x3D; takeUnique(primary, amount);
+          if (picked.length &lt; amount) {
+            picked.push(...takeUnique(popularFallback, amount - picked.length));
+          }
+          return picked;
+        };
+
+        const similarRanked &#x3D; candidates
+          .map((candidate) &#x3D;&gt; ({
+            game: candidate,
+            score: this.scoreSimilarity(baseGame, candidate),
+          }))
+          .filter((x) &#x3D;&gt; x.score &gt; 0)
+          .sort((a, b) &#x3D;&gt; {
+            if (b.score !&#x3D;&#x3D; a.score) return b.score - a.score;
+            return (
+              (b.game.numberOfSales ?? 0) - (a.game.numberOfSales ?? 0) ||
+              (b.game.rating ?? 0) - (a.game.rating ?? 0)
+            );
+          })
+          .map((x) &#x3D;&gt; x.game);
+        const similarGames &#x3D; fillWithFallback(similarRanked, 20);
+
+        const sameStudioPool &#x3D; candidates
+          .filter(
+            (g) &#x3D;&gt;
+              (baseGame.developerId &amp;&amp; g.developerId &#x3D;&#x3D;&#x3D; baseGame.developerId) ||
+              (baseGame.publisherId &amp;&amp; g.publisherId &#x3D;&#x3D;&#x3D; baseGame.publisherId),
+          )
+          .sort(
+            (a, b) &#x3D;&gt;
+              (b.numberOfSales ?? 0) - (a.numberOfSales ?? 0) ||
+              (b.rating ?? 0) - (a.rating ?? 0),
+          );
+        const sameStudioGames &#x3D; fillWithFallback(sameStudioPool, 20);
+
+        const baseGenres &#x3D; new Set(
+          (baseGame.genres ?? []).map((g) &#x3D;&gt; g.name.toLowerCase().trim()),
+        );
+        const relatedGenresPool &#x3D; candidates
+          .filter((g) &#x3D;&gt;
+            (g.genres ?? []).some((genre) &#x3D;&gt;
+              baseGenres.has(genre.name.toLowerCase().trim()),
+            ),
+          )
+          .sort(
+            (a, b) &#x3D;&gt;
+              (b.rating ?? 0) - (a.rating ?? 0) ||
+              (b.numberOfSales ?? 0) - (a.numberOfSales ?? 0),
+          );
+        const relatedGenresGames &#x3D; fillWithFallback(relatedGenresPool, 20);
+
+        const basePlatforms &#x3D; new Set(
+          (baseGame.platforms ?? []).map((p) &#x3D;&gt; p.name.toLowerCase().trim()),
+        );
+        const topOnPlatformsPool &#x3D; candidates
+          .filter((g) &#x3D;&gt;
+            (g.platforms ?? []).some((platform) &#x3D;&gt;
+              basePlatforms.has(platform.name.toLowerCase().trim()),
+            ),
+          )
+          .sort(
+            (a, b) &#x3D;&gt;
+              (b.numberOfSales ?? 0) - (a.numberOfSales ?? 0) ||
+              (b.rating ?? 0) - (a.rating ?? 0),
+          );
+        const topOnPlatformsGames &#x3D; fillWithFallback(topOnPlatformsPool, 20);
+
+        const sections: RecommendationSection[] &#x3D; [
+          {
+            titleKey: &#x27;product.similarGames&#x27;,
+            sectionId: &#x27;similar-games&#x27;,
+            items: similarGames,
+          },
+          {
+            titleKey: &#x27;product.sameStudioGames&#x27;,
+            sectionId: &#x27;same-studio-games&#x27;,
+            items: sameStudioGames,
+          },
+          {
+            titleKey: &#x27;product.relatedGenres&#x27;,
+            sectionId: &#x27;related-genres-games&#x27;,
+            items: relatedGenresGames,
+          },
+          {
+            titleKey: &#x27;product.topOnPlatforms&#x27;,
+            sectionId: &#x27;top-platform-games&#x27;,
+            items: topOnPlatformsGames,
+          },
+        ];
+
+        this.recommendationSections &#x3D; sections;
+        this.loadingRecommendations &#x3D; false;
+      },
+      error: () &#x3D;&gt; {
+        this.recommendationSections &#x3D; [];
+        this.loadingRecommendations &#x3D; false;
+      },
+    });
+  }
+
+  private scoreSimilarity(base: Game, candidate: Game): number {
+    let score &#x3D; 0;
+
+    if (base.developerId &amp;&amp; candidate.developerId &#x3D;&#x3D;&#x3D; base.developerId) {
+      score +&#x3D; 4;
+    }
+
+    if (base.publisherId &amp;&amp; candidate.publisherId &#x3D;&#x3D;&#x3D; base.publisherId) {
+      score +&#x3D; 3;
+    }
+
+    const baseGenres &#x3D; new Set(
+      (base.genres ?? []).map((g) &#x3D;&gt; g.name.toLowerCase().trim()),
+    );
+    const candidateGenres &#x3D; new Set(
+      (candidate.genres ?? []).map((g) &#x3D;&gt; g.name.toLowerCase().trim()),
+    );
+    let sharedGenres &#x3D; 0;
+    for (const genre of baseGenres) {
+      if (candidateGenres.has(genre)) sharedGenres++;
+    }
+    score +&#x3D; sharedGenres * 3;
+
+    const basePlatforms &#x3D; new Set(
+      (base.platforms ?? []).map((p) &#x3D;&gt; p.name.toLowerCase().trim()),
+    );
+    const candidatePlatforms &#x3D; new Set(
+      (candidate.platforms ?? []).map((p) &#x3D;&gt; p.name.toLowerCase().trim()),
+    );
+    let sharedPlatforms &#x3D; 0;
+    for (const platform of basePlatforms) {
+      if (candidatePlatforms.has(platform)) sharedPlatforms++;
+    }
+    score +&#x3D; sharedPlatforms * 2;
+
+    const basePrice &#x3D; (base.isOnSale ? base.salePrice : base.price) ?? 0;
+    const candidatePrice &#x3D;
+      (candidate.isOnSale ? candidate.salePrice : candidate.price) ?? 0;
+    const priceDiff &#x3D; Math.abs(basePrice - candidatePrice);
+    if (priceDiff &lt;&#x3D; 5) score +&#x3D; 2;
+    else if (priceDiff &lt;&#x3D; 15) score +&#x3D; 1;
+
+    const baseRating &#x3D; base.rating ?? 0;
+    const candidateRating &#x3D; candidate.rating ?? 0;
+    if (Math.abs(baseRating - candidateRating) &lt;&#x3D; 0.7) score +&#x3D; 1;
+
+    if (base.isOnSale &amp;&amp; candidate.isOnSale) score +&#x3D; 1;
+
+    return score;
   }
 
   /**
@@ -2538,6 +3825,19 @@ export class ProductComponent implements OnInit {
   /** Cierra el modal de autenticación. */
   cancelLogin() {
     this.showAuthModal.set(false);
+  }
+
+  openScreenshotModal(imageUrl: string): void {
+    if (!imageUrl) return;
+    this.screenshotModalImage.set(imageUrl);
+    this.isScreenshotModalOpen.set(true);
+    this.renderer.setStyle(this.document.body, &#x27;overflow&#x27;, &#x27;hidden&#x27;);
+  }
+
+  closeScreenshotModal(): void {
+    this.isScreenshotModalOpen.set(false);
+    this.screenshotModalImage.set(null);
+    this.renderer.removeStyle(this.document.body, &#x27;overflow&#x27;);
   }
 
   /**
@@ -2636,40 +3936,34 @@ export class ProductComponent implements OnInit {
   }
 
   /**
-   * Añade al carrito y redirige inmediatamente a la página de pago/carrito.
+   * Prepara compra individual y abre Stripe directamente.
    */
   buyNow() {
     if (!this.game || !this.checkAuth() || !this.selectedPlatform) return;
 
     const platformId &#x3D; this.getSelectedPlatformId();
     if (!platformId) return;
+    this.directCheckoutPayload.set({
+      gameId: Number(this.game.id),
+      platformId,
+    });
+    this.buySuccess.set(true);
+    setTimeout(() &#x3D;&gt; this.buySuccess.set(false), 500);
+    this.checkoutModalOpen.set(true);
+  }
 
-    this.cartItemService
-      .add({
-        gameId: Number(this.game.id),
-        platformId,
-        quantity: 1,
-      } as CartItem)
-      .subscribe({
-        next: () &#x3D;&gt; {
-          this.buySuccess.set(true);
-          setTimeout(() &#x3D;&gt; {
-            this.buySuccess.set(false);
-            this.router.navigate([&#x27;/cart&#x27;]);
-          }, 500);
-        },
-        error: (err) &#x3D;&gt; {
-          if (err.status &#x3D;&#x3D;&#x3D; 401) {
-            this.router.navigate([&#x27;/login&#x27;]);
-          } else if (err.status &#x3D;&#x3D;&#x3D; 409) {
-            this.buySuccess.set(true);
-            setTimeout(() &#x3D;&gt; {
-              this.buySuccess.set(false);
-              this.router.navigate([&#x27;/cart&#x27;]);
-            }, 500);
-          }
-        },
-      });
+  closeCheckoutModal(): void {
+    this.checkoutModalOpen.set(false);
+    this.directCheckoutPayload.set(null);
+  }
+
+  onCheckoutCompleted(): void {
+    this.checkoutModalOpen.set(false);
+    this.directCheckoutPayload.set(null);
+    const id &#x3D; this.route.snapshot.paramMap.get(&#x27;id&#x27;);
+    if (id) {
+      this.loadGame(id);
+    }
   }
 
   /** Comprueba si el juego está disponible para una plataforma dada. */
@@ -2702,6 +3996,20 @@ export class ProductComponent implements OnInit {
     this.currentMediaIndex &#x3D; index;
   }
 
+  goToProduct(id: number): void {
+    if (!Number.isFinite(id) || id &lt;&#x3D; 0) return;
+    if (this.game?.id !&#x3D;&#x3D; id) {
+      this.game &#x3D; this.createPlaceholder();
+      this.buildMediaItems();
+      this.recommendationSections &#x3D; [];
+      this.recommendationSkeletonSections &#x3D; this.createRecommendationSkeletons();
+      this.loadingRecommendations &#x3D; true;
+      this.currentMediaIndex &#x3D; 0;
+      this.selectedPlatform &#x3D; null;
+    }
+    this.router.navigateByUrl(&#x60;/product/${id}&#x60;);
+  }
+
   /** Calcula cuántas estrellas llenas mostrar en el rating. */
   getRatingStars(): number[] {
     const rating &#x3D; this.game?.rating || 0;
@@ -2727,11 +4035,16 @@ export class ProductComponent implements OnInit {
   private convertToEmbedUrl(url: string): string {
     const videoId &#x3D; this.getVideoId(url);
     if (videoId) {
-      const origin &#x3D; typeof window !&#x3D;&#x3D; &#x27;undefined&#x27; ? window.location.origin : &#x27;&#x27;;
-      const originParam &#x3D; origin ? &#x60;&amp;origin&#x3D;${encodeURIComponent(origin)}&#x60; : &#x27;&#x27;;
-      return &#x60;https://www.youtube-nocookie.com/embed/${videoId}?autoplay&#x3D;1&amp;mute&#x3D;1&amp;modestbranding&#x3D;1&amp;rel&#x3D;0&amp;showinfo&#x3D;0&amp;iv_load_policy&#x3D;3&amp;enablejsapi&#x3D;1${originParam}&#x60;;
+      return &#x60;https://www.youtube-nocookie.com/embed/${videoId}?autoplay&#x3D;1&amp;mute&#x3D;1&amp;modestbranding&#x3D;1&amp;rel&#x3D;0&amp;showinfo&#x3D;0&amp;iv_load_policy&#x3D;3&#x60;;
     }
     return url;
+  }
+
+  @HostListener(&#x27;document:keydown.escape&#x27;)
+  onEscapePressed(): void {
+    if (this.isScreenshotModalOpen()) {
+      this.closeScreenshotModal();
+    }
   }
 }
 </code></pre>
@@ -2739,6 +4052,7 @@ export class ProductComponent implements OnInit {
 
     <div class="tab-pane fade " id="templateData">
         <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;flex-1 w-full bg-gray-900 text-white font-sans pb-20&quot;&gt;
+  &lt;div [class.product-content-blurred]&#x3D;&quot;isScreenshotModalOpen()&quot;&gt;
   &lt;div class&#x3D;&quot;max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8&quot;&gt;
     &lt;div class&#x3D;&quot;mb-6&quot;&gt;
       &lt;h1
@@ -2972,7 +4286,8 @@ export class ProductComponent implements OnInit {
               *ngIf&#x3D;&quot;game &amp;&amp; game.id !&#x3D;&#x3D; -1 &amp;&amp; screenshot1&quot;
               [src]&#x3D;&quot;screenshot1&quot;
               alt&#x3D;&quot;Screenshot 1&quot;
-              class&#x3D;&quot;w-full h-full object-cover&quot;
+              class&#x3D;&quot;w-full h-full object-cover cursor-zoom-in transition-transform duration-200 hover:scale-105&quot;
+              (click)&#x3D;&quot;openScreenshotModal(screenshot1)&quot;
               crossorigin&#x3D;&quot;anonymous&quot;
               referrerpolicy&#x3D;&quot;no-referrer&quot;
             /&gt;
@@ -2993,7 +4308,8 @@ export class ProductComponent implements OnInit {
               *ngIf&#x3D;&quot;game &amp;&amp; game.id !&#x3D;&#x3D; -1 &amp;&amp; screenshot2&quot;
               [src]&#x3D;&quot;screenshot2&quot;
               alt&#x3D;&quot;Screenshot 2&quot;
-              class&#x3D;&quot;w-full h-full object-cover&quot;
+              class&#x3D;&quot;w-full h-full object-cover cursor-zoom-in transition-transform duration-200 hover:scale-105&quot;
+              (click)&#x3D;&quot;openScreenshotModal(screenshot2)&quot;
               crossorigin&#x3D;&quot;anonymous&quot;
               referrerpolicy&#x3D;&quot;no-referrer&quot;
             /&gt;
@@ -3037,14 +4353,14 @@ export class ProductComponent implements OnInit {
                   (game?.isOnSale &amp;&amp; game?.salePrice
                     ? game?.salePrice
                     : game?.price
-                  ) | currency: &quot;EUR&quot;
+                  ) | localizedCurrency
                 }}
               &lt;/span&gt;
             &lt;/span&gt;
             &lt;span
               *ngIf&#x3D;&quot;game?.isOnSale &amp;&amp; game?.price &amp;&amp; game?.price !&#x3D;&#x3D; 0&quot;
               class&#x3D;&quot;text-gray-500 line-through text-xl&quot;
-              &gt;{{ game?.price | currency: &quot;EUR&quot; }}&lt;/span
+              &gt;{{ game?.price | localizedCurrency }}&lt;/span
             &gt;
           &lt;/div&gt;
 
@@ -3383,7 +4699,80 @@ export class ProductComponent implements OnInit {
         &lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
+
+    &lt;section
+      class&#x3D;&quot;mt-6 pt-2 border-t border-white/10&quot;
+      *ngIf&#x3D;&quot;loadingRecommendations || recommendationSections.length &gt; 0&quot;
+    &gt;
+      &lt;div class&#x3D;&quot;product-similar-carousel-scale space-y-6&quot;&gt;
+        &lt;app-carousel
+          *ngIf&#x3D;&quot;loadingRecommendations&quot;
+          [title]&#x3D;&quot;&#x27;product.similarGames&#x27;&quot;
+          [items]&#x3D;&quot;recommendationSkeletonSections[0].items&quot;
+          sectionId&#x3D;&quot;similar-games-skeleton&quot;
+        &gt;&lt;/app-carousel&gt;
+        &lt;app-carousel
+          *ngIf&#x3D;&quot;loadingRecommendations&quot;
+          [title]&#x3D;&quot;&#x27;product.sameStudioGames&#x27;&quot;
+          [items]&#x3D;&quot;recommendationSkeletonSections[1].items&quot;
+          sectionId&#x3D;&quot;same-studio-games-skeleton&quot;
+        &gt;&lt;/app-carousel&gt;
+        &lt;app-carousel
+          *ngIf&#x3D;&quot;loadingRecommendations&quot;
+          [title]&#x3D;&quot;&#x27;product.relatedGenres&#x27;&quot;
+          [items]&#x3D;&quot;recommendationSkeletonSections[2].items&quot;
+          sectionId&#x3D;&quot;related-genres-games-skeleton&quot;
+        &gt;&lt;/app-carousel&gt;
+        &lt;app-carousel
+          *ngIf&#x3D;&quot;loadingRecommendations&quot;
+          [title]&#x3D;&quot;&#x27;product.topOnPlatforms&#x27;&quot;
+          [items]&#x3D;&quot;recommendationSkeletonSections[3].items&quot;
+          sectionId&#x3D;&quot;top-platform-games-skeleton&quot;
+        &gt;&lt;/app-carousel&gt;
+        &lt;ng-container *ngIf&#x3D;&quot;!loadingRecommendations&quot;&gt;
+          &lt;app-carousel
+            *ngFor&#x3D;&quot;let section of recommendationSections; let i &#x3D; index&quot;
+            [class.hidden]&#x3D;&quot;i &#x3D;&#x3D;&#x3D; recommendationSections.length - 1&quot;
+            [class.md:block]&#x3D;&quot;i &#x3D;&#x3D;&#x3D; recommendationSections.length - 1&quot;
+            [title]&#x3D;&quot;section.titleKey&quot;
+            [items]&#x3D;&quot;section.items&quot;
+            [sectionId]&#x3D;&quot;section.sectionId&quot;
+            (itemClick)&#x3D;&quot;goToProduct($event)&quot;
+          &gt;&lt;/app-carousel&gt;
+        &lt;/ng-container&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
   &lt;/div&gt;
+  &lt;/div&gt;
+
+  @if (isScreenshotModalOpen() &amp;&amp; screenshotModalImage()) {
+    &lt;div
+      class&#x3D;&quot;fixed inset-x-0 top-16 bottom-0 bg-black/70 backdrop-blur-sm z-[1200] flex items-center justify-center p-4 md:p-6&quot;
+      (click)&#x3D;&quot;closeScreenshotModal()&quot;
+    &gt;
+      &lt;div
+        class&#x3D;&quot;relative max-w-4xl max-h-full w-full flex items-center justify-center screenshot-modal-enter&quot;
+        (click)&#x3D;&quot;$event.stopPropagation()&quot;
+      &gt;
+        &lt;button
+          class&#x3D;&quot;absolute -top-3 -right-3 md:top-3 md:right-3 w-10 h-10 rounded-full bg-black/70 hover:bg-black/85 text-white border-none outline-none cursor-pointer flex items-center justify-center transition-colors z-10&quot;
+          (click)&#x3D;&quot;closeScreenshotModal()&quot;
+          aria-label&#x3D;&quot;Close screenshot preview&quot;
+        &gt;
+          &lt;svg xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; class&#x3D;&quot;h-6 w-6&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; stroke&#x3D;&quot;currentColor&quot; stroke-width&#x3D;&quot;2.5&quot;&gt;
+            &lt;path stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot; d&#x3D;&quot;M6 6l12 12M18 6L6 18&quot; /&gt;
+          &lt;/svg&gt;
+        &lt;/button&gt;
+        &lt;img
+          [src]&#x3D;&quot;screenshotModalImage()!&quot;
+          alt&#x3D;&quot;Screenshot preview&quot;
+          class&#x3D;&quot;max-w-full max-h-[calc(100vh-11rem)] object-contain rounded-lg shadow-2xl&quot;
+          crossorigin&#x3D;&quot;anonymous&quot;
+          referrerpolicy&#x3D;&quot;no-referrer&quot;
+        /&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  }
 
   @if (showAuthModal()) {
     &lt;div
@@ -3415,6 +4804,14 @@ export class ProductComponent implements OnInit {
       &lt;/div&gt;
     &lt;/div&gt;
   }
+
+  &lt;app-stripe-modal
+    [open]&#x3D;&quot;checkoutModalOpen()&quot;
+    [titleKey]&#x3D;&quot;&#x27;product.buy&#x27;&quot;
+    [directCheckoutPayload]&#x3D;&quot;directCheckoutPayload()&quot;
+    (closed)&#x3D;&quot;closeCheckoutModal()&quot;
+    (completed)&#x3D;&quot;onCheckoutCompleted()&quot;
+  &gt;&lt;/app-stripe-modal&gt;
 &lt;/div&gt;
 </code></pre>
     </div>
@@ -3432,6 +4829,39 @@ export class ProductComponent implements OnInit {
 
 .info-list &gt; .item:not(:last-child) {
   border-bottom: 1px solid #6b7280;
+}
+
+.product-content-blurred {
+  filter: blur(6px);
+  transition: filter 220ms ease;
+}
+
+.screenshot-modal-enter {
+  animation: screenshot-modal-zoom-in 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.product-similar-carousel-scale {
+  transform: scale(1.1);
+  transform-origin: top center;
+  margin-bottom: 6rem;
+}
+
+@media (max-width: 1024px) {
+  .product-similar-carousel-scale {
+    transform: scale(1.06);
+    margin-bottom: 3.6rem;
+  }
+}
+
+@keyframes screenshot-modal-zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(0.86);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 </code></pre>
     </div>
@@ -3461,9 +4891,9 @@ export class ProductComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="flex-1 w-full bg-gray-900 text-white font-sans pb-20">  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">    <div class="mb-6">      <h1        class="text-4xl font-bold text-white mb-2"        [class.animate-pulse]="game?.id === -1"        [class.text-gray-500]="game?.id === -1"      >        {{ game?.id === -1 ? (game?.title | translate) : game?.title }}      </h1>      <div class="flex items-center gap-2 text-sm" *ngIf="game?.id === -1">        <!-- Skeleton Stars -->        <div class="flex gap-1 animate-pulse">          <div            class="w-4 h-4 bg-gray-800 rounded-full"            *ngFor="let i of [1, 2, 3, 4, 5]"          ></div>        </div>        <div class="w-8 h-4 bg-gray-800 rounded animate-pulse"></div>      </div>      <div        class="flex items-center gap-2 text-sm"        *ngIf="game && game.id !== -1"      >        <div class="flex text-white">          <svg            *ngFor="let star of getRatingStars()"            xmlns="http://www.w3.org/2000/svg"            class="h-4 w-4 fill-current"            viewBox="0 0 20 20"            [title]="\'tooltips.rating\' | translate"          >            <path              d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"            />          </svg>          <svg            *ngFor="let star of getEmptyStars()"            xmlns="http://www.w3.org/2000/svg"            class="h-4 w-4 fill-current text-gray-500"            viewBox="0 0 20 20"            [title]="\'tooltips.rating\' | translate"          >            <path              d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"            />          </svg>        </div>        <span class="text-gray-400">{{ game.rating }}</span>      </div>    </div>    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">      <div class="lg:col-span-8 space-y-8">        <div class="relative">          <div            class="aspect-video bg-black rounded-lg overflow-hidden relative group"          >            <!-- Skeleton Main Player -->            <div              *ngIf="game?.id === -1"              class="w-full h-full bg-gray-700 animate-pulse absolute inset-0 z-20 pointer-events-none"            ></div>            <ng-container *ngIf="game && game.id !== -1">              <iframe                *ngIf="mediaItems[currentMediaIndex]?.type === \'video\'"                [src]="mediaItems[currentMediaIndex].url"                class="w-full h-full transition-opacity duration-300"                frameborder="0"                scrolling="no"                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"                allowfullscreen              ></iframe>              <img                *ngIf="mediaItems[currentMediaIndex]?.type === \'image\'"                [src]="mediaItems[currentMediaIndex].url"                [alt]="mediaItems[currentMediaIndex].label"                class="w-full h-full object-contain transition-opacity duration-300"                crossorigin="anonymous"                referrerpolicy="no-referrer"              />            </ng-container>            <button              (click)="previousMedia()"              [disabled]="currentMediaIndex === 0"              [class.opacity-30]="currentMediaIndex === 0"              [class.cursor-not-allowed]="currentMediaIndex === 0"              [class.cursor-pointer]="currentMediaIndex !== 0"              [class.hover:scale-110]="currentMediaIndex !== 0"              [class.active:scale-95]="currentMediaIndex !== 0"              class="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all duration-150 **opacity-0 group-hover:opacity-100** z-50 pointer-events-auto"              [title]="\'tooltips.previousMedia\' | translate"            >              <svg                xmlns="http://www.w3.org/2000/svg"                class="h-8 w-8"                fill="none"                viewBox="0 0 24 24"                stroke="currentColor"                stroke-width="3"              >                <path                  stroke-linecap="round"                  stroke-linejoin="round"                  d="M15 19l-7-7 7-7"                />              </svg>            </button>            <button              (click)="nextMedia()"              [disabled]="currentMediaIndex === mediaItems.length - 1"              [class.opacity-30]="currentMediaIndex === mediaItems.length - 1"              [class.cursor-not-allowed]="                currentMediaIndex === mediaItems.length - 1              "              [class.cursor-pointer]="                currentMediaIndex !== mediaItems.length - 1              "              [class.hover:scale-110]="                currentMediaIndex !== mediaItems.length - 1              "              [class.active:scale-95]="                currentMediaIndex !== mediaItems.length - 1              "              class="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all duration-150 **opacity-0 group-hover:opacity-100** z-50 pointer-events-auto"              [title]="\'tooltips.nextMedia\' | translate"            >              <svg                xmlns="http://www.w3.org/2000/svg"                class="h-8 w-8"                fill="none"                viewBox="0 0 24 24"                stroke="currentColor"                stroke-width="3"              >                <path                  stroke-linecap="round"                  stroke-linejoin="round"                  d="M9 5l7 7-7 7"                />              </svg>            </button>          </div>          <div class="flex justify-center gap-2 mt-4">            <div              *ngFor="let media of mediaItems; let i = index"              (click)="selectMedia(i)"              [class.border-cyan-400]="currentMediaIndex === i"              [class.border-4]="currentMediaIndex === i"              [class.scale-105]="currentMediaIndex === i"              [class.scale-90]="currentMediaIndex !== i"              [class.opacity-50]="currentMediaIndex !== i"              class="w-24 h-16 bg-black rounded-lg overflow-hidden border-2 border-gray-700 cursor-pointer hover:border-gray-500 transition-all flex items-center justify-center transform duration-150 relative active:scale-95"            >              <!-- Skeleton -->              <div                *ngIf="game?.id === -1"                class="w-full h-full bg-gray-700 animate-pulse pointer-events-none"              ></div>              <ng-container *ngIf="game && game.id !== -1">                <img                  *ngIf="media.type === \'image\'"                  [src]="media.url"                  [alt]="media.label"                  class="w-full h-full object-cover"                  crossorigin="anonymous"                  referrerpolicy="no-referrer"                />                <div                  *ngIf="media.type === \'video\'"                  class="w-full h-full relative flex items-center justify-center"                >                  <img                    *ngIf="media.thumbnail"                    [src]="media.thumbnail"                    [alt]="media.label"                    class="w-full h-full object-cover opacity-75"                    crossorigin="anonymous"                    referrerpolicy="no-referrer"                  />                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-6 w-6 text-white absolute"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"                      clip-rule="evenodd"                    />                  </svg>                  <span *ngIf="!media.thumbnail" class="text-gray-400 text-xs"                    >▶ {{ media.label }}</span                  >                </div>              </ng-container>            </div>          </div>        </div>        <div class="text-gray-300 space-y-4 leading-relaxed text-sm">          <!-- Description Skeleton -->          <div *ngIf="game?.id === -1" class="space-y-2 animate-pulse">            <div class="h-4 bg-gray-800 rounded w-full"></div>            <div class="h-4 bg-gray-800 rounded w-full"></div>            <div class="h-4 bg-gray-800 rounded w-3/4"></div>          </div>          <!-- Real Description -->          <p            *ngIf="game && game.id !== -1"            class="whitespace-pre-line text-justify"          >            {{ game.description }}          </p>        </div>        <div class="grid grid-cols-2 gap-4">          <div class="aspect-video bg-[#1e1e1e] rounded-lg overflow-hidden">            <!-- Skeleton for Screenshot 1 -->            <div              *ngIf="game?.id === -1"              class="w-full h-full bg-gray-700 animate-pulse pointer-events-none"            ></div>            <img              *ngIf="game && game.id !== -1 && screenshot1"              [src]="screenshot1"              alt="Screenshot 1"              class="w-full h-full object-cover"              crossorigin="anonymous"              referrerpolicy="no-referrer"            />            <div              *ngIf="game && game.id !== -1 && !screenshot1"              class="w-full h-full bg-gray-800 flex items-center justify-center text-gray-600"            >              No Screenshot 1            </div>          </div>          <div class="aspect-video bg-[#1e1e1e] rounded-lg overflow-hidden">            <!-- Skeleton for Screenshot 2 -->            <div              *ngIf="game?.id === -1"              class="w-full h-full bg-gray-700 animate-pulse pointer-events-none"            ></div>            <img              *ngIf="game && game.id !== -1 && screenshot2"              [src]="screenshot2"              alt="Screenshot 2"              class="w-full h-full object-cover"              crossorigin="anonymous"              referrerpolicy="no-referrer"            />            <div              *ngIf="game && game.id !== -1 && !screenshot2"              class="w-full h-full bg-gray-800 flex items-center justify-center text-gray-600"            >              No Screenshot 2            </div>          </div>        </div>      </div>      <div class="lg:col-span-4 space-y-2">        <div class="bg-gray-900 p-6 rounded-lg -mt-7">          <!-- Price Skeleton -->          <div            *ngIf="game?.id === -1"            class="h-10 w-32 bg-gray-800 rounded animate-pulse mb-6"          ></div>          <!-- Real Price -->          <div *ngIf="game?.id !== -1" class="flex items-baseline gap-3 mb-6">            <span class="text-white text-4xl font-bold">              <span                *ngIf="                  (game?.isOnSale && game?.salePrice !== null                    ? game?.salePrice                    : game?.price) === 0                "              >                {{ "product.free" | translate }}              </span>              <span                *ngIf="                  (game?.isOnSale && game?.salePrice !== null                    ? game?.salePrice                    : game?.price) !== 0                "              >                {{                  (game?.isOnSale && game?.salePrice                    ? game?.salePrice                    : game?.price                  ) | currency: "EUR"                }}              </span>            </span>            <span              *ngIf="game?.isOnSale && game?.price && game?.price !== 0"              class="text-gray-500 line-through text-xl"              >{{ game?.price | currency: "EUR" }}</span            >          </div>          <div class="mb-6">            <span class="text-gray-400 text-sm mb-3 block">{{              "product.platform" | translate            }}</span>            <!-- Platforms Skeleton -->            <div *ngIf="game?.id === -1" class="grid grid-cols-3 gap-2">              <div                class="h-20 bg-gray-800 rounded-lg animate-pulse"                *ngFor="let i of [1, 2, 3, 4, 5, 6]"              ></div>            </div>            <!-- Real Platforms -->            <div *ngIf="game?.id !== -1" class="grid grid-cols-3 gap-2">              <div                *ngFor="let platform of sortedPlatforms"                (click)="                  isPlatformAvailable(platform.name) &&                    selectPlatform(platform.name)                "                [class.border-cyan-400]="                  selectedPlatform === platform.name &&                  isPlatformAvailable(platform.name)                "                [class.border-4]="                  selectedPlatform === platform.name &&                  isPlatformAvailable(platform.name)                "                [class.scale-105]="                  selectedPlatform === platform.name &&                  isPlatformAvailable(platform.name)                "                [class.opacity-30]="!isPlatformAvailable(platform.name)"                [class.cursor-not-allowed]="!isPlatformAvailable(platform.name)"                [class.cursor-pointer]="isPlatformAvailable(platform.name)"                [style.background-color]="                  selectedPlatform === platform.name &&                  isPlatformAvailable(platform.name)                    ? \'rgb(55, 65, 81)\'                    : \'\'                "                class="bg-gray-800 hover:bg-gray-700 p-3 rounded-lg transition-all border-2 border-gray-700 flex items-center justify-center transform duration-150 active:scale-95"              >                <img                  [src]="platform.image"                  [alt]="platform.name"                  class="w-14 h-14 object-contain"                />              </div>            </div>          </div>          <div class="space-y-3">            <!-- Stock Skeleton -->            <div              *ngIf="game?.id === -1"              class="h-5 w-24 bg-gray-800 rounded animate-pulse mb-6 mx-auto"            ></div>            <div              *ngIf="game && game.id !== -1 && selectedPlatform"              class="flex items-center justify-center gap-2 mb-6"            >              <svg                *ngIf="getStockForPlatform(selectedPlatform) > 20"                xmlns="http://www.w3.org/2000/svg"                class="h-5 w-5 text-green-500"                viewBox="0 0 20 20"                fill="currentColor"              >                <path                  fill-rule="evenodd"                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"                  clip-rule="evenodd"                />              </svg>              <span                [class.text-green-500]="                  getStockForPlatform(selectedPlatform) > 20                "                [class.text-yellow-500]="                  getStockForPlatform(selectedPlatform) > 0 &&                  getStockForPlatform(selectedPlatform) <= 20                "                [class.text-red-500]="                  getStockForPlatform(selectedPlatform) === 0                "                class="text-sm font-bold"              >                <span *ngIf="getStockForPlatform(selectedPlatform) > 20">{{                  "product.inStock" | translate                }}</span>                <span                  *ngIf="                    getStockForPlatform(selectedPlatform) > 0 &&                    getStockForPlatform(selectedPlatform) <= 20                  "                  >{{ "product.fewLeft" | translate }}</span                >                <span *ngIf="getStockForPlatform(selectedPlatform) === 0">{{                  "product.outOfStock" | translate                }}</span>              </span>            </div>            <!-- Buttons Skeleton -->            <ng-container *ngIf="game?.id === -1">              <div class="w-full h-12 bg-gray-800 rounded animate-pulse"></div>              <div class="w-full h-12 bg-gray-800 rounded animate-pulse"></div>              <div class="w-full h-12 bg-gray-800 rounded animate-pulse"></div>            </ng-container>            <ng-container *ngIf="game && game.id !== -1">              <button                (click)="buyNow()"                [disabled]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.opacity-50]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.cursor-not-allowed]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.from-green-500]="buySuccess()"                [class.to-green-600]="buySuccess()"                [class.hover:from-green-400]="buySuccess()"                [class.hover:to-green-500]="buySuccess()"                class="w-full bg-gradient-to-r bg-cyan-400 hover:bg-cyan-300 hover:to-[#5a5a7a] text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"              >                @if (buySuccess()) {                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.goingToCart" | translate }}                } @else {                  <svg                    *ngIf="!selectedPlatform"                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                    [title]="\'tooltips.platformLocked\' | translate"                  >                    <path                      fill-rule="evenodd"                      d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.buy" | translate }}                }              </button>              <button                (click)="addToCart()"                [disabled]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.opacity-50]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.cursor-not-allowed]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.bg-green-600]="addedToCartSuccess()"                [class.hover:bg-green-500]="addedToCartSuccess()"                [class.bg-yellow-600]="quantityIncreased()"                [class.hover:bg-yellow-500]="quantityIncreased()"                class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"              >                @if (addedToCartSuccess()) {                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.addedToCart" | translate }}                } @else if (quantityIncreased()) {                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.quantityIncreased" | translate }}                } @else {                  {{ "product.addToCart" | translate }}                }              </button>              <button                (click)="addToFavorites()"                [disabled]="!selectedPlatform"                [class.opacity-50]="!selectedPlatform"                [class.cursor-not-allowed]="!selectedPlatform"                [class.bg-green-600]="addedToFavoritesSuccess()"                [class.hover:bg-green-500]="addedToFavoritesSuccess()"                [class.bg-red-600]="alreadyInFavorites()"                [class.hover:bg-red-500]="alreadyInFavorites()"                class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"              >                @if (addedToFavoritesSuccess()) {                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.addedToFavorites" | translate }}                } @else if (alreadyInFavorites()) {                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.alreadyInFavorites" | translate }}                } @else {                  {{ "product.addToFavorites" | translate }}                }              </button>            </ng-container>          </div>        </div>        <div class="bg-gray-900 p-6 rounded-lg">          <div            class="text-sm border border-gray-500 divide-y divide-gray-500 info-list rounded-lg"          >            <div class="grid grid-cols-2 item">              <span                class="text-gray-400 p-4 border-r border-gray-500 rounded-tl-lg"              >                {{ "product.developer" | translate }}              </span>              <span class="text-right text-gray-300 p-4 rounded-tr-lg">                <span *ngIf="game?.id !== -1">{{                  game?.Developer?.name || "N/A"                }}</span>                <div                  *ngIf="game?.id === -1"                  class="h-4 w-20 bg-gray-800 rounded animate-pulse ml-auto"                ></div>              </span>            </div>            <div class="grid grid-cols-2 item">              <span class="text-gray-400 p-4 border-r border-gray-500">                {{ "product.publisher" | translate }}              </span>              <span class="text-right text-gray-300 p-4">                <span *ngIf="game?.id !== -1">{{                  game?.Publisher?.name || "N/A"                }}</span>                <div                  *ngIf="game?.id === -1"                  class="h-4 w-20 bg-gray-800 rounded animate-pulse ml-auto"                ></div>              </span>            </div>            <div class="grid grid-cols-2 item">              <span class="text-gray-400 p-4 border-r border-gray-500">                {{ "product.releaseDate" | translate }}              </span>              <span class="text-right text-gray-300 p-4">                <span *ngIf="game?.id !== -1">{{                  game?.releaseDate                    ? (game?.releaseDate | date: "dd/MM/yyyy")                    : "N/A"                }}</span>                <div                  *ngIf="game?.id === -1"                  class="h-4 w-24 bg-gray-800 rounded animate-pulse ml-auto"                ></div>              </span>            </div>            <div class="grid grid-cols-2 item">              <span                class="text-gray-400 p-4 border-r border-gray-500 rounded-bl-lg"              >                {{ "product.refund" | translate }}              </span>              <span class="text-right text-gray-300 p-4 rounded-br-lg">                <span *ngIf="game?.id !== -1">{{                  game?.isRefundable ? "Si" : "No"                }}</span>                <div                  *ngIf="game?.id === -1"                  class="h-4 w-10 bg-gray-800 rounded animate-pulse ml-auto"                ></div>              </span>            </div>          </div>        </div>      </div>    </div>  </div>  @if (showAuthModal()) {    <div      class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"    >      <div        class="bg-gray-900 rounded-xl max-w-md w-full p-6 shadow-2xl transform transition-all"      >        <h3 class="text-xl font-bold text-white mb-4">          {{ "authGuard.loginRequiredTitle" | translate }}        </h3>        <p class="text-gray-300 mb-8">          {{ "authGuard.loginRequiredMessage" | translate }}        </p>        <div class="flex gap-4 justify-end">          <button            (click)="cancelLogin()"            class="px-6 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg transition-all font-medium border-0 outline-none"          >            {{ "authGuard.cancel" | translate }}          </button>          <button            (click)="confirmLogin()"            class="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg hover:from-cyan-400 hover:to-blue-400 transition-all font-medium border-0 outline-none"          >            {{ "authGuard.login" | translate }}          </button>        </div>      </div>    </div>  }</div></div>'
-    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'}];
-    var DIRECTIVES = [{'name': 'CopyOnClickDirective', 'selector': '[appCopyOnClick]'},{'name': 'HighlightDirective', 'selector': '[appHighlight]'}];
+        var COMPONENT_TEMPLATE = '<div><div class="flex-1 w-full bg-gray-900 text-white font-sans pb-20">  <div [class.product-content-blurred]="isScreenshotModalOpen()">  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">    <div class="mb-6">      <h1        class="text-4xl font-bold text-white mb-2"        [class.animate-pulse]="game?.id === -1"        [class.text-gray-500]="game?.id === -1"      >        {{ game?.id === -1 ? (game?.title | translate) : game?.title }}      </h1>      <div class="flex items-center gap-2 text-sm" *ngIf="game?.id === -1">        <!-- Skeleton Stars -->        <div class="flex gap-1 animate-pulse">          <div            class="w-4 h-4 bg-gray-800 rounded-full"            *ngFor="let i of [1, 2, 3, 4, 5]"          ></div>        </div>        <div class="w-8 h-4 bg-gray-800 rounded animate-pulse"></div>      </div>      <div        class="flex items-center gap-2 text-sm"        *ngIf="game && game.id !== -1"      >        <div class="flex text-white">          <svg            *ngFor="let star of getRatingStars()"            xmlns="http://www.w3.org/2000/svg"            class="h-4 w-4 fill-current"            viewBox="0 0 20 20"            [title]="\'tooltips.rating\' | translate"          >            <path              d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"            />          </svg>          <svg            *ngFor="let star of getEmptyStars()"            xmlns="http://www.w3.org/2000/svg"            class="h-4 w-4 fill-current text-gray-500"            viewBox="0 0 20 20"            [title]="\'tooltips.rating\' | translate"          >            <path              d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"            />          </svg>        </div>        <span class="text-gray-400">{{ game.rating }}</span>      </div>    </div>    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">      <div class="lg:col-span-8 space-y-8">        <div class="relative">          <div            class="aspect-video bg-black rounded-lg overflow-hidden relative group"          >            <!-- Skeleton Main Player -->            <div              *ngIf="game?.id === -1"              class="w-full h-full bg-gray-700 animate-pulse absolute inset-0 z-20 pointer-events-none"            ></div>            <ng-container *ngIf="game && game.id !== -1">              <iframe                *ngIf="mediaItems[currentMediaIndex]?.type === \'video\'"                [src]="mediaItems[currentMediaIndex].url"                class="w-full h-full transition-opacity duration-300"                frameborder="0"                scrolling="no"                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"                allowfullscreen              ></iframe>              <img                *ngIf="mediaItems[currentMediaIndex]?.type === \'image\'"                [src]="mediaItems[currentMediaIndex].url"                [alt]="mediaItems[currentMediaIndex].label"                class="w-full h-full object-contain transition-opacity duration-300"                crossorigin="anonymous"                referrerpolicy="no-referrer"              />            </ng-container>            <button              (click)="previousMedia()"              [disabled]="currentMediaIndex === 0"              [class.opacity-30]="currentMediaIndex === 0"              [class.cursor-not-allowed]="currentMediaIndex === 0"              [class.cursor-pointer]="currentMediaIndex !== 0"              [class.hover:scale-110]="currentMediaIndex !== 0"              [class.active:scale-95]="currentMediaIndex !== 0"              class="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all duration-150 **opacity-0 group-hover:opacity-100** z-50 pointer-events-auto"              [title]="\'tooltips.previousMedia\' | translate"            >              <svg                xmlns="http://www.w3.org/2000/svg"                class="h-8 w-8"                fill="none"                viewBox="0 0 24 24"                stroke="currentColor"                stroke-width="3"              >                <path                  stroke-linecap="round"                  stroke-linejoin="round"                  d="M15 19l-7-7 7-7"                />              </svg>            </button>            <button              (click)="nextMedia()"              [disabled]="currentMediaIndex === mediaItems.length - 1"              [class.opacity-30]="currentMediaIndex === mediaItems.length - 1"              [class.cursor-not-allowed]="                currentMediaIndex === mediaItems.length - 1              "              [class.cursor-pointer]="                currentMediaIndex !== mediaItems.length - 1              "              [class.hover:scale-110]="                currentMediaIndex !== mediaItems.length - 1              "              [class.active:scale-95]="                currentMediaIndex !== mediaItems.length - 1              "              class="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-transparent border-0 outline-none shadow-none transition-all duration-150 **opacity-0 group-hover:opacity-100** z-50 pointer-events-auto"              [title]="\'tooltips.nextMedia\' | translate"            >              <svg                xmlns="http://www.w3.org/2000/svg"                class="h-8 w-8"                fill="none"                viewBox="0 0 24 24"                stroke="currentColor"                stroke-width="3"              >                <path                  stroke-linecap="round"                  stroke-linejoin="round"                  d="M9 5l7 7-7 7"                />              </svg>            </button>          </div>          <div class="flex justify-center gap-2 mt-4">            <div              *ngFor="let media of mediaItems; let i = index"              (click)="selectMedia(i)"              [class.border-cyan-400]="currentMediaIndex === i"              [class.border-4]="currentMediaIndex === i"              [class.scale-105]="currentMediaIndex === i"              [class.scale-90]="currentMediaIndex !== i"              [class.opacity-50]="currentMediaIndex !== i"              class="w-24 h-16 bg-black rounded-lg overflow-hidden border-2 border-gray-700 cursor-pointer hover:border-gray-500 transition-all flex items-center justify-center transform duration-150 relative active:scale-95"            >              <!-- Skeleton -->              <div                *ngIf="game?.id === -1"                class="w-full h-full bg-gray-700 animate-pulse pointer-events-none"              ></div>              <ng-container *ngIf="game && game.id !== -1">                <img                  *ngIf="media.type === \'image\'"                  [src]="media.url"                  [alt]="media.label"                  class="w-full h-full object-cover"                  crossorigin="anonymous"                  referrerpolicy="no-referrer"                />                <div                  *ngIf="media.type === \'video\'"                  class="w-full h-full relative flex items-center justify-center"                >                  <img                    *ngIf="media.thumbnail"                    [src]="media.thumbnail"                    [alt]="media.label"                    class="w-full h-full object-cover opacity-75"                    crossorigin="anonymous"                    referrerpolicy="no-referrer"                  />                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-6 w-6 text-white absolute"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"                      clip-rule="evenodd"                    />                  </svg>                  <span *ngIf="!media.thumbnail" class="text-gray-400 text-xs"                    >▶ {{ media.label }}</span                  >                </div>              </ng-container>            </div>          </div>        </div>        <div class="text-gray-300 space-y-4 leading-relaxed text-sm">          <!-- Description Skeleton -->          <div *ngIf="game?.id === -1" class="space-y-2 animate-pulse">            <div class="h-4 bg-gray-800 rounded w-full"></div>            <div class="h-4 bg-gray-800 rounded w-full"></div>            <div class="h-4 bg-gray-800 rounded w-3/4"></div>          </div>          <!-- Real Description -->          <p            *ngIf="game && game.id !== -1"            class="whitespace-pre-line text-justify"          >            {{ game.description }}          </p>        </div>        <div class="grid grid-cols-2 gap-4">          <div class="aspect-video bg-[#1e1e1e] rounded-lg overflow-hidden">            <!-- Skeleton for Screenshot 1 -->            <div              *ngIf="game?.id === -1"              class="w-full h-full bg-gray-700 animate-pulse pointer-events-none"            ></div>            <img              *ngIf="game && game.id !== -1 && screenshot1"              [src]="screenshot1"              alt="Screenshot 1"              class="w-full h-full object-cover cursor-zoom-in transition-transform duration-200 hover:scale-105"              (click)="openScreenshotModal(screenshot1)"              crossorigin="anonymous"              referrerpolicy="no-referrer"            />            <div              *ngIf="game && game.id !== -1 && !screenshot1"              class="w-full h-full bg-gray-800 flex items-center justify-center text-gray-600"            >              No Screenshot 1            </div>          </div>          <div class="aspect-video bg-[#1e1e1e] rounded-lg overflow-hidden">            <!-- Skeleton for Screenshot 2 -->            <div              *ngIf="game?.id === -1"              class="w-full h-full bg-gray-700 animate-pulse pointer-events-none"            ></div>            <img              *ngIf="game && game.id !== -1 && screenshot2"              [src]="screenshot2"              alt="Screenshot 2"              class="w-full h-full object-cover cursor-zoom-in transition-transform duration-200 hover:scale-105"              (click)="openScreenshotModal(screenshot2)"              crossorigin="anonymous"              referrerpolicy="no-referrer"            />            <div              *ngIf="game && game.id !== -1 && !screenshot2"              class="w-full h-full bg-gray-800 flex items-center justify-center text-gray-600"            >              No Screenshot 2            </div>          </div>        </div>      </div>      <div class="lg:col-span-4 space-y-2">        <div class="bg-gray-900 p-6 rounded-lg -mt-7">          <!-- Price Skeleton -->          <div            *ngIf="game?.id === -1"            class="h-10 w-32 bg-gray-800 rounded animate-pulse mb-6"          ></div>          <!-- Real Price -->          <div *ngIf="game?.id !== -1" class="flex items-baseline gap-3 mb-6">            <span class="text-white text-4xl font-bold">              <span                *ngIf="                  (game?.isOnSale && game?.salePrice !== null                    ? game?.salePrice                    : game?.price) === 0                "              >                {{ "product.free" | translate }}              </span>              <span                *ngIf="                  (game?.isOnSale && game?.salePrice !== null                    ? game?.salePrice                    : game?.price) !== 0                "              >                {{                  (game?.isOnSale && game?.salePrice                    ? game?.salePrice                    : game?.price                  ) | localizedCurrency                }}              </span>            </span>            <span              *ngIf="game?.isOnSale && game?.price && game?.price !== 0"              class="text-gray-500 line-through text-xl"              >{{ game?.price | localizedCurrency }}</span            >          </div>          <div class="mb-6">            <span class="text-gray-400 text-sm mb-3 block">{{              "product.platform" | translate            }}</span>            <!-- Platforms Skeleton -->            <div *ngIf="game?.id === -1" class="grid grid-cols-3 gap-2">              <div                class="h-20 bg-gray-800 rounded-lg animate-pulse"                *ngFor="let i of [1, 2, 3, 4, 5, 6]"              ></div>            </div>            <!-- Real Platforms -->            <div *ngIf="game?.id !== -1" class="grid grid-cols-3 gap-2">              <div                *ngFor="let platform of sortedPlatforms"                (click)="                  isPlatformAvailable(platform.name) &&                    selectPlatform(platform.name)                "                [class.border-cyan-400]="                  selectedPlatform === platform.name &&                  isPlatformAvailable(platform.name)                "                [class.border-4]="                  selectedPlatform === platform.name &&                  isPlatformAvailable(platform.name)                "                [class.scale-105]="                  selectedPlatform === platform.name &&                  isPlatformAvailable(platform.name)                "                [class.opacity-30]="!isPlatformAvailable(platform.name)"                [class.cursor-not-allowed]="!isPlatformAvailable(platform.name)"                [class.cursor-pointer]="isPlatformAvailable(platform.name)"                [style.background-color]="                  selectedPlatform === platform.name &&                  isPlatformAvailable(platform.name)                    ? \'rgb(55, 65, 81)\'                    : \'\'                "                class="bg-gray-800 hover:bg-gray-700 p-3 rounded-lg transition-all border-2 border-gray-700 flex items-center justify-center transform duration-150 active:scale-95"              >                <img                  [src]="platform.image"                  [alt]="platform.name"                  class="w-14 h-14 object-contain"                />              </div>            </div>          </div>          <div class="space-y-3">            <!-- Stock Skeleton -->            <div              *ngIf="game?.id === -1"              class="h-5 w-24 bg-gray-800 rounded animate-pulse mb-6 mx-auto"            ></div>            <div              *ngIf="game && game.id !== -1 && selectedPlatform"              class="flex items-center justify-center gap-2 mb-6"            >              <svg                *ngIf="getStockForPlatform(selectedPlatform) > 20"                xmlns="http://www.w3.org/2000/svg"                class="h-5 w-5 text-green-500"                viewBox="0 0 20 20"                fill="currentColor"              >                <path                  fill-rule="evenodd"                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"                  clip-rule="evenodd"                />              </svg>              <span                [class.text-green-500]="                  getStockForPlatform(selectedPlatform) > 20                "                [class.text-yellow-500]="                  getStockForPlatform(selectedPlatform) > 0 &&                  getStockForPlatform(selectedPlatform) <= 20                "                [class.text-red-500]="                  getStockForPlatform(selectedPlatform) === 0                "                class="text-sm font-bold"              >                <span *ngIf="getStockForPlatform(selectedPlatform) > 20">{{                  "product.inStock" | translate                }}</span>                <span                  *ngIf="                    getStockForPlatform(selectedPlatform) > 0 &&                    getStockForPlatform(selectedPlatform) <= 20                  "                  >{{ "product.fewLeft" | translate }}</span                >                <span *ngIf="getStockForPlatform(selectedPlatform) === 0">{{                  "product.outOfStock" | translate                }}</span>              </span>            </div>            <!-- Buttons Skeleton -->            <ng-container *ngIf="game?.id === -1">              <div class="w-full h-12 bg-gray-800 rounded animate-pulse"></div>              <div class="w-full h-12 bg-gray-800 rounded animate-pulse"></div>              <div class="w-full h-12 bg-gray-800 rounded animate-pulse"></div>            </ng-container>            <ng-container *ngIf="game && game.id !== -1">              <button                (click)="buyNow()"                [disabled]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.opacity-50]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.cursor-not-allowed]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.from-green-500]="buySuccess()"                [class.to-green-600]="buySuccess()"                [class.hover:from-green-400]="buySuccess()"                [class.hover:to-green-500]="buySuccess()"                class="w-full bg-gradient-to-r bg-cyan-400 hover:bg-cyan-300 hover:to-[#5a5a7a] text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"              >                @if (buySuccess()) {                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.goingToCart" | translate }}                } @else {                  <svg                    *ngIf="!selectedPlatform"                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                    [title]="\'tooltips.platformLocked\' | translate"                  >                    <path                      fill-rule="evenodd"                      d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.buy" | translate }}                }              </button>              <button                (click)="addToCart()"                [disabled]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.opacity-50]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.cursor-not-allowed]="                  !selectedPlatform ||                  getStockForPlatform(selectedPlatform) === 0                "                [class.bg-green-600]="addedToCartSuccess()"                [class.hover:bg-green-500]="addedToCartSuccess()"                [class.bg-yellow-600]="quantityIncreased()"                [class.hover:bg-yellow-500]="quantityIncreased()"                class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"              >                @if (addedToCartSuccess()) {                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.addedToCart" | translate }}                } @else if (quantityIncreased()) {                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.quantityIncreased" | translate }}                } @else {                  {{ "product.addToCart" | translate }}                }              </button>              <button                (click)="addToFavorites()"                [disabled]="!selectedPlatform"                [class.opacity-50]="!selectedPlatform"                [class.cursor-not-allowed]="!selectedPlatform"                [class.bg-green-600]="addedToFavoritesSuccess()"                [class.hover:bg-green-500]="addedToFavoritesSuccess()"                [class.bg-red-600]="alreadyInFavorites()"                [class.hover:bg-red-500]="alreadyInFavorites()"                class="w-full bg-gradient-to-r bg-gray-950 hover:bg-gray-900 text-white font-bold py-3 px-4 rounded-md shadow-lg transition-all flex items-center justify-center gap-2 duration-150 active:scale-95 border-none outline-none"              >                @if (addedToFavoritesSuccess()) {                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.addedToFavorites" | translate }}                } @else if (alreadyInFavorites()) {                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"                      clip-rule="evenodd"                    />                  </svg>                  {{ "product.alreadyInFavorites" | translate }}                } @else {                  {{ "product.addToFavorites" | translate }}                }              </button>            </ng-container>          </div>        </div>        <div class="bg-gray-900 p-6 rounded-lg">          <div            class="text-sm border border-gray-500 divide-y divide-gray-500 info-list rounded-lg"          >            <div class="grid grid-cols-2 item">              <span                class="text-gray-400 p-4 border-r border-gray-500 rounded-tl-lg"              >                {{ "product.developer" | translate }}              </span>              <span class="text-right text-gray-300 p-4 rounded-tr-lg">                <span *ngIf="game?.id !== -1">{{                  game?.Developer?.name || "N/A"                }}</span>                <div                  *ngIf="game?.id === -1"                  class="h-4 w-20 bg-gray-800 rounded animate-pulse ml-auto"                ></div>              </span>            </div>            <div class="grid grid-cols-2 item">              <span class="text-gray-400 p-4 border-r border-gray-500">                {{ "product.publisher" | translate }}              </span>              <span class="text-right text-gray-300 p-4">                <span *ngIf="game?.id !== -1">{{                  game?.Publisher?.name || "N/A"                }}</span>                <div                  *ngIf="game?.id === -1"                  class="h-4 w-20 bg-gray-800 rounded animate-pulse ml-auto"                ></div>              </span>            </div>            <div class="grid grid-cols-2 item">              <span class="text-gray-400 p-4 border-r border-gray-500">                {{ "product.releaseDate" | translate }}              </span>              <span class="text-right text-gray-300 p-4">                <span *ngIf="game?.id !== -1">{{                  game?.releaseDate                    ? (game?.releaseDate | date: "dd/MM/yyyy")                    : "N/A"                }}</span>                <div                  *ngIf="game?.id === -1"                  class="h-4 w-24 bg-gray-800 rounded animate-pulse ml-auto"                ></div>              </span>            </div>            <div class="grid grid-cols-2 item">              <span                class="text-gray-400 p-4 border-r border-gray-500 rounded-bl-lg"              >                {{ "product.refund" | translate }}              </span>              <span class="text-right text-gray-300 p-4 rounded-br-lg">                <span *ngIf="game?.id !== -1">{{                  game?.isRefundable ? "Si" : "No"                }}</span>                <div                  *ngIf="game?.id === -1"                  class="h-4 w-10 bg-gray-800 rounded animate-pulse ml-auto"                ></div>              </span>            </div>          </div>        </div>      </div>    </div>    <section      class="mt-6 pt-2 border-t border-white/10"      *ngIf="loadingRecommendations || recommendationSections.length > 0"    >      <div class="product-similar-carousel-scale space-y-6">        <app-carousel          *ngIf="loadingRecommendations"          [title]="\'product.similarGames\'"          [items]="recommendationSkeletonSections[0].items"          sectionId="similar-games-skeleton"        ></app-carousel>        <app-carousel          *ngIf="loadingRecommendations"          [title]="\'product.sameStudioGames\'"          [items]="recommendationSkeletonSections[1].items"          sectionId="same-studio-games-skeleton"        ></app-carousel>        <app-carousel          *ngIf="loadingRecommendations"          [title]="\'product.relatedGenres\'"          [items]="recommendationSkeletonSections[2].items"          sectionId="related-genres-games-skeleton"        ></app-carousel>        <app-carousel          *ngIf="loadingRecommendations"          [title]="\'product.topOnPlatforms\'"          [items]="recommendationSkeletonSections[3].items"          sectionId="top-platform-games-skeleton"        ></app-carousel>        <ng-container *ngIf="!loadingRecommendations">          <app-carousel            *ngFor="let section of recommendationSections; let i = index"            [class.hidden]="i === recommendationSections.length - 1"            [class.md:block]="i === recommendationSections.length - 1"            [title]="section.titleKey"            [items]="section.items"            [sectionId]="section.sectionId"            (itemClick)="goToProduct($event)"          ></app-carousel>        </ng-container>      </div>    </section>  </div>  </div>  @if (isScreenshotModalOpen() && screenshotModalImage()) {    <div      class="fixed inset-x-0 top-16 bottom-0 bg-black/70 backdrop-blur-sm z-[1200] flex items-center justify-center p-4 md:p-6"      (click)="closeScreenshotModal()"    >      <div        class="relative max-w-4xl max-h-full w-full flex items-center justify-center screenshot-modal-enter"        (click)="$event.stopPropagation()"      >        <button          class="absolute -top-3 -right-3 md:top-3 md:right-3 w-10 h-10 rounded-full bg-black/70 hover:bg-black/85 text-white border-none outline-none cursor-pointer flex items-center justify-center transition-colors z-10"          (click)="closeScreenshotModal()"          aria-label="Close screenshot preview"        >          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">            <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M18 6L6 18" />          </svg>        </button>        <img          [src]="screenshotModalImage()!"          alt="Screenshot preview"          class="max-w-full max-h-[calc(100vh-11rem)] object-contain rounded-lg shadow-2xl"          crossorigin="anonymous"          referrerpolicy="no-referrer"        />      </div>    </div>  }  @if (showAuthModal()) {    <div      class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"    >      <div        class="bg-gray-900 rounded-xl max-w-md w-full p-6 shadow-2xl transform transition-all"      >        <h3 class="text-xl font-bold text-white mb-4">          {{ "authGuard.loginRequiredTitle" | translate }}        </h3>        <p class="text-gray-300 mb-8">          {{ "authGuard.loginRequiredMessage" | translate }}        </p>        <div class="flex gap-4 justify-end">          <button            (click)="cancelLogin()"            class="px-6 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg transition-all font-medium border-0 outline-none"          >            {{ "authGuard.cancel" | translate }}          </button>          <button            (click)="confirmLogin()"            class="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg hover:from-cyan-400 hover:to-blue-400 transition-all font-medium border-0 outline-none"          >            {{ "authGuard.login" | translate }}          </button>        </div>      </div>    </div>  }  <app-stripe-modal    [open]="checkoutModalOpen()"    [titleKey]="\'product.buy\'"    [directCheckoutPayload]="directCheckoutPayload()"    (closed)="closeCheckoutModal()"    (completed)="onCheckoutCompleted()"  ></app-stripe-modal></div></div>'
+    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'StripeModalComponent', 'selector': 'app-stripe-modal'}];
+    var DIRECTIVES = [{'name': 'CopyOnClickDirective', 'selector': '[appCopyOnClick]'},{'name': 'HighlightDirective', 'selector': '[appHighlight]'},{'name': 'Tilt3DDirective', 'selector': '[appTilt3D]'}];
     var ACTUAL_COMPONENT = {'name': 'ProductComponent'};
 </script>
 <script src="../js/tree.js"></script>

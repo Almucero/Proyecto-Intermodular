@@ -93,7 +93,7 @@
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
-               <div class="content component">
+               <div class="content pipe">
                    <div class="content-data">
 
 
@@ -103,191 +103,220 @@
 
 
 
+
+
+
+
+
+
+
 <ol class="breadcrumb">
-  <li class="breadcrumb-item">Components</li>
-  <li class="breadcrumb-item"
-  >
-  HelpComponent</li>
+  <li class="breadcrumb-item">Pipes</li>
+  <li class="breadcrumb-item" >LocalizedCurrencyPipe</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item">
-            <a href="#info" class="nav-link active"
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
                 role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
         <li class="nav-item">
-            <a href="#source" class="nav-link"
+            <a href="#source" 
+                class="nav-link"
+                
                 role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
-        </li>
-        <li class="nav-item">
-            <a href="#templateData" class="nav-link"
-                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
-        </li>
-        <li class="nav-item">
-            <a href="#tree" class="nav-link"
-                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="info"><p class="comment">
-    <h3>File</h3>
-</p>
-<p class="comment">
-    <code>src/app/pages/help/help.component.ts</code>
-</p>
+    <div class="tab-pane fade active in" id="info">
 
-
-    <p class="comment">
-        <h3>Description</h3>
-    </p>
-    <p class="comment">
-        <p>Componente de la página de Ayuda / FAQ.
-Resuelve dudas comunes y guía al usuario en el uso de la plataforma.</p>
-
-    </p>
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/shared/pipes/localized-currency.pipe.ts</code>
+        </p>
 
 
 
 
-<section data-compodoc="block-metadata">
-    <h3>Metadata</h3>
-    <table class="table table-sm table-hover metadata">
+        <section data-compodoc="block-metadata">
+            <h3>Metadata</h3>
+            <table class="table table-sm table-hover metadata">
+                <tbody>
+                    <tr>
+                        <td class="col-md-3">Name</td>
+                        <td class="col-md-9">localizedCurrency</td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-3">Standalone</td>
+                        <td class="col-md-9"><code>true</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
         <tbody>
-
-
-
-
-
-
-
-
-
-
-
-
             <tr>
-                <td class="col-md-3">selector</td>
-                <td class="col-md-9"><code>app-help</code></td>
+                <td class="col-md-4">
+                    <a name="transform"></a>
+                    <span class="name">
+                        <span ><b>transform</b></span>
+                        <a href="#transform"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
             </tr>
-
             <tr>
-                <td class="col-md-3">standalone</td>
-                <td class="col-md-9"><code>true</code></td>
-            </tr>
-
-            <tr>
-                <td class="col-md-3">imports</td>
-                <td class="col-md-9">
-                                <code><a href="https://angular.io/api/common/CommonModule" target="_blank" >CommonModule</a></code>
-                            <code>TranslateModule</code>
+                <td class="col-md-4">
+<code>transform(value: number | string | null | undefined, display: "symbol" | "code" | "none", digitsInfo: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="12"
+                                    class="link-to-prism">src/app/shared/pipes/localized-currency.pipe.ts:12</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
-                <td class="col-md-3">templateUrl</td>
-                <td class="col-md-9"><code>./help.component.html</code></td>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>value</td>
+                                            <td>
+                                                        <code>number | string | null | undefined</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>display</td>
+                                            <td>
+                                                        <code>&quot;symbol&quot; | &quot;code&quot; | &quot;none&quot;</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&#x27;symbol&#x27;</code>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>digitsInfo</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&#x27;1.2-2&#x27;</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
             </tr>
-
-
-
-            <tr>
-                <td class="col-md-3">styleUrl</td>
-                <td class="col-md-9"><code>./help.component.scss</code></td>
-            </tr>
-
-
-
-
-
         </tbody>
     </table>
 </section>
 
-
-
-
-
-
-
-
-
-</div>
+    </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component } from &#x27;@angular/core&#x27;;
-import { CommonModule } from &#x27;@angular/common&#x27;;
-import { TranslateModule } from &#x27;@ngx-translate/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Pipe, PipeTransform } from &#x27;@angular/core&#x27;;
+import { CurrencyService } from &#x27;../../core/services/currency.service&#x27;;
 
-/**
- * Componente de la página de Ayuda / FAQ.
- * Resuelve dudas comunes y guía al usuario en el uso de la plataforma.
- */
-@Component({
-  selector: &#x27;app-help&#x27;,
+@Pipe({
+  name: &#x27;localizedCurrency&#x27;,
   standalone: true,
-  imports: [CommonModule, TranslateModule],
-  templateUrl: &#x27;./help.component.html&#x27;,
-  styleUrl: &#x27;./help.component.scss&#x27;,
+  pure: false,
 })
-export class HelpComponent {}
+export class LocalizedCurrencyPipe implements PipeTransform {
+  constructor(private currencyService: CurrencyService) {}
+
+  transform(
+    value: number | string | null | undefined,
+    display: &#x27;symbol&#x27; | &#x27;code&#x27; | &#x27;none&#x27; &#x3D; &#x27;symbol&#x27;,
+    digitsInfo &#x3D; &#x27;1.2-2&#x27;,
+  ): string {
+    if (value &#x3D;&#x3D;&#x3D; null || value &#x3D;&#x3D;&#x3D; undefined || value &#x3D;&#x3D;&#x3D; &#x27;&#x27;) return &#x27;&#x27;;
+    const numeric &#x3D; Number(value);
+    if (!Number.isFinite(numeric)) return &#x27;&#x27;;
+
+    const converted &#x3D; this.currencyService.convertFromEur(numeric);
+    const locale &#x3D; this.currencyService.getLocaleCode();
+    const currency &#x3D; this.currencyService.getCurrencyCode();
+    if (display &#x3D;&#x3D;&#x3D; &#x27;none&#x27;) {
+      const [minFraction &#x3D; &#x27;2&#x27;, maxFraction &#x3D; &#x27;2&#x27;] &#x3D;
+        digitsInfo.split(&#x27;.&#x27;)[1]?.split(&#x27;-&#x27;) ?? [];
+      return new Intl.NumberFormat(locale, {
+        minimumFractionDigits: Number(minFraction),
+        maximumFractionDigits: Number(maxFraction),
+      }).format(converted);
+    }
+
+    const [minFraction &#x3D; &#x27;2&#x27;, maxFraction &#x3D; &#x27;2&#x27;] &#x3D;
+      digitsInfo.split(&#x27;.&#x27;)[1]?.split(&#x27;-&#x27;) ?? [];
+    return new Intl.NumberFormat(locale, {
+      style: &#x27;currency&#x27;,
+      currency,
+      currencyDisplay: display &#x3D;&#x3D;&#x3D; &#x27;code&#x27; ? &#x27;code&#x27; : &#x27;symbol&#x27;,
+      minimumFractionDigits: Number(minFraction),
+      maximumFractionDigits: Number(maxFraction),
+    }).format(converted);
+  }
+}
 </code></pre>
     </div>
 
-    <div class="tab-pane fade " id="templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;flex-1 w-full bg-gray-900 text-white font-sans&quot;&gt;
-  &lt;div class&#x3D;&quot;max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6&quot;&gt;
-    &lt;h2 class&#x3D;&quot;text-2xl font-bold text-cyan-300 mb-6 text-center&quot;&gt;
-      {{ &quot;help.title&quot; | translate }}
-    &lt;/h2&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
-    </div>
-
-
-    <div class="tab-pane fade " id="tree">
-        <div id="tree-container"></div>
-        <div class="tree-legend">
-            <div class="title">
-                <b>Legend</b>
-            </div>
-            <div>
-                <div class="color htmlelement"></div><span>Html element</span>
-            </div>
-            <div>
-                <div class="color component"></div><span>Component</span>
-            </div>
-            <div>
-                <div class="color directive"></div><span>Html element with directive</span>
-            </div>
-        </div>
-    </div>
-
-    
 </div>
-
-<script src="../js/libs/vis-network.min.js"></script>
-<script src="../js/libs/htmlparser.js"></script>
-<script src="../js/libs/deep-iterator.js"></script>
-<script>
-        var COMPONENT_TEMPLATE = '<div><div class="flex-1 w-full bg-gray-900 text-white font-sans">  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">    <h2 class="text-2xl font-bold text-cyan-300 mb-6 text-center">      {{ "help.title" | translate }}    </h2>  </div></div></div>'
-    var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'StripeModalComponent', 'selector': 'app-stripe-modal'}];
-    var DIRECTIVES = [{'name': 'CopyOnClickDirective', 'selector': '[appCopyOnClick]'},{'name': 'HighlightDirective', 'selector': '[appHighlight]'},{'name': 'Tilt3DDirective', 'selector': '[appTilt3D]'}];
-    var ACTUAL_COMPONENT = {'name': 'HelpComponent'};
-</script>
-<script src="../js/tree.js"></script>
-
-
-
-
-
-
-
 
 
 
@@ -323,8 +352,8 @@ export class HelpComponent {}
 
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
-            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
-            var COMPODOC_CURRENT_PAGE_URL = 'HelpComponent.html';
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'pipe';
+            var COMPODOC_CURRENT_PAGE_URL = 'LocalizedCurrencyPipe.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

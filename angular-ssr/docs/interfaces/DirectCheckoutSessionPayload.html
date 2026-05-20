@@ -116,7 +116,7 @@
   <li class="breadcrumb-item">Interfaces</li>
   <li class="breadcrumb-item"
   >
-  GameResult</li>
+  DirectCheckoutSessionPayload</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -140,17 +140,10 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/core/models/chat.model.ts</code>
+            <code>src/app/core/services/impl/cart-item.service.ts</code>
         </p>
 
 
-            <p class="comment">
-                <h3>Description</h3>
-            </p>
-            <p class="comment">
-                <p>Estructura simplificada de un juego devuelto por el motor de recomendaciones.</p>
-
-            </p>
 
 
         <section data-compodoc="block-index">
@@ -166,33 +159,22 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#genres" 
+                                        <a href="#gameId" 
 >
-                                            genres
+                                            gameId
                                         </a>
                                 </li>
                                 <li>
-                                        <a href="#id" 
+                                            <span class="modifier">Optional</span>
+                                        <a href="#locale" 
 >
-                                            id
+                                            locale
                                         </a>
                                 </li>
                                 <li>
-                                        <a href="#platforms" 
+                                        <a href="#platformId" 
 >
-                                            platforms
-                                        </a>
-                                </li>
-                                <li>
-                                        <a href="#price" 
->
-                                            price
-                                        </a>
-                                </li>
-                                <li>
-                                        <a href="#title" 
->
-                                            title
+                                            platformId
                                         </a>
                                 </li>
                             </ul>
@@ -210,9 +192,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="genres"></a>
-                                        <span class="name "><b>genres</b>
-                                            <a href="#genres">
+                                        <a name="gameId"></a>
+                                        <span class="name "><b>gameId</b>
+                                            <a href="#gameId">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -220,46 +202,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>genres:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                                        </td>
-                                    </tr>
-
-
-
-
-
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-description"><p>Lista de géneros como cadena de texto.</p>
-</div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="id"></a>
-                                        <span class="name "><b>id</b>
-                                            <a href="#id">
-                                                <span class="icon ion-ios-link"></span>
-                                            </a>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>id:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                        <code>gameId:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -276,21 +219,15 @@
 
 
 
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-description"><p>ID del juego en la base de datos.</p>
-</div>
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="platforms"></a>
-                                        <span class="name "><b>platforms</b>
-                                            <a href="#platforms">
+                                        <a name="locale"></a>
+                                        <span class="name "><b>locale</b>
+                                            <a href="#locale">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -298,7 +235,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>platforms:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                        <code>locale:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -311,25 +248,24 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
 
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-description"><p>Lista de plataformas como cadena de texto.</p>
-</div>
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="price"></a>
-                                        <span class="name "><b>price</b>
-                                            <a href="#price">
+                                        <a name="platformId"></a>
+                                        <span class="name "><b>platformId</b>
+                                            <a href="#platformId">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -337,7 +273,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>price:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                        <code>platformId:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -345,7 +281,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
 
                                         </td>
                                     </tr>
@@ -354,51 +290,6 @@
 
 
 
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-description"><p>Precio formateado.</p>
-</div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="title"></a>
-                                        <span class="name "><b>title</b>
-                                            <a href="#title">
-                                                <span class="icon ion-ios-link"></span>
-                                            </a>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>title:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                                        </td>
-                                    </tr>
-
-
-
-
-
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-description"><p>Título del juego.</p>
-</div>
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
             </section>
@@ -406,78 +297,233 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Model } from &#x27;./base.model&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable, PLATFORM_ID } from &#x27;@angular/core&#x27;;
+import { isPlatformBrowser } from &#x27;@angular/common&#x27;;
+import { HttpClient } from &#x27;@angular/common/http&#x27;;
+import { Observable, BehaviorSubject, tap } from &#x27;rxjs&#x27;;
+import {
+  CART_ITEM_REPOSITORY_TOKEN,
+  API_URL_TOKEN,
+  CART_ITEM_RESOURCE_NAME_TOKEN,
+} from &#x27;../../repositories/repository.tokens&#x27;;
+import { IBaseRepository } from &#x27;../../repositories/interfaces/base-repository.interface&#x27;;
+import { CartItem } from &#x27;../../models/cart-item.model&#x27;;
+import { BaseService } from &#x27;./base-service.service&#x27;;
+import { BaseAuthenticationService } from &#x27;./base-authentication.service&#x27;;
+import { ICartItemService } from &#x27;../interfaces/cart-item-service.interface&#x27;;
 
-/**
- * Representa un mensaje individual dentro de una sesión de chat.
- */
-export interface ChatMessage {
-  /** Identificador único del mensaje. */
-  id?: number;
-  /** Rol del emisor: usuario o asistente IA. */
-  role: &#x27;user&#x27; | &#x27;assistant&#x27;;
-  /** Contenido de texto del mensaje (soporta Markdown). */
-  content: string;
-  /** Fecha de creación del mensaje. */
-  createdAt?: string;
-  /** Juegos recomendados o mencionados en este mensaje. */
-  games?: GameResult[];
+export interface CheckoutSessionResponse {
+  clientSecret: string;
+  sessionId: string;
+  publishableKey: string;
+}
+
+export interface DirectCheckoutSessionPayload {
+  gameId: number;
+  platformId: number;
+  locale?: string;
 }
 
 /**
- * Representa una sesión de conversación histórica entre el usuario y la IA.
+ * Servicio para la gestión de los artículos del carrito de compras.
+ * Maneja la persistencia en el servidor y sincroniza el estado local (localStorage y BehaviorSubject).
  */
-export interface ChatSession extends Model {
-  /** ID del usuario propietario de la sesión. */
-  userId?: number;
-  /** Título autogenerado o asignado a la conversación. */
-  title?: string;
-  /** Fecha de inicio de la sesión. */
-  createdAt?: string;
-  /** Fecha de la última actividad. */
-  updatedAt?: string;
-  /** Historial completo de mensajes. */
-  messages?: ChatMessage[];
-  /** Metadatos adicionales como el conteo de mensajes. */
-  _count?: { messages: number };
-}
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
+export class CartItemService
+  extends BaseService&lt;CartItem&gt;
+  implements ICartItemService
+{
+  private isBrowser: boolean;
+  /** Observable con el número actual de artículos en el carrito. */
+  public cartCount$ &#x3D; new BehaviorSubject&lt;number&gt;(this.getInitialCount());
 
-/**
- * Estructura simplificada de un juego devuelto por el motor de recomendaciones.
- */
-export interface GameResult {
-  /** ID del juego en la base de datos. */
-  id: number;
-  /** Título del juego. */
-  title: string;
-  /** Precio formateado. */
-  price: string;
-  /** Lista de géneros como cadena de texto. */
-  genres: string;
-  /** Lista de plataformas como cadena de texto. */
-  platforms: string;
-}
+  /**
+   * @param repository Repositorio de base para artículos del carrito.
+   * @param http Cliente HTTP para peticiones personalizadas.
+   * @param apiUrl URL base de la API.
+   * @param resource Nombre del recurso en la API.
+   * @param auth Servicio de autenticación para obtener el token.
+   * @param platformId ID de la plataforma (Browser/Server).
+   */
+  constructor(
+    @Inject(CART_ITEM_REPOSITORY_TOKEN) repository: IBaseRepository&lt;CartItem&gt;,
+    private http: HttpClient,
+    @Inject(API_URL_TOKEN) private apiUrl: string,
+    @Inject(CART_ITEM_RESOURCE_NAME_TOKEN) private resource: string,
+    private auth: BaseAuthenticationService,
+    @Inject(PLATFORM_ID) private platformId: Object,
+  ) {
+    super(repository);
+    this.isBrowser &#x3D; isPlatformBrowser(this.platformId);
+    this.auth.authenticated$.subscribe((isAuth) &#x3D;&gt; {
+      if (isAuth) {
+        this.refreshCount();
+      } else {
+        this.cartCount$.next(0);
+        if (this.isBrowser) {
+          localStorage.setItem(&#x27;cartCount&#x27;, &#x27;0&#x27;);
+        }
+      }
+    });
+  }
 
-/**
- * Respuesta devuelta por la API de Chat IA.
- */
-export interface ChatResponse {
-  /** ID de la sesión (puede ser nueva o existente). */
-  sessionId: number;
-  /** Texto de respuesta generado por la IA. */
-  text: string;
-  /** Lista de objetos de juegos detectados en la recomendación. */
-  games: GameResult[];
-}
+  /**
+   * Obtiene la cuenta inicial del carrito desde localStorage.
+   * @returns El número de artículos guardado o 0.
+   */
+  private getInitialCount(): number {
+    if (typeof localStorage &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) {
+      return 0;
+    }
+    return parseInt(localStorage.getItem(&#x27;cartCount&#x27;) || &#x27;0&#x27;, 10);
+  }
 
-/**
- * Datos necesarios para enviar un nuevo mensaje al chat.
- */
-export interface SendMessagePayload {
-  /** Texto enviado por el usuario. */
-  message: string;
-  /** ID de la sesión existente. Si es nulo, se creará una nueva. */
-  sessionId?: number;
+  /**
+   * Actualiza el estado local y el almacenamiento persistente del navegador.
+   * @param count Nueva cuenta de artículos.
+   */
+  private updateLocalState(count: number) {
+    this.cartCount$.next(count);
+    if (this.isBrowser) {
+      localStorage.setItem(&#x27;cartCount&#x27;, count.toString());
+    }
+  }
+
+  /**
+   * Sincroniza la cuenta del carrito con los datos reales del servidor.
+   */
+  refreshCount() {
+    this.getAll().subscribe({
+      next: (items) &#x3D;&gt; this.updateLocalState(items.length),
+      error: () &#x3D;&gt; this.updateLocalState(0),
+    });
+  }
+
+  /**
+   * Genera las cabeceras de autorización con el token JWT.
+   * @returns Cabeceras HTTP con Authorization Bearer.
+   */
+  private getAuthHeaders(): any {
+    const headers: any &#x3D; {};
+    const token &#x3D; this.auth.getToken();
+    if (token) headers[&#x27;Authorization&#x27;] &#x3D; &#x60;Bearer ${token}&#x60;;
+    return headers;
+  }
+
+  /**
+   * Añade un artículo al carrito en el servidor y actualiza el estado local.
+   * @param entity Artículo a añadir.
+   * @returns Observable con el artículo creado.
+   */
+  override add(entity: CartItem): Observable&lt;CartItem&gt; {
+    return this.http
+      .post&lt;CartItem&gt;(
+        &#x60;${this.apiUrl}/${this.resource}&#x60;,
+        {
+          gameId: entity.gameId,
+          platformId: entity.platformId,
+          quantity: entity.quantity,
+        },
+        { headers: this.getAuthHeaders() },
+      )
+      .pipe(
+        tap(() &#x3D;&gt; {
+          this.updateLocalState(this.cartCount$.value + 1);
+          this.refreshCount();
+        }),
+      );
+  }
+
+  /**
+   * Elimina un artículo del carrito filtrando por juego y plataforma.
+   * @param gameId ID del juego.
+   * @param platformId ID de la plataforma.
+   * @returns Observable con la respuesta de eliminación.
+   */
+  deleteWithPlatform(gameId: number, platformId: number): Observable&lt;any&gt; {
+    return this.http
+      .delete&lt;any&gt;(
+        &#x60;${this.apiUrl}/${this.resource}/${gameId}?platformId&#x3D;${platformId}&#x60;,
+        { headers: this.getAuthHeaders() },
+      )
+      .pipe(
+        tap(() &#x3D;&gt; {
+          this.updateLocalState(Math.max(0, this.cartCount$.value - 1));
+          this.refreshCount();
+        }),
+      );
+  }
+
+  /**
+   * Actualiza la cantidad de un artículo existente en el carrito.
+   * @param gameId ID del juego.
+   * @param platformId ID de la plataforma.
+   * @param quantity Nueva cantidad deseada.
+   * @returns Observable con el artículo actualizado.
+   */
+  updateWithPlatform(
+    gameId: number,
+    platformId: number,
+    quantity: number,
+  ): Observable&lt;CartItem&gt; {
+    return this.http
+      .patch&lt;CartItem&gt;(
+        &#x60;${this.apiUrl}/${this.resource}/${gameId}&#x60;,
+        { platformId, quantity },
+        { headers: this.getAuthHeaders() },
+      )
+      .pipe(tap(() &#x3D;&gt; this.refreshCount()));
+  }
+
+  createCheckoutSession(locale?: string): Observable&lt;CheckoutSessionResponse&gt; {
+    return this.http.post&lt;CheckoutSessionResponse&gt;(
+      &#x60;${this.apiUrl}/${this.resource}/checkout-session&#x60;,
+      locale ? { locale } : {},
+      { headers: this.getAuthHeaders() },
+    );
+  }
+
+  createDirectCheckoutSession(
+    payload: DirectCheckoutSessionPayload,
+  ): Observable&lt;CheckoutSessionResponse&gt; {
+    return this.http.post&lt;CheckoutSessionResponse&gt;(
+      &#x60;${this.apiUrl}/${this.resource}/direct-checkout-session&#x60;,
+      payload,
+      { headers: this.getAuthHeaders() },
+    );
+  }
+
+  confirmCheckoutSession(sessionId: string): Observable&lt;any&gt; {
+    return this.http.post(
+      &#x60;${this.apiUrl}/${this.resource}/checkout/confirm&#x60;,
+      { sessionId },
+      { headers: this.getAuthHeaders() },
+    );
+  }
+
+  confirmDirectCheckoutSession(sessionId: string): Observable&lt;any&gt; {
+    return this.http.post(
+      &#x60;${this.apiUrl}/${this.resource}/direct-checkout/confirm&#x60;,
+      { sessionId },
+      { headers: this.getAuthHeaders() },
+    );
+  }
+
+  /**
+   * Elimina un artículo por su ID interno de base de datos.
+   * @param id Identificador único del registro CartItem.
+   * @returns Observable con la entidad eliminada.
+   */
+  override delete(id: string): Observable&lt;CartItem&gt; {
+    return super.delete(id).pipe(
+      tap(() &#x3D;&gt; {
+        this.updateLocalState(Math.max(0, this.cartCount$.value - 1));
+        this.refreshCount();
+      }),
+    );
+  }
 }
 </code></pre>
     </div>
@@ -516,7 +562,7 @@ export interface SendMessagePayload {
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
-            var COMPODOC_CURRENT_PAGE_URL = 'GameResult.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'DirectCheckoutSessionPayload.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 
