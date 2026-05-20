@@ -41,9 +41,9 @@
           formLogin.controls["email"].hasError("required")) ||
           (submitted && formLogin.controls["email"].errors)
           ) {
-          <span class="text-red-500 mt-3 mix-blend-color-dodge">
+          <div [@errorMessage] class="text-red-500 mt-3 block mix-blend-color-dodge">
             {{ getError("email") | translate }}
-          </span>
+          </div>
           }
         </div>
         <div class="mb-3">
@@ -95,23 +95,23 @@
           formLogin.controls["password"].hasError("required")) ||
           (submitted && formLogin.controls["password"].errors)
           ) {
-          <span class="text-red-500 mt-3 mix-blend-color-dodge">
+          <div [@errorMessage] class="text-red-500 mt-3 block mix-blend-color-dodge">
             {{ getError("password") | translate }}
-          </span>
+          </div>
           }
         </div>
         @if (loginError) {
-        <div class="mb-3 text-red-500 text-center mix-blend-color-dodge">
+        <div [@errorMessage] class="mb-3 text-red-500 text-center block mix-blend-color-dodge">
           {{ loginError }}
         </div>
         }
         @if (googleError) {
-        <div class="mb-3 text-red-500 text-center mix-blend-color-dodge">
+        <div [@errorMessage] class="mb-3 text-red-500 text-center block mix-blend-color-dodge">
           {{ googleError }}
         </div>
         }
         @if (githubError) {
-        <div class="mb-3 text-red-500 text-center mix-blend-color-dodge">
+        <div [@errorMessage] class="mb-3 text-red-500 text-center block mix-blend-color-dodge">
           {{ githubError }}
         </div>
         }

@@ -90,6 +90,21 @@
   overflow: hidden;
   position: relative;
   text-align: center;
+
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0px,
+    black 16px,
+    black calc(100% - 16px),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0px,
+    black 16px,
+    black calc(100% - 16px),
+    transparent 100%
+  );
 }
 
 .long-text-animate {
@@ -236,8 +251,24 @@
 }
 
 @media (max-width: 768px) {
+  :host {
+    margin-top: 0 !important;
+  }
+
+  .home-container {
+    padding-bottom: 0.5rem !important;
+  }
+
+  .content-wrapper {
+    margin-top: 0 !important;
+    padding-top: 0.625rem !important;
+    padding-bottom: 0 !important;
+    transform: none !important;
+    justify-content: flex-start !important;
+  }
+
   .contenedor-imagenes {
-    height: 35vh !important;
+    display: none !important;
   }
 
   .mobile-title {
@@ -255,11 +286,15 @@
   }
 
   .genres-section {
-    margin-bottom: 0.5rem !important;
+    margin-bottom: 0.625rem !important;
   }
 
-  .genres-section > div {
-    padding-bottom: 0 !important;
+  ::ng-deep app-carousel section {
+    margin-top: 1rem !important;
+  }
+
+  ::ng-deep app-carousel:first-of-type section {
+    margin-top: 0 !important;
   }
 
   .mobile-divider {
@@ -319,17 +354,23 @@
   scrollbar-color: rgba(34, 211, 238, 0.2) transparent;
 
   /* Efecto de difuminado dinámico */
-  mask-image: linear-gradient(to bottom,
-      rgba(0, 0, 0, var(--scroll-top-mask, 1)) 0%,
-      black var(--scroll-top-mask-stop, 0px),
-      black var(--scroll-bottom-mask-stop, 100%),
-      rgba(0, 0, 0, var(--scroll-bottom-mask, 1)) 100%);
-  -webkit-mask-image: linear-gradient(to bottom,
-      rgba(0, 0, 0, var(--scroll-top-mask, 1)) 0%,
-      black var(--scroll-top-mask-stop, 0px),
-      black var(--scroll-bottom-mask-stop, 100%),
-      rgba(0, 0, 0, var(--scroll-bottom-mask, 1)) 100%);
-  transition: mask-image 0.2s ease, -webkit-mask-image 0.2s ease;
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, var(--scroll-top-mask, 1)) 0%,
+    black var(--scroll-top-mask-stop, 0px),
+    black var(--scroll-bottom-mask-stop, 100%),
+    rgba(0, 0, 0, var(--scroll-bottom-mask, 1)) 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, var(--scroll-top-mask, 1)) 0%,
+    black var(--scroll-top-mask-stop, 0px),
+    black var(--scroll-bottom-mask-stop, 100%),
+    rgba(0, 0, 0, var(--scroll-bottom-mask, 1)) 100%
+  );
+  transition:
+    mask-image 0.2s ease,
+    -webkit-mask-image 0.2s ease;
 
   &::-webkit-scrollbar {
     width: 8px; /* Ancho total mayor para poder separarlo del borde derecho */

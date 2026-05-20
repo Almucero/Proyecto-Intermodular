@@ -14,6 +14,9 @@ header.menu-active,
 header.search-active:not(.search-page) {
   box-shadow: none !important;
 }
+header.chat-sidebar-active {
+  box-shadow: none !important;
+}
 
 header.search-page:not(.menu-active) {
   .search-wrapper:focus-within ~ .header-overlay,
@@ -49,25 +52,31 @@ header.search-page:not(.menu-active) {
   opacity: 1;
 }
 
-.search-wrapper>a {
+.search-wrapper > a {
   max-width: 140px;
   opacity: 1;
   margin-right: 0.5rem;
   overflow: hidden;
   white-space: nowrap;
-  transition: max-width 0.5s ease-out, opacity 0.2s ease, margin 0.5s ease-out,
+  transition:
+    max-width 0.5s ease-out,
+    opacity 0.2s ease,
+    margin 0.5s ease-out,
     padding 0.5s ease-out;
 }
 
-header.search-active .search-wrapper>a,
-header.search-page .search-wrapper>a {
+header.search-active .search-wrapper > a,
+header.search-page .search-wrapper > a {
   max-width: 0;
   opacity: 0;
   margin-right: 0;
   padding-left: 0;
   padding-right: 0;
   pointer-events: none;
-  transition: opacity 0s linear, max-width 0.5s ease-out, margin 0.5s ease-out,
+  transition:
+    opacity 0s linear,
+    max-width 0.5s ease-out,
+    margin 0.5s ease-out,
     padding 0.5s ease-out;
 }
 
@@ -123,7 +132,7 @@ header.search-page .search-wrapper {
   backdrop-filter: blur(2px);
 }
 
-.search-wrapper:focus-within~.header-overlay,
+.search-wrapper:focus-within ~ .header-overlay,
 header.search-active .header-overlay,
 header.menu-active .header-overlay {
   opacity: 1 !important;
@@ -180,18 +189,20 @@ app-language-selector {
 
 .logo-glitch {
   &:hover {
-
     img,
     span {
       animation: glitch-hover 2s infinite;
     }
 
     span {
-      text-shadow: 2px 0 rgba(0, 255, 255, 0.4), -2px 0 rgba(255, 0, 0, 0.4);
+      text-shadow:
+        2px 0 rgba(0, 255, 255, 0.4),
+        -2px 0 rgba(255, 0, 0, 0.4);
     }
 
     img {
-      filter: drop-shadow(2px 0 rgba(0, 255, 255, 0.4)) drop-shadow(-2px 0 rgba(255, 0, 0, 0.4));
+      filter: drop-shadow(2px 0 rgba(0, 255, 255, 0.4))
+        drop-shadow(-2px 0 rgba(255, 0, 0, 0.4));
     }
   }
 }
@@ -215,13 +226,13 @@ app-language-selector {
     align-items: center !important;
   }
 
-  header.mobile-responsive-header>button.absolute {
+  header.mobile-responsive-header > button.absolute {
     left: 0.5rem !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
   }
 
-  header.mobile-responsive-header>button.absolute>img {
+  header.mobile-responsive-header > button.absolute > img {
     width: 2.25rem !important;
     height: 2.25rem !important;
   }
@@ -262,7 +273,7 @@ app-language-selector {
     transition: none !important;
   }
 
-  .mobile-search-container .search-wrapper>a {
+  .mobile-search-container .search-wrapper > a {
     display: none !important;
   }
 
@@ -322,7 +333,9 @@ app-language-selector {
   max-width: 150px;
   opacity: 1;
   white-space: nowrap;
-  transition: max-width 0.3s ease, opacity 0.2s ease;
+  transition:
+    max-width 0.3s ease,
+    opacity 0.2s ease;
 }
 
 @media (min-width: 769px) and (max-width: 1366px) {

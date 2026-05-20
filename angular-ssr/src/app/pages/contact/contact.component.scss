@@ -110,3 +110,84 @@ a[class*="border-slate-400"],
 div[class*="border-slate-400"] {
   border-color: rgba(148, 163, 184, 0.28) !important;
 }
+
+@media (max-width: 767px) {
+  :host ::ng-deep {
+    .max-w-7xl {
+      padding-left: 1rem !important;
+      padding-right: 1rem !important;
+      margin-top: 1rem !important;
+      margin-bottom: 2rem !important;
+    }
+
+    div[class*="bg-gray-800"] {
+      padding: 1rem !important;
+      border-radius: 1rem !important;
+    }
+
+    .text-center.mb-12 {
+      margin-bottom: 1.5rem !important;
+
+      h2 {
+        font-size: 1.75rem !important;
+        margin-bottom: 0.75rem !important;
+        padding-bottom: 0.25rem !important;
+      }
+
+      p {
+        font-size: 0.85rem !important;
+        text-align: justify !important;
+        hyphens: auto !important;
+        -webkit-hyphens: auto !important;
+        -ms-hyphens: auto !important;
+      }
+    }
+
+    .grid {
+      gap: 0.75rem !important;
+    }
+
+    .group {
+      display: grid !important;
+      grid-template-columns: auto 1fr !important;
+      grid-template-rows: auto auto !important;
+      align-items: center !important;
+      text-align: left !important;
+      padding: 1rem !important;
+      column-gap: 1rem !important;
+      row-gap: 0.25rem !important;
+      border-radius: 1rem !important;
+
+      div[class*="w-12"] {
+        grid-column: 1 !important;
+        grid-row: 1 / span 2 !important;
+        width: 3rem !important;
+        height: 3rem !important;
+        margin: 0 !important;
+        align-self: center !important;
+        justify-self: center !important;
+
+        svg {
+          width: 1.5rem !important;
+          height: 1.5rem !important;
+        }
+      }
+
+      h3 {
+        grid-column: 2 !important;
+        grid-row: 1 !important;
+        font-size: 1.05rem !important;
+        margin: 0 !important;
+        align-self: end !important;
+      }
+
+      span {
+        grid-column: 2 !important;
+        grid-row: 2 !important;
+        font-size: 0.8rem !important;
+        margin: 0 !important;
+        align-self: start !important;
+      }
+    }
+  }
+}

@@ -5,6 +5,7 @@ import {
   listSessionsCtrl,
   getSessionCtrl,
   deleteSessionCtrl,
+  updateSessionCtrl,
 } from './chat.controller';
 
 /** Router de endpoints de chat IA. */
@@ -146,6 +147,45 @@ router.get('/sessions/:id', auth, getSessionCtrl);
  *         description: No autorizado
  */
 router.delete('/sessions/:id', auth, deleteSessionCtrl);
+
+/**
+ * @swagger
+ * /api/chat/sessions/{id}:
+ *   patch:
+ *     summary: Actualizar título de una sesión de chat
+ *     tags: [Chat]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID de la sesión a actualizar
+ *         example: 1
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - title
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: Nuevo título para la sesión
+ *                 example: "Nueva búsqueda de juegos"
+ *     responses:
+ *       200:
+ *         description: Sesión actualizada con éxito
+ *       404:
+ *         description: Sesión no encontrada
+ *       401:
+ *         description: No autorizado
+ */
+router.patch('/sessions/:id', auth, updateSessionCtrl);
 
 /**
  * @swagger

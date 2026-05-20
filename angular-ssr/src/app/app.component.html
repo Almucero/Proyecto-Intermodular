@@ -1,4 +1,4 @@
-<div class="app-container">
+<div class="app-container" [class.lang-changing]="isLangChanging">
   <app-loading
     *ngIf="isLoading"
     [@leaveAnimation]="{
@@ -35,7 +35,7 @@
     <div
       class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9999] flex items-center justify-center p-4"
     >
-      <div class="bg-gray-900 rounded-xl max-w-md w-full p-6 shadow-2xl">
+      <div class="bg-gray-900 rounded-xl max-w-md w-full p-6 shadow-2xl" style="border: 1px solid rgba(148, 163, 184, 0.28) !important;">
         <h3 class="text-xl font-bold text-white mb-4">
           {{ "unsavedChanges.title" | translate }}
         </h3>
@@ -51,7 +51,7 @@
           </button>
           <button
             (click)="confirmNav.accept()"
-            class="px-6 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg transition-all font-medium border-0 outline-none"
+            class="px-6 py-2 btn-premium-danger text-white rounded-lg transition-all font-medium border-0 outline-none"
           >
             {{ "unsavedChanges.discard" | translate }}
           </button>
@@ -59,4 +59,5 @@
       </div>
     </div>
   }
+  <div class="lang-change-overlay" [class.active]="isLangChanging"></div>
 </div>

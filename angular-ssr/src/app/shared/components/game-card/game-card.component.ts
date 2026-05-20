@@ -41,6 +41,23 @@ export class GameCardComponent implements AfterViewInit, OnDestroy {
   /** Evento emitido al hacer clic en la tarjeta. */
   @Output() cardClick = new EventEmitter<number>();
 
+  /**
+   * Calcula el porcentaje de descuento si el juego está en oferta.
+   * @returns El porcentaje de descuento redondeado, o 0 si no aplica.
+   */
+  get discountPercentage(): number {
+    if (
+      this.game &&
+      this.game.isOnSale &&
+      typeof this.game.price === 'number' &&
+      this.game.price > 0 &&
+      typeof this.game.salePrice === 'number'
+    ) {
+      return Math.round(((this.game.price - this.game.salePrice) / this.game.price) * 100);
+    }
+    return 0;
+  }
+
   /** Referencia al elemento que contiene el título del juego. */
   @ViewChild('gameTitle') gameTitleElement!: ElementRef;
 

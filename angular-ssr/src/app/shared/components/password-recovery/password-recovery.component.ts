@@ -1,4 +1,4 @@
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -7,7 +7,9 @@ import {
   Renderer2,
   inject,
   AfterViewInit,
+  PLATFORM_ID,
 } from '@angular/core';
+import { trigger, style, animate, transition } from '@angular/animations';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { BaseAuthenticationService } from '../../../core/services/impl/base-authentication.service';
@@ -22,6 +24,18 @@ type RecoveryStep = 'email' | 'code' | 'reset' | 'done';
   imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './password-recovery.component.html',
   styleUrls: ['./password-recovery.component.scss'],
+  animations: [
+    trigger('errorMessage', [
+      transition(':enter', [
+        style({ height: '0px', opacity: 0, overflow: 'hidden', marginTop: '0px', marginBottom: '0px' }),
+        animate('200ms ease-out', style({ height: '*', opacity: 1, marginTop: '*', marginBottom: '*' })),
+      ]),
+      transition(':leave', [
+        style({ height: '*', opacity: 1, overflow: 'hidden', marginTop: '*', marginBottom: '*' }),
+        animate('150ms ease-in', style({ height: '0px', opacity: 0, marginTop: '0px', marginBottom: '0px' })),
+      ]),
+    ]),
+  ],
 })
 export class PasswordRecoveryModalComponent implements OnDestroy, AfterViewInit {
   /** Propiedad no documentada. */
@@ -67,6 +81,8 @@ export class PasswordRecoveryModalComponent implements OnDestroy, AfterViewInit 
     private readonly renderer = inject(Renderer2);
   /** Propiedad no documentada. */
     private readonly document = inject(DOCUMENT);
+  /** Propiedad no documentada. */
+    private readonly platformId = inject(PLATFORM_ID);
 
   /** Propiedad no documentada. */
     emailForm = this.fb.group({
@@ -89,9 +105,13 @@ export class PasswordRecoveryModalComponent implements OnDestroy, AfterViewInit 
 
   /** Método no documentado. */
     ngAfterViewInit(): void {
-    requestAnimationFrame(() => {
+    if (isPlatformBrowser(this.platformId)) {
+      requestAnimationFrame(() => {
+        if (!this.isClosing) this.isOpen = true;
+      });
+    } else {
       if (!this.isClosing) this.isOpen = true;
-    });
+    }
   }
 
   /** Método no documentado. */

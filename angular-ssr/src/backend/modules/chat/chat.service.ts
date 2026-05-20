@@ -280,3 +280,28 @@ export async function processChat(
     games: foundGames,
   };
 }
+
+/**
+ * Actualiza el título de una sesión de chat concreta.
+ *
+ * @param sessionId Identificador de la sesión.
+ * @param userId Identificador del propietario.
+ * @param title Nuevo título para la sesión.
+ * @returns Sesión actualizada.
+ */
+export async function updateSessionTitle(
+  sessionId: number,
+  userId: number,
+  title: string,
+) {
+  const session = await prisma.chatSession.findFirst({
+    where: { id: sessionId, userId },
+  });
+  if (!session) {
+    throw new Error('Sesión no encontrada');
+  }
+  return prisma.chatSession.update({
+    where: { id: sessionId },
+    data: { title },
+  });
+}

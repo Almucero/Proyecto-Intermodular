@@ -26,6 +26,7 @@ import { headerRevealAnimation } from './animations/header-reveal.animation';
 import { PageTitleService } from './core/services/page-title.service';
 import { ConfirmNavigationService } from './core/services/confirm-navigation.service';
 import { TranslatePipe } from '@ngx-translate/core';
+import { LanguageService } from './core/services/language.service';
 
 /**
  * Componente raíz de la aplicación GameSage.
@@ -76,6 +77,8 @@ export class AppComponent {
   private pendingInitialRouteReveal = false;
   /** Controla si la transición de ruta debe animarse. */
   private shouldAnimateRouteTransition = true;
+  /** Indica si hay una transición de cambio de idioma gradual en progreso. */
+  public isLangChanging = false;
 
   private authService = inject(BaseAuthenticationService);
   private router = inject(Router);
@@ -83,6 +86,7 @@ export class AppComponent {
   private platformId = inject(PLATFORM_ID);
   private document = inject(DOCUMENT);
   private pageTitleService = inject(PageTitleService);
+  private languageService = inject(LanguageService);
   /** Servicio global del modal de confirmación de navegación con cambios sin guardar. */
   readonly confirmNav = inject(ConfirmNavigationService);
   private loadingScreenEnabled = true;
@@ -92,6 +96,10 @@ export class AppComponent {
    * Inicializa la aplicación, gestiona el auto-login y el estado de la pantalla de carga.
    */
   constructor() {
+    this.languageService.isChanging$.subscribe((changing) => {
+      this.isLangChanging = changing;
+    });
+
     const requestWantsNoLoader =
       this.document.location?.search?.includes('_skip_loader=1') ?? false;
     if (isPlatformBrowser(this.platformId)) {

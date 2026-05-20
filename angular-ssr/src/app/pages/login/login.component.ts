@@ -5,6 +5,7 @@ import {
   inject,
   PLATFORM_ID,
 } from '@angular/core';
+import { trigger, style, animate, transition } from '@angular/animations';
 import {
   FormBuilder,
   ReactiveFormsModule,
@@ -33,7 +34,20 @@ import { PasswordRecoveryModalComponent } from '../../shared/components/password
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  animations: [
+    trigger('errorMessage', [
+      transition(':enter', [
+        style({ height: '0px', opacity: 0, overflow: 'hidden', marginTop: '0px', marginBottom: '0px' }),
+        animate('200ms ease-out', style({ height: '*', opacity: 1, marginTop: '*', marginBottom: '*' })),
+      ]),
+      transition(':leave', [
+        style({ height: '*', opacity: 1, overflow: 'hidden', marginTop: '*', marginBottom: '*' }),
+        animate('150ms ease-in', style({ height: '0px', opacity: 0, marginTop: '0px', marginBottom: '0px' })),
+      ]),
+    ]),
+  ],
 })
+
 export class LoginComponent implements OnInit {
   /** Formulario reactivo para el inicio de sesión. */
   formLogin: FormGroup;

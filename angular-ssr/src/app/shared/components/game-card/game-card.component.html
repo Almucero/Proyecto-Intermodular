@@ -13,11 +13,14 @@
     [class.animate-pulse]="game.id === -1"
   >
     <ng-container *ngIf="game.id !== -1">
-      <img
+      <div
         *ngIf="game.isOnSale"
-        src="assets/images/ui/sale.webp"
-        class="absolute top-0 left-0 w-16 h-16 z-30 pointer-events-none"
-      />
+        class="sale-badge absolute top-2.5 left-2.5 z-30 px-2.5 py-0.5 rounded-md font-sans font-extrabold uppercase tracking-wider text-[10px] pointer-events-none"
+      >
+        <span>
+          {{ discountPercentage > 0 ? '-' + discountPercentage + '%' : ('home.offers' | translate) }}
+        </span>
+      </div>
       <img
         [src]="coverUrl"
         [alt]="game.title"

@@ -11,11 +11,12 @@ import {
   signal,
   PLATFORM_ID,
   HostListener,
+  Renderer2,
 } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { CanComponentDeactivate } from '../../core/guards/can-deactivate.guard';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser, DOCUMENT } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
@@ -72,6 +73,14 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
   private platformId = inject(PLATFORM_ID);
   /** Propiedad no documentada. */
   private translate = inject(TranslateService);
+  private renderer = inject(Renderer2);
+  private document = inject(DOCUMENT);
+
+  isScreenshotModalOpen = signal(false);
+  screenshotModalImage = signal<string | null>(null);
+  screenshotModalOpen = false;
+  screenshotModalClosing = false;
+  private readonly screenshotModalAnimMs = 160;
 
   /** Señal que contiene los datos del usuario autenticado. */
   user = toSignal(this.auth.user$);
@@ -705,5 +714,42 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
 
   hasUnsavedChanges(): boolean {
     return this.isEditing;
+  }
+
+  openScreenshotModal(imageUrl: string): void {
+    if (!imageUrl) return;
+    this.screenshotModalImage.set(imageUrl);
+    this.isScreenshotModalOpen.set(true);
+    this.screenshotModalClosing = false;
+    this.screenshotModalOpen = false;
+    this.renderer.setStyle(this.document.body, 'overflow', 'hidden');
+    if (typeof setTimeout !== 'undefined') {
+      setTimeout(() => {
+        if (!this.screenshotModalClosing) this.screenshotModalOpen = true;
+      }, 10);
+    } else {
+      this.screenshotModalOpen = true;
+    }
+  }
+
+  closeScreenshotModal(): void {
+    if (this.screenshotModalClosing) return;
+    this.screenshotModalClosing = true;
+    this.screenshotModalOpen = false;
+
+    setTimeout(() => {
+      this.isScreenshotModalOpen.set(false);
+      this.screenshotModalImage.set(null);
+      this.screenshotModalClosing = false;
+      this.screenshotModalOpen = false;
+      this.renderer.removeStyle(this.document.body, 'overflow');
+    }, this.screenshotModalAnimMs);
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscapePressed(): void {
+    if (this.isScreenshotModalOpen()) {
+      this.closeScreenshotModal();
+    }
   }
 }

@@ -37,9 +37,9 @@
               type="text" />
           </div>
           @if (getError("name")) {
-          <span class="text-red-500 mt-3 mix-blend-color-dodge">
+          <div [@errorMessage] class="text-red-500 mt-3 block mix-blend-color-dodge">
             {{ getError("name") | translate }}
-          </span>
+          </div>
           }
         </div>
         <div class="mb-3">
@@ -60,9 +60,9 @@
               class="w-full pl-10 h-10 rounded-sm border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-300" />
           </div>
           @if (getError("surname")) {
-          <span class="text-red-500 mt-3 mix-blend-color-dodge">
+          <div [@errorMessage] class="text-red-500 mt-3 block mix-blend-color-dodge">
             {{ getError("surname") | translate }}
-          </span>
+          </div>
           }
         </div>
         <div class="mb-3">
@@ -84,9 +84,9 @@
               type="email" />
           </div>
           @if (getError("email")) {
-          <span class="text-red-500 mt-3 mix-blend-color-dodge">
+          <div [@errorMessage] class="text-red-500 mt-3 block mix-blend-color-dodge">
             {{ getError("email") | translate }}
-          </span>
+          </div>
           }
         </div>
         <div class="mb-3">
@@ -126,9 +126,9 @@
             </span>
           </div>
           @if (getError("password")) {
-          <span class="text-red-500 mt-3 mix-blend-color-dodge">
+          <div [@errorMessage] class="text-red-500 mt-3 block mix-blend-color-dodge">
             {{ getError("password") | translate }}
-          </span>
+          </div>
           }
         </div>
         <div class="mb-3">
@@ -150,23 +150,23 @@
               type="password" />
           </div>
           @if (getError("password2")) {
-          <span class="text-red-500 mt-3 mix-blend-color-dodge">
+          <div [@errorMessage] class="text-red-500 mt-3 block mix-blend-color-dodge">
             {{ getError("password2") | translate }}
-          </span>
+          </div>
           }
         </div>
         @if (registerError) {
-        <div class="mb-3 text-red-500 text-center mix-blend-color-dodge">
+        <div [@errorMessage] class="mb-3 text-red-500 text-center block mix-blend-color-dodge">
           {{ registerError | translate }}
         </div>
         }
         @if (googleError) {
-        <div class="mb-3 text-red-500 text-center mix-blend-color-dodge">
+        <div [@errorMessage] class="mb-3 text-red-500 text-center block mix-blend-color-dodge">
           {{ googleError | translate }}
         </div>
         }
         @if (githubError) {
-        <div class="mb-3 text-red-500 text-center mix-blend-color-dodge">
+        <div [@errorMessage] class="mb-3 text-red-500 text-center block mix-blend-color-dodge">
           {{ githubError | translate }}
         </div>
         }

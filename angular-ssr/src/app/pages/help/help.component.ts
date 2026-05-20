@@ -4,8 +4,14 @@ import {
   Inject,
   Renderer2,
   signal,
+  ElementRef,
+  ViewChild,
+  ChangeDetectorRef,
+  AfterViewInit,
+  PLATFORM_ID,
+  inject,
 } from '@angular/core';
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import {
@@ -38,7 +44,7 @@ import {
     ]),
   ],
 })
-export class HelpComponent {
+export class HelpComponent implements AfterViewInit {
   /** Identificadores secuenciales para renderizar todos los ítems FAQ. */
   faqItems = Array.from({ length: 16 }, (_, i) => i + 1);
   /** Estado de apertura de cada ítem FAQ. */
@@ -56,6 +62,16 @@ export class HelpComponent {
   /** Propiedad no documentada. */
     private readonly screenshotModalAnimMs = 160;
 
+  @ViewChild('helpTocScroller') helpTocScroller?: ElementRef<HTMLDivElement>;
+
+  helpScrollState = {
+    left: false,
+    right: true,
+  };
+
+  private platformId = inject(PLATFORM_ID);
+  private cdr = inject(ChangeDetectorRef);
+
   /**
      * Constructor no documentado.
      * @param renderer Parámetro no documentado.
@@ -65,6 +81,23 @@ export class HelpComponent {
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document: Document,
   ) {}
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.updateHelpScrollState();
+    }, 0);
+  }
+
+  updateHelpScrollState(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const element = this.helpTocScroller?.nativeElement;
+    if (element) {
+      const { scrollLeft, scrollWidth, clientWidth } = element;
+      this.helpScrollState.left = scrollLeft > 4;
+      this.helpScrollState.right = scrollLeft + clientWidth < scrollWidth - 4;
+      this.cdr.detectChanges();
+    }
+  }
 
   /**
    * Alterna la apertura/cierre de un bloque FAQ.

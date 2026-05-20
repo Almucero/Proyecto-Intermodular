@@ -103,6 +103,7 @@
     "title": "Chat AI",
     "new_chat": "Nuova Chat",
     "untitled_chat": "Chat senza titolo",
+    "edit_title": "Modifica titolo",
     "no_sessions": "Nessuna conversazione precedente",
     "welcome_title": "Come posso aiutarti oggi{{name}}?",
     "welcome_subtitle": "Sono Sage, il tuo assistente di gioco. Chiedimi consigli, dettagli sui giochi o altro.",

@@ -76,7 +76,7 @@ export class MarkdownPipe implements PipeTransform {
           newHtml += '<ul class="list-disc pl-5 mb-2 space-y-1">';
           inList = true;
         }
-        const content = trimmed.substring(2);
+        const content = trimmed.substring(2).trim();
         newHtml += `<li>${content}</li>`;
       } else {
         if (inList) {

@@ -21,6 +21,7 @@ app-header {
   flex-direction: column;
   width: 100%;
   padding-top: 64px;
+  transition: opacity 180ms ease-in-out;
 }
 
 .route-container {
@@ -51,5 +52,36 @@ app-header {
     opacity: 1;
     transform: translateY(0);
     filter: blur(0);
+  }
+}
+
+.app-container.lang-changing {
+  .main-content {
+    opacity: 0.05;
+  }
+}
+
+.lang-change-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+  background-color: rgba(17, 24, 39, 0);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  pointer-events: none;
+  transition:
+    background-color 180ms ease-in-out,
+    backdrop-filter 180ms ease-in-out,
+    -webkit-backdrop-filter 180ms ease-in-out;
+  will-change: background-color, backdrop-filter;
+
+  &.active {
+    background-color: rgba(17, 24, 39, 0.7);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    pointer-events: auto;
   }
 }

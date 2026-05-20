@@ -4,6 +4,7 @@ import {
   inject,
   PLATFORM_ID,
 } from '@angular/core';
+import { trigger, style, animate, transition } from '@angular/animations';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import {
   AbstractControl,
@@ -59,6 +60,18 @@ function passwordMatches(control: AbstractControl): ValidationErrors | null {
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
+  animations: [
+    trigger('errorMessage', [
+      transition(':enter', [
+        style({ height: '0px', opacity: 0, overflow: 'hidden', marginTop: '0px', marginBottom: '0px' }),
+        animate('200ms ease-out', style({ height: '*', opacity: 1, marginTop: '*', marginBottom: '*' })),
+      ]),
+      transition(':leave', [
+        style({ height: '*', opacity: 1, overflow: 'hidden', marginTop: '*', marginBottom: '*' }),
+        animate('150ms ease-in', style({ height: '0px', opacity: 0, marginTop: '0px', marginBottom: '0px' })),
+      ]),
+    ]),
+  ],
 })
 export class RegisterComponent implements OnInit {
   /** Formulario reactivo de registro. */

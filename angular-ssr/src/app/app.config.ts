@@ -1,4 +1,5 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { IMAGE_CONFIG } from '@angular/common';
 import {
   provideRouter,
   withInMemoryScrolling,
@@ -265,6 +266,13 @@ export const appConfig: ApplicationConfig = {
     { provide: ChatService, useClass: ChatService },
 
     AuthenticationServiceFactory,
+    {
+      provide: IMAGE_CONFIG,
+      useValue: {
+        disableImageSizeWarning: true,
+        disableImageLazyLoadWarning: true,
+      },
+    },
     provideClientHydration(withEventReplay()),
   ],
 };

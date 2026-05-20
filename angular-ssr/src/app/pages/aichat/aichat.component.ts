@@ -10,6 +10,7 @@ import {
   PLATFORM_ID,
   signal,
   inject,
+  HostListener,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -27,6 +28,7 @@ import {
   GameResult,
 } from '../../core/models/chat.model';
 import { BaseAuthenticationService } from '../../core/services/impl/base-authentication.service';
+import { Tilt3DDirective } from '../../directives/tilt-3d.directive';
 
 /**
  * Componente de Chat con Inteligencia Artificial.
@@ -43,6 +45,7 @@ import { BaseAuthenticationService } from '../../core/services/impl/base-authent
     TranslatePipe,
     MarkdownPipe,
     LocalizedCurrencyPipe,
+    Tilt3DDirective,
   ],
   templateUrl: './aichat.component.html',
   styleUrl: './aichat.component.scss',
@@ -58,7 +61,12 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   /** Referencia al contenedor de mensajes para el scroll automático. */
   @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
   /** Referencia al contenedor de la barra lateral para efectos de scroll. */
-  @ViewChild('sidebarScrollContainer') private sidebarScrollContainer!: ElementRef;
+  @ViewChild('sidebarScrollContainer')
+  private sidebarScrollContainer!: ElementRef;
+  /** Referencia al elemento de título para medir su ancho. */
+  @ViewChild('chatTitleEl') private chatTitleEl!: ElementRef;
+  /** Referencia al span interno del título para medir el ancho exacto del texto. */
+  @ViewChild('chatTitleSpanEl') private chatTitleSpanEl!: ElementRef;
 
   /** Lista de sesiones de chat del usuario. */
   sessions: ChatSession[] = [];
@@ -68,6 +76,8 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   messages: ChatMessage[] = [];
   /** Texto introducido por el usuario en el campo de entrada. */
   userInput: string = '';
+  /** Controla si el input del chat tiene foco para aplicar estilos de forma 100% fiable. */
+  isInputFocused: boolean = false;
   /** Indica si la IA está procesando una respuesta. */
   isLoading: boolean = false;
   /** Nombre del usuario para personalización en la interfaz. */
@@ -101,13 +111,38 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   private skeletonTimeoutId: any;
   /** Sesiones de chat cargadas de la API. */
   private sessionsData: ChatSession[] = [];
+  /** Indica si la petición de red a la API ha concluido. */
+  private isApiLoadComplete = false;
+  /** Controla si se está mostrando el spinner circular durante la restauración de una sesión. */
+  isRestoringSession = false;
 
   private readonly chatSessionsCountStorageKey = 'chatSessionsCount';
+  private readonly activeSessionStorageKey = 'game_sage_active_chat_session_id';
+  private readonly chatExitTimestampKey = 'game_sage_chat_exit_timestamp';
+  private readonly SESSION_EXPIRATION_MS = 2 * 60 * 1000;
 
   /** Controla el estado de la barra lateral en dispositivos móviles. */
   isMobileSidebarOpen = false;
   /** Flag interno para forzar el scroll al final tras cambios en la vista. */
   private shouldScrollToBottomFlag = false;
+  /** Indica si se debe usar scroll suave o instantáneo. */
+  private useSmoothScroll = true;
+  /** Controla la transición de opacidad del contenido del chat para cambios suaves. */
+  isContentVisible = true;
+  /** Controla la transición de opacidad únicamente de la barra de título superior. */
+  isHeaderTitleVisible = true;
+  /** Controla si el usuario está editando el título en la cabecera. */
+  isEditingTitle = false;
+  /** Valor temporal para la edición del título de la sesión. */
+  editingTitleValue = '';
+  /** Ancho dinámico del input en píxeles. */
+  titleInputWidth = '200px';
+  /** IDs de las sesiones que están en proceso de eliminación (para animar su salida). */
+  deletingSessionIds = new Set<number>();
+  /** Almacena los IDs de las sesiones que existían durante la carga inicial para silenciar su animación. */
+  initialSessionIds = new Set<number>();
+  /** Registra si ya se ha completado la carga inicial de sesiones de este componente. */
+  hasPerformedInitialLoad = false;
 
   /** Control visual de degradados para scroll en el chat principal. */
   showMainTopFade = false;
@@ -132,11 +167,13 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   /** Alterna la visibilidad de la barra lateral móvil. */
   toggleMobileSidebar() {
     this.isMobileSidebarOpen = !this.isMobileSidebarOpen;
+    this.uiState.isChatSidebarOpen.set(this.isMobileSidebarOpen);
   }
 
   /** Cierra la barra lateral móvil. */
   closeMobileSidebar() {
     this.isMobileSidebarOpen = false;
+    this.uiState.isChatSidebarOpen.set(false);
   }
 
   /**
@@ -148,7 +185,10 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.uiState.loaderAnimationDone()) {
         this.startMinimumSkeletonDelay();
       } else {
-        window.addEventListener('gamingsage-home-trigger', this.onLoaderFinished);
+        window.addEventListener(
+          'gamingsage-home-trigger',
+          this.onLoaderFinished,
+        );
       }
     }
   }
@@ -161,7 +201,31 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
       window.scrollTo(0, 0);
     }
 
-    this.cachedSessionsCount = this.getInitialSessionsCount();
+    if (this.isBrowser) {
+      const exitTimeStr = localStorage.getItem(this.chatExitTimestampKey);
+      if (exitTimeStr) {
+        const exitTime = parseInt(exitTimeStr, 10);
+        if (Date.now() - exitTime > this.SESSION_EXPIRATION_MS) {
+          localStorage.removeItem(this.activeSessionStorageKey);
+        }
+        localStorage.removeItem(this.chatExitTimestampKey);
+      }
+
+      const storedSessionId = localStorage.getItem(
+        this.activeSessionStorageKey,
+      );
+      if (storedSessionId) {
+        this.isContentVisible = false;
+        this.isRestoringSession = true;
+      }
+    }
+
+    this.cachedSessionsCount = 3;
+    if (this.isBrowser) {
+      setTimeout(() => {
+        this.cachedSessionsCount = this.getInitialSessionsCount() || 3;
+      }, 0);
+    }
 
     this.authService.user$.subscribe((user) => {
       this.userName = user?.nickname || user?.name || '';
@@ -180,7 +244,9 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
           } else {
             this.sessions = [];
             this.sessionsData = [];
-            this.loadingSessions = false;
+            if (this.isBrowser) {
+              this.loadingSessions = false;
+            }
             this.updateCachedSessionsCount(0);
           }
         });
@@ -190,8 +256,16 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /** Limpia clases específicas del body al salir del chat. */
   ngOnDestroy(): void {
+    if (this.isBrowser) {
+      localStorage.setItem(this.chatExitTimestampKey, Date.now().toString());
+    }
+
+    this.uiState.isChatSidebarOpen.set(false);
     if (isPlatformBrowser(this.platformId)) {
-      window.removeEventListener('gamingsage-home-trigger', this.onLoaderFinished);
+      window.removeEventListener(
+        'gamingsage-home-trigger',
+        this.onLoaderFinished,
+      );
     }
     if (this.sidebarActivityTimer) {
       clearTimeout(this.sidebarActivityTimer);
@@ -213,19 +287,24 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   private scheduleViewSync() {
     if (this.viewSyncQueued) return;
     this.viewSyncQueued = true;
-    this.ngZone.runOutsideAngular(() => {
-      requestAnimationFrame(() => {
-        this.ngZone.run(() => {
-          this.viewSyncQueued = false;
-          if (this.shouldScrollToBottomFlag) {
-            this.scrollToBottom();
-            this.shouldScrollToBottomFlag = false;
-          }
-          this.checkMainScroll();
-          this.checkSidebarScroll();
+    if (this.isBrowser) {
+      this.ngZone.runOutsideAngular(() => {
+        requestAnimationFrame(() => {
+          this.ngZone.run(() => {
+            this.viewSyncQueued = false;
+            if (this.shouldScrollToBottomFlag) {
+              this.scrollToBottom();
+              this.shouldScrollToBottomFlag = false;
+              this.useSmoothScroll = true;
+            }
+            this.checkMainScroll();
+            this.checkSidebarScroll();
+          });
         });
       });
-    });
+    } else {
+      this.viewSyncQueued = false;
+    }
   }
 
   /** Muestra la barra de scroll de la lateral al entrar el ratón. */
@@ -311,9 +390,9 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
-     * Envía un mensaje basado en una sugerencia predefinida.
-     * @param key Parámetro no documentado.
-     */
+   * Envía un mensaje basado en una sugerencia predefinida.
+   * @param key Parámetro no documentado.
+   */
   sendSuggestion(key: string) {
     const text = this.translateService.instant(key);
     this.userInput = text;
@@ -323,9 +402,12 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   /** Desplaza el contenedor de mensajes hacia el final. */
   scrollToBottom(): void {
     try {
-      this.scrollContainer.nativeElement.scrollTop =
-        this.scrollContainer.nativeElement.scrollHeight;
-    } catch (err) { }
+      const el = this.scrollContainer.nativeElement;
+      el.scrollTo({
+        top: el.scrollHeight,
+        behavior: this.useSmoothScroll ? 'smooth' : 'auto',
+      });
+    } catch (err) {}
   }
 
   /** Carga el listado de sesiones de chat del usuario autenticado. */
@@ -334,10 +416,12 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
     this.chatService.getSessions().subscribe({
       next: (sessions) => {
         this.sessionsData = sessions;
+        this.isApiLoadComplete = true;
         this.checkAndApplySessions();
       },
       error: () => {
-        this.loadingSessions = false;
+        this.isApiLoadComplete = true;
+        this.checkAndApplySessions();
         this.scheduleViewSync();
       },
     });
@@ -346,8 +430,6 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   private onLoaderFinished = () => {
     this.startMinimumSkeletonDelay();
   };
-
-
 
   /**
    * Inicia el contador de retraso mínimo para los skeletons (1100ms).
@@ -374,68 +456,146 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
    * Aplica las sesiones cargadas a la vista si se cumplen todas las condiciones.
    */
   private checkAndApplySessions() {
-    // Solo aplicamos si la app está lista y el delay mínimo ha pasado
-    if (!this.isAppReady() || !this.minSkeletonDelayDone()) {
+    if (
+      !this.isAppReady() ||
+      !this.minSkeletonDelayDone() ||
+      !this.isApiLoadComplete
+    ) {
       return;
     }
 
-    // Si no hay datos todavía y el usuario está autenticado, seguimos esperando al API
-    if (this.sessionsData.length === 0 && this.isUserAuthenticated && this.loadingSessions) {
-      return;
+    const isFirstTime = !this.hasPerformedInitialLoad;
+
+    if (!this.hasPerformedInitialLoad) {
+      this.hasPerformedInitialLoad = true;
+      this.sessionsData.forEach((s) => {
+        if (s.id) {
+          this.initialSessionIds.add(s.id);
+        }
+      });
     }
 
     this.sessions = this.sessionsData;
     this.loadingSessions = false;
     this.updateCachedSessionsCount(this.sessions.length);
     this.scheduleViewSync();
+
+    if (isFirstTime && isPlatformBrowser(this.platformId)) {
+      const storedSessionId = localStorage.getItem(
+        this.activeSessionStorageKey,
+      );
+      let sessionRestored = false;
+
+      if (storedSessionId) {
+        const parsedId = parseInt(storedSessionId, 10);
+        const foundSession = this.sessions.find((s) => s.id === parsedId);
+        if (foundSession) {
+          this.selectSession(foundSession);
+          sessionRestored = true;
+        } else {
+          localStorage.removeItem(this.activeSessionStorageKey);
+        }
+      }
+
+      if (!sessionRestored && !this.isContentVisible) {
+        this.isRestoringSession = false;
+        setTimeout(() => {
+          this.isContentVisible = true;
+        }, 30);
+      }
+    }
   }
 
   /** Prepara la interfaz para iniciar una nueva conversación. */
   startNewChat() {
+    if (this.currentSession === null && this.messages.length === 0) {
+      return;
+    }
+
     if (!this.checkAuth()) return;
-    this.currentSession = null;
-    this.messages = [];
-    this.scheduleViewSync();
+
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem(this.activeSessionStorageKey);
+    }
+
+    this.isContentVisible = false;
+    this.isHeaderTitleVisible = true;
+    this.isEditingTitle = false;
+    setTimeout(() => {
+      this.currentSession = null;
+      this.messages = [];
+      this.useSmoothScroll = false;
+      this.scheduleViewSync();
+      setTimeout(() => {
+        this.isContentVisible = true;
+      }, 30);
+    }, 150);
   }
 
   /**
-     * Selecciona una sesión de historial y carga sus mensajes.
-     * @param session Parámetro no documentado.
-     */
+   * Selecciona una sesión de historial y carga sus mensajes.
+   * @param session Parámetro no documentado.
+   */
   selectSession(session: ChatSession) {
     if (this.currentSession?.id === session.id) return;
 
-    this.currentSession = session;
+    if (isPlatformBrowser(this.platformId) && session.id) {
+      localStorage.setItem(this.activeSessionStorageKey, session.id.toString());
+    }
+
+    this.useSmoothScroll = false;
+    this.isContentVisible = false;
+    this.isHeaderTitleVisible = true;
+    this.isEditingTitle = false;
+    const startTime = Date.now();
+
     this.closeMobileSidebar();
     this.chatService.getSession(session.id!).subscribe({
       next: (fullSession) => {
-        this.messages = fullSession.messages || [];
-        this.messages.forEach((msg) => this.processMessageLinks(msg));
-        this.shouldScrollToBottomFlag = true;
-        this.scheduleViewSync();
+        const elapsed = Date.now() - startTime;
+        const remainingDelay = Math.max(0, 150 - elapsed);
+
+        setTimeout(() => {
+          this.currentSession = session;
+          this.messages = fullSession.messages || [];
+          this.messages.forEach((msg) => this.processMessageLinks(msg));
+          this.shouldScrollToBottomFlag = true;
+          this.scheduleViewSync();
+          this.isRestoringSession = false;
+          setTimeout(() => {
+            this.isContentVisible = true;
+          }, 30);
+        }, remainingDelay);
       },
-      error: () => { },
+      error: () => {
+        this.isRestoringSession = false;
+        this.isContentVisible = true;
+      },
     });
   }
 
   /**
-     * Elimina una sesión de chat permanentemente.
-     * @param session Parámetro no documentado.
-     * @param event Parámetro no documentado.
-     */
+   * Elimina una sesión de chat permanentemente.
+   * @param session Parámetro no documentado.
+   * @param event Parámetro no documentado.
+   */
   deleteSession(session: ChatSession, event: Event) {
     event.stopPropagation();
     if (!session.id) return;
 
     this.chatService.deleteSession(session.id).subscribe({
       next: () => {
-        this.sessions = this.sessions.filter((s) => s.id !== session.id);
-        this.updateCachedSessionsCount(this.sessions.length);
-        if (this.currentSession?.id === session.id) {
-          this.startNewChat();
-        }
+        this.deletingSessionIds.add(session.id!);
+        setTimeout(() => {
+          this.sessions = this.sessions.filter((s) => s.id !== session.id);
+          this.deletingSessionIds.delete(session.id!);
+          this.updateCachedSessionsCount(this.sessions.length);
+          if (this.currentSession?.id === session.id) {
+            this.startNewChat();
+          }
+        }, 200);
       },
-      error: () => { },
+      error: () => {},
     });
   }
 
@@ -466,8 +626,36 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
     this.chatService.sendMessage(payload).subscribe({
       next: (response) => {
         if (!this.currentSession) {
+          if (isPlatformBrowser(this.platformId) && response.sessionId) {
+            localStorage.setItem(
+              this.activeSessionStorageKey,
+              response.sessionId.toString(),
+            );
+          }
           this.loadSessions();
           this.currentSession = { id: response.sessionId };
+
+          // Tras 5 segundos, actualiza gradualmente el título al generado por la IA
+          setTimeout(() => {
+            const foundSession = this.sessions.find(
+              (s) => s.id === response.sessionId,
+            );
+            if (
+              foundSession &&
+              foundSession.title &&
+              this.currentSession?.id === response.sessionId
+            ) {
+              this.isHeaderTitleVisible = false;
+              setTimeout(() => {
+                if (this.currentSession) {
+                  this.currentSession.title = foundSession.title;
+                }
+                setTimeout(() => {
+                  this.isHeaderTitleVisible = true;
+                }, 30);
+              }, 300);
+            }
+          }, 5000);
         }
 
         const aiMsg: ChatMessage = {
@@ -494,23 +682,24 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
-     * Redirige a la página de detalle de un producto sugerido.
-     * @param gameId Parámetro no documentado.
-     */
+   * Redirige a la página de detalle de un producto sugerido.
+   * @param gameId Parámetro no documentado.
+   */
   navigateToGame(gameId: number) {
     this.router.navigate(['/product', gameId]);
   }
 
   /**
-     * Verifica si el usuario está autenticado, de lo contrario muestra aviso.
-     * @returns Retorno no documentado.
-     */
+   * Verifica si el usuario está autenticado, de lo contrario muestra aviso.
+   * @returns Retorno no documentado.
+   */
   checkAuth(): boolean {
     if (!this.isUserAuthenticated) {
       this.showAuthModal = true;
       this.authModalClosing = false;
       this.authModalOpen = false;
-      if (typeof document !== 'undefined') document.body.style.overflow = 'hidden';
+      if (typeof document !== 'undefined')
+        document.body.style.overflow = 'hidden';
       if (typeof requestAnimationFrame !== 'undefined') {
         requestAnimationFrame(() => {
           if (!this.authModalClosing) this.authModalOpen = true;
@@ -553,9 +742,9 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
-     * Maneja clicks en enlaces internos dentro del contenido generado por la IA (Markdown).
-     * @param event Parámetro no documentado.
-     */
+   * Maneja clicks en enlaces internos dentro del contenido generado por la IA (Markdown).
+   * @param event Parámetro no documentado.
+   */
   handleContentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
     const anchor = target.closest('a');
@@ -573,8 +762,8 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * Convierte menciones de títulos de juegos en enlaces navegables dentro del texto de la respuesta.
-     * @param message Parámetro no documentado.
-     */
+   * @param message Parámetro no documentado.
+   */
   private processMessageLinks(message: ChatMessage) {
     if (!message.games || message.games.length === 0) return;
 
@@ -596,11 +785,8 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /** Accessor no documentado. */
   get recentSessionsCount(): number[] {
-    // Usamos el conteo cacheado o 3 como fallback si no hay historial
     const count = this.cachedSessionsCount || 3;
-    return Array(count)
-      .fill(0)
-      .map((x, i) => i + 1);
+    return Array.from({ length: count }, (_, i) => i + 1);
   }
 
   private getInitialSessionsCount(): number {
@@ -617,6 +803,92 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
     this.cachedSessionsCount = count;
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem(this.chatSessionsCountStorageKey, count.toString());
+    }
+  }
+
+  startEditingTitle() {
+    if (!this.currentSession) return;
+    this.editingTitleValue = this.currentSession.title || '';
+
+    if (this.chatTitleSpanEl && this.chatTitleSpanEl.nativeElement) {
+      const spanWidth =
+        this.chatTitleSpanEl.nativeElement.getBoundingClientRect().width;
+      const maxAllowed = Math.floor(window.innerWidth * 0.45);
+      const width = Math.min(Math.max(spanWidth + 0, 140), maxAllowed);
+      this.titleInputWidth = `${width}px`;
+    } else {
+      this.titleInputWidth = '200px';
+    }
+
+    this.isEditingTitle = true;
+    setTimeout(() => {
+      const input = document.getElementById(
+        'title-edit-input',
+      ) as HTMLInputElement;
+      if (input) {
+        input.focus();
+      }
+    }, 50);
+  }
+
+  cancelEditingTitle() {
+    this.isEditingTitle = false;
+  }
+
+  /** Capitaliza la primera letra de un texto de manera segura en JavaScript. */
+  capitalizeFirstLetter(text: string | null | undefined): string {
+    if (!text) return '';
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
+
+  /** Guarda los cambios de título en el backend y los aplica localmente. */
+  saveTitle() {
+    if (!this.currentSession || !this.currentSession.id) return;
+    const cleanTitle = this.editingTitleValue.trim();
+    if (!cleanTitle) {
+      this.cancelEditingTitle();
+      return;
+    }
+
+    const updatedSession = { ...this.currentSession, title: cleanTitle };
+    this.chatService
+      .update(this.currentSession.id.toString(), updatedSession)
+      .subscribe({
+        next: () => {
+          if (this.currentSession) {
+            this.currentSession.title = cleanTitle;
+          }
+          const found = this.sessions.find(
+            (s) => s.id === this.currentSession?.id,
+          );
+          if (found) {
+            found.title = cleanTitle;
+          }
+          this.isEditingTitle = false;
+          this.scheduleViewSync();
+        },
+        error: () => {
+          this.cancelEditingTitle();
+        },
+      });
+  }
+
+  @HostListener('document:mousedown', ['$event'])
+  onDocumentMouseDown(event: MouseEvent) {
+    if (this.isEditingTitle) {
+      const target = event.target as HTMLElement;
+      const clickedEditContainer = target.closest('.title-edit-container');
+      const clickedPencilBtn = target.closest('.edit-title-btn');
+      if (!clickedEditContainer && !clickedPencilBtn) {
+        this.cancelEditingTitle();
+      }
+    }
+  }
+
+  @HostListener('window:beforeunload')
+  onBeforeUnload() {
+    if (this.isBrowser) {
+      localStorage.setItem(this.chatExitTimestampKey, Date.now().toString());
     }
   }
 }

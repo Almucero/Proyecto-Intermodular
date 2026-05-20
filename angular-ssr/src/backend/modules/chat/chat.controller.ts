@@ -1,9 +1,11 @@
 import type { Request, Response, NextFunction } from 'express';
+import { z } from 'zod';
 import {
   processChat,
   getUserSessions,
   getSession,
   deleteSession,
+  updateSessionTitle,
 } from './chat.service';
 import { chatInputSchema, sessionIdParamSchema } from './chat.schema';
 
@@ -95,6 +97,35 @@ export const deleteSessionCtrl = async (
     const user = req.user!;
     const { id } = sessionIdParamSchema.parse(req.params);
     const result = await deleteSession(id, user.sub);
+    res.json(result);
+  } catch (error: any) {
+    if (error.message === 'Sesión no encontrada') {
+      return res.status(404).json({ message: error.message });
+    }
+    next(error);
+  }
+};
+
+/**
+ * Actualiza el título de una sesión de chat del usuario autenticado.
+ *
+ * @param req Request con `id` de sesión y `title` en el body.
+ * @param res Response HTTP.
+ * @param next Next middleware.
+ * @returns Sesión de chat actualizada.
+ */
+export const updateSessionCtrl = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const user = req.user!;
+    const { id } = sessionIdParamSchema.parse(req.params);
+    const { title } = z
+      .object({ title: z.string().min(1).max(100) })
+      .parse(req.body);
+    const result = await updateSessionTitle(id, user.sub, title);
     res.json(result);
   } catch (error: any) {
     if (error.message === 'Sesión no encontrada') {

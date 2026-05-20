@@ -6,3 +6,6 @@ footer {
 :host.search-active footer {
   box-shadow: none !important;
 }
+:host.chat-sidebar-active footer {
+  box-shadow: none !important;
+}

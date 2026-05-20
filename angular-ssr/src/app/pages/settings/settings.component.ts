@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject, signal, HostListener, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, inject, signal, HostListener, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Router } from '@angular/router';
@@ -34,6 +34,24 @@ export class SettingsComponent implements OnInit, CanComponentDeactivate {
   /** Estados para los dropdowns personalizados. */
   languageDropdownOpen = signal(false);
   frequencyDropdownOpen = signal(false);
+
+  /** Contenedor del desplegable de idioma para la máscara de scroll dinámico. */
+  @ViewChild('languageScrollContainer') set languageScrollContainer(el: ElementRef<HTMLElement> | undefined) {
+    if (el) {
+      setTimeout(() => {
+        this.updateScrollMask(el.nativeElement);
+      }, 0);
+    }
+  }
+
+  /** Contenedor del desplegable de frecuencia para la máscara de scroll dinámico. */
+  @ViewChild('frequencyScrollContainer') set frequencyScrollContainer(el: ElementRef<HTMLElement> | undefined) {
+    if (el) {
+      setTimeout(() => {
+        this.updateScrollMask(el.nativeElement);
+      }, 0);
+    }
+  }
 
   /** Opciones de idioma disponibles. */
   readonly languages = [
@@ -151,6 +169,32 @@ export class SettingsComponent implements OnInit, CanComponentDeactivate {
   getSelectedFrequencyLabel(): string {
     const code = this.form.get('emailNotificationFrequency')?.value;
     return this.frequencies.find(f => f.code === code)?.label || 'settings.notifications.selectFrequency';
+  }
+
+  onLanguageScroll(event: Event) {
+    const target = event.target as HTMLElement;
+    this.updateScrollMask(target);
+  }
+
+  onFrequencyScroll(event: Event) {
+    const target = event.target as HTMLElement;
+    this.updateScrollMask(target);
+  }
+
+  private updateScrollMask(el: HTMLElement) {
+    if (!el) return;
+    
+    const scrollTop = el.scrollTop;
+    const scrollHeight = el.scrollHeight;
+    const clientHeight = el.clientHeight;
+    
+    const showTop = scrollTop > 5;
+    const showBottom = scrollTop + clientHeight < scrollHeight - 5;
+    
+    el.style.setProperty('--scroll-top-mask', showTop ? '0' : '1');
+    el.style.setProperty('--scroll-top-mask-stop', showTop ? '2rem' : '0px');
+    el.style.setProperty('--scroll-bottom-mask', showBottom ? '0' : '1');
+    el.style.setProperty('--scroll-bottom-mask-stop', showBottom ? 'calc(100% - 2rem)' : '100%');
   }
 
   @HostListener('document:click')
