@@ -104,6 +104,7 @@
     "title": "KI-Chat",
     "new_chat": "Neuer Chat",
     "untitled_chat": "Unbenannter Chat",
+    "edit_title": "Titel bearbeiten",
     "no_sessions": "Keine früheren Unterhaltungen",
     "welcome_title": "Wie kann ich dir heute helfen{{name}}?",
     "welcome_subtitle": "Ich bin Sage, dein Gaming-Assistent. Frag mich nach Empfehlungen, Spieldetails oder anderem.",

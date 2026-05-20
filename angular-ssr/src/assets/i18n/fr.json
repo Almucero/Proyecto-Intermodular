@@ -103,6 +103,7 @@
     "title": "Chat IA",
     "new_chat": "Nouvelle discussion",
     "untitled_chat": "Discussion sans titre",
+    "edit_title": "Modifier le titre",
     "no_sessions": "Aucune conversation précédente",
     "welcome_title": "Comment puis-je vous aider aujourd'hui{{name}}?",
     "welcome_subtitle": "Je suis Sage, votre assistant de jeu. Demandez-moi des recommandations, des détails sur les jeux ou autre chose.",

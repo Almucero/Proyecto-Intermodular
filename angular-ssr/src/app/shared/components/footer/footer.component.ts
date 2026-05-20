@@ -41,7 +41,15 @@ export class FooterComponent {
   /** Clase dinámica vinculada al estado de búsqueda activa. */
   @HostBinding('class.search-active')
   get searchActive() {
-    return this.uiState.isSearchActive() && !this.router.url.includes('/search');
+    return (
+      this.uiState.isSearchActive() && !this.router.url.includes('/search')
+    );
+  }
+
+  /** Clase dinámica vinculada al estado del menú del chat (móvil). */
+  @HostBinding('class.chat-sidebar-active')
+  get chatSidebarActive() {
+    return this.uiState.isChatSidebarOpen();
   }
 
   /** Obtiene el código del idioma seleccionado actualmente. */

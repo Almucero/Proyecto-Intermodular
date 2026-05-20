@@ -102,6 +102,23 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   isClosingGenreDropdown = false;
   /** Indica si se está visualizando en un dispositivo móvil. */
   isMobile = false;
+  genreScrollState = {
+    left: false,
+    right: true,
+  };
+
+  @ViewChild('mobileGenresContainer') mobileGenresContainer?: ElementRef<HTMLDivElement>;
+
+  updateGenreScrollState() {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const element = this.mobileGenresContainer?.nativeElement;
+    if (element) {
+      const { scrollLeft, scrollWidth, clientWidth } = element;
+      this.genreScrollState.left = scrollLeft > 2;
+      this.genreScrollState.right = scrollLeft < scrollWidth - clientWidth - 2;
+      this.cdr.detectChanges();
+    }
+  }
   /** Propiedad no documentada. */
   hideSideCharacters = false;
   /** Propiedad no documentada. */
@@ -256,6 +273,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       this.requestSideCharactersVisibilityCheck();
       this.calculateVisibleGenres();
       this.setupResizeObserver();
+      this.updateGenreScrollState();
     });
     this.targetScrollY = window.scrollY || 0;
     this.lastTargetScrollY = this.targetScrollY;
@@ -284,6 +302,15 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.isMobile = window.innerWidth <= 768;
     this.calculateVisibleGenres();
+    if (this.isMobile) {
+      setTimeout(() => this.updateGenreScrollState(), 0);
+      if (this.rafId !== null) {
+        cancelAnimationFrame(this.rafId);
+        this.rafId = null;
+      }
+    } else {
+      this.startParallaxLoop();
+    }
   }
 
   /** Número de géneros visibles calculados dinámicamente. */
@@ -310,7 +337,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       if (availableWidth > 0) {
         const pillWidth = 145;
         const calculatedCount = Math.floor(availableWidth / pillWidth);
-        const finalCount = Math.max(2, Math.min(calculatedCount, this.genres.length));
+        let adjustedCount = calculatedCount;
+        if (window.innerWidth > 768 && window.innerWidth < 1400) {
+          adjustedCount = calculatedCount - 1;
+        }
+        const finalCount = Math.max(2, Math.min(adjustedCount, this.genres.length));
 
         if (this.visibleCount() !== finalCount) {
           this.visibleCount.set(finalCount);
@@ -362,6 +393,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /** Método no documentado. */
   private startParallaxLoop() {
+    if (this.isMobile) return;
     if (this.rafId !== null) return;
     this.ngZone.runOutsideAngular(() => {
       const tick = () => {
@@ -882,6 +914,24 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         this.closeGenreDropdown();
       }
     }
+  }
+
+  /**
+   * Formatea el nombre de un género para dispositivos móviles.
+   * Si es un acrónimo (como RPG, TBS, RTS, MOBA, MMORPG, FPS, CCG), lo mantiene en mayúsculas.
+   * Para otros géneros, capitaliza únicamente la primera letra.
+   * @param translatedName Nombre traducido del género.
+   * @returns Nombre formateado.
+   */
+  formatGenreName(translatedName: string): string {
+    if (!translatedName) return '';
+    const upper = translatedName.toUpperCase();
+    const acronyms = ['RPG', 'TBS', 'RTS', 'MOBA', 'MMORPG', 'FPS', 'CCG'];
+    if (acronyms.includes(upper)) {
+      return upper;
+    }
+    const lower = translatedName.toLowerCase();
+    return lower.charAt(0).toUpperCase() + lower.slice(1);
   }
 
   /**
