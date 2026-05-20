@@ -5,8 +5,20 @@
   min-height: 100%;
 }
 
-.info-list > .item:not(:last-child) {
-  border-bottom: 1px solid #6b7280;
+.info-list {
+  border: 1px solid rgba(148, 163, 184, 0.28) !important;
+
+  & > .item {
+    border-bottom: 1px solid rgba(148, 163, 184, 0.28) !important;
+
+    &:last-child {
+      border-bottom: none !important;
+    }
+  }
+
+  span.border-r {
+    border-right: 1px solid rgba(148, 163, 184, 0.28) !important;
+  }
 }
 
 .product-content-blurred {

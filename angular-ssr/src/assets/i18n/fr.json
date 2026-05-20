@@ -8,6 +8,8 @@
     "slug": "Slug",
     "save": "Sauvegarder",
     "cancel": "Annuler",
+    "yes": "Oui",
+    "no": "Non",
     "image": "Image",
     "upload": {
       "maxSize": "Taille max:",
@@ -464,6 +466,7 @@
     "reset": "réinitialiser",
     "removeFilter": "Supprimer le filtre",
     "noResults": "Aucun autre résultat trouvé...",
+    "loading": "Mise à jour des résultats...",
     "filters": {
       "price": {
         "label": "Prix",
@@ -604,7 +607,8 @@
     "purchaseInfoUserPageLink": "page utilisateur",
     "purchaseInfoBodyMiddle": " et les guides d'activation se trouvent dans ",
     "purchaseInfoHelpFaqLink": "la FAQ de la page d'aide",
-    "purchaseInfoBodyEnd": "."
+    "purchaseInfoBodyEnd": ".",
+    "translationLimitReached": "Limite de traduction atteinte. Affichage du texte original."
   },
   "dashboard": {
     "user": "Utilisateur",
@@ -814,5 +818,11 @@
     "phone_number": "+34 123 45 43 21",
     "address": "Adresse",
     "address_text": "Calle Sancha de Lara s/n,\nBarrio Centro Histórico,\nDistrito Centro, Málaga\nComarca de Málaga, Málaga"
+  },
+  "unsavedChanges": {
+    "title": "Modifications non enregistrées",
+    "message": "Vous avez des modifications non enregistrées. Si vous quittez cette page, elles seront perdues.",
+    "stay": "Rester",
+    "discard": "Ignorer"
   }
 }

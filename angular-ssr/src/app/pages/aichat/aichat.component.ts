@@ -6,14 +6,21 @@ import {
   ElementRef,
   AfterViewInit,
   NgZone,
+  Renderer2,
+  PLATFORM_ID,
+  signal,
+  inject,
 } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MarkdownPipe } from '../../pipes/markdown.pipe';
 import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ChatService } from '../../core/services/impl/chat.service';
-import { LocalizedCurrencyPipe } from '../../shared/pipes/localized-currency.pipe';
+import { LocalizedCurrencyPipe } from '../../pipes/localized-currency.pipe';
+import { UiStateService } from '../../core/services/ui-state.service';
 import {
   ChatSession,
   ChatMessage,
@@ -41,6 +48,13 @@ import { BaseAuthenticationService } from '../../core/services/impl/base-authent
   styleUrl: './aichat.component.scss',
 })
 export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
+  private chatService = inject(ChatService);
+  private router = inject(Router);
+  private authService = inject(BaseAuthenticationService);
+  private translateService = inject(TranslateService);
+  private ngZone = inject(NgZone);
+  private renderer = inject(Renderer2);
+
   /** Referencia al contenedor de mensajes para el scroll automático. */
   @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
   /** Referencia al contenedor de la barra lateral para efectos de scroll. */
@@ -61,11 +75,11 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   /** Controla la visibilidad del modal de autenticación requerida. */
   showAuthModal: boolean = false;
   /** Propiedad no documentada. */
-    authModalOpen = false;
+  authModalOpen = false;
   /** Propiedad no documentada. */
-    authModalClosing = false;
+  authModalClosing = false;
   /** Propiedad no documentada. */
-    private readonly authModalAnimMs = 160;
+  private readonly authModalAnimMs = 160;
   /** Estado de autenticación del usuario. */
   isUserAuthenticated: boolean = false;
   /** URL del avatar del usuario. */
@@ -73,9 +87,22 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   /** Indica si las sesiones se están cargando inicialmente. */
   loadingSessions: boolean = true;
   /** Propiedad no documentada. */
-    private readonly chatSessionsCountStorageKey = 'chatSessionsCount';
-  /** Propiedad no documentada. */
-    cachedSessionsCount = 0;
+  cachedSessionsCount = 0;
+  /** Indica si el componente se está ejecutando en el navegador. */
+  isBrowser = false;
+
+  private platformId = inject(PLATFORM_ID);
+  private uiState = inject(UiStateService);
+  /** Indica si la aplicación está lista (tras auto-login). */
+  isAppReady = toSignal(this.authService.ready$, { initialValue: false });
+  /** Indica si el retraso mínimo de skeletons ha terminado. */
+  private minSkeletonDelayDone = signal(false);
+  /** Timeout para el retraso mínimo de skeletons. */
+  private skeletonTimeoutId: any;
+  /** Sesiones de chat cargadas de la API. */
+  private sessionsData: ChatSession[] = [];
+
+  private readonly chatSessionsCountStorageKey = 'chatSessionsCount';
 
   /** Controla el estado de la barra lateral en dispositivos móviles. */
   isMobileSidebarOpen = false;
@@ -85,22 +112,22 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   /** Control visual de degradados para scroll en el chat principal. */
   showMainTopFade = false;
   /** Propiedad no documentada. */
-    showMainBottomFade = false;
+  showMainBottomFade = false;
   /** Control visual de degradados para scroll en la barra lateral. */
   showSidebarTopFade = false;
   /** Propiedad no documentada. */
-    showSidebarBottomFade = false;
+  showSidebarBottomFade = false;
 
   /** Visibilidad de barras de scroll personalizadas. */
   showSidebarScrollbar = false;
   /** Propiedad no documentada. */
-    showMainScrollbar = false;
+  showMainScrollbar = false;
   /** Temporizadores para ocultar las barras de scroll tras inactividad. */
   private sidebarActivityTimer: any;
   /** Propiedad no documentada. */
-    private mainActivityTimer: any;
+  private mainActivityTimer: any;
   /** Propiedad no documentada. */
-    private viewSyncQueued = false;
+  private viewSyncQueued = false;
 
   /** Alterna la visibilidad de la barra lateral móvil. */
   toggleMobileSidebar() {
@@ -113,20 +140,18 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
-     * Constructor no documentado.
-     * @param chatService Parámetro no documentado.
-     * @param router Parámetro no documentado.
-     * @param authService Parámetro no documentado.
-     * @param translateService Parámetro no documentado.
-     * @param ngZone Parámetro no documentado.
-     */
-    constructor(
-    private chatService: ChatService,
-    private router: Router,
-    private authService: BaseAuthenticationService,
-    private translateService: TranslateService,
-    private ngZone: NgZone,
-  ) {}
+   * Constructor no documentado.
+   */
+  constructor() {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+    if (this.isBrowser) {
+      if (this.uiState.loaderAnimationDone()) {
+        this.startMinimumSkeletonDelay();
+      } else {
+        window.addEventListener('gamingsage-home-trigger', this.onLoaderFinished);
+      }
+    }
+  }
 
   /**
    * Configura el estado inicial, suscripciones de usuario y carga de sesiones.
@@ -137,6 +162,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this.cachedSessionsCount = this.getInitialSessionsCount();
+
     this.authService.user$.subscribe((user) => {
       this.userName = user?.nickname || user?.name || '';
       if (user && user.media && user.media.length > 0) {
@@ -145,35 +171,46 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
         this.userAvatar = null;
       }
     });
-    this.authService.authenticated$.subscribe((isAuth) => {
-      this.isUserAuthenticated = isAuth;
-      if (isAuth) {
-        this.loadSessions();
-      } else {
-        this.sessions = [];
-        this.loadingSessions = false;
-        this.updateCachedSessionsCount(0);
+    this.authService.ready$.subscribe((ready) => {
+      if (ready) {
+        this.authService.authenticated$.subscribe((isAuth) => {
+          this.isUserAuthenticated = isAuth;
+          if (isAuth) {
+            this.loadSessions();
+          } else {
+            this.sessions = [];
+            this.sessionsData = [];
+            this.loadingSessions = false;
+            this.updateCachedSessionsCount(0);
+          }
+        });
       }
     });
   }
 
   /** Limpia clases específicas del body al salir del chat. */
   ngOnDestroy(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      window.removeEventListener('gamingsage-home-trigger', this.onLoaderFinished);
+    }
     if (this.sidebarActivityTimer) {
       clearTimeout(this.sidebarActivityTimer);
     }
     if (this.mainActivityTimer) {
       clearTimeout(this.mainActivityTimer);
     }
+    if (this.skeletonTimeoutId) {
+      clearTimeout(this.skeletonTimeoutId);
+    }
   }
 
   /** Método no documentado. */
-    ngAfterViewInit(): void {
+  ngAfterViewInit(): void {
     this.scheduleViewSync();
   }
 
   /** Método no documentado. */
-    private scheduleViewSync() {
+  private scheduleViewSync() {
     if (this.viewSyncQueued) return;
     this.viewSyncQueued = true;
     this.ngZone.runOutsideAngular(() => {
@@ -288,7 +325,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
     try {
       this.scrollContainer.nativeElement.scrollTop =
         this.scrollContainer.nativeElement.scrollHeight;
-    } catch (err) {}
+    } catch (err) { }
   }
 
   /** Carga el listado de sesiones de chat del usuario autenticado. */
@@ -296,16 +333,61 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loadingSessions = true;
     this.chatService.getSessions().subscribe({
       next: (sessions) => {
-        this.sessions = sessions;
-        this.loadingSessions = false;
-        this.updateCachedSessionsCount(sessions.length);
-        this.scheduleViewSync();
+        this.sessionsData = sessions;
+        this.checkAndApplySessions();
       },
       error: () => {
         this.loadingSessions = false;
         this.scheduleViewSync();
       },
     });
+  }
+
+  private onLoaderFinished = () => {
+    this.startMinimumSkeletonDelay();
+  };
+
+
+
+  /**
+   * Inicia el contador de retraso mínimo para los skeletons (1100ms).
+   */
+  private startMinimumSkeletonDelay() {
+    if (!isPlatformBrowser(this.platformId) || this.skeletonTimeoutId) return;
+
+    this.ngZone.run(() => {
+      this.minSkeletonDelayDone.set(false);
+    });
+
+    this.ngZone.runOutsideAngular(() => {
+      this.skeletonTimeoutId = setTimeout(() => {
+        this.ngZone.run(() => {
+          this.minSkeletonDelayDone.set(true);
+          this.skeletonTimeoutId = null;
+          this.checkAndApplySessions();
+        });
+      }, 1100);
+    });
+  }
+
+  /**
+   * Aplica las sesiones cargadas a la vista si se cumplen todas las condiciones.
+   */
+  private checkAndApplySessions() {
+    // Solo aplicamos si la app está lista y el delay mínimo ha pasado
+    if (!this.isAppReady() || !this.minSkeletonDelayDone()) {
+      return;
+    }
+
+    // Si no hay datos todavía y el usuario está autenticado, seguimos esperando al API
+    if (this.sessionsData.length === 0 && this.isUserAuthenticated && this.loadingSessions) {
+      return;
+    }
+
+    this.sessions = this.sessionsData;
+    this.loadingSessions = false;
+    this.updateCachedSessionsCount(this.sessions.length);
+    this.scheduleViewSync();
   }
 
   /** Prepara la interfaz para iniciar una nueva conversación. */
@@ -332,7 +414,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
         this.shouldScrollToBottomFlag = true;
         this.scheduleViewSync();
       },
-      error: () => {},
+      error: () => { },
     });
   }
 
@@ -353,7 +435,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
           this.startNewChat();
         }
       },
-      error: () => {},
+      error: () => { },
     });
   }
 
@@ -513,34 +595,28 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /** Accessor no documentado. */
-    get recentSessionsCount(): number[] {
-    const count = Math.max(this.cachedSessionsCount ?? 0, 0);
+  get recentSessionsCount(): number[] {
+    // Usamos el conteo cacheado o 3 como fallback si no hay historial
+    const count = this.cachedSessionsCount || 3;
     return Array(count)
       .fill(0)
       .map((x, i) => i + 1);
   }
 
-  /**
-     * Método no documentado.
-     * @returns Retorno no documentado.
-     */
-    private getInitialSessionsCount(): number {
-    if (typeof localStorage === 'undefined') {
-      return 0;
+  private getInitialSessionsCount(): number {
+    if (isPlatformBrowser(this.platformId)) {
+      const cached = localStorage.getItem(this.chatSessionsCountStorageKey);
+      if (cached) {
+        return parseInt(cached, 10);
+      }
     }
-    return parseInt(localStorage.getItem(this.chatSessionsCountStorageKey) || '0', 10);
+    return 0;
   }
 
-  /**
-     * Método no documentado.
-     * @param count Parámetro no documentado.
-     */
-    private updateCachedSessionsCount(count: number): void {
-    const safeCount = Math.max(count, 0);
-    this.cachedSessionsCount = safeCount;
-    if (typeof localStorage === 'undefined') {
-      return;
+  private updateCachedSessionsCount(count: number): void {
+    this.cachedSessionsCount = count;
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem(this.chatSessionsCountStorageKey, count.toString());
     }
-    localStorage.setItem(this.chatSessionsCountStorageKey, safeCount.toString());
   }
 }

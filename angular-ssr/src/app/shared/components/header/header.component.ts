@@ -7,7 +7,8 @@ import {
   PLATFORM_ID,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageSelectorComponent } from '../language-selector/language-selector.component';
 import { BaseAuthenticationService } from '../../../core/services/impl/base-authentication.service';
@@ -15,7 +16,8 @@ import { CartItemService } from '../../../core/services/impl/cart-item.service';
 import { FavoriteService } from '../../../core/services/impl/favorite.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { slideMenuAnimation } from '../../../animations/slide-menu.animation';
-import { UiStateService } from '../../../core/services/impl/ui-state.service';
+import { UiStateService } from '../../../core/services/ui-state.service';
+import { FormsModule } from '@angular/forms';
 
 /**
  * Componente de cabecera (header) principal.
@@ -30,6 +32,7 @@ import { UiStateService } from '../../../core/services/impl/ui-state.service';
     RouterModule,
     TranslatePipe,
     LanguageSelectorComponent,
+    FormsModule,
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
@@ -42,17 +45,17 @@ export class HeaderComponent {
   @ViewChild('menu') menu!: ElementRef;
 
   /** Propiedad no documentada. */
-    private authService = inject(BaseAuthenticationService);
+  private authService = inject(BaseAuthenticationService);
   /** Propiedad no documentada. */
-    private cartService = inject(CartItemService);
+  private cartService = inject(CartItemService);
   /** Propiedad no documentada. */
-    private favoriteService = inject(FavoriteService);
+  private favoriteService = inject(FavoriteService);
   /** Propiedad no documentada. */
-    private router = inject(Router);
+  private router = inject(Router);
   /** Servicio de estado de la UI (menú abierto/cerrado). */
   public uiState = inject(UiStateService);
   /** Propiedad no documentada. */
-    private platformId = inject(PLATFORM_ID);
+  private platformId = inject(PLATFORM_ID);
 
   /** Signal con los datos del usuario autenticado. */
   user = toSignal(this.authService.user$);
@@ -69,18 +72,26 @@ export class HeaderComponent {
   /** Indica si el usuario está actualmente en la página de búsqueda. */
   isSearchPage = false;
 
+  /** Consulta de búsqueda actual. */
+  searchQuery = '';
+
   /** Constructor no documentado. */
-    constructor() {
-    this.router.events.subscribe((event) => {
-      if (typeof event === 'object' && 'url' in event) {
-        this.isSearchPage = this.router.url.includes('/search');
-      }
+  constructor() {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.isSearchPage = this.router.url.includes('/search');
+      
+      // Sincronizar el texto del input con la URL al finalizar la navegación
+      const urlTree = this.router.parseUrl(this.router.url);
+      this.searchQuery = urlTree.queryParams['q'] || '';
     });
   }
 
   /** Maneja el foco en el input de búsqueda. */
   onSearchFocus(): void {
     this.searchActive = true;
+    this.uiState.setSearchActive(true);
   }
 
   /** Maneja la pérdida de foco del buscador con un pequeño retardo. */
@@ -104,18 +115,43 @@ export class HeaderComponent {
     if (event.key === 'Enter') {
       const input = event.target as HTMLInputElement;
       const query = input.value.trim();
-      if (!query) {
-        this.router.navigate(['/search'], { queryParams: {} });
-      } else {
-        this.router.navigate(['/search'], { queryParams: { q: query } });
+      
+      if (!this.isSearchPage) {
+        // Si no estamos en search, navegamos al pulsar Enter
+        if (!query) {
+          this.router.navigate(['/search'], { queryParams: {} });
+        } else {
+          this.router.navigate(['/search'], { queryParams: { q: query } });
+        }
       }
+      
       this.searchActive = false;
+      input.blur();
     }
+  }
+
+  /**
+   * Actualiza la búsqueda en tiempo real mientras el usuario escribe.
+   * Solo se activa si ya se encuentra en la página de búsqueda.
+   * @param event Evento de entrada de texto.
+   */
+  onSearchInput(event: Event): void {
+    if (!this.isSearchPage) return;
+
+    const input = event.target as HTMLInputElement;
+    const query = input.value.trim();
+    
+    this.router.navigate(['/search'], {
+      queryParams: { q: query || null },
+      queryParamsHandling: 'merge',
+      replaceUrl: true
+    });
   }
 
   /** Cierra la barra de búsqueda. */
   closeSearch(): void {
     this.searchActive = false;
+    this.uiState.setSearchActive(false);
   }
 
   /**

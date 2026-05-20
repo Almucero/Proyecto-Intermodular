@@ -5,6 +5,7 @@
       value: ':leave',
       params: { duration: exitAnimationDuration },
     }"
+    (@leaveAnimation.done)="onLoaderAnimationDone()"
   ></app-loading>
   <app-header
     [@headerRevealAnimation]="{
@@ -29,4 +30,33 @@
     <app-error-toast></app-error-toast>
     <app-footer></app-footer>
   </div>
+
+  @if (confirmNav.visible()) {
+    <div
+      class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9999] flex items-center justify-center p-4"
+    >
+      <div class="bg-gray-900 rounded-xl max-w-md w-full p-6 shadow-2xl">
+        <h3 class="text-xl font-bold text-white mb-4">
+          {{ "unsavedChanges.title" | translate }}
+        </h3>
+        <p class="text-gray-300 mb-8">
+          {{ "unsavedChanges.message" | translate }}
+        </p>
+        <div class="flex gap-4 justify-end">
+          <button
+            (click)="confirmNav.cancel()"
+            class="px-6 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-all font-medium border-0 outline-none"
+          >
+            {{ "unsavedChanges.stay" | translate }}
+          </button>
+          <button
+            (click)="confirmNav.accept()"
+            class="px-6 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg transition-all font-medium border-0 outline-none"
+          >
+            {{ "unsavedChanges.discard" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
 </div>

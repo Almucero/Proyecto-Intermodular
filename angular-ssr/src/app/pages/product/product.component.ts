@@ -19,33 +19,34 @@ import { BaseAuthenticationService } from '../../core/services/impl/base-authent
 import { CartItem } from '../../core/models/cart-item.model';
 import { Favorite } from '../../core/models/favorite.model';
 import { Game } from '../../core/models/game.model';
-import { LocalizedCurrencyPipe } from '../../shared/pipes/localized-currency.pipe';
+import { LocalizedCurrencyPipe } from '../../pipes/localized-currency.pipe';
 import { PageTitleService } from '../../core/services/page-title.service';
 import { DOCUMENT } from '@angular/common';
 import { CarouselComponent } from '../../shared/components/carousel/carousel.component';
 import { StripeModalComponent } from '../../shared/components/stripe-checkout/stripe-checkout.component';
 import { Subscription } from 'rxjs';
+import { AutoTranslatePipe } from '../../pipes/auto-translate.pipe';
 
 /** Estructura de elemento visualizable en galería de producto. */
 interface MediaItem {
   /** Propiedad no documentada. */
-    type: 'video' | 'image';
+  type: 'video' | 'image';
   /** Propiedad no documentada. */
-    label: string;
+  label: string;
   /** Propiedad no documentada. */
-    url?: string | SafeResourceUrl;
+  url?: string | SafeResourceUrl;
   /** Propiedad no documentada. */
-    thumbnail?: string;
+  thumbnail?: string;
 }
 
 /** Estructura de una sección de carrusel de recomendaciones. */
 interface RecommendationSection {
   /** Propiedad no documentada. */
-    titleKey: string;
+  titleKey: string;
   /** Propiedad no documentada. */
-    sectionId: string;
+  sectionId: string;
   /** Propiedad no documentada. */
-    items: Game[];
+  items: Game[];
 }
 
 /**
@@ -63,6 +64,7 @@ interface RecommendationSection {
     CarouselComponent,
     StripeModalComponent,
     RouterModule,
+    AutoTranslatePipe
   ],
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss'],
@@ -77,50 +79,50 @@ export class ProductComponent implements OnInit, OnDestroy {
   /** Lista de elementos multimedia procesados para el visor. */
   mediaItems: MediaItem[] = [];
   /** Propiedad no documentada. */
-    recommendationSections: RecommendationSection[] = [];
+  recommendationSections: RecommendationSection[] = [];
   /** Propiedad no documentada. */
-    recommendationSkeletonSections: RecommendationSection[] = this.createRecommendationSkeletons();
+  recommendationSkeletonSections: RecommendationSection[] = this.createRecommendationSkeletons();
   /** Propiedad no documentada. */
-    loadingRecommendations = true;
+  loadingRecommendations = true;
   /** Propiedad no documentada. */
-    private routeSub?: Subscription;
+  private routeSub?: Subscription;
 
   /** Estados para notificaciones visuales y modales. */
   showAuthModal = signal(false);
   /** Propiedad no documentada. */
-    authModalOpen = false;
+  authModalOpen = false;
   /** Propiedad no documentada. */
-    authModalClosing = false;
+  authModalClosing = false;
   /** Propiedad no documentada. */
-    private readonly authModalAnimMs = 160;
+  private readonly authModalAnimMs = 160;
   /** Propiedad no documentada. */
-    isAuthenticated = signal(false);
+  isAuthenticated = signal(false);
   /** Propiedad no documentada. */
-    addedToCartSuccess = signal(false);
+  addedToCartSuccess = signal(false);
   /** Propiedad no documentada. */
-    addedToFavoritesSuccess = signal(false);
+  addedToFavoritesSuccess = signal(false);
   /** Propiedad no documentada. */
-    buySuccess = signal(false);
+  buySuccess = signal(false);
   /** Propiedad no documentada. */
-    quantityIncreased = signal(false);
+  quantityIncreased = signal(false);
   /** Propiedad no documentada. */
-    alreadyInCart = signal(false);
+  alreadyInCart = signal(false);
   /** Propiedad no documentada. */
-    alreadyInFavorites = signal(false);
+  alreadyInFavorites = signal(false);
   /** Propiedad no documentada. */
-    isScreenshotModalOpen = signal(false);
+  isScreenshotModalOpen = signal(false);
   /** Propiedad no documentada. */
-    screenshotModalImage = signal<string | null>(null);
+  screenshotModalImage = signal<string | null>(null);
   /** Propiedad no documentada. */
-    screenshotModalOpen = false;
+  screenshotModalOpen = false;
   /** Propiedad no documentada. */
-    screenshotModalClosing = false;
+  screenshotModalClosing = false;
   /** Propiedad no documentada. */
-    checkoutModalOpen = signal(false);
+  checkoutModalOpen = signal(false);
   /** Propiedad no documentada. */
-    directCheckoutPayload = signal<{ gameId: number; platformId: number } | null>(null);
+  directCheckoutPayload = signal<{ gameId: number; platformId: number } | null>(null);
   /** Propiedad no documentada. */
-    purchaseInfoVisible = signal(false);
+  purchaseInfoVisible = signal(false);
 
   /** Configuración estática de todas las plataformas soportadas. */
   allPlatforms = [
@@ -205,7 +207,7 @@ export class ProductComponent implements OnInit, OnDestroy {
      * @param renderer Parámetro no documentado.
      * @param document Parámetro no documentado.
      */
-    constructor(
+  constructor(
     @Inject(ActivatedRoute) private route: ActivatedRoute,
     private gameService: GameService,
     private mediaService: MediaService,
@@ -217,7 +219,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     private pageTitleService: PageTitleService,
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document: Document,
-  ) {}
+  ) { }
 
   /**
    * Inicializa el componente cargando el juego según el ID de la ruta.
@@ -252,7 +254,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   /** Método no documentado. */
-    ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.routeSub?.unsubscribe();
     this.renderer.removeStyle(this.document.body, 'overflow');
     this.checkoutModalOpen.set(false);
@@ -290,7 +292,7 @@ export class ProductComponent implements OnInit, OnDestroy {
      * @param count Parámetro no documentado.
      * @returns Retorno no documentado.
      */
-    private createCarouselPlaceholders(count = 20): Game[] {
+  private createCarouselPlaceholders(count = 20): Game[] {
     return Array(count).fill({
       id: -1,
       title: 'common.loading',
@@ -316,7 +318,7 @@ export class ProductComponent implements OnInit, OnDestroy {
      * Método no documentado.
      * @returns Retorno no documentado.
      */
-    private createRecommendationSkeletons(): RecommendationSection[] {
+  private createRecommendationSkeletons(): RecommendationSection[] {
     const placeholders = this.createCarouselPlaceholders();
     return [
       {
@@ -377,7 +379,7 @@ export class ProductComponent implements OnInit, OnDestroy {
      * @param baseGame Parámetro no documentado.
      * @param allMedia Parámetro no documentado.
      */
-    private loadRecommendationCarousels(baseGame: Game, allMedia: any[]): void {
+  private loadRecommendationCarousels(baseGame: Game, allMedia: any[]): void {
     this.gameService.getAll({}).subscribe({
       next: (allGames) => {
         const mediaByGameId = new Map<number, any[]>();
@@ -520,7 +522,7 @@ export class ProductComponent implements OnInit, OnDestroy {
      * @param candidate Parámetro no documentado.
      * @returns Retorno no documentado.
      */
-    private scoreSimilarity(base: Game, candidate: Game): number {
+  private scoreSimilarity(base: Game, candidate: Game): number {
     let score = 0;
 
     if (base.developerId && candidate.developerId === base.developerId) {
@@ -702,7 +704,7 @@ export class ProductComponent implements OnInit, OnDestroy {
      * Método no documentado.
      * @param imageUrl Parámetro no documentado.
      */
-    openScreenshotModal(imageUrl: string): void {
+  openScreenshotModal(imageUrl: string): void {
     if (!imageUrl) return;
     this.screenshotModalImage.set(imageUrl);
     this.isScreenshotModalOpen.set(true);
@@ -719,7 +721,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   /** Método no documentado. */
-    closeScreenshotModal(): void {
+  closeScreenshotModal(): void {
     if (this.screenshotModalClosing) return;
     this.screenshotModalClosing = true;
     this.screenshotModalOpen = false;
@@ -849,13 +851,13 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   /** Método no documentado. */
-    closeCheckoutModal(): void {
+  closeCheckoutModal(): void {
     this.checkoutModalOpen.set(false);
     this.directCheckoutPayload.set(null);
   }
 
   /** Método no documentado. */
-    onCheckoutCompleted(): void {
+  onCheckoutCompleted(): void {
     this.checkoutModalOpen.set(false);
     this.directCheckoutPayload.set(null);
     this.purchaseInfoVisible.set(true);
@@ -866,7 +868,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   /** Método no documentado. */
-    closePurchaseInfo(): void {
+  closePurchaseInfo(): void {
     this.purchaseInfoVisible.set(false);
   }
 
@@ -914,7 +916,7 @@ export class ProductComponent implements OnInit, OnDestroy {
      * Método no documentado.
      * @param id Parámetro no documentado.
      */
-    goToProduct(id: number): void {
+  goToProduct(id: number): void {
     if (!Number.isFinite(id) || id <= 0) return;
     if (this.game?.id !== id) {
       this.game = this.createPlaceholder();
@@ -973,7 +975,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   /** Método no documentado. */
-    @HostListener('document:keydown.escape')
+  @HostListener('document:keydown.escape')
   onEscapePressed(): void {
     if (this.isScreenshotModalOpen()) {
       this.closeScreenshotModal();

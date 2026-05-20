@@ -25,13 +25,22 @@
       (mouseup)="onMouseUp()"
       (mousemove)="onMouseMove($event)"
     >
-      <app-game-card
-        *ngFor="let item of items"
-        [game]="item"
-        [coverUrl]="getCoverUrl(item)"
-        (cardClick)="onItemClick($event)"
-        class="flex-shrink-0"
-      ></app-game-card>
+      @if (loading) {
+        @for (item of skeletonGames; track $index) {
+          <app-game-card
+            [game]="item"
+            class="flex-shrink-0"
+          ></app-game-card>
+        }
+      } @else {
+        <app-game-card
+          *ngFor="let item of items"
+          [game]="item"
+          [coverUrl]="getCoverUrl(item)"
+          (cardClick)="onItemClick($event)"
+          class="flex-shrink-0"
+        ></app-game-card>
+      }
     </div>
     <span
       (click)="scrollRight()"

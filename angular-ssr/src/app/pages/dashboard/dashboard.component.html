@@ -180,7 +180,8 @@
       <div class="flex-none lg:w-1/4 flex flex-col items-center lg:pr-15">
         <div class="relative group">
           <div class="relative w-48 h-48 rounded-full overflow-hidden ring-4 ring-white shadow-2xl">
-            <img [src]="profileImage" alt="User" class="w-full h-full object-cover" />
+            <img [src]="profileImage" alt="User" class="w-full h-full object-cover" crossorigin="anonymous"
+              referrerpolicy="no-referrer" />
           </div>
           <button *ngIf="isEditing" (click)="fileInput.click()"
             class="absolute bottom-0 right-0 bg-cyan-400 hover:bg-cyan-300 text-white p-3 rounded-full shadow-lg transition-transform transform hover:scale-110 focus:outline-none active:scale-95"
@@ -328,7 +329,7 @@
         <div class="mt-12 lg:mt-8 flex justify-center lg:justify-start">
           <div class="inline-flex flex-col gap-2 lg:flex-row lg:gap-4">
             <button #actionSizeButton (click)="toggleEdit()"
-              class="border-0 bg-cyan-400 hover:bg-cyan-300 text-white font-medium py-2 px-6 rounded transition-colors duration-150 active:scale-95 focus:outline-none">
+              class="border-0 btn-premium-action text-white font-medium py-2 px-6 rounded transition-colors duration-150 active:scale-95 focus:outline-none">
               {{
               isEditing
               ? ("dashboard.cancel" | translate)
@@ -446,7 +447,7 @@
                   }}€</span>
               </div>
               <div class="space-y-2 md:space-y-3">
-                @for (item of purchase.items; track item.id) {
+                @for (item of purchase.items; track $index) {
                 <div
                   class="bg-gray-700/30 rounded-lg p-3 md:p-4 flex flex-col md:flex-row gap-2 md:gap-4 items-start md:items-center hover:bg-gray-700/50 transition-colors">
                   <div class="w-full md:flex-1">
@@ -633,7 +634,7 @@
                   {{ ret.refundReason }}</span>
               </div>
               <div class="space-y-2 md:space-y-3 ml-3">
-                @for (item of ret.items; track item.id) {
+                @for (item of ret.items; track $index) {
                 <div
                   class="bg-gray-700/30 rounded-lg p-3 md:p-4 flex flex-col md:flex-row gap-2 md:gap-4 items-start md:items-center opacity-75 grayscale hover:grayscale-0 transition-all">
                   <div class="w-full md:flex-1">
@@ -771,7 +772,7 @@
 
         <div class="mt-16 lg:mt-10 mb-2 flex justify-center lg:justify-start">
           <button #actionSizeButton (click)="onLogout()"
-            class="border-0 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-6 rounded transition-colors flex items-center justify-center gap-2 duration-150 active:scale-95 focus:outline-none">
+            class="border-0 btn-premium-danger text-white font-medium py-2 px-6 rounded transition-colors flex items-center justify-center gap-2 duration-150 active:scale-95 focus:outline-none">
             <span>{{ "dashboard.logout" | translate }}</span>
           </button>
         </div>

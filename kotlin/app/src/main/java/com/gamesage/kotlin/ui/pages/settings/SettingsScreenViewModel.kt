@@ -1,11 +1,15 @@
 package com.gamesage.kotlin.ui.pages.settings
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gamesage.kotlin.R
 import com.gamesage.kotlin.data.model.User
 import com.gamesage.kotlin.data.remote.model.UpdateProfileRequest
 import com.gamesage.kotlin.data.repository.user.UserRepository
+import com.gamesage.kotlin.utils.LanguageUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -33,11 +37,18 @@ data class SettingsUiState(
 
 @HiltViewModel
 class SettingsScreenViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
+
+    private val localizedContext: Context
+        get() = LanguageUtils.onAttach(context)
 
     private val _uiState = MutableStateFlow(SettingsUiState())
     val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
+
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage: StateFlow<String?> = _errorMessage.asStateFlow()
 
     init {
         loadSettings()
@@ -135,7 +146,12 @@ class SettingsScreenViewModel @Inject constructor(
             userRepository.updateMe(request).onSuccess {
                 _uiState.update { it.copy(isSaving = false, isSaved = true) }
             }.onFailure { e ->
-                _uiState.update { it.copy(isSaving = false, error = e.message) }
+                _uiState.update { it.copy(isSaving = false) }
+                if (e is java.io.IOException) {
+                    _errorMessage.value = localizedContext.getString(R.string.error_profile_save_network)
+                } else {
+                    _uiState.update { it.copy(error = e.message) }
+                }
             }
         }
     }
@@ -146,5 +162,9 @@ class SettingsScreenViewModel @Inject constructor(
 
     fun confirmDeleteAccount() {
         _uiState.update { it.copy(deleteAccountConfirmArmed = false) }
+    }
+
+    fun clearError() {
+        _errorMessage.value = null
     }
 }

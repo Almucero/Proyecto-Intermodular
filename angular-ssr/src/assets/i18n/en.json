@@ -8,6 +8,8 @@
     "slug": "Slug",
     "save": "Save",
     "cancel": "Cancel",
+    "yes": "Yes",
+    "no": "No",
     "image": "Image",
     "upload": {
       "maxSize": "Max size:",
@@ -171,6 +173,20 @@
       "frequencyImmediate": "Immediate",
       "frequencyDaily": "Daily digest",
       "frequencyWeekly": "Weekly digest",
+      "selectLanguage": "Select language",
+      "selectFrequency": "Select frequency",
+      "languages": {
+        "es": "Spanish",
+        "en": "English",
+        "fr": "French",
+        "de": "German"
+      },
+      "frequencies": {
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly",
+        "never": "Never"
+      },
       "quietStart": "Quiet hours start",
       "quietEnd": "Quiet hours end",
       "pauseDays": "Pause deliveries (days)",
@@ -212,6 +228,12 @@
         "inactiveAccount": "Inactive account reminders",
         "seasonalCampaigns": "Seasonal campaigns and special offers"
       }
+    },
+    "account": {
+      "deleteButton": "Delete account",
+      "confirmDelete": "ARE YOU SURE YOU WANT TO DELETE YOUR ACCOUNT?",
+      "deleteSuccess": "Account deleted successfully",
+      "deleteError": "Could not delete account"
     }
   },
   "contact": {
@@ -488,6 +510,7 @@
     "reset": "reset",
     "removeFilter": "Remove filter",
     "noResults": "No more results found...",
+    "loading": "Updating results...",
     "filters": {
       "price": {
         "label": "Price",
@@ -625,7 +648,8 @@
     "purchaseInfoUserPageLink": "user page",
     "purchaseInfoBodyMiddle": " and activation guides are available in ",
     "purchaseInfoHelpFaqLink": "the FAQ section of the help page",
-    "purchaseInfoBodyEnd": "."
+    "purchaseInfoBodyEnd": ".",
+    "translationLimitReached": "Translation limit reached. Showing original text."
   },
   "dashboard": {
     "user": "User",
@@ -835,5 +859,11 @@
     "phone_number": "+34 123 45 43 21",
     "address": "Address",
     "address_text": "Calle Sancha de Lara s/n,\nBarrio Centro Histórico,\nDistrito Centro, Málaga\nComarca de Málaga, Málaga"
+  },
+  "unsavedChanges": {
+    "title": "Unsaved changes",
+    "message": "You have unsaved changes. If you leave this page, they will be lost.",
+    "stay": "Stay",
+    "discard": "Discard"
   }
 }
