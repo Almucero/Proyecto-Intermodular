@@ -15,7 +15,7 @@ import {
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import type { Game } from '../../../core/models/game.model';
 import { TranslatePipe } from '@ngx-translate/core';
-import { LocalizedCurrencyPipe } from '../../pipes/localized-currency.pipe';
+import { LocalizedCurrencyPipe } from '../../../pipes/localized-currency.pipe';
 import { Tilt3DDirective } from '../../../directives/tilt-3d.directive';
 
 /**
@@ -56,9 +56,9 @@ export class GameCardComponent implements AfterViewInit, OnDestroy {
   /** Indica si el título es más largo que el contenedor (requiere scroll). */
   hasOverflow = false;
   /** Propiedad no documentada. */
-    private loopInterval: any;
+  private loopInterval: any;
   /** Propiedad no documentada. */
-    private startTimeout: any;
+  private startTimeout: any;
 
   /**
      * Constructor no documentado.
@@ -66,11 +66,11 @@ export class GameCardComponent implements AfterViewInit, OnDestroy {
      * @param ngZone Parámetro no documentado.
      * @param platformId Parámetro no documentado.
      */
-    constructor(
+  constructor(
     private cdr: ChangeDetectorRef,
     private ngZone: NgZone,
     @Inject(PLATFORM_ID) private platformId: Object,
-  ) {}
+  ) { }
 
   /**
    * Inicializa la lógica de animación si se ejecuta en el navegador.

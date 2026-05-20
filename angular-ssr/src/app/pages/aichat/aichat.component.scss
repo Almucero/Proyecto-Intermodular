@@ -68,11 +68,40 @@
   @media (min-width: 768px) {
     margin: 1rem;
     margin-top: 1rem;
-    border: 2px solid #374151;
-    border-radius: 0.75rem;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    border-radius: 1.25rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     height: calc(100dvh - 60px - 2rem);
     width: calc(100% - 2rem);
+    background: rgba(17, 24, 39, 0.7);
+    backdrop-filter: blur(12px);
+  }
+}
+
+.message-bubble-user {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-bottom-right-radius: 0.25rem;
+}
+
+.message-bubble-ai {
+  background: linear-gradient(135deg, #083344 0%, #0c4a6e 100%);
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  border-bottom-left-radius: 0.25rem;
+}
+
+.sidebar-item {
+  transition: all 0.2s ease-in-out;
+  border-left: 3px solid transparent;
+  
+  &:hover {
+    background: rgba(34, 211, 238, 0.1);
+    border-left-color: rgba(34, 211, 238, 0.5);
+  }
+  
+  &.active {
+    background: rgba(34, 211, 238, 0.15);
+    border-left-color: #22d3ee;
   }
 }
 

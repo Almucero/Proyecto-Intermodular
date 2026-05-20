@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, HostListener, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { BaseAuthenticationService } from '../../core/services/impl/base-authentication.service';
 import { UserService } from '../../core/services/impl/user.service';
+import { CanComponentDeactivate } from '../../core/guards/can-deactivate.guard';
 
 /** Pantalla de preferencias de notificaciones por correo y cuenta. */
 @Component({
@@ -12,28 +13,44 @@ import { UserService } from '../../core/services/impl/user.service';
   imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
-export class SettingsComponent implements OnInit {
-  /** Propiedad no documentada. */
-    private readonly auth = inject(BaseAuthenticationService);
-  /** Propiedad no documentada. */
-    private readonly userService = inject(UserService);
-  /** Propiedad no documentada. */
-    private readonly fb = inject(FormBuilder);
-    private readonly router = inject(Router);
+export class SettingsComponent implements OnInit, CanComponentDeactivate {
+  private readonly auth = inject(BaseAuthenticationService);
+  private readonly userService = inject(UserService);
+  private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
 
   isAuthenticated = signal(false);
-
-  /** Estado de guardado en curso. */
+  isAuthReady = signal(false);
   saving = false;
-  /** Marca visual de guardado exitoso. */
   saved = false;
-  /** Clave i18n del último error de guardado. */
   saveError = '';
-  /** Estado del segundo paso de confirmación de borrado de cuenta. */
   deleteAccountConfirmArmed = false;
+  
+  /** Indica si se debe mostrar el modal de confirmación de reseteo. */
+  showResetConfirmModal = signal(false);
 
-  /** Claves de tópicos de notificación configurables por el usuario. */
+  /** Estados para los dropdowns personalizados. */
+  languageDropdownOpen = signal(false);
+  frequencyDropdownOpen = signal(false);
+
+  /** Opciones de idioma disponibles. */
+  readonly languages = [
+    { code: 'es', label: 'settings.notifications.languages.es' },
+    { code: 'en', label: 'settings.notifications.languages.en' },
+    { code: 'fr', label: 'settings.notifications.languages.fr' },
+    { code: 'de', label: 'settings.notifications.languages.de' },
+  ];
+
+  /** Opciones de frecuencia disponibles. */
+  readonly frequencies = [
+    { code: 'daily', label: 'settings.notifications.frequencies.daily' },
+    { code: 'weekly', label: 'settings.notifications.frequencies.weekly' },
+    { code: 'monthly', label: 'settings.notifications.frequencies.monthly' },
+    { code: 'never', label: 'settings.notifications.frequencies.never' },
+  ];
+
   readonly topicKeys = [
     'periodicRecommendations',
     'cartReminders',
@@ -45,7 +62,6 @@ export class SettingsComponent implements OnInit {
     'inactiveAccount',
   ] as const;
 
-  /** Formulario reactivo de preferencias de notificación por email. */
   readonly form = this.fb.group({
     emailNotificationsEnabled: [true, Validators.required],
     notificationEmail: ['', Validators.email],
@@ -66,34 +82,83 @@ export class SettingsComponent implements OnInit {
     ),
   });
 
-  /** Inicializa el formulario con datos del usuario autenticado. */
   ngOnInit(): void {
-    this.auth.user$.subscribe((user) => {
-      this.isAuthenticated.set(!!user);
-      if (!user) return;
-      const topicsFromUser = (user.emailNotificationTopics ?? {}) as Record<string, boolean>;
-      const topicsPatch = this.topicKeys.reduce(
-        (acc, key) => {
-          acc[key] = topicsFromUser[key] ?? true;
-          return acc;
-        },
-        {} as Record<(typeof this.topicKeys)[number], boolean>,
-      );
+    this.auth.ready$.subscribe((ready) => {
+      this.isAuthReady.set(ready);
+      if (ready) {
+        this.auth.user$.subscribe((user) => {
+          this.isAuthenticated.set(!!user);
+          if (!user) return;
+          const topicsFromUser = (user.emailNotificationTopics ?? {}) as Record<string, boolean>;
+          const topicsPatch = this.topicKeys.reduce(
+            (acc, key) => {
+              acc[key] = topicsFromUser[key] ?? true;
+              return acc;
+            },
+            {} as Record<(typeof this.topicKeys)[number], boolean>,
+          );
 
-      this.form.patchValue({
-        emailNotificationsEnabled: user.emailNotificationsEnabled ?? true,
-        notificationEmail: user.notificationEmail ?? '',
-        emailNotificationLanguage: user.emailNotificationLanguage ?? '',
-        emailNotificationFrequency: user.emailNotificationFrequency ?? 'weekly',
-        emailRecommendationIntervalDays: user.emailRecommendationIntervalDays ?? 7,
-        emailQuietHoursStart: user.emailQuietHoursStart ?? 22,
-        emailQuietHoursEnd: user.emailQuietHoursEnd ?? 8,
-        topics: topicsPatch,
-      });
+          this.form.patchValue({
+            emailNotificationsEnabled: user.emailNotificationsEnabled ?? true,
+            notificationEmail: user.notificationEmail ?? '',
+            emailNotificationLanguage: user.emailNotificationLanguage ?? '',
+            emailNotificationFrequency: user.emailNotificationFrequency ?? 'weekly',
+            emailRecommendationIntervalDays: user.emailRecommendationIntervalDays ?? 7,
+            emailQuietHoursStart: user.emailQuietHoursStart ?? 22,
+            emailQuietHoursEnd: user.emailQuietHoursEnd ?? 8,
+            topics: topicsPatch,
+          });
+        });
+      }
     });
   }
 
-  /** Persiste la configuración de notificaciones del usuario actual. */
+  /** Alterna el dropdown de idioma. */
+  toggleLanguageDropdown(event: Event): void {
+    event.stopPropagation();
+    this.languageDropdownOpen.update(v => !v);
+    this.frequencyDropdownOpen.set(false);
+  }
+
+  /** Alterna el dropdown de frecuencia. */
+  toggleFrequencyDropdown(event: Event): void {
+    event.stopPropagation();
+    this.frequencyDropdownOpen.update(v => !v);
+    this.languageDropdownOpen.set(false);
+  }
+
+  /** Selecciona un idioma del dropdown. */
+  selectLanguage(code: string): void {
+    this.form.patchValue({ emailNotificationLanguage: code });
+    this.form.markAsDirty();
+    this.languageDropdownOpen.set(false);
+  }
+
+  /** Selecciona una frecuencia del dropdown. */
+  selectFrequency(code: string): void {
+    this.form.patchValue({ emailNotificationFrequency: code });
+    this.form.markAsDirty();
+    this.frequencyDropdownOpen.set(false);
+  }
+
+  /** Obtiene la etiqueta del idioma seleccionado. */
+  getSelectedLanguageLabel(): string {
+    const code = this.form.get('emailNotificationLanguage')?.value;
+    return this.languages.find(l => l.code === code)?.label || 'settings.notifications.selectLanguage';
+  }
+
+  /** Obtiene la etiqueta de la frecuencia seleccionada. */
+  getSelectedFrequencyLabel(): string {
+    const code = this.form.get('emailNotificationFrequency')?.value;
+    return this.frequencies.find(f => f.code === code)?.label || 'settings.notifications.selectFrequency';
+  }
+
+  @HostListener('document:click')
+  closeDropdowns(): void {
+    this.languageDropdownOpen.set(false);
+    this.frequencyDropdownOpen.set(false);
+  }
+
   saveSettings(): void {
     this.deleteAccountConfirmArmed = false;
     this.saved = false;
@@ -123,6 +188,7 @@ export class SettingsComponent implements OnInit {
         next: () => {
           this.saving = false;
           this.saved = true;
+          this.form.markAsPristine();
           this.auth.me().subscribe();
         },
         error: () => {
@@ -132,22 +198,34 @@ export class SettingsComponent implements OnInit {
       });
   }
 
-  /** Activa/desactiva la confirmación de borrado de cuenta. */
   onDeleteAccountClick(): void {
     this.deleteAccountConfirmArmed = !this.deleteAccountConfirmArmed;
   }
 
-  /** Cancela la acción de borrado y resetea su confirmación. */
   onCancelDeleteAccount(): void {
     this.deleteAccountConfirmArmed = false;
   }
 
-  /** Placeholder de confirmación final de borrado de cuenta. */
   onConfirmDeleteAccount(): void {
     this.deleteAccountConfirmArmed = false;
   }
 
   goToLogin(): void {
     this.router.navigate(['/login']);
+  }
+
+  get isEditing(): boolean {
+    return this.form.dirty && !this.saved;
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any): void {
+    if (this.isEditing) {
+      $event.returnValue = true;
+    }
+  }
+
+  hasUnsavedChanges(): boolean {
+    return this.isEditing;
   }
 }

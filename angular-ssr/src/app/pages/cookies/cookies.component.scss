@@ -67,3 +67,7 @@
   object-fit: cover;
   top: 0;
 }
+
+div[class*="border-slate-400"] {
+  border-color: rgba(148, 163, 184, 0.28) !important;
+}

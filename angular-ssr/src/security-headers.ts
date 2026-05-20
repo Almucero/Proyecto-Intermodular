@@ -54,14 +54,14 @@ export function applySecurityHeaders(
     csp +=
       "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.gstatic.com https://generativelanguage.googleapis.com https://js.stripe.com https://accounts.google.com https://accounts.gstatic.com; ";
     csp +=
-      "connect-src 'self' https://res.cloudinary.com https://generativelanguage.googleapis.com https://api.stripe.com https://r.stripe.com https://m.stripe.network https://js.stripe.com https://hooks.stripe.com https://accounts.google.com https://accounts.gstatic.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; ";
+      "connect-src 'self' https://res.cloudinary.com https://generativelanguage.googleapis.com https://api.stripe.com https://r.stripe.com https://m.stripe.network https://js.stripe.com https://hooks.stripe.com https://accounts.google.com https://accounts.gstatic.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://api.mymemory.translated.net; ";
     csp += 'upgrade-insecure-requests;';
   } else {
     // Desarrollo: permite WebSocket para HMR (Hot Module Replacement) e unsafe-inline/eval para debug
     csp +=
       "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.gstatic.com https://generativelanguage.googleapis.com https://js.stripe.com https://accounts.google.com https://accounts.gstatic.com; ";
     csp +=
-      "connect-src 'self' ws://localhost:* http://localhost:* https://res.cloudinary.com https://generativelanguage.googleapis.com https://api.stripe.com https://r.stripe.com https://m.stripe.network https://js.stripe.com https://hooks.stripe.com https://accounts.google.com https://accounts.gstatic.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; ";
+      "connect-src 'self' ws://localhost:* http://localhost:* https://res.cloudinary.com https://generativelanguage.googleapis.com https://api.stripe.com https://r.stripe.com https://m.stripe.network https://js.stripe.com https://hooks.stripe.com https://accounts.google.com https://accounts.gstatic.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://api.mymemory.translated.net; ";
   }
 
   res.setHeader('Content-Security-Policy', csp);

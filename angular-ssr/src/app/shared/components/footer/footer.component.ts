@@ -1,5 +1,6 @@
 import { Component, inject, HostBinding } from '@angular/core';
-import { UiStateService } from '../../../core/services/impl/ui-state.service';
+import { Router } from '@angular/router';
+import { UiStateService } from '../../../core/services/ui-state.service';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import {
@@ -20,7 +21,9 @@ import {
 })
 export class FooterComponent {
   /** Propiedad no documentada. */
-    private languageService = inject(LanguageService);
+  private languageService = inject(LanguageService);
+  /** Servicio del enrutador de Angular. */
+  private router = inject(Router);
   /** Estado global de la interfaz de usuario. */
   public uiState = inject(UiStateService);
   /** Año actual para el copyright. */
@@ -33,6 +36,12 @@ export class FooterComponent {
   @HostBinding('class.menu-open')
   get menuOpen() {
     return this.uiState.isMenuOpen();
+  }
+
+  /** Clase dinámica vinculada al estado de búsqueda activa. */
+  @HostBinding('class.search-active')
+  get searchActive() {
+    return this.uiState.isSearchActive() && !this.router.url.includes('/search');
   }
 
   /** Obtiene el código del idioma seleccionado actualmente. */

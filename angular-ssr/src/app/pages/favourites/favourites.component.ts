@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -10,7 +10,7 @@ import { BaseAuthenticationService } from '../../core/services/impl/base-authent
 import { Favorite } from '../../core/models/favorite.model';
 import { CartItem } from '../../core/models/cart-item.model';
 import { Media } from '../../core/models/media.model';
-import { LocalizedCurrencyPipe } from '../../shared/pipes/localized-currency.pipe';
+import { LocalizedCurrencyPipe } from '../../pipes/localized-currency.pipe';
 
 /**
  * Componente de la página de Favoritos.
@@ -23,6 +23,7 @@ import { LocalizedCurrencyPipe } from '../../shared/pipes/localized-currency.pip
   imports: [CommonModule, TranslateModule, RouterLink, LocalizedCurrencyPipe],
   templateUrl: './favourites.component.html',
   styleUrl: './favourites.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class FavouritesComponent implements OnInit {
   /** Lista de favoritos cargada. */
@@ -33,6 +34,8 @@ export class FavouritesComponent implements OnInit {
   error = signal<string | null>(null);
   /** Estado de autenticación del usuario. */
   isAuthenticated = signal(false);
+  /** Indica si el servicio de autenticación ha terminado la verificación de inicio de sesión. */
+  isAuthReady = signal(false);
 
   /**
      * Constructor no documentado.
@@ -42,25 +45,26 @@ export class FavouritesComponent implements OnInit {
      * @param authService Parámetro no documentado.
      * @param router Parámetro no documentado.
      */
-    constructor(
+  constructor(
     private favoriteService: FavoriteService,
     private cartItemService: CartItemService,
     private mediaService: MediaService,
     private authService: BaseAuthenticationService,
     private router: Router,
-  ) {}
+  ) { }
 
-  /**
-   * Inicializa el componente verificando la autenticación
-   * y cargando la lista si el usuario está conectado.
-   */
   ngOnInit() {
-    this.authService.authenticated$.subscribe((isAuth) => {
-      this.isAuthenticated.set(isAuth);
-      if (isAuth) {
-        this.loadFavorites();
-      } else {
-        this.loading.set(false);
+    this.authService.ready$.subscribe((ready) => {
+      this.isAuthReady.set(ready);
+      if (ready) {
+        this.authService.authenticated$.subscribe((isAuth) => {
+          this.isAuthenticated.set(isAuth);
+          if (isAuth) {
+            this.loadFavorites();
+          } else {
+            this.loading.set(false);
+          }
+        });
       }
     });
   }
@@ -113,7 +117,7 @@ export class FavouritesComponent implements OnInit {
         } as CartItem)
         .toPromise();
       await this.removeFromFavorites(fav);
-    } catch (error) {}
+    } catch (error) { }
   }
 
   /**
@@ -132,7 +136,7 @@ export class FavouritesComponent implements OnInit {
           (f) => !(f.gameId === fav.gameId && f.platformId === fav.platformId),
         ),
       );
-    } catch (error) {}
+    } catch (error) { }
   }
 
   /**
@@ -152,7 +156,7 @@ export class FavouritesComponent implements OnInit {
             quantity: 1
           } as CartItem).toPromise();
           await this.favoriteService.deleteWithPlatform(favorite.gameId, favorite.platformId).toPromise();
-        } catch (e) {}
+        } catch (e) { }
       }
     });
 

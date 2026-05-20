@@ -9,8 +9,9 @@ import {
   ElementRef,
   inject,
   PLATFORM_ID,
+  ChangeDetectorRef,
+  signal,
 } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -18,6 +19,7 @@ import { GameService } from '../../core/services/impl/game.service';
 import { MediaService } from '../../core/services/impl/media.service';
 import { Game } from '../../core/models/game.model';
 import { CarouselComponent } from '../../shared/components/carousel/carousel.component';
+import { UiStateService } from '../../core/services/ui-state.service';
 
 /**
  * Componente de la página de inicio (Landing Page).
@@ -33,17 +35,28 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Capas para el efecto parallax del banner. */
   @ViewChild('backgroundFallbackLayer') backgroundFallbackLayer!: ElementRef;
   /** Propiedad no documentada. */
-    @ViewChild('backgroundLayer') backgroundLayer!: ElementRef;
+  @ViewChild('backgroundLayer') backgroundLayer!: ElementRef;
   /** Propiedad no documentada. */
-    @ViewChild('jokerLayer') jokerLayer!: ElementRef;
+  @ViewChild('jokerLayer') jokerLayer!: ElementRef;
   /** Propiedad no documentada. */
-    @ViewChild('titleLayer') titleLayer!: ElementRef;
+  @ViewChild('titleLayer') titleLayer!: ElementRef;
   /** Propiedad no documentada. */
-    @ViewChild('geraltLayer') geraltLayer!: ElementRef;
+  @ViewChild('geraltLayer') geraltLayer!: ElementRef;
   /** Propiedad no documentada. */
-    @ViewChild('bottomLayer') bottomLayer!: ElementRef;
+  @ViewChild('bottomLayer') bottomLayer!: ElementRef;
   /** Propiedad no documentada. */
-    @ViewChild('mainContent') mainContent!: ElementRef;
+  @ViewChild('mainContent') mainContent!: ElementRef;
+  /** Contenedor de los géneros para cálculo de ancho. */
+  @ViewChild('genresContainer') genresContainer!: ElementRef;
+
+  /** Contenedor del desplegable para la máscara de scroll dinámico. */
+  @ViewChild('dropdownScrollContainer') set dropdownScrollContainer(el: ElementRef<HTMLElement> | undefined) {
+    if (el) {
+      setTimeout(() => {
+        this.updateScrollMask(el.nativeElement);
+      }, 0);
+    }
+  }
 
   /** Lista de géneros principales para el menú de categorías. */
   genres = [
@@ -90,32 +103,34 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Indica si se está visualizando en un dispositivo móvil. */
   isMobile = false;
   /** Propiedad no documentada. */
-    hideSideCharacters = false;
+  hideSideCharacters = false;
   /** Propiedad no documentada. */
-    sideCharactersVisibilityReady = false;
+  sideCharactersVisibilityReady = false;
 
   /** Listas de juegos cargados para las diferentes secciones. */
-  bestSellers: Game[] = this.createPlaceholders();
+  bestSellers: Game[] = [];
   /** Propiedad no documentada. */
-    onSaleGames: Game[] = this.createPlaceholders();
+  onSaleGames: Game[] = [];
   /** Propiedad no documentada. */
-    topRatedGames: Game[] = this.createPlaceholders();
+  topRatedGames: Game[] = [];
 
   /** Propiedad no documentada. */
-    private router = inject(Router);
+  private router = inject(Router);
   /** Propiedad no documentada. */
-    private http = inject(HttpClient);
-  /** Propiedad no documentada. */
-    private platformId = inject(PLATFORM_ID);
+  private platformId = inject(PLATFORM_ID);
+  /** Servicio para gestionar el estado global de la UI. */
+  public uiState = inject(UiStateService);
+
+
 
   /** Propiedad no documentada. */
-    private targetScrollY = 0;
+  private targetScrollY = 0;
   /** Propiedad no documentada. */
-    private lastTargetScrollY = 0;
+  private lastTargetScrollY = 0;
   /** Propiedad no documentada. */
-    private rafId: number | null = null;
+  private rafId: number | null = null;
   /** Propiedad no documentada. */
-    private genreTiltStates = new Map<
+  private genreTiltStates = new Map<
     string,
     {
       el: HTMLElement;
@@ -129,11 +144,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   >();
   /** Propiedad no documentada. */
-    private genreTiltMaxRotateDeg = 5;
+  private genreTiltMaxRotateDeg = 5;
   /** Propiedad no documentada. */
-    private genreTiltMaxTranslatePx = 3.5;
+  private genreTiltMaxTranslatePx = 3.5;
   /** Propiedad no documentada. */
-    private current = {
+  private current = {
     backgroundY: 0,
     bottomY: 0,
     mainContentY: 0,
@@ -143,63 +158,111 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     blurCharacters: 0,
   };
   /** Propiedad no documentada. */
-    private overlapCheckFrame = 0;
+  private overlapCheckFrame = 0;
   /** Propiedad no documentada. */
-    private sideCharactersHideLocked = false;
+  private sideCharactersHideLocked = false;
   /** Propiedad no documentada. */
-    private lastViewportKey = '';
+  private lastViewportKey = '';
 
-  /**
-     * Constructor no documentado.
-     * @param gameService Parámetro no documentado.
-     * @param mediaService Parámetro no documentado.
-     * @param ngZone Parámetro no documentado.
-     */
-    constructor(
+  /** Estado de carga de los datos de la API. */
+  private dataLoading = signal(true);
+  /** Indica si el retardo mínimo de skeletons ha finalizado. */
+  private minSkeletonDelayDone = signal(false);
+
+  /** 
+   * Señal manual que determina si los carruseles deben mostrar skeletons.
+   * Inicializada en true para que el SSR siempre renderice skeletons.
+   */
+  carouselsLoading = signal(true);
+
+  constructor(
     private gameService: GameService,
     private mediaService: MediaService,
     private ngZone: NgZone,
-  ) {}
+    private cdr: ChangeDetectorRef
+  ) {
+    if (isPlatformBrowser(this.platformId)) {
+      if (this.uiState.loaderAnimationDone()) {
+        // Navegación interna: el loader ya terminó, disparamos inmediatamente.
+        this.startMinimumSkeletonDelay();
+      } else {
+        // Carga inicial: esperamos al evento global del loader.
+        window.addEventListener('gamingsage-home-trigger', this.onLoaderFinished);
+      }
+    }
+  }
+
+  /** Callback para el evento nativo del loader. */
+  private onLoaderFinished = () => {
+    this.startMinimumSkeletonDelay();
+  };
+
+  /**
+   * Inicia el retardo mínimo de visualización de skeletons.
+   * Basado estrictamente en el evento de visibilidad post-loader.
+   */
+  private startMinimumSkeletonDelay() {
+    if (!isPlatformBrowser(this.platformId) || this.skeletonDelayTimeoutId) return;
+
+    this.ngZone.run(() => {
+      this.carouselsLoading.set(true);
+      this.minSkeletonDelayDone.set(false);
+    });
+    
+    this.ngZone.runOutsideAngular(() => {
+      this.skeletonDelayTimeoutId = setTimeout(() => {
+        this.ngZone.run(() => {
+          this.minSkeletonDelayDone.set(true);
+          this.skeletonDelayTimeoutId = null;
+          
+          // Solo quitamos los skeletons si los datos también han llegado
+          if (!this.dataLoading()) {
+            this.carouselsLoading.set(false);
+          }
+          this.cdr.detectChanges();
+        });
+      }, 1100); // 1.1s (Dashboard style) tras el loader
+    });
+  }
+
+  /** ID del timeout para evitar ejecuciones duplicadas. */
+  private skeletonDelayTimeoutId: any = null;
 
   /**
    * Inicializa el componente, configurando géneros y cargando los juegos.
    */
   ngOnInit(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
     this.checkScreenSize();
     this.otherGenres = this.allGenres.filter(
       (genre) => !this.genres.some((g) => g.value === genre.value),
     );
     this.loadGames();
+
     if (isPlatformBrowser(this.platformId)) {
       this.targetScrollY = window.scrollY || 0;
     }
   }
 
   /** Método no documentado. */
-    ngAfterViewInit(): void {
+  ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
     setTimeout(() => {
       this.sideCharactersVisibilityReady = true;
       this.requestSideCharactersVisibilityCheck();
+      this.calculateVisibleGenres();
+      this.setupResizeObserver();
     });
     this.targetScrollY = window.scrollY || 0;
     this.lastTargetScrollY = this.targetScrollY;
     this.startParallaxLoop();
   }
 
-  /** Método no documentado. */
-    ngOnDestroy(): void {
-    if (this.rafId !== null && isPlatformBrowser(this.platformId)) {
-      cancelAnimationFrame(this.rafId);
-      this.rafId = null;
-    }
-    this.genreTiltStates.forEach((state) => {
-      if (state.rafId !== null) cancelAnimationFrame(state.rafId);
-    });
-    this.genreTiltStates.clear();
-  }
+
 
   /** Escucha cambios en el tamaño de la ventana. */
   @HostListener('window:resize', [])
@@ -209,7 +272,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /** Método no documentado. */
-    @HostListener('window:orientationchange', [])
+  @HostListener('window:orientationchange', [])
   onOrientationChange() {
     this.requestSideCharactersVisibilityCheck();
   }
@@ -220,23 +283,68 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     this.isMobile = window.innerWidth <= 768;
+    this.calculateVisibleGenres();
+  }
+
+  /** Número de géneros visibles calculados dinámicamente. */
+  visibleCount = signal(8);
+
+  /** Calcula cuántos géneros caben en una sola fila. */
+  private calculateVisibleGenres() {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    // Actualizamos la detección de móvil en cada cálculo para mayor precisión
+    this.isMobile = window.innerWidth <= 768;
+
+    if (this.isMobile) {
+      this.visibleCount.set(3);
+      this.cdr.detectChanges();
+      return;
+    }
+
+    // En escritorio, usamos ResizeObserver para medir el contenedor real
+    const container = this.genresContainer?.nativeElement;
+    if (container) {
+      // La flecha es absolute, solo reservamos el ancho que ocupa (~40px) como margen de seguridad
+      const availableWidth = container.clientWidth - 44;
+      if (availableWidth > 0) {
+        const pillWidth = 145;
+        const calculatedCount = Math.floor(availableWidth / pillWidth);
+        const finalCount = Math.max(2, Math.min(calculatedCount, this.genres.length));
+
+        if (this.visibleCount() !== finalCount) {
+          this.visibleCount.set(finalCount);
+          this.cdr.detectChanges();
+        }
+      }
+    }
+  }
+
+  private resizeObserver: any;
+
+  private setupResizeObserver() {
+    if (!isPlatformBrowser(this.platformId)) return;
+    
+    this.resizeObserver = new ResizeObserver(() => {
+      this.ngZone.run(() => {
+        this.calculateVisibleGenres();
+      });
+    });
+
+    if (this.genresContainer) {
+      this.resizeObserver.observe(this.genresContainer.nativeElement);
+    }
   }
 
   /** Géneros visibles en la barra principal según el dispositivo. */
   get visibleGenres() {
-    if (this.isMobile) {
-      return this.genres.slice(0, 3);
-    }
-    return this.genres;
+    return this.genres.slice(0, this.visibleCount());
   }
 
   /** Elementos a mostrar en el desplegable de géneros. */
   get dropdownItems() {
-    if (this.isMobile) {
-      const hiddenMainGenres = this.genres.slice(3);
-      return [...hiddenMainGenres, ...this.otherGenres];
-    }
-    return this.otherGenres;
+    const hiddenMainGenres = this.genres.slice(this.visibleCount());
+    return [...hiddenMainGenres, ...this.otherGenres];
   }
 
   /**
@@ -253,7 +361,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /** Método no documentado. */
-    private startParallaxLoop() {
+  private startParallaxLoop() {
     if (this.rafId !== null) return;
     this.ngZone.runOutsideAngular(() => {
       const tick = () => {
@@ -265,7 +373,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /** Método no documentado. */
-    private renderParallaxFrame() {
+  private renderParallaxFrame() {
     const scrollPosition = this.targetScrollY;
     const scrollingUp = this.targetScrollY < this.lastTargetScrollY;
 
@@ -299,7 +407,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       backgroundTarget,
       backgroundEase,
     );
-    if (
+    if(
       scrollingUp &&
       Math.abs(backgroundTarget - this.current.backgroundY) > 240
     ) {
@@ -402,12 +510,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
      * @param alpha Parámetro no documentado.
      * @returns Retorno no documentado.
      */
-    private lerp(current: number, target: number, alpha: number) {
+  private lerp(current: number, target: number, alpha: number) {
     return current + (target - current) * alpha;
   }
 
   /** Método no documentado. */
-    private requestSideCharactersVisibilityCheck() {
+  private requestSideCharactersVisibilityCheck() {
     if (!isPlatformBrowser(this.platformId)) return;
     this.refreshSideCharactersLockForViewport();
     this.updateSideCharactersVisibility();
@@ -419,16 +527,17 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /** Método no documentado. */
-    private refreshSideCharactersLockForViewport() {
+  private refreshSideCharactersLockForViewport() {
     const viewportKey = `${window.innerWidth}x${window.innerHeight}`;
     if (viewportKey !== this.lastViewportKey) {
       this.lastViewportKey = viewportKey;
       this.sideCharactersHideLocked = false;
+      this.hideSideCharacters = false;
     }
   }
 
   /** Método no documentado. */
-    updateSideCharactersVisibility() {
+  updateSideCharactersVisibility() {
     if (!isPlatformBrowser(this.platformId)) return;
     if (!this.jokerLayer || !this.geraltLayer || !this.titleLayer) return;
     this.refreshSideCharactersLockForViewport();
@@ -448,7 +557,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       this.geraltLayer.nativeElement as HTMLElement
     ).getBoundingClientRect();
 
-    if (titleRect.width <= 0 || titleRect.height <= 0) {
+    if (
+      titleRect.width <= 0 || titleRect.height <= 0 ||
+      jokerRect.width <= 0 || jokerRect.height <= 0 ||
+      geraltRect.width <= 0 || geraltRect.height <= 0
+    ) {
       return;
     }
 
@@ -467,9 +580,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       };
     };
 
-    const titleCore = shrinkRect(titleRect, 0.18, 0.22);
-    const jokerCore = shrinkRect(jokerRect, 0.2, 0.12);
-    const geraltCore = shrinkRect(geraltRect, 0.2, 0.12);
+    const titleCore = shrinkRect(titleRect, 0.10, 0.15);
+    const jokerCore = shrinkRect(jokerRect, 0.12, 0.10);
+    const geraltCore = shrinkRect(geraltRect, 0.12, 0.10);
 
     const expandRect = (
       rect: { left: number; right: number; top: number; bottom: number },
@@ -493,15 +606,16 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         a.top > b.bottom
       );
 
-    const enterTitleZone = expandRect(titleCore, 14, 10);
-    const exitTitleZone = expandRect(titleCore, 32, 22);
+    const enterTitleZone = expandRect(titleCore, 45, 25);
+    const exitTitleZone = expandRect(titleCore, 70, 40);
     const zone = this.hideSideCharacters ? exitTitleZone : enterTitleZone;
 
-    const jokerZone = expandRect(jokerCore, 10, 8);
-    const geraltZone = expandRect(geraltCore, 10, 8);
+    const jokerZone = expandRect(jokerCore, 15, 10);
+    const geraltZone = expandRect(geraltCore, 15, 10);
 
     const shouldHide =
       intersects(jokerZone, zone) || intersects(geraltZone, zone);
+
     this.hideSideCharacters = shouldHide;
     if (shouldHide) {
       this.sideCharactersHideLocked = true;
@@ -528,10 +642,46 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
+   * Maneja el scroll en el desplegable de géneros para actualizar su máscara de difuminado.
+   */
+  onDropdownScroll(event: Event) {
+    const target = event.target as HTMLElement;
+    this.updateScrollMask(target);
+  }
+
+  /**
+   * Actualiza las variables CSS de máscara del desplegable según su estado de desplazamiento.
+   */
+  private updateScrollMask(el: HTMLElement) {
+    if (!el) return;
+    
+    const scrollTop = el.scrollTop;
+    const scrollHeight = el.scrollHeight;
+    const clientHeight = el.clientHeight;
+    
+    const showTop = scrollTop > 5;
+    const showBottom = scrollTop + clientHeight < scrollHeight - 5;
+    
+    el.style.setProperty('--scroll-top-mask', showTop ? '0' : '1');
+    el.style.setProperty('--scroll-top-mask-stop', showTop ? '2rem' : '0px');
+    el.style.setProperty('--scroll-bottom-mask', showBottom ? '0' : '1');
+    el.style.setProperty('--scroll-bottom-mask-stop', showBottom ? 'calc(100% - 2rem)' : '100%');
+  }
+
+  /**
    * Carga la lista de juegos y los clasifica en las diferentes secciones.
-   * Incluye la carga de medios asociados a cada juego.
    */
   loadGames() {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    // Vaciado de seguridad
+    this.bestSellers = [];
+    this.onSaleGames = [];
+    this.topRatedGames = [];
+    this.dataLoading.set(true);
+
     this.gameService.getAll({}).subscribe((games) => {
       this.mediaService.getAll({}).subscribe((allMedia) => {
         games.forEach((game) => {
@@ -541,15 +691,26 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         this.bestSellers = [...games]
           .sort((a, b) => b.numberOfSales - a.numberOfSales)
           .slice(0, 20);
+        
         const excludedIds = new Set(this.bestSellers.map((g) => g.id));
+        
         this.onSaleGames = games
           .filter((g) => g.isOnSale && !excludedIds.has(g.id))
           .slice(0, 20);
+        
         this.onSaleGames.forEach((g) => excludedIds.add(g.id));
+        
         this.topRatedGames = [...games]
           .filter((g) => !excludedIds.has(g.id))
           .sort((a, b) => (b.rating || 0) - (a.rating || 0))
           .slice(0, 20);
+
+        this.dataLoading.set(false);
+        // Si el temporizador de skeletons también terminó, ocultamos skeletons
+        if (this.minSkeletonDelayDone()) {
+          this.carouselsLoading.set(false);
+        }
+        this.cdr.detectChanges();
       });
     });
   }
@@ -575,7 +736,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
      * @param key Parámetro no documentado.
      * @param el Parámetro no documentado.
      */
-    onGenreTiltEnter(key: string, el: HTMLElement): void {
+  onGenreTiltEnter(key: string, el: HTMLElement): void {
     if (!isPlatformBrowser(this.platformId)) return;
     const state = this.ensureGenreTiltState(key, el);
     state.hoverTarget = 1;
@@ -588,7 +749,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
      * @param key Parámetro no documentado.
      * @param el Parámetro no documentado.
      */
-    onGenreTiltMove(event: MouseEvent, key: string, el: HTMLElement): void {
+  onGenreTiltMove(event: MouseEvent, key: string, el: HTMLElement): void {
     if (!isPlatformBrowser(this.platformId)) return;
     if (event.buttons === 1) return;
     const state = this.ensureGenreTiltState(key, el);
@@ -605,7 +766,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
      * @param key Parámetro no documentado.
      * @param el Parámetro no documentado.
      */
-    onGenreTiltLeave(key: string, el: HTMLElement): void {
+  onGenreTiltLeave(key: string, el: HTMLElement): void {
     if (!isPlatformBrowser(this.platformId)) return;
     const state = this.ensureGenreTiltState(key, el);
     state.hoverTarget = 0;
@@ -620,7 +781,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
      * @param el Parámetro no documentado.
      * @returns Retorno no documentado.
      */
-    private ensureGenreTiltState(key: string, el: HTMLElement) {
+  private ensureGenreTiltState(key: string, el: HTMLElement) {
     const existing = this.genreTiltStates.get(key);
     if (existing) {
       existing.el = el;
@@ -644,7 +805,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
      * Método no documentado.
      * @param state Parámetro no documentado.
      */
-    private startGenreTiltAnimation(state: {
+  private startGenreTiltAnimation(state: {
     el: HTMLElement;
     rafId: number | null;
     currentX: number;
@@ -707,30 +868,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     state.rafId = requestAnimationFrame(step);
   }
 
-  /**
-     * Crea una lista de juegos 'placeholder' para estados de carga.
-     * @returns Retorno no documentado.
-     */
-  createPlaceholders(): Game[] {
-    return Array(20).fill({
-      id: -1,
-      title: 'common.loading',
-      price: 0,
-      description: '',
-      releaseDate: new Date(),
-      rating: 0,
-      numberOfSales: 0,
-      isOnSale: false,
-      isRefundable: false,
-      stockPc: 0,
-      stockPs5: 0,
-      stockXboxX: 0,
-      stockSwitch: 0,
-      stockPs4: 0,
-      stockXboxOne: 0,
-      media: [],
-    } as unknown as Game);
-  }
+
 
   /**
      * Escucha clics fuera para cerrar el menú de géneros.
@@ -744,5 +882,38 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         this.closeGenreDropdown();
       }
     }
+  }
+
+  /**
+   * Limpia recursos y suscripciones al destruir el componente.
+   */
+  ngOnDestroy(): void {
+    // 0. Limpiar escuchador de eventos
+    if (isPlatformBrowser(this.platformId)) {
+      window.removeEventListener('gamingsage-home-trigger', this.onLoaderFinished);
+    }
+
+    // 1. Limpiar temporizador de skeletons
+    if (this.skeletonDelayTimeoutId) {
+      clearTimeout(this.skeletonDelayTimeoutId);
+      this.skeletonDelayTimeoutId = null;
+    }
+    
+    // 2. Limpiar animaciones de parallax
+    if (this.rafId !== null && isPlatformBrowser(this.platformId)) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = null;
+    }
+
+    // 3. Limpiar observador de redimensionamiento
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
+
+    // 4. Limpiar estados de tilt
+    this.genreTiltStates.forEach((state) => {
+      if (state.rafId) cancelAnimationFrame(state.rafId);
+    });
+    this.genreTiltStates.clear();
   }
 }

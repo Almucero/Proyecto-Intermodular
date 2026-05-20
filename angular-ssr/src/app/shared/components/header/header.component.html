@@ -42,14 +42,50 @@
       <input
         type="text"
         [placeholder]="'common.searchPlaceholder' | translate"
+        [(ngModel)]="searchQuery"
         class="search-input bg-transparent outline-none text-gray-300 border-none flex-1 min-w-0"
         (focus)="onSearchFocus()"
         (blur)="onSearchBlur()"
-        <span
-          class="absolute -bottom-1 right-0 text-red-500 text-sm font-black"
-        >
-          {{ favoritesCount() }}
-        </span>
+        (input)="onSearchInput($event)"
+        (keydown)="onSearch($event)"
+      />
+    </div>
+  </div>
+  <div
+    class="header-overlay"
+    aria-hidden="true"
+    (click)="closeSearch(); uiState.isMenuOpen() && toggleMenu()"
+  ></div>
+  <div class="flex items-center gap-4 text-2xl mobile-header-icons">
+    <app-language-selector class="mobile-hide tablet-hide relative z-[1001]"></app-language-selector>
+    <button
+      class="p-0 bg-transparent border-none hover:opacity-80 focus:outline-none transition-transform duration-150 active:scale-95"
+      [title]="'tooltips.aiChat' | translate"
+    >
+      <a routerLink="/aichat">
+        <img
+          src="assets/icons/aichat.png"
+          alt="AI Chat"
+          class="w-9 h-9 cursor-pointer transition-transform duration-150 active:scale-95 mobile-icon-size"
+        />
+      </a>
+    </button>
+    <button
+      class="p-0 bg-transparent border-none hover:opacity-80 focus:outline-none transition-transform duration-150 active:scale-95 relative"
+      [title]="'tooltips.favourites' | translate"
+    >
+      <a routerLink="/favourites">
+        <img
+          src="assets/icons/favourites.png"
+          alt="Favourites"
+          class="w-9 h-9 cursor-pointer transition-transform duration-150 active:scale-95 mobile-icon-size"
+        />
+        @if ((favoritesCount() || 0) > 0) {
+          <span
+            class="absolute -bottom-1 right-0 text-red-500 text-sm font-black"
+          >
+            {{ favoritesCount() }}
+          </span>
         }
       </a>
     </button>
@@ -76,8 +112,17 @@
       class="p-0 bg-transparent border-none hover:opacity-80 focus:outline-none transition-transform duration-150 active:scale-95"
       [title]="'tooltips.userProfile' | translate">
       <a [routerLink]="user() ? '/dashboard' : '/login'">
-        <img [src]="user()?.media?.[0]?.url || 'assets/icons/user.png'" [alt]="user()?.nickname || 'User'"
-          class="w-10 h-10 rounded-full object-cover transition-transform duration-150 active:scale-95" />
+        <img
+          [src]="
+            user()?.isAdmin
+              ? 'assets/icons/admin_user.png'
+              : user()?.media?.[0]?.url || 'assets/icons/user.png'
+          "
+          [alt]="user()?.nickname || 'User'"
+          class="w-10 h-10 rounded-full object-cover transition-transform duration-150 active:scale-95 mobile-icon-size-user"
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        />
       </a>
     </button>
   </div>
