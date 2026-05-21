@@ -276,7 +276,7 @@
     <!-- Notificación diaria de juego destacado -->
     <string name="notification_daily_sale_title">¡Oferta del Día!</string>
     <string name="notification_daily_recommendation_title">Recomendación del Día</string>
-    <string name="notification_daily_sale_message">¡%1$s tiene un precio especial! Ã‰chale un vistazo.</string>
+    <string name="notification_daily_sale_message">¡%1$s tiene un precio especial! Échale un vistazo.</string>
     <string name="notification_daily_recommendation_message">Hoy te recomendamos: %1$s</string>
 
     <!-- Errores genéricos de conexión / acciones -->
@@ -358,7 +358,7 @@
     <string name="lang_name_es">Español</string>
     <string name="lang_name_en">English</string>
     <string name="lang_name_de">Deutsch</string>
-    <string name="lang_name_fr">FranÃ§ais</string>
+    <string name="lang_name_fr">Français</string>
     <string name="lang_name_it">Italiano</string>
 
     <!-- Help Screen -->
