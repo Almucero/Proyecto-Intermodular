@@ -157,24 +157,20 @@ fun ChatScreen(
         }
     }
 
-    Scaffold(
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-        containerColor = Color(0xFF111827)
-    ) { paddingValues ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .pointerInput(Unit) {
-                    detectTapGestures(onTap = {
-                        keyboardController?.hide()
-                        focusManager.clearFocus()
-                    })
-                }
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF111827))
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = {
+                    keyboardController?.hide()
+                    focusManager.clearFocus()
+                })
+            }
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize()
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize()
-            ) {
             when (val state = uiState) {
                 is ChatUiState.Initial, is ChatUiState.Loading -> {
                     // Pantalla de carga mientras se obtienen las sesiones
@@ -217,7 +213,7 @@ fun ChatScreen(
                             val listState = rememberLazyListState()
                             val showTopGradient by remember { derivedStateOf { listState.canScrollBackward } }
                             val showBottomGradient by remember { derivedStateOf { listState.canScrollForward } }
-
+ 
                             // Lista de mensajes o bienvenida con sugerencias
                             LazyColumn(
                                 state = listState,
@@ -251,13 +247,13 @@ fun ChatScreen(
                                                 modifier = Modifier.padding(horizontal = 24.dp)
                                             )
                                             Spacer(modifier = Modifier.height(16.dp))
-
+ 
                                             val suggestions = listOf(
                                                 R.string.aichat_suggestion_terror,
                                                 R.string.aichat_suggestion_rpg,
                                                 R.string.aichat_suggestion_ps5
                                             )
-
+ 
                                             suggestions.forEach { suggestionRes ->
                                                 val suggestionText = stringResource(id = suggestionRes)
                                                 Box(
@@ -305,7 +301,7 @@ fun ChatScreen(
                                     }
                                 }
                             }
-
+ 
                             // Efecto de degradado superior al hacer scroll
                             Box(
                                 modifier = Modifier
@@ -325,7 +321,7 @@ fun ChatScreen(
                                     ))
                                 }
                             }
-
+ 
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -344,7 +340,7 @@ fun ChatScreen(
                                     ))
                                 }
                             }
-
+ 
                             // Fondo táctil para cerrar el menú de historial al tocar fuera
                             if (showHistory) {
                                 Box(
@@ -353,7 +349,7 @@ fun ChatScreen(
                                         .clickable { showHistory = false }
                                 )
                             }
-
+ 
                             // Menú de historial de sesiones (desliza desde abajo)
                             androidx.compose.animation.AnimatedVisibility(
                                 visible = showHistory,
@@ -391,14 +387,14 @@ fun ChatScreen(
                     }
                 }
             }
-
+ 
             ChatInputBar(
                 text = inputText,
                 onTextChange = { inputText = it },
                 onSend = {
                     if (inputText.isNotBlank()) {
                         if (isLoggedIn) {
-                                viewModel.sendMessage(inputText, noConnectionReply)
+                            viewModel.sendMessage(inputText, noConnectionReply)
                             inputText = ""
                         } else {
                             keyboardController?.hide()
@@ -420,7 +416,7 @@ fun ChatScreen(
                 }
             )
         }
-
+ 
         if (showLoginDialog) {
             AlertDialog(
                 onDismissRequest = { showLoginDialog = false },
@@ -462,7 +458,11 @@ fun ChatScreen(
                 }
             )
         }
-        }
+ 
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
     }
 }
 
