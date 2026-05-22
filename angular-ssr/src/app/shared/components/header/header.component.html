@@ -8,7 +8,7 @@
 <header [class.search-active]="searchActive" [class.menu-active]="uiState.isMenuOpen()"
   [class.chat-sidebar-active]="uiState.isChatSidebarOpen()" [class.search-page]="isSearchPage"
   [class.border-none]="uiState.isMenuOpen()"
-  class="flex-none relative flex items-center justify-between px-6 py-1 border-b border-gray-800 bg-gray-950 select-none mobile-responsive-header z-50">
+  class="flex-none fixed w-full left-0 right-0 flex items-center justify-between px-6 py-1 border-b border-gray-800 bg-gray-950 select-none mobile-responsive-header z-50">
   <button (click)="toggleMenu(); $event.stopPropagation()"
     class="p-0 bg-transparent border-none hover:opacity-80 focus:outline-none absolute left-6 top-1/2 -translate-y-1/2 z-50 transition-transform duration-150 active:scale-95"
     [class.opacity-0]="uiState.isMenuOpen()" [class.pointer-events-none]="uiState.isMenuOpen()"

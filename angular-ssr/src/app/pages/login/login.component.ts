@@ -9,6 +9,7 @@ import { CommonModule, Location, isPlatformBrowser } from '@angular/common';
 import {
   Component,
   OnInit,
+  OnDestroy,
   inject,
   PLATFORM_ID,
 } from '@angular/core';
@@ -55,7 +56,7 @@ import { PasswordRecoveryModalComponent } from '../../shared/components/password
   ],
 })
 
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   /** Formulario reactivo para el inicio de sesión. */
   formLogin: FormGroup;
   /** Mensaje de error a mostrar si falla el login. */
@@ -71,7 +72,14 @@ export class LoginComponent implements OnInit {
   /** Ruta a la que redirigir tras un login exitoso. */
   navigateTo: string = '';
   /** Indica si se está procesando actualmente la redirección de OAuth (Google/GitHub). */
-  isOAuthRedirectProcessing = false;
+  private _isOAuthRedirectProcessing = false;
+  get isOAuthRedirectProcessing(): boolean {
+    return this._isOAuthRedirectProcessing;
+  }
+  set isOAuthRedirectProcessing(value: boolean) {
+    this._isOAuthRedirectProcessing = value;
+    this.updateScrollLock();
+  }
   /** Mensaje de error al autenticar con Google. */
   googleError = '';
   /** Mensaje de error al autenticar con GitHub. */
@@ -148,6 +156,46 @@ export class LoginComponent implements OnInit {
     this.processOAuthRedirect();
     this.loadGoogleClientId();
     this.loadGithubClientId();
+  }
+
+  /**
+   * Limpia el estado del bloqueo de scroll al destruir el componente.
+   */
+  ngOnDestroy(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      document.documentElement.style.overflow = '';
+      document.documentElement.style.height = '';
+      document.body.style.overflow = '';
+      document.body.style.height = '';
+      const earlyStyle = document.getElementById('oauth-scroll-lock-style');
+      if (earlyStyle) {
+        earlyStyle.remove();
+      }
+    }
+  }
+
+  /**
+   * Actualiza el bloqueo de scroll del body según el procesamiento de la redirección.
+   */
+  private updateScrollLock() {
+    if (isPlatformBrowser(this.platformId)) {
+      if (this._isOAuthRedirectProcessing) {
+        document.documentElement.style.overflow = 'hidden';
+        document.documentElement.style.height = '100%';
+        document.body.style.overflow = 'hidden';
+        document.body.style.height = '100%';
+        window.scrollTo(0, 0);
+      } else {
+        document.documentElement.style.overflow = '';
+        document.documentElement.style.height = '';
+        document.body.style.overflow = '';
+        document.body.style.height = '';
+        const earlyStyle = document.getElementById('oauth-scroll-lock-style');
+        if (earlyStyle) {
+          earlyStyle.remove();
+        }
+      }
+    }
   }
 
   /**

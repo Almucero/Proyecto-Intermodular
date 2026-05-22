@@ -25,6 +25,23 @@
     margin-right: -1.5rem !important;
     margin-bottom: 2rem !important;
   }
+
+  .price-sidebar-card,
+  .details-sidebar-card {
+    background: transparent !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .details-sidebar-card {
+    margin-top: 2rem !important;
+  }
+
+  .recommendations-section {
+    margin-top: 0.75rem !important;
+    padding-top: 0.5rem !important;
+  }
 }
 
 .info-list {
@@ -74,5 +91,17 @@
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@media (min-width: 1024px) {
+  .price-sidebar-card {
+    padding-top: 0 !important;
+    padding-bottom: 0.75rem !important;
+    margin-top: 0 !important;
+  }
+
+  .details-sidebar-card {
+    padding-top: 0.75rem !important;
   }
 }

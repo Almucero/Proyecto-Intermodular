@@ -115,3 +115,21 @@ input.bg-gray-700:-webkit-autofill:active {
 .w-0\.5.h-full.bg-gray-700 {
   background-color: rgba(148, 163, 184, 0.28) !important;
 }
+
+/* Evitar que el texto de los botones de acción se parta en varias líneas */
+.config-btn-container button,
+.logout-btn-container button {
+  white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+
+  /* Igualar el espacio encima de Configurar al que hay debajo de Cerrar sesión */
+  .config-btn-container {
+    margin-top: 3.1rem !important;
+  }
+
+  .logout-btn-container {
+    margin-bottom: 0 !important;
+  }
+}

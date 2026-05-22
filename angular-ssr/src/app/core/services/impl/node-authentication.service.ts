@@ -73,7 +73,9 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
     const runAutoLogin = () => {
       const token = this.getToken();
       if (!token) {
-        this._ready.next(true);
+        this.ngZone.run(() => {
+          this._ready.next(true);
+        });
         return;
       }
 
@@ -250,6 +252,9 @@ export class NodeAuthenticationService extends BaseAuthenticationService {
     if (this.isBrowser) {
       localStorage.removeItem(this.AUTH_KEY);
       sessionStorage.removeItem(this.AUTH_KEY);
+      localStorage.removeItem('chatSessionsCount');
+      localStorage.removeItem('game_sage_active_chat_session_id');
+      localStorage.removeItem('game_sage_chat_exit_timestamp');
     }
     this._authenticated.next(false);
     this._user.next(undefined);

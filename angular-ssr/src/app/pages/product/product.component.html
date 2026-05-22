@@ -5,11 +5,11 @@
   @description: Página de detalle del producto con carrusel de media, información del juego, acciones (comprar/añadir a wishlist), sección de requisitos y sección de reseñas.
 -->
 
-<div class="flex-1 w-full bg-gray-900 text-white font-sans pb-20">
+<div class="flex-1 w-full bg-gray-900 text-white font-sans pb-8 md:pb-20">
   <div [class.product-content-blurred]="isScreenshotModalOpen()">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
       <div class="mb-6">
-        <h1 class="text-4xl font-bold text-white mb-2" [class.animate-pulse]="game?.id === -1"
+        <h1 class="text-2xl md:text-4xl font-bold text-white mb-2" [class.animate-pulse]="game?.id === -1"
           [class.text-gray-500]="game?.id === -1">
           {{ game?.id === -1 ? (game?.title | translate) : game?.title }}
         </h1>
@@ -223,7 +223,7 @@
           </div>
         </div>
         <div class="lg:col-span-4 space-y-2">
-          <div class="bg-gray-900 p-4 md:p-6 rounded-lg lg:-mt-7 mt-4">
+          <div class="bg-gray-900 p-4 md:p-6 rounded-lg lg:-mt-7 mt-4 price-sidebar-card">
             <!-- Price Skeleton -->
             <div *ngIf="game?.id === -1" class="h-10 w-32 bg-gray-800 rounded animate-pulse mb-6"></div>
 
@@ -433,7 +433,7 @@
             </div>
           </div>
 
-          <div class="bg-gray-900 p-4 md:p-6 rounded-lg">
+          <div class="bg-gray-900 p-4 md:p-6 rounded-lg details-sidebar-card">
             <div class="text-sm border info-list rounded-lg">
               <div class="grid grid-cols-2 item">
                 <span class="text-gray-400 p-3 md:p-4 border-r rounded-tl-lg">
@@ -486,7 +486,7 @@
         </div>
       </div>
 
-      <section class="mt-6 pt-2 border-t border-white/10"
+      <section class="mt-6 pt-2 border-t border-white/10 recommendations-section"
         *ngIf="loadingRecommendations || recommendationSections.length > 0">
         <div class="product-similar-carousel-scale space-y-6">
           <app-carousel *ngIf="loadingRecommendations" [title]="'product.similarGames'"
