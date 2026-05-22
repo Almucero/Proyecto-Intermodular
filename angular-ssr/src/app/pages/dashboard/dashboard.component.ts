@@ -107,9 +107,9 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
   /** Límite actual de devoluciones visibles en la lista. */
   returnsLimit = signal(5);
   /** Indica (desde caché) si hay más compras que el límite visible inicial. */
-  purchasesHasMore = signal(true);
+  purchasesHasMore = signal(false);
   /** Indica (desde caché) si hay más devoluciones que el límite visible inicial. */
-  returnsHasMore = signal(true);
+  returnsHasMore = signal(false);
   /** Indica si se está expandiendo la lista de compras. */
   expandingPurchases = signal(false);
   /** Indica si se está expandiendo la lista de devoluciones. */
@@ -287,11 +287,13 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
     if (!isPlatformBrowser(this.platformId)) return;
     this.actionButtonsChangesSubscription = this.actionSizeButtons.changes.subscribe(
       () => {
-        setTimeout(() => this.syncActionButtonsWidth(), 0);
+        // Microtask: se ejecuta antes del siguiente pintado del navegador,
+        // evitando el flash de un frame con los botones en su ancho natural.
+        Promise.resolve().then(() => this.syncActionButtonsWidth());
       },
     );
     window.addEventListener('resize', this.resizeHandler);
-    setTimeout(() => this.syncActionButtonsWidth(), 0);
+    Promise.resolve().then(() => this.syncActionButtonsWidth());
   }
 
   /**

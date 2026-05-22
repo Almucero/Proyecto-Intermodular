@@ -7,7 +7,7 @@
 
 <div class="flex-1 w-full flex flex-col bg-gray-900 text-white font-sans">
   @if (isOAuthRedirectProcessing) {
-  <div class="fixed inset-0 z-[1200] flex items-center justify-center bg-gray-900 text-white">
+  <div class="fixed inset-0 z-[999] flex items-center justify-center bg-gray-900 text-white" style="touch-action: none;">
     <div class="oauth-spinner"></div>
   </div>
   }
@@ -22,7 +22,7 @@
           class="text-blue-300 underline cursor-pointer transition-transform duration-150 active:scale-95">{{
           "register.loginLink" | translate }}</a>
       </p>
-      <form class="px-4 md:px-5" [formGroup]="formRegister" (ngSubmit)="onSubmit()">
+      <form class="px-4 md:px-5 mobile-no-padding" [formGroup]="formRegister" (ngSubmit)="onSubmit()">
         <div class="mb-3">
           <div class="flex items-center gap-1 mb-2">
             <label class="text-white font-medium" for="name">{{

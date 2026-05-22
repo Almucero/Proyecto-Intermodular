@@ -60,6 +60,18 @@
     ) {
       document.documentElement.classList.add("no-loading-screen");
     }
+    try {
+      var isOAuth = window.location.search.indexOf('code=') !== -1 || window.location.hash.indexOf('id_token=') !== -1;
+      if (isOAuth) {
+        document.documentElement.style.overflow = 'hidden';
+        document.documentElement.style.height = '100%';
+        var style = document.createElement('style');
+        style.id = 'oauth-scroll-lock-style';
+        style.innerHTML = 'html, body { overflow: hidden !important; height: 100% !important; }';
+        document.head.appendChild(style);
+        window.scrollTo(0, 0);
+      }
+    } catch (e) { }
   </script>
   <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />

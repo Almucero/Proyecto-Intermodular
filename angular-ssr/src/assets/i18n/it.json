@@ -114,7 +114,18 @@
     "suggestion_terror": "Consigliami giochi horror",
     "suggestion_rpg": "Cerco un RPG con una bella storia",
     "suggestion_coop": "Giochi cooperativi",
-    "suggestion_ps5": "Cosa c'è di nuovo su PS5?"
+    "suggestion_ps5": "Cosa c'è di nuovo su PS5?",
+    "suggestion_retro": "Giochi retrò classici",
+    "suggestion_indie": "Migliori giochi indie",
+    "suggestion_action": "Giochi d'action rapidi",
+    "suggestion_strategy": "Giochi di strategia",
+    "suggestion_graphics": "Grafica ultra realistica",
+    "suggestion_free": "Giochi gratuiti",
+    "suggestion_family": "Giochi in famiglia",
+    "suggestion_switch": "Esclusive Switch",
+    "suggestion_openworld": "Mondi aperti da esplorare",
+    "suggestion_cyberpunk": "Giochi stile cyberpunk",
+    "suggestion_relaxing": "Giochi rilassanti"
   },
   "favourites": {
     "title": "Preferiti",

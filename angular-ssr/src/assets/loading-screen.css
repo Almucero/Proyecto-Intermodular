@@ -334,3 +334,18 @@ html.no-loading-screen app-loading {
     clip: rect(38px, 9999px, 49px, 0);
   }
 }
+
+@media (max-width: 767px) {
+  .glitch-container {
+    gap: 12px;
+  }
+
+  .logo-image {
+    width: 72px;
+  }
+
+  .glitch-text {
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+  }
+}

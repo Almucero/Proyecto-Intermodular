@@ -48,8 +48,8 @@
       (mouseenter)="onSidebarMouseEnter()" (mouseleave)="onSidebarMouseLeave()" (mousemove)="onSidebarMouseMove()"
       [class.scrollbar-visible]="showSidebarScrollbar"
       class="flex-1 overflow-y-auto pt-3 pb-32 md:pb-2 pl-[calc(0.5rem+10px)] space-y-2 custom-scrollbar stable-scrollbar-gutter sidebar-list-padding">
-      @if (isBrowser) {
-      @if (loadingSessions) {
+      @if (isBrowser && isAppReady()) {
+      @if (isUserAuthenticated && loadingSessions) {
       @for (i of recentSessionsCount; track i) {
       <div
         class="group relative w-full text-left py-2 px-4 rounded-lg bg-gray-700 animate-pulse pointer-events-none text-sm mb-2">
@@ -197,44 +197,31 @@
           @if (messages.length === 0) {
           <div
             class="h-full flex flex-col items-center pt-6 md:pt-10 md:justify-start lg:pt-0 lg:justify-center text-gray-400 space-y-2 md:space-y-4">
-            <div class="p-2 bg-gray-800 rounded-full mb-2 shadow-lg shadow-cyan-900/20">
-              <img src="assets/icons/aichat.png" alt="AI Chat" class="h-16 w-16 object-contain select-none drag-none"
-                draggable="false" />
+            <div #welcomeHeader class="flex flex-col items-center space-y-2 md:space-y-4 w-full">
+              <div class="p-2 bg-gray-800 rounded-full mb-2 shadow-lg shadow-cyan-900/20">
+                <img src="assets/icons/aichat.png" alt="AI Chat" class="h-16 w-16 object-contain select-none drag-none"
+                  draggable="false" />
+              </div>
+              <h3 class="w-full text-center text-xl font-semibold text-gray-200">
+                {{
+                "aichat.welcome_title"
+                | translate: { name: userName ? ", " + userName : "" }
+                }}
+              </h3>
+              <p class="hidden md:block max-w-md text-center text-gray-500">
+                {{ "aichat.welcome_subtitle" | translate }}
+              </p>
             </div>
-            <h3 class="w-full text-center text-xl font-semibold text-gray-200">
-              {{
-              "aichat.welcome_title"
-              | translate: { name: userName ? ", " + userName : "" }
-              }}
-            </h3>
-            <p class="hidden md:block max-w-md text-center text-gray-500">
-              {{ "aichat.welcome_subtitle" | translate }}
-            </p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-2xl mt-4">
+              @for (suggestion of activeSuggestions.slice(0, visibleSuggestionsCount); track $index) {
               <button appTilt3D [tiltEnabled]="true" [tiltMaxRotateDeg]="5" [tiltMaxTranslatePx]="3.5"
                 [tiltHoverScale]="1.022" [tiltGlareMaxOpacity]="0.42" draggable="false"
-                (click)="sendSuggestion('aichat.suggestion_terror')"
-                class="text-sm bg-gray-800 hover:bg-gray-700 p-4 md:p-3 rounded-lg text-left transition-colors shadow-md hover:shadow-lg border-none outline-none select-none drag-none">
-                "{{ "aichat.suggestion_terror" | translate }}"
+                (click)="sendSuggestion('aichat.' + suggestion)"
+                [class.opacity-0]="fadingIndex === $index"
+                class="text-sm bg-gray-800 hover:bg-gray-700 p-4 md:p-3 rounded-lg flex items-center justify-center text-center transition-all duration-300 shadow-md hover:shadow-lg border-none outline-none select-none drag-none">
+                "{{ 'aichat.' + suggestion | translate }}"
               </button>
-              <button appTilt3D [tiltEnabled]="true" [tiltMaxRotateDeg]="5" [tiltMaxTranslatePx]="3.5"
-                [tiltHoverScale]="1.022" [tiltGlareMaxOpacity]="0.42" draggable="false"
-                (click)="sendSuggestion('aichat.suggestion_rpg')"
-                class="text-sm bg-gray-800 hover:bg-gray-700 p-4 md:p-3 rounded-lg text-left transition-colors shadow-md hover:shadow-lg border-none outline-none select-none drag-none">
-                "{{ "aichat.suggestion_rpg" | translate }}"
-              </button>
-              <button appTilt3D [tiltEnabled]="true" [tiltMaxRotateDeg]="5" [tiltMaxTranslatePx]="3.5"
-                [tiltHoverScale]="1.022" [tiltGlareMaxOpacity]="0.42" draggable="false"
-                (click)="sendSuggestion('aichat.suggestion_coop')"
-                class="text-sm bg-gray-800 hover:bg-gray-700 p-4 md:p-3 rounded-lg text-left transition-colors shadow-md hover:shadow-lg border-none outline-none select-none drag-none">
-                "{{ "aichat.suggestion_coop" | translate }}"
-              </button>
-              <button appTilt3D [tiltEnabled]="true" [tiltMaxRotateDeg]="5" [tiltMaxTranslatePx]="3.5"
-                [tiltHoverScale]="1.022" [tiltGlareMaxOpacity]="0.42" draggable="false"
-                (click)="sendSuggestion('aichat.suggestion_ps5')"
-                class="text-sm bg-gray-800 hover:bg-gray-700 p-4 md:p-3 rounded-lg text-left transition-colors shadow-md hover:shadow-lg border-none outline-none select-none drag-none">
-                "{{ "aichat.suggestion_ps5" | translate }}"
-              </button>
+              }
             </div>
             <div class="md:hidden h-10 w-full flex-shrink-0"></div>
           </div>

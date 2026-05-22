@@ -80,6 +80,8 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('chatTitleEl') private chatTitleEl!: ElementRef;
   /** Referencia al span interno del título para medir el ancho exacto del texto. */
   @ViewChild('chatTitleSpanEl') private chatTitleSpanEl!: ElementRef;
+  /** Referencia al encabezado de bienvenida para medir su altura dinámica. */
+  @ViewChild('welcomeHeader') private welcomeHeader!: ElementRef;
 
   /** Lista de sesiones de chat del usuario. */
   sessions: ChatSession[] = [];
@@ -183,6 +185,147 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   /** Indica si hay un proceso de sincronización de vista programado en cola. */
   private viewSyncQueued = false;
 
+  /** Lista completa de sugerencias para el chat con IA. */
+  private readonly allSuggestions: string[] = [
+    'suggestion_terror',
+    'suggestion_rpg',
+    'suggestion_coop',
+    'suggestion_ps5',
+    'suggestion_retro',
+    'suggestion_indie',
+    'suggestion_action',
+    'suggestion_strategy',
+    'suggestion_graphics',
+    'suggestion_free',
+    'suggestion_family',
+    'suggestion_switch',
+    'suggestion_openworld',
+    'suggestion_cyberpunk',
+    'suggestion_relaxing',
+  ];
+
+  /** Sugerencias activas que se muestran en la pantalla de bienvenida. */
+  activeSuggestions: string[] = [
+    'suggestion_terror',
+    'suggestion_rpg',
+    'suggestion_coop',
+    'suggestion_ps5',
+  ];
+
+  /** Número de sugerencias visibles en pantalla. Se ajusta dinámicamente en móvil para evitar scroll. */
+  visibleSuggestionsCount: number = 4;
+
+  /** Índice de la sugerencia que se encuentra en transición de desvanecimiento (fade). */
+  fadingIndex: number | null = null;
+  /** Identificador del intervalo para la rotación automática de sugerencias. */
+  private rotationIntervalId: any = null;
+
+  /** Rota de manera aleatoria las sugerencias de chat activas a mostrar. */
+  rotateSuggestions(): void {
+    const shuffled = [...this.allSuggestions];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    this.activeSuggestions = shuffled.slice(0, 4);
+    this.adjustMobileSuggestionsCount();
+  }
+
+  /** Inicia el temporizador de rotación de sugerencias cuando no se muestran todas las tarjetas en móviles. */
+  startRotationTimer(): void {
+    if (!this.isBrowser) return;
+    this.stopRotationTimer();
+    this.rotationIntervalId = setInterval(() => {
+      this.rotateSingleSuggestion();
+    }, 4000);
+  }
+
+  /** Detiene el temporizador de rotación de sugerencias. */
+  stopRotationTimer(): void {
+    if (this.rotationIntervalId) {
+      clearInterval(this.rotationIntervalId);
+      this.rotationIntervalId = null;
+    }
+  }
+
+  /** Rota gradualmente una única sugerencia visible en móviles. */
+  rotateSingleSuggestion(): void {
+    if (this.messages.length > 0 || this.visibleSuggestionsCount >= 4) {
+      return;
+    }
+
+    // Seleccionar un índice aleatorio de las tarjetas visibles actualmente
+    const targetIdx = Math.floor(Math.random() * this.visibleSuggestionsCount);
+
+    // Obtener las sugerencias que no están visibles actualmente
+    const activeSet = new Set(this.activeSuggestions.slice(0, this.visibleSuggestionsCount));
+    const available = this.allSuggestions.filter((s) => !activeSet.has(s));
+    if (available.length === 0) return;
+
+    // Seleccionar una sugerencia aleatoria del pool disponible
+    const nextSuggestion = available[Math.floor(Math.random() * available.length)];
+
+    // Iniciar desvanecimiento (fade-out)
+    this.fadingIndex = targetIdx;
+
+    // Esperar 300ms a que termine el fade-out para cambiar el texto y hacer fade-in
+    setTimeout(() => {
+      if (this.messages.length === 0 && targetIdx < this.visibleSuggestionsCount) {
+        this.activeSuggestions[targetIdx] = nextSuggestion;
+      }
+      this.fadingIndex = null;
+    }, 300);
+  }
+
+  /** Ajusta dinámicamente el número de sugerencias visibles en móvil según el espacio vertical disponible. */
+  @HostListener('window:resize')
+  adjustMobileSuggestionsCount(): void {
+    if (!this.isBrowser) return;
+
+    const isMobile = window.innerWidth < 768;
+    if (!isMobile) {
+      this.visibleSuggestionsCount = 4;
+      return;
+    }
+
+    const container = this.scrollContainer?.nativeElement;
+    const header = this.welcomeHeader?.nativeElement;
+    if (!container || !header) {
+      return;
+    }
+
+    const totalHeight = container.clientHeight;
+    const headerHeight = header.offsetHeight;
+
+    // Alturas fijas y márgenes de seguridad en móvil:
+    // - Padding superior del contenedor: pt-6 (24px)
+    // - Espaciado vertical (gap) entre elementos: space-y-2 (8px)
+    // - Margen superior de la rejilla de sugerencias: mt-4 (16px)
+    // - Spacer inferior móvil: h-10 (40px)
+    // - Margen de seguridad para asegurar que no se produzca scroll: (24px)
+    const fixedHeights = 24 + 8 + 16 + 40 + 24;
+    const availableHeight = totalHeight - headerHeight - fixedHeights;
+
+    // Altura aproximada de una tarjeta de sugerencia en móvil (p-4 es padding de 32px vertical + texto/borde)
+    let cardHeight = 56;
+    const firstButton = container.querySelector('.grid button');
+    if (firstButton) {
+      const height = firstButton.offsetHeight;
+      if (height > 0) {
+        cardHeight = height;
+      }
+    }
+
+    const gap = 12; // gap-3 es 12px
+    
+    // N * cardHeight + (N - 1) * gap <= availableHeight
+    // N * (cardHeight + gap) - gap <= availableHeight
+    // N <= (availableHeight + gap) / (cardHeight + gap)
+    const maxCards = Math.floor((availableHeight + gap) / (cardHeight + gap));
+
+    this.visibleSuggestionsCount = Math.max(1, Math.min(4, maxCards));
+  }
+
   /** Alterna la visibilidad de la barra lateral móvil. */
   toggleMobileSidebar() {
     this.isMobileSidebarOpen = !this.isMobileSidebarOpen;
@@ -222,6 +365,10 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     if (this.isBrowser) {
+      setTimeout(() => {
+        this.rotateSuggestions();
+        this.startRotationTimer();
+      }, 0);
       const exitTimeStr = localStorage.getItem(this.chatExitTimestampKey);
       if (exitTimeStr) {
         const exitTime = parseInt(exitTimeStr, 10);
@@ -242,9 +389,14 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.cachedSessionsCount = 3;
     if (this.isBrowser) {
-      setTimeout(() => {
+      const hasToken = !!this.authService.getToken();
+      if (hasToken) {
         this.cachedSessionsCount = this.getInitialSessionsCount() || 3;
-      }, 0);
+      } else {
+        this.cachedSessionsCount = 0;
+        this.loadingSessions = false;
+        this.updateCachedSessionsCount(0);
+      }
     }
 
     this.authService.user$.subscribe((user) => {
@@ -278,6 +430,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
     if (this.isBrowser) {
       localStorage.setItem(this.chatExitTimestampKey, Date.now().toString());
+      this.stopRotationTimer();
     }
 
     this.uiState.isChatSidebarOpen.set(false);
@@ -323,6 +476,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
             }
             this.checkMainScroll();
             this.checkSidebarScroll();
+            this.adjustMobileSuggestionsCount();
           });
         });
       });
@@ -550,6 +704,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isHeaderTitleVisible = true;
     this.isEditingTitle = false;
     setTimeout(() => {
+      this.rotateSuggestions();
       this.currentSession = null;
       this.messages = [];
       this.useSmoothScroll = false;
