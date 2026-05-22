@@ -100,7 +100,7 @@ El sistema se compone de:
 ### Cuadro de Mando (PowerBI)
 
 - **Herramienta:** Microsoft Power BI.
-- **Archivo:** `PowerBI/InfomePBI.pbix`.
+- **Archivo:** `powerbi.pbix`.
 - **Funcionalidad:** Visualización y análisis interactivo de los datos generados por la plataforma.
 
 ---
@@ -111,7 +111,7 @@ El sistema se compone de:
 
 ### Figma Móvil: [https://www.figma.com/proto/...](https://www.figma.com/proto/8WRYpwCvkO9wDyGhu57rel/App-venta-de-videojuegos?node-id=567-2837&p=f&t=a0jbOffYZnVYoZLL-0&scaling=scale-down&content-scaling=fixed&page-id=16%3A2973&starting-point-node-id=567%3A2837)
 
-### APK Android: [https://github.com/Almucero/...](https://github.com/Almucero/Proyecto-Intermodular/raw/main/android-apk.apk)
+### APK Android: [https://github.com/Almucero/...](https://github.com/Almucero/Proyecto-Intermodular/raw/main/android-app.apk)
 
 ### Angular SSR + API (Web desplegada): [https://gamingsage.vercel.app/](https://gamingsage.vercel.app/)
 
