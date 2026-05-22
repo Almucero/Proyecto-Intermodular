@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  @file: src/sitemap-static.xml
+  @project: GameSage - Plataforma de Videojuegos
+  @authors: Rosario González y Álvaro Jiménez
+  @description: Mapa del sitio estático para indexación SEO, conteniendo las rutas de las páginas principales y legales de la aplicación.
+-->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Páginas estáticas principales -->
   <url>

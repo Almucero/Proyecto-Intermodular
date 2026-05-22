@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/auth/auth.controller.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Controladores de autenticación para registro local y logins OAuth con Google/GitHub, recuperación de contraseña, y endpoints públicos.
+ */
+
 import type { Request, Response } from 'express';
 import {
   register,

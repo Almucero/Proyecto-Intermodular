@@ -137,7 +137,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/shared/pipes/localized-currency.pipe.ts</code>
+            <code>src/app/pipes/localized-currency.pipe.ts</code>
         </p>
 
 
@@ -191,15 +191,15 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="24"
-                                    class="link-to-prism">src/app/shared/pipes/localized-currency.pipe.ts:24</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="31"
+                                    class="link-to-prism">src/app/pipes/localized-currency.pipe.ts:31</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Método no documentado.</p>
+                        <div class="io-description"><p>Transforma un valor numérico (en euros) a la moneda y formato del idioma del cliente actual.</p>
 </div>
 
                             <div class="io-description">
@@ -230,7 +230,7 @@
                                             </td>
 
                                             <td>
-                                                    <p>Parámetro no documentado.</p>
+                                                    <p>El valor numérico original en Euros que se desea formatear.</p>
 
                                             </td>
                                         </tr>
@@ -249,7 +249,7 @@
                                             </td>
 
                                             <td>
-                                                    <p>Parámetro no documentado.</p>
+                                                    <p>El formato de visualización de la divisa (&#39;symbol&#39;, &#39;code&#39; o &#39;none&#39;).</p>
 
                                             </td>
                                         </tr>
@@ -268,7 +268,7 @@
                                             </td>
 
                                             <td>
-                                                    <p>Parámetro no documentado.</p>
+                                                    <p>Reglas de formateo numérico de decimales (ej. &#39;1.2-2&#39;).</p>
 
                                             </td>
                                         </tr>
@@ -280,7 +280,7 @@
 
                         </div>
                             <div class="io-description">
-                                <p>Retorno no documentado.</p>
+                                <p>El string del importe con el formato de moneda localizado correspondiente.</p>
 
                             </div>
                 </td>
@@ -294,7 +294,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Pipe, PipeTransform } from &#x27;@angular/core&#x27;;
-import { CurrencyService } from &#x27;../../core/services/currency.service&#x27;;
+import { CurrencyService } from &#x27;../core/services/currency.service&#x27;;
 
 /** Pipe para mostrar importes según idioma/moneda activos del usuario. */
 @Pipe({
@@ -303,20 +303,20 @@ import { CurrencyService } from &#x27;../../core/services/currency.service&#x27;
   pure: false,
 })
 export class LocalizedCurrencyPipe implements PipeTransform {
-  /**
-     * Constructor no documentado.
-     * @param currencyService Parámetro no documentado.
-     */
-    constructor(private currencyService: CurrencyService) {}
+   /**
+    * Inicializa una nueva instancia del pipe LocalizedCurrencyPipe.
+    * @param currencyService Servicio encargado de gestionar el tipo de cambio y moneda locales.
+    */
+  constructor(private currencyService: CurrencyService) { }
 
   /**
-     * Método no documentado.
-     * @param value Parámetro no documentado.
-     * @param display Parámetro no documentado.
-     * @param digitsInfo Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-    transform(
+   * Transforma un valor numérico (en euros) a la moneda y formato del idioma del cliente actual.
+   * @param value El valor numérico original en Euros que se desea formatear.
+   * @param display El formato de visualización de la divisa (&#x27;symbol&#x27;, &#x27;code&#x27; o &#x27;none&#x27;).
+   * @param digitsInfo Reglas de formateo numérico de decimales (ej. &#x27;1.2-2&#x27;).
+   * @returns El string del importe con el formato de moneda localizado correspondiente.
+   */
+  transform(
     value: number | string | null | undefined,
     display: &#x27;symbol&#x27; | &#x27;code&#x27; | &#x27;none&#x27; &#x3D; &#x27;symbol&#x27;,
     digitsInfo &#x3D; &#x27;1.2-2&#x27;,

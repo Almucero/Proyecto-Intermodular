@@ -148,7 +148,7 @@
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>Usuario autenticado inyectado por middlewares de auth.</p>
+                <p>Interfaz Request de Express extendida para soporte de sesión de usuario.</p>
 
             </p>
 
@@ -221,7 +221,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Propiedad no documentada.</p>
+                                    <div class="io-description"><p>Usuario autenticado inyectado por middlewares de auth.</p>
 </div>
                                 </td>
                             </tr>
@@ -238,12 +238,20 @@ import { env } from &#x27;../config/env&#x27;;
 import { findUserAuthInfo, touchUserLastAppLocale, touchUserLastSeen } from &#x27;../modules/users/users.service&#x27;;
 import { applySecurityHeaders, applyNoCacheHeaders } from &#x27;../../security-headers&#x27;;
 
+/**
+ * Declaración global para extender tipos e interfaces en Express.
+ */
 declare global {
+  /**
+   * Espacio de nombres Express para definir variables globales en el servidor.
+   */
   namespace Express {
-    /** Usuario autenticado inyectado por middlewares de auth. */
+    /**
+     * Interfaz Request de Express extendida para soporte de sesión de usuario.
+     */
     interface Request {
-      /** Propiedad no documentada. */
-        user?: { sub: number; email: string; isAdmin?: boolean };
+      /** Usuario autenticado inyectado por middlewares de auth. */
+      user?: { sub: number; email: string; isAdmin?: boolean };
     }
   }
 }
@@ -258,7 +266,7 @@ declare global {
 export function auth(req: Request, res: Response, next: NextFunction) {
   applySecurityHeaders(req, res);
   applyNoCacheHeaders(res);
-  
+
   const header &#x3D; req.headers.authorization;
 
   if (!header?.startsWith(&#x27;Bearer &#x27;)) {

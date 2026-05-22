@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/admin/publishers/publisher-list/publisher-list.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente que muestra la lista de editoriales en el panel de administración.
+ */
+
 import {
   Component,
   inject,
@@ -24,10 +31,10 @@ import { PublisherFormComponent } from '../publisher-form/publisher-form.compone
   styleUrl: './publisher-list.component.scss',
 })
 export class PublisherListComponent implements OnInit {
-  /** Propiedad no documentada. */
-    private publisherService = inject(PublisherService);
-  /** Propiedad no documentada. */
-    private readonly MIN_SKELETON_MS = 550;
+  /** Inyección del servicio de editoriales. */
+  private publisherService = inject(PublisherService);
+  /** Constante para la duración mínima del skeleton. */
+  private readonly MIN_SKELETON_MS = 550;
 
   /** Referencia al contenedor con scroll para manejar efectos visuales de sombras. */
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
@@ -117,9 +124,9 @@ export class PublisherListComponent implements OnInit {
   }
 
   /**
-     * Abre el modal para editar un editor existente.
-     * @param id Parámetro no documentado.
-     */
+   * Abre el modal para editar un editor existente.
+   * @param id ID del editor a editar.
+   */
   openEditModal(id: number) {
     this.selectedPublisherId = id;
     this.showModal = true;
@@ -138,9 +145,9 @@ export class PublisherListComponent implements OnInit {
   }
 
   /**
-     * Abre el modal de confirmación para eliminar un editor.
-     * @param id Parámetro no documentado.
-     */
+   * Abre el modal de confirmación para eliminar un editor.
+   * @param id ID del editor a eliminar.
+   */
   openDeleteModal(id: number) {
     this.publisherToDeleteId = id;
     this.showDeleteModal = true;

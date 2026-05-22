@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/help/help.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente de la página de Ayuda / FAQ.
+ */
+
 import {
   Component,
   HostListener,
@@ -55,39 +62,49 @@ export class HelpComponent implements AfterViewInit {
   isScreenshotModalOpen = signal(false);
   /** URL de imagen actualmente abierta en el modal. */
   screenshotModalImage = signal<string | null>(null);
-  /** Propiedad no documentada. */
-    screenshotModalOpen = false;
-  /** Propiedad no documentada. */
-    screenshotModalClosing = false;
-  /** Propiedad no documentada. */
-    private readonly screenshotModalAnimMs = 160;
+  /** Estado lógico para la transición inicial del modal. */
+  screenshotModalOpen = false;
+  /** Estado de finalización de salida del modal. */
+  screenshotModalClosing = false;
+  /** Duración en milisegundos de la animación del modal. */
+  private readonly screenshotModalAnimMs = 160;
 
+  /** Referencia del contenedor de tabla de contenidos para scroll horizontal. */
   @ViewChild('helpTocScroller') helpTocScroller?: ElementRef<HTMLDivElement>;
 
+  /** Estado de visibilidad de las flechas de scroll de ayuda. */
   helpScrollState = {
     left: false,
     right: true,
   };
 
+  /** Identificador de plataforma de Angular. */
   private platformId = inject(PLATFORM_ID);
+  /** Servicio para detección de cambios reactivos. */
   private cdr = inject(ChangeDetectorRef);
 
   /**
-     * Constructor no documentado.
-     * @param renderer Parámetro no documentado.
-     * @param document Parámetro no documentado.
-     */
-    constructor(
+   * Inicializa el componente de ayuda.
+   * @param renderer Instancia de Renderer2 de Angular.
+   * @param document El objeto de documento del DOM.
+   */
+  constructor(
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document: Document,
-  ) {}
+  ) { }
 
+  /**
+   * Método de ciclo de vida que se ejecuta tras inicializar la vista del componente.
+   */
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.updateHelpScrollState();
     }, 0);
   }
 
+  /**
+   * Actualiza el estado visual del scroll horizontal del índice de contenidos.
+   */
   updateHelpScrollState(): void {
     if (!isPlatformBrowser(this.platformId)) return;
     const element = this.helpTocScroller?.nativeElement;
@@ -142,8 +159,10 @@ export class HelpComponent implements AfterViewInit {
     }, this.screenshotModalAnimMs);
   }
 
-  /** Método no documentado. */
-    @HostListener('document:keydown.escape')
+  /**
+   * Cierra el modal de captura si se presiona la tecla Escape.
+   */
+  @HostListener('document:keydown.escape')
   onEscapePressed(): void {
     if (this.isScreenshotModalOpen()) {
       this.closeScreenshotModal();

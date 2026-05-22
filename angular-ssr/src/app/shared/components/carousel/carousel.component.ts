@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/shared/components/carousel/carousel.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente de carrusel para mostrar una lista de juegos de forma horizontal.
+ */
+
 import {
   Component,
   Input,
@@ -65,8 +72,10 @@ export class CarouselComponent implements AfterViewInit {
     } as any);
   }
 
-  /** Constructor no documentado. */
-  constructor() {}
+  /**
+   * Inicializa una nueva instancia del componente CarouselComponent.
+   */
+  constructor() { }
 
   /**
    * Inicializa el estado del scroll tras la carga de la vista.
@@ -136,8 +145,8 @@ export class CarouselComponent implements AfterViewInit {
 
   /**
    * Inicia el seguimiento del arrastre con el ratón.
-     * @param e Parámetro no documentado.
-     */
+   * @param e Objeto MouseEvent al hacer click.
+   */
   onMouseDown(e: MouseEvent): void {
     const carousel = this.carouselContainer.nativeElement;
     this.isDragging = false;
@@ -159,8 +168,8 @@ export class CarouselComponent implements AfterViewInit {
 
   /**
    * Realiza el desplazamiento del carrusel siguiendo el movimiento del ratón.
-     * @param e Parámetro no documentado.
-     */
+   * @param e Objeto MouseEvent al desplazar el cursor.
+   */
   onMouseMove(e: MouseEvent): void {
     if (e.buttons !== 1) return;
     e.preventDefault();

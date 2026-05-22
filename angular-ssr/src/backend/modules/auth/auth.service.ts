@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/auth/auth.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicios de autenticación que implementan registro, login local, social (Google/GitHub), gestión de tokens y recuperación de contraseña.
+ */
+
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { randomUUID } from 'node:crypto';

@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/developers/developers.routes.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Definición de rutas de desarrolladores con endpoints para CRUD, validación (Zod) y autenticación.
+ */
+
 import { Router } from 'express';
 import { auth } from '../../middleware/auth';
 import { adminOnly } from '../../middleware/authorize';

@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/admin/platforms/platform-list/platform-list.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente que muestra la lista de plataformas en el panel de administración.
+ */
+
 import {
   Component,
   inject,
@@ -24,10 +31,10 @@ import { PlatformFormComponent } from '../platform-form/platform-form.component'
   styleUrl: './platform-list.component.scss',
 })
 export class PlatformListComponent implements OnInit {
-  /** Propiedad no documentada. */
-    private platformService = inject(PlatformService);
-  /** Propiedad no documentada. */
-    private readonly MIN_SKELETON_MS = 550;
+  /** Inyección del servicio de plataformas. */
+  private platformService = inject(PlatformService);
+  /** Constante para la duración mínima del skeleton. */
+  private readonly MIN_SKELETON_MS = 550;
 
   /** Referencia al contenedor con scroll para manejar efectos visuales de sombras. */
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
@@ -118,9 +125,9 @@ export class PlatformListComponent implements OnInit {
   }
 
   /**
-     * Abre el modal para editar una plataforma existente.
-     * @param id Parámetro no documentado.
-     */
+   * Abre el modal para editar una plataforma existente.
+   * @param id ID de la plataforma a editar.
+   */
   openEditModal(id: number) {
     this.selectedPlatformId = id;
     this.showModal = true;
@@ -139,9 +146,9 @@ export class PlatformListComponent implements OnInit {
   }
 
   /**
-     * Abre el modal de confirmación para eliminar una plataforma.
-     * @param id Parámetro no documentado.
-     */
+   * Abre el modal de confirmación para eliminar una plataforma.
+   * @param id ID de la plataforma a eliminar.
+   */
   openDeleteModal(id: number) {
     this.platformToDeleteId = id;
     this.showDeleteModal = true;

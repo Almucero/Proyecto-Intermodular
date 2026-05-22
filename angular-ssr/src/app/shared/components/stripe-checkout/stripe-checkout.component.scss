@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/admin/developers/developer-form/developer-form.component.scss
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Estilos para el formulario de desarrolladores.
+ */
+
 :host {
   display: contents;
 }
@@ -102,27 +109,23 @@
 .checkout-embed-fade-top {
   top: 0;
   margin-bottom: -1.8rem;
-  background: linear-gradient(
-    to bottom,
-    rgba(15, 23, 42, 0.96) 0%,
-    rgba(15, 23, 42, 0.82) 22%,
-    rgba(15, 23, 42, 0.58) 52%,
-    rgba(15, 23, 42, 0.24) 78%,
-    rgba(15, 23, 42, 0) 100%
-  );
+  background: linear-gradient(to bottom,
+      rgba(15, 23, 42, 0.96) 0%,
+      rgba(15, 23, 42, 0.82) 22%,
+      rgba(15, 23, 42, 0.58) 52%,
+      rgba(15, 23, 42, 0.24) 78%,
+      rgba(15, 23, 42, 0) 100%);
 }
 
 .checkout-embed-fade-bottom {
   bottom: 0;
   margin-top: -1.8rem;
-  background: linear-gradient(
-    to top,
-    rgba(15, 23, 42, 0.96) 0%,
-    rgba(15, 23, 42, 0.82) 22%,
-    rgba(15, 23, 42, 0.58) 52%,
-    rgba(15, 23, 42, 0.24) 78%,
-    rgba(15, 23, 42, 0) 100%
-  );
+  background: linear-gradient(to top,
+      rgba(15, 23, 42, 0.96) 0%,
+      rgba(15, 23, 42, 0.82) 22%,
+      rgba(15, 23, 42, 0.58) 52%,
+      rgba(15, 23, 42, 0.24) 78%,
+      rgba(15, 23, 42, 0) 100%);
 }
 
 .checkout-embed-fade-hidden {

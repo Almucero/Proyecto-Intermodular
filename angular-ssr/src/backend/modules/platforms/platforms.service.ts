@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/platforms/platforms.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicios de plataformas que implementan operaciones CRUD para plataformas y gestión de videojuegos asociados.
+ */
+
 import { prisma } from '../../config/db';
 
 /**

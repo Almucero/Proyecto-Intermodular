@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/shared/components/footer/footer.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente que representa el pie de página de la aplicación.
+ */
+
 import { Component, inject, HostBinding } from '@angular/core';
 import { Router } from '@angular/router';
 import { UiStateService } from '../../../core/services/ui-state.service';
@@ -20,7 +27,7 @@ import {
   styleUrls: ['./footer.component.scss'],
 })
 export class FooterComponent {
-  /** Propiedad no documentada. */
+  /** Servicio de gestión de idioma y localización de la aplicación. */
   private languageService = inject(LanguageService);
   /** Servicio del enrutador de Angular. */
   private router = inject(Router);

@@ -192,8 +192,8 @@ Soporta enlaces, negritas, cursivas y listas.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="25"
-                                    class="link-to-prism">src/app/pipes/markdown.pipe.ts:25</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="32"
+                                    class="link-to-prism">src/app/pipes/markdown.pipe.ts:32</a></div>
                         </td>
                     </tr>
 
@@ -267,10 +267,10 @@ import { DomSanitizer } from &#x27;@angular/platform-browser&#x27;;
 })
 export class MarkdownPipe implements PipeTransform {
   /**
-       * Documentado.
-       * @param sanitizer Servicio para desinfectar contenido HTML.
-       */
-  constructor(private sanitizer: DomSanitizer) {}
+   * Documentado.
+   * @param sanitizer Servicio para desinfectar contenido HTML.
+   */
+  constructor(private sanitizer: DomSanitizer) { }
 
   /**
    * Transforma una cadena Markdown en HTML sanitizado.
@@ -331,7 +331,7 @@ export class MarkdownPipe implements PipeTransform {
           newHtml +&#x3D; &#x27;&lt;ul class&#x3D;&quot;list-disc pl-5 mb-2 space-y-1&quot;&gt;&#x27;;
           inList &#x3D; true;
         }
-        const content &#x3D; trimmed.substring(2);
+        const content &#x3D; trimmed.substring(2).trim();
         newHtml +&#x3D; &#x60;&lt;li&gt;${content}&lt;/li&gt;&#x60;;
       } else {
         if (inList) {

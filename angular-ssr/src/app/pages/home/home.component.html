@@ -1,99 +1,54 @@
-<div
-  class="flex-1 w-full bg-gray-900 text-white font-sans pb-20 home-container"
->
-  <div
-    *ngIf="!isMobile"
-    class="contenedor-imagenes pointer-events-none select-none"
-  >
-    <img
-      #backgroundFallbackLayer
-      src="assets/images/hero/fondo.webp"
-      class="background background-static pointer-events-none select-none"
-      draggable="false"
-    />
-    <img
-      #backgroundLayer
-      src="assets/images/hero/fondo.webp"
-      class="background background-dynamic pointer-events-none select-none"
-      draggable="false"
-    />
-    <img
-      #jokerLayer
-      src="assets/images/hero/joker.webp"
-      class="joker pointer-events-none select-none"
+<!--
+  @file: src/app/pages/home/home.component.html
+  @project: GameSage - Plataforma de Videojuegos
+  @authors: Rosario González y Álvaro Jiménez
+  @description: Página principal con carrusel de géneros, secciones de carruseles temáticos, búsqueda de juegos y navegación por juegos destacados.
+-->
+
+<div class="flex-1 w-full bg-gray-900 text-white font-sans pb-20 home-container">
+  <div *ngIf="!isMobile" class="contenedor-imagenes pointer-events-none select-none">
+    <img #backgroundFallbackLayer src="assets/images/hero/fondo.webp"
+      class="background background-static pointer-events-none select-none" draggable="false" />
+    <img #backgroundLayer src="assets/images/hero/fondo.webp"
+      class="background background-dynamic pointer-events-none select-none" draggable="false" />
+    <img #jokerLayer src="assets/images/hero/joker.webp" class="joker pointer-events-none select-none"
       [class.hero-side-character-hidden]="
         sideCharactersVisibilityReady && hideSideCharacters
-      "
-      (load)="updateSideCharactersVisibility()"
-      draggable="false"
-    />
-    <img
-      #titleLayer
-      src="assets/images/hero/titulo.webp"
-      class="titulo pointer-events-none select-none"
-      (load)="updateSideCharactersVisibility()"
-      draggable="false"
-    />
-    <img
-      #geraltLayer
-      src="assets/images/hero/geralt.webp"
-      class="geralt pointer-events-none select-none"
+      " (load)="updateSideCharactersVisibility()" draggable="false" />
+    <img #titleLayer src="assets/images/hero/titulo.webp" class="titulo pointer-events-none select-none"
+      (load)="updateSideCharactersVisibility()" draggable="false" />
+    <img #geraltLayer src="assets/images/hero/geralt.webp" class="geralt pointer-events-none select-none"
       [class.hero-side-character-hidden]="
         sideCharactersVisibilityReady && hideSideCharacters
-      "
-      (load)="updateSideCharactersVisibility()"
-      draggable="false"
-    />
-    <img
-      #bottomLayer
-      src="assets/images/hero/bottom.webp"
-      class="bottom pointer-events-none select-none"
-      draggable="false"
-    />
+      " (load)="updateSideCharactersVisibility()" draggable="false" />
+    <img #bottomLayer src="assets/images/hero/bottom.webp" class="bottom pointer-events-none select-none"
+      draggable="false" />
   </div>
-  <div
-    #mainContent
-    class="flex-1 flex flex-col justify-between pb-4 content-wrapper bg-gray-900"
-  >
+  <div #mainContent class="flex-1 flex flex-col justify-between pb-4 content-wrapper bg-gray-900">
     <section class="mt-0 flex-none w-full">
       <!-- Título en PC/Tablet (centrado, con rayas) -->
       <h2
-        class="hidden md:block text-4xl font-bold font-cinzel text-cyan-300 mb-4 text-center difuminadoTexto mobile-title"
-      >
+        class="hidden md:block text-4xl font-bold font-cinzel text-cyan-300 mb-4 text-center difuminadoTexto mobile-title">
         <span class="hidden sm:inline">── </span>{{ "genres.title" | translate
         }}<span class="hidden sm:inline"> ──</span>
       </h2>
 
       <section class="relative z-50 genres-section">
-        <!-- div invisible solo para medir el ancho disponible con ResizeObserver -->
-        <div
-          #genresContainer
-          class="absolute inset-0 pointer-events-none -z-10"
-        ></div>
+        <div #genresContainer class="absolute inset-0 pointer-events-none -z-10"></div>
 
         <!-- VISTA MÓVIL: Carrusel deslizable con todos los géneros (oculto en md/lg) -->
         <div class="relative block md:hidden w-full overflow-hidden">
           <div
             class="absolute inset-y-0 -left-1 w-14 bg-gradient-to-r from-gray-900 to-transparent z-40 pointer-events-none transition-opacity duration-300"
-            [class.opacity-0]="!genreScrollState.left"
-            [class.opacity-100]="genreScrollState.left"
-          ></div>
+            [class.opacity-0]="!genreScrollState.left" [class.opacity-100]="genreScrollState.left"></div>
 
-          <div
-            #mobileGenresContainer
-            (scroll)="updateGenreScrollState()"
-            class="w-full overflow-x-auto scrollbar-none py-3 px-4 scroll-smooth snap-x snap-mandatory overscroll-x-contain"
-          >
+          <div #mobileGenresContainer (scroll)="updateGenreScrollState()"
+            class="w-full overflow-x-auto scrollbar-none py-3 px-4 scroll-smooth snap-x snap-mandatory overscroll-x-contain">
             <div class="flex flex-nowrap gap-3 w-max">
-              <div
-                *ngFor="let gen of allGenres"
-                class="relative flex items-center flex-none snap-center"
-              >
+              <div *ngFor="let gen of allGenres" class="relative flex items-center flex-none snap-center">
                 <span
                   class="genre-pill w-auto min-w-[6.5rem] px-5 py-2 bg-gray-800 hover:bg-cyan-500 hover:text-white transition-all duration-300 rounded-full cursor-pointer text-sm text-center truncate active:scale-95 mobile-pill"
-                  (click)="goToGenres(gen.value)"
-                  [title]="gen.key | translate"
-                >
+                  (click)="goToGenres(gen.value)" [title]="gen.key | translate">
                   {{ formatGenreName(gen.key | translate) }}
                 </span>
               </div>
@@ -102,74 +57,37 @@
 
           <div
             class="absolute inset-y-0 -right-1 w-14 bg-gradient-to-l from-gray-900 to-transparent z-40 pointer-events-none transition-opacity duration-300"
-            [class.opacity-0]="!genreScrollState.right"
-            [class.opacity-100]="genreScrollState.right"
-          ></div>
+            [class.opacity-0]="!genreScrollState.right" [class.opacity-100]="genreScrollState.right"></div>
         </div>
 
         <!-- VISTA TABLET/PC: Lógica original con visibleGenres y dropdown (oculto en móvil) -->
-        <div
-          class="hidden md:flex relative w-max max-w-full mx-auto flex-nowrap items-center gap-3 py-1 px-4"
-        >
-          <div
-            *ngFor="let gen of visibleGenres"
-            class="relative flex items-center flex-none"
-          >
-            <span
-              #genrePill
+        <div class="hidden md:flex relative w-max max-w-full mx-auto flex-nowrap items-center gap-3 py-1 px-4">
+          <div *ngFor="let gen of visibleGenres" class="relative flex items-center flex-none">
+            <span #genrePill
               class="genre-pill w-auto min-w-[8rem] px-6 py-2 bg-gray-800 hover:bg-cyan-500 hover:text-white transition-all duration-500 ease-out rounded-full cursor-pointer text-sm sm:text-base text-center truncate active:scale-95 mobile-pill"
-              (click)="goToGenres(gen.value)"
-              (mouseenter)="onGenreTiltEnter(gen.value, genrePill)"
+              (click)="goToGenres(gen.value)" (mouseenter)="onGenreTiltEnter(gen.value, genrePill)"
               (mousemove)="onGenreTiltMove($event, gen.value, genrePill)"
-              (mouseleave)="onGenreTiltLeave(gen.value, genrePill)"
-              [title]="gen.key | translate"
-            >
+              (mouseleave)="onGenreTiltLeave(gen.value, genrePill)" [title]="gen.key | translate">
               {{ gen.key | translate }}
             </span>
           </div>
 
-          <!-- Flecha: absolute left-full = justo tras la última pill, sin afectar el layout -->
-          <div
-            *ngIf="dropdownItems.length > 0"
-            class="absolute left-full top-1/2 -translate-y-1/2 ml-1"
-          >
-            <button
-              (click)="toggleAllGenres(); $event.stopPropagation()"
-              class="flex items-center justify-center w-8 h-8 rounded-full text-cyan-300 hover:text-cyan-400 hover:bg-white/5 transition-all duration-150 active:scale-95 bg-transparent border-none cursor-pointer"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6 transition-transform duration-300"
-                [class.rotate-180]="showAllGenres && !isClosingGenreDropdown"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 9l-7 7-7-7"
-                />
+          <div *ngIf="dropdownItems.length > 0" class="absolute left-full top-1/2 -translate-y-1/2 ml-1">
+            <button (click)="toggleAllGenres(); $event.stopPropagation()"
+              class="flex items-center justify-center w-8 h-8 rounded-full text-cyan-300 hover:text-cyan-400 hover:bg-white/5 transition-all duration-150 active:scale-95 bg-transparent border-none cursor-pointer">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transition-transform duration-300"
+                [class.rotate-180]="showAllGenres && !isClosingGenreDropdown" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div
-              *ngIf="showAllGenres"
+            <div *ngIf="showAllGenres"
               class="absolute top-full left-1/2 -translate-x-1/2 mt-4 bg-gray-800 rounded-lg shadow-xl z-[99999] genre-dropdown-menu genre-dropdown-min-width overflow-hidden"
-              [class.animate-fadeIn]="!isClosingGenreDropdown"
-              [class.animate-fadeOut]="isClosingGenreDropdown"
-            >
-              <div
-                #dropdownScrollContainer
-                (scroll)="onDropdownScroll($event)"
-                class="genre-dropdown-scroll-container"
-              >
+              [class.animate-fadeIn]="!isClosingGenreDropdown" [class.animate-fadeOut]="isClosingGenreDropdown">
+              <div #dropdownScrollContainer (scroll)="onDropdownScroll($event)" class="genre-dropdown-scroll-container">
                 <div class="flex flex-col py-1">
-                  <button
-                    *ngFor="let gen of dropdownItems"
-                    (click)="goToGenres(gen.value); closeGenreDropdown()"
-                    class="px-4 py-2 hover:bg-gray-800 text-left bg-transparent border-none transition-colors duration-150 active:scale-95 text-white cursor-pointer whitespace-nowrap genre-dropdown-item"
-                  >
+                  <button *ngFor="let gen of dropdownItems" (click)="goToGenres(gen.value); closeGenreDropdown()"
+                    class="px-4 py-2 hover:bg-gray-800 text-left bg-transparent border-none transition-colors duration-150 active:scale-95 text-white cursor-pointer whitespace-nowrap genre-dropdown-item">
                     {{ gen.key | translate }}
                   </button>
                 </div>
@@ -181,37 +99,18 @@
     </section>
     <hr class="hidden md:block w-11/12 mx-auto border-t-2 border-white/50" />
     <div class="flex-col justify-evenly min-h-3">
-      <app-carousel
-        [title]="'home.bestSellers'"
-        [items]="bestSellers"
-        [loading]="carouselsLoading()"
-        sectionId="masVendidos"
-        (itemClick)="goToProduct($event)"
-      ></app-carousel>
+      <app-carousel [title]="'home.bestSellers'" [items]="bestSellers" [loading]="carouselsLoading()"
+        sectionId="masVendidos" (itemClick)="goToProduct($event)"></app-carousel>
 
-      <hr
-        class="hidden md:block w-11/12 mx-auto border-t-2 border-white/50 my-6"
-      />
+      <hr class="hidden md:block w-11/12 mx-auto border-t-2 border-white/50 my-6" />
 
-      <app-carousel
-        [title]="'home.offers'"
-        [items]="onSaleGames"
-        [loading]="carouselsLoading()"
-        sectionId="ofertas"
-        (itemClick)="goToProduct($event)"
-      ></app-carousel>
+      <app-carousel [title]="'home.offers'" [items]="onSaleGames" [loading]="carouselsLoading()" sectionId="ofertas"
+        (itemClick)="goToProduct($event)"></app-carousel>
 
-      <hr
-        class="hidden md:block w-11/12 mx-auto border-t-2 border-white/50 my-6"
-      />
+      <hr class="hidden md:block w-11/12 mx-auto border-t-2 border-white/50 my-6" />
 
-      <app-carousel
-        [title]="'home.topRated'"
-        [items]="topRatedGames"
-        [loading]="carouselsLoading()"
-        sectionId="mejorValorados"
-        (itemClick)="goToProduct($event)"
-      ></app-carousel>
+      <app-carousel [title]="'home.topRated'" [items]="topRatedGames" [loading]="carouselsLoading()"
+        sectionId="mejorValorados" (itemClick)="goToProduct($event)"></app-carousel>
     </div>
   </div>
 </div>

@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/favorites/favorites.schema.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Esquemas de validación Zod para operaciones con favoritos, incluyendo adición, eliminación, listado y verificación de estado.
+ */
+
 import { z } from 'zod';
 
 /** Esquema para añadir un juego a favoritos. */

@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pipes/markdown.pipe.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Pipe para renderizar Markdown.
+ */
+
 import { SecurityContext } from '@angular/core';
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -12,10 +19,10 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class MarkdownPipe implements PipeTransform {
   /**
-       * Documentado.
-       * @param sanitizer Servicio para desinfectar contenido HTML.
-       */
-  constructor(private sanitizer: DomSanitizer) {}
+   * Documentado.
+   * @param sanitizer Servicio para desinfectar contenido HTML.
+   */
+  constructor(private sanitizer: DomSanitizer) { }
 
   /**
    * Transforma una cadena Markdown en HTML sanitizado.

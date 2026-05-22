@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/cart/cart.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicios de carrito que implementan adición, eliminación, actualización y checkout de productos, con integración de Stripe.
+ */
+
 import { prisma } from '../../config/db';
 import Stripe from 'stripe';
 import { env } from '../../config/env';
@@ -271,8 +278,8 @@ export async function createCheckoutSession(
     'pt',
     'nl',
   ] as const;
-  /** Tipo no documentado. */
-    type AllowedLocale = (typeof allowedLocales)[number];
+  /** Tipos de idiomas permitidos y soportados para la localización en Stripe Checkout. */
+  type AllowedLocale = (typeof allowedLocales)[number];
   const normalizedLocale = (locale || 'auto').toLowerCase();
   const stripeLocale = allowedLocales.includes(normalizedLocale as AllowedLocale)
     ? (normalizedLocale as AllowedLocale)
@@ -314,36 +321,36 @@ export async function createCheckoutSession(
   }
 
   const lineItems = cartItems.map((item) => {
-      const unitPrice =
-        item.game.isOnSale && item.game.salePrice !== null
-          ? Number(item.game.salePrice)
-          : Number(item.game.price);
-      const convertedUnitPrice =
-        checkoutCurrency === 'usd' ? unitPrice * eurToUsdRate : unitPrice;
-      const unitAmount = Math.round(convertedUnitPrice * 100);
+    const unitPrice =
+      item.game.isOnSale && item.game.salePrice !== null
+        ? Number(item.game.salePrice)
+        : Number(item.game.price);
+    const convertedUnitPrice =
+      checkoutCurrency === 'usd' ? unitPrice * eurToUsdRate : unitPrice;
+    const unitAmount = Math.round(convertedUnitPrice * 100);
 
-      if (!Number.isFinite(unitAmount) || unitAmount <= 0) {
-        throw new Error(`Precio inválido para ${item.game.title}`);
-      }
+    if (!Number.isFinite(unitAmount) || unitAmount <= 0) {
+      throw new Error(`Precio inválido para ${item.game.title}`);
+    }
 
-      return {
-        quantity: item.quantity,
-        price_data: {
-          currency: checkoutCurrency,
-          unit_amount: unitAmount,
-          product_data: {
-            name: item.game.title,
-            description: item.platform?.name
-              ? `Plataforma: ${item.platform.name}`
+    return {
+      quantity: item.quantity,
+      price_data: {
+        currency: checkoutCurrency,
+        unit_amount: unitAmount,
+        product_data: {
+          name: item.game.title,
+          description: item.platform?.name
+            ? `Plataforma: ${item.platform.name}`
+            : undefined,
+          images:
+            item.game.media?.[0]?.url && /^https?:\/\//.test(item.game.media[0].url)
+              ? [item.game.media[0].url]
               : undefined,
-            images:
-              item.game.media?.[0]?.url && /^https?:\/\//.test(item.game.media[0].url)
-                ? [item.game.media[0].url]
-                : undefined,
-          },
         },
-      };
-    });
+      },
+    };
+  });
 
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',
@@ -444,8 +451,8 @@ export async function createDirectCheckoutSession(
     'pt',
     'nl',
   ] as const;
-  /** Tipo no documentado. */
-    type AllowedLocale = (typeof allowedLocales)[number];
+  /** Tipos de idiomas permitidos y soportados para la localización en Stripe Checkout. */
+  type AllowedLocale = (typeof allowedLocales)[number];
   const normalizedLocale = (locale || 'auto').toLowerCase();
   const stripeLocale = allowedLocales.includes(normalizedLocale as AllowedLocale)
     ? (normalizedLocale as AllowedLocale)

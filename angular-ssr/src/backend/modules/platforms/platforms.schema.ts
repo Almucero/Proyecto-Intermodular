@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/platforms/platforms.schema.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Esquemas de validación Zod para operaciones con plataformas, incluyendo creación, actualización y validación de parámetros.
+ */
+
 import { z } from 'zod';
 
 /** Esquema de creación de plataforma. */

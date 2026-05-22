@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/app.component.scss
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Estilos globales para la aplicación.
+ */
+
 .app-container {
   display: flex;
   flex-direction: column;
@@ -48,6 +55,7 @@ app-header {
     transform: translateY(28px);
     filter: blur(5px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

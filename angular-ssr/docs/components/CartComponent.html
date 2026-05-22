@@ -164,6 +164,10 @@ eliminar productos y proceder al pago (checkout).</p>
         <tbody>
 
 
+            <tr>
+                <td class="col-md-3">encapsulation</td>
+                <td class="col-md-9"><code>ViewEncapsulation.None</code></td>
+            </tr>
 
 
 
@@ -245,6 +249,9 @@ eliminar productos y proceder al pago (checkout).</p>
                             </li>
                             <li>
                                 <a href="#isAuthenticated" >isAuthenticated</a>
+                            </li>
+                            <li>
+                                <a href="#isAuthReady" >isAuthReady</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -358,13 +365,13 @@ eliminar productos y proceder al pago (checkout).</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/pages/cart/cart.component.ts:47</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/pages/cart/cart.component.ts:57</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
-                            <div class="io-description"><p>Constructor no documentado.</p>
+                            <div class="io-description"><p>Inicializa una nueva instancia de CartComponent.</p>
 </div>
                             <div>
                                     <b>Parameters :</b>
@@ -390,7 +397,7 @@ eliminar productos y proceder al pago (checkout).</p>
                                                     </td>
                                                     
                                                         <td>
-                                                                <p>Parámetro no documentado.</p>
+                                                                <p>Servicio para la gestión de elementos del carrito en el backend/caché.</p>
 
                                                         </td>
                                                 </tr>
@@ -406,7 +413,7 @@ eliminar productos y proceder al pago (checkout).</p>
                                                     </td>
                                                     
                                                         <td>
-                                                                <p>Parámetro no documentado.</p>
+                                                                <p>Servicio para recuperar recursos multimedia.</p>
 
                                                         </td>
                                                 </tr>
@@ -422,7 +429,7 @@ eliminar productos y proceder al pago (checkout).</p>
                                                     </td>
                                                     
                                                         <td>
-                                                                <p>Parámetro no documentado.</p>
+                                                                <p>Servicio de autenticación.</p>
 
                                                         </td>
                                                 </tr>
@@ -438,7 +445,7 @@ eliminar productos y proceder al pago (checkout).</p>
                                                     </td>
                                                     
                                                         <td>
-                                                                <p>Parámetro no documentado.</p>
+                                                                <p>Servicio para acceder a la ruta activa y parámetros de consulta.</p>
 
                                                         </td>
                                                 </tr>
@@ -454,7 +461,7 @@ eliminar productos y proceder al pago (checkout).</p>
                                                     </td>
                                                     
                                                         <td>
-                                                                <p>Parámetro no documentado.</p>
+                                                                <p>Servicio de enrutador de Angular.</p>
 
                                                         </td>
                                                 </tr>
@@ -470,7 +477,7 @@ eliminar productos y proceder al pago (checkout).</p>
                                                     </td>
                                                     
                                                         <td>
-                                                                <p>Parámetro no documentado.</p>
+                                                                <p>Identificador de plataforma (SSR vs Browser).</p>
 
                                                         </td>
                                                 </tr>
@@ -514,25 +521,21 @@ eliminar productos y proceder al pago (checkout).</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="293"
-                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:293</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="305"
+                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:305</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Inicia el proceso de finalización de compra.</p>
+                        <div class="io-description"><p>Inicia el proceso de finalización de compra abriendo el modal de Stripe.</p>
 </div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
                         </div>
-                            <div class="io-description">
-                                <p>Retorno no documentado.</p>
-
-                            </div>
                 </td>
             </tr>
         </tbody>
@@ -559,8 +562,8 @@ eliminar productos y proceder al pago (checkout).</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="233"
-                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:233</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="246"
+                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:246</a></div>
                         </td>
                     </tr>
 
@@ -574,10 +577,6 @@ eliminar productos y proceder al pago (checkout).</p>
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
                         </div>
-                            <div class="io-description">
-                                <p>Retorno no documentado.</p>
-
-                            </div>
                 </td>
             </tr>
         </tbody>
@@ -602,15 +601,15 @@ eliminar productos y proceder al pago (checkout).</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="300"
-                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:300</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="312"
+                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:312</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Método no documentado.</p>
+                        <div class="io-description"><p>Cierra el modal de pago de Stripe.</p>
 </div>
 
                         <div class="io-description">
@@ -643,8 +642,8 @@ eliminar productos y proceder al pago (checkout).</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="189"
-                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:189</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="204"
+                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:204</a></div>
                         </td>
                     </tr>
 
@@ -692,8 +691,7 @@ Si la cantidad llega a cero, el artículo se elimina del carrito.</p>
 
                         </div>
                             <div class="io-description">
-                                <p>Retorno no documentado.</p>
-
+                                
                             </div>
                 </td>
             </tr>
@@ -719,8 +717,8 @@ Si la cantidad llega a cero, el artículo se elimina del carrito.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="283"
-                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:283</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="296"
+                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:296</a></div>
                         </td>
                     </tr>
 
@@ -755,7 +753,7 @@ Si la cantidad llega a cero, el artículo se elimina del carrito.</p>
 
 
                                             <td>
-                                                    <p>Parámetro no documentado.</p>
+                                                    <p>Artículo del cual se quiere el desarrollador o editor.</p>
 
                                             </td>
                                         </tr>
@@ -767,7 +765,7 @@ Si la cantidad llega a cero, el artículo se elimina del carrito.</p>
 
                         </div>
                             <div class="io-description">
-                                <p>Retorno no documentado.</p>
+                                <p>Nombre de la compañía desarrolladora o editora, o &#39;Unknown&#39;.</p>
 
                             </div>
                 </td>
@@ -794,8 +792,8 @@ Si la cantidad llega a cero, el artículo se elimina del carrito.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="274"
-                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:274</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="287"
+                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:287</a></div>
                         </td>
                     </tr>
 
@@ -830,7 +828,7 @@ Si la cantidad llega a cero, el artículo se elimina del carrito.</p>
 
 
                                             <td>
-                                                    <p>Parámetro no documentado.</p>
+                                                    <p>Artículo del cual se quiere la imagen.</p>
 
                                             </td>
                                         </tr>
@@ -842,7 +840,7 @@ Si la cantidad llega a cero, el artículo se elimina del carrito.</p>
 
                         </div>
                             <div class="io-description">
-                                <p>Retorno no documentado.</p>
+                                <p>URL de la imagen del juego o imagen placeholder.</p>
 
                             </div>
                 </td>
@@ -869,8 +867,8 @@ Si la cantidad llega a cero, el artículo se elimina del carrito.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="250"
-                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:250</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="263"
+                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:263</a></div>
                         </td>
                     </tr>
 
@@ -917,7 +915,7 @@ Si la cantidad llega a cero, el artículo se elimina del carrito.</p>
 
                         </div>
                             <div class="io-description">
-                                <p>Retorno no documentado.</p>
+                                <p>El precio total del artículo multiplicando cantidad por precio unitario.</p>
 
                             </div>
                 </td>
@@ -944,8 +942,8 @@ Si la cantidad llega a cero, el artículo se elimina del carrito.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="262"
-                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:262</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="275"
+                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:275</a></div>
                         </td>
                     </tr>
 
@@ -960,7 +958,7 @@ Si la cantidad llega a cero, el artículo se elimina del carrito.</p>
 
                         </div>
                             <div class="io-description">
-                                <p>Retorno no documentado.</p>
+                                <p>Total de la compra.</p>
 
                             </div>
                 </td>
@@ -987,8 +985,8 @@ Si la cantidad llega a cero, el artículo se elimina del carrito.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="316"
-                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:316</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="328"
+                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:328</a></div>
                         </td>
                     </tr>
 
@@ -1029,25 +1027,21 @@ Si la cantidad llega a cero, el artículo se elimina del carrito.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="95"
-                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:95</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="112"
+                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:112</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Método no documentado.</p>
+                        <div class="io-description"><p>Maneja el retorno tras procesar el pago con Stripe, confirmando la sesión si es correcto.</p>
 </div>
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
                         </div>
-                            <div class="io-description">
-                                <p>Retorno no documentado.</p>
-
-                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1074,8 +1068,8 @@ Si la cantidad llega a cero, el artículo se elimina del carrito.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="167"
-                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:167</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="183"
+                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:183</a></div>
                         </td>
                     </tr>
 
@@ -1122,8 +1116,7 @@ Si la cantidad llega a cero, el artículo se elimina del carrito.</p>
 
                         </div>
                             <div class="io-description">
-                                <p>Retorno no documentado.</p>
-
+                                
                             </div>
                 </td>
             </tr>
@@ -1149,8 +1142,8 @@ Si la cantidad llega a cero, el artículo se elimina del carrito.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="131"
-                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:131</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="148"
+                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:148</a></div>
                         </td>
                     </tr>
 
@@ -1189,15 +1182,16 @@ y enriquece cada elemento con su información multimedia (imágenes).</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="87"
-                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:87</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="105"
+                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:105</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Método no documentado.</p>
+                        <div class="io-description"><p>Ciclo de vida ejecutado al destruir el componente.
+Cierra el modal de pago de Stripe.</p>
 </div>
 
                         <div class="io-description">
@@ -1228,16 +1222,16 @@ y enriquece cada elemento con su información multimedia (imágenes).</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="73"
-                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:73</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="83"
+                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:83</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Inicializa el componente verificando la sesión del usuario.
-Si está autenticado, procede a cargar el contenido del carrito.</p>
+                        <div class="io-description"><p>Ciclo de vida que inicializa el componente.
+Valida la autenticación, gestiona la devolución del checkout de Stripe e inicializa la carga del carrito.</p>
 </div>
 
                         <div class="io-description">
@@ -1268,15 +1262,15 @@ Si está autenticado, procede a cargar el contenido del carrito.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="305"
-                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:305</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="317"
+                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:317</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Método no documentado.</p>
+                        <div class="io-description"><p>Limpia el carrito y actualiza la ruta al completar la compra con éxito.</p>
 </div>
 
                         <div class="io-description">
@@ -1309,8 +1303,8 @@ Si está autenticado, procede a cargar el contenido del carrito.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="214"
-                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:214</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="228"
+                                    class="link-to-prism">src/app/pages/cart/cart.component.ts:228</a></div>
                         </td>
                     </tr>
 
@@ -1357,8 +1351,7 @@ Si está autenticado, procede a cargar el contenido del carrito.</p>
 
                         </div>
                             <div class="io-description">
-                                <p>Retorno no documentado.</p>
-
+                                
                             </div>
                 </td>
             </tr>
@@ -1388,7 +1381,7 @@ Si está autenticado, procede a cargar el contenido del carrito.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/pages/cart/cart.component.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/pages/cart/cart.component.ts:43</a></div>
                         </td>
                     </tr>
 
@@ -1420,13 +1413,13 @@ Si está autenticado, procede a cargar el contenido del carrito.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/pages/cart/cart.component.ts:45</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/pages/cart/cart.component.ts:55</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Propiedad no documentada.</p>
+                    <div class="io-description"><p>Bandera interna para asegurar que el retorno de checkout se procese una sola vez.</p>
 </div>
                 </td>
             </tr>
@@ -1451,13 +1444,13 @@ Si está autenticado, procede a cargar el contenido del carrito.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/pages/cart/cart.component.ts:43</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/pages/cart/cart.component.ts:53</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Propiedad no documentada.</p>
+                    <div class="io-description"><p>Indica si el modal del checkout de Stripe está abierto.</p>
 </div>
                 </td>
             </tr>
@@ -1482,7 +1475,7 @@ Si está autenticado, procede a cargar el contenido del carrito.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/pages/cart/cart.component.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/pages/cart/cart.component.ts:47</a></div>
                         </td>
                     </tr>
 
@@ -1513,13 +1506,44 @@ Si está autenticado, procede a cargar el contenido del carrito.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/pages/cart/cart.component.ts:41</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/pages/cart/cart.component.ts:49</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Estado de autenticación del usuario actual.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isAuthReady"></a>
+                    <span class="name">
+                        <span ><b>isAuthReady</b></span>
+                        <a href="#isAuthReady"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/pages/cart/cart.component.ts:51</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indica si el servicio de autenticación ha terminado la verificación de inicio de sesión.</p>
 </div>
                 </td>
             </tr>
@@ -1547,13 +1571,13 @@ Si está autenticado, procede a cargar el contenido del carrito.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/pages/cart/cart.component.ts:47</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/pages/cart/cart.component.ts:57</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Propiedad no documentada.</p>
+                    <div class="io-description"><p>Determina si el componente se ejecuta en el navegador.</p>
 </div>
                 </td>
             </tr>
@@ -1578,7 +1602,7 @@ Si está autenticado, procede a cargar el contenido del carrito.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/pages/cart/cart.component.ts:37</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/pages/cart/cart.component.ts:45</a></div>
                         </td>
                     </tr>
 
@@ -1613,7 +1637,7 @@ Si está autenticado, procede a cargar el contenido del carrito.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="323" class="link-to-prism">src/app/pages/cart/cart.component.ts:323</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="335" class="link-to-prism">src/app/pages/cart/cart.component.ts:335</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1635,7 +1659,7 @@ Si está autenticado, procede a cargar el contenido del carrito.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID, signal } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID, signal, ViewEncapsulation } from &#x27;@angular/core&#x27;;
 import { CommonModule, isPlatformBrowser } from &#x27;@angular/common&#x27;;
 import { RouterLink } from &#x27;@angular/router&#x27;;
 import { TranslateModule } from &#x27;@ngx-translate/core&#x27;;
@@ -1646,7 +1670,7 @@ import { BaseAuthenticationService } from &#x27;../../core/services/impl/base-au
 import { CartItem } from &#x27;../../core/models/cart-item.model&#x27;;
 import { Media } from &#x27;../../core/models/media.model&#x27;;
 import { firstValueFrom } from &#x27;rxjs&#x27;;
-import { LocalizedCurrencyPipe } from &#x27;../../shared/pipes/localized-currency.pipe&#x27;;
+import { LocalizedCurrencyPipe } from &#x27;../../pipes/localized-currency.pipe&#x27;;
 import { StripeModalComponent } from &#x27;../../shared/components/stripe-checkout/stripe-checkout.component&#x27;;
 
 /**
@@ -1666,6 +1690,7 @@ import { StripeModalComponent } from &#x27;../../shared/components/stripe-checko
   ],
   templateUrl: &#x27;./cart.component.html&#x27;,
   styleUrl: &#x27;./cart.component.scss&#x27;,
+  encapsulation: ViewEncapsulation.None,
 })
 export class CartComponent implements OnInit, OnDestroy {
   /** Lista de artículos en el carrito del usuario. */
@@ -1676,23 +1701,25 @@ export class CartComponent implements OnInit, OnDestroy {
   error &#x3D; signal&lt;string | null&gt;(null);
   /** Estado de autenticación del usuario actual. */
   isAuthenticated &#x3D; signal(false);
-  /** Propiedad no documentada. */
-    checkoutModalOpen &#x3D; signal(false);
-  /** Propiedad no documentada. */
-    private checkoutHandled &#x3D; false;
-  /** Propiedad no documentada. */
-    private readonly isBrowser: boolean;
+  /** Indica si el servicio de autenticación ha terminado la verificación de inicio de sesión. */
+  isAuthReady &#x3D; signal(false);
+  /** Indica si el modal del checkout de Stripe está abierto. */
+  checkoutModalOpen &#x3D; signal(false);
+  /** Bandera interna para asegurar que el retorno de checkout se procese una sola vez. */
+  private checkoutHandled &#x3D; false;
+  /** Determina si el componente se ejecuta en el navegador. */
+  private readonly isBrowser: boolean;
 
   /**
-     * Constructor no documentado.
-     * @param cartItemService Parámetro no documentado.
-     * @param mediaService Parámetro no documentado.
-     * @param authService Parámetro no documentado.
-     * @param route Parámetro no documentado.
-     * @param router Parámetro no documentado.
-     * @param platformId Parámetro no documentado.
-     */
-    constructor(
+   * Inicializa una nueva instancia de CartComponent.
+   * @param cartItemService Servicio para la gestión de elementos del carrito en el backend/caché.
+   * @param mediaService Servicio para recuperar recursos multimedia.
+   * @param authService Servicio de autenticación.
+   * @param route Servicio para acceder a la ruta activa y parámetros de consulta.
+   * @param router Servicio de enrutador de Angular.
+   * @param platformId Identificador de plataforma (SSR vs Browser).
+   */
+  constructor(
     private cartItemService: CartItemService,
     private mediaService: MediaService,
     private authService: BaseAuthenticationService,
@@ -1704,32 +1731,39 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Inicializa el componente verificando la sesión del usuario.
-   * Si está autenticado, procede a cargar el contenido del carrito.
+   * Ciclo de vida que inicializa el componente.
+   * Valida la autenticación, gestiona la devolución del checkout de Stripe e inicializa la carga del carrito.
    */
   ngOnInit() {
-    this.authService.authenticated$.subscribe((isAuth) &#x3D;&gt; {
-      this.isAuthenticated.set(isAuth);
-      if (isAuth) {
-        this.handleCheckoutReturn().finally(() &#x3D;&gt; {
-          this.loadCart();
+    this.authService.ready$.subscribe((ready) &#x3D;&gt; {
+      this.isAuthReady.set(ready);
+      if (ready) {
+        this.authService.authenticated$.subscribe((isAuth) &#x3D;&gt; {
+          this.isAuthenticated.set(isAuth);
+          if (isAuth) {
+            this.handleCheckoutReturn().finally(() &#x3D;&gt; {
+              this.loadCart();
+            });
+          } else {
+            this.loading.set(false);
+          }
         });
-      } else {
-        this.loading.set(false);
       }
     });
   }
 
-  /** Método no documentado. */
-    ngOnDestroy() {
+  /**
+   * Ciclo de vida ejecutado al destruir el componente.
+   * Cierra el modal de pago de Stripe.
+   */
+  ngOnDestroy() {
     this.closeCheckoutModal();
   }
 
   /**
-     * Método no documentado.
-     * @returns Retorno no documentado.
-     */
-    private async handleCheckoutReturn() {
+   * Maneja el retorno tras procesar el pago con Stripe, confirmando la sesión si es correcto.
+   */
+  private async handleCheckoutReturn() {
     if (this.checkoutHandled) return;
     this.checkoutHandled &#x3D; true;
     const paymentState &#x3D; this.route.snapshot.queryParamMap.get(&#x27;payment&#x27;);
@@ -1799,8 +1833,7 @@ export class CartComponent implements OnInit, OnDestroy {
   /**
    * Incrementa en una unidad la cantidad de un artículo específico.
    * @param item El artículo a incrementar.
-     * @returns Retorno no documentado.
-     */
+   */
   async incrementQuantity(item: CartItem) {
     if (!item.gameId || !item.platformId) return;
     try {
@@ -1814,15 +1847,14 @@ export class CartComponent implements OnInit, OnDestroy {
             : i,
         ),
       );
-    } catch (error) {}
+    } catch (error) { }
   }
 
   /**
    * Decrementa en una unidad la cantidad de un artículo.
    * Si la cantidad llega a cero, el artículo se elimina del carrito.
    * @param item El artículo a decrementar.
-     * @returns Retorno no documentado.
-     */
+   */
   async decrementQuantity(item: CartItem) {
     if (!item.gameId || !item.platformId) return;
     if (item.quantity &gt; 1) {
@@ -1837,7 +1869,7 @@ export class CartComponent implements OnInit, OnDestroy {
               : i,
           ),
         );
-      } catch (error) {}
+      } catch (error) { }
     } else {
       await this.removeFromCart(item);
     }
@@ -1846,8 +1878,7 @@ export class CartComponent implements OnInit, OnDestroy {
   /**
    * Elimina permanentemente un artículo del carrito.
    * @param item El artículo a eliminar.
-     * @returns Retorno no documentado.
-     */
+   */
   async removeFromCart(item: CartItem) {
     if (!item.gameId || !item.platformId) return;
     try {
@@ -1860,13 +1891,12 @@ export class CartComponent implements OnInit, OnDestroy {
             !(i.gameId &#x3D;&#x3D;&#x3D; item.gameId &amp;&amp; i.platformId &#x3D;&#x3D;&#x3D; item.platformId),
         ),
       );
-    } catch (error) {}
+    } catch (error) { }
   }
 
   /**
    * Vacía completamente el carrito de compras del usuario.
-     * @returns Retorno no documentado.
-     */
+   */
   async clearCart() {
     const items &#x3D; this.cartItems();
     for (const item of items) {
@@ -1882,8 +1912,8 @@ export class CartComponent implements OnInit, OnDestroy {
   /**
    * Calcula el coste total de un artículo multiplicando precio por cantidad.
    * @param item El artículo a calcular.
-     * @returns Retorno no documentado.
-     */
+   * @returns El precio total del artículo multiplicando cantidad por precio unitario.
+   */
   getItemTotal(item: CartItem): number {
     const price &#x3D;
       item.game?.isOnSale &amp;&amp; item.game?.salePrice !&#x3D;&#x3D; null
@@ -1894,8 +1924,8 @@ export class CartComponent implements OnInit, OnDestroy {
 
   /**
    * Calcula la suma total acumulada de todos los productos en el carrito.
-     * @returns Retorno no documentado.
-     */
+   * @returns Total de la compra.
+   */
   getTotal(): number {
     return this.cartItems().reduce(
       (sum, item) &#x3D;&gt; sum + this.getItemTotal(item),
@@ -1904,19 +1934,19 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   /**
-     * Obtiene la imagen de portada de un artículo del carrito.
-     * @param item Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Obtiene la imagen de portada de un artículo del carrito.
+   * @param item Artículo del cual se quiere la imagen.
+   * @returns URL de la imagen del juego o imagen placeholder.
+   */
   getGameImage(item: CartItem): string {
     return item.game?.media?.[0]?.url || &#x27;assets/images/ui/placeholder.webp&#x27;;
   }
 
   /**
-     * Obtiene el nombre del desarrollador o editor del videojuego.
-     * @param item Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Obtiene el nombre del desarrollador o editor del videojuego.
+   * @param item Artículo del cual se quiere el desarrollador o editor.
+   * @returns Nombre de la compañía desarrolladora o editora, o &#x27;Unknown&#x27;.
+   */
   getGameDeveloper(item: CartItem): string {
     return (
       item.game?.Developer?.name || item.game?.Publisher?.name || &#x27;Unknown&#x27;
@@ -1924,22 +1954,21 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   /**
-     * Inicia el proceso de finalización de compra.
-     * @returns Retorno no documentado.
-     */
+   * Inicia el proceso de finalización de compra abriendo el modal de Stripe.
+   */
   async checkout() {
     if (this.cartItems().length &#x3D;&#x3D;&#x3D; 0 || !this.isBrowser) return;
     this.error.set(null);
     this.checkoutModalOpen.set(true);
   }
 
-  /** Método no documentado. */
-    closeCheckoutModal() {
+  /** Cierra el modal de pago de Stripe. */
+  closeCheckoutModal() {
     this.checkoutModalOpen.set(false);
   }
 
-  /** Método no documentado. */
-    onCheckoutCompleted() {
+  /** Limpia el carrito y actualiza la ruta al completar la compra con éxito. */
+  onCheckoutCompleted() {
     this.error.set(null);
     this.loadCart();
     this.router.navigate([], {
@@ -1968,280 +1997,225 @@ export class CartComponent implements OnInit, OnDestroy {
     </div>
 
     <div class="tab-pane fade " id="templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;cart-page-container flex-1 w-full bg-gray-900 text-white font-sans py-8&quot;&gt;
+        <pre class="line-numbers"><code class="language-html">&lt;!--
+  @file: src/app/pages/cart/cart.component.html
+  @project: GameSage - Plataforma de Videojuegos
+  @authors: Rosario González y Álvaro Jiménez
+  @description: Vista de lista de favoritos con skeletons de carga, autenticación condicional y manejo de estados de error/vacío.
+--&gt;
+
+&lt;div class&#x3D;&quot;cart-page-container flex-1 w-full bg-gray-900 text-white font-sans py-8&quot;&gt;
+  &lt;style&gt;
+    .animate-fade-in {
+      animation: fadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  &lt;/style&gt;
   &lt;div class&#x3D;&quot;max-w-5xl mx-auto px-4 sm:px-6 lg:px-8&quot;&gt;
     &lt;h1 class&#x3D;&quot;text-3xl font-bold text-cyan-300 mb-8 text-center&quot;&gt;
       {{ &quot;cart.title&quot; | translate }}
     &lt;/h1&gt;
 
+    @if (isAuthReady()) {
     @if (!isAuthenticated()) {
-      &lt;div class&#x3D;&quot;text-center text-gray-400 py-12&quot;&gt;
-        &lt;a
-          (click)&#x3D;&quot;goToLogin()&quot;
-          class&#x3D;&quot;text-cyan-400 hover:text-cyan-300 cursor-pointer transition-colors&quot;
-          &gt;{{ &quot;authGuard.login&quot; | translate }}&lt;/a
-        &gt;
-        {{ &quot;authGuard.toSeeContent&quot; | translate }}
-      &lt;/div&gt;
+    &lt;div class&#x3D;&quot;text-center text-gray-400 py-12&quot;&gt;
+      &lt;a (click)&#x3D;&quot;goToLogin()&quot; class&#x3D;&quot;text-cyan-400 hover:text-cyan-300 cursor-pointer transition-colors&quot;&gt;{{
+        &quot;authGuard.login&quot; | translate }}&lt;/a&gt;
+      {{ &quot;authGuard.toSeeContent&quot; | translate }}
+    &lt;/div&gt;
     } @else {
-      @if (loading()) {
-        &lt;div class&#x3D;&quot;space-y-6&quot;&gt;
-          @for (i of cartItemsCount; track i) {
-            &lt;div
-              class&#x3D;&quot;flex flex-col md:flex-row gap-3 md:gap-4 bg-gray-800 rounded-lg p-3 md:p-4 items-start animate-pulse pointer-events-none&quot;
-            &gt;
-              &lt;div
-                class&#x3D;&quot;w-full h-48 md:w-32 md:h-32 bg-gray-700 rounded-lg flex-shrink-0&quot;
-              &gt;&lt;/div&gt;
-              &lt;div class&#x3D;&quot;flex-1 w-full&quot;&gt;
-                &lt;div class&#x3D;&quot;h-6 bg-gray-700 rounded w-3/4 mb-2&quot;&gt;&lt;/div&gt;
-                &lt;div class&#x3D;&quot;h-4 bg-gray-700 rounded w-1/2 mb-2&quot;&gt;&lt;/div&gt;
-                &lt;div class&#x3D;&quot;h-4 bg-gray-700 rounded w-1/4&quot;&gt;&lt;/div&gt;
-              &lt;/div&gt;
-              &lt;div
-                class&#x3D;&quot;flex flex-col w-full md:w-auto md:h-32 md:items-end md:justify-between flex-shrink-0 mt-0 md:mt-0&quot;
-              &gt;
-                &lt;div class&#x3D;&quot;h-8 bg-gray-700 rounded w-28 md:mb-0 mb-4&quot;&gt;&lt;/div&gt;
-                &lt;div class&#x3D;&quot;flex gap-2 items-center w-full md:w-auto&quot;&gt;
-                  &lt;div
-                    class&#x3D;&quot;h-10 flex-1 bg-gray-700 rounded-lg md:w-10 md:flex-none&quot;
-                  &gt;&lt;/div&gt;
-                  &lt;div class&#x3D;&quot;h-10 w-12 bg-gray-700 rounded-lg&quot;&gt;&lt;/div&gt;
-                  &lt;div
-                    class&#x3D;&quot;h-10 flex-1 bg-gray-700 rounded-lg md:w-10 md:flex-none&quot;
-                  &gt;&lt;/div&gt;
-                  &lt;div
-                    class&#x3D;&quot;h-10 flex-1 bg-gray-700 rounded-lg md:w-10 md:flex-none&quot;
-                  &gt;&lt;/div&gt;
-                &lt;/div&gt;
-              &lt;/div&gt;
-            &lt;/div&gt;
-          }
+    @if (loading()) {
+    &lt;div class&#x3D;&quot;space-y-6 animate-fade-in&quot;&gt;
+      @for (i of cartItemsCount; track i) {
+      &lt;div
+        class&#x3D;&quot;flex flex-col md:flex-row gap-3 md:gap-4 bg-gray-800 rounded-lg p-3 md:p-4 items-start animate-pulse pointer-events-none animate-fade-in&quot;&gt;
+        &lt;div class&#x3D;&quot;w-full h-48 md:w-32 md:h-32 bg-gray-700 rounded-lg flex-shrink-0&quot;&gt;&lt;/div&gt;
+        &lt;div class&#x3D;&quot;flex-1 w-full&quot;&gt;
+          &lt;div class&#x3D;&quot;h-6 bg-gray-700 rounded w-3/4 mb-2&quot;&gt;&lt;/div&gt;
+          &lt;div class&#x3D;&quot;h-4 bg-gray-700 rounded w-1/2 mb-2&quot;&gt;&lt;/div&gt;
+          &lt;div class&#x3D;&quot;h-4 bg-gray-700 rounded w-1/4&quot;&gt;&lt;/div&gt;
         &lt;/div&gt;
-      }
-      @if (error()) {
-        &lt;div class&#x3D;&quot;text-center text-red-400 py-12&quot;&gt;
-          {{ error() }}
-        &lt;/div&gt;
-      }
-      @if (!loading() &amp;&amp; cartItems().length &#x3D;&#x3D;&#x3D; 0) {
-        &lt;div class&#x3D;&quot;text-center text-gray-400 py-12&quot;&gt;
-          {{ &quot;cart.empty&quot; | translate }}
-        &lt;/div&gt;
-      }
-
-      &lt;div class&#x3D;&quot;space-y-6&quot;&gt;
-        @for (item of cartItems(); track item.id) {
-          &lt;div
-            class&#x3D;&quot;flex flex-col md:flex-row gap-3 md:gap-4 bg-gray-800 rounded-lg p-3 md:p-4&quot;
-          &gt;
-            &lt;a
-              [routerLink]&#x3D;&quot;[&#x27;/product&#x27;, item.game?.id]&quot;
-              class&#x3D;&quot;flex-shrink-0 self-center md:self-start w-full md:w-auto&quot;
-              class&#x3D;&quot;no-text-decoration&quot;
-            &gt;
-              &lt;img
-                [src]&#x3D;&quot;getGameImage(item)&quot;
-                [alt]&#x3D;&quot;item.game?.title || &#x27;Game&#x27;&quot;
-                class&#x3D;&quot;w-full h-48 md:w-32 md:h-32 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity&quot;
-                crossorigin&#x3D;&quot;anonymous&quot;
-                referrerpolicy&#x3D;&quot;no-referrer&quot;
-              /&gt;
-            &lt;/a&gt;
-
-            &lt;div class&#x3D;&quot;flex-1 self-start&quot;&gt;
-              &lt;a
-                [routerLink]&#x3D;&quot;[&#x27;/product&#x27;, item.game?.id]&quot;
-                class&#x3D;&quot;hover:text-cyan-400 transition-colors&quot;
-                class&#x3D;&quot;no-text-decoration&quot;
-              &gt;
-                &lt;h3 class&#x3D;&quot;text-xl font-semibold text-white mb-1&quot;&gt;
-                  {{ item.game?.title || &quot;Untitled&quot; }}
-                &lt;/h3&gt;
-              &lt;/a&gt;
-              &lt;p class&#x3D;&quot;text-gray-400 text-sm mb-1&quot;&gt;
-                {{ getGameDeveloper(item) }}
-              &lt;/p&gt;
-              &lt;p class&#x3D;&quot;text-cyan-400 text-sm&quot;&gt;
-                {{ item.platform?.name || &quot;&quot; }}
-              &lt;/p&gt;
-            &lt;/div&gt;
-
-            &lt;div class&#x3D;&quot;flex flex-col w-full mt-0 md:hidden&quot;&gt;
-              &lt;div class&#x3D;&quot;flex flex-col items-start w-full mb-2&quot;&gt;
-                @if (item.game?.isOnSale &amp;&amp; item.game?.salePrice !&#x3D;&#x3D; null) {
-                  &lt;span class&#x3D;&quot;text-xs text-gray-400 line-through&quot;
-                    &gt;{{
-                      (item.game?.price || 0) * item.quantity
-                        | localizedCurrency: &quot;none&quot;
-                    }}&lt;/span
-                  &gt;
-                  &lt;p class&#x3D;&quot;text-2xl font-bold text-cyan-400&quot;&gt;
-                    {{
-                      (item.game?.salePrice || 0) * item.quantity
-                        | localizedCurrency
-                    }}
-                  &lt;/p&gt;
-                } @else {
-                  &lt;p class&#x3D;&quot;text-2xl font-bold text-cyan-400&quot;&gt;
-                    {{ (item.game?.price || 0) * item.quantity | localizedCurrency }}
-                  &lt;/p&gt;
-                }
-              &lt;/div&gt;
-              &lt;div class&#x3D;&quot;flex gap-2 w-full items-center&quot;&gt;
-                &lt;button
-                  (click)&#x3D;&quot;decrementQuantity(item)&quot;
-                  class&#x3D;&quot;flex-1 h-12 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg text-white transition-colors border-0 outline-none font-bold text-xl&quot;
-                &gt;
-                  −
-                &lt;/button&gt;
-                &lt;div
-                  class&#x3D;&quot;w-12 h-12 flex items-center justify-center bg-gray-700 rounded-lg text-white font-medium&quot;
-                &gt;
-                  {{ item.quantity }}
-                &lt;/div&gt;
-                &lt;button
-                  (click)&#x3D;&quot;incrementQuantity(item)&quot;
-                  class&#x3D;&quot;flex-1 h-12 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg text-white transition-colors border-0 outline-none font-bold text-xl&quot;
-                &gt;
-                  +
-                &lt;/button&gt;
-                &lt;button
-                  (click)&#x3D;&quot;removeFromCart(item)&quot;
-                  class&#x3D;&quot;flex-1 h-12 flex items-center justify-center bg-red-600 hover:bg-red-500 text-white rounded-lg transition-all border-0 outline-none&quot;
-                &gt;
-                  &lt;svg
-                    xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
-                    class&#x3D;&quot;h-5 w-5&quot;
-                    fill&#x3D;&quot;none&quot;
-                    viewBox&#x3D;&quot;0 0 24 24&quot;
-                    stroke&#x3D;&quot;currentColor&quot;
-                  &gt;
-                    &lt;path
-                      stroke-linecap&#x3D;&quot;round&quot;
-                      stroke-linejoin&#x3D;&quot;round&quot;
-                      stroke-width&#x3D;&quot;2&quot;
-                      d&#x3D;&quot;M6 18L18 6M6 6l12 12&quot;
-                    /&gt;
-                  &lt;/svg&gt;
-                &lt;/button&gt;
-              &lt;/div&gt;
-            &lt;/div&gt;
-            &lt;div
-              class&#x3D;&quot;hidden md:flex flex-col items-end justify-between h-32 flex-shrink-0&quot;
-            &gt;
-              &lt;div class&#x3D;&quot;flex items-baseline gap-2&quot;&gt;
-                @if (item.game?.isOnSale &amp;&amp; item.game?.salePrice !&#x3D;&#x3D; null) {
-                  &lt;p class&#x3D;&quot;text-3xl font-bold text-cyan-400&quot;&gt;
-                    {{
-                      (item.game?.salePrice || 0) * item.quantity
-                        | localizedCurrency
-                    }}
-                  &lt;/p&gt;
-                  &lt;span class&#x3D;&quot;text-white line-through text-lg&quot;
-                    &gt;{{
-                      (item.game?.price || 0) * item.quantity
-                        | localizedCurrency: &quot;none&quot;
-                    }}&lt;/span
-                  &gt;
-                } @else {
-                  &lt;p class&#x3D;&quot;text-3xl font-bold text-cyan-400&quot;&gt;
-                    {{ (item.game?.price || 0) * item.quantity | localizedCurrency }}
-                  &lt;/p&gt;
-                }
-              &lt;/div&gt;
-
-              &lt;div class&#x3D;&quot;flex gap-2 items-center&quot;&gt;
-                &lt;button
-                  (click)&#x3D;&quot;decrementQuantity(item)&quot;
-                  class&#x3D;&quot;w-10 h-10 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg text-white transition-colors border-0 outline-none&quot;
-                &gt;
-                  −
-                &lt;/button&gt;
-                &lt;div
-                  class&#x3D;&quot;w-12 h-10 flex items-center justify-center bg-gray-700 rounded-lg text-white font-medium&quot;
-                &gt;
-                  {{ item.quantity }}
-                &lt;/div&gt;
-                &lt;button
-                  (click)&#x3D;&quot;incrementQuantity(item)&quot;
-                  class&#x3D;&quot;w-10 h-10 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg text-white transition-colors border-0 outline-none&quot;
-                &gt;
-                  +
-                &lt;/button&gt;
-                &lt;button
-                  (click)&#x3D;&quot;removeFromCart(item)&quot;
-                  class&#x3D;&quot;w-10 h-10 flex items-center justify-center bg-red-600 hover:bg-red-500 text-white rounded-lg transition-all border-0 outline-none&quot;
-                &gt;
-                  &lt;svg
-                    xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
-                    class&#x3D;&quot;h-5 w-5&quot;
-                    fill&#x3D;&quot;none&quot;
-                    viewBox&#x3D;&quot;0 0 24 24&quot;
-                    stroke&#x3D;&quot;currentColor&quot;
-                  &gt;
-                    &lt;path
-                      stroke-linecap&#x3D;&quot;round&quot;
-                      stroke-linejoin&#x3D;&quot;round&quot;
-                      stroke-width&#x3D;&quot;2&quot;
-                      d&#x3D;&quot;M6 18L18 6M6 6l12 12&quot;
-                    /&gt;
-                  &lt;/svg&gt;
-                &lt;/button&gt;
-              &lt;/div&gt;
-            &lt;/div&gt;
+        &lt;div class&#x3D;&quot;flex flex-col w-full md:w-auto md:h-32 md:items-end md:justify-between flex-shrink-0 mt-0 md:mt-0&quot;&gt;
+          &lt;div class&#x3D;&quot;h-8 bg-gray-700 rounded w-28 md:mb-0 mb-4&quot;&gt;&lt;/div&gt;
+          &lt;div class&#x3D;&quot;flex gap-2 items-center w-full md:w-auto&quot;&gt;
+            &lt;div class&#x3D;&quot;h-10 flex-1 bg-gray-700 rounded-lg md:w-10 md:flex-none&quot;&gt;&lt;/div&gt;
+            &lt;div class&#x3D;&quot;h-10 w-12 bg-gray-700 rounded-lg&quot;&gt;&lt;/div&gt;
+            &lt;div class&#x3D;&quot;h-10 flex-1 bg-gray-700 rounded-lg md:w-10 md:flex-none&quot;&gt;&lt;/div&gt;
+            &lt;div class&#x3D;&quot;h-10 flex-1 bg-gray-700 rounded-lg md:w-10 md:flex-none&quot;&gt;&lt;/div&gt;
           &lt;/div&gt;
-        }
+        &lt;/div&gt;
       &lt;/div&gt;
+      }
+    &lt;/div&gt;
+    }
+    @if (error()) {
+    &lt;div class&#x3D;&quot;text-center text-red-400 py-12&quot;&gt;
+      {{ error() }}
+    &lt;/div&gt;
+    }
+    @if (!loading() &amp;&amp; cartItems().length &#x3D;&#x3D;&#x3D; 0) {
+    &lt;div class&#x3D;&quot;text-center text-gray-400 py-12&quot;&gt;
+      {{ &quot;cart.empty&quot; | translate }}
+    &lt;/div&gt;
+    }
 
-      @if (cartItems().length &gt; 0) {
-        &lt;div
-          class&#x3D;&quot;mt-8 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0&quot;
-        &gt;
-          &lt;div class&#x3D;&quot;text-2xl font-bold&quot;&gt;
-            &lt;span class&#x3D;&quot;text-gray-400&quot;&gt;Total: &lt;/span&gt;
-            &lt;span class&#x3D;&quot;text-cyan-300&quot;
-              &gt;{{ getTotal() | localizedCurrency }}&lt;/span
-            &gt;
+    &lt;div class&#x3D;&quot;space-y-6&quot;&gt;
+      @for (item of cartItems(); track item.id) {
+      &lt;div class&#x3D;&quot;flex flex-col md:flex-row gap-3 md:gap-4 bg-gray-800 rounded-lg p-3 md:p-4&quot;&gt;
+        &lt;a [routerLink]&#x3D;&quot;[&#x27;/product&#x27;, item.game?.id]&quot; class&#x3D;&quot;flex-shrink-0 self-center md:self-start w-full md:w-auto&quot;
+          class&#x3D;&quot;no-text-decoration&quot;&gt;
+          &lt;img [src]&#x3D;&quot;getGameImage(item)&quot; [alt]&#x3D;&quot;item.game?.title || &#x27;Game&#x27;&quot;
+            class&#x3D;&quot;w-full h-48 md:w-32 md:h-32 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity&quot;
+            crossorigin&#x3D;&quot;anonymous&quot; referrerpolicy&#x3D;&quot;no-referrer&quot; /&gt;
+        &lt;/a&gt;
+
+        &lt;div class&#x3D;&quot;flex-1 self-start&quot;&gt;
+          &lt;a [routerLink]&#x3D;&quot;[&#x27;/product&#x27;, item.game?.id]&quot; class&#x3D;&quot;hover:text-cyan-400 transition-colors&quot;
+            class&#x3D;&quot;no-text-decoration&quot;&gt;
+            &lt;h3 class&#x3D;&quot;text-xl font-semibold text-white mb-1&quot;&gt;
+              {{ item.game?.title || &quot;Untitled&quot; }}
+            &lt;/h3&gt;
+          &lt;/a&gt;
+          &lt;p class&#x3D;&quot;text-gray-400 text-sm mb-1&quot;&gt;
+            {{ getGameDeveloper(item) }}
+          &lt;/p&gt;
+          &lt;p class&#x3D;&quot;text-cyan-400 text-sm&quot;&gt;
+            {{ item.platform?.name || &quot;&quot; }}
+          &lt;/p&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;flex flex-col w-full mt-0 md:hidden&quot;&gt;
+          &lt;div class&#x3D;&quot;flex flex-col items-start w-full mb-2&quot;&gt;
+            @if (item.game?.isOnSale &amp;&amp; item.game?.salePrice !&#x3D;&#x3D; null) {
+            &lt;span class&#x3D;&quot;text-xs text-gray-400 line-through&quot;&gt;{{
+              (item.game?.price || 0) * item.quantity
+              | localizedCurrency: &quot;none&quot;
+              }}&lt;/span&gt;
+            &lt;p class&#x3D;&quot;text-2xl font-bold text-cyan-400&quot;&gt;
+              {{
+              (item.game?.salePrice || 0) * item.quantity
+              | localizedCurrency
+              }}
+            &lt;/p&gt;
+            } @else {
+            &lt;p class&#x3D;&quot;text-2xl font-bold text-cyan-400&quot;&gt;
+              {{ (item.game?.price || 0) * item.quantity | localizedCurrency }}
+            &lt;/p&gt;
+            }
           &lt;/div&gt;
-          &lt;div class&#x3D;&quot;flex flex-col md:flex-row gap-4 w-full md:w-auto&quot;&gt;
-            &lt;button
-              (click)&#x3D;&quot;clearCart()&quot;
-              class&#x3D;&quot;w-full md:w-auto px-8 py-3 bg-red-600 hover:bg-red-500 text-white rounded-lg transition-all text-base font-medium border-0 outline-none&quot;
-            &gt;
-              {{ &quot;cart.clearAll&quot; | translate }}
+          &lt;div class&#x3D;&quot;flex gap-2 w-full items-center&quot;&gt;
+            &lt;button (click)&#x3D;&quot;decrementQuantity(item)&quot;
+              class&#x3D;&quot;flex-1 h-12 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg text-white transition-colors border-0 outline-none font-bold text-xl&quot;&gt;
+              −
             &lt;/button&gt;
-            &lt;button
-              (click)&#x3D;&quot;checkout()&quot;
-              class&#x3D;&quot;w-full md:w-auto px-8 py-3 bg-cyan-400 hover:bg-cyan-300 text-white rounded-lg transition-all text-base font-medium border-0 outline-none&quot;
-            &gt;
-              {{ &quot;cart.buy&quot; | translate }}
+            &lt;div class&#x3D;&quot;w-12 h-12 flex items-center justify-center bg-gray-700 rounded-lg text-white font-medium&quot;&gt;
+              {{ item.quantity }}
+            &lt;/div&gt;
+            &lt;button (click)&#x3D;&quot;incrementQuantity(item)&quot;
+              class&#x3D;&quot;flex-1 h-12 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg text-white transition-colors border-0 outline-none font-bold text-xl&quot;&gt;
+              +
+            &lt;/button&gt;
+            &lt;button (click)&#x3D;&quot;removeFromCart(item)&quot;
+              class&#x3D;&quot;flex-1 h-12 flex items-center justify-center btn-premium-danger text-white rounded-lg transition-all border-0 outline-none&quot;&gt;
+              &lt;svg xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; class&#x3D;&quot;h-5 w-5&quot; fill&#x3D;&quot;none&quot; viewBox&#x3D;&quot;0 0 24 24&quot;
+                stroke&#x3D;&quot;currentColor&quot;&gt;
+                &lt;path stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot; stroke-width&#x3D;&quot;2&quot; d&#x3D;&quot;M6 18L18 6M6 6l12 12&quot; /&gt;
+              &lt;/svg&gt;
             &lt;/button&gt;
           &lt;/div&gt;
         &lt;/div&gt;
-      }
-      @if (loading() &amp;&amp; cartItemsCount.length &gt; 0) {
-        &lt;div
-          class&#x3D;&quot;mt-8 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0 animate-pulse pointer-events-none&quot;
-        &gt;
-          &lt;div class&#x3D;&quot;h-8 w-48 bg-gray-700 rounded&quot;&gt;&lt;/div&gt;
-          &lt;div class&#x3D;&quot;flex flex-col md:flex-row gap-4 w-full md:w-auto&quot;&gt;
-            &lt;div class&#x3D;&quot;h-12 w-full md:w-40 bg-gray-700 rounded-lg&quot;&gt;&lt;/div&gt;
-            &lt;div class&#x3D;&quot;h-12 w-full md:w-40 bg-gray-700 rounded-lg&quot;&gt;&lt;/div&gt;
+        &lt;div class&#x3D;&quot;hidden md:flex flex-col items-end justify-between h-32 flex-shrink-0&quot;&gt;
+          &lt;div class&#x3D;&quot;flex items-baseline gap-2&quot;&gt;
+            @if (item.game?.isOnSale &amp;&amp; item.game?.salePrice !&#x3D;&#x3D; null) {
+            &lt;p class&#x3D;&quot;text-3xl font-bold text-cyan-400&quot;&gt;
+              {{
+              (item.game?.salePrice || 0) * item.quantity
+              | localizedCurrency
+              }}
+            &lt;/p&gt;
+            &lt;span class&#x3D;&quot;text-white line-through text-lg&quot;&gt;{{
+              (item.game?.price || 0) * item.quantity
+              | localizedCurrency: &quot;none&quot;
+              }}&lt;/span&gt;
+            } @else {
+            &lt;p class&#x3D;&quot;text-3xl font-bold text-cyan-400&quot;&gt;
+              {{ (item.game?.price || 0) * item.quantity | localizedCurrency }}
+            &lt;/p&gt;
+            }
+          &lt;/div&gt;
+
+          &lt;div class&#x3D;&quot;flex gap-2 items-center&quot;&gt;
+            &lt;button (click)&#x3D;&quot;decrementQuantity(item)&quot;
+              class&#x3D;&quot;w-10 h-10 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg text-white transition-colors border-0 outline-none&quot;&gt;
+              −
+            &lt;/button&gt;
+            &lt;div class&#x3D;&quot;w-12 h-10 flex items-center justify-center bg-gray-700 rounded-lg text-white font-medium&quot;&gt;
+              {{ item.quantity }}
+            &lt;/div&gt;
+            &lt;button (click)&#x3D;&quot;incrementQuantity(item)&quot;
+              class&#x3D;&quot;w-10 h-10 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg text-white transition-colors border-0 outline-none&quot;&gt;
+              +
+            &lt;/button&gt;
+            &lt;button (click)&#x3D;&quot;removeFromCart(item)&quot;
+              class&#x3D;&quot;w-10 h-10 flex items-center justify-center btn-premium-danger text-white rounded-lg transition-all border-0 outline-none&quot;&gt;
+              &lt;svg xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; class&#x3D;&quot;h-5 w-5&quot; fill&#x3D;&quot;none&quot; viewBox&#x3D;&quot;0 0 24 24&quot;
+                stroke&#x3D;&quot;currentColor&quot;&gt;
+                &lt;path stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot; stroke-width&#x3D;&quot;2&quot; d&#x3D;&quot;M6 18L18 6M6 6l12 12&quot; /&gt;
+              &lt;/svg&gt;
+            &lt;/button&gt;
           &lt;/div&gt;
         &lt;/div&gt;
+      &lt;/div&gt;
       }
+    &lt;/div&gt;
+
+    @if (cartItems().length &gt; 0) {
+    &lt;div class&#x3D;&quot;mt-8 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0&quot;&gt;
+      &lt;div class&#x3D;&quot;text-2xl font-bold&quot;&gt;
+        &lt;span class&#x3D;&quot;text-gray-400&quot;&gt;Total: &lt;/span&gt;
+        &lt;span class&#x3D;&quot;text-cyan-300&quot;&gt;{{ getTotal() | localizedCurrency }}&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;flex flex-col md:flex-row gap-4 w-full md:w-auto&quot;&gt;
+        &lt;button (click)&#x3D;&quot;clearCart()&quot;
+          class&#x3D;&quot;w-full md:w-auto px-8 py-3 btn-premium-danger text-white rounded-lg transition-all text-base font-medium border-0 outline-none&quot;&gt;
+          {{ &quot;cart.clearAll&quot; | translate }}
+        &lt;/button&gt;
+        &lt;button (click)&#x3D;&quot;checkout()&quot;
+          class&#x3D;&quot;w-full md:w-auto px-8 py-3 btn-premium-action text-white rounded-lg transition-all text-base font-medium border-0 outline-none&quot;&gt;
+          {{ &quot;cart.buy&quot; | translate }}
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    }
+    @if (loading() &amp;&amp; cartItemsCount.length &gt; 0) {
+    &lt;div
+      class&#x3D;&quot;mt-8 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0 animate-pulse pointer-events-none&quot;&gt;
+      &lt;div class&#x3D;&quot;h-8 w-48 bg-gray-700 rounded&quot;&gt;&lt;/div&gt;
+      &lt;div class&#x3D;&quot;flex flex-col md:flex-row gap-4 w-full md:w-auto&quot;&gt;
+        &lt;div class&#x3D;&quot;h-12 w-full md:w-40 bg-gray-700 rounded-lg&quot;&gt;&lt;/div&gt;
+        &lt;div class&#x3D;&quot;h-12 w-full md:w-40 bg-gray-700 rounded-lg&quot;&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    }
 
     }
+    }
   &lt;/div&gt;
-  &lt;app-stripe-modal
-    [open]&#x3D;&quot;checkoutModalOpen()&quot;
-    [titleKey]&#x3D;&quot;&#x27;cart.buy&#x27;&quot;
-    (closed)&#x3D;&quot;closeCheckoutModal()&quot;
-    (completed)&#x3D;&quot;onCheckoutCompleted()&quot;
-  &gt;&lt;/app-stripe-modal&gt;
-&lt;/div&gt;
-</code></pre>
+  &lt;app-stripe-modal [open]&#x3D;&quot;checkoutModalOpen()&quot; [titleKey]&#x3D;&quot;&#x27;cart.buy&#x27;&quot; (closed)&#x3D;&quot;closeCheckoutModal()&quot;
+    (completed)&#x3D;&quot;onCheckoutCompleted()&quot;&gt;&lt;/app-stripe-modal&gt;
+&lt;/div&gt;</code></pre>
     </div>
 
 
@@ -2270,7 +2244,7 @@ export class CartComponent implements OnInit, OnDestroy {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="cart-page-container flex-1 w-full bg-gray-900 text-white font-sans py-8">  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">    <h1 class="text-3xl font-bold text-cyan-300 mb-8 text-center">      {{ "cart.title" | translate }}    </h1>    @if (!isAuthenticated()) {      <div class="text-center text-gray-400 py-12">        <a          (click)="goToLogin()"          class="text-cyan-400 hover:text-cyan-300 cursor-pointer transition-colors"          >{{ "authGuard.login" | translate }}</a        >        {{ "authGuard.toSeeContent" | translate }}      </div>    } @else {      @if (loading()) {        <div class="space-y-6">          @for (i of cartItemsCount; track i) {            <div              class="flex flex-col md:flex-row gap-3 md:gap-4 bg-gray-800 rounded-lg p-3 md:p-4 items-start animate-pulse pointer-events-none"            >              <div                class="w-full h-48 md:w-32 md:h-32 bg-gray-700 rounded-lg flex-shrink-0"              ></div>              <div class="flex-1 w-full">                <div class="h-6 bg-gray-700 rounded w-3/4 mb-2"></div>                <div class="h-4 bg-gray-700 rounded w-1/2 mb-2"></div>                <div class="h-4 bg-gray-700 rounded w-1/4"></div>              </div>              <div                class="flex flex-col w-full md:w-auto md:h-32 md:items-end md:justify-between flex-shrink-0 mt-0 md:mt-0"              >                <div class="h-8 bg-gray-700 rounded w-28 md:mb-0 mb-4"></div>                <div class="flex gap-2 items-center w-full md:w-auto">                  <div                    class="h-10 flex-1 bg-gray-700 rounded-lg md:w-10 md:flex-none"                  ></div>                  <div class="h-10 w-12 bg-gray-700 rounded-lg"></div>                  <div                    class="h-10 flex-1 bg-gray-700 rounded-lg md:w-10 md:flex-none"                  ></div>                  <div                    class="h-10 flex-1 bg-gray-700 rounded-lg md:w-10 md:flex-none"                  ></div>                </div>              </div>            </div>          }        </div>      }      @if (error()) {        <div class="text-center text-red-400 py-12">          {{ error() }}        </div>      }      @if (!loading() && cartItems().length === 0) {        <div class="text-center text-gray-400 py-12">          {{ "cart.empty" | translate }}        </div>      }      <div class="space-y-6">        @for (item of cartItems(); track item.id) {          <div            class="flex flex-col md:flex-row gap-3 md:gap-4 bg-gray-800 rounded-lg p-3 md:p-4"          >            <a              [routerLink]="[\'/product\', item.game?.id]"              class="flex-shrink-0 self-center md:self-start w-full md:w-auto"              class="no-text-decoration"            >              <img                [src]="getGameImage(item)"                [alt]="item.game?.title || \'Game\'"                class="w-full h-48 md:w-32 md:h-32 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity"                crossorigin="anonymous"                referrerpolicy="no-referrer"              />            </a>            <div class="flex-1 self-start">              <a                [routerLink]="[\'/product\', item.game?.id]"                class="hover:text-cyan-400 transition-colors"                class="no-text-decoration"              >                <h3 class="text-xl font-semibold text-white mb-1">                  {{ item.game?.title || "Untitled" }}                </h3>              </a>              <p class="text-gray-400 text-sm mb-1">                {{ getGameDeveloper(item) }}              </p>              <p class="text-cyan-400 text-sm">                {{ item.platform?.name || "" }}              </p>            </div>            <div class="flex flex-col w-full mt-0 md:hidden">              <div class="flex flex-col items-start w-full mb-2">                @if (item.game?.isOnSale && item.game?.salePrice !== null) {                  <span class="text-xs text-gray-400 line-through"                    >{{                      (item.game?.price || 0) * item.quantity                        | localizedCurrency: "none"                    }}</span                  >                  <p class="text-2xl font-bold text-cyan-400">                    {{                      (item.game?.salePrice || 0) * item.quantity                        | localizedCurrency                    }}                  </p>                } @else {                  <p class="text-2xl font-bold text-cyan-400">                    {{ (item.game?.price || 0) * item.quantity | localizedCurrency }}                  </p>                }              </div>              <div class="flex gap-2 w-full items-center">                <button                  (click)="decrementQuantity(item)"                  class="flex-1 h-12 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg text-white transition-colors border-0 outline-none font-bold text-xl"                >                  −                </button>                <div                  class="w-12 h-12 flex items-center justify-center bg-gray-700 rounded-lg text-white font-medium"                >                  {{ item.quantity }}                </div>                <button                  (click)="incrementQuantity(item)"                  class="flex-1 h-12 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg text-white transition-colors border-0 outline-none font-bold text-xl"                >                  +                </button>                <button                  (click)="removeFromCart(item)"                  class="flex-1 h-12 flex items-center justify-center bg-red-600 hover:bg-red-500 text-white rounded-lg transition-all border-0 outline-none"                >                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    fill="none"                    viewBox="0 0 24 24"                    stroke="currentColor"                  >                    <path                      stroke-linecap="round"                      stroke-linejoin="round"                      stroke-width="2"                      d="M6 18L18 6M6 6l12 12"                    />                  </svg>                </button>              </div>            </div>            <div              class="hidden md:flex flex-col items-end justify-between h-32 flex-shrink-0"            >              <div class="flex items-baseline gap-2">                @if (item.game?.isOnSale && item.game?.salePrice !== null) {                  <p class="text-3xl font-bold text-cyan-400">                    {{                      (item.game?.salePrice || 0) * item.quantity                        | localizedCurrency                    }}                  </p>                  <span class="text-white line-through text-lg"                    >{{                      (item.game?.price || 0) * item.quantity                        | localizedCurrency: "none"                    }}</span                  >                } @else {                  <p class="text-3xl font-bold text-cyan-400">                    {{ (item.game?.price || 0) * item.quantity | localizedCurrency }}                  </p>                }              </div>              <div class="flex gap-2 items-center">                <button                  (click)="decrementQuantity(item)"                  class="w-10 h-10 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg text-white transition-colors border-0 outline-none"                >                  −                </button>                <div                  class="w-12 h-10 flex items-center justify-center bg-gray-700 rounded-lg text-white font-medium"                >                  {{ item.quantity }}                </div>                <button                  (click)="incrementQuantity(item)"                  class="w-10 h-10 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg text-white transition-colors border-0 outline-none"                >                  +                </button>                <button                  (click)="removeFromCart(item)"                  class="w-10 h-10 flex items-center justify-center bg-red-600 hover:bg-red-500 text-white rounded-lg transition-all border-0 outline-none"                >                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    fill="none"                    viewBox="0 0 24 24"                    stroke="currentColor"                  >                    <path                      stroke-linecap="round"                      stroke-linejoin="round"                      stroke-width="2"                      d="M6 18L18 6M6 6l12 12"                    />                  </svg>                </button>              </div>            </div>          </div>        }      </div>      @if (cartItems().length > 0) {        <div          class="mt-8 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0"        >          <div class="text-2xl font-bold">            <span class="text-gray-400">Total: </span>            <span class="text-cyan-300"              >{{ getTotal() | localizedCurrency }}</span            >          </div>          <div class="flex flex-col md:flex-row gap-4 w-full md:w-auto">            <button              (click)="clearCart()"              class="w-full md:w-auto px-8 py-3 bg-red-600 hover:bg-red-500 text-white rounded-lg transition-all text-base font-medium border-0 outline-none"            >              {{ "cart.clearAll" | translate }}            </button>            <button              (click)="checkout()"              class="w-full md:w-auto px-8 py-3 bg-cyan-400 hover:bg-cyan-300 text-white rounded-lg transition-all text-base font-medium border-0 outline-none"            >              {{ "cart.buy" | translate }}            </button>          </div>        </div>      }      @if (loading() && cartItemsCount.length > 0) {        <div          class="mt-8 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0 animate-pulse pointer-events-none"        >          <div class="h-8 w-48 bg-gray-700 rounded"></div>          <div class="flex flex-col md:flex-row gap-4 w-full md:w-auto">            <div class="h-12 w-full md:w-40 bg-gray-700 rounded-lg"></div>            <div class="h-12 w-full md:w-40 bg-gray-700 rounded-lg"></div>          </div>        </div>      }    }  </div>  <app-stripe-modal    [open]="checkoutModalOpen()"    [titleKey]="\'cart.buy\'"    (closed)="closeCheckoutModal()"    (completed)="onCheckoutCompleted()"  ></app-stripe-modal></div></div>'
+        var COMPONENT_TEMPLATE = '<div><!--  @file: src/app/pages/cart/cart.component.html  @project: GameSage - Plataforma de Videojuegos  @authors: Rosario González y Álvaro Jiménez  @description: Vista de lista de favoritos con skeletons de carga, autenticación condicional y manejo de estados de error/vacío.--><div class="cart-page-container flex-1 w-full bg-gray-900 text-white font-sans py-8">  <style>    .animate-fade-in {      animation: fadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;      opacity: 0;    }    @keyframes fadeIn {      0% {        opacity: 0;        transform: translateY(12px);      }      100% {        opacity: 1;        transform: translateY(0);      }    }  </style>  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">    <h1 class="text-3xl font-bold text-cyan-300 mb-8 text-center">      {{ "cart.title" | translate }}    </h1>    @if (isAuthReady()) {    @if (!isAuthenticated()) {    <div class="text-center text-gray-400 py-12">      <a (click)="goToLogin()" class="text-cyan-400 hover:text-cyan-300 cursor-pointer transition-colors">{{        "authGuard.login" | translate }}</a>      {{ "authGuard.toSeeContent" | translate }}    </div>    } @else {    @if (loading()) {    <div class="space-y-6 animate-fade-in">      @for (i of cartItemsCount; track i) {      <div        class="flex flex-col md:flex-row gap-3 md:gap-4 bg-gray-800 rounded-lg p-3 md:p-4 items-start animate-pulse pointer-events-none animate-fade-in">        <div class="w-full h-48 md:w-32 md:h-32 bg-gray-700 rounded-lg flex-shrink-0"></div>        <div class="flex-1 w-full">          <div class="h-6 bg-gray-700 rounded w-3/4 mb-2"></div>          <div class="h-4 bg-gray-700 rounded w-1/2 mb-2"></div>          <div class="h-4 bg-gray-700 rounded w-1/4"></div>        </div>        <div class="flex flex-col w-full md:w-auto md:h-32 md:items-end md:justify-between flex-shrink-0 mt-0 md:mt-0">          <div class="h-8 bg-gray-700 rounded w-28 md:mb-0 mb-4"></div>          <div class="flex gap-2 items-center w-full md:w-auto">            <div class="h-10 flex-1 bg-gray-700 rounded-lg md:w-10 md:flex-none"></div>            <div class="h-10 w-12 bg-gray-700 rounded-lg"></div>            <div class="h-10 flex-1 bg-gray-700 rounded-lg md:w-10 md:flex-none"></div>            <div class="h-10 flex-1 bg-gray-700 rounded-lg md:w-10 md:flex-none"></div>          </div>        </div>      </div>      }    </div>    }    @if (error()) {    <div class="text-center text-red-400 py-12">      {{ error() }}    </div>    }    @if (!loading() && cartItems().length === 0) {    <div class="text-center text-gray-400 py-12">      {{ "cart.empty" | translate }}    </div>    }    <div class="space-y-6">      @for (item of cartItems(); track item.id) {      <div class="flex flex-col md:flex-row gap-3 md:gap-4 bg-gray-800 rounded-lg p-3 md:p-4">        <a [routerLink]="[\'/product\', item.game?.id]" class="flex-shrink-0 self-center md:self-start w-full md:w-auto"          class="no-text-decoration">          <img [src]="getGameImage(item)" [alt]="item.game?.title || \'Game\'"            class="w-full h-48 md:w-32 md:h-32 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity"            crossorigin="anonymous" referrerpolicy="no-referrer" />        </a>        <div class="flex-1 self-start">          <a [routerLink]="[\'/product\', item.game?.id]" class="hover:text-cyan-400 transition-colors"            class="no-text-decoration">            <h3 class="text-xl font-semibold text-white mb-1">              {{ item.game?.title || "Untitled" }}            </h3>          </a>          <p class="text-gray-400 text-sm mb-1">            {{ getGameDeveloper(item) }}          </p>          <p class="text-cyan-400 text-sm">            {{ item.platform?.name || "" }}          </p>        </div>        <div class="flex flex-col w-full mt-0 md:hidden">          <div class="flex flex-col items-start w-full mb-2">            @if (item.game?.isOnSale && item.game?.salePrice !== null) {            <span class="text-xs text-gray-400 line-through">{{              (item.game?.price || 0) * item.quantity              | localizedCurrency: "none"              }}</span>            <p class="text-2xl font-bold text-cyan-400">              {{              (item.game?.salePrice || 0) * item.quantity              | localizedCurrency              }}            </p>            } @else {            <p class="text-2xl font-bold text-cyan-400">              {{ (item.game?.price || 0) * item.quantity | localizedCurrency }}            </p>            }          </div>          <div class="flex gap-2 w-full items-center">            <button (click)="decrementQuantity(item)"              class="flex-1 h-12 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg text-white transition-colors border-0 outline-none font-bold text-xl">              −            </button>            <div class="w-12 h-12 flex items-center justify-center bg-gray-700 rounded-lg text-white font-medium">              {{ item.quantity }}            </div>            <button (click)="incrementQuantity(item)"              class="flex-1 h-12 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg text-white transition-colors border-0 outline-none font-bold text-xl">              +            </button>            <button (click)="removeFromCart(item)"              class="flex-1 h-12 flex items-center justify-center btn-premium-danger text-white rounded-lg transition-all border-0 outline-none">              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"                stroke="currentColor">                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />              </svg>            </button>          </div>        </div>        <div class="hidden md:flex flex-col items-end justify-between h-32 flex-shrink-0">          <div class="flex items-baseline gap-2">            @if (item.game?.isOnSale && item.game?.salePrice !== null) {            <p class="text-3xl font-bold text-cyan-400">              {{              (item.game?.salePrice || 0) * item.quantity              | localizedCurrency              }}            </p>            <span class="text-white line-through text-lg">{{              (item.game?.price || 0) * item.quantity              | localizedCurrency: "none"              }}</span>            } @else {            <p class="text-3xl font-bold text-cyan-400">              {{ (item.game?.price || 0) * item.quantity | localizedCurrency }}            </p>            }          </div>          <div class="flex gap-2 items-center">            <button (click)="decrementQuantity(item)"              class="w-10 h-10 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg text-white transition-colors border-0 outline-none">              −            </button>            <div class="w-12 h-10 flex items-center justify-center bg-gray-700 rounded-lg text-white font-medium">              {{ item.quantity }}            </div>            <button (click)="incrementQuantity(item)"              class="w-10 h-10 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg text-white transition-colors border-0 outline-none">              +            </button>            <button (click)="removeFromCart(item)"              class="w-10 h-10 flex items-center justify-center btn-premium-danger text-white rounded-lg transition-all border-0 outline-none">              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"                stroke="currentColor">                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />              </svg>            </button>          </div>        </div>      </div>      }    </div>    @if (cartItems().length > 0) {    <div class="mt-8 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0">      <div class="text-2xl font-bold">        <span class="text-gray-400">Total: </span>        <span class="text-cyan-300">{{ getTotal() | localizedCurrency }}</span>      </div>      <div class="flex flex-col md:flex-row gap-4 w-full md:w-auto">        <button (click)="clearCart()"          class="w-full md:w-auto px-8 py-3 btn-premium-danger text-white rounded-lg transition-all text-base font-medium border-0 outline-none">          {{ "cart.clearAll" | translate }}        </button>        <button (click)="checkout()"          class="w-full md:w-auto px-8 py-3 btn-premium-action text-white rounded-lg transition-all text-base font-medium border-0 outline-none">          {{ "cart.buy" | translate }}        </button>      </div>    </div>    }    @if (loading() && cartItemsCount.length > 0) {    <div      class="mt-8 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0 animate-pulse pointer-events-none">      <div class="h-8 w-48 bg-gray-700 rounded"></div>      <div class="flex flex-col md:flex-row gap-4 w-full md:w-auto">        <div class="h-12 w-full md:w-40 bg-gray-700 rounded-lg"></div>        <div class="h-12 w-full md:w-40 bg-gray-700 rounded-lg"></div>      </div>    </div>    }    }    }  </div>  <app-stripe-modal [open]="checkoutModalOpen()" [titleKey]="\'cart.buy\'" (closed)="closeCheckoutModal()"    (completed)="onCheckoutCompleted()"></app-stripe-modal></div></div>'
     var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PasswordRecoveryModalComponent', 'selector': 'app-password-recovery-modal'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'StripeModalComponent', 'selector': 'app-stripe-modal'}];
     var DIRECTIVES = [{'name': 'CopyOnClickDirective', 'selector': '[appCopyOnClick]'},{'name': 'HighlightDirective', 'selector': '[appHighlight]'},{'name': 'Tilt3DDirective', 'selector': '[appTilt3D]'}];
     var ACTUAL_COMPONENT = {'name': 'CartComponent'};

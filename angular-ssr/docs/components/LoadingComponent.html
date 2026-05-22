@@ -218,27 +218,29 @@
   templateUrl: &#x27;./loading.component.html&#x27;,
   styleUrl: &#x27;./loading.component.scss&#x27;,
 })
-export class LoadingComponent {}
+export class LoadingComponent { }
 </code></pre>
     </div>
 
     <div class="tab-pane fade " id="templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;app-loading-screen&quot;&gt;
+        <pre class="line-numbers"><code class="language-html">&lt;!--
+  @file: src/app/shared/components/loading/loading.component.html
+  @project: GameSage - Plataforma de Videojuegos
+  @authors: Rosario González y Álvaro Jiménez
+  @description: Pantalla de carga completa con efecto glitch en el logo y título &quot;GameSage&quot;, barra de progreso animada y contenedor centrado en la pantalla.
+--&gt;
+
+&lt;div class&#x3D;&quot;app-loading-screen&quot;&gt;
   &lt;div class&#x3D;&quot;glitch-container&quot;&gt;
     &lt;div class&#x3D;&quot;glitch-logo&quot; data-text&#x3D;&quot;GameSage&quot;&gt;
-      &lt;img
-        src&#x3D;&quot;assets/branding/game_sage_logo.png&quot;
-        alt&#x3D;&quot;GameSage Logo&quot;
-        class&#x3D;&quot;logo-image&quot;
-      /&gt;
+      &lt;img src&#x3D;&quot;assets/branding/game_sage_logo.png&quot; alt&#x3D;&quot;GameSage Logo&quot; class&#x3D;&quot;logo-image&quot; /&gt;
     &lt;/div&gt;
     &lt;h1 class&#x3D;&quot;glitch-text&quot; data-text&#x3D;&quot;GameSage&quot;&gt;GameSage&lt;/h1&gt;
     &lt;div class&#x3D;&quot;loading-bar&quot;&gt;
       &lt;div class&#x3D;&quot;loading-progress&quot;&gt;&lt;/div&gt;
     &lt;/div&gt;
   &lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
+&lt;/div&gt;</code></pre>
     </div>
 
 
@@ -267,7 +269,7 @@ export class LoadingComponent {}
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="app-loading-screen">  <div class="glitch-container">    <div class="glitch-logo" data-text="GameSage">      <img        src="assets/branding/game_sage_logo.png"        alt="GameSage Logo"        class="logo-image"      />    </div>    <h1 class="glitch-text" data-text="GameSage">GameSage</h1>    <div class="loading-bar">      <div class="loading-progress"></div>    </div>  </div></div></div>'
+        var COMPONENT_TEMPLATE = '<div><!--  @file: src/app/shared/components/loading/loading.component.html  @project: GameSage - Plataforma de Videojuegos  @authors: Rosario González y Álvaro Jiménez  @description: Pantalla de carga completa con efecto glitch en el logo y título "GameSage", barra de progreso animada y contenedor centrado en la pantalla.--><div class="app-loading-screen">  <div class="glitch-container">    <div class="glitch-logo" data-text="GameSage">      <img src="assets/branding/game_sage_logo.png" alt="GameSage Logo" class="logo-image" />    </div>    <h1 class="glitch-text" data-text="GameSage">GameSage</h1>    <div class="loading-bar">      <div class="loading-progress"></div>    </div>  </div></div></div>'
     var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PasswordRecoveryModalComponent', 'selector': 'app-password-recovery-modal'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'StripeModalComponent', 'selector': 'app-stripe-modal'}];
     var DIRECTIVES = [{'name': 'CopyOnClickDirective', 'selector': '[appCopyOnClick]'},{'name': 'HighlightDirective', 'selector': '[appHighlight]'},{'name': 'Tilt3DDirective', 'selector': '[appTilt3D]'}];
     var ACTUAL_COMPONENT = {'name': 'LoadingComponent'};

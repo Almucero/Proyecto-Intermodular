@@ -1,4 +1,12 @@
+/**
+ * @file: src/backend/tests/chat.test.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Tests para endpoints de chat cubriendo creación, recuperación y eliminación de sesiones.
+ */
+
 /// <reference types="jest" />
+
 import request from 'supertest';
 import app from '../app';
 import { prisma } from '../config/db';
@@ -38,8 +46,8 @@ describe('Chat Endpoints', () => {
     if (userId) {
       await prisma.chatSession
         .deleteMany({ where: { userId } })
-        .catch(() => {});
-      await prisma.user.delete({ where: { id: userId } }).catch(() => {});
+        .catch(() => { });
+      await prisma.user.delete({ where: { id: userId } }).catch(() => { });
     }
     await prisma.$disconnect();
   });
@@ -48,7 +56,7 @@ describe('Chat Endpoints', () => {
     if (userId && createdSessionId) {
       await prisma.chatSession
         .delete({ where: { id: createdSessionId } })
-        .catch(() => {});
+        .catch(() => { });
       createdSessionId = 0;
     }
   });

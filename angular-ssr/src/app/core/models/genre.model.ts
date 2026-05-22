@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/models/genre.model.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Modelo de datos para un género de videojuegos.
+ */
+
 import { Model } from './base.model';
 import { Game } from './game.model';
 

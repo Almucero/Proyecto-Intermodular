@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/media/media.schema.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Esquemas de validación Zod para operaciones con recursos multimedia.
+ */
+
 import { z } from 'zod';
 
 /** Esquema para subida de media multipart. */

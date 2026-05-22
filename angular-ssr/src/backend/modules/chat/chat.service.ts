@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/chat/chat.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicios de chat IA que implementan procesamiento de mensajes con generación de texto, búsqueda semántica y gestión de sesiones.
+ */
+
 import { google } from '@ai-sdk/google';
 import { generateText, tool, stepCountIs } from 'ai';
 import { z } from 'zod';
@@ -14,16 +21,16 @@ const searchGamesInputSchema = z.object({
 
 /** Resultado serializable de juego sugerido en respuestas de chat. */
 interface GameResult {
-  /** Propiedad no documentada. */
-    id: number;
-  /** Propiedad no documentada. */
-    title: string;
-  /** Propiedad no documentada. */
-    price: string;
-  /** Propiedad no documentada. */
-    genres: string;
-  /** Propiedad no documentada. */
-    platforms: string;
+  /** Identificador único del juego sugerido. */
+  id: number;
+  /** Título oficial del juego. */
+  title: string;
+  /** Precio formateado en texto. */
+  price: string;
+  /** Lista de géneros asociados separados por comas. */
+  genres: string;
+  /** Lista de plataformas disponibles separadas por comas. */
+  platforms: string;
 }
 
 /**
@@ -187,23 +194,23 @@ export async function processChat(
             cleanQuery === ''
               ? {}
               : {
-                  OR: [
-                    { title: { contains: cleanQuery, mode: 'insensitive' } },
-                    {
-                      description: {
-                        contains: cleanQuery,
-                        mode: 'insensitive',
+                OR: [
+                  { title: { contains: cleanQuery, mode: 'insensitive' } },
+                  {
+                    description: {
+                      contains: cleanQuery,
+                      mode: 'insensitive',
+                    },
+                  },
+                  {
+                    genres: {
+                      some: {
+                        name: { contains: cleanQuery, mode: 'insensitive' },
                       },
                     },
-                    {
-                      genres: {
-                        some: {
-                          name: { contains: cleanQuery, mode: 'insensitive' },
-                        },
-                      },
-                    },
-                  ],
-                };
+                  },
+                ],
+              };
           const games = await prisma.game.findMany({
             where: whereClause,
             take: 5,

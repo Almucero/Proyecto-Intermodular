@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/models/cart-item.model.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Modelo de datos para un artículo en el carrito de compras.
+ */
+
 import { Model } from './base.model';
 import { Game } from './game.model';
 import { User } from './user.model';

@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/services/impl/favorite.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicio para la gestión de los juegos favoritos del usuario.
+ */
+
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -22,27 +29,21 @@ import { IFavoriteService } from '../interfaces/favorite-service.interface';
 })
 export class FavoriteService
   extends BaseService<Favorite>
-  implements IFavoriteService
-{
-  /** Propiedad no documentada. */
-    private isBrowser: boolean;
+  implements IFavoriteService {
+  /** Indica si el entorno actual de ejecución es el navegador. */
+  private isBrowser: boolean;
   /** Observable con el número total de favoritos del usuario actual. */
   public favoritesCount$ = new BehaviorSubject<number>(this.getInitialCount());
 
   /**
-       * Documentado.
-       * @param repository Repositorio base para favoritos.
-       *
-       * @param http Cliente HTTP para operaciones personalizadas.
-       *
-       * @param apiUrl URL base de la API.
-       *
-       * @param resource Nombre del recurso de favoritos en la API.
-       *
-       * @param auth Servicio de autenticación.
-       *
-       * @param platformId ID de la plataforma de ejecución.
-       */
+   * Inicializa el servicio de gestión de favoritos del usuario.
+   * @param repository Repositorio base para favoritos.
+   * @param http Cliente HTTP para operaciones personalizadas.
+   * @param apiUrl URL base de la API.
+   * @param resource Nombre del recurso de favoritos en la API.
+   * @param auth Servicio de autenticación.
+   * @param platformId ID de la plataforma de ejecución (Browser/Server).
+   */
   constructor(
     @Inject(FAVORITE_REPOSITORY_TOKEN) repository: IBaseRepository<Favorite>,
     private http: HttpClient,
@@ -67,8 +68,8 @@ export class FavoriteService
 
   /**
    * Recupera la cuenta inicial de favoritos desde el almacenamiento persistente.
-     * @returns Retorno no documentado.
-     */
+   * @returns El número de favoritos cargados inicialmente, o 0.
+   */
   private getInitialCount(): number {
     if (typeof localStorage === 'undefined') {
       return 0;
@@ -98,9 +99,9 @@ export class FavoriteService
   }
 
   /**
-   * Obtiene las cabeceras de autenticación necesarias.
-     * @returns Retorno no documentado.
-     */
+   * Obtiene las cabeceras de autenticación necesarias con el token JWT del usuario.
+   * @returns Un objeto de cabeceras HTTP que incluye el token Bearer si existe.
+   */
   private getAuthHeaders(): any {
     const headers: any = {};
     const token = this.auth.getToken();

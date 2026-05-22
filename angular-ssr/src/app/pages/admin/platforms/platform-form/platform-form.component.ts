@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/admin/platforms/platform-form/platform-form.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente de formulario para la creación y edición de plataformas.
+ */
+
 import {
   Component,
   EventEmitter,
@@ -31,10 +38,10 @@ import { Platform } from '../../../../core/models/platform.model';
   styleUrl: './platform-form.component.scss',
 })
 export class PlatformFormComponent implements OnInit, OnChanges {
-  /** Propiedad no documentada. */
-    private fb = inject(FormBuilder);
-  /** Propiedad no documentada. */
-    private platformService = inject(PlatformService);
+  /** Constructor de formularios reactivos de Angular. */
+  private fb = inject(FormBuilder);
+  /** Servicio para realizar operaciones CRUD sobre plataformas mediante la API. */
+  private platformService = inject(PlatformService);
 
   /** ID de la plataforma a editar. Si es null, el formulario opera en modo creación. */
   @Input() platformId: number | null = null;
@@ -65,9 +72,9 @@ export class PlatformFormComponent implements OnInit, OnChanges {
   }
 
   /**
-     * Detecta cambios en el ID de entrada para conmutar entre creación y edición.
-     * @param changes Parámetro no documentado.
-     */
+   * Detecta cambios en el ID de entrada para conmutar entre creación y edición.
+   * @param changes Objeto de cambios detectados en las propiedades de entrada.
+   */
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['platformId']) {
       if (this.platformId) {
@@ -81,9 +88,9 @@ export class PlatformFormComponent implements OnInit, OnChanges {
   }
 
   /**
-     * Carga los datos de una plataforma específica desde el servidor.
-     * @param id Parámetro no documentado.
-     */
+   * Carga los datos de una plataforma específica desde el servidor.
+   * @param id ID de la plataforma a cargar.
+   */
   loadPlatform(id: number) {
     this.platformService.getById(id.toString()).subscribe((platform) => {
       if (platform) {

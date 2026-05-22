@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/purchases/purchases.controller.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Controladores que manejan la lógica de negocio para operaciones con compras, incluyendo checkout manual, recuperación de compras y reembolsos.
+ */
+
 import type { Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
 import {

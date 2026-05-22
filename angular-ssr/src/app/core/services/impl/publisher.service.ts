@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/services/impl/publisher.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicio para la gestión de distribuidoras de videojuegos.
+ */
+
 import { Inject, Injectable } from '@angular/core';
 import { BaseService } from './base-service.service';
 import { Publisher } from '../../models/publisher.model';
@@ -13,12 +20,11 @@ import { IPublisherService } from '../interfaces/publisher-service.interface';
 })
 export class PublisherService
   extends BaseService<Publisher>
-  implements IPublisherService
-{
+  implements IPublisherService {
   /**
-       * Documentado.
-       * @param repository Repositorio de distribuidoras inyectado.
-       */
+   * Documentado.
+   * @param repository Repositorio de distribuidoras inyectado.
+   */
   constructor(
     @Inject(PUBLISHER_REPOSITORY_TOKEN) repository: IBaseRepository<Publisher>,
   ) {

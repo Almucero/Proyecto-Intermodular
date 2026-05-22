@@ -1,3 +1,11 @@
+
+/**
+ * @file: src/backend/modules/developers/developers.controller.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Controladores que manejan la lógica de negocio para operaciones CRUD de desarrolladores, incluyendo listado, creación, actualización y eliminación.
+ */
+
 import type { Request, Response } from 'express';
 import {
   listDevelopers,

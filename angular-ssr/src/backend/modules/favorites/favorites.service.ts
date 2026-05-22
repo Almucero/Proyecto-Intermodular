@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/favorites/favorites.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicios de favoritos que implementan operaciones CRUD para favoritos, incluyendo adición, eliminación, listado y verificación de estado.
+ */
+
 import { prisma } from '../../config/db';
 
 /**

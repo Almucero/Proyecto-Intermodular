@@ -1,10 +1,16 @@
+/*
+ * @file: src/app/core/utils/blob.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Utilidades para la conversión de data URLs en Blobs.
+ */
+
 /**
  * Convierte un data URL en un Blob conservando su mime type.
  * @param dataUrl URL codificada (base64 o data URI).
  * @param callback Callback que recibe el Blob resultante.
- * @returns No devuelve valor; entrega el resultado por callback.
  */
-export function dataURLtoBlob(dataUrl: string, callback: (blob: Blob) => void) {
+export function dataURLtoBlob(dataUrl: string, callback: (blob: Blob) => void): void {
   var req = new XMLHttpRequest();
 
   req.open('GET', dataUrl);

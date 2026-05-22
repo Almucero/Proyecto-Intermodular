@@ -154,6 +154,8 @@ Incluye animaciones para la expansión/colapso de las secciones de filtros.</p>
     </p>
     <p class="comment">
                 <code>OnInit</code>
+                <code>AfterViewInit</code>
+                <code>OnDestroy</code>
     </p>
 
 
@@ -235,16 +237,59 @@ Incluye animaciones para la expansión/colapso de las secciones de filtros.</p>
                                 <a href="#filtersExpanded" >filtersExpanded</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
+                                <a href="#filtersScroller" >filtersScroller</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#filterTimeout" >filterTimeout</a>
+                            </li>
+                            <li>
                                 <a href="#games" >games</a>
                             </li>
                             <li>
                                 <a href="#genreOptions" >genreOptions</a>
                             </li>
                             <li>
+                                <a href="#hasLoadedOnce" >hasLoadedOnce</a>
+                            </li>
+                            <li>
+                                <a href="#isClearingFilters" >isClearingFilters</a>
+                            </li>
+                            <li>
+                                <a href="#isInitialLoad" >isInitialLoad</a>
+                            </li>
+                            <li>
+                                <a href="#isLoadingFilters" >isLoadingFilters</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#lastSearchQuery" >lastSearchQuery</a>
+                            </li>
+                            <li>
+                                <a href="#loadingType" >loadingType</a>
+                            </li>
+                            <li>
                                 <a href="#maxPrice" >maxPrice</a>
                             </li>
                             <li>
                                 <a href="#minPrice" >minPrice</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#minSkeletonDelayDone" >minSkeletonDelayDone</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#ngZone" >ngZone</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#onLoaderFinished" >onLoaderFinished</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#platformId" >platformId</a>
                             </li>
                             <li>
                                 <a href="#platformOptions" >platformOptions</a>
@@ -256,16 +301,34 @@ Incluye animaciones para la expansión/colapso de las secciones de filtros.</p>
                                 <a href="#priceValue" >priceValue</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
+                                <a href="#resultsScroller" >resultsScroller</a>
+                            </li>
+                            <li>
                                 <a href="#searchQuery" >searchQuery</a>
                             </li>
                             <li>
-                                <a href="#selectedGenre" >selectedGenre</a>
+                                <a href="#selectedGenres" >selectedGenres</a>
                             </li>
                             <li>
                                 <a href="#selectedPlatform" >selectedPlatform</a>
                             </li>
                             <li>
                                 <a href="#selectedPrice" >selectedPrice</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#skeletonDelayTimeoutId" >skeletonDelayTimeoutId</a>
+                            </li>
+                            <li>
+                                <a href="#skeletons" >skeletons</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#uiState" >uiState</a>
+                            </li>
+                            <li>
+                                <a href="#viewReady" >viewReady</a>
                             </li>
                         </ul>
                     </td>
@@ -281,6 +344,10 @@ Incluye animaciones para la expansión/colapso de las secciones de filtros.</p>
                         <ul class="index-list">
                             <li>
                                 <a href="#applyFilters" >applyFilters</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#applyFiltersInternal" >applyFiltersInternal</a>
                             </li>
                             <li>
                                 <a href="#createPlaceholders" >createPlaceholders</a>
@@ -313,10 +380,13 @@ Incluye animaciones para la expansión/colapso de las secciones de filtros.</p>
                                 <a href="#loadPlatforms" >loadPlatforms</a>
                             </li>
                             <li>
-                                <a href="#ngOnInit" >ngOnInit</a>
+                                <a href="#ngAfterViewInit" >ngAfterViewInit</a>
                             </li>
                             <li>
-                                <a href="#onGenreChange" >onGenreChange</a>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
                             </li>
                             <li>
                                 <a href="#onPlatformChange" >onPlatformChange</a>
@@ -328,16 +398,44 @@ Incluye animaciones para la expansión/colapso de las secciones de filtros.</p>
                                 <a href="#onPriceSliderChange" >onPriceSliderChange</a>
                             </li>
                             <li>
+                                <a href="#onScroll" >onScroll</a>
+                            </li>
+                            <li>
                                 <a href="#removeFilter" >removeFilter</a>
                             </li>
                             <li>
                                 <a href="#resetFilters" >resetFilters</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#startMinimumSkeletonDelay" >startMinimumSkeletonDelay</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#syncFiltersToUrl" >syncFiltersToUrl</a>
+                            </li>
+                            <li>
                                 <a href="#toggleFilter" >toggleFilter</a>
                             </li>
                             <li>
+                                <a href="#toggleGenre" >toggleGenre</a>
+                            </li>
+                            <li>
+                                <a href="#togglePlatform" >togglePlatform</a>
+                            </li>
+                            <li>
+                                <a href="#togglePrice" >togglePrice</a>
+                            </li>
+                            <li>
                                 <a href="#updateActiveFilters" >updateActiveFilters</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#updateAllScrollMasks" >updateAllScrollMasks</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#updateScrollMask" >updateScrollMask</a>
                             </li>
                         </ul>
                     </td>
@@ -357,18 +455,18 @@ Incluye animaciones para la expansión/colapso de las secciones de filtros.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(route: ActivatedRoute, router: Router, gameService: <a href="../injectables/GameService.html" target="_self">GameService</a>, platformService: <a href="../injectables/PlatformService.html" target="_self">PlatformService</a>, currencyService: <a href="../injectables/CurrencyService.html" target="_self">CurrencyService</a>)</code>
+<code>constructor(route: ActivatedRoute, router: Router, gameService: <a href="../injectables/GameService.html" target="_self">GameService</a>, platformService: <a href="../injectables/PlatformService.html" target="_self">PlatformService</a>, currencyService: <a href="../injectables/CurrencyService.html" target="_self">CurrencyService</a>, cdr: ChangeDetectorRef)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">src/app/pages/search/search.component.ts:93</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="137" class="link-to-prism">src/app/pages/search/search.component.ts:137</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
-                            <div class="io-description"><p>Constructor no documentado.</p>
+                            <div class="io-description"><p>Crea una instancia de SearchComponent.</p>
 </div>
                             <div>
                                     <b>Parameters :</b>
@@ -394,7 +492,7 @@ Incluye animaciones para la expansión/colapso de las secciones de filtros.</p>
                                                     </td>
                                                     
                                                         <td>
-                                                                <p>Parámetro no documentado.</p>
+                                                                <p>Servicio para acceder a los datos de la ruta activa.</p>
 
                                                         </td>
                                                 </tr>
@@ -410,7 +508,7 @@ Incluye animaciones para la expansión/colapso de las secciones de filtros.</p>
                                                     </td>
                                                     
                                                         <td>
-                                                                <p>Parámetro no documentado.</p>
+                                                                <p>Servicio de enrutador de Angular para navegación.</p>
 
                                                         </td>
                                                 </tr>
@@ -426,7 +524,7 @@ Incluye animaciones para la expansión/colapso de las secciones de filtros.</p>
                                                     </td>
                                                     
                                                         <td>
-                                                                <p>Parámetro no documentado.</p>
+                                                                <p>Servicio para consumir el catálogo de juegos.</p>
 
                                                         </td>
                                                 </tr>
@@ -442,7 +540,7 @@ Incluye animaciones para la expansión/colapso de las secciones de filtros.</p>
                                                     </td>
                                                     
                                                         <td>
-                                                                <p>Parámetro no documentado.</p>
+                                                                <p>Servicio para obtener plataformas disponibles.</p>
 
                                                         </td>
                                                 </tr>
@@ -458,7 +556,23 @@ Incluye animaciones para la expansión/colapso de las secciones de filtros.</p>
                                                     </td>
                                                     
                                                         <td>
-                                                                <p>Parámetro no documentado.</p>
+                                                                <p>Servicio para formateo y conversión de divisas.</p>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>cdr</td>
+                                                  
+                                                        <td>
+                                                                    <code>ChangeDetectorRef</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <p>Servicio de detección de cambios de Angular.</p>
 
                                                         </td>
                                                 </tr>
@@ -500,8 +614,8 @@ Incluye animaciones para la expansión/colapso de las secciones de filtros.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="341"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:341</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="459"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:459</a></div>
                         </td>
                     </tr>
 
@@ -510,6 +624,47 @@ Incluye animaciones para la expansión/colapso de las secciones de filtros.</p>
                 <td class="col-md-4">
                         <div class="io-description"><p>Ejecuta la lógica de filtrado sobre la lista completa de juegos
 basándose en todos los criterios seleccionados.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="applyFiltersInternal"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>applyFiltersInternal</b></span>
+                        <a href="#applyFiltersInternal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>applyFiltersInternal()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="509"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:509</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Lógica interna de filtrado sin delays.</p>
 </div>
 
                         <div class="io-description">
@@ -540,15 +695,15 @@ basándose en todos los criterios seleccionados.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="135"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:135</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="233"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:233</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Crea una lista de juegos &#39;placeholder&#39; para mostrar durante la carga.</p>
+                        <div class="io-description"><p>Crea una lista de juegos de marcador de posición (&#39;placeholder&#39;) para simular los elementos durante la carga.</p>
 </div>
 
                         <div class="io-description">
@@ -556,7 +711,7 @@ basándose en todos los criterios seleccionados.</p>
 
                         </div>
                             <div class="io-description">
-                                <p>Retorno no documentado.</p>
+                                <p>Arreglo de objetos Game inicializados con valores por defecto para la carga visual.</p>
 
                             </div>
                 </td>
@@ -576,15 +731,15 @@ basándose en todos los criterios seleccionados.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>filterByGenre(games: <a href="../interfaces/Game.html" target="_self">Game[]</a>, genreKey: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>filterByGenre(games: <a href="../interfaces/Game.html" target="_self">Game[]</a>, genres: string[])</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="403"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:403</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="566"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:566</a></div>
                         </td>
                     </tr>
 
@@ -619,14 +774,14 @@ basándose en todos los criterios seleccionados.</p>
 
 
                                             <td>
-                                                    <p>Parámetro no documentado.</p>
+                                                    <p>Lista de juegos a filtrar.</p>
 
                                             </td>
                                         </tr>
                                         <tr>
-                                                <td>genreKey</td>
+                                                <td>genres</td>
                                             <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        <code>string[]</code>
                                             </td>
 
                                             <td>
@@ -635,7 +790,7 @@ basándose en todos los criterios seleccionados.</p>
 
 
                                             <td>
-                                                    <p>Parámetro no documentado.</p>
+                                                    <p>Lista de géneros seleccionados.</p>
 
                                             </td>
                                         </tr>
@@ -647,7 +802,7 @@ basándose en todos los criterios seleccionados.</p>
 
                         </div>
                             <div class="io-description">
-                                <p>Retorno no documentado.</p>
+                                <p>Lista de juegos filtrados.</p>
 
                             </div>
                 </td>
@@ -674,8 +829,8 @@ basándose en todos los criterios seleccionados.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="417"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:417</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="581"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:581</a></div>
                         </td>
                     </tr>
 
@@ -710,7 +865,7 @@ basándose en todos los criterios seleccionados.</p>
 
 
                                             <td>
-                                                    <p>Parámetro no documentado.</p>
+                                                    <p>Lista de juegos a filtrar.</p>
 
                                             </td>
                                         </tr>
@@ -726,7 +881,7 @@ basándose en todos los criterios seleccionados.</p>
 
 
                                             <td>
-                                                    <p>Parámetro no documentado.</p>
+                                                    <p>Plataforma seleccionada.</p>
 
                                             </td>
                                         </tr>
@@ -738,7 +893,7 @@ basándose en todos los criterios seleccionados.</p>
 
                         </div>
                             <div class="io-description">
-                                <p>Retorno no documentado.</p>
+                                <p>Lista de juegos filtrados.</p>
 
                             </div>
                 </td>
@@ -765,8 +920,8 @@ basándose en todos los criterios seleccionados.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="376"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:376</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="539"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:539</a></div>
                         </td>
                     </tr>
 
@@ -801,7 +956,7 @@ basándose en todos los criterios seleccionados.</p>
 
 
                                             <td>
-                                                    <p>Parámetro no documentado.</p>
+                                                    <p>Lista de juegos a filtrar.</p>
 
                                             </td>
                                         </tr>
@@ -817,7 +972,7 @@ basándose en todos los criterios seleccionados.</p>
 
 
                                             <td>
-                                                    <p>Parámetro no documentado.</p>
+                                                    <p>Rango de precio seleccionado.</p>
 
                                             </td>
                                         </tr>
@@ -829,7 +984,7 @@ basándose en todos los criterios seleccionados.</p>
 
                         </div>
                             <div class="io-description">
-                                <p>Retorno no documentado.</p>
+                                <p>Lista de juegos filtrados.</p>
 
                             </div>
                 </td>
@@ -856,15 +1011,15 @@ basándose en todos los criterios seleccionados.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="489"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:489</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="745"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:745</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Método no documentado.</p>
+                        <div class="io-description"><p>Formatea un valor numérico a moneda local.</p>
 </div>
 
                             <div class="io-description">
@@ -892,7 +1047,7 @@ basándose en todos los criterios seleccionados.</p>
 
 
                                             <td>
-                                                    <p>Parámetro no documentado.</p>
+                                                    <p>Valor numérico.</p>
 
                                             </td>
                                         </tr>
@@ -904,7 +1059,7 @@ basándose en todos los criterios seleccionados.</p>
 
                         </div>
                             <div class="io-description">
-                                <p>Retorno no documentado.</p>
+                                <p>Precio formateado como string.</p>
 
                             </div>
                 </td>
@@ -931,8 +1086,8 @@ basándose en todos los criterios seleccionados.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="469"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:469</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="725"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:725</a></div>
                         </td>
                     </tr>
 
@@ -967,7 +1122,7 @@ basándose en todos los criterios seleccionados.</p>
 
 
                                             <td>
-                                                    <p>Parámetro no documentado.</p>
+                                                    <p>Objeto del juego.</p>
 
                                             </td>
                                         </tr>
@@ -979,7 +1134,7 @@ basándose en todos los criterios seleccionados.</p>
 
                         </div>
                             <div class="io-description">
-                                <p>Retorno no documentado.</p>
+                                <p>URL de la imagen.</p>
 
                             </div>
                 </td>
@@ -1006,8 +1161,8 @@ basándose en todos los criterios seleccionados.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="480"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:480</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="736"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:736</a></div>
                         </td>
                     </tr>
 
@@ -1042,7 +1197,7 @@ basándose en todos los criterios seleccionados.</p>
 
 
                                             <td>
-                                                    <p>Parámetro no documentado.</p>
+                                                    <p>Identificador del juego.</p>
 
                                             </td>
                                         </tr>
@@ -1080,8 +1235,8 @@ basándose en todos los criterios seleccionados.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="157"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:157</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="255"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:255</a></div>
                         </td>
                     </tr>
 
@@ -1119,8 +1274,8 @@ basándose en todos los criterios seleccionados.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="216"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:216</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="314"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:314</a></div>
                         </td>
                     </tr>
 
@@ -1159,8 +1314,8 @@ También calcula el rango máximo de precio basado en los juegos recibidos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="200"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:200</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="298"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:298</a></div>
                         </td>
                     </tr>
 
@@ -1168,6 +1323,84 @@ También calcula el rango máximo de precio basado en los juegos recibidos.</p>
             <tr>
                 <td class="col-md-4">
                         <div class="io-description"><p>Carga las plataformas desde el servicio (actualmente usa las estáticas).</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewInit"></a>
+                    <span class="name">
+                        <span ><b>ngAfterViewInit</b></span>
+                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="759"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:759</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Ciclo de vida que se ejecuta tras inicializar la vista del componente.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="809"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:809</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Libera recursos y remueve oyentes de eventos.</p>
 </div>
 
                         <div class="io-description">
@@ -1198,8 +1431,8 @@ También calcula el rango máximo de precio basado en los juegos recibidos.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="115"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:115</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="201"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:201</a></div>
                         </td>
                     </tr>
 
@@ -1214,80 +1447,6 @@ y suscribiéndose a los parámetros de la URL.</p>
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                         </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="onGenreChange"></a>
-                    <span class="name">
-                        <span ><b>onGenreChange</b></span>
-                        <a href="#onGenreChange"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>onGenreChange(event: Event)</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="262"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:262</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-description"><p>Maneja el cambio en el filtro de género.</p>
-</div>
-
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>event</td>
-                                            <td>
-                                                        <code>Event</code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                            <td>
-                                                    <p>Parámetro no documentado.</p>
-
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1312,8 +1471,8 @@ y suscribiéndose a los parámetros de la URL.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="273"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:273</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="384"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:384</a></div>
                         </td>
                     </tr>
 
@@ -1348,7 +1507,7 @@ y suscribiéndose a los parámetros de la URL.</p>
 
 
                                             <td>
-                                                    <p>Parámetro no documentado.</p>
+                                                    <p>Evento de cambio del selector.</p>
 
                                             </td>
                                         </tr>
@@ -1386,8 +1545,8 @@ y suscribiéndose a los parámetros de la URL.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="244"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:244</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="366"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:366</a></div>
                         </td>
                     </tr>
 
@@ -1422,7 +1581,7 @@ y suscribiéndose a los parámetros de la URL.</p>
 
 
                                             <td>
-                                                    <p>Parámetro no documentado.</p>
+                                                    <p>Evento de cambio del selector.</p>
 
                                             </td>
                                         </tr>
@@ -1460,8 +1619,8 @@ y suscribiéndose a los parámetros de la URL.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="252"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:252</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="374"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:374</a></div>
                         </td>
                     </tr>
 
@@ -1483,6 +1642,80 @@ y suscribiéndose a los parámetros de la URL.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="onScroll"></a>
+                    <span class="name">
+                        <span ><b>onScroll</b></span>
+                        <a href="#onScroll"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onScroll(event: Event)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="773"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:773</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Maneja el evento de scroll de los contenedores para aplicar la máscara.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>Event</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Evento de scroll.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="removeFilter"></a>
                     <span class="name">
                         <span ><b>removeFilter</b></span>
@@ -1492,15 +1725,15 @@ y suscribiéndose a los parámetros de la URL.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>removeFilter(filterType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>removeFilter(type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="429"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:429</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="593"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:593</a></div>
                         </td>
                     </tr>
 
@@ -1524,7 +1757,7 @@ y suscribiéndose a los parámetros de la URL.</p>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                                <td>filterType</td>
+                                                <td>type</td>
                                             <td>
                                                             <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                             </td>
@@ -1535,7 +1768,7 @@ y suscribiéndose a los parámetros de la URL.</p>
 
 
                                             <td>
-                                                    <p>Parámetro no documentado.</p>
+                                                    <p>Tipo de filtro a eliminar.</p>
 
                                             </td>
                                         </tr>
@@ -1573,8 +1806,8 @@ y suscribiéndose a los parámetros de la URL.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="443"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:443</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="634"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:634</a></div>
                         </td>
                     </tr>
 
@@ -1582,6 +1815,88 @@ y suscribiéndose a los parámetros de la URL.</p>
             <tr>
                 <td class="col-md-4">
                         <div class="io-description"><p>Restablece todos los filtros a su estado inicial.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="startMinimumSkeletonDelay"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>startMinimumSkeletonDelay</b></span>
+                        <a href="#startMinimumSkeletonDelay"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>startMinimumSkeletonDelay()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="173"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:173</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Inicia el temporizador de retardo mínimo de visualización de skeletons.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="syncFiltersToUrl"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>syncFiltersToUrl</b></span>
+                        <a href="#syncFiltersToUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>syncFiltersToUrl()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="620"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:620</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Sincroniza el estado de los filtros con los parámetros de la URL.</p>
 </div>
 
                         <div class="io-description">
@@ -1612,8 +1927,8 @@ y suscribiéndose a los parámetros de la URL.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="456"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:456</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="660"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:660</a></div>
                         </td>
                     </tr>
 
@@ -1648,9 +1963,216 @@ y suscribiéndose a los parámetros de la URL.</p>
 
 
                                             <td>
-                                                    <p>Parámetro no documentado.</p>
+                                                    <p>Nombre del grupo de filtros a alternar.</p>
 
                                             </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleGenre"></a>
+                    <span class="name">
+                        <span ><b>toggleGenre</b></span>
+                        <a href="#toggleGenre"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleGenre(genreValue: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="672"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:672</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Alterna la selección de un género.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>genreValue</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="togglePlatform"></a>
+                    <span class="name">
+                        <span ><b>togglePlatform</b></span>
+                        <a href="#togglePlatform"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>togglePlatform(platformValue: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="707"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:707</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Alterna la selección de una plataforma.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>platformValue</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="togglePrice"></a>
+                    <span class="name">
+                        <span ><b>togglePrice</b></span>
+                        <a href="#togglePrice"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>togglePrice(priceValue: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="690"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:690</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Alterna la selección de un precio.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>priceValue</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1686,8 +2208,8 @@ y suscribiéndose a los parámetros de la URL.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="283"
-                                    class="link-to-prism">src/app/pages/search/search.component.ts:283</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="393"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:393</a></div>
                         </td>
                     </tr>
 
@@ -1701,6 +2223,123 @@ y suscribiéndose a los parámetros de la URL.</p>
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                         </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateAllScrollMasks"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>updateAllScrollMasks</b></span>
+                        <a href="#updateAllScrollMasks"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateAllScrollMasks()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="801"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:801</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Fuerza la actualización de máscaras en ambos contenedores de scroll.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateScrollMask"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>updateScrollMask</b></span>
+                        <a href="#updateScrollMask"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateScrollMask(el: HTMLElement)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="782"
+                                    class="link-to-prism">src/app/pages/search/search.component.ts:782</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Actualiza las variables CSS de máscara para un elemento específico.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>el</td>
+                                            <td>
+                                                        <code>HTMLElement</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Elemento contenedor de scroll.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1735,7 +2374,7 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/pages/search/search.component.ts:66</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">src/app/pages/search/search.component.ts:96</a></div>
                         </td>
                     </tr>
 
@@ -1772,7 +2411,7 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/pages/search/search.component.ts:63</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">src/app/pages/search/search.component.ts:93</a></div>
                         </td>
                     </tr>
 
@@ -1813,13 +2452,88 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">src/app/pages/search/search.component.ts:82</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="126" class="link-to-prism">src/app/pages/search/search.component.ts:126</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Estado de expansión de los grupos de filtros en la barra lateral.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filtersScroller"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>filtersScroller</b></span>
+                        <a href="#filtersScroller"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;HTMLElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;filtersScroller&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">src/app/pages/search/search.component.ts:80</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Referencia del elemento del contenedor de scroll de filtros.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filterTimeout"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>filterTimeout</b></span>
+                        <a href="#filterTimeout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">src/app/pages/search/search.component.ts:87</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Timeout para la animación de carga de filtros.</p>
 </div>
                 </td>
             </tr>
@@ -1850,7 +2564,7 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/pages/search/search.component.ts:61</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">src/app/pages/search/search.component.ts:91</a></div>
                         </td>
                     </tr>
 
@@ -1887,13 +2601,212 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">src/app/pages/search/search.component.ts:91</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="135" class="link-to-prism">src/app/pages/search/search.component.ts:135</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Propiedad no documentada.</p>
+                    <div class="io-description"><p>Opciones de géneros disponibles en el catálogo de búsqueda.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hasLoadedOnce"></a>
+                    <span class="name">
+                        <span ><b>hasLoadedOnce</b></span>
+                        <a href="#hasLoadedOnce"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">src/app/pages/search/search.component.ts:89</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indica si se ha completado al menos una carga inicial.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isClearingFilters"></a>
+                    <span class="name">
+                        <span ><b>isClearingFilters</b></span>
+                        <a href="#isClearingFilters"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">src/app/pages/search/search.component.ts:98</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indica si se están limpiando los filtros actualmente.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isInitialLoad"></a>
+                    <span class="name">
+                        <span ><b>isInitialLoad</b></span>
+                        <a href="#isInitialLoad"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">src/app/pages/search/search.component.ts:100</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indica si es la primera vez que se cargan los juegos.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isLoadingFilters"></a>
+                    <span class="name">
+                        <span ><b>isLoadingFilters</b></span>
+                        <a href="#isLoadingFilters"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/app/pages/search/search.component.ts:85</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indica si se están cargando los filtros o datos iniciales.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="lastSearchQuery"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>lastSearchQuery</b></span>
+                        <a href="#lastSearchQuery"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">src/app/pages/search/search.component.ts:106</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Última consulta de búsqueda para detectar cambios de texto puro.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadingType"></a>
+                    <span class="name">
+                        <span ><b>loadingType</b></span>
+                        <a href="#loadingType"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>&quot;skeletons&quot; | &quot;spinner&quot; | &quot;none&quot;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;skeletons&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">src/app/pages/search/search.component.ts:102</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Controla el tipo de carga a mostrar.</p>
 </div>
                 </td>
             </tr>
@@ -1924,13 +2837,13 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/pages/search/search.component.ts:77</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="121" class="link-to-prism">src/app/pages/search/search.component.ts:121</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Propiedad no documentada.</p>
+                    <div class="io-description"><p>Rango máximo de precio disponible según el catálogo.</p>
 </div>
                 </td>
             </tr>
@@ -1961,13 +2874,141 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/app/pages/search/search.component.ts:75</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="119" class="link-to-prism">src/app/pages/search/search.component.ts:119</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Valores para el control deslizante (slider) de precio.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="minSkeletonDelayDone"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>minSkeletonDelayDone</b></span>
+                        <a href="#minSkeletonDelayDone"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/app/pages/search/search.component.ts:74</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indica si ha finalizado el retraso mínimo de visualización de skeletons.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngZone"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>ngZone</b></span>
+                        <a href="#ngZone"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(NgZone)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/app/pages/search/search.component.ts:72</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Zona de ejecución de Angular.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onLoaderFinished"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>onLoaderFinished</b></span>
+                        <a href="#onLoaderFinished"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="166" class="link-to-prism">src/app/pages/search/search.component.ts:166</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Callback ejecutado cuando el loader global ha terminado su animación.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="platformId"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>platformId</b></span>
+                        <a href="#platformId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(PLATFORM_ID)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/app/pages/search/search.component.ts:68</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Identificador de la plataforma Angular (Browser vs SSR).</p>
 </div>
                 </td>
             </tr>
@@ -1998,13 +3039,13 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">src/app/pages/search/search.component.ts:93</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="137" class="link-to-prism">src/app/pages/search/search.component.ts:137</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Propiedad no documentada.</p>
+                    <div class="io-description"><p>Opciones de plataformas disponibles en el catálogo de búsqueda.</p>
 </div>
                 </td>
             </tr>
@@ -2035,7 +3076,7 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">src/app/pages/search/search.component.ts:89</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="133" class="link-to-prism">src/app/pages/search/search.component.ts:133</a></div>
                         </td>
                     </tr>
 
@@ -2072,13 +3113,55 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/pages/search/search.component.ts:79</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="123" class="link-to-prism">src/app/pages/search/search.component.ts:123</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Propiedad no documentada.</p>
+                    <div class="io-description"><p>Valor de precio actualmente seleccionado en el slider.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resultsScroller"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>resultsScroller</b></span>
+                        <a href="#resultsScroller"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;HTMLElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;resultsScroller&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">src/app/pages/search/search.component.ts:78</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Referencia del elemento del contenedor de scroll de resultados.</p>
 </div>
                 </td>
             </tr>
@@ -2109,7 +3192,7 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/pages/search/search.component.ts:59</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">src/app/pages/search/search.component.ts:83</a></div>
                         </td>
                     </tr>
 
@@ -2126,33 +3209,33 @@ y suscribiéndose a los parámetros de la URL.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="selectedGenre"></a>
+                    <a name="selectedGenres"></a>
                     <span class="name">
-                        <span ><b>selectedGenre</b></span>
-                        <a href="#selectedGenre"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>selectedGenres</b></span>
+                        <a href="#selectedGenres"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                        <i>Type : </i>    <code>string[]</code>
 
                     </td>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                        <i>Default value : </i><code>[]</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/app/pages/search/search.component.ts:70</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="114" class="link-to-prism">src/app/pages/search/search.component.ts:114</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Filtro de género seleccionado.</p>
+                    <div class="io-description"><p>Filtro de género seleccionado (múltiple).</p>
 </div>
                 </td>
             </tr>
@@ -2183,7 +3266,7 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/app/pages/search/search.component.ts:72</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="116" class="link-to-prism">src/app/pages/search/search.component.ts:116</a></div>
                         </td>
                     </tr>
 
@@ -2220,7 +3303,7 @@ y suscribiéndose a los parámetros de la URL.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/app/pages/search/search.component.ts:68</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="112" class="link-to-prism">src/app/pages/search/search.component.ts:112</a></div>
                         </td>
                     </tr>
 
@@ -2233,16 +3316,155 @@ y suscribiéndose a los parámetros de la URL.</p>
 
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="skeletonDelayTimeoutId"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>skeletonDelayTimeoutId</b></span>
+                        <a href="#skeletonDelayTimeoutId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">src/app/pages/search/search.component.ts:76</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Identificador del temporizador del retardo de skeletons.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="skeletons"></a>
+                    <span class="name">
+                        <span ><b>skeletons</b></span>
+                        <a href="#skeletons"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Game.html" target="_self" >Game[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="104" class="link-to-prism">src/app/pages/search/search.component.ts:104</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Lista de skeletons para el estado de carga.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="uiState"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>uiState</b></span>
+                        <a href="#uiState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(UiStateService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/app/pages/search/search.component.ts:70</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Servicio para gestionar el estado de la UI global.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="viewReady"></a>
+                    <span class="name">
+                        <span ><b>viewReady</b></span>
+                        <a href="#viewReady"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">src/app/pages/search/search.component.ts:108</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Habilita las transiciones CSS tras la hidratación completa.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
 </section>
 
 </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit, OnDestroy, inject, PLATFORM_ID, NgZone, signal } from &#x27;@angular/core&#x27;;
 import { ActivatedRoute, Router, RouterModule } from &#x27;@angular/router&#x27;;
 import { TranslatePipe } from &#x27;@ngx-translate/core&#x27;;
-import { CommonModule } from &#x27;@angular/common&#x27;;
+import { CommonModule, isPlatformBrowser } from &#x27;@angular/common&#x27;;
+import { UiStateService } from &#x27;../../core/services/ui-state.service&#x27;;
 import { GameService } from &#x27;../../core/services/impl/game.service&#x27;;
 import { PlatformService } from &#x27;../../core/services/impl/platform.service&#x27;;
 import { Game } from &#x27;../../core/models/game.model&#x27;;
@@ -2256,14 +3478,15 @@ import {
   style,
   transition,
   animate,
+  group,
 } from &#x27;@angular/animations&#x27;;
 
 /** Opción de selección para filtros de búsqueda en UI. */
 interface FilterOption {
-  /** Propiedad no documentada. */
-    value: string;
-  /** Propiedad no documentada. */
-    label: string;
+  /** Valor del filtro. */
+  value: string;
+  /** Etiqueta descriptiva para mostrar en la interfaz. */
+  label: string;
 }
 
 /**
@@ -2285,19 +3508,40 @@ interface FilterOption {
   animations: [
     trigger(&#x27;expandCollapse&#x27;, [
       transition(&#x27;:enter&#x27;, [
-        style({ maxHeight: &#x27;0px&#x27;, opacity: 0, overflow: &#x27;hidden&#x27; }),
-        animate(&#x27;300ms ease-out&#x27;, style({ maxHeight: &#x27;1000px&#x27;, opacity: 1 })),
+        style({ height: &#x27;0px&#x27;, opacity: 0, overflow: &#x27;hidden&#x27; }),
+        animate(&#x27;200ms ease-in-out&#x27;, style({ height: &#x27;*&#x27;, opacity: 1 }))
       ]),
       transition(&#x27;:leave&#x27;, [
-        style({ maxHeight: &#x27;1000px&#x27;, opacity: 1, overflow: &#x27;hidden&#x27; }),
-        animate(&#x27;200ms ease-out&#x27;, style({ maxHeight: &#x27;0px&#x27;, opacity: 0 })),
-      ]),
+        style({ height: &#x27;*&#x27;, opacity: 1, overflow: &#x27;hidden&#x27; }),
+        animate(&#x27;200ms ease-in-out&#x27;, style({ height: &#x27;0px&#x27;, opacity: 0 }))
+      ])
     ]),
   ],
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
+  /** Identificador de la plataforma Angular (Browser vs SSR). */
+  private platformId &#x3D; inject(PLATFORM_ID);
+  /** Servicio para gestionar el estado de la UI global. */
+  private uiState &#x3D; inject(UiStateService);
+  /** Zona de ejecución de Angular. */
+  private ngZone &#x3D; inject(NgZone);
+  /** Indica si ha finalizado el retraso mínimo de visualización de skeletons. */
+  private minSkeletonDelayDone &#x3D; signal(false);
+  /** Identificador del temporizador del retardo de skeletons. */
+  private skeletonDelayTimeoutId: any &#x3D; null;
+  /** Referencia del elemento del contenedor de scroll de resultados. */
+  @ViewChild(&#x27;resultsScroller&#x27;) resultsScroller!: ElementRef&lt;HTMLElement&gt;;
+  /** Referencia del elemento del contenedor de scroll de filtros. */
+  @ViewChild(&#x27;filtersScroller&#x27;) filtersScroller!: ElementRef&lt;HTMLElement&gt;;
+
   /** Consulta de búsqueda textual actual. */
   searchQuery &#x3D; &#x27;&#x27;;
+  /** Indica si se están cargando los filtros o datos iniciales. */
+  isLoadingFilters &#x3D; true;
+  /** Timeout para la animación de carga de filtros. */
+  private filterTimeout: any;
+  /** Indica si se ha completado al menos una carga inicial. */
+  hasLoadedOnce &#x3D; false;
   /** Lista completa de juegos cargados. */
   games: Game[] &#x3D; [];
   /** Lista de juegos que cumplen con los filtros aplicados. */
@@ -2305,19 +3549,33 @@ export class SearchComponent implements OnInit {
 
   /** Filtros activos seleccionados por el usuario para mostrar como etiquetas (chips). */
   activeFilters: { type: string; value: string; label: string }[] &#x3D; [];
+  /** Indica si se están limpiando los filtros actualmente. */
+  isClearingFilters &#x3D; false;
+  /** Indica si es la primera vez que se cargan los juegos. */
+  isInitialLoad &#x3D; true;
+  /** Controla el tipo de carga a mostrar. */
+  loadingType: &#x27;skeletons&#x27; | &#x27;spinner&#x27; | &#x27;none&#x27; &#x3D; &#x27;skeletons&#x27;;
+  /** Lista de skeletons para el estado de carga. */
+  skeletons: Game[] &#x3D; [];
+  /** Última consulta de búsqueda para detectar cambios de texto puro. */
+  private lastSearchQuery &#x3D; &#x27;&#x27;;
+  /** Habilita las transiciones CSS tras la hidratación completa. */
+  viewReady &#x3D; false;
+
+
   /** Filtro de precio seleccionado (ej: &#x27;0-20&#x27;, &#x27;free&#x27;, &#x27;40+&#x27;). */
   selectedPrice &#x3D; &#x27;&#x27;;
-  /** Filtro de género seleccionado. */
-  selectedGenre &#x3D; &#x27;&#x27;;
+  /** Filtro de género seleccionado (múltiple). */
+  selectedGenres: string[] &#x3D; [];
   /** Filtro de plataforma seleccionado. */
   selectedPlatform &#x3D; &#x27;&#x27;;
 
   /** Valores para el control deslizante (slider) de precio. */
   minPrice &#x3D; 0;
-  /** Propiedad no documentada. */
-    maxPrice &#x3D; 100;
-  /** Propiedad no documentada. */
-    priceValue &#x3D; 100;
+  /** Rango máximo de precio disponible según el catálogo. */
+  maxPrice &#x3D; 100;
+  /** Valor de precio actualmente seleccionado en el slider. */
+  priceValue &#x3D; 100;
 
   /** Estado de expansión de los grupos de filtros en la barra lateral. */
   filtersExpanded: { [key: string]: boolean } &#x3D; {
@@ -2328,39 +3586,93 @@ export class SearchComponent implements OnInit {
 
   /** Opciones disponibles para los desplegables de filtros. */
   priceOptions: FilterOption[] &#x3D; [];
-  /** Propiedad no documentada. */
-    genreOptions: FilterOption[] &#x3D; [];
-  /** Propiedad no documentada. */
-    platformOptions: FilterOption[] &#x3D; [];
+  /** Opciones de géneros disponibles en el catálogo de búsqueda. */
+  genreOptions: FilterOption[] &#x3D; [];
+  /** Opciones de plataformas disponibles en el catálogo de búsqueda. */
+  platformOptions: FilterOption[] &#x3D; [];
 
   /**
-     * Constructor no documentado.
-     * @param route Parámetro no documentado.
-     * @param router Parámetro no documentado.
-     * @param gameService Parámetro no documentado.
-     * @param platformService Parámetro no documentado.
-     * @param currencyService Parámetro no documentado.
-     */
-    constructor(
+   * Crea una instancia de SearchComponent.
+   * @param route Servicio para acceder a los datos de la ruta activa.
+   * @param router Servicio de enrutador de Angular para navegación.
+   * @param gameService Servicio para consumir el catálogo de juegos.
+   * @param platformService Servicio para obtener plataformas disponibles.
+   * @param currencyService Servicio para formateo y conversión de divisas.
+   * @param cdr Servicio de detección de cambios de Angular.
+   */
+  constructor(
     private route: ActivatedRoute,
     private router: Router,
     private gameService: GameService,
     private platformService: PlatformService,
     private currencyService: CurrencyService,
-  ) {}
+    private cdr: ChangeDetectorRef,
+  ) {
+    if (isPlatformBrowser(this.platformId)) {
+      if (this.uiState.loaderAnimationDone()) {
+        this.startMinimumSkeletonDelay();
+      } else {
+        window.addEventListener(&#x27;gamingsage-home-trigger&#x27;, this.onLoaderFinished);
+      }
+    }
+  }
+
+  /** Callback ejecutado cuando el loader global ha terminado su animación. */
+  private onLoaderFinished &#x3D; () &#x3D;&gt; {
+    this.startMinimumSkeletonDelay();
+  };
+
+  /**
+   * Inicia el temporizador de retardo mínimo de visualización de skeletons.
+   */
+  private startMinimumSkeletonDelay() {
+    if (!isPlatformBrowser(this.platformId) || this.skeletonDelayTimeoutId) return;
+
+    this.ngZone.run(() &#x3D;&gt; {
+      this.isLoadingFilters &#x3D; true;
+      this.minSkeletonDelayDone.set(false);
+    });
+
+    this.ngZone.runOutsideAngular(() &#x3D;&gt; {
+      this.skeletonDelayTimeoutId &#x3D; setTimeout(() &#x3D;&gt; {
+        this.ngZone.run(() &#x3D;&gt; {
+          this.minSkeletonDelayDone.set(true);
+          this.skeletonDelayTimeoutId &#x3D; null;
+
+          if (this.hasLoadedOnce) {
+            this.isLoadingFilters &#x3D; false;
+            this.loadingType &#x3D; &#x27;none&#x27;;
+          }
+          this.cdr.detectChanges();
+        });
+      }, 1100);
+    });
+  }
 
   /**
    * Inicializa el componente configurando las opciones de filtrado
    * y suscribiéndose a los parámetros de la URL.
    */
   ngOnInit(): void {
+    this.skeletons &#x3D; this.createPlaceholders().slice(0, 32);
     this.filteredGames &#x3D; this.createPlaceholders();
 
     this.initializeFilterOptions();
 
     this.route.queryParams.subscribe((params) &#x3D;&gt; {
       this.searchQuery &#x3D; params[&#x27;q&#x27;] || &#x27;&#x27;;
-      this.selectedGenre &#x3D; params[&#x27;genre&#x27;] || &#x27;&#x27;;
+
+      if (!this.hasLoadedOnce &amp;&amp; this.searchQuery) {
+        this.loadingType &#x3D; &#x27;spinner&#x27;;
+      }
+
+      const genreParam &#x3D; params[&#x27;genre&#x27;];
+      if (genreParam) {
+        this.selectedGenres &#x3D; Array.isArray(genreParam) ? genreParam : genreParam.split(&#x27;,&#x27;);
+      } else {
+        this.selectedGenres &#x3D; [];
+      }
+
       this.selectedPrice &#x3D; params[&#x27;price&#x27;] || &#x27;&#x27;;
       this.selectedPlatform &#x3D; params[&#x27;platform&#x27;] || &#x27;&#x27;;
 
@@ -2370,9 +3682,9 @@ export class SearchComponent implements OnInit {
   }
 
   /**
-     * Crea una lista de juegos &#x27;placeholder&#x27; para mostrar durante la carga.
-     * @returns Retorno no documentado.
-     */
+   * Crea una lista de juegos de marcador de posición (&#x27;placeholder&#x27;) para simular los elementos durante la carga.
+   * @returns Arreglo de objetos Game inicializados con valores por defecto para la carga visual.
+   */
   createPlaceholders(): Game[] {
     return Array(40).fill({
       id: -1,
@@ -2409,7 +3721,7 @@ export class SearchComponent implements OnInit {
       { value: &#x27;Aventura&#x27;, label: &#x27;genres.adventure&#x27; },
       { value: &#x27;RPG&#x27;, label: &#x27;genres.rpg&#x27; },
       { value: &#x27;Deportes&#x27;, label: &#x27;genres.sports&#x27; },
-      { value: &#x27;Estrategia&#x27;, key: &#x27;genres.strategy&#x27; }, // Nota: Se mantuvo &#x27;key&#x27; por compatibilidad si existe, pero el modelo usa &#x27;label&#x27;
+      { value: &#x27;Estrategia&#x27;, label: &#x27;genres.strategy&#x27; },
       { value: &#x27;Simulacion&#x27;, label: &#x27;genres.simulation&#x27; },
       { value: &#x27;Terror&#x27;, label: &#x27;genres.horror&#x27; },
       { value: &#x27;Carreras&#x27;, label: &#x27;genres.racing&#x27; },
@@ -2425,7 +3737,7 @@ export class SearchComponent implements OnInit {
       { value: &#x27;Supervivencia&#x27;, label: &#x27;genres.survival&#x27; },
       { value: &#x27;Survival Horror&#x27;, label: &#x27;genres.survival-horror&#x27; },
       { value: &#x27;Educativo&#x27;, label: &#x27;genres.educational&#x27; },
-    ] as any; // Cast temporal para evitar errores con &#x27;key&#x27; vs &#x27;label&#x27;
+    ];
 
     this.platformOptions &#x3D; [
       { value: &#x27;PC&#x27;, label: &#x27;PC&#x27; },
@@ -2446,7 +3758,7 @@ export class SearchComponent implements OnInit {
           label: p.name,
         }));
       },
-      error: () &#x3D;&gt; {},
+      error: () &#x3D;&gt; { },
     });
   }
 
@@ -2455,33 +3767,57 @@ export class SearchComponent implements OnInit {
    * También calcula el rango máximo de precio basado en los juegos recibidos.
    */
   loadGames(): void {
+    if (this.games.length &gt; 0) {
+      this.applyFilters();
+      return;
+    }
+
     this.gameService.getAll({ include: &#x27;genres,media,platforms&#x27; }).subscribe({
       next: (allGames) &#x3D;&gt; {
         this.games &#x3D; allGames as Game[];
         const maxGamePrice &#x3D; Math.max(
           ...this.games.map((g) &#x3D;&gt; {
-            return g.isOnSale &amp;&amp;
-              g.salePrice !&#x3D;&#x3D; null &amp;&amp;
-              g.salePrice !&#x3D;&#x3D; undefined
+            const price &#x3D; g.isOnSale &amp;&amp; g.salePrice !&#x3D;&#x3D; null &amp;&amp; g.salePrice !&#x3D;&#x3D; undefined
               ? Number(g.salePrice)
               : Number(g.price) || 0;
+            return price;
           }),
         );
         this.maxPrice &#x3D; Math.ceil(maxGamePrice / 10) * 10;
         if (this.maxPrice &#x3D;&#x3D;&#x3D; 0) this.maxPrice &#x3D; 100;
-        this.priceValue &#x3D; this.maxPrice;
 
-        this.applyFilters();
+        this.updateActiveFilters();
+
+        if (!this.searchQuery) {
+          this.loadingType &#x3D; &#x27;skeletons&#x27;;
+        }
+
+        this.applyFiltersInternal();
+        this.isInitialLoad &#x3D; false;
+        this.hasLoadedOnce &#x3D; true;
+        this.lastSearchQuery &#x3D; this.searchQuery;
+
+        if (this.minSkeletonDelayDone()) {
+          this.isLoadingFilters &#x3D; false;
+          this.loadingType &#x3D; &#x27;none&#x27;;
+        }
+
+        this.cdr.detectChanges();
+        this.updateAllScrollMasks();
       },
-      error: (err) &#x3D;&gt; {
+      error: () &#x3D;&gt; {
+        this.isLoadingFilters &#x3D; false;
+        this.isInitialLoad &#x3D; false;
+        this.loadingType &#x3D; &#x27;none&#x27;;
+        this.hasLoadedOnce &#x3D; true;
       },
     });
   }
 
   /**
-     * Maneja el cambio manual en el selector de precio.
-     * @param event Parámetro no documentado.
-     */
+   * Maneja el cambio manual en el selector de precio.
+   * @param event Evento de cambio del selector.
+   */
   onPriceChange(event: Event): void {
     const select &#x3D; event.target as HTMLSelectElement;
     this.selectedPrice &#x3D; select.value;
@@ -2492,30 +3828,18 @@ export class SearchComponent implements OnInit {
   /** Maneja el cambio en el control deslizante de precio. */
   onPriceSliderChange(): void {
     this.selectedPrice &#x3D; &#x60;0-${this.priceValue}&#x60;;
-    this.updateActiveFilters();
-    this.applyFilters();
+    this.syncFiltersToUrl();
   }
 
-  /**
-     * Maneja el cambio en el filtro de género.
-     * @param event Parámetro no documentado.
-     */
-  onGenreChange(event: Event): void {
-    const select &#x3D; event.target as HTMLSelectElement;
-    this.selectedGenre &#x3D; select.value;
-    this.updateActiveFilters();
-    this.applyFilters();
-  }
 
   /**
-     * Maneja el cambio en el filtro de plataforma.
-     * @param event Parámetro no documentado.
-     */
+   * Maneja el cambio en el filtro de plataforma.
+   * @param event Evento de cambio del selector.
+   */
   onPlatformChange(event: Event): void {
     const select &#x3D; event.target as HTMLSelectElement;
     this.selectedPlatform &#x3D; select.value;
-    this.updateActiveFilters();
-    this.applyFilters();
+    this.syncFiltersToUrl();
   }
 
   /**
@@ -2548,17 +3872,17 @@ export class SearchComponent implements OnInit {
       }
     }
 
-    if (this.selectedGenre) {
-      const genreOption &#x3D; this.genreOptions.find(
-        (opt) &#x3D;&gt; opt.value &#x3D;&#x3D;&#x3D; this.selectedGenre,
-      );
-      if (genreOption) {
-        this.activeFilters.push({
-          type: &#x27;genre&#x27;,
-          value: this.selectedGenre,
-          label: genreOption.label,
-        });
-      }
+    if (this.selectedGenres.length &gt; 0) {
+      this.selectedGenres.forEach(genre &#x3D;&gt; {
+        const genreOption &#x3D; this.genreOptions.find((opt) &#x3D;&gt; opt.value &#x3D;&#x3D;&#x3D; genre);
+        if (genreOption) {
+          this.activeFilters.push({
+            type: &#x27;genre:&#x27; + genre,
+            value: genre,
+            label: genreOption.label,
+          });
+        }
+      });
     }
 
     if (this.selectedPlatform) {
@@ -2573,6 +3897,14 @@ export class SearchComponent implements OnInit {
         });
       }
     }
+
+    if (this.searchQuery.trim()) {
+      this.activeFilters.push({
+        type: &#x27;search&#x27;,
+        value: this.searchQuery,
+        label: this.searchQuery,
+      });
+    }
   }
 
   /**
@@ -2585,6 +3917,51 @@ export class SearchComponent implements OnInit {
       return;
     }
 
+    const isOnlyTextChange &#x3D; this.searchQuery !&#x3D;&#x3D; this.lastSearchQuery &amp;&amp; !this.isLoadingFilters;
+
+    if (isOnlyTextChange) {
+      this.applyFiltersInternal();
+      this.lastSearchQuery &#x3D; this.searchQuery;
+      this.cdr.detectChanges();
+      setTimeout(() &#x3D;&gt; this.updateAllScrollMasks(), 50);
+      return;
+    }
+
+    this.isLoadingFilters &#x3D; true;
+
+    if (this.filterTimeout) {
+      clearTimeout(this.filterTimeout);
+    }
+
+    const hasActivePrice &#x3D; !!this.selectedPrice &amp;&amp; !(this.selectedPrice.startsWith(&#x27;0-&#x27;) &amp;&amp; this.priceValue &#x3D;&#x3D;&#x3D; this.maxPrice);
+    const hasAnyFilter &#x3D; this.selectedGenres.length &gt; 0 || !!this.selectedPlatform || hasActivePrice || !!this.searchQuery.trim();
+    const isFullReset &#x3D; !hasAnyFilter;
+
+    if (this.isInitialLoad || isFullReset) {
+      this.loadingType &#x3D; &#x27;skeletons&#x27;;
+    } else {
+      this.loadingType &#x3D; &#x27;spinner&#x27;;
+    }
+
+    this.cdr.detectChanges();
+
+    const delay &#x3D; this.loadingType &#x3D;&#x3D;&#x3D; &#x27;skeletons&#x27; ? 1200 : 1500;
+
+    this.filterTimeout &#x3D; setTimeout(() &#x3D;&gt; {
+      this.applyFiltersInternal();
+      this.isLoadingFilters &#x3D; false;
+      this.loadingType &#x3D; &#x27;none&#x27;;
+      this.hasLoadedOnce &#x3D; true;
+      this.lastSearchQuery &#x3D; this.searchQuery;
+      this.cdr.detectChanges();
+      setTimeout(() &#x3D;&gt; this.updateAllScrollMasks(), 100);
+    }, delay);
+  }
+
+  /**
+   * Lógica interna de filtrado sin delays.
+   */
+  private applyFiltersInternal(): void {
     let filtered &#x3D; [...this.games];
 
     if (this.searchQuery) {
@@ -2597,8 +3974,8 @@ export class SearchComponent implements OnInit {
       filtered &#x3D; this.filterByPrice(filtered, this.selectedPrice);
     }
 
-    if (this.selectedGenre) {
-      filtered &#x3D; this.filterByGenre(filtered, this.selectedGenre);
+    if (this.selectedGenres.length &gt; 0) {
+      filtered &#x3D; this.filterByGenre(filtered, this.selectedGenres);
     }
 
     if (this.selectedPlatform) {
@@ -2609,11 +3986,11 @@ export class SearchComponent implements OnInit {
   }
 
   /**
-     * Filtra una lista de juegos por un rango o tipo de precio.
-     * @param games Parámetro no documentado.
-     * @param priceRange Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Filtra una lista de juegos por un rango o tipo de precio.
+   * @param games Lista de juegos a filtrar.
+   * @param priceRange Rango de precio seleccionado.
+   * @returns Lista de juegos filtrados.
+   */
   filterByPrice(games: Game[], priceRange: string): Game[] {
     if (priceRange &#x3D;&#x3D;&#x3D; &#x27;free&#x27;) {
       return games.filter((game) &#x3D;&gt; !game.price || game.price &#x3D;&#x3D;&#x3D; 0);
@@ -2636,25 +4013,26 @@ export class SearchComponent implements OnInit {
   }
 
   /**
-     * Filtra una lista de juegos por género.
-     * @param games Parámetro no documentado.
-     * @param genreKey Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-  filterByGenre(games: Game[], genreKey: string): Game[] {
+   * Filtra una lista de juegos por género.
+   * @param games Lista de juegos a filtrar.
+   * @param genres Lista de géneros seleccionados.
+   * @returns Lista de juegos filtrados.
+   */
+  filterByGenre(games: Game[], genres: string[]): Game[] {
+    if (!genres || genres.length &#x3D;&#x3D;&#x3D; 0) return games;
     return games.filter((game) &#x3D;&gt;
-      game?.genres?.some(
-        (g) &#x3D;&gt; g.name?.toLowerCase() &#x3D;&#x3D;&#x3D; genreKey.toLowerCase(),
-      ),
+      genres.some(genreKey &#x3D;&gt;
+        game?.genres?.some((g) &#x3D;&gt; g.name?.toLowerCase() &#x3D;&#x3D;&#x3D; genreKey.toLowerCase())
+      )
     );
   }
 
   /**
-     * Filtra una lista de juegos por plataforma.
-     * @param games Parámetro no documentado.
-     * @param platformKey Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Filtra una lista de juegos por plataforma.
+   * @param games Lista de juegos a filtrar.
+   * @param platformKey Plataforma seleccionada.
+   * @returns Lista de juegos filtrados.
+   */
   filterByPlatform(games: Game[], platformKey: string): Game[] {
     return games.filter((game) &#x3D;&gt;
       game?.platforms?.some((p) &#x3D;&gt;
@@ -2664,49 +4042,141 @@ export class SearchComponent implements OnInit {
   }
 
   /**
-     * Elimina un filtro específico por su tipo.
-     * @param filterType Parámetro no documentado.
-     */
-  removeFilter(filterType: string): void {
-    if (filterType &#x3D;&#x3D;&#x3D; &#x27;price&#x27;) {
-      this.selectedPrice &#x3D; &#x27;&#x27;;
-      this.priceValue &#x3D; this.maxPrice;
-    } else if (filterType &#x3D;&#x3D;&#x3D; &#x27;genre&#x27;) {
-      this.selectedGenre &#x3D; &#x27;&#x27;;
-    } else if (filterType &#x3D;&#x3D;&#x3D; &#x27;platform&#x27;) {
-      this.selectedPlatform &#x3D; &#x27;&#x27;;
+   * Elimina un filtro específico por su tipo.
+   * @param type Tipo de filtro a eliminar.
+   */
+  removeFilter(type: string): void {
+    if (this.activeFilters.length &#x3D;&#x3D;&#x3D; 1 &amp;&amp; this.activeFilters[0].type &#x3D;&#x3D;&#x3D; type) {
+      this.resetFilters();
+      return;
     }
-    this.updateActiveFilters();
-    this.applyFilters();
+
+    if (type.startsWith(&#x27;genre:&#x27;)) {
+      const genreValue &#x3D; type.split(&#x27;:&#x27;)[1];
+      this.selectedGenres &#x3D; this.selectedGenres.filter((g) &#x3D;&gt; g !&#x3D;&#x3D; genreValue);
+    } else {
+      switch (type) {
+        case &#x27;price&#x27;:
+          this.priceValue &#x3D; this.maxPrice;
+          this.selectedPrice &#x3D; &#x27;&#x27;;
+          break;
+        case &#x27;platform&#x27;:
+          this.selectedPlatform &#x3D; &#x27;&#x27;;
+          break;
+        case &#x27;search&#x27;:
+          this.searchQuery &#x3D; &#x27;&#x27;;
+          break;
+      }
+    }
+    this.syncFiltersToUrl();
+  }
+
+  /** Sincroniza el estado de los filtros con los parámetros de la URL. */
+  private syncFiltersToUrl(): void {
+    const queryParams: any &#x3D; {};
+    if (this.searchQuery.trim()) queryParams.q &#x3D; this.searchQuery;
+    if (this.selectedGenres.length &gt; 0) queryParams.genre &#x3D; this.selectedGenres.join(&#x27;,&#x27;);
+    if (this.selectedPrice) queryParams.price &#x3D; this.selectedPrice;
+    if (this.selectedPlatform) queryParams.platform &#x3D; this.selectedPlatform;
+
+    this.router.navigate([&#x27;/search&#x27;], {
+      queryParams,
+      replaceUrl: true
+    });
   }
 
   /** Restablece todos los filtros a su estado inicial. */
-  resetFilters(): void {
-    this.selectedPrice &#x3D; &#x27;&#x27;;
-    this.selectedGenre &#x3D; &#x27;&#x27;;
+  resetFilters() {
+    this.isClearingFilters &#x3D; true;
+
+    this.searchQuery &#x3D; &#x27;&#x27;;
+    this.selectedGenres &#x3D; [];
     this.selectedPlatform &#x3D; &#x27;&#x27;;
     this.priceValue &#x3D; this.maxPrice;
+    this.selectedPrice &#x3D; &#x27;&#x27;;
     this.activeFilters &#x3D; [];
-    this.applyFilters();
+    this.hasLoadedOnce &#x3D; false;
+
+    this.isLoadingFilters &#x3D; true;
+    this.loadingType &#x3D; &#x27;skeletons&#x27;;
+
+    this.cdr.detectChanges();
+
+    setTimeout(() &#x3D;&gt; {
+      this.isClearingFilters &#x3D; false;
+      this.syncFiltersToUrl();
+    }, 200);
   }
 
   /**
-     * Alterna la expansión de una sección de filtros en la UI.
-     * @param filterName Parámetro no documentado.
-     */
+   * Alterna la expansión de una sección de filtros en la UI.
+   * @param filterName Nombre del grupo de filtros a alternar.
+   */
   toggleFilter(filterName: string): void {
-     
     if (this.filtersExpanded[filterName] !&#x3D;&#x3D; undefined) {
-       
       this.filtersExpanded[filterName] &#x3D; !this.filtersExpanded[filterName];
+
+      setTimeout(() &#x3D;&gt; this.updateAllScrollMasks(), 50);
+      setTimeout(() &#x3D;&gt; this.updateAllScrollMasks(), 300);
     }
   }
 
   /**
-     * Obtiene la URL de la portada de un juego o un placeholder si no tiene.
-     * @param game Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Alterna la selección de un género.
+   */
+  toggleGenre(genreValue: string): void {
+    const isRemoving &#x3D; this.selectedGenres.includes(genreValue);
+    if (isRemoving &amp;&amp; this.activeFilters.length &#x3D;&#x3D;&#x3D; 1) {
+      this.resetFilters();
+      return;
+    }
+
+    if (isRemoving) {
+      this.selectedGenres &#x3D; this.selectedGenres.filter((g) &#x3D;&gt; g !&#x3D;&#x3D; genreValue);
+    } else {
+      this.selectedGenres.push(genreValue);
+    }
+    this.syncFiltersToUrl();
+  }
+
+  /**
+   * Alterna la selección de un precio.
+   */
+  togglePrice(priceValue: string): void {
+    if (this.selectedPrice &#x3D;&#x3D;&#x3D; priceValue) {
+      if (this.activeFilters.length &#x3D;&#x3D;&#x3D; 1) {
+        this.resetFilters();
+        return;
+      }
+      this.selectedPrice &#x3D; &#x27;&#x27;;
+      this.priceValue &#x3D; this.maxPrice;
+    } else {
+      this.selectedPrice &#x3D; priceValue;
+    }
+    this.syncFiltersToUrl();
+  }
+
+  /**
+   * Alterna la selección de una plataforma.
+   */
+  togglePlatform(platformValue: string): void {
+    if (this.selectedPlatform &#x3D;&#x3D;&#x3D; platformValue) {
+      if (this.activeFilters.length &#x3D;&#x3D;&#x3D; 1) {
+        this.resetFilters();
+        return;
+      }
+      this.selectedPlatform &#x3D; &#x27;&#x27;;
+    } else {
+      this.selectedPlatform &#x3D; platformValue;
+    }
+    this.syncFiltersToUrl();
+  }
+
+  /**
+   * Obtiene la URL de la portada de un juego o un placeholder si no tiene.
+   * @param game Objeto del juego.
+   * @returns URL de la imagen.
+   */
   getCoverUrl(game: Game): string {
     const coverImage &#x3D; game.media?.find((m) &#x3D;&gt;
       m.altText?.toLowerCase().includes(&#x27;cover&#x27;),
@@ -2715,19 +4185,19 @@ export class SearchComponent implements OnInit {
   }
 
   /**
-     * Navega a la página de detalle de un producto.
-     * @param id Parámetro no documentado.
-     */
+   * Navega a la página de detalle de un producto.
+   * @param id Identificador del juego.
+   */
   goToProduct(id: number): void {
     this.router.navigate([&#x27;/product&#x27;, id.toString()]);
   }
 
   /**
-     * Método no documentado.
-     * @param value Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-    formatPrice(value: number): string {
+   * Formatea un valor numérico a moneda local.
+   * @param value Valor numérico.
+   * @returns Precio formateado como string.
+   */
+  formatPrice(value: number): string {
     const converted &#x3D; this.currencyService.convertFromEur(value);
     const code &#x3D; this.currencyService.getCurrencyCode();
     const locale &#x3D; this.currencyService.getLocaleCode();
@@ -2738,269 +4208,210 @@ export class SearchComponent implements OnInit {
       maximumFractionDigits: 0,
     }).format(converted);
   }
+  /**
+   * Ciclo de vida que se ejecuta tras inicializar la vista del componente.
+   */
+  ngAfterViewInit() {
+    setTimeout(() &#x3D;&gt; {
+      this.viewReady &#x3D; true;
+      this.cdr.detectChanges();
+    }, 0);
+    this.updateAllScrollMasks();
+    setTimeout(() &#x3D;&gt; this.updateAllScrollMasks(), 500);
+    setTimeout(() &#x3D;&gt; this.updateAllScrollMasks(), 2000);
+  }
+
+  /**
+   * Maneja el evento de scroll de los contenedores para aplicar la máscara.
+   * @param event Evento de scroll.
+   */
+  onScroll(event: Event) {
+    const target &#x3D; event.target as HTMLElement;
+    this.updateScrollMask(target);
+  }
+
+  /**
+   * Actualiza las variables CSS de máscara para un elemento específico.
+   * @param el Elemento contenedor de scroll.
+   */
+  private updateScrollMask(el: HTMLElement) {
+    if (!el) return;
+
+    const scrollTop &#x3D; el.scrollTop;
+    const scrollHeight &#x3D; el.scrollHeight;
+    const clientHeight &#x3D; el.clientHeight;
+
+    const showTop &#x3D; scrollTop &gt; 5;
+    const showBottom &#x3D; scrollTop + clientHeight &lt; scrollHeight - 5;
+
+    el.style.setProperty(&#x27;--scroll-top-mask&#x27;, showTop ? &#x27;0&#x27; : &#x27;1&#x27;);
+    el.style.setProperty(&#x27;--scroll-top-mask-stop&#x27;, showTop ? &#x27;2rem&#x27; : &#x27;0px&#x27;);
+    el.style.setProperty(&#x27;--scroll-bottom-mask&#x27;, showBottom ? &#x27;0&#x27; : &#x27;1&#x27;);
+    el.style.setProperty(&#x27;--scroll-bottom-mask-stop&#x27;, showBottom ? &#x27;calc(100% - 2rem)&#x27; : &#x27;100%&#x27;);
+  }
+
+  /**
+   * Fuerza la actualización de máscaras en ambos contenedores de scroll.
+   */
+  private updateAllScrollMasks() {
+    if (this.resultsScroller) this.updateScrollMask(this.resultsScroller.nativeElement);
+    if (this.filtersScroller) this.updateScrollMask(this.filtersScroller.nativeElement);
+  }
+
+  /**
+   * Libera recursos y remueve oyentes de eventos.
+   */
+  ngOnDestroy(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      window.removeEventListener(&#x27;gamingsage-home-trigger&#x27;, this.onLoaderFinished);
+    }
+    if (this.skeletonDelayTimeoutId) {
+      clearTimeout(this.skeletonDelayTimeoutId);
+    }
+    if (this.filterTimeout) {
+      clearTimeout(this.filterTimeout);
+    }
+  }
 }
 </code></pre>
     </div>
 
     <div class="tab-pane fade " id="templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;flex-1 w-full bg-gray-900 text-white font-sans pb-20&quot;&gt;
+        <pre class="line-numbers"><code class="language-html">&lt;!--
+  @file: src/app/pages/search/search.component.html
+  @project: GameSage - Plataforma de Videojuegos
+  @authors: Rosario González y Álvaro Jiménez
+  @description: Vista de resultados de búsqueda con filtros dinámicos, skeletons de carga, barra de progreso, paginación infinita y detección de scroll.
+--&gt;
+
+&lt;div class&#x3D;&quot;flex-1 w-full bg-gray-900 text-white font-sans pb-4&quot;&gt;
   &lt;div class&#x3D;&quot;max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6&quot;&gt;
-    &lt;div class&#x3D;&quot;flex flex-col sm:flex-row gap-8&quot;&gt;
-      &lt;div class&#x3D;&quot;flex-1 order-2 sm:order-1&quot;&gt;
-        &lt;div
-          *ngIf&#x3D;&quot;filteredGames.length &gt; 0&quot;
-          class&#x3D;&quot;grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-24 search-results-grid&quot;
-        &gt;
-          &lt;app-game-card
-            *ngFor&#x3D;&quot;let game of filteredGames&quot;
-            [game]&#x3D;&quot;game&quot;
-            [coverUrl]&#x3D;&quot;getCoverUrl(game)&quot;
-            [fullWidth]&#x3D;&quot;true&quot;
-            (cardClick)&#x3D;&quot;goToProduct($event)&quot;
-          &gt;&lt;/app-game-card&gt;
+    &lt;div class&#x3D;&quot;flex flex-col sm:flex-row gap-8 sm:items-start&quot;&gt;
+      &lt;div class&#x3D;&quot;flex-1 order-2 sm:order-1 results-scroller sidebar-scroll&quot; #resultsScroller
+        (scroll)&#x3D;&quot;onScroll($event)&quot;&gt;
+
+        &lt;!-- Estado de carga: Skeletons (Inicio o Reset total) --&gt;
+        &lt;div *ngIf&#x3D;&quot;isLoadingFilters &amp;&amp; loadingType &#x3D;&#x3D;&#x3D; &#x27;skeletons&#x27;&quot;
+          class&#x3D;&quot;grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-0 search-results-grid&quot;&gt;
+          &lt;app-game-card *ngFor&#x3D;&quot;let skeleton of skeletons&quot; [game]&#x3D;&quot;skeleton&quot; [fullWidth]&#x3D;&quot;true&quot;&gt;&lt;/app-game-card&gt;
         &lt;/div&gt;
 
-        &lt;div
-          *ngIf&#x3D;&quot;filteredGames.length &#x3D;&#x3D;&#x3D; 0&quot;
-          class&#x3D;&quot;text-center text-gray-400 py-20&quot;
-        &gt;
-          &lt;p class&#x3D;&quot;text-xl&quot;&gt;{{ &quot;search.noResults&quot; | translate }}&lt;/p&gt;
+        &lt;!-- Estado de carga: Rueda (Cambio de filtros activos o búsqueda de texto) --&gt;
+        &lt;div *ngIf&#x3D;&quot;isLoadingFilters &amp;&amp; loadingType &#x3D;&#x3D;&#x3D; &#x27;spinner&#x27;&quot; class&#x3D;&quot;filter-loader-container&quot;&gt;
+          &lt;div class&#x3D;&quot;loader-spinner&quot;&gt;&lt;/div&gt;
         &lt;/div&gt;
+
+        &lt;ng-container *ngIf&#x3D;&quot;!isLoadingFilters&quot;&gt;
+          &lt;div *ngIf&#x3D;&quot;filteredGames.length &gt; 0&quot;
+            class&#x3D;&quot;grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-0 search-results-grid&quot;&gt;
+            &lt;app-game-card *ngFor&#x3D;&quot;let game of filteredGames&quot; [game]&#x3D;&quot;game&quot; [coverUrl]&#x3D;&quot;getCoverUrl(game)&quot;
+              [fullWidth]&#x3D;&quot;true&quot; (cardClick)&#x3D;&quot;goToProduct($event)&quot;&gt;&lt;/app-game-card&gt;
+          &lt;/div&gt;
+
+          &lt;div *ngIf&#x3D;&quot;filteredGames.length &#x3D;&#x3D;&#x3D; 0 &amp;&amp; hasLoadedOnce&quot; class&#x3D;&quot;text-center text-gray-400 py-20&quot;&gt;
+            &lt;p class&#x3D;&quot;text-xl&quot;&gt;{{ &quot;search.noResults&quot; | translate }}&lt;/p&gt;
+          &lt;/div&gt;
+        &lt;/ng-container&gt;
       &lt;/div&gt;
 
-      &lt;div class&#x3D;&quot;w-full sm:w-80 order-1 sm:order-2 sticky top-24 h-fit&quot;&gt;
-        &lt;div class&#x3D;&quot;bg-gray-900 rounded-lg p-4&quot;&gt;
-          &lt;div class&#x3D;&quot;flex items-center justify-between mb-4&quot;&gt;
-            &lt;h3 class&#x3D;&quot;text-xl font-bold text-white&quot;&gt;
+      &lt;div class&#x3D;&quot;w-full sm:w-80 order-1 sm:order-2&quot;&gt;
+        &lt;div class&#x3D;&quot;filters-sidebar sticky top-24&quot;&gt;
+          &lt;div class&#x3D;&quot;sidebar-header&quot;&gt;
+            &lt;h3 class&#x3D;&quot;text-xl font-black text-cyan-300&quot;&gt;
               {{ &quot;search.title&quot; | translate }}
-              &lt;span *ngIf&#x3D;&quot;activeFilters.length &gt; 0&quot;
-                &gt;({{ activeFilters.length }})&lt;/span
-              &gt;
             &lt;/h3&gt;
-            &lt;button
-              *ngIf&#x3D;&quot;activeFilters.length &gt; 0&quot;
-              (click)&#x3D;&quot;resetFilters()&quot;
-              class&#x3D;&quot;text-cyan-400 hover:text-cyan-300 text-base capitalize font-medium transition-colors reset-button-style appearance-none cursor-pointer&quot;
-            &gt;
-              {{ &quot;search.reset&quot; | translate }}
-            &lt;/button&gt;
           &lt;/div&gt;
 
-          &lt;div
-            *ngIf&#x3D;&quot;activeFilters.length &gt; 0&quot;
-            class&#x3D;&quot;flex flex-wrap gap-2 mb-6&quot;
-          &gt;
-            &lt;div
-              *ngFor&#x3D;&quot;let filter of activeFilters&quot;
-              class&#x3D;&quot;bg-gray-800 border border-gray-700 text-gray-300 px-3 py-1 rounded-full text-sm flex items-center gap-2&quot;
-            &gt;
-              &lt;span&gt;{{ filter.label | translate }}&lt;/span&gt;
-              &lt;button
-                (click)&#x3D;&quot;removeFilter(filter.type)&quot;
-                class&#x3D;&quot;hover:text-white transition-colors filter-button-style appearance-none cursor-pointer flex items-center justify-center&quot;
-                [title]&#x3D;&quot;&#x27;search.removeFilter&#x27; | translate&quot;
-              &gt;
-                &amp;times;
-              &lt;/button&gt;
+          &lt;div class&#x3D;&quot;filters-scroll-area sidebar-scroll&quot; #filtersScroller (scroll)&#x3D;&quot;onScroll($event)&quot;&gt;
+            &lt;div class&#x3D;&quot;filters-grid-wrapper&quot; [class.is-collapsing]&#x3D;&quot;activeFilters.length &#x3D;&#x3D;&#x3D; 0 || isClearingFilters&quot;
+              [class.ready]&#x3D;&quot;viewReady&quot;&gt;
+              &lt;div class&#x3D;&quot;filters-grid-inner&quot;&gt;
+                &lt;div class&#x3D;&quot;flex flex-wrap gap-2&quot;&gt;
+                  @for (filter of activeFilters; track filter.type) {
+                  &lt;div class&#x3D;&quot;active-filter-chip&quot;&gt;
+                    &lt;span&gt;{{ filter.label | translate }}&lt;/span&gt;
+                    &lt;button (click)&#x3D;&quot;removeFilter(filter.type)&quot;
+                      class&#x3D;&quot;hover:text-red-400 transition-colors filter-button-style appearance-none cursor-pointer flex items-center justify-center font-bold text-lg leading-none&quot;
+                      [title]&#x3D;&quot;&#x27;search.removeFilter&#x27; | translate&quot;&gt;
+                      &amp;times;
+                    &lt;/button&gt;
+                  &lt;/div&gt;
+                  }
+                &lt;/div&gt;
+
+                &lt;div class&#x3D;&quot;my-2 flex justify-start&quot;&gt;
+                  &lt;button (click)&#x3D;&quot;resetFilters()&quot;
+                    class&#x3D;&quot;text-cyan-400 hover:text-cyan-300 text-[10px] font-bold transition-colors reset-button-style appearance-none cursor-pointer uppercase tracking-widest&quot;&gt;
+                    {{ &quot;search.reset&quot; | translate }} ({{ activeFilters.length }})
+                  &lt;/button&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
             &lt;/div&gt;
-          &lt;/div&gt;
+            &lt;div class&#x3D;&quot;filter-group-container&quot;&gt;
+              &lt;!-- Precio --&gt;
+              &lt;div class&#x3D;&quot;filter-card&quot; [class.is-open]&#x3D;&quot;filtersExpanded[&#x27;price&#x27;]&quot;&gt;
+                &lt;button (click)&#x3D;&quot;toggleFilter(&#x27;price&#x27;)&quot; class&#x3D;&quot;filter-header-button&quot;
+                  [class.is-open]&#x3D;&quot;filtersExpanded[&#x27;price&#x27;]&quot;&gt;
+                  {{ &quot;search.filters.price.label&quot; | translate }}
+                &lt;/button&gt;
 
-          &lt;div class&#x3D;&quot;space-y-4&quot;&gt;
-            &lt;div class&#x3D;&quot;border border-gray-800 rounded-lg overflow-hidden&quot;&gt;
-              &lt;button
-                (click)&#x3D;&quot;toggleFilter(&#x27;price&#x27;)&quot;
-                class&#x3D;&quot;w-full flex items-center justify-between p-4 bg-gray-900 transition-colors focus:outline-none filter-toggle-button ring-0&quot;
-                [class.hover:bg-gray-800]&#x3D;&quot;!filtersExpanded[&#x27;price&#x27;]&quot;
-              &gt;
-                &lt;span class&#x3D;&quot;font-medium text-gray-300&quot;&gt;{{
-                  &quot;search.filters.price.label&quot; | translate
-                }}&lt;/span&gt;
-                &lt;span
-                  class&#x3D;&quot;transform transition-transform duration-200&quot;
-                  [class.rotate-180]&#x3D;&quot;filtersExpanded[&#x27;price&#x27;]&quot;
-                &gt;
-                  &lt;svg
-                    xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
-                    class&#x3D;&quot;h-5 w-5&quot;
-                    viewBox&#x3D;&quot;0 0 20 20&quot;
-                    fill&#x3D;&quot;currentColor&quot;
-                  &gt;
-                    &lt;path
-                      fill-rule&#x3D;&quot;evenodd&quot;
-                      d&#x3D;&quot;M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z&quot;
-                      clip-rule&#x3D;&quot;evenodd&quot;
-                    /&gt;
-                  &lt;/svg&gt;
-                &lt;/span&gt;
-              &lt;/button&gt;
-
-              &lt;div
-                *ngIf&#x3D;&quot;filtersExpanded[&#x27;price&#x27;]&quot;
-                [@expandCollapse]
-                class&#x3D;&quot;px-4 pb-4 bg-gray-900&quot;
-              &gt;
-                &lt;hr class&#x3D;&quot;border-white mb-4&quot; /&gt;
-                &lt;div class&#x3D;&quot;space-y-4&quot;&gt;
-                  &lt;div class&#x3D;&quot;space-y-2&quot;&gt;
-                    &lt;div
-                      *ngFor&#x3D;&quot;let option of priceOptions&quot;
-                      (click)&#x3D;&quot;
-                        selectedPrice &#x3D; option.value;
-                        updateActiveFilters();
-                        applyFilters()
-                      &quot;
-                      class&#x3D;&quot;cursor-pointer flex items-center justify-between group&quot;
-                      [class.text-cyan-400]&#x3D;&quot;selectedPrice &#x3D;&#x3D;&#x3D; option.value&quot;
-                      [class.text-gray-400]&#x3D;&quot;selectedPrice !&#x3D;&#x3D; option.value&quot;
-                    &gt;
-                      &lt;span
-                        class&#x3D;&quot;group-hover:text-cyan-400 transition-colors&quot;
-                        &gt;{{ option.label | translate }}&lt;/span
-                      &gt;
-                      &lt;span
-                        *ngIf&#x3D;&quot;selectedPrice &#x3D;&#x3D;&#x3D; option.value&quot;
-                        class&#x3D;&quot;text-cyan-400&quot;
-                        &gt;&amp;check;&lt;/span
-                      &gt;
+                &lt;div *ngIf&#x3D;&quot;filtersExpanded[&#x27;price&#x27;]&quot; [@expandCollapse] class&#x3D;&quot;filter-content-body&quot;&gt;
+                  &lt;div class&#x3D;&quot;space-y-1&quot;&gt;
+                    &lt;div *ngFor&#x3D;&quot;let option of priceOptions&quot; (click)&#x3D;&quot;togglePrice(option.value)&quot;
+                      class&#x3D;&quot;filter-option-item&quot; [class.is-selected]&#x3D;&quot;selectedPrice &#x3D;&#x3D;&#x3D; option.value&quot;&gt;
+                      &lt;span&gt;{{ option.label | translate }}&lt;/span&gt;
+                      &lt;span *ngIf&#x3D;&quot;selectedPrice &#x3D;&#x3D;&#x3D; option.value&quot; class&#x3D;&quot;text-cyan-400&quot;&gt;&amp;check;&lt;/span&gt;
                     &lt;/div&gt;
                   &lt;/div&gt;
 
-                  &lt;div class&#x3D;&quot;pt-2 border-t border-gray-800&quot;&gt;
-                    &lt;label class&#x3D;&quot;block text-sm text-gray-400 mb-2&quot;
-                      &gt;Max: {{ formatPrice(priceValue) }}&lt;/label
-                    &gt;
-                    &lt;input
-                      type&#x3D;&quot;range&quot;
-                      [min]&#x3D;&quot;minPrice&quot;
-                      [max]&#x3D;&quot;maxPrice&quot;
-                      [(ngModel)]&#x3D;&quot;priceValue&quot;
+                  &lt;div class&#x3D;&quot;filter-slider-container&quot;&gt;
+                    &lt;label class&#x3D;&quot;block text-xs font-bold text-gray-400 mb-3 uppercase tracking-wider&quot;&gt;Máximo: &lt;span
+                        class&#x3D;&quot;text-cyan-300 ml-1&quot;&gt;{{ formatPrice(priceValue) }}&lt;/span&gt;&lt;/label&gt;
+                    &lt;input type&#x3D;&quot;range&quot; [min]&#x3D;&quot;minPrice&quot; [max]&#x3D;&quot;maxPrice&quot; [(ngModel)]&#x3D;&quot;priceValue&quot;
                       (change)&#x3D;&quot;onPriceSliderChange()&quot;
-                      class&#x3D;&quot;w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-cyan-500&quot;
-                    /&gt;
-                    &lt;div
-                      class&#x3D;&quot;flex justify-between text-xs text-gray-500 mt-1&quot;
-                    &gt;
+                      class&#x3D;&quot;w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-cyan-500&quot; /&gt;
+                    &lt;div class&#x3D;&quot;flex justify-between text-[10px] font-bold text-gray-500 mt-2 uppercase&quot;&gt;
                       &lt;span&gt;{{ formatPrice(minPrice) }}&lt;/span&gt;
                       &lt;span&gt;{{ formatPrice(maxPrice) }}&lt;/span&gt;
                     &lt;/div&gt;
                   &lt;/div&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
-            &lt;/div&gt;
 
-            &lt;div class&#x3D;&quot;border border-gray-800 rounded-lg overflow-hidden&quot;&gt;
-              &lt;button
-                (click)&#x3D;&quot;toggleFilter(&#x27;genre&#x27;)&quot;
-                class&#x3D;&quot;w-full flex items-center justify-between p-4 bg-gray-900 transition-colors focus:outline-none filter-toggle-button ring-0&quot;
-                [class.hover:bg-gray-800]&#x3D;&quot;!filtersExpanded[&#x27;genre&#x27;]&quot;
-              &gt;
-                &lt;span class&#x3D;&quot;font-medium text-gray-300&quot;&gt;{{
-                  &quot;search.filters.genre.label&quot; | translate
-                }}&lt;/span&gt;
-                &lt;span
-                  class&#x3D;&quot;transform transition-transform duration-200&quot;
-                  [class.rotate-180]&#x3D;&quot;filtersExpanded[&#x27;genre&#x27;]&quot;
-                &gt;
-                  &lt;svg
-                    xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
-                    class&#x3D;&quot;h-5 w-5&quot;
-                    viewBox&#x3D;&quot;0 0 20 20&quot;
-                    fill&#x3D;&quot;currentColor&quot;
-                  &gt;
-                    &lt;path
-                      fill-rule&#x3D;&quot;evenodd&quot;
-                      d&#x3D;&quot;M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z&quot;
-                      clip-rule&#x3D;&quot;evenodd&quot;
-                    /&gt;
-                  &lt;/svg&gt;
-                &lt;/span&gt;
-              &lt;/button&gt;
+              &lt;!-- Genero --&gt;
+              &lt;div class&#x3D;&quot;filter-card&quot; [class.is-open]&#x3D;&quot;filtersExpanded[&#x27;genre&#x27;]&quot;&gt;
+                &lt;button (click)&#x3D;&quot;toggleFilter(&#x27;genre&#x27;)&quot; class&#x3D;&quot;filter-header-button&quot;
+                  [class.is-open]&#x3D;&quot;filtersExpanded[&#x27;genre&#x27;]&quot;&gt;
+                  {{ &quot;search.filters.genre.label&quot; | translate }}
+                &lt;/button&gt;
 
-              &lt;div
-                *ngIf&#x3D;&quot;filtersExpanded[&#x27;genre&#x27;]&quot;
-                [@expandCollapse]
-                class&#x3D;&quot;px-4 pb-4 bg-gray-900&quot;
-              &gt;
-                &lt;hr class&#x3D;&quot;border-white mb-4&quot; /&gt;
-                &lt;div class&#x3D;&quot;space-y-2&quot;&gt;
-                  &lt;div
-                    *ngFor&#x3D;&quot;let option of genreOptions&quot;
-                    (click)&#x3D;&quot;
-                      selectedGenre &#x3D; option.value;
-                      updateActiveFilters();
-                      applyFilters()
-                    &quot;
-                    class&#x3D;&quot;cursor-pointer flex items-center justify-between group&quot;
-                    [class.text-cyan-400]&#x3D;&quot;selectedGenre &#x3D;&#x3D;&#x3D; option.value&quot;
-                    [class.text-gray-400]&#x3D;&quot;selectedGenre !&#x3D;&#x3D; option.value&quot;
-                  &gt;
-                    &lt;span class&#x3D;&quot;group-hover:text-cyan-400 transition-colors&quot;&gt;{{
-                      option.label | translate
-                    }}&lt;/span&gt;
-                    &lt;span
-                      *ngIf&#x3D;&quot;selectedGenre &#x3D;&#x3D;&#x3D; option.value&quot;
-                      class&#x3D;&quot;text-cyan-400&quot;
-                      &gt;&amp;check;&lt;/span
-                    &gt;
+                &lt;div *ngIf&#x3D;&quot;filtersExpanded[&#x27;genre&#x27;]&quot; [@expandCollapse] class&#x3D;&quot;filter-content-body&quot;&gt;
+                  &lt;div class&#x3D;&quot;filter-options-scroll&quot; (scroll)&#x3D;&quot;onScroll($event)&quot;&gt;
+                    &lt;div class&#x3D;&quot;space-y-1&quot;&gt;
+                      &lt;div *ngFor&#x3D;&quot;let option of genreOptions&quot; (click)&#x3D;&quot;toggleGenre(option.value)&quot;
+                        class&#x3D;&quot;filter-option-item&quot; [class.is-selected]&#x3D;&quot;selectedGenres.includes(option.value)&quot;&gt;
+                        &lt;span&gt;{{ option.label | translate }}&lt;/span&gt;
+                        &lt;span *ngIf&#x3D;&quot;selectedGenres.includes(option.value)&quot; class&#x3D;&quot;text-cyan-400&quot;&gt;&amp;check;&lt;/span&gt;
+                      &lt;/div&gt;
+                    &lt;/div&gt;
                   &lt;/div&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
-            &lt;/div&gt;
 
-            &lt;div class&#x3D;&quot;border border-gray-800 rounded-lg overflow-hidden&quot;&gt;
-              &lt;button
-                (click)&#x3D;&quot;toggleFilter(&#x27;platform&#x27;)&quot;
-                class&#x3D;&quot;w-full flex items-center justify-between p-4 bg-gray-900 transition-colors focus:outline-none filter-toggle-button ring-0&quot;
-                [class.hover:bg-gray-800]&#x3D;&quot;!filtersExpanded[&#x27;platform&#x27;]&quot;
-              &gt;
-                &lt;span class&#x3D;&quot;font-medium text-gray-300&quot;&gt;{{
-                  &quot;search.filters.platform.label&quot; | translate
-                }}&lt;/span&gt;
-                &lt;span
-                  class&#x3D;&quot;transform transition-transform duration-200&quot;
-                  [class.rotate-180]&#x3D;&quot;filtersExpanded[&#x27;platform&#x27;]&quot;
-                &gt;
-                  &lt;svg
-                    xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
-                    class&#x3D;&quot;h-5 w-5&quot;
-                    viewBox&#x3D;&quot;0 0 20 20&quot;
-                    fill&#x3D;&quot;currentColor&quot;
-                  &gt;
-                    &lt;path
-                      fill-rule&#x3D;&quot;evenodd&quot;
-                      d&#x3D;&quot;M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z&quot;
-                      clip-rule&#x3D;&quot;evenodd&quot;
-                    /&gt;
-                  &lt;/svg&gt;
-                &lt;/span&gt;
-              &lt;/button&gt;
+              &lt;!-- Plataforma --&gt;
+              &lt;div class&#x3D;&quot;filter-card&quot; [class.is-open]&#x3D;&quot;filtersExpanded[&#x27;platform&#x27;]&quot;&gt;
+                &lt;button (click)&#x3D;&quot;toggleFilter(&#x27;platform&#x27;)&quot; class&#x3D;&quot;filter-header-button&quot;
+                  [class.is-open]&#x3D;&quot;filtersExpanded[&#x27;platform&#x27;]&quot;&gt;
+                  {{ &quot;search.filters.platform.label&quot; | translate }}
+                &lt;/button&gt;
 
-              &lt;div
-                *ngIf&#x3D;&quot;filtersExpanded[&#x27;platform&#x27;]&quot;
-                [@expandCollapse]
-                class&#x3D;&quot;px-4 pb-4 bg-gray-900&quot;
-              &gt;
-                &lt;hr class&#x3D;&quot;border-white mb-4&quot; /&gt;
-                &lt;div class&#x3D;&quot;space-y-2&quot;&gt;
-                  &lt;div
-                    *ngFor&#x3D;&quot;let option of platformOptions&quot;
-                    (click)&#x3D;&quot;
-                      selectedPlatform &#x3D; option.value;
-                      updateActiveFilters();
-                      applyFilters()
-                    &quot;
-                    class&#x3D;&quot;cursor-pointer flex items-center justify-between group&quot;
-                    [class.text-cyan-400]&#x3D;&quot;selectedPlatform &#x3D;&#x3D;&#x3D; option.value&quot;
-                    [class.text-gray-400]&#x3D;&quot;selectedPlatform !&#x3D;&#x3D; option.value&quot;
-                  &gt;
-                    &lt;span class&#x3D;&quot;group-hover:text-cyan-400 transition-colors&quot;&gt;{{
-                      option.label
-                    }}&lt;/span&gt;
-                    &lt;span
-                      *ngIf&#x3D;&quot;selectedPlatform &#x3D;&#x3D;&#x3D; option.value&quot;
-                      class&#x3D;&quot;text-cyan-400&quot;
-                      &gt;&amp;check;&lt;/span
-                    &gt;
+                &lt;div *ngIf&#x3D;&quot;filtersExpanded[&#x27;platform&#x27;]&quot; [@expandCollapse] class&#x3D;&quot;filter-content-body&quot;&gt;
+                  &lt;div class&#x3D;&quot;space-y-1&quot;&gt;
+                    &lt;div *ngFor&#x3D;&quot;let option of platformOptions&quot; (click)&#x3D;&quot;togglePlatform(option.value)&quot;
+                      class&#x3D;&quot;filter-option-item&quot; [class.is-selected]&#x3D;&quot;selectedPlatform &#x3D;&#x3D;&#x3D; option.value&quot;&gt;
+                      &lt;span&gt;{{ option.label }}&lt;/span&gt;
+                      &lt;span *ngIf&#x3D;&quot;selectedPlatform &#x3D;&#x3D;&#x3D; option.value&quot; class&#x3D;&quot;text-cyan-400&quot;&gt;&amp;check;&lt;/span&gt;
+                    &lt;/div&gt;
                   &lt;/div&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
@@ -3010,8 +4421,7 @@ export class SearchComponent implements OnInit {
       &lt;/div&gt;
     &lt;/div&gt;
   &lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
+&lt;/div&gt;</code></pre>
     </div>
 
 
@@ -3040,7 +4450,7 @@ export class SearchComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="flex-1 w-full bg-gray-900 text-white font-sans pb-20">  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">    <div class="flex flex-col sm:flex-row gap-8">      <div class="flex-1 order-2 sm:order-1">        <div          *ngIf="filteredGames.length > 0"          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-24 search-results-grid"        >          <app-game-card            *ngFor="let game of filteredGames"            [game]="game"            [coverUrl]="getCoverUrl(game)"            [fullWidth]="true"            (cardClick)="goToProduct($event)"          ></app-game-card>        </div>        <div          *ngIf="filteredGames.length === 0"          class="text-center text-gray-400 py-20"        >          <p class="text-xl">{{ "search.noResults" | translate }}</p>        </div>      </div>      <div class="w-full sm:w-80 order-1 sm:order-2 sticky top-24 h-fit">        <div class="bg-gray-900 rounded-lg p-4">          <div class="flex items-center justify-between mb-4">            <h3 class="text-xl font-bold text-white">              {{ "search.title" | translate }}              <span *ngIf="activeFilters.length > 0"                >({{ activeFilters.length }})</span              >            </h3>            <button              *ngIf="activeFilters.length > 0"              (click)="resetFilters()"              class="text-cyan-400 hover:text-cyan-300 text-base capitalize font-medium transition-colors reset-button-style appearance-none cursor-pointer"            >              {{ "search.reset" | translate }}            </button>          </div>          <div            *ngIf="activeFilters.length > 0"            class="flex flex-wrap gap-2 mb-6"          >            <div              *ngFor="let filter of activeFilters"              class="bg-gray-800 border border-gray-700 text-gray-300 px-3 py-1 rounded-full text-sm flex items-center gap-2"            >              <span>{{ filter.label | translate }}</span>              <button                (click)="removeFilter(filter.type)"                class="hover:text-white transition-colors filter-button-style appearance-none cursor-pointer flex items-center justify-center"                [title]="\'search.removeFilter\' | translate"              >                &times;              </button>            </div>          </div>          <div class="space-y-4">            <div class="border border-gray-800 rounded-lg overflow-hidden">              <button                (click)="toggleFilter(\'price\')"                class="w-full flex items-center justify-between p-4 bg-gray-900 transition-colors focus:outline-none filter-toggle-button ring-0"                [class.hover:bg-gray-800]="!filtersExpanded[\'price\']"              >                <span class="font-medium text-gray-300">{{                  "search.filters.price.label" | translate                }}</span>                <span                  class="transform transition-transform duration-200"                  [class.rotate-180]="filtersExpanded[\'price\']"                >                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"                      clip-rule="evenodd"                    />                  </svg>                </span>              </button>              <div                *ngIf="filtersExpanded[\'price\']"                [@expandCollapse]                class="px-4 pb-4 bg-gray-900"              >                <hr class="border-white mb-4" />                <div class="space-y-4">                  <div class="space-y-2">                    <div                      *ngFor="let option of priceOptions"                      (click)="                        selectedPrice = option.value;                        updateActiveFilters();                        applyFilters()                      "                      class="cursor-pointer flex items-center justify-between group"                      [class.text-cyan-400]="selectedPrice === option.value"                      [class.text-gray-400]="selectedPrice !== option.value"                    >                      <span                        class="group-hover:text-cyan-400 transition-colors"                        >{{ option.label | translate }}</span                      >                      <span                        *ngIf="selectedPrice === option.value"                        class="text-cyan-400"                        >&check;</span                      >                    </div>                  </div>                  <div class="pt-2 border-t border-gray-800">                    <label class="block text-sm text-gray-400 mb-2"                      >Max: {{ formatPrice(priceValue) }}</label                    >                    <input                      type="range"                      [min]="minPrice"                      [max]="maxPrice"                      [(ngModel)]="priceValue"                      (change)="onPriceSliderChange()"                      class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-cyan-500"                    />                    <div                      class="flex justify-between text-xs text-gray-500 mt-1"                    >                      <span>{{ formatPrice(minPrice) }}</span>                      <span>{{ formatPrice(maxPrice) }}</span>                    </div>                  </div>                </div>              </div>            </div>            <div class="border border-gray-800 rounded-lg overflow-hidden">              <button                (click)="toggleFilter(\'genre\')"                class="w-full flex items-center justify-between p-4 bg-gray-900 transition-colors focus:outline-none filter-toggle-button ring-0"                [class.hover:bg-gray-800]="!filtersExpanded[\'genre\']"              >                <span class="font-medium text-gray-300">{{                  "search.filters.genre.label" | translate                }}</span>                <span                  class="transform transition-transform duration-200"                  [class.rotate-180]="filtersExpanded[\'genre\']"                >                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"                      clip-rule="evenodd"                    />                  </svg>                </span>              </button>              <div                *ngIf="filtersExpanded[\'genre\']"                [@expandCollapse]                class="px-4 pb-4 bg-gray-900"              >                <hr class="border-white mb-4" />                <div class="space-y-2">                  <div                    *ngFor="let option of genreOptions"                    (click)="                      selectedGenre = option.value;                      updateActiveFilters();                      applyFilters()                    "                    class="cursor-pointer flex items-center justify-between group"                    [class.text-cyan-400]="selectedGenre === option.value"                    [class.text-gray-400]="selectedGenre !== option.value"                  >                    <span class="group-hover:text-cyan-400 transition-colors">{{                      option.label | translate                    }}</span>                    <span                      *ngIf="selectedGenre === option.value"                      class="text-cyan-400"                      >&check;</span                    >                  </div>                </div>              </div>            </div>            <div class="border border-gray-800 rounded-lg overflow-hidden">              <button                (click)="toggleFilter(\'platform\')"                class="w-full flex items-center justify-between p-4 bg-gray-900 transition-colors focus:outline-none filter-toggle-button ring-0"                [class.hover:bg-gray-800]="!filtersExpanded[\'platform\']"              >                <span class="font-medium text-gray-300">{{                  "search.filters.platform.label" | translate                }}</span>                <span                  class="transform transition-transform duration-200"                  [class.rotate-180]="filtersExpanded[\'platform\']"                >                  <svg                    xmlns="http://www.w3.org/2000/svg"                    class="h-5 w-5"                    viewBox="0 0 20 20"                    fill="currentColor"                  >                    <path                      fill-rule="evenodd"                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"                      clip-rule="evenodd"                    />                  </svg>                </span>              </button>              <div                *ngIf="filtersExpanded[\'platform\']"                [@expandCollapse]                class="px-4 pb-4 bg-gray-900"              >                <hr class="border-white mb-4" />                <div class="space-y-2">                  <div                    *ngFor="let option of platformOptions"                    (click)="                      selectedPlatform = option.value;                      updateActiveFilters();                      applyFilters()                    "                    class="cursor-pointer flex items-center justify-between group"                    [class.text-cyan-400]="selectedPlatform === option.value"                    [class.text-gray-400]="selectedPlatform !== option.value"                  >                    <span class="group-hover:text-cyan-400 transition-colors">{{                      option.label                    }}</span>                    <span                      *ngIf="selectedPlatform === option.value"                      class="text-cyan-400"                      >&check;</span                    >                  </div>                </div>              </div>            </div>          </div>        </div>      </div>    </div>  </div></div></div>'
+        var COMPONENT_TEMPLATE = '<div><!--  @file: src/app/pages/search/search.component.html  @project: GameSage - Plataforma de Videojuegos  @authors: Rosario González y Álvaro Jiménez  @description: Vista de resultados de búsqueda con filtros dinámicos, skeletons de carga, barra de progreso, paginación infinita y detección de scroll.--><div class="flex-1 w-full bg-gray-900 text-white font-sans pb-4">  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">    <div class="flex flex-col sm:flex-row gap-8 sm:items-start">      <div class="flex-1 order-2 sm:order-1 results-scroller sidebar-scroll" #resultsScroller        (scroll)="onScroll($event)">        <!-- Estado de carga: Skeletons (Inicio o Reset total) -->        <div *ngIf="isLoadingFilters && loadingType === \'skeletons\'"          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-0 search-results-grid">          <app-game-card *ngFor="let skeleton of skeletons" [game]="skeleton" [fullWidth]="true"></app-game-card>        </div>        <!-- Estado de carga: Rueda (Cambio de filtros activos o búsqueda de texto) -->        <div *ngIf="isLoadingFilters && loadingType === \'spinner\'" class="filter-loader-container">          <div class="loader-spinner"></div>        </div>        <ng-container *ngIf="!isLoadingFilters">          <div *ngIf="filteredGames.length > 0"            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-0 search-results-grid">            <app-game-card *ngFor="let game of filteredGames" [game]="game" [coverUrl]="getCoverUrl(game)"              [fullWidth]="true" (cardClick)="goToProduct($event)"></app-game-card>          </div>          <div *ngIf="filteredGames.length === 0 && hasLoadedOnce" class="text-center text-gray-400 py-20">            <p class="text-xl">{{ "search.noResults" | translate }}</p>          </div>        </ng-container>      </div>      <div class="w-full sm:w-80 order-1 sm:order-2">        <div class="filters-sidebar sticky top-24">          <div class="sidebar-header">            <h3 class="text-xl font-black text-cyan-300">              {{ "search.title" | translate }}            </h3>          </div>          <div class="filters-scroll-area sidebar-scroll" #filtersScroller (scroll)="onScroll($event)">            <div class="filters-grid-wrapper" [class.is-collapsing]="activeFilters.length === 0 || isClearingFilters"              [class.ready]="viewReady">              <div class="filters-grid-inner">                <div class="flex flex-wrap gap-2">                  @for (filter of activeFilters; track filter.type) {                  <div class="active-filter-chip">                    <span>{{ filter.label | translate }}</span>                    <button (click)="removeFilter(filter.type)"                      class="hover:text-red-400 transition-colors filter-button-style appearance-none cursor-pointer flex items-center justify-center font-bold text-lg leading-none"                      [title]="\'search.removeFilter\' | translate">                      &times;                    </button>                  </div>                  }                </div>                <div class="my-2 flex justify-start">                  <button (click)="resetFilters()"                    class="text-cyan-400 hover:text-cyan-300 text-[10px] font-bold transition-colors reset-button-style appearance-none cursor-pointer uppercase tracking-widest">                    {{ "search.reset" | translate }} ({{ activeFilters.length }})                  </button>                </div>              </div>            </div>            <div class="filter-group-container">              <!-- Precio -->              <div class="filter-card" [class.is-open]="filtersExpanded[\'price\']">                <button (click)="toggleFilter(\'price\')" class="filter-header-button"                  [class.is-open]="filtersExpanded[\'price\']">                  {{ "search.filters.price.label" | translate }}                </button>                <div *ngIf="filtersExpanded[\'price\']" [@expandCollapse] class="filter-content-body">                  <div class="space-y-1">                    <div *ngFor="let option of priceOptions" (click)="togglePrice(option.value)"                      class="filter-option-item" [class.is-selected]="selectedPrice === option.value">                      <span>{{ option.label | translate }}</span>                      <span *ngIf="selectedPrice === option.value" class="text-cyan-400">&check;</span>                    </div>                  </div>                  <div class="filter-slider-container">                    <label class="block text-xs font-bold text-gray-400 mb-3 uppercase tracking-wider">Máximo: <span                        class="text-cyan-300 ml-1">{{ formatPrice(priceValue) }}</span></label>                    <input type="range" [min]="minPrice" [max]="maxPrice" [(ngModel)]="priceValue"                      (change)="onPriceSliderChange()"                      class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-cyan-500" />                    <div class="flex justify-between text-[10px] font-bold text-gray-500 mt-2 uppercase">                      <span>{{ formatPrice(minPrice) }}</span>                      <span>{{ formatPrice(maxPrice) }}</span>                    </div>                  </div>                </div>              </div>              <!-- Genero -->              <div class="filter-card" [class.is-open]="filtersExpanded[\'genre\']">                <button (click)="toggleFilter(\'genre\')" class="filter-header-button"                  [class.is-open]="filtersExpanded[\'genre\']">                  {{ "search.filters.genre.label" | translate }}                </button>                <div *ngIf="filtersExpanded[\'genre\']" [@expandCollapse] class="filter-content-body">                  <div class="filter-options-scroll" (scroll)="onScroll($event)">                    <div class="space-y-1">                      <div *ngFor="let option of genreOptions" (click)="toggleGenre(option.value)"                        class="filter-option-item" [class.is-selected]="selectedGenres.includes(option.value)">                        <span>{{ option.label | translate }}</span>                        <span *ngIf="selectedGenres.includes(option.value)" class="text-cyan-400">&check;</span>                      </div>                    </div>                  </div>                </div>              </div>              <!-- Plataforma -->              <div class="filter-card" [class.is-open]="filtersExpanded[\'platform\']">                <button (click)="toggleFilter(\'platform\')" class="filter-header-button"                  [class.is-open]="filtersExpanded[\'platform\']">                  {{ "search.filters.platform.label" | translate }}                </button>                <div *ngIf="filtersExpanded[\'platform\']" [@expandCollapse] class="filter-content-body">                  <div class="space-y-1">                    <div *ngFor="let option of platformOptions" (click)="togglePlatform(option.value)"                      class="filter-option-item" [class.is-selected]="selectedPlatform === option.value">                      <span>{{ option.label }}</span>                      <span *ngIf="selectedPlatform === option.value" class="text-cyan-400">&check;</span>                    </div>                  </div>                </div>              </div>            </div>          </div>        </div>      </div>    </div>  </div></div></div>'
     var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PasswordRecoveryModalComponent', 'selector': 'app-password-recovery-modal'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'StripeModalComponent', 'selector': 'app-stripe-modal'}];
     var DIRECTIVES = [{'name': 'CopyOnClickDirective', 'selector': '[appCopyOnClick]'},{'name': 'HighlightDirective', 'selector': '[appHighlight]'},{'name': 'Tilt3DDirective', 'selector': '[appTilt3D]'}];
     var ACTUAL_COMPONENT = {'name': 'SearchComponent'};

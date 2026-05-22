@@ -1,8 +1,16 @@
+/**
+ * @file: src/app/shared/components/error-toast/error-toast.component.scss
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Estilos para el componente de toast de errores.
+ */
+
 @keyframes slide-in {
   from {
     transform: translateX(100%);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;

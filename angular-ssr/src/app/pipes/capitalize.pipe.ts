@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pipes/capitalize.pipe.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Tubería para capitalizar cada palabra.
+ */
+
 import { Pipe, PipeTransform } from '@angular/core';
 
 /**

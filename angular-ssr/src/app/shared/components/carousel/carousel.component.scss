@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/shared/components/carousel/carousel.component.scss
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Estilos para el componente carrusel.
+ */
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -10,9 +17,10 @@
 .difuminadoTexto {
   filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
 }
+
 @media (max-width: 768px) {
   .mobile-responsive-carousel-title {
-    font-size: 1.25rem !important; /* text-xl */
+    font-size: 1.25rem !important;
   }
 
   .mobile-responsive-padding {
@@ -21,7 +29,7 @@
   }
 
   .mobile-responsive-container {
-    padding-left: 2rem !important;
-    padding-right: 2rem !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
   }
 }

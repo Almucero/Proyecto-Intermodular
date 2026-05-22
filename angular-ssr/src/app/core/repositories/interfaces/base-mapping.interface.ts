@@ -1,4 +1,11 @@
 /**
+ * @file: src/app/core/repositories/interfaces/base-mapping.interface.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Interfaz base para el mapeo de datos de la API a modelos.
+ */
+
+/**
  * Interfaz base para el mapeo de datos de la API a modelos y viceversa.
  * @template T El tipo de modelo que se está mapeando.
  */

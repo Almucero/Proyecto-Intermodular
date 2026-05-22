@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/cart/cart.routes.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Definición de rutas de carrito con endpoints para CRUD, checkout y confirmación de pagos, integrados con middleware de autenticación y validación.
+ */
+
 import { Router } from 'express';
 import { auth } from '../../middleware/auth';
 import {

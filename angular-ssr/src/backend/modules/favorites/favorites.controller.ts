@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/favorites/favorites.controller.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Controladores que manejan la lógica de negocio para operaciones con favoritos, incluyendo adición, eliminación, listado y verificación de estado.
+ */
+
 import type { Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
 import { addToFavoritesSchema } from './favorites.schema';

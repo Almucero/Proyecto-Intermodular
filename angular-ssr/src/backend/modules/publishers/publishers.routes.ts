@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/publishers/publishers.routes.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Rutas de API para operaciones CRUD de editoriales con autenticación, autorización y validación (Zod).
+ */
+
 import { Router } from 'express';
 import { auth } from '../../middleware/auth';
 import { adminOnly } from '../../middleware/authorize';

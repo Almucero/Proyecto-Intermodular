@@ -211,6 +211,9 @@
                             <a href="#buildSwaggerSpecForRequest" title="src/backend/app.ts" ><b>buildSwaggerSpecForRequest</b>&nbsp;&nbsp;&nbsp;(src/.../app.ts)</a>
                         </li>
                         <li>
+                            <a href="#canDeactivateGuard" title="src/app/core/guards/can-deactivate.guard.ts" ><b>canDeactivateGuard</b>&nbsp;&nbsp;&nbsp;(src/.../can-deactivate.guard.ts)</a>
+                        </li>
+                        <li>
                             <a href="#CART_ITEM_API_URL_TOKEN" title="src/app/core/repositories/repository.tokens.ts" ><b>CART_ITEM_API_URL_TOKEN</b>&nbsp;&nbsp;&nbsp;(src/.../repository.tokens.ts)</a>
                         </li>
                         <li>
@@ -688,10 +691,10 @@
                             <a href="#router" title="src/backend/modules/favorites/favorites.routes.ts" ><b>router</b>&nbsp;&nbsp;&nbsp;(src/.../favorites.routes.ts)</a>
                         </li>
                         <li>
-                            <a href="#router" title="src/backend/modules/genres/genres.routes.ts" ><b>router</b>&nbsp;&nbsp;&nbsp;(src/.../genres.routes.ts)</a>
+                            <a href="#router" title="src/backend/modules/games/games.routes.ts" ><b>router</b>&nbsp;&nbsp;&nbsp;(src/.../games.routes.ts)</a>
                         </li>
                         <li>
-                            <a href="#router" title="src/backend/modules/games/games.routes.ts" ><b>router</b>&nbsp;&nbsp;&nbsp;(src/.../games.routes.ts)</a>
+                            <a href="#router" title="src/backend/modules/genres/genres.routes.ts" ><b>router</b>&nbsp;&nbsp;&nbsp;(src/.../genres.routes.ts)</a>
                         </li>
                         <li>
                             <a href="#router" title="src/backend/modules/media/media.routes.ts" ><b>router</b>&nbsp;&nbsp;&nbsp;(src/.../media.routes.ts)</a>
@@ -740,6 +743,9 @@
                         </li>
                         <li>
                             <a href="#shouldUseGeneratedSpec" title="src/backend/config/swagger.ts" ><b>shouldUseGeneratedSpec</b>&nbsp;&nbsp;&nbsp;(src/.../swagger.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#slideLogoAnimation" title="src/app/animations/slide-menu.animation.ts" ><b>slideLogoAnimation</b>&nbsp;&nbsp;&nbsp;(src/.../slide-menu.animation.ts)</a>
                         </li>
                         <li>
                             <a href="#slideMenuAnimation" title="src/app/animations/slide-menu.animation.ts" ><b>slideMenuAnimation</b>&nbsp;&nbsp;&nbsp;(src/.../slide-menu.animation.ts)</a>
@@ -794,6 +800,9 @@
                         </li>
                         <li>
                             <a href="#updatePublisherSchema" title="src/backend/modules/publishers/publishers.schema.ts" ><b>updatePublisherSchema</b>&nbsp;&nbsp;&nbsp;(src/.../publishers.schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#updateSessionCtrl" title="src/backend/modules/chat/chat.controller.ts" ><b>updateSessionCtrl</b>&nbsp;&nbsp;&nbsp;(src/.../chat.controller.ts)</a>
                         </li>
                         <li>
                             <a href="#updateUserSchema" title="src/backend/modules/users/users.schema.ts" ><b>updateUserSchema</b>&nbsp;&nbsp;&nbsp;(src/.../users.schema.ts)</a>
@@ -2706,17 +2715,17 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
   const servers &#x3D;
     env.NODE_ENV &#x3D;&#x3D;&#x3D; &#x27;production&#x27;
       ? [
-          {
-            url: &#x60;${protocol}://${host}/&#x60;,
-            description: &#x27;Servidor de producción (Vercel)&#x27;,
-          },
-        ]
+        {
+          url: &#x60;${protocol}://${host}/&#x60;,
+          description: &#x27;Servidor de producción (Vercel)&#x27;,
+        },
+      ]
       : [
-          {
-            url: &#x60;http://localhost:${env.PORT}&#x60;,
-            description: &#x27;Servidor de desarrollo&#x27;,
-          },
-        ];
+        {
+          url: &#x60;http://localhost:${env.PORT}&#x60;,
+          description: &#x27;Servidor de desarrollo&#x27;,
+        },
+      ];
 
   dynamicSpec[&#x27;servers&#x27;] &#x3D; servers;
   return dynamicSpec;
@@ -2803,8 +2812,8 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                     <td class="col-md-4">
                         <i>Default value : </i><code>env.CORS_ORIGIN
   ? env.CORS_ORIGIN.split(&#x27;,&#x27;)
-      .map((o) &#x3D;&gt; o.trim())
-      .filter(Boolean)
+    .map((o) &#x3D;&gt; o.trim())
+    .filter(Boolean)
   : []</code>
                     </td>
                 </tr>
@@ -3029,16 +3038,16 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
                         <i>Default value : </i><code>process.env[&#x27;SSR_DISABLE_BACKEND&#x27;] || isMainModule(import.meta.url)
     ? Promise.resolve()
     : mountBackend()
-        .then(setupAngularMiddleware)
-        .catch((err) &#x3D;&gt; {
-          const short &#x3D; getSetupMessage(err);
-          if (short) {
-            console.error(short);
-            process.exit(1);
-          }
-          console.error(&#x27;Error al cargar el backend:&#x27;, err instanceof Error ? err.message : err);
-          throw err;
-        })</code>
+      .then(setupAngularMiddleware)
+      .catch((err) &#x3D;&gt; {
+        const short &#x3D; getSetupMessage(err);
+        if (short) {
+          console.error(short);
+          process.exit(1);
+        }
+        console.error(&#x27;Error al cargar el backend:&#x27;, err instanceof Error ? err.message : err);
+        throw err;
+      })</code>
                     </td>
                 </tr>
 
@@ -3368,7 +3377,7 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
   const contentType &#x3D; response.headers.get(&#x27;Content-Type&#x27;) || &#x27;&#x27;;
   if (contentType.includes(&#x27;text/html&#x27;)) {
     let html &#x3D; await response.text();
-    
+
     let lang &#x3D; &#x27;es&#x27;;
     const cookies &#x3D; req.headers.cookie;
     if (cookies) {
@@ -5431,6 +5440,13 @@ Si el usuario no es administrador, lo redirige al dashboard.</p>
     { provide: ChatService, useClass: ChatService },
 
     AuthenticationServiceFactory,
+    {
+      provide: IMAGE_CONFIG,
+      useValue: {
+        disableImageSizeWarning: true,
+        disableImageLazyLoadWarning: true,
+      },
+    },
     provideClientHydration(withEventReplay()),
   ],
 }</code>
@@ -6634,6 +6650,51 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
         </tbody>
     </table>
 </section>
+    <h3>src/app/core/guards/can-deactivate.guard.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="canDeactivateGuard"></a>
+                    <span class="name">
+                        <span ><b>canDeactivateGuard</b></span>
+                        <a href="#canDeactivateGuard"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/CanComponentDeactivate.html" target="_self" >CanDeactivateFn&lt;CanComponentDeactivate&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(
+  component: CanComponentDeactivate
+) &#x3D;&gt; {
+  if (!component.hasUnsavedChanges || !component.hasUnsavedChanges()) {
+    return true;
+  }
+  const confirmService &#x3D; inject(ConfirmNavigationService);
+  return confirmService.confirm();
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Guard genérico que delega la confirmación de salida al
+<code>ConfirmNavigationService</code> global, cuyo modal vive en el AppComponent
+y no es destruido cuando el componente hijo se desmonta.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
     <h3>src/backend/modules/users/users.schema.ts</h3>
     <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
@@ -6921,6 +6982,51 @@ guardando la URL de destino original para volver tras el inicio de sesión.</p>
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Lista sesiones de chat del usuario autenticado.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateSessionCtrl"></a>
+                    <span class="name">
+                        <span ><b>updateSessionCtrl</b></span>
+                        <a href="#updateSessionCtrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) &#x3D;&gt; {
+  try {
+    const user &#x3D; req.user!;
+    const { id } &#x3D; sessionIdParamSchema.parse(req.params);
+    const { title } &#x3D; z
+      .object({ title: z.string().min(1).max(100) })
+      .parse(req.body);
+    const result &#x3D; await updateSessionTitle(id, user.sub, title);
+    res.json(result);
+  } catch (error: any) {
+    if (error.message &#x3D;&#x3D;&#x3D; &#x27;Sesión no encontrada&#x27;) {
+      return res.status(404).json({ message: error.message });
+    }
+    next(error);
+  }
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Actualiza el título de una sesión de chat del usuario autenticado.</p>
 </div>
                 </td>
             </tr>
@@ -8424,7 +8530,7 @@ Si el usuario es administrador, lo redirige al panel de administración.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Variables de entorno para build de producción.</p>
+                    <div class="io-description"><p>Variables de entorno globales del lado del cliente para producción.</p>
 </div>
                 </td>
             </tr>
@@ -8464,7 +8570,7 @@ Si el usuario es administrador, lo redirige al panel de administración.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Variables de entorno para desarrollo local.</p>
+                    <div class="io-description"><p>Variables de entorno globales del lado del cliente para desarrollo local.</p>
 </div>
                 </td>
             </tr>
@@ -9111,7 +9217,7 @@ Desplaza el header desde arriba hacia su posición original.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Referencia al <code>console.warn</code> original.</p>
+                    <div class="io-description"><p>Referencia respaldada al <code>console.warn</code> original del navegador/entorno de ejecución.</p>
 </div>
                 </td>
             </tr>
@@ -9342,35 +9448,6 @@ Aplica una transición de opacidad y desplazamiento vertical (Y).</p>
         </tbody>
     </table>
 </section>
-    <h3>src/backend/modules/genres/genres.routes.ts</h3>
-    <section data-compodoc="block-properties">
-    <h3></h3>    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="router"></a>
-                    <span class="name">
-                        <span ><b>router</b></span>
-                        <a href="#router"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>Router()</code>
-                    </td>
-                </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Router de endpoints de géneros.</p>
-</div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-</section>
     <h3>src/backend/modules/games/games.routes.ts</h3>
     <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
@@ -9393,6 +9470,35 @@ Aplica una transición de opacidad y desplazamiento vertical (Y).</p>
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Router de endpoints de juegos.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/backend/modules/genres/genres.routes.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="router"></a>
+                    <span class="name">
+                        <span ><b>router</b></span>
+                        <a href="#router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>Router()</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Router de endpoints de géneros.</p>
 </div>
                 </td>
             </tr>
@@ -9633,6 +9739,7 @@ Aplica una transición de opacidad y desplazamiento vertical (Y).</p>
     path: &#x27;dashboard&#x27;,
     component: DashboardComponent,
     canActivate: [authGuard, customerGuard],
+    canDeactivate: [canDeactivateGuard],
   },
   {
     path: &#x27;product/:id&#x27;,
@@ -9654,6 +9761,7 @@ Aplica una transición de opacidad y desplazamiento vertical (Y).</p>
   {
     path: &#x27;settings&#x27;,
     component: SettingsComponent,
+    canDeactivate: [canDeactivateGuard],
   },
   {
     path: &#x27;help&#x27;,
@@ -9688,36 +9796,36 @@ Aplica una transición de opacidad y desplazamiento vertical (Y).</p>
       {
         path: &#x27;genres&#x27;,
         loadComponent: () &#x3D;&gt;
-          &quot;import(&#x27;./pages/admin/genres/genre-list/genre-list.component&#x27;).then(\n\
-            (m) &#x3D;&gt; m.GenreListComponent,\n\
+          &quot;import(&#x27;./pages/admin/genres/genre-list/genre-list.component&#x27;).then(\r\n\
+            (m) &#x3D;&gt; m.GenreListComponent,\r\n\
           )&quot;,
       },
       {
         path: &#x27;developers&#x27;,
         loadComponent: () &#x3D;&gt;
-          &quot;import(&#x27;./pages/admin/developers/developer-list/developer-list.component&#x27;).then(\n\
-            (m) &#x3D;&gt; m.DeveloperListComponent,\n\
+          &quot;import(&#x27;./pages/admin/developers/developer-list/developer-list.component&#x27;).then(\r\n\
+            (m) &#x3D;&gt; m.DeveloperListComponent,\r\n\
           )&quot;,
       },
       {
         path: &#x27;platforms&#x27;,
         loadComponent: () &#x3D;&gt;
-          &quot;import(&#x27;./pages/admin/platforms/platform-list/platform-list.component&#x27;).then(\n\
-            (m) &#x3D;&gt; m.PlatformListComponent,\n\
+          &quot;import(&#x27;./pages/admin/platforms/platform-list/platform-list.component&#x27;).then(\r\n\
+            (m) &#x3D;&gt; m.PlatformListComponent,\r\n\
           )&quot;,
       },
       {
         path: &#x27;publishers&#x27;,
         loadComponent: () &#x3D;&gt;
-          &quot;import(&#x27;./pages/admin/publishers/publisher-list/publisher-list.component&#x27;).then(\n\
-            (m) &#x3D;&gt; m.PublisherListComponent,\n\
+          &quot;import(&#x27;./pages/admin/publishers/publisher-list/publisher-list.component&#x27;).then(\r\n\
+            (m) &#x3D;&gt; m.PublisherListComponent,\r\n\
           )&quot;,
       },
       {
         path: &#x27;games&#x27;,
         loadComponent: () &#x3D;&gt;
-          &quot;import(&#x27;./pages/admin/games/game-list/game-list.component&#x27;).then(\n\
-            (m) &#x3D;&gt; m.GameListComponent,\n\
+          &quot;import(&#x27;./pages/admin/games/game-list/game-list.component&#x27;).then(\r\n\
+            (m) &#x3D;&gt; m.GameListComponent,\r\n\
           )&quot;,
       },
     ],
@@ -9883,6 +9991,42 @@ Aplica una transición de opacidad y desplazamiento vertical (Y).</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="slideLogoAnimation"></a>
+                    <span class="name">
+                        <span ><b>slideLogoAnimation</b></span>
+                        <a href="#slideLogoAnimation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>trigger(&#x27;slideLogoAnimation&#x27;, [
+  state(&#x27;closed&#x27;, style({ transform: &#x27;translate3d(0, 0, 0)&#x27; })),
+  state(&#x27;open&#x27;, style({ transform: &#x27;translate3d(10.5rem, 0, 0)&#x27; })),
+  transition(&#x27;closed &#x3D;&gt; open&#x27;, [
+    animate(&#x27;300ms cubic-bezier(0.4, 0, 0.2, 1)&#x27;)
+  ]),
+  transition(&#x27;open &#x3D;&gt; closed&#x27;, [
+    animate(&#x27;200ms cubic-bezier(0.4, 0, 0.2, 1)&#x27;)
+  ])
+])</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Animación de desplazamiento horizontal para el logo de la cabecera móvil.
+Sincroniza la posición del logo con la apertura (abierto/cerrado) del menú lateral para evitar solapamientos.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="slideMenuAnimation"></a>
                     <span class="name">
                         <span ><b>slideMenuAnimation</b></span>
@@ -10041,17 +10185,17 @@ Desplaza el menú desde la izquierda (-100% a 0).</p>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>(schema: ZodSchema&lt;any&gt;) &#x3D;&gt;
-  (req: Request, res: Response, next: NextFunction) &#x3D;&gt; {
-    applySecurityHeaders(req, res);
-    applyNoCacheHeaders(res);
-    
-    const parsed &#x3D; schema.safeParse(req.body);
-    if (!parsed.success) {
-      return res.status(400).json({ errors: parsed.error.flatten() });
-    }
-    req.body &#x3D; parsed.data;
-    next();
-  }</code>
+    (req: Request, res: Response, next: NextFunction) &#x3D;&gt; {
+      applySecurityHeaders(req, res);
+      applyNoCacheHeaders(res);
+
+      const parsed &#x3D; schema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ errors: parsed.error.flatten() });
+      }
+      req.body &#x3D; parsed.data;
+      next();
+    }</code>
                     </td>
                 </tr>
 

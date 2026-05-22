@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/app.config.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Configuración de la aplicación Angular, inyección de dependencias, rutas y servicios.
+ */
+
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { IMAGE_CONFIG } from '@angular/common';
 import {

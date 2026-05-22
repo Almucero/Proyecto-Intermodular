@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/app.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente raíz de la aplicación GameSage.
+ */
+
 import {
   Component,
   inject,
@@ -80,16 +87,25 @@ export class AppComponent {
   /** Indica si hay una transición de cambio de idioma gradual en progreso. */
   public isLangChanging = false;
 
+  /** Servicio de autenticación. */
   private authService = inject(BaseAuthenticationService);
+  /** Enrutador para gestionar la navegación y eventos de ruta. */
   private router = inject(Router);
+  /** Servicio para gestionar el estado de la UI global. */
   private uiState = inject(UiStateService);
+  /** Identificador de la plataforma (Browser vs SSR). */
   private platformId = inject(PLATFORM_ID);
+  /** Documento del DOM global. */
   private document = inject(DOCUMENT);
+  /** Servicio para actualizar dinámicamente el título de la página. */
   private pageTitleService = inject(PageTitleService);
+  /** Servicio para gestionar la internacionalización e idioma. */
   private languageService = inject(LanguageService);
   /** Servicio global del modal de confirmación de navegación con cambios sin guardar. */
   readonly confirmNav = inject(ConfirmNavigationService);
+  /** Indica si la pantalla de carga inicial está habilitada. */
   private loadingScreenEnabled = true;
+  /** Indica si la animación de aparición del header superior está habilitada. */
   public headerRevealEnabled = true;
 
   /**

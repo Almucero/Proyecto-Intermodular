@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/shared/components/game-card/game-card.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente de tarjeta para mostrar un juego individual.
+ */
+
 import {
   Component,
   Input,
@@ -72,17 +79,17 @@ export class GameCardComponent implements AfterViewInit, OnDestroy {
   isMoving = false;
   /** Indica si el título es más largo que el contenedor (requiere scroll). */
   hasOverflow = false;
-  /** Propiedad no documentada. */
+  /** Intervalo para repetir el bucle de animación del título. */
   private loopInterval: any;
-  /** Propiedad no documentada. */
+  /** Temporizador para retrasar el inicio de la animación en cada ciclo. */
   private startTimeout: any;
 
   /**
-     * Constructor no documentado.
-     * @param cdr Parámetro no documentado.
-     * @param ngZone Parámetro no documentado.
-     * @param platformId Parámetro no documentado.
-     */
+   * Crea una instancia de GameCardComponent.
+   * @param cdr Servicio de detección de cambios de Angular.
+   * @param ngZone Servicio de ejecución fuera de la zona de Angular para rendimiento.
+   * @param platformId Token de identificación de plataforma (SSR o navegador).
+   */
   constructor(
     private cdr: ChangeDetectorRef,
     private ngZone: NgZone,

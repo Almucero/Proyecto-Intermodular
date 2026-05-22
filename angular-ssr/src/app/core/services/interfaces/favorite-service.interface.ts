@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/services/interfaces/favorite-service.interface.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Interfaz para el servicio de favoritos.
+ */
+
 import { Observable } from 'rxjs';
 import { Favorite } from '../../models/favorite.model';
 import { IBaseService } from './base-service.interface';

@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/utils/validators.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Utilidades de validación para formularios.
+ */
+
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 /**

@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/services/impl/node-auth-mapping.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicio encargado de mapear los datos entre los modelos de la aplicación y las respuestas/peticiones de la API.
+ */
+
 import { Injectable } from '@angular/core';
 import { IAuthMapping } from '../interfaces/auth-mapping.interface';
 import { SignInPayload, SignUpPayload, User } from '../../models/user.model';
@@ -10,14 +17,16 @@ import { SignInPayload, SignUpPayload, User } from '../../models/user.model';
   providedIn: 'root',
 })
 export class NodeAuthMappingService implements IAuthMapping {
-  /** Constructor no documentado. */
-    constructor() {}
+  /**
+   * Crea una instancia de NodeAuthMappingService.
+   */
+  constructor() { }
 
   /**
    * Prepara el payload para el inicio de sesión.
    * @param payload Datos de entrada del formulario.
-     * @returns Retorno no documentado.
-     */
+   * @returns Un objeto JSON preparado para enviar a la API de login.
+   */
   signInPayload(payload: SignInPayload): any {
     return {
       email: payload.email,
@@ -29,8 +38,8 @@ export class NodeAuthMappingService implements IAuthMapping {
    * Prepara el payload para el registro de un nuevo usuario.
    * Realiza transformaciones automáticas como generar el tag 'accountAt'.
    * @param payload Datos del registro.
-     * @returns Retorno no documentado.
-     */
+   * @returns Un objeto JSON mapeado para enviar al endpoint de registro.
+   */
   signUpPayload(payload: SignUpPayload): any {
     return {
       name: payload.name,
@@ -43,9 +52,9 @@ export class NodeAuthMappingService implements IAuthMapping {
   }
 
   /**
-   * Genera un ID de cuenta aleatorio.
-     * @returns Retorno no documentado.
-     */
+   * Genera un ID de cuenta aleatorio en formato hexadecimal.
+   * @returns El identificador hexadecimal único autogenerado.
+   */
   private generateAccountId(): string {
     return 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'.replace(/[x]/g, () => {
       return ((Math.random() * 16) | 0).toString(16);
@@ -54,27 +63,27 @@ export class NodeAuthMappingService implements IAuthMapping {
 
   /**
    * Mapea la respuesta de login al modelo User.
-     * @param response Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * @param response Respuesta JSON devuelta por la API de login.
+   * @returns Instancia del modelo User mapeada.
+   */
   signIn(response: any): User {
     return this.mapUser(response.user);
   }
 
   /**
    * Mapea la respuesta de registro al modelo User.
-     * @param response Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * @param response Respuesta JSON devuelta por la API de registro.
+   * @returns Instancia del modelo User mapeada.
+   */
   signUp(response: any): User {
     return this.mapUser(response.user);
   }
 
   /**
    * Mapea el perfil del usuario al modelo User.
-     * @param response Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * @param response Respuesta JSON devuelta por el endpoint 'me'.
+   * @returns Instancia del modelo User mapeada.
+   */
   me(response: any): User {
     return this.mapUser(response);
   }

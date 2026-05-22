@@ -1,3 +1,10 @@
+<!--
+  @file: src/app/pages/login/login.component.html
+  @project: GameSage - Plataforma de Videojuegos
+  @authors: Rosario González y Álvaro Jiménez
+  @description: Formulario de inicio de sesión con validación en tiempo real, protección contra envíos duplicados, redirección OAuth y estados visuales para errores y carga.
+-->
+
 <div class="flex-1 w-full flex flex-col bg-gray-900 text-white font-sans">
   @if (isOAuthRedirectProcessing) {
   <div class="fixed inset-0 z-[1200] flex items-center justify-center bg-gray-900 text-white">
@@ -15,6 +22,19 @@
           class="text-blue-300 underline cursor-pointer transition-transform duration-150 active:scale-95">{{
           "login.registerLink" | translate }}</a>
       </p>
+
+      @if (registrationSuccess) {
+      <div class="mb-4 p-3 rounded bg-green-900/60 border border-green-500/50 text-green-200 text-sm text-center font-medium">
+        {{ "register.successMessage" | translate }}
+      </div>
+      }
+
+      @if (deleteSuccess) {
+      <div class="mb-4 p-3 rounded bg-green-900/60 border border-green-500/50 text-green-200 text-sm text-center font-medium">
+        {{ "settings.account.deleteSuccess" | translate }}
+      </div>
+      }
+
       <form class="px-4 md:px-5" [formGroup]="formLogin" (ngSubmit)="onSubmit()">
         <div class="mb-3">
           <div class="flex items-center gap-1 mb-2">

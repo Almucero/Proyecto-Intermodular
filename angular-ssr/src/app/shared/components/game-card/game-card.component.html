@@ -1,85 +1,59 @@
-<div
-  [class.w-56]="!fullWidth"
-  [class.w-full]="fullWidth"
+<!--
+  @file: src/app/shared/components/game-card/game-card.component.html
+  @project: GameSage - Plataforma de Videojuegos
+  @authors: Rosario González y Álvaro Jiménez
+  @description: Tarjeta reusable para mostrar información de videojuegos con efectos de movimiento 3D, indicador de oferta, skeletons de carga y adaptación responsive.
+-->
+
+<div [class.w-56]="!fullWidth" [class.w-full]="fullWidth"
   class="group cursor-pointer transition-all duration-150 active:scale-95 mobile-responsive-card"
-  [class.pointer-events-none]="game.id === -1"
-  (click)="onClick()"
->
-  <div
-    appTilt3D
-    [tiltEnabled]="game.id !== -1"
-    [tiltImageScale]="1.03"
+  [class.pointer-events-none]="game.id === -1" (click)="onClick()">
+  <div appTilt3D [tiltEnabled]="game.id !== -1" [tiltImageScale]="1.03"
     class="game-card-tilt-shell h-32 bg-gray-700 rounded-xl overflow-hidden relative mobile-responsive-image"
-    [class.animate-pulse]="game.id === -1"
-  >
+    [class.animate-pulse]="game.id === -1">
     <ng-container *ngIf="game.id !== -1">
-      <div
-        *ngIf="game.isOnSale"
-        class="sale-badge absolute top-2.5 left-2.5 z-30 px-2.5 py-0.5 rounded-md font-sans font-extrabold uppercase tracking-wider text-[10px] pointer-events-none"
-      >
+      <div *ngIf="game.isOnSale"
+        class="sale-badge absolute top-2.5 left-2.5 z-30 px-2.5 py-0.5 rounded-md font-sans font-extrabold uppercase tracking-wider text-[10px] pointer-events-none">
         <span>
           {{ discountPercentage > 0 ? '-' + discountPercentage + '%' : ('home.offers' | translate) }}
         </span>
       </div>
-      <img
-        [src]="coverUrl"
-        [alt]="game.title"
+      <img [src]="coverUrl" [alt]="game.title"
         class="game-card-cover-image absolute inset-0 z-10 w-full h-full object-cover pointer-events-none"
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer"
-      />
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     </ng-container>
   </div>
 
   <div
-    class="mt-2 flex justify-between items-center text-sm font-medium text-gray-300 overflow-hidden mobile-responsive-info"
-  >
-    <div
-      class="flex-1 min-w-0 mr-2 title-container h-5 flex items-center"
-      [class.mask-active]="isMoving && hasOverflow"
-    >
-      <div
-        *ngIf="game.id === -1"
-        class="h-4 w-3/4 bg-gray-700 rounded animate-pulse"
-      ></div>
+    class="mt-2 flex justify-between items-center text-sm font-medium text-gray-300 overflow-hidden mobile-responsive-info">
+    <div class="flex-1 min-w-0 mr-2 title-container h-5 flex items-center"
+      [class.mask-active]="isMoving && hasOverflow">
+      <div *ngIf="game.id === -1" class="h-4 w-3/4 bg-gray-700 rounded animate-pulse"></div>
 
-      <span
-        *ngIf="game.id !== -1"
-        #gameTitle
+      <span *ngIf="game.id !== -1" #gameTitle
         class="inline-block text-left whitespace-nowrap long-text-animate text-gray-300 group-hover:text-white transition-colors duration-500 ease-out"
-        [class.animate-running]="isMoving && hasOverflow"
-        [title]="game.title"
-      >
+        [class.animate-running]="isMoving && hasOverflow" [title]="game.title">
         {{ game.title }}
       </span>
     </div>
 
-    <span class="whitespace-nowrap flex-shrink-0 flex items-center text-gray-300 group-hover:text-white transition-colors duration-500 ease-out">
-      <div
-        *ngIf="game.id === -1"
-        class="h-4 w-12 bg-gray-700 rounded animate-pulse"
-      ></div>
+    <span
+      class="whitespace-nowrap flex-shrink-0 flex items-center text-gray-300 group-hover:text-white transition-colors duration-500 ease-out">
+      <div *ngIf="game.id === -1" class="h-4 w-12 bg-gray-700 rounded animate-pulse"></div>
       <ng-container *ngIf="game.id !== -1">
-        <span
-          *ngIf="
+        <span *ngIf="
             (game.isOnSale && game.salePrice !== null
               ? game.salePrice
               : game.price) === 0
-          "
-        >
+          ">
           {{ "product.free" | translate }}
         </span>
-        <ng-container
-          *ngIf="
+        <ng-container *ngIf="
             (game.isOnSale && game.salePrice !== null
               ? game.salePrice
               : game.price) !== 0
-          "
-        >
-          <span
-            *ngIf="game.isOnSale && game.salePrice !== null"
-            class="flex items-center gap-1.5"
-          >
+          ">
+          <span *ngIf="game.isOnSale && game.salePrice !== null" class="flex items-center gap-1.5">
             <span>{{ game.salePrice | localizedCurrency }}</span>
             <span class="text-gray-400 line-through text-xs">
               {{ game.price | localizedCurrency: "none" }}

@@ -565,7 +565,8 @@
     "password2Placeholder": "Repeat password",
     "createAccountButton": "Create account",
     "googleButton": "Continue with Google",
-    "githubButton": "Continue with GitHub"
+    "githubButton": "Continue with GitHub",
+    "successMessage": "Registration completed successfully. You can now log in."
   },
   "passwordRecovery": {
     "title": "Recover password",

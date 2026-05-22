@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/models/favorite.model.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Modelo de datos para un juego marcado como favorito.
+ */
+
 import { Model } from './base.model';
 import { User } from './user.model';
 import { Game } from './game.model';

@@ -1,3 +1,10 @@
+/**
+ * @file: jest.backend.config.js
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Configuración de Jest para tests de backend con soporte ESM.
+ */
+
 export default {
   preset: "ts-jest/presets/default-esm",
   testEnvironment: "node",

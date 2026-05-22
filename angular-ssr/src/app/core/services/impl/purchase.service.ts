@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/services/impl/purchase.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicio para la gestión de compras y transacciones.
+ */
+
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base-service.service';
@@ -20,20 +27,15 @@ import { BaseAuthenticationService } from './base-authentication.service';
 })
 export class PurchaseService
   extends BaseService<Purchase>
-  implements IPurchaseService
-{
-  /**
-       * Documentado.
-       * @param repository Repositorio de compras inyectado.
-         *
-       * @param http Parámetro no documentado.
-         *
-       * @param apiUrl Parámetro no documentado.
-         *
-       * @param resource Parámetro no documentado.
-         *
-       * @param auth Parámetro no documentado.
-       */
+  implements IPurchaseService {
+   /**
+    * Inicializa el servicio de gestión de compras y transacciones.
+    * @param repository Repositorio de compras inyectado.
+    * @param http Cliente HTTP para solicitudes personalizadas.
+    * @param apiUrl URL base del backend.
+    * @param resource Nombre del recurso de compras en la API.
+    * @param auth Servicio de autenticación para obtener credenciales.
+    */
   constructor(
     @Inject(PURCHASE_REPOSITORY_TOKEN) repository: IBaseRepository<Purchase>,
     private http: HttpClient,
@@ -45,10 +47,10 @@ export class PurchaseService
   }
 
   /**
-     * Método no documentado.
-     * @returns Retorno no documentado.
-     */
-    private getAuthHeaders(): any {
+   * Crea e inyecta las cabeceras de autorización necesarias con el token JWT actual.
+   * @returns Un objeto de cabeceras HTTP que incluye el token de autorización.
+   */
+  private getAuthHeaders(): any {
     const headers: any = {};
     const token = this.auth.getToken();
     if (token) headers['Authorization'] = `Bearer ${token}`;

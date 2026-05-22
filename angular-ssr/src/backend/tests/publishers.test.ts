@@ -1,4 +1,12 @@
+/**
+ * @file: src/backend/tests/publishers.test.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Tests para endpoints de publishers cubriendo listado, recuperación y creación de publishers.
+ */
+
 /// <reference types="jest" />
+
 import request from 'supertest';
 import app from '../app';
 import { prisma } from '../config/db';
@@ -23,7 +31,7 @@ describe('Publishers Endpoints', () => {
     if (testUser.email) {
       await prisma.user
         .delete({ where: { email: testUser.email } })
-        .catch(() => {});
+        .catch(() => { });
     }
     await prisma.$disconnect();
   });

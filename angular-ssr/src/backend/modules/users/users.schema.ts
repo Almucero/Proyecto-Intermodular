@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/users/users.schema.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Esquemas de validación Zod para operaciones con usuarios y gestión de preferencias de notificación por email.
+ */
+
 import { z } from 'zod';
 
 /** Esquema de actualización de usuario (admin/owner). */

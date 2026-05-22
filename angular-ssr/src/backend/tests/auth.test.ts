@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/tests/auth.test.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Tests unitarios para endpoints de autenticación (registro, login, OAuth) cubriendo casos de éxito y errores.
+ */
+
 /// <reference types="jest" />
 import request from 'supertest';
 import app from '../app';
@@ -24,7 +31,7 @@ describe('Auth Endpoints', () => {
           ],
         },
       })
-      .catch(() => {});
+      .catch(() => { });
 
     await prisma.$disconnect();
   });

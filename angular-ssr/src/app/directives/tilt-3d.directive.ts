@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/directives/tilt-3d.directive.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Directiva para aplicar efecto 3D suave con reflejo en hover.
+ */
+
 import {
   Directive,
   ElementRef,
@@ -15,49 +22,49 @@ import {
   standalone: true,
 })
 export class Tilt3DDirective implements OnInit, OnDestroy {
-  /** Propiedad no documentada. */
-    @Input() tiltEnabled = true;
-  /** Propiedad no documentada. */
-    @Input() tiltMaxRotateDeg = 5;
-  /** Propiedad no documentada. */
-    @Input() tiltMaxTranslatePx = 3.5;
-  /** Propiedad no documentada. */
-    @Input() tiltHoverScale = 1.022;
-  /** Propiedad no documentada. */
-    @Input() tiltImageScale = 1.03;
-  /** Propiedad no documentada. */
-    @Input() tiltGlareMaxOpacity = 0.42;
+  /** Determina si el efecto de inclinación 3D está activo. */
+  @Input() tiltEnabled = true;
+  /** Ángulo máximo de rotación en grados sobre los ejes X e Y. */
+  @Input() tiltMaxRotateDeg = 5;
+  /** Desplazamiento de traslación máximo en píxeles sobre los ejes X e Y. */
+  @Input() tiltMaxTranslatePx = 3.5;
+  /** Factor de escala aplicado al componente completo durante el estado hover. */
+  @Input() tiltHoverScale = 1.022;
+  /** Factor de escala aplicado a la imagen de portada interna en estado hover. */
+  @Input() tiltImageScale = 1.03;
+  /** Opacidad máxima para el efecto de brillo (glare) sobre la superficie. */
+  @Input() tiltGlareMaxOpacity = 0.42;
 
-  /** Propiedad no documentada. */
-    private rafId: number | null = null;
-  /** Propiedad no documentada. */
-    private currentX = 0;
-  /** Propiedad no documentada. */
-    private currentY = 0;
-  /** Propiedad no documentada. */
-    private targetX = 0;
-  /** Propiedad no documentada. */
-    private targetY = 0;
-  /** Propiedad no documentada. */
-    private hoverCurrent = 0;
-  /** Propiedad no documentada. */
-    private hoverTarget = 0;
-  /** Propiedad no documentada. */
-    private readonly smoothFactor = 0.18;
-  /** Propiedad no documentada. */
-    private readonly hoverSmoothFactor = 0.22;
-  /** Propiedad no documentada. */
-    private readonly stopThreshold = 0.001;
-  /** Propiedad no documentada. */
-    private hostEl: HTMLElement;
+  /** Identificador del frame de animación activo (RequestAnimationFrame). */
+  private rafId: number | null = null;
+  /** Posición actual en el eje X (interpolada suavemente de -1 a 1). */
+  private currentX = 0;
+  /** Posición actual en el eje Y (interpolada suavemente de -1 a 1). */
+  private currentY = 0;
+  /** Posición objetivo en el eje X basada en el puntero (-1 a 1). */
+  private targetX = 0;
+  /** Posición objetivo en el eje Y basada en el puntero (-1 a 1). */
+  private targetY = 0;
+  /** Nivel de escala/hover actual (interpolado de 0 a 1). */
+  private hoverCurrent = 0;
+  /** Nivel de escala/hover objetivo (0 o 1). */
+  private hoverTarget = 0;
+  /** Factor de suavizado para el efecto de rotación y traslación. */
+  private readonly smoothFactor = 0.18;
+  /** Factor de suavizado aplicado a la escala del elemento durante el hover. */
+  private readonly hoverSmoothFactor = 0.22;
+  /** Umbral mínimo de movimiento para dar por detenida la animación. */
+  private readonly stopThreshold = 0.001;
+  /** Elemento nativo del DOM asociado a la directiva. */
+  private hostEl: HTMLElement;
 
-  /**
-     * Constructor no documentado.
-     * @param elRef Parámetro no documentado.
-     * @param renderer Parámetro no documentado.
-     * @param ngZone Parámetro no documentado.
-     */
-    constructor(
+   /**
+    * Inicializa una nueva instancia de la directiva Tilt3D.
+    * @param elRef Referencia al elemento del host en el DOM.
+    * @param renderer Servicio de renderizado para manipular estilos de forma segura.
+    * @param ngZone Servicio para ejecutar la animación fuera de Angular y evitar ciclos innecesarios de detección de cambios.
+    */
+  constructor(
     elRef: ElementRef<HTMLElement>,
     private renderer: Renderer2,
     private ngZone: NgZone,
@@ -65,8 +72,10 @@ export class Tilt3DDirective implements OnInit, OnDestroy {
     this.hostEl = elRef.nativeElement;
   }
 
-  /** Método no documentado. */
-    ngOnInit(): void {
+  /**
+   * Inicializa la directiva aplicando las clases CSS y estilos de origen de transformación iniciales.
+   */
+  ngOnInit(): void {
     this.renderer.addClass(this.hostEl, 'tilt-glare-surface');
     this.renderer.setStyle(this.hostEl, 'transformOrigin', 'center');
     this.renderer.setStyle(this.hostEl, 'willChange', 'transform, box-shadow');
@@ -77,16 +86,20 @@ export class Tilt3DDirective implements OnInit, OnDestroy {
     this.hostEl.style.setProperty('--cover-scale', '1');
   }
 
-  /** Método no documentado. */
-    ngOnDestroy(): void {
+  /**
+   * Cancela cualquier ciclo de animación activo al destruir la directiva.
+   */
+  ngOnDestroy(): void {
     if (this.rafId !== null) {
       cancelAnimationFrame(this.rafId);
       this.rafId = null;
     }
   }
 
-  /** Método no documentado. */
-    @HostListener('mouseenter')
+  /**
+   * Manejador del evento mouseenter. Activa el escalado por hover e inicia la animación.
+   */
+  @HostListener('mouseenter')
   onMouseEnter(): void {
     if (!this.tiltEnabled) return;
     this.hoverTarget = 1;
@@ -94,10 +107,11 @@ export class Tilt3DDirective implements OnInit, OnDestroy {
   }
 
   /**
-     * Método no documentado.
-     * @param event Parámetro no documentado.
-     */
-    @HostListener('mousemove', ['$event'])
+   * Manejador del evento mousemove. Calcula la posición normalizada del cursor dentro
+   * del elemento y actualiza el objetivo de rotación.
+   * @param event Objeto del evento de ratón.
+   */
+  @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
     if (!this.tiltEnabled) return;
     if (event.buttons === 1) return;
@@ -113,8 +127,11 @@ export class Tilt3DDirective implements OnInit, OnDestroy {
     this.startAnimation();
   }
 
-  /** Método no documentado. */
-    @HostListener('mouseleave')
+  /**
+   * Manejador del evento mouseleave. Restablece los objetivos de rotación y escala a cero
+   * para volver a la posición original suavemente.
+   */
+  @HostListener('mouseleave')
   onMouseLeave(): void {
     this.hoverTarget = 0;
     this.targetX = 0;
@@ -122,8 +139,11 @@ export class Tilt3DDirective implements OnInit, OnDestroy {
     this.startAnimation();
   }
 
-  /** Método no documentado. */
-    private startAnimation(): void {
+  /**
+   * Inicia el bucle de animación para aplicar los estilos de inclinación tridimensionales
+   * y el reflejo de iluminación (glare).
+   */
+  private startAnimation(): void {
     if (this.rafId !== null) return;
 
     this.ngZone.runOutsideAngular(() => {

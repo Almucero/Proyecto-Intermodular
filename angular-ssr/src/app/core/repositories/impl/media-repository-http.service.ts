@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/repositories/impl/media-repository-http.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Repositorio HTTP para medios con funcionalidad de subida.
+ */
+
 import { Inject, Injectable } from '@angular/core';
 import { BaseRepositoryHttpService } from './base-repository-http.service';
 import { Media } from '../../models/media.model';
@@ -23,22 +30,21 @@ import { Observable, map, switchMap } from 'rxjs';
 })
 export class MediaRepositoryHttpService
   extends BaseRepositoryHttpService<Media>
-  implements IMediaRepository
-{
+  implements IMediaRepository {
   /**
-       * Documentado.
-       * @param http Cliente HTTP.
-       *
-       * @param auth Servicio de autenticación.
-       *
-       * @param apiUrl URL base de la API.
-       *
-       * @param resource Recurso de medios.
-       *
-       * @param mapping Mapeador de medios.
-       *
-       * @param uploadUrl URL específica para la subida de archivos.
-       */
+   * Documentado.
+   * @param http Cliente HTTP.
+   *
+   * @param auth Servicio de autenticación.
+   *
+   * @param apiUrl URL base de la API.
+   *
+   * @param resource Recurso de medios.
+   *
+   * @param mapping Mapeador de medios.
+   *
+   * @param uploadUrl URL específica para la subida de archivos.
+   */
   constructor(
     protected override http: HttpClient,
     @Inject(AUTH_TOKEN) protected override auth: IAuthentication,

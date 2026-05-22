@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/repositories/impl/game-mapping-node.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicio de mapeo para juegos desde un backend Node.js.
+ */
+
 import { Injectable } from '@angular/core';
 import { IBaseMapping } from '../interfaces/base-mapping.interface';
 import { Game } from '../../models/game.model';
@@ -15,14 +22,14 @@ import { Publisher } from '../../models/publisher.model';
   providedIn: 'root',
 })
 export class GameMappingNodeService implements IBaseMapping<Game> {
-  /** Constructor no documentado. */
-    constructor() {}
+  /** Constructor por defecto del servicio de mapeo de juegos. */
+  constructor() { }
 
   /**
-     * Transforma una lista de juegos.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Transforma una lista de objetos de juegos provenientes del backend.
+   * @param data Datos sin procesar o arreglo de juegos en bruto.
+   * @returns Arreglo de objetos Game mapeados.
+   */
   getAll(data: any): Game[] {
     return data.map((item: any) => this.getOne(item));
   }
@@ -31,8 +38,8 @@ export class GameMappingNodeService implements IBaseMapping<Game> {
    * Transforma un objeto juego de la API al modelo {@link Game}.
    * Mapea todas las relaciones y normaliza los nombres de propiedades (case sensitivity).
    * @param data Objeto de la API.
-     * @returns Retorno no documentado.
-     */
+   * @returns Un objeto de tipo Game mapeado según el modelo del frontend.
+   */
   getOne(data: any): Game {
     return {
       id: data.id,
@@ -85,29 +92,29 @@ export class GameMappingNodeService implements IBaseMapping<Game> {
   }
 
   /**
-     * Método no documentado.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-    getAdded(data: any): Game {
+   * Mapea y transforma el objeto retornado tras añadir un juego en la API.
+   * @param data Objeto de datos crudo recibido de la API.
+   * @returns Objeto Game transformado.
+   */
+  getAdded(data: any): Game {
     return this.getOne(data);
   }
 
   /**
-     * Método no documentado.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-    getUpdated(data: any): Game {
+   * Mapea y transforma el objeto retornado tras actualizar un juego en la API.
+   * @param data Objeto de datos crudo recibido de la API.
+   * @returns Objeto Game transformado.
+   */
+  getUpdated(data: any): Game {
     return this.getOne(data);
   }
 
   /**
-     * Método no documentado.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-    getDeleted(data: any): Game {
+   * Mapea y transforma el objeto retornado tras eliminar un juego en la API.
+   * @param data Objeto de datos crudo recibido de la API.
+   * @returns Objeto Game transformado.
+   */
+  getDeleted(data: any): Game {
     return this.getOne(data);
   }
 
@@ -115,8 +122,8 @@ export class GameMappingNodeService implements IBaseMapping<Game> {
    * Prepara el payload para crear un juego.
    * Convierte objetos complejos de géneros y plataformas en arrays de IDs/nombres.
    * @param data Modelo Game.
-     * @returns Retorno no documentado.
-     */
+   * @returns Payload preparado para enviar en la petición POST de creación.
+   */
   setAdd(data: Game): any {
     const payload: any = {
       title: data.title,
@@ -151,8 +158,8 @@ export class GameMappingNodeService implements IBaseMapping<Game> {
    * Prepara el payload para actualizar un juego.
    * Limpia campos automáticos o de solo lectura.
    * @param data Atributos a actualizar.
-     * @returns Retorno no documentado.
-     */
+   * @returns Payload limpio y estructurado para la petición PUT de actualización.
+   */
   setUpdate(data: any): any {
     const payload: any = { ...data };
     if (data.genres) {

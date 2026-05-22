@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  @file: src/sitemap.xml
+  @project: GameSage - Plataforma de Videojuegos
+  @authors: Rosario González y Álvaro Jiménez
+  @description: Índice de mapas del sitio (sitemap index) que unifica el sitemap estático y el sitemap de productos dinámicos para optimización SEO.
+-->
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Sitemap de páginas estáticas -->
   <sitemap>

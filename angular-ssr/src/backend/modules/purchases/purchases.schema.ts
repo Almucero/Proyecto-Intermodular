@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/purchases/purchases.schema.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Esquemas de validación Zod para operaciones con compras, incluyendo checkout, reembolsos y recuperación de historial de compras.
+ */
+
 import { z } from 'zod';
 
 /** Esquema de checkout con ids de items de carrito. */

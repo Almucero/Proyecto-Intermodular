@@ -1,36 +1,40 @@
-/* src/assets/docs-custom.css */
+/**
+ * @file: src/assets/docs-custom.css
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Estilos personalizados para la documentación.
+ */
 
-/* 1. Mover el botón de modo oscuro para respetar el margen derecho y superior */
 .dark-mode-switch {
-    right: 45px !important; /* 30px de padding + 15px del ancho de la barra de scroll de .content */
+    right: 45px !important;
     top: 30px !important;
 }
 
-/* 2. Ocultar la barra de desplazamiento en el menú izquierdo (pero mantener funcionalidad) */
 .menu::-webkit-scrollbar {
-    display: none; /* Chrome, Safari y Opera */
+    display: none;
 }
 
 .menu {
-    -ms-overflow-style: none;  /* IE y Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
-/* 3. Texto justificado en toda la documentación */
 p {
     text-align: justify !important;
     text-justify: inter-word !important;
 }
 
-/* 4. Igualar los márgenes de la página principal (30px en todas las direcciones en lugar de 15px arriba/abajo) */
 .content {
     padding: 30px !important;
 }
 
-/* 5. Barra de scroll principal que coincide con el modo oscuro */
 body.dark {
     color-scheme: dark;
-    /* Ajusta exactamente el color para navegadores modernos sin perder el diseño nativo */
     scrollbar-color: #666666 #212121;
 }
 
+/* Ocultar la sección de Routes del menú lateral de Compodoc */
+.menu li.chapter:has(a[href*="routes.html"]),
+.menu li a[href*="routes.html"] {
+    display: none !important;
+}

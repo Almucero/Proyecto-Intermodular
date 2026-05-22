@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/animations/header-reveal.animation.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Animación de revelado para el encabezado (header).
+ */
+
 import {
   trigger,
   transition,

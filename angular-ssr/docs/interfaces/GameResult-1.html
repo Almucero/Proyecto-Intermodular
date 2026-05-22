@@ -239,7 +239,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Propiedad no documentada.</p>
+                                    <div class="io-description"><p>Lista de géneros asociados separados por comas.</p>
 </div>
                                 </td>
                             </tr>
@@ -278,7 +278,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Propiedad no documentada.</p>
+                                    <div class="io-description"><p>Identificador único del juego sugerido.</p>
 </div>
                                 </td>
                             </tr>
@@ -317,7 +317,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Propiedad no documentada.</p>
+                                    <div class="io-description"><p>Lista de plataformas disponibles separadas por comas.</p>
 </div>
                                 </td>
                             </tr>
@@ -356,7 +356,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Propiedad no documentada.</p>
+                                    <div class="io-description"><p>Precio formateado en texto.</p>
 </div>
                                 </td>
                             </tr>
@@ -395,7 +395,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Propiedad no documentada.</p>
+                                    <div class="io-description"><p>Título oficial del juego.</p>
 </div>
                                 </td>
                             </tr>
@@ -422,16 +422,16 @@ const searchGamesInputSchema &#x3D; z.object({
 
 /** Resultado serializable de juego sugerido en respuestas de chat. */
 interface GameResult {
-  /** Propiedad no documentada. */
-    id: number;
-  /** Propiedad no documentada. */
-    title: string;
-  /** Propiedad no documentada. */
-    price: string;
-  /** Propiedad no documentada. */
-    genres: string;
-  /** Propiedad no documentada. */
-    platforms: string;
+  /** Identificador único del juego sugerido. */
+  id: number;
+  /** Título oficial del juego. */
+  title: string;
+  /** Precio formateado en texto. */
+  price: string;
+  /** Lista de géneros asociados separados por comas. */
+  genres: string;
+  /** Lista de plataformas disponibles separadas por comas. */
+  platforms: string;
 }
 
 /**
@@ -595,23 +595,23 @@ export async function processChat(
             cleanQuery &#x3D;&#x3D;&#x3D; &#x27;&#x27;
               ? {}
               : {
-                  OR: [
-                    { title: { contains: cleanQuery, mode: &#x27;insensitive&#x27; } },
-                    {
-                      description: {
-                        contains: cleanQuery,
-                        mode: &#x27;insensitive&#x27;,
+                OR: [
+                  { title: { contains: cleanQuery, mode: &#x27;insensitive&#x27; } },
+                  {
+                    description: {
+                      contains: cleanQuery,
+                      mode: &#x27;insensitive&#x27;,
+                    },
+                  },
+                  {
+                    genres: {
+                      some: {
+                        name: { contains: cleanQuery, mode: &#x27;insensitive&#x27; },
                       },
                     },
-                    {
-                      genres: {
-                        some: {
-                          name: { contains: cleanQuery, mode: &#x27;insensitive&#x27; },
-                        },
-                      },
-                    },
-                  ],
-                };
+                  },
+                ],
+              };
           const games &#x3D; await prisma.game.findMany({
             where: whereClause,
             take: 5,
@@ -687,6 +687,31 @@ export async function processChat(
     text: result.text,
     games: foundGames,
   };
+}
+
+/**
+ * Actualiza el título de una sesión de chat concreta.
+ *
+ * @param sessionId Identificador de la sesión.
+ * @param userId Identificador del propietario.
+ * @param title Nuevo título para la sesión.
+ * @returns Sesión actualizada.
+ */
+export async function updateSessionTitle(
+  sessionId: number,
+  userId: number,
+  title: string,
+) {
+  const session &#x3D; await prisma.chatSession.findFirst({
+    where: { id: sessionId, userId },
+  });
+  if (!session) {
+    throw new Error(&#x27;Sesión no encontrada&#x27;);
+  }
+  return prisma.chatSession.update({
+    where: { id: sessionId },
+    data: { title },
+  });
 }
 </code></pre>
     </div>

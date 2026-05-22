@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/developers/developers.schema.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Esquemas de validación Zod para operaciones de desarrollador, incluyendo creación, actualización y validación de parámetros.
+ */
+
 import { z } from 'zod';
 
 /** Esquema de creación de desarrollador. */

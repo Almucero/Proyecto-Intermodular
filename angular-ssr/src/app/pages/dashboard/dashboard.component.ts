@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/dashboard/dashboard.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente de la página del dashboard del usuario.
+ */
+
 import {
   AfterViewInit,
   Component,
@@ -59,27 +66,34 @@ import { Subscription } from 'rxjs';
   ],
 })
 export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponentDeactivate {
-  /** Propiedad no documentada. */
+  /** Servicio de autenticación. */
   private auth = inject(BaseAuthenticationService);
-  /** Propiedad no documentada. */
+  /** Servicio para gestionar datos del usuario. */
   private userService = inject(UserService);
-  /** Propiedad no documentada. */
+  /** Servicio para subir/eliminar archivos multimedia. */
   private mediaService = inject(MediaService);
-  /** Propiedad no documentada. */
+  /** Servicio para gestionar compras y reembolsos. */
   private purchaseService = inject(PurchaseService);
-  /** Propiedad no documentada. */
+  /** Enrutador para navegación. */
   private router = inject(Router);
-  /** Propiedad no documentada. */
+  /** Identificador de plataforma de Angular. */
   private platformId = inject(PLATFORM_ID);
-  /** Propiedad no documentada. */
+  /** Servicio para traducción de textos. */
   private translate = inject(TranslateService);
+  /** Renderer2 para manipulación segura del DOM. */
   private renderer = inject(Renderer2);
+  /** Referencia al documento global del DOM. */
   private document = inject(DOCUMENT);
 
+  /** Indica si el modal de captura de pantalla ampliado está abierto. */
   isScreenshotModalOpen = signal(false);
+  /** URL de la captura ampliada en el modal. */
   screenshotModalImage = signal<string | null>(null);
+  /** Estado de renderizado inicial del modal. */
   screenshotModalOpen = false;
+  /** Estado de finalización de salida del modal. */
   screenshotModalClosing = false;
+  /** Duración en ms de la animación del modal. */
   private readonly screenshotModalAnimMs = 160;
 
   /** Señal que contiene los datos del usuario autenticado. */
@@ -88,37 +102,45 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
   purchases = signal<any[]>([]);
   /** Señal con la lista de compras que han sido reembolsadas. */
   returns = signal<any[]>([]);
+  /** Límite actual de compras visibles en la lista. */
   purchasesLimit = signal(5);
+  /** Límite actual de devoluciones visibles en la lista. */
   returnsLimit = signal(5);
   /** Indica (desde caché) si hay más compras que el límite visible inicial. */
   purchasesHasMore = signal(true);
   /** Indica (desde caché) si hay más devoluciones que el límite visible inicial. */
   returnsHasMore = signal(true);
+  /** Indica si se está expandiendo la lista de compras. */
   expandingPurchases = signal(false);
+  /** Indica si se está expandiendo la lista de devoluciones. */
   expandingReturns = signal(false);
+  /** Indica si se está colapsando la lista de compras. */
   collapsingPurchases = signal(false);
+  /** Indica si se está colapsando la lista de devoluciones. */
   collapsingReturns = signal(false);
-  /** Propiedad no documentada. */
+
+  /** Indica si se están cargando las compras desde la API. */
   purchasesLoading = signal(true);
-  /** Propiedad no documentada. */
+  /** Indica si se están cargando las devoluciones desde la API. */
   returnsLoading = signal(true);
-  /** Propiedad no documentada. */
+  /** Recuento de skeletons a mostrar para compras. */
   purchasesSkeletonCount = signal(0);
-  /** Propiedad no documentada. */
+  /** Recuento de skeletons a mostrar para devoluciones. */
   returnsSkeletonCount = signal(0);
-  /** Propiedad no documentada. */
+  /** Recuentos individuales de skeletons para items de cada compra. */
   purchaseItemsSkeletonCounts = signal<number[]>([]);
-  /** Propiedad no documentada. */
+  /** Recuentos individuales de skeletons para items de cada devolución. */
   returnItemsSkeletonCounts = signal<number[]>([]);
-  /** Propiedad no documentada. */
+
+  /** Rango de skeletons de compras computado para renderizado. */
   purchaseSkeletonCards = computed(() =>
     this.buildSkeletonRange(Math.min(this.purchasesSkeletonCount(), this.purchasesLimit())),
   );
-  /** Propiedad no documentada. */
+  /** Rango de skeletons de devoluciones computado para renderizado. */
   returnSkeletonCards = computed(() =>
     this.buildSkeletonRange(Math.min(this.returnsSkeletonCount(), this.returnsLimit())),
   );
-  /** Propiedad no documentada. */
+  /** Rango de skeletons de items de compras. */
   purchaseSkeletonItems = computed(() =>
     this.buildSkeletonRange(
       this.purchaseItemsSkeletonCounts().length > 0
@@ -126,7 +148,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
         : 2
     ),
   );
-  /** Propiedad no documentada. */
+  /** Rango de skeletons de items de devoluciones. */
   returnSkeletonItems = computed(() =>
     this.buildSkeletonRange(
       this.returnItemsSkeletonCounts().length > 0
@@ -134,9 +156,10 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
         : 2
     ),
   );
-  /** Propiedad no documentada. */
+
+  /** Indica si el retraso mínimo de visualización de skeletons ha terminado. */
   private minSkeletonDelayDone = signal(false);
-  /** Propiedad no documentada. */
+  /** Indica si el dashboard se encuentra en estado de carga. */
   dashboardLoading = computed(
     () =>
       !this.minSkeletonDelayDone() ||
@@ -183,33 +206,33 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
   selectedImageFile: File | null = null;
   /** URL temporal para la previsualización de la nueva imagen de perfil. */
   previewImageUrl: string | null = null;
-  /** Propiedad no documentada. */
+  /** Referencia de lista de botones de acción para sincronización de tamaño. */
   @ViewChildren('actionSizeButton')
   private actionSizeButtons!: QueryList<ElementRef<HTMLButtonElement>>;
-  /** Propiedad no documentada. */
+  /** Suscripción a los cambios en la lista de botones de acción. */
   private actionButtonsChangesSubscription?: Subscription;
-  /** Propiedad no documentada. */
+  /** Suscripción a la carga de compras. */
   private purchasesSubscription?: Subscription;
-  /** Propiedad no documentada. */
+  /** Suscripción a la carga de devoluciones. */
   private returnsSubscription?: Subscription;
-  /** Propiedad no documentada. */
+  /** Manejador para el evento resize de la ventana. */
   private readonly resizeHandler = () => this.syncActionButtonsWidth();
-  /** Propiedad no documentada. */
+  /** Identificador para el temporizador de retardo de skeletons. */
   private skeletonDelayTimeoutId: ReturnType<typeof setTimeout> | null = null;
-  /** Propiedad no documentada. */
+  /** Clave de caché para guardar el conteo de skeletons de compras. */
   private readonly purchasesSkeletonCacheKey = 'dashboard.purchasesSkeletonCount';
-  /** Propiedad no documentada. */
+  /** Clave de caché para guardar el conteo de skeletons de devoluciones. */
   private readonly returnsSkeletonCacheKey = 'dashboard.returnsSkeletonCount';
-  /** Propiedad no documentada. */
+  /** Clave de caché para guardar el conteo de skeletons de items de compras. */
   private readonly purchaseItemsSkeletonCacheKey =
     'dashboard.purchaseItemsSkeletonCount';
-  /** Propiedad no documentada. */
+  /** Clave de caché para guardar el conteo de skeletons de items de devoluciones. */
   private readonly returnItemsSkeletonCacheKey = 'dashboard.returnItemsSkeletonCount';
   /** Clave de caché que indica si hay más compras que el límite visible. */
   private readonly purchasesHasMoreCacheKey = 'dashboard.purchasesHasMore';
   /** Clave de caché que indica si hay más devoluciones que el límite visible. */
   private readonly returnsHasMoreCacheKey = 'dashboard.returnsHasMore';
-  /** Propiedad no documentada. */
+  /** Señal que indica la visibilidad de las claves de licencia compradas. */
   private visiblePurchaseKeys = signal<Map<number, boolean>>(new Map());
 
   /**
@@ -227,7 +250,10 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
     return 'assets/icons/user.png';
   }
 
-  /** Constructor no documentado. */
+  /**
+   * Crea una nueva instancia de DashboardComponent.
+   * Inicializa las suscripciones de datos y sincronización de perfil.
+   */
   constructor() {
     /**
      * Sincroniza los datos editables cuando cambia el usuario autenticado.
@@ -253,7 +279,10 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
     this.loadSkeletonCountsFromCache();
   }
 
-  /** Método no documentado. */
+  /**
+   * Ciclo de vida que se ejecuta tras inicializar la vista del componente.
+   * Configura la sincronización del tamaño de botones y escucha el evento resize de la ventana.
+   */
   ngAfterViewInit() {
     if (!isPlatformBrowser(this.platformId)) return;
     this.actionButtonsChangesSubscription = this.actionSizeButtons.changes.subscribe(
@@ -265,7 +294,10 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
     setTimeout(() => this.syncActionButtonsWidth(), 0);
   }
 
-  /** Método no documentado. */
+  /**
+   * Ciclo de vida que se ejecuta al destruir el componente.
+   * Libera escuchas globales de resize y cancela suscripciones activas.
+   */
   ngOnDestroy() {
     if (isPlatformBrowser(this.platformId)) {
       window.removeEventListener('resize', this.resizeHandler);
@@ -279,7 +311,9 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
     }
   }
 
-  /** Método no documentado. */
+  /**
+   * Inicia el retraso mínimo de visualización de skeletons.
+   */
   private startMinimumSkeletonDelay() {
     this.minSkeletonDelayDone.set(false);
     this.skeletonDelayTimeoutId = setTimeout(() => {
@@ -288,13 +322,21 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
     }, 1200);
   }
 
-  /** Método no documentado. */
+  /**
+   * Genera un array secuencial para renderizar la cantidad correcta de items skeleton en una tarjeta.
+   * @param index Índice de la tarjeta.
+   * @param type Tipo de datos: 'purchases' o 'returns'.
+   * @returns Array de números para iteración en el template.
+   */
   getSkeletonItemsForCard(index: number, type: 'purchases' | 'returns'): number[] {
     const countsArray = type === 'purchases' ? this.purchaseItemsSkeletonCounts() : this.returnItemsSkeletonCounts();
     const count = countsArray[index] !== undefined ? countsArray[index] : 1;
     return Array.from({ length: Math.max(1, count) }, (_, i) => i);
   }
 
+  /**
+   * Carga las compras completadas del usuario desde el servidor.
+   */
   private loadPurchases() {
     this.purchasesLoading.set(true);
     this.purchasesSubscription?.unsubscribe();
@@ -307,7 +349,6 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
           const itemCounts = data.map(purchase => Array.isArray(purchase.items) ? purchase.items.length : 0);
           this.purchasesSkeletonCount.set(cards);
           this.purchaseItemsSkeletonCounts.set(itemCounts);
-          // Persist el flag hasMore directamente con el dato real (evita race condition)
           if (isPlatformBrowser(this.platformId)) {
             localStorage.setItem(this.purchasesHasMoreCacheKey, String(data.length > 5));
           }
@@ -324,7 +365,9 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
       });
   }
 
-  /** Método no documentado. */
+  /**
+   * Carga los reembolsos del usuario desde el servidor.
+   */
   private loadReturns() {
     this.returnsLoading.set(true);
     this.returnsSubscription?.unsubscribe();
@@ -337,7 +380,6 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
           const itemCounts = data.map(ret => Array.isArray(ret.items) ? ret.items.length : 0);
           this.returnsSkeletonCount.set(cards);
           this.returnItemsSkeletonCounts.set(itemCounts);
-          // Persist el flag hasMore directamente con el dato real (evita race condition)
           if (isPlatformBrowser(this.platformId)) {
             localStorage.setItem(this.returnsHasMoreCacheKey, String(data.length > 5));
           }
@@ -484,9 +526,9 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
   }
 
   /**
-     * Maneja el evento de selección de archivo por parte del usuario.
-     * @param event Parámetro no documentado.
-     */
+   * Maneja el evento de selección de archivo por parte del usuario.
+   * @param event Evento del DOM de selección de archivo.
+   */
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
@@ -498,9 +540,8 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
   }
 
   /**
-     * Cierra la sesión del usuario y redirige al login.
-     * @returns Retorno no documentado.
-     */
+   * Cierra la sesión del usuario y redirige al login.
+   */
   async onLogout() {
     this.auth.signOut().subscribe(() => {
       this.router.navigate(['/login']);
@@ -508,9 +549,9 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
   }
 
   /**
-     * Abre el modal para solicitar un reembolso de una compra específica.
-     * @param purchaseId Parámetro no documentado.
-     */
+   * Abre el modal para solicitar un reembolso de una compra específica.
+   * @param purchaseId ID único de la compra.
+   */
   openRefundModal(purchaseId: number) {
     this.selectedPurchaseId.set(purchaseId);
     this.refundReason.set('');
@@ -552,7 +593,9 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
     });
   }
 
-  /** Método no documentado. */
+  /**
+   * Sincroniza el ancho de los botones de acción para que todos tengan el mismo ancho.
+   */
   private syncActionButtonsWidth() {
     const buttons =
       this.actionSizeButtons?.toArray().map((btn) => btn.nativeElement) ?? [];
@@ -569,28 +612,29 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
   }
 
   /**
-     * Método no documentado.
-     * @param count Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Construye un array de números para generar skeletons de forma dinámica.
+   * @param count Número de skeletons a generar.
+   * @returns Array de números.
+   */
   private buildSkeletonRange(count: number): number[] {
     return Array.from({ length: Math.max(0, count) }, (_, i) => i + 1);
   }
 
   /**
-     * Método no documentado.
-     * @param value Parámetro no documentado.
-     * @param fallback Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Normaliza un valor numérico para su uso en contadores de skeleton.
+   * @param value Valor a normalizar.
+   * @param fallback Valor por defecto si el input no es válido.
+   * @returns Valor normalizado.
+   */
   private normalizeSkeletonCount(value: number, fallback: number): number {
     if (!Number.isFinite(value)) return Math.max(0, Math.round(fallback));
     return Math.max(0, Math.round(value));
   }
 
-  /** Método no documentado. */
-  /** Carga desde localStorage los contadores de skeleton para compras y devoluciones,
-   *  incluyendo el número exacto de juegos por cada entrada (array CSV). */
+  /**
+   * Carga desde localStorage los contadores de skeleton para compras y devoluciones, 
+   * incluyendo el número exacto de juegos por cada entrada (array CSV). 
+   */
   private loadSkeletonCountsFromCache(): void {
     if (!isPlatformBrowser(this.platformId)) return;
 
@@ -604,7 +648,6 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
       this.normalizeSkeletonCount(returnsCount, this.returnsSkeletonCount()),
     );
 
-    // Restaurar el número exacto de ítems por tarjeta desde CSV
     const purchaseItemsRaw = localStorage.getItem(this.purchaseItemsSkeletonCacheKey) ?? '';
     const returnItemsRaw = localStorage.getItem(this.returnItemsSkeletonCacheKey) ?? '';
 
@@ -632,7 +675,9 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
     );
   }
 
-  /** Método no documentado. */
+  /**
+   * Persiste en localStorage los contadores de skeletons.
+   */
   private persistSkeletonCounts(): void {
     if (!isPlatformBrowser(this.platformId)) return;
     localStorage.setItem(
@@ -651,10 +696,10 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
   }
 
   /**
-     * Método no documentado.
-     * @param value Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Formatea una fecha de compra según el idioma de la aplicación.
+   * @param value Objeto fecha o cadena de fecha.
+   * @returns Cadena con la fecha formateada.
+   */
   formatPurchaseDate(value: Date | string | null | undefined): string {
     if (!value) return '-';
     const date = value instanceof Date ? value : new Date(value);
@@ -685,18 +730,18 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
   }
 
   /**
-     * Método no documentado.
-     * @param itemId Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Comprueba si la clave del juego comprado es visible en la vista.
+   * @param itemId ID único del item comprado.
+   * @returns `true` si la clave de activación está visible.
+   */
   isPurchaseKeyVisible(itemId: number): boolean {
     return this.visiblePurchaseKeys().get(itemId) ?? false;
   }
 
   /**
-     * Método no documentado.
-     * @param itemId Parámetro no documentado.
-     */
+   * Alterna la visibilidad de la clave de un juego comprado en el panel.
+   * @param itemId ID único del item comprado.
+   */
   togglePurchaseKeyVisibility(itemId: number): void {
     this.visiblePurchaseKeys.update((state) => {
       const nextState = new Map(state);
@@ -705,6 +750,10 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
     });
   }
 
+  /**
+   * Captura antes de descargar la página si hay cambios pendientes.
+   * @param $event Evento del navegador beforeunload.
+   */
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any): void {
     if (this.isEditing) {
@@ -712,10 +761,18 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
     }
   }
 
+  /**
+   * Indica si hay cambios de edición pendientes en el formulario del panel.
+   * @returns `true` si el perfil está siendo editado.
+   */
   hasUnsavedChanges(): boolean {
     return this.isEditing;
   }
 
+  /**
+   * Abre el modal de vista ampliada para capturas.
+   * @param imageUrl URL de la imagen.
+   */
   openScreenshotModal(imageUrl: string): void {
     if (!imageUrl) return;
     this.screenshotModalImage.set(imageUrl);
@@ -732,6 +789,9 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
     }
   }
 
+  /**
+   * Cierra el modal de vista ampliada de capturas.
+   */
   closeScreenshotModal(): void {
     if (this.screenshotModalClosing) return;
     this.screenshotModalClosing = true;
@@ -746,6 +806,9 @@ export class DashboardComponent implements AfterViewInit, OnDestroy, CanComponen
     }, this.screenshotModalAnimMs);
   }
 
+  /**
+   * Cierra el modal si se presiona la tecla Escape.
+   */
   @HostListener('document:keydown.escape')
   onEscapePressed(): void {
     if (this.isScreenshotModalOpen()) {

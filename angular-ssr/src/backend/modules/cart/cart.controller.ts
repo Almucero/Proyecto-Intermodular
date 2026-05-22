@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/cart/cart.controller.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Controladores de carrito que manejan adición, eliminación, actualización y checkout de productos, con integración de Stripe.
+ */
+
 import type { Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
 import { updateCartQuantitySchema, addToCartSchema } from './cart.schema';
@@ -56,7 +63,7 @@ export async function addToCartCtrl(
   next: NextFunction,
 ) {
   const user = req.user!;
-  
+
   try {
     const bodyParsed = addToCartSchema.safeParse(req.body);
 

@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/services/interfaces/chat-service.interface.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Interfaz para el servicio de chat con IA.
+ */
+
 import { Observable } from 'rxjs';
 import {
   ChatSession,

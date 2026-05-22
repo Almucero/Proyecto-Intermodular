@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/games/games.routes.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Definición de rutas de juegos con endpoints para CRUD, validación (Zod) y autenticación.
+ */
+
 import { Router } from 'express';
 import { auth } from '../../middleware/auth';
 import { optionalAuth } from '../../middleware/optional-auth';

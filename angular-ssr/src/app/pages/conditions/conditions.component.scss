@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/conditions/conditions.component.scss
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Estilos para el componente de condiciones legales.
+ */
+
 :host {
   display: flex;
   flex-direction: column;
@@ -139,7 +146,7 @@ div[class*="border-slate-400"] {
     }
 
     .space-y-8 {
-      > * + * {
+      >*+* {
         margin-top: 1.25rem !important;
       }
 

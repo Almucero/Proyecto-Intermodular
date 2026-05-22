@@ -1,4 +1,12 @@
+/**
+ * @file: src/backend/tests/users.test.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Tests para endpoints de usuarios cubriendo listado, recuperación, actualización y gestión de contraseña.
+ */
+
 /// <reference types="jest" />
+
 import request from 'supertest';
 import app from '../app';
 import { prisma } from '../config/db';
@@ -33,7 +41,7 @@ describe('Users Endpoints', () => {
     if (testUser.email) {
       await prisma.user
         .delete({ where: { email: testUser.email } })
-        .catch(() => {});
+        .catch(() => { });
     }
     await prisma.$disconnect();
   });
@@ -154,6 +162,7 @@ describe('Users Endpoints', () => {
         .send({ email: testUser.email, password: 'newpassword456' });
 
       expect(loginRes.status).toBe(200);
+      authToken = loginRes.body.token;
     });
   });
 
@@ -173,6 +182,26 @@ describe('Users Endpoints', () => {
         .get('/api/users/99999')
         .set('Authorization', `Bearer ${adminToken}`);
       expect([404, 403]).toContain(res.status);
+    });
+  });
+
+  describe('DELETE /api/users/me', () => {
+    it('debe borrar el perfil del usuario autenticado', async () => {
+      const res = await request(app)
+        .delete('/api/users/me')
+        .set('Authorization', `Bearer ${authToken}`);
+
+      expect(res.status).toBe(204);
+
+      // Verificar que el usuario ya no existe en la BD
+      const dbUser = await prisma.user.findUnique({ where: { id: userId } });
+      expect(dbUser).toBeNull();
+    });
+
+    it('debe fallar sin autenticación', async () => {
+      const res = await request(app).delete('/api/users/me');
+
+      expect(res.status).toBe(401);
     });
   });
 });

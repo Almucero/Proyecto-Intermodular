@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/users/users.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicios de usuario que implementan operaciones CRUD para usuarios y gestión de perfiles.
+ */
+
 import { prisma } from '../../config/db';
 import bcrypt from 'bcryptjs';
 import { env } from '../../config/env';

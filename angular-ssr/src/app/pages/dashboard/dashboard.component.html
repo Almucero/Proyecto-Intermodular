@@ -1,3 +1,10 @@
+<!--
+  @file: src/app/pages/dashboard/dashboard.component.html
+  @project: GameSage - Plataforma de Videojuegos
+  @authors: Rosario González y Álvaro Jiménez
+  @description: Página de perfil de usuario con secciones de información personal, dirección, historial de compras y devoluciones con estados de carga y skeleton UI.
+-->
+
 <div class="flex-1 w-full bg-gray-900 text-white font-sans py-8 pb-10 md:pb-14 lg:pb-20">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <h1 class="text-3xl font-bold text-center text-cyan-200 mb-8">
@@ -185,10 +192,8 @@
     <div class="flex flex-col lg:flex-row gap-8 lg:gap-0 lg:items-stretch">
       <div class="flex-none lg:w-1/4 flex flex-col items-center lg:pr-15">
         <div class="relative group">
-          <div
-            (click)="openScreenshotModal(profileImage)"
-            class="relative w-48 h-48 rounded-full overflow-hidden ring-4 ring-white shadow-2xl cursor-zoom-in transition-transform duration-200 hover:scale-105"
-          >
+          <div (click)="openScreenshotModal(profileImage)"
+            class="relative w-48 h-48 rounded-full overflow-hidden ring-4 ring-white shadow-2xl cursor-zoom-in transition-transform duration-200 hover:scale-105">
             <img [src]="profileImage" alt="User" class="w-full h-full object-cover" crossorigin="anonymous"
               referrerpolicy="no-referrer" />
           </div>
@@ -824,35 +829,25 @@
 }
 
 @if (isScreenshotModalOpen() && screenshotModalImage()) {
+<div
+  class="fixed inset-x-0 top-16 bottom-0 bg-black/70 backdrop-blur-sm z-[1200] flex items-center justify-center p-4 md:p-6 transition-opacity duration-180 ease-out"
+  [class.opacity-0]="!screenshotModalOpen" [class.opacity-100]="screenshotModalOpen"
+  [class.pointer-events-none]="screenshotModalClosing || !screenshotModalOpen" (click)="closeScreenshotModal()">
   <div
-    class="fixed inset-x-0 top-16 bottom-0 bg-black/70 backdrop-blur-sm z-[1200] flex items-center justify-center p-4 md:p-6 transition-opacity duration-180 ease-out"
-    [class.opacity-0]="!screenshotModalOpen"
-    [class.opacity-100]="screenshotModalOpen"
-    [class.pointer-events-none]="screenshotModalClosing || !screenshotModalOpen"
-    (click)="closeScreenshotModal()"
-  >
-    <div
-      class="relative max-w-4xl max-h-full w-full flex items-center justify-center transition-transform duration-180 ease-out"
-      [style.transform]="screenshotModalOpen ? 'scale(1) translateY(0px)' : 'scale(0.98) translateY(10px)'"
-      (click)="$event.stopPropagation()"
-    >
-      <button
-        class="absolute -top-3 -right-3 md:top-3 md:right-3 w-10 h-10 rounded-full bg-black/70 hover:bg-black/85 text-white border-none outline-none cursor-pointer flex items-center justify-center transition-colors z-10"
-        (click)="closeScreenshotModal()"
-        aria-label="Close user profile preview"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M18 6L6 18" />
-        </svg>
-      </button>
-      <img
-        [src]="screenshotModalImage()!"
-        alt="User Profile Preview"
-        class="max-w-full max-h-[calc(100vh-11rem)] object-contain rounded-lg shadow-2xl"
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer"
-      />
-    </div>
+    class="relative max-w-4xl max-h-full w-full flex items-center justify-center transition-transform duration-180 ease-out"
+    [style.transform]="screenshotModalOpen ? 'scale(1) translateY(0px)' : 'scale(0.98) translateY(10px)'"
+    (click)="$event.stopPropagation()">
+    <button
+      class="absolute -top-3 -right-3 md:top-3 md:right-3 w-10 h-10 rounded-full bg-black/70 hover:bg-black/85 text-white border-none outline-none cursor-pointer flex items-center justify-center transition-colors z-10"
+      (click)="closeScreenshotModal()" aria-label="Close user profile preview">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M18 6L6 18" />
+      </svg>
+    </button>
+    <img [src]="screenshotModalImage()!" alt="User Profile Preview"
+      class="max-w-full max-h-[calc(100vh-11rem)] object-contain rounded-lg shadow-2xl" crossorigin="anonymous"
+      referrerpolicy="no-referrer" />
   </div>
+</div>
 }
-

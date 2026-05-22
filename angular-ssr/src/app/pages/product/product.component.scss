@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/product/product.component.scss
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Estilos para la página de producto.
+ */
+
 :host {
   display: flex;
   flex-direction: column;
@@ -5,10 +12,25 @@
   min-height: 100%;
 }
 
+@media (max-width: 768px) {
+  .max-w-7xl {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+    margin-top: 1.5rem !important;
+  }
+
+  .product-similar-carousel-scale {
+    transform: none !important;
+    margin-left: -1.5rem !important;
+    margin-right: -1.5rem !important;
+    margin-bottom: 2rem !important;
+  }
+}
+
 .info-list {
   border: 1px solid rgba(148, 163, 184, 0.28) !important;
 
-  & > .item {
+  &>.item {
     border-bottom: 1px solid rgba(148, 163, 184, 0.28) !important;
 
     &:last-child {
@@ -48,6 +70,7 @@
     opacity: 0;
     transform: scale(0.86);
   }
+
   to {
     opacity: 1;
     transform: scale(1);

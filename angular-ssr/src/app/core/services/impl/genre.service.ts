@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/services/impl/genre.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicio para la gestión de géneros de videojuegos.
+ */
+
 import { Inject, Injectable } from '@angular/core';
 import { GENRE_REPOSITORY_TOKEN } from '../../repositories/repository.tokens';
 import { IBaseRepository } from '../../repositories/interfaces/base-repository.interface';
@@ -14,9 +21,9 @@ import { IGenreService } from '../interfaces/genre-service.interface';
 })
 export class GenreService extends BaseService<Genre> implements IGenreService {
   /**
-       * Documentado.
-       * @param repository Repositorio de géneros inyectado.
-       */
+   * Documentado.
+   * @param repository Repositorio de géneros inyectado.
+   */
   constructor(
     @Inject(GENRE_REPOSITORY_TOKEN) repository: IBaseRepository<Genre>,
   ) {

@@ -1,4 +1,12 @@
+/**
+ * @file: src/backend/tests/media.test.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Tests para endpoints de medios cubriendo subida, recuperación y eliminación de imágenes de juegos y usuarios.
+ */
+
 /// <reference types="jest" />
+
 import request from 'supertest';
 import app from '../app';
 import { prisma } from '../config/db';
@@ -128,13 +136,13 @@ describe('Media API', () => {
     if (adminEmail) {
       await prisma.user
         .delete({ where: { email: adminEmail } })
-        .catch(() => {});
+        .catch(() => { });
     }
 
     if (regularUserEmail) {
       await prisma.user
         .delete({ where: { email: regularUserEmail } })
-        .catch(() => {});
+        .catch(() => { });
     }
 
     await prisma.$disconnect();

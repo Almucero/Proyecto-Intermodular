@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/users/users.controller.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Controladores que manejan la lógica de negocio para operaciones con usuarios, incluyendo listado, creación, actualización, eliminación y gestión de perfiles.
+ */
+
 import type { Request, Response } from 'express';
 import {
   listUsers,
@@ -150,6 +157,36 @@ export async function deleteUserCtrl(req: Request, res: Response) {
     }
 
     await deleteUser(id);
+    res.status(204).send();
+  } catch (error: any) {
+    if (error.code === 'P2025') {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+    res.status(500).json({ message: error.message });
+  }
+}
+
+/**
+ * Elimina la cuenta del usuario autenticado.
+ *
+ * @param req Request autenticada.
+ * @param res Response HTTP.
+ * @returns `204 No Content` si se elimina correctamente.
+ */
+export async function deleteMeCtrl(req: Request, res: Response) {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ message: 'No autorizado' });
+    }
+
+    const userId = Number(req.user.sub);
+    if (isNaN(userId)) {
+      return res
+        .status(400)
+        .json({ message: 'ID de usuario inválido en token' });
+    }
+
+    await deleteUser(userId);
     res.status(204).send();
   } catch (error: any) {
     if (error.code === 'P2025') {

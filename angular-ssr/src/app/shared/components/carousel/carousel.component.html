@@ -1,63 +1,46 @@
+<!--
+  @file: src/app/shared/components/carousel/carousel.component.html
+  @project: GameSage - Plataforma de Videojuegos
+  @authors: Rosario González y Álvaro Jiménez
+  @description: Carrusel horizontal con skeletons de carga, navegación por flechas, scroll automático con detección de borde y eventos de arrastre.
+-->
+
 <section class="relative flex flex-col justify-center mt-6">
   <!-- Título en PC/Tablet (centrado, con rayas) -->
   <h2
-    class="hidden md:block text-3xl font-bold font-cinzel text-cyan-300 mb-3 text-center difuminadoTexto mobile-responsive-carousel-title"
-  >
+    class="hidden md:block text-3xl font-bold font-cinzel text-cyan-300 mb-3 text-center difuminadoTexto mobile-responsive-carousel-title">
     - {{ title | translate }} -
   </h2>
   <!-- Título en Móvil (a la izquierda, sin rayas, alineado) -->
-  <div class="block md:hidden w-full pl-8 pr-4 mb-0">
+  <div class="block md:hidden w-full pl-6 pr-6 mb-0">
     <h2
-      class="text-2xl font-bold font-sans text-cyan-300 difuminadoTexto mobile-responsive-carousel-title text-start first-letter:uppercase mb-0"
-    >
+      class="text-2xl font-bold font-sans text-cyan-300 difuminadoTexto mobile-responsive-carousel-title text-start first-letter:uppercase mb-0">
       {{ title | translate | lowercase }}
     </h2>
   </div>
   <div class="relative w-full px-10 mobile-responsive-padding">
     <div
       class="absolute inset-y-0 left-0 w-16 md:w-48 bg-gradient-to-r from-gray-900 from-20% to-transparent z-40 pointer-events-none transition-opacity duration-300"
-      [class.opacity-0]="!arrowState.left"
-      [class.opacity-100]="arrowState.left"
-    ></div>
-    <span
-      (click)="scrollLeft()"
-      [class.opacity-30]="!arrowState.left"
-      class="hidden md:block absolute left-2 top-[4.5rem] -translate-y-1/2 text-white text-4xl cursor-pointer select-none z-50 hover:text-cyan-300 transition-all duration-150 active:scale-95"
-      >&#8249;</span
-    >
-    <div
-      #carouselContainer
+      [class.opacity-0]="!arrowState.left" [class.opacity-100]="arrowState.left"></div>
+    <span (click)="scrollLeft()" [class.opacity-30]="!arrowState.left"
+      class="hidden md:block absolute left-2 top-[4.5rem] -translate-y-1/2 text-white text-4xl cursor-pointer select-none z-50 hover:text-cyan-300 transition-all duration-150 active:scale-95">&#8249;</span>
+    <div #carouselContainer
       class="flex gap-4 overflow-x-auto px-2 py-2 no-scrollbar cursor-grab active:cursor-grabbing select-none mobile-responsive-container"
-      (scroll)="updateScrollState()"
-      (mousedown)="onMouseDown($event)"
-      (mouseleave)="onMouseLeave()"
-      (mouseup)="onMouseUp()"
-      (mousemove)="onMouseMove($event)"
-    >
+      (scroll)="updateScrollState()" (mousedown)="onMouseDown($event)" (mouseleave)="onMouseLeave()"
+      (mouseup)="onMouseUp()" (mousemove)="onMouseMove($event)">
       @if (loading) {
-        @for (item of skeletonGames; track $index) {
-          <app-game-card [game]="item" class="flex-shrink-0"></app-game-card>
-        }
+      @for (item of skeletonGames; track $index) {
+      <app-game-card [game]="item" class="flex-shrink-0"></app-game-card>
+      }
       } @else {
-        <app-game-card
-          *ngFor="let item of items"
-          [game]="item"
-          [coverUrl]="getCoverUrl(item)"
-          (cardClick)="onItemClick($event)"
-          class="flex-shrink-0"
-        ></app-game-card>
+      <app-game-card *ngFor="let item of items" [game]="item" [coverUrl]="getCoverUrl(item)"
+        (cardClick)="onItemClick($event)" class="flex-shrink-0"></app-game-card>
       }
     </div>
-    <span
-      (click)="scrollRight()"
-      [class.opacity-30]="!arrowState.right"
-      class="hidden md:block absolute right-2 top-[4.5rem] -translate-y-1/2 text-white text-4xl cursor-pointer select-none z-50 hover:text-cyan-300 transition-all duration-150 active:scale-95"
-      >&#8250;</span
-    >
+    <span (click)="scrollRight()" [class.opacity-30]="!arrowState.right"
+      class="hidden md:block absolute right-2 top-[4.5rem] -translate-y-1/2 text-white text-4xl cursor-pointer select-none z-50 hover:text-cyan-300 transition-all duration-150 active:scale-95">&#8250;</span>
     <div
       class="absolute inset-y-0 right-0 w-16 md:w-48 bg-gradient-to-l from-gray-900 from-20% to-transparent z-40 pointer-events-none transition-opacity duration-300"
-      [class.opacity-0]="!arrowState.right"
-      [class.opacity-100]="arrowState.right"
-    ></div>
+      [class.opacity-0]="!arrowState.right" [class.opacity-100]="arrowState.right"></div>
   </div>
 </section>

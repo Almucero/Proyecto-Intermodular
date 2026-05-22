@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/services/currency.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicio para resolver moneda, locale y conversión básica desde EUR.
+ */
+
 import { Injectable } from '@angular/core';
 import { LanguageService } from './language.service';
 import { environment } from '../../../environments/environment';
@@ -11,10 +18,10 @@ export class CurrencyService {
   private readonly eurToUsdRate = environment.eurToUsdRate ?? 1.08;
 
   /**
-       * Documentado.
-       * @param languageService Servicio de idioma para inferir moneda/región.
-       */
-  constructor(/** Servicio de idioma para inferir moneda/región. */ private languageService: LanguageService) {}
+   * Documentado.
+   * @param languageService Servicio de idioma para inferir moneda/región.
+   */
+  constructor(/** Servicio de idioma para inferir moneda/región. */ private languageService: LanguageService) { }
 
   /**
    * Devuelve el código de moneda según idioma activo.

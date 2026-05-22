@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/utils/logger.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Sistema de logging centralizado con niveles configurables, transports para consola y archivos, y formateo con colores.
+ */
+
 import winston from 'winston';
 import { env } from '../config/env';
 

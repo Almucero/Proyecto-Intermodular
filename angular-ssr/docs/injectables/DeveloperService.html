@@ -205,7 +205,7 @@ Proporciona acceso a las operaciones CRUD básicas.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/core/services/impl/developer.service.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/core/services/impl/developer.service.ts:24</a></div>
                             </td>
                         </tr>
 
@@ -281,7 +281,7 @@ Proporciona acceso a las operaciones CRUD básicas.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../injectables/BaseService.html#source" target="_self" >BaseService:51</a></code>
+                                <div class="io-line">Defined in         <code><a href="../injectables/BaseService.html#source" target="_self" >BaseService:58</a></code>
 </div>
                         </td>
                     </tr>
@@ -362,7 +362,7 @@ Proporciona acceso a las operaciones CRUD básicas.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../injectables/BaseService.html#source" target="_self" >BaseService:70</a></code>
+                                <div class="io-line">Defined in         <code><a href="../injectables/BaseService.html#source" target="_self" >BaseService:77</a></code>
 </div>
                         </td>
                     </tr>
@@ -443,7 +443,7 @@ Proporciona acceso a las operaciones CRUD básicas.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../injectables/BaseService.html#source" target="_self" >BaseService:33</a></code>
+                                <div class="io-line">Defined in         <code><a href="../injectables/BaseService.html#source" target="_self" >BaseService:40</a></code>
 </div>
                         </td>
                     </tr>
@@ -524,7 +524,7 @@ Proporciona acceso a las operaciones CRUD básicas.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../injectables/BaseService.html#source" target="_self" >BaseService:42</a></code>
+                                <div class="io-line">Defined in         <code><a href="../injectables/BaseService.html#source" target="_self" >BaseService:49</a></code>
 </div>
                         </td>
                     </tr>
@@ -605,7 +605,7 @@ Proporciona acceso a las operaciones CRUD básicas.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../injectables/BaseService.html#source" target="_self" >BaseService:61</a></code>
+                                <div class="io-line">Defined in         <code><a href="../injectables/BaseService.html#source" target="_self" >BaseService:68</a></code>
 </div>
                         </td>
                     </tr>
@@ -698,12 +698,11 @@ import { IDeveloperService } from &#x27;../interfaces/developer-service.interfac
 })
 export class DeveloperService
   extends BaseService&lt;Developer&gt;
-  implements IDeveloperService
-{
+  implements IDeveloperService {
   /**
-       * Documentado.
-       * @param repository Repositorio de desarrolladoras inyectado.
-       */
+   * Documentado.
+   * @param repository Repositorio de desarrolladoras inyectado.
+   */
   constructor(
     @Inject(DEVELOPER_REPOSITORY_TOKEN) repository: IBaseRepository&lt;Developer&gt;,
   ) {

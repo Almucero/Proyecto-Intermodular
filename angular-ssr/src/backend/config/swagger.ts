@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/config/swagger.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Configuración de swagger-jsdoc para generar especificación OpenAPI a partir de anotaciones en rutas.
+ */
+
 import swaggerJsdoc from 'swagger-jsdoc';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';

@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/search/search.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente de la página de resultados de búsqueda.
+ */
+
 import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit, OnDestroy, inject, PLATFORM_ID, NgZone, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -21,9 +28,9 @@ import {
 
 /** Opción de selección para filtros de búsqueda en UI. */
 interface FilterOption {
-  /** Propiedad no documentada. */
+  /** Valor del filtro. */
   value: string;
-  /** Propiedad no documentada. */
+  /** Etiqueta descriptiva para mostrar en la interfaz. */
   label: string;
 }
 
@@ -57,12 +64,19 @@ interface FilterOption {
   ],
 })
 export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
+  /** Identificador de la plataforma Angular (Browser vs SSR). */
   private platformId = inject(PLATFORM_ID);
+  /** Servicio para gestionar el estado de la UI global. */
   private uiState = inject(UiStateService);
+  /** Zona de ejecución de Angular. */
   private ngZone = inject(NgZone);
+  /** Indica si ha finalizado el retraso mínimo de visualización de skeletons. */
   private minSkeletonDelayDone = signal(false);
+  /** Identificador del temporizador del retardo de skeletons. */
   private skeletonDelayTimeoutId: any = null;
+  /** Referencia del elemento del contenedor de scroll de resultados. */
   @ViewChild('resultsScroller') resultsScroller!: ElementRef<HTMLElement>;
+  /** Referencia del elemento del contenedor de scroll de filtros. */
   @ViewChild('filtersScroller') filtersScroller!: ElementRef<HTMLElement>;
 
   /** Consulta de búsqueda textual actual. */
@@ -103,9 +117,9 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /** Valores para el control deslizante (slider) de precio. */
   minPrice = 0;
-  /** Propiedad no documentada. */
+  /** Rango máximo de precio disponible según el catálogo. */
   maxPrice = 100;
-  /** Propiedad no documentada. */
+  /** Valor de precio actualmente seleccionado en el slider. */
   priceValue = 100;
 
   /** Estado de expansión de los grupos de filtros en la barra lateral. */
@@ -117,17 +131,20 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /** Opciones disponibles para los desplegables de filtros. */
   priceOptions: FilterOption[] = [];
+  /** Opciones de géneros disponibles en el catálogo de búsqueda. */
   genreOptions: FilterOption[] = [];
+  /** Opciones de plataformas disponibles en el catálogo de búsqueda. */
   platformOptions: FilterOption[] = [];
 
   /**
-     * Constructor no documentado.
-     * @param route Parámetro no documentado.
-     * @param router Parámetro no documentado.
-     * @param gameService Parámetro no documentado.
-     * @param platformService Parámetro no documentado.
-     * @param currencyService Parámetro no documentado.
-     */
+   * Crea una instancia de SearchComponent.
+   * @param route Servicio para acceder a los datos de la ruta activa.
+   * @param router Servicio de enrutador de Angular para navegación.
+   * @param gameService Servicio para consumir el catálogo de juegos.
+   * @param platformService Servicio para obtener plataformas disponibles.
+   * @param currencyService Servicio para formateo y conversión de divisas.
+   * @param cdr Servicio de detección de cambios de Angular.
+   */
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -145,10 +162,14 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  /** Callback ejecutado cuando el loader global ha terminado su animación. */
   private onLoaderFinished = () => {
     this.startMinimumSkeletonDelay();
   };
 
+  /**
+   * Inicia el temporizador de retardo mínimo de visualización de skeletons.
+   */
   private startMinimumSkeletonDelay() {
     if (!isPlatformBrowser(this.platformId) || this.skeletonDelayTimeoutId) return;
 
@@ -185,19 +206,18 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.route.queryParams.subscribe((params) => {
       this.searchQuery = params['q'] || '';
-      
-      // Si es la carga inicial y hay una búsqueda, usamos spinner en vez de skeletons
+
       if (!this.hasLoadedOnce && this.searchQuery) {
         this.loadingType = 'spinner';
       }
-      
+
       const genreParam = params['genre'];
       if (genreParam) {
         this.selectedGenres = Array.isArray(genreParam) ? genreParam : genreParam.split(',');
       } else {
         this.selectedGenres = [];
       }
-      
+
       this.selectedPrice = params['price'] || '';
       this.selectedPlatform = params['platform'] || '';
 
@@ -207,9 +227,9 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
-     * Crea una lista de juegos 'placeholder' para mostrar durante la carga.
-     * @returns Retorno no documentado.
-     */
+   * Crea una lista de juegos de marcador de posición ('placeholder') para simular los elementos durante la carga.
+   * @returns Arreglo de objetos Game inicializados con valores por defecto para la carga visual.
+   */
   createPlaceholders(): Game[] {
     return Array(40).fill({
       id: -1,
@@ -292,7 +312,6 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
    * También calcula el rango máximo de precio basado en los juegos recibidos.
    */
   loadGames(): void {
-    // Si ya tenemos juegos, no volvemos a pedir al servidor al cambiar filtros
     if (this.games.length > 0) {
       this.applyFilters();
       return;
@@ -313,12 +332,11 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.maxPrice === 0) this.maxPrice = 100;
 
         this.updateActiveFilters();
-        
-        // Carga inicial: Skeletons solo si no hay búsqueda activa
+
         if (!this.searchQuery) {
           this.loadingType = 'skeletons';
         }
-        
+
         this.applyFiltersInternal();
         this.isInitialLoad = false;
         this.hasLoadedOnce = true;
@@ -328,7 +346,7 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
           this.isLoadingFilters = false;
           this.loadingType = 'none';
         }
-        
+
         this.cdr.detectChanges();
         this.updateAllScrollMasks();
       },
@@ -444,10 +462,8 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
-    // Detectar si SOLO ha cambiado el texto de búsqueda
-    // Si no hay loaders activos y el cambio es solo texto, actualizamos instantáneamente
     const isOnlyTextChange = this.searchQuery !== this.lastSearchQuery && !this.isLoadingFilters;
-    
+
     if (isOnlyTextChange) {
       this.applyFiltersInternal();
       this.lastSearchQuery = this.searchQuery;
@@ -462,12 +478,10 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
       clearTimeout(this.filterTimeout);
     }
 
-    // Un "reset" total es cuando no hay nada seleccionado ni escrito
     const hasActivePrice = !!this.selectedPrice && !(this.selectedPrice.startsWith('0-') && this.priceValue === this.maxPrice);
     const hasAnyFilter = this.selectedGenres.length > 0 || !!this.selectedPlatform || hasActivePrice || !!this.searchQuery.trim();
     const isFullReset = !hasAnyFilter;
-    
-    // Decidir qué mostrar
+
     if (this.isInitialLoad || isFullReset) {
       this.loadingType = 'skeletons';
     } else {
@@ -552,7 +566,7 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
   filterByGenre(games: Game[], genres: string[]): Game[] {
     if (!genres || genres.length === 0) return games;
     return games.filter((game) =>
-      genres.some(genreKey => 
+      genres.some(genreKey =>
         game?.genres?.some((g) => g.name?.toLowerCase() === genreKey.toLowerCase())
       )
     );
@@ -581,7 +595,7 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
       this.resetFilters();
       return;
     }
-    
+
     if (type.startsWith('genre:')) {
       const genreValue = type.split(':')[1];
       this.selectedGenres = this.selectedGenres.filter((g) => g !== genreValue);
@@ -619,8 +633,7 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Restablece todos los filtros a su estado inicial. */
   resetFilters() {
     this.isClearingFilters = true;
-    
-    // Limpiar datos inmediatamente
+
     this.searchQuery = '';
     this.selectedGenres = [];
     this.selectedPlatform = '';
@@ -629,12 +642,11 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
     this.activeFilters = [];
     this.hasLoadedOnce = false;
 
-    // Forzar estado de carga con skeletons
-    this.isLoadingFilters = true; 
+    this.isLoadingFilters = true;
     this.loadingType = 'skeletons';
-    
+
     this.cdr.detectChanges();
-    
+
     setTimeout(() => {
       this.isClearingFilters = false;
       this.syncFiltersToUrl();
@@ -648,8 +660,7 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
   toggleFilter(filterName: string): void {
     if (this.filtersExpanded[filterName] !== undefined) {
       this.filtersExpanded[filterName] = !this.filtersExpanded[filterName];
-      
-      // Recalcular máscaras tras la animación de expansión/colapso
+
       setTimeout(() => this.updateAllScrollMasks(), 50);
       setTimeout(() => this.updateAllScrollMasks(), 300);
     }
@@ -742,6 +753,9 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
       maximumFractionDigits: 0,
     }).format(converted);
   }
+  /**
+   * Ciclo de vida que se ejecuta tras inicializar la vista del componente.
+   */
   ngAfterViewInit() {
     setTimeout(() => {
       this.viewReady = true;
@@ -752,6 +766,10 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => this.updateAllScrollMasks(), 2000);
   }
 
+  /**
+   * Maneja el evento de scroll de los contenedores para aplicar la máscara.
+   * @param event Evento de scroll.
+   */
   onScroll(event: Event) {
     const target = event.target as HTMLElement;
     this.updateScrollMask(target);
@@ -759,18 +777,18 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /**
    * Actualiza las variables CSS de máscara para un elemento específico.
+   * @param el Elemento contenedor de scroll.
    */
   private updateScrollMask(el: HTMLElement) {
     if (!el) return;
-    
+
     const scrollTop = el.scrollTop;
     const scrollHeight = el.scrollHeight;
     const clientHeight = el.clientHeight;
-    
-    // Umbral de 5px para evitar parpadeos
+
     const showTop = scrollTop > 5;
     const showBottom = scrollTop + clientHeight < scrollHeight - 5;
-    
+
     el.style.setProperty('--scroll-top-mask', showTop ? '0' : '1');
     el.style.setProperty('--scroll-top-mask-stop', showTop ? '2rem' : '0px');
     el.style.setProperty('--scroll-bottom-mask', showBottom ? '0' : '1');
@@ -778,13 +796,16 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
-   * Fuerza la actualización de máscaras en ambos contenedores.
+   * Fuerza la actualización de máscaras en ambos contenedores de scroll.
    */
   private updateAllScrollMasks() {
     if (this.resultsScroller) this.updateScrollMask(this.resultsScroller.nativeElement);
     if (this.filtersScroller) this.updateScrollMask(this.filtersScroller.nativeElement);
   }
 
+  /**
+   * Libera recursos y remueve oyentes de eventos.
+   */
   ngOnDestroy(): void {
     if (isPlatformBrowser(this.platformId)) {
       window.removeEventListener('gamingsage-home-trigger', this.onLoaderFinished);

@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/developers/developers.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicios de desarrollador que implementan operaciones CRUD para desarrolladores y gestión de videojuegos asociados.
+ */
+
 import { prisma } from '../../config/db';
 
 /**

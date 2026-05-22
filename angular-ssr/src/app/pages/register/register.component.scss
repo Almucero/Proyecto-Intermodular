@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/register/register.component.scss
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Estilos para el formulario de registro.
+ */
+
 :host {
   display: flex;
   flex-direction: column;
@@ -74,6 +81,3 @@ button {
   -moz-user-select: none !important;
   -ms-user-select: none !important;
 }
-
-
-

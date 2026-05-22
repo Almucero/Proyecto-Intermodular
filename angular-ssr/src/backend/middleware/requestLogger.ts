@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/middleware/requestLogger.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Middleware de logging de request/response con duración.
+ */
+
 import type { Request, Response, NextFunction } from 'express';
 import { logger } from '../utils/logger';
 

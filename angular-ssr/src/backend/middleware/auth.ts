@@ -1,15 +1,30 @@
+/**
+ * @file: src/backend/middleware/auth.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Middleware de autenticación JWT que verifica tokens y maneja información de sesión.
+ */
+
 import type { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { env } from '../config/env';
 import { findUserAuthInfo, touchUserLastAppLocale, touchUserLastSeen } from '../modules/users/users.service';
 import { applySecurityHeaders, applyNoCacheHeaders } from '../../security-headers';
 
+/**
+ * Declaración global para extender tipos e interfaces en Express.
+ */
 declare global {
+  /**
+   * Espacio de nombres Express para definir variables globales en el servidor.
+   */
   namespace Express {
-    /** Usuario autenticado inyectado por middlewares de auth. */
+    /**
+     * Interfaz Request de Express extendida para soporte de sesión de usuario.
+     */
     interface Request {
-      /** Propiedad no documentada. */
-        user?: { sub: number; email: string; isAdmin?: boolean };
+      /** Usuario autenticado inyectado por middlewares de auth. */
+      user?: { sub: number; email: string; isAdmin?: boolean };
     }
   }
 }
@@ -24,7 +39,7 @@ declare global {
 export function auth(req: Request, res: Response, next: NextFunction) {
   applySecurityHeaders(req, res);
   applyNoCacheHeaders(res);
-  
+
   const header = req.headers.authorization;
 
   if (!header?.startsWith('Bearer ')) {

@@ -191,6 +191,12 @@
         "inactiveAccount": "Relances en cas d’inactivité",
         "seasonalCampaigns": "Campagnes saisonnières et offres spéciales"
       }
+    },
+    "account": {
+      "deleteButton": "Supprimer le compte",
+      "confirmDelete": "ÊTES-VOUS SÛR DE VOULOIR SUPPRIMER VOTRE COMPTE ?",
+      "deleteSuccess": "Compte supprimé avec succès",
+      "deleteError": "Impossible de supprimer le compte"
     }
   },
   "contact": {
@@ -518,7 +524,8 @@
     "createAccountButton": "Créer un compte",
     "backButton": "Retour",
     "googleButton": "Continuer avec Google",
-    "githubButton": "Continuer avec GitHub"
+    "githubButton": "Continuer avec GitHub",
+    "successMessage": "Inscription complétée avec succès. Vous pouvez maintenant vous connecter."
   },
   "passwordRecovery": {
     "title": "Récupérer le mot de passe",

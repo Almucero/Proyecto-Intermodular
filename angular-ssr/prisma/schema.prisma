@@ -1,3 +1,8 @@
+// @file: prisma/schema.prisma
+// @project: GameSage - Plataforma de Videojuegos
+// @authors: Rosario González y Álvaro Jiménez
+// @description: Definición del modelo de datos de la base de datos PostgreSQL.
+
 generator client {
   provider = "prisma-client-js"
 }

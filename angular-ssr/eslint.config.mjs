@@ -1,3 +1,10 @@
+/**
+ * @file: eslint.config.mjs
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Configuración de ESLint con reglas de seguridad y calidad de código.
+ */
+
 import pluginSecurity from 'eslint-plugin-security';
 import tseslint from '@typescript-eslint/parser';
 

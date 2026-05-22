@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/services/impl/chat.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicio para la gestión del chat de soporte o asistencia.
+ */
+
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
@@ -25,20 +32,15 @@ import { IBaseRepository } from '../../repositories/interfaces/base-repository.i
 })
 export class ChatService
   extends BaseService<ChatSession>
-  implements IChatService
-{
+  implements IChatService {
   /**
-       * Documentado.
-       * @param repository Repositorio para persistencia de sesiones.
-       *
-       * @param http Cliente HTTP.
-       *
-       * @param chatApiUrl URL de la API del chat (IA).
-       *
-       * @param apiUrl URL base de la API.
-       *
-       * @param auth Servicio de autenticación.
-       */
+   * Inicializa el servicio de chat de soporte.
+   * @param repository Repositorio para persistencia de sesiones.
+   * @param http Cliente HTTP.
+   * @param chatApiUrl URL de la API del chat (IA).
+   * @param apiUrl URL base de la API.
+   * @param auth Servicio de autenticación.
+   */
   constructor(
     @Inject(CHAT_REPOSITORY_TOKEN) repository: IBaseRepository<ChatSession>,
     private http: HttpClient,
@@ -50,9 +52,9 @@ export class ChatService
   }
 
   /**
-   * Crea las cabeceras de autorización necesarias.
-     * @returns Retorno no documentado.
-     */
+   * Crea las cabeceras de autorización necesarias incluyendo el token Bearer del usuario autenticado.
+   * @returns Instancia de HttpHeaders configurada.
+   */
   private getAuthHeaders(): HttpHeaders {
     const token = this.auth.getToken();
     return token
@@ -60,10 +62,10 @@ export class ChatService
       : new HttpHeaders();
   }
 
-  /**
+  /** 
    * Obtiene todas las sesiones de chat del usuario.
-     * @returns Retorno no documentado.
-     */
+   * @returns Observable con el listado de sesiones de chat.
+   */
   getSessions(): Observable<ChatSession[]> {
     return this.repository.getAll({});
   }
@@ -71,17 +73,17 @@ export class ChatService
   /**
    * Obtiene el detalle de una sesión específica.
    * @param id ID de la sesión.
-     * @returns Retorno no documentado.
-     */
+   * @returns Observable con la sesión de chat detallada.
+   */
   getSession(id: number): Observable<ChatSession> {
     return this.repository.getById(id.toString()) as Observable<ChatSession>;
   }
 
   /**
    * Elimina una sesión de chat.
-     * @param id Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * @param id ID numérico de la sesión a borrar.
+   * @returns Observable con la confirmación de la eliminación.
+   */
   deleteSession(id: number): Observable<{ deleted: boolean }> {
     return this.repository
       .delete(id.toString())
@@ -91,8 +93,8 @@ export class ChatService
   /**
    * Envía un mensaje a la IA o servicio de chat.
    * @param payload Contenido del mensaje y metadatos de la sesión.
-     * @returns Retorno no documentado.
-     */
+   * @returns Observable con la respuesta generada por la IA o servicio de soporte.
+   */
   sendMessage(payload: SendMessagePayload): Observable<ChatResponse> {
     return this.http.post<ChatResponse>(this.chatApiUrl, payload, {
       headers: this.getAuthHeaders(),

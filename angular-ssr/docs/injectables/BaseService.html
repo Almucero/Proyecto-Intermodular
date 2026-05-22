@@ -198,7 +198,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/core/services/impl/base-service.service.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/core/services/impl/base-service.service.ts:25</a></div>
                             </td>
                         </tr>
 
@@ -268,8 +268,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="51"
-                                    class="link-to-prism">src/app/core/services/impl/base-service.service.ts:51</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="58"
+                                    class="link-to-prism">src/app/core/services/impl/base-service.service.ts:58</a></div>
                         </td>
                     </tr>
 
@@ -343,8 +343,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="70"
-                                    class="link-to-prism">src/app/core/services/impl/base-service.service.ts:70</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="77"
+                                    class="link-to-prism">src/app/core/services/impl/base-service.service.ts:77</a></div>
                         </td>
                     </tr>
 
@@ -418,8 +418,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="33"
-                                    class="link-to-prism">src/app/core/services/impl/base-service.service.ts:33</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="40"
+                                    class="link-to-prism">src/app/core/services/impl/base-service.service.ts:40</a></div>
                         </td>
                     </tr>
 
@@ -493,8 +493,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="42"
-                                    class="link-to-prism">src/app/core/services/impl/base-service.service.ts:42</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="49"
+                                    class="link-to-prism">src/app/core/services/impl/base-service.service.ts:49</a></div>
                         </td>
                     </tr>
 
@@ -568,8 +568,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="61"
-                                    class="link-to-prism">src/app/core/services/impl/base-service.service.ts:61</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="68"
+                                    class="link-to-prism">src/app/core/services/impl/base-service.service.ts:68</a></div>
                         </td>
                     </tr>
 
@@ -664,13 +664,13 @@ import { REPOSITORY_TOKEN } from &#x27;../../repositories/repository.tokens&#x27
 })
 export class BaseService&lt;T extends Model&gt; implements IBaseService&lt;T&gt; {
   /**
-       * Documentado.
-       * @param repository Repositorio inyectado que maneja la persistencia de los datos.
-       */
+   * Documentado.
+   * @param repository Repositorio inyectado que maneja la persistencia de los datos.
+   */
   constructor(
     /** Repositorio inyectado que maneja la persistencia de los datos. */
     @Inject(REPOSITORY_TOKEN) protected repository: IBaseRepository&lt;T&gt;,
-  ) {}
+  ) { }
 
   /**
    * Obtiene todos los registros, opcionalmente filtrados.

@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/services/interfaces/media-service.interface.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Interfaz para el servicio de multimedia.
+ */
+
 import { Observable } from 'rxjs';
 import { Media } from '../../models/media.model';
 import { IBaseService } from './base-service.interface';

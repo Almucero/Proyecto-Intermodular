@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/auth/auth.schema.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Esquemas de validación Zod para endpoints de autenticación.
+ */
+
 import { z } from 'zod';
 
 /** Esquema de validación para registro local. */

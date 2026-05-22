@@ -1,3 +1,10 @@
+<!--
+  @file: src/app/pages/search/search.component.html
+  @project: GameSage - Plataforma de Videojuegos
+  @authors: Rosario González y Álvaro Jiménez
+  @description: Vista de resultados de búsqueda con filtros dinámicos, skeletons de carga, barra de progreso, paginación infinita y detección de scroll.
+-->
+
 <div class="flex-1 w-full bg-gray-900 text-white font-sans pb-4">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
     <div class="flex flex-col sm:flex-row gap-8 sm:items-start">
@@ -37,7 +44,8 @@
           </div>
 
           <div class="filters-scroll-area sidebar-scroll" #filtersScroller (scroll)="onScroll($event)">
-            <div class="filters-grid-wrapper" [class.is-collapsing]="activeFilters.length === 0 || isClearingFilters" [class.ready]="viewReady">
+            <div class="filters-grid-wrapper" [class.is-collapsing]="activeFilters.length === 0 || isClearingFilters"
+              [class.ready]="viewReady">
               <div class="filters-grid-inner">
                 <div class="flex flex-wrap gap-2">
                   @for (filter of activeFilters; track filter.type) {

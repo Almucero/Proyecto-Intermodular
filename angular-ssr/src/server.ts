@@ -1,3 +1,10 @@
+/**
+ * @file: src/server.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servidor SSR con Express que sirve la aplicación Angular, documentación y endpoints de API.
+ */
+
 import './suppress-warnings';
 import {
   AngularNodeAppEngine,
@@ -80,11 +87,11 @@ const app = express();
 app.disable('x-powered-by');
 app.use((req, res, next) => {
   applySecurityHeaders(req, res);
-  
+
   if (!req.url?.startsWith('/assets/') && !req.url?.match(/\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$/)) {
     applyNoCacheHeaders(res);
   }
-  
+
   next();
 });
 if (process.env['VERCEL']) {
@@ -143,7 +150,7 @@ const processAngularResponse = async (req: express.Request, res: express.Respons
   const contentType = response.headers.get('Content-Type') || '';
   if (contentType.includes('text/html')) {
     let html = await response.text();
-    
+
     let lang = 'es';
     const cookies = req.headers.cookie;
     if (cookies) {
@@ -289,19 +296,19 @@ const backendReady =
   process.env['SSR_DISABLE_BACKEND'] || isMainModule(import.meta.url)
     ? Promise.resolve()
     : mountBackend()
-        .then(setupAngularMiddleware)
-        .catch((err) => {
-          const short = getSetupMessage(err);
-          if (short) {
-            console.error(short);
-            process.exit(1);
-          }
-          console.error('Error al cargar el backend:', err instanceof Error ? err.message : err);
-          throw err;
-        });
+      .then(setupAngularMiddleware)
+      .catch((err) => {
+        const short = getSetupMessage(err);
+        if (short) {
+          console.error(short);
+          process.exit(1);
+        }
+        console.error('Error al cargar el backend:', err instanceof Error ? err.message : err);
+        throw err;
+      });
 
 if (!process.env['SSR_DISABLE_BACKEND'] && !isMainModule(import.meta.url)) {
-  backendReady.catch(() => {});
+  backendReady.catch(() => { });
 }
 
 if (process.env['SSR_DISABLE_BACKEND']) {
@@ -320,7 +327,7 @@ if (isMainModule(import.meta.url)) {
     if (!process.env['SSR_DISABLE_BACKEND']) {
       await mountBackend();
     }
-    
+
     setupAngularMiddleware();
 
     app.listen(port, (err?: Error) => {

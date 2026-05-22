@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/shared/components/error-toast/error-toast.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente que muestra errores en formato toast.
+ */
+
 import { Component, inject } from '@angular/core';
 import { ErrorService } from '../../../core/services/error.service';
 import { CommonModule } from '@angular/common';
@@ -21,8 +28,8 @@ export class ErrorToastComponent {
   /**
    * Devuelve un título descriptivo según el tipo de error.
    * @param type Tipo de error.
-     * @returns Retorno no documentado.
-     */
+   * @returns El string representativo del título del error.
+   */
   getErrorTitle(type: ErrorType): string {
     const titles: Record<string, string> = {
       auth: 'Error de Autenticación',
@@ -31,15 +38,15 @@ export class ErrorToastComponent {
       server: 'Error del Servidor',
       unknown: 'Error',
     };
-     
+
     return titles[type] || 'Error';
   }
 
   /**
    * Devuelve la clase CSS de fondo (gradiente) basada en el tipo de error.
    * @param type Tipo de error.
-     * @returns Retorno no documentado.
-     */
+   * @returns Las clases Tailwind CSS correspondientes al gradiente del color del error.
+   */
   getBackgroundClass(type: ErrorType): string {
     const classes: Record<string, string> = {
       auth: 'bg-gradient-to-br from-red-600 via-red-500 to-pink-600',
@@ -50,7 +57,7 @@ export class ErrorToastComponent {
       unknown: 'bg-gradient-to-br from-gray-700 via-gray-600 to-gray-500',
     };
     return (
-       
+
       classes[type] ||
       'bg-gradient-to-br from-gray-700 via-gray-600 to-gray-500'
     );

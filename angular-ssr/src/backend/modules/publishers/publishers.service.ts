@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/publishers/publishers.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicios de publisher que implementan operaciones CRUD para publishers y gestión de videojuegos asociados.
+ */
+
 import { prisma } from '../../config/db';
 
 /**

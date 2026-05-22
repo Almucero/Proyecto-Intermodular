@@ -1,3 +1,10 @@
+"""
+@file: src/backend/scripts/jsonToExcel.py
+@project: GameSage - Plataforma de Videojuegos
+@authors: Rosario González y Álvaro Jiménez
+@description: Script para procesar archivos JSON del backend-data, aplicando limpieza, sustituciones y manipulación de datos, y exportando el resultado a un archivo Excel unificado.
+"""
+
 import pandas as pd
 import os
 import json

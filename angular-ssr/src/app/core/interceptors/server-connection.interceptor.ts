@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/interceptors/server-connection.interceptor.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Interceptor que gestiona reintentos de conexión con el servidor.
+ */
+
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { catchError, retry, timer, throwError } from 'rxjs';
 

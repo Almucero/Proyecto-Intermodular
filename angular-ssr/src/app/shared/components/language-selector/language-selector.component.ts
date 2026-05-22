@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/shared/components/language-selector/language-selector.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente que permite cambiar el idioma de la aplicación.
+ */
+
 import {
   Component,
   inject,
@@ -25,10 +32,10 @@ import {
   styleUrls: ['./language-selector.component.scss'],
 })
 export class LanguageSelectorComponent implements OnInit {
-  /** Propiedad no documentada. */
-    private languageService = inject(LanguageService);
-  /** Propiedad no documentada. */
-    @ViewChild('triggerButton') triggerButton?: ElementRef<HTMLButtonElement>;
+  /** Servicio inyectado para gestionar el idioma de la aplicación. */
+  private languageService = inject(LanguageService);
+  /** Referencia del elemento botón desencadenador del menú en el DOM. */
+  @ViewChild('triggerButton') triggerButton?: ElementRef<HTMLButtonElement>;
 
   /** Indica si el menú desplegable de idiomas está abierto. */
   isLangMenuOpen = false;
@@ -48,8 +55,10 @@ export class LanguageSelectorComponent implements OnInit {
     { code: 'it', flag: 'assets/flags/italia.png', name: 'Italiano' },
   ];
 
-  /** Método no documentado. */
-    ngOnInit(): void {
+  /**
+   * Ciclo de vida OnInit del selector de idioma. Establece la bandera inicial del idioma configurado.
+   */
+  ngOnInit(): void {
     try {
       const current = this.languageService.getCurrentLang();
       this.displayedFlag = this.getFlagFor(current);
@@ -61,8 +70,8 @@ export class LanguageSelectorComponent implements OnInit {
   /**
    * Obtiene la ruta de la bandera para un código de idioma.
    * @param code Código del idioma.
-     * @returns Retorno no documentado.
-     */
+   * @returns Ruta de la bandera correspondiente o la española por defecto.
+   */
   private getFlagFor(code: Language | undefined): string {
     if (!code) return 'assets/flags/espana.png';
     const current = this.languages.find((l) => l.code === code);
@@ -127,9 +136,9 @@ export class LanguageSelectorComponent implements OnInit {
   }
 
   /**
-     * Escucha clics globales para cerrar el menú si se pulsa fuera del componente.
-     * @param event Parámetro no documentado.
-     */
+   * Escucha clics globales para cerrar el menú si se pulsa fuera del componente.
+   * @param event Objeto del evento de tipo MouseEvent o ClickEvent.
+   */
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event): void {
     const target = event.target as HTMLElement;
@@ -141,8 +150,10 @@ export class LanguageSelectorComponent implements OnInit {
     }
   }
 
-  /** Método no documentado. */
-    private blurTrigger(): void {
+  /**
+   * Quita el foco del botón disparador y de cualquier elemento activo dentro de este selector de idiomas.
+   */
+  private blurTrigger(): void {
     const btn = this.triggerButton?.nativeElement;
     if (btn) {
       btn.blur();
