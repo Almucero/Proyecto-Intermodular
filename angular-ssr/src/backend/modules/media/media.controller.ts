@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/media/media.controller.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Controladores que manejan la lógica de negocio para operaciones CRUD de recursos multimedia.
+ */
+
 import type { Request, Response } from 'express';
 import {
   listMedia,

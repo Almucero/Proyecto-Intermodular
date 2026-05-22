@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/admin/publishers/publisher-form/publisher-form.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente de formulario para la creación y edición de editoriales.
+ */
+
 import {
   Component,
   EventEmitter,
@@ -30,10 +37,10 @@ import { Publisher } from '../../../../core/models/publisher.model';
   styleUrl: './publisher-form.component.scss',
 })
 export class PublisherFormComponent implements OnInit, OnChanges {
-  /** Propiedad no documentada. */
-    private fb = inject(FormBuilder);
-  /** Propiedad no documentada. */
-    private publisherService = inject(PublisherService);
+  /** Inyección del constructor para el FormBuilder. */
+  private fb = inject(FormBuilder);
+  /** Inyección del constructor para el servicio de editoriales. */
+  private publisherService = inject(PublisherService);
 
   /** ID del editor a editar. Si es null, el formulario actúa en modo creación. */
   @Input() publisherId: number | null = null;
@@ -64,9 +71,9 @@ export class PublisherFormComponent implements OnInit, OnChanges {
   }
 
   /**
-     * Detecta cambios en el ID de entrada para conmutar entre creación y edición.
-     * @param changes Parámetro no documentado.
-     */
+   * Detecta cambios en el ID de entrada para conmutar entre creación y edición.
+   * @param changes Objeto de cambios detectados en las propiedades de entrada.
+   */
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['publisherId']) {
       if (this.publisherId) {
@@ -80,9 +87,9 @@ export class PublisherFormComponent implements OnInit, OnChanges {
   }
 
   /**
-     * Carga la información de un editor existente desde el servidor.
-     * @param id Parámetro no documentado.
-     */
+   * Carga la información de un editor existente desde el servidor.
+   * @param id ID del editor a cargar.
+   */
   loadPublisher(id: number) {
     this.publisherService.getById(id.toString()).subscribe((publisher) => {
       if (publisher) {

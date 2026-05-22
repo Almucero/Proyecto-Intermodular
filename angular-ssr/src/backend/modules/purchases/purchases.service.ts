@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/purchases/purchases.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicios de compras que gestionan la lógica de negocio para completar compras, recuperar historial y procesar reembolsos.
+ */
+
 import { prisma } from '../../config/db';
 import { Prisma } from '@prisma/client';
 

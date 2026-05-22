@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/admin/developers/developer-form/developer-form.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Formulario para la gestión de desarrolladores.
+ */
+
 import {
   Component,
   EventEmitter,
@@ -30,10 +37,10 @@ import { Developer } from '../../../../core/models/developer.model';
   styleUrl: './developer-form.component.scss',
 })
 export class DeveloperFormComponent implements OnInit, OnChanges {
-  /** Propiedad no documentada. */
-    private fb = inject(FormBuilder);
-  /** Propiedad no documentada. */
-    private developerService = inject(DeveloperService);
+  /** Inyección de dependencias. */
+  private fb = inject(FormBuilder);
+  /** Inyección de dependencias. */
+  private developerService = inject(DeveloperService);
 
   /** ID del desarrollador a editar. Si es null, el formulario actúa en modo creación. */
   @Input() developerId: number | null = null;
@@ -64,9 +71,9 @@ export class DeveloperFormComponent implements OnInit, OnChanges {
   }
 
   /**
-     * Responde a los cambios en el ID de entrada para cambiar entre modos.
-     * @param changes Parámetro no documentado.
-     */
+   * Responde a los cambios en el ID de entrada para cambiar entre modos.
+   * @param changes Cambios en el ID de entrada.
+   */
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['developerId']) {
       if (this.developerId) {
@@ -80,9 +87,9 @@ export class DeveloperFormComponent implements OnInit, OnChanges {
   }
 
   /**
-     * Carga la información de un desarrollador existente desde el servidor.
-     * @param id Parámetro no documentado.
-     */
+   * Carga la información de un desarrollador existente desde el servidor.
+   * @param id ID del desarrollador a cargar.
+   */
   loadDeveloper(id: number) {
     this.developerService.getById(id.toString()).subscribe((developer) => {
       if (developer) {

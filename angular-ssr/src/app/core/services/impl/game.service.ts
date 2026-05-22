@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/services/impl/game.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicio para la gestión de videojuegos.
+ */
+
 import { Inject, Injectable } from '@angular/core';
 import { GAME_REPOSITORY_TOKEN } from '../../repositories/repository.tokens';
 import { IBaseRepository } from '../../repositories/interfaces/base-repository.interface';
@@ -14,9 +21,9 @@ import { IGameService } from '../interfaces/game-service.interface';
 })
 export class GameService extends BaseService<Game> implements IGameService {
   /**
-       * Documentado.
-       * @param repository Repositorio de videojuegos inyectado.
-       */
+   * Documentado.
+   * @param repository Repositorio de videojuegos inyectado.
+   */
   constructor(
     @Inject(GAME_REPOSITORY_TOKEN) repository: IBaseRepository<Game>,
   ) {

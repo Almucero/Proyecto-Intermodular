@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/genres/genres.controller.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Controladores que manejan la lógica de negocio para operaciones CRUD de géneros, incluyendo listado, creación, actualización y eliminación.
+ */
+
 import type { Request, Response } from 'express';
 import {
   listGenres,

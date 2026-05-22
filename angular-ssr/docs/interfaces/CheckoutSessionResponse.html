@@ -227,7 +227,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Propiedad no documentada.</p>
+                                    <div class="io-description"><p>Secreto de cliente provisto por Stripe para iniciar el flujo de pago.</p>
 </div>
                                 </td>
                             </tr>
@@ -266,7 +266,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Propiedad no documentada.</p>
+                                    <div class="io-description"><p>Clave pública de Stripe requerida por el frontend para inicializar el checkout.</p>
 </div>
                                 </td>
                             </tr>
@@ -305,7 +305,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Propiedad no documentada.</p>
+                                    <div class="io-description"><p>Identificador único de la sesión de checkout creada en Stripe.</p>
 </div>
                                 </td>
                             </tr>
@@ -333,22 +333,22 @@ import { ICartItemService } from &#x27;../interfaces/cart-item-service.interface
 
 /** Respuesta backend para inicializar Stripe Checkout embebido. */
 export interface CheckoutSessionResponse {
-  /** Propiedad no documentada. */
-    clientSecret: string;
-  /** Propiedad no documentada. */
-    sessionId: string;
-  /** Propiedad no documentada. */
-    publishableKey: string;
+  /** Secreto de cliente provisto por Stripe para iniciar el flujo de pago. */
+  clientSecret: string;
+  /** Identificador único de la sesión de checkout creada en Stripe. */
+  sessionId: string;
+  /** Clave pública de Stripe requerida por el frontend para inicializar el checkout. */
+  publishableKey: string;
 }
 
 /** Payload para crear checkout directo de un juego/plataforma. */
 export interface DirectCheckoutSessionPayload {
-  /** Propiedad no documentada. */
-    gameId: number;
-  /** Propiedad no documentada. */
-    platformId: number;
-  /** Propiedad no documentada. */
-    locale?: string;
+  /** Identificador único del juego a comprar de forma directa. */
+  gameId: number;
+  /** Identificador único de la plataforma del juego seleccionado. */
+  platformId: number;
+  /** Código del idioma local para la sesión de pago de Stripe. */
+  locale?: string;
 }
 
 /**
@@ -360,27 +360,21 @@ export interface DirectCheckoutSessionPayload {
 })
 export class CartItemService
   extends BaseService&lt;CartItem&gt;
-  implements ICartItemService
-{
-  /** Propiedad no documentada. */
-    private isBrowser: boolean;
+  implements ICartItemService {
+  /** Indica si la plataforma de ejecución actual es el navegador. */
+  private isBrowser: boolean;
   /** Observable con el número actual de artículos en el carrito. */
   public cartCount$ &#x3D; new BehaviorSubject&lt;number&gt;(this.getInitialCount());
 
-  /**
-       * Documentado.
-       * @param repository Repositorio de base para artículos del carrito.
-       *
-       * @param http Cliente HTTP para peticiones personalizadas.
-       *
-       * @param apiUrl URL base de la API.
-       *
-       * @param resource Nombre del recurso en la API.
-       *
-       * @param auth Servicio de autenticación para obtener el token.
-       *
-       * @param platformId ID de la plataforma (Browser/Server).
-       */
+   /**
+    * Inicializa el servicio de gestión de artículos del carrito.
+    * @param repository Repositorio de base para artículos del carrito.
+    * @param http Cliente HTTP para peticiones personalizadas.
+    * @param apiUrl URL base de la API.
+    * @param resource Nombre del recurso en la API.
+    * @param auth Servicio de autenticación para obtener el token.
+    * @param platformId ID de la plataforma (Browser/Server).
+    */
   constructor(
     @Inject(CART_ITEM_REPOSITORY_TOKEN) repository: IBaseRepository&lt;CartItem&gt;,
     private http: HttpClient,
@@ -512,11 +506,11 @@ export class CartItemService
   }
 
   /**
-     * Método no documentado.
-     * @param locale Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-    createCheckoutSession(locale?: string): Observable&lt;CheckoutSessionResponse&gt; {
+   * Crea una sesión de Stripe Checkout para la totalidad de artículos del carrito actual.
+   * @param locale Idioma deseado para la interfaz de Stripe.
+   * @returns Observable con los datos de inicialización de Stripe Checkout.
+   */
+  createCheckoutSession(locale?: string): Observable&lt;CheckoutSessionResponse&gt; {
     return this.http.post&lt;CheckoutSessionResponse&gt;(
       &#x60;${this.apiUrl}/${this.resource}/checkout-session&#x60;,
       locale ? { locale } : {},
@@ -525,11 +519,11 @@ export class CartItemService
   }
 
   /**
-     * Método no documentado.
-     * @param payload Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-    createDirectCheckoutSession(
+   * Crea una sesión de Stripe Checkout directa para un único producto.
+   * @param payload Datos del juego y plataforma seleccionados para la compra directa.
+   * @returns Observable con los datos de inicialización de Stripe Checkout.
+   */
+  createDirectCheckoutSession(
     payload: DirectCheckoutSessionPayload,
   ): Observable&lt;CheckoutSessionResponse&gt; {
     return this.http.post&lt;CheckoutSessionResponse&gt;(
@@ -540,11 +534,11 @@ export class CartItemService
   }
 
   /**
-     * Método no documentado.
-     * @param sessionId Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-    confirmCheckoutSession(sessionId: string): Observable&lt;any&gt; {
+   * Confirma y consolida una sesión de checkout tradicional en el servidor.
+   * @param sessionId Identificador de la sesión de Stripe finalizada.
+   * @returns Observable con el estado de la confirmación.
+   */
+  confirmCheckoutSession(sessionId: string): Observable&lt;any&gt; {
     return this.http.post(
       &#x60;${this.apiUrl}/${this.resource}/checkout/confirm&#x60;,
       { sessionId },
@@ -553,11 +547,11 @@ export class CartItemService
   }
 
   /**
-     * Método no documentado.
-     * @param sessionId Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-    confirmDirectCheckoutSession(sessionId: string): Observable&lt;any&gt; {
+   * Confirma y consolida una sesión de checkout directo en el servidor.
+   * @param sessionId Identificador de la sesión de Stripe Direct finalizada.
+   * @returns Observable con el estado de la confirmación.
+   */
+  confirmDirectCheckoutSession(sessionId: string): Observable&lt;any&gt; {
     return this.http.post(
       &#x60;${this.apiUrl}/${this.resource}/direct-checkout/confirm&#x60;,
       { sessionId },

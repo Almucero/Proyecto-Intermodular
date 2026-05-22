@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/home/home.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente de la página de inicio.
+ */
+
 import {
   AfterViewInit,
   Component,
@@ -34,17 +41,17 @@ import { UiStateService } from '../../core/services/ui-state.service';
 export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Capas para el efecto parallax del banner. */
   @ViewChild('backgroundFallbackLayer') backgroundFallbackLayer!: ElementRef;
-  /** Propiedad no documentada. */
+  /** Referencia de elemento para la capa de fondo parallax. */
   @ViewChild('backgroundLayer') backgroundLayer!: ElementRef;
-  /** Propiedad no documentada. */
+  /** Referencia de elemento para la capa del Joker. */
   @ViewChild('jokerLayer') jokerLayer!: ElementRef;
-  /** Propiedad no documentada. */
+  /** Referencia de elemento para la capa del título GameSage. */
   @ViewChild('titleLayer') titleLayer!: ElementRef;
-  /** Propiedad no documentada. */
+  /** Referencia de elemento para la capa de Geralt de Rivia. */
   @ViewChild('geraltLayer') geraltLayer!: ElementRef;
-  /** Propiedad no documentada. */
+  /** Referencia de elemento para la capa inferior. */
   @ViewChild('bottomLayer') bottomLayer!: ElementRef;
-  /** Propiedad no documentada. */
+  /** Referencia de elemento para el contenedor del contenido principal. */
   @ViewChild('mainContent') mainContent!: ElementRef;
   /** Contenedor de los géneros para cálculo de ancho. */
   @ViewChild('genresContainer') genresContainer!: ElementRef;
@@ -102,13 +109,18 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   isClosingGenreDropdown = false;
   /** Indica si se está visualizando en un dispositivo móvil. */
   isMobile = false;
+  /** Estado que registra si el contenedor de géneros móvil puede desplazarse a la izquierda o derecha. */
   genreScrollState = {
     left: false,
     right: true,
   };
 
+  /** Referencia al contenedor de géneros para la maquetación en pantallas móviles. */
   @ViewChild('mobileGenresContainer') mobileGenresContainer?: ElementRef<HTMLDivElement>;
 
+  /**
+   * Actualiza el estado visual de los scrolls de categorías en la versión móvil.
+   */
   updateGenreScrollState() {
     if (!isPlatformBrowser(this.platformId)) return;
     const element = this.mobileGenresContainer?.nativeElement;
@@ -119,34 +131,34 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       this.cdr.detectChanges();
     }
   }
-  /** Propiedad no documentada. */
+  /** Indica si se deben ocultar los personajes laterales del banner por solapamiento. */
   hideSideCharacters = false;
-  /** Propiedad no documentada. */
+  /** Indica si ya se ha evaluado la visibilidad inicial de los personajes laterales. */
   sideCharactersVisibilityReady = false;
 
   /** Listas de juegos cargados para las diferentes secciones. */
   bestSellers: Game[] = [];
-  /** Propiedad no documentada. */
+  /** Lista de juegos en oferta para carrusel. */
   onSaleGames: Game[] = [];
-  /** Propiedad no documentada. */
+  /** Lista de juegos mejor valorados para carrusel. */
   topRatedGames: Game[] = [];
 
-  /** Propiedad no documentada. */
+  /** Enrutador para navegación. */
   private router = inject(Router);
-  /** Propiedad no documentada. */
+  /** Identificador de la plataforma Angular. */
   private platformId = inject(PLATFORM_ID);
   /** Servicio para gestionar el estado global de la UI. */
   public uiState = inject(UiStateService);
 
 
 
-  /** Propiedad no documentada. */
+  /** Destino del scroll Y capturado por listeners. */
   private targetScrollY = 0;
-  /** Propiedad no documentada. */
+  /** Último destino procesado de scroll Y. */
   private lastTargetScrollY = 0;
-  /** Propiedad no documentada. */
+  /** Identificador de RequestAnimationFrame para la animación de parallax. */
   private rafId: number | null = null;
-  /** Propiedad no documentada. */
+  /** Mapa que asocia cada categoría de género con su estado de animación tilt 3D. */
   private genreTiltStates = new Map<
     string,
     {
@@ -160,11 +172,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       hoverTarget: number;
     }
   >();
-  /** Propiedad no documentada. */
+  /** Ángulo máximo de inclinación (grados) en el efecto tilt. */
   private genreTiltMaxRotateDeg = 5;
-  /** Propiedad no documentada. */
+  /** Desplazamiento máximo de traslación (px) en el efecto tilt. */
   private genreTiltMaxTranslatePx = 3.5;
-  /** Propiedad no documentada. */
+  /** Valores actuales suavizados de la animación de parallax. */
   private current = {
     backgroundY: 0,
     bottomY: 0,
@@ -174,11 +186,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     blurBackground: 0,
     blurCharacters: 0,
   };
-  /** Propiedad no documentada. */
+  /** Frame del RequestAnimationFrame para la verificación de solapamiento. */
   private overlapCheckFrame = 0;
-  /** Propiedad no documentada. */
+  /** Bloqueo para evitar alternancias rápidas al ocultar personajes laterales. */
   private sideCharactersHideLocked = false;
-  /** Propiedad no documentada. */
+  /** Clave de dimensiones del viewport para detectar cambios de diseño. */
   private lastViewportKey = '';
 
   /** Estado de carga de los datos de la API. */
@@ -192,6 +204,13 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   carouselsLoading = signal(true);
 
+  /**
+   * Inicializa una nueva instancia de HomeComponent.
+   * @param gameService Servicio para gestionar y consultar juegos de la base de datos/API.
+   * @param mediaService Servicio para gestionar y recuperar imágenes y recursos multimedia.
+   * @param ngZone Servicio NgZone de Angular para optimizar la ejecución de tareas fuera del ciclo de detección.
+   * @param cdr Servicio ChangeDetectorRef para forzar de manera controlada la detección de cambios.
+   */
   constructor(
     private gameService: GameService,
     private mediaService: MediaService,
@@ -200,10 +219,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {
     if (isPlatformBrowser(this.platformId)) {
       if (this.uiState.loaderAnimationDone()) {
-        // Navegación interna: el loader ya terminó, disparamos inmediatamente.
         this.startMinimumSkeletonDelay();
       } else {
-        // Carga inicial: esperamos al evento global del loader.
         window.addEventListener('gamingsage-home-trigger', this.onLoaderFinished);
       }
     }
@@ -225,20 +242,19 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       this.carouselsLoading.set(true);
       this.minSkeletonDelayDone.set(false);
     });
-    
+
     this.ngZone.runOutsideAngular(() => {
       this.skeletonDelayTimeoutId = setTimeout(() => {
         this.ngZone.run(() => {
           this.minSkeletonDelayDone.set(true);
           this.skeletonDelayTimeoutId = null;
-          
-          // Solo quitamos los skeletons si los datos también han llegado
+
           if (!this.dataLoading()) {
             this.carouselsLoading.set(false);
           }
           this.cdr.detectChanges();
         });
-      }, 1100); // 1.1s (Dashboard style) tras el loader
+      }, 1100);
     });
   }
 
@@ -263,7 +279,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  /** Método no documentado. */
+  /**
+   * Ciclo de vida que se ejecuta tras inicializar completamente la vista del componente.
+   * Inicializa observadores de redimensión, visibilidad de elementos y estado de scroll de categorías.
+   */
   ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) {
       return;
@@ -289,7 +308,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.requestSideCharactersVisibilityCheck();
   }
 
-  /** Método no documentado. */
+  /**
+   * Maneja el cambio de orientación del dispositivo móvil para forzar la actualización de visibilidad.
+   */
   @HostListener('window:orientationchange', [])
   onOrientationChange() {
     this.requestSideCharactersVisibilityCheck();
@@ -320,7 +341,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   private calculateVisibleGenres() {
     if (!isPlatformBrowser(this.platformId)) return;
 
-    // Actualizamos la detección de móvil en cada cálculo para mayor precisión
     this.isMobile = window.innerWidth <= 768;
 
     if (this.isMobile) {
@@ -329,10 +349,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
-    // En escritorio, usamos ResizeObserver para medir el contenedor real
     const container = this.genresContainer?.nativeElement;
     if (container) {
-      // La flecha es absolute, solo reservamos el ancho que ocupa (~40px) como margen de seguridad
       const availableWidth = container.clientWidth - 44;
       if (availableWidth > 0) {
         const pillWidth = 145;
@@ -351,11 +369,15 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  /** Observador de cambio de tamaño (ResizeObserver) para recalcular las categorías visibles. */
   private resizeObserver: any;
 
+  /**
+   * Configura e inicializa el observador ResizeObserver sobre el contenedor de géneros.
+   */
   private setupResizeObserver() {
     if (!isPlatformBrowser(this.platformId)) return;
-    
+
     this.resizeObserver = new ResizeObserver(() => {
       this.ngZone.run(() => {
         this.calculateVisibleGenres();
@@ -391,7 +413,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.startParallaxLoop();
   }
 
-  /** Método no documentado. */
+  /**
+   * Arranca el ciclo de animación de parallax en base a RequestAnimationFrame.
+   */
   private startParallaxLoop() {
     if (this.isMobile) return;
     if (this.rafId !== null) return;
@@ -404,7 +428,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  /** Método no documentado. */
+  /**
+   * Renderiza el frame actual del efecto parallax aplicando lerp para suavizar el desplazamiento.
+   */
   private renderParallaxFrame() {
     const scrollPosition = this.targetScrollY;
     const scrollingUp = this.targetScrollY < this.lastTargetScrollY;
@@ -439,7 +465,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       backgroundTarget,
       backgroundEase,
     );
-    if(
+    if (
       scrollingUp &&
       Math.abs(backgroundTarget - this.current.backgroundY) > 240
     ) {
@@ -536,17 +562,19 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
-     * Método no documentado.
-     * @param current Parámetro no documentado.
-     * @param target Parámetro no documentado.
-     * @param alpha Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Interpolación lineal simple entre un valor actual y un objetivo para animaciones fluidas.
+   * @param current Valor numérico actual.
+   * @param target Valor objetivo al que llegar.
+   * @param alpha Factor de suavizado (velocidad de aproximación).
+   * @returns Valor interpolado.
+   */
   private lerp(current: number, target: number, alpha: number) {
     return current + (target - current) * alpha;
   }
 
-  /** Método no documentado. */
+  /**
+   * Solicita de forma asíncrona múltiples verificaciones de colisión de los personajes del banner.
+   */
   private requestSideCharactersVisibilityCheck() {
     if (!isPlatformBrowser(this.platformId)) return;
     this.refreshSideCharactersLockForViewport();
@@ -558,7 +586,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => this.updateSideCharactersVisibility(), 120);
   }
 
-  /** Método no documentado. */
+  /**
+   * Limpia los bloqueos y recalcula la visibilidad de los personajes al cambiar el viewport.
+   */
   private refreshSideCharactersLockForViewport() {
     const viewportKey = `${window.innerWidth}x${window.innerHeight}`;
     if (viewportKey !== this.lastViewportKey) {
@@ -568,7 +598,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  /** Método no documentado. */
+  /**
+   * Comprueba si los personajes laterales del banner colisionan con el título principal y los oculta si es necesario.
+   */
   updateSideCharactersVisibility() {
     if (!isPlatformBrowser(this.platformId)) return;
     if (!this.jokerLayer || !this.geraltLayer || !this.titleLayer) return;
@@ -686,14 +718,14 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   private updateScrollMask(el: HTMLElement) {
     if (!el) return;
-    
+
     const scrollTop = el.scrollTop;
     const scrollHeight = el.scrollHeight;
     const clientHeight = el.clientHeight;
-    
+
     const showTop = scrollTop > 5;
     const showBottom = scrollTop + clientHeight < scrollHeight - 5;
-    
+
     el.style.setProperty('--scroll-top-mask', showTop ? '0' : '1');
     el.style.setProperty('--scroll-top-mask-stop', showTop ? '2rem' : '0px');
     el.style.setProperty('--scroll-bottom-mask', showBottom ? '0' : '1');
@@ -708,7 +740,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
-    // Vaciado de seguridad
     this.bestSellers = [];
     this.onSaleGames = [];
     this.topRatedGames = [];
@@ -723,22 +754,21 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         this.bestSellers = [...games]
           .sort((a, b) => b.numberOfSales - a.numberOfSales)
           .slice(0, 20);
-        
+
         const excludedIds = new Set(this.bestSellers.map((g) => g.id));
-        
+
         this.onSaleGames = games
           .filter((g) => g.isOnSale && !excludedIds.has(g.id))
           .slice(0, 20);
-        
+
         this.onSaleGames.forEach((g) => excludedIds.add(g.id));
-        
+
         this.topRatedGames = [...games]
           .filter((g) => !excludedIds.has(g.id))
           .sort((a, b) => (b.rating || 0) - (a.rating || 0))
           .slice(0, 20);
 
         this.dataLoading.set(false);
-        // Si el temporizador de skeletons también terminó, ocultamos skeletons
         if (this.minSkeletonDelayDone()) {
           this.carouselsLoading.set(false);
         }
@@ -748,26 +778,26 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
-     * Navega a la página de detalle de un producto.
-     * @param id Parámetro no documentado.
-     */
+   * Navega a la página de detalle de un producto.
+   * @param id Identificador único del juego (producto).
+   */
   goToProduct(id: number) {
     this.router.navigate(['/product', id]);
   }
 
   /**
-     * Navega a la página de búsqueda filtrando por género.
-     * @param nombre Parámetro no documentado.
-     */
+   * Navega a la página de búsqueda filtrando por género.
+   * @param nombre Nombre del género por el que filtrar.
+   */
   goToGenres(nombre: string) {
     this.router.navigate(['/search'], { queryParams: { genre: nombre } });
   }
 
   /**
-     * Método no documentado.
-     * @param key Parámetro no documentado.
-     * @param el Parámetro no documentado.
-     */
+   * Se ejecuta al entrar con el puntero a la tarjeta de género para iniciar animación 3D.
+   * @param key Identificador o clave del género.
+   * @param el Elemento HTML de la tarjeta de género.
+   */
   onGenreTiltEnter(key: string, el: HTMLElement): void {
     if (!isPlatformBrowser(this.platformId)) return;
     const state = this.ensureGenreTiltState(key, el);
@@ -776,11 +806,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
-     * Método no documentado.
-     * @param event Parámetro no documentado.
-     * @param key Parámetro no documentado.
-     * @param el Parámetro no documentado.
-     */
+   * Se ejecuta al mover el puntero sobre la tarjeta de género para actualizar inclinación.
+   * @param event Evento del ratón.
+   * @param key Identificador o clave del género.
+   * @param el Elemento HTML de la tarjeta de género.
+   */
   onGenreTiltMove(event: MouseEvent, key: string, el: HTMLElement): void {
     if (!isPlatformBrowser(this.platformId)) return;
     if (event.buttons === 1) return;
@@ -794,10 +824,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
-     * Método no documentado.
-     * @param key Parámetro no documentado.
-     * @param el Parámetro no documentado.
-     */
+   * Se ejecuta al salir con el puntero de la tarjeta de género para restaurar la inclinación original.
+   * @param key Identificador o clave del género.
+   * @param el Elemento HTML de la tarjeta de género.
+   */
   onGenreTiltLeave(key: string, el: HTMLElement): void {
     if (!isPlatformBrowser(this.platformId)) return;
     const state = this.ensureGenreTiltState(key, el);
@@ -808,11 +838,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
-     * Método no documentado.
-     * @param key Parámetro no documentado.
-     * @param el Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Recupera o crea el estado de animación de inclinación para una tarjeta específica.
+   * @param key Identificador o clave de género.
+   * @param el Elemento HTML de la tarjeta.
+   * @returns El estado de inclinación actual.
+   */
   private ensureGenreTiltState(key: string, el: HTMLElement) {
     const existing = this.genreTiltStates.get(key);
     if (existing) {
@@ -834,9 +864,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
-     * Método no documentado.
-     * @param state Parámetro no documentado.
-     */
+   * Arranca o continúa el bucle de animación 3D (tilt) para una tarjeta específica.
+   * @param state Objeto de estado de animación de la tarjeta.
+   */
   private startGenreTiltAnimation(state: {
     el: HTMLElement;
     rafId: number | null;
@@ -903,9 +933,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   /**
-     * Escucha clics fuera para cerrar el menú de géneros.
-     * @param event Parámetro no documentado.
-     */
+   * Escucha clics fuera para cerrar el menú de géneros.
+   * @param event Evento de clic nativo del DOM.
+   */
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event): void {
     const target = event.target as HTMLElement;
@@ -938,29 +968,22 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
    * Limpia recursos y suscripciones al destruir el componente.
    */
   ngOnDestroy(): void {
-    // 0. Limpiar escuchador de eventos
     if (isPlatformBrowser(this.platformId)) {
       window.removeEventListener('gamingsage-home-trigger', this.onLoaderFinished);
     }
-
-    // 1. Limpiar temporizador de skeletons
     if (this.skeletonDelayTimeoutId) {
       clearTimeout(this.skeletonDelayTimeoutId);
       this.skeletonDelayTimeoutId = null;
     }
-    
-    // 2. Limpiar animaciones de parallax
+
     if (this.rafId !== null && isPlatformBrowser(this.platformId)) {
       cancelAnimationFrame(this.rafId);
       this.rafId = null;
     }
-
-    // 3. Limpiar observador de redimensionamiento
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
     }
 
-    // 4. Limpiar estados de tilt
     this.genreTiltStates.forEach((state) => {
       if (state.rafId) cancelAnimationFrame(state.rafId);
     });

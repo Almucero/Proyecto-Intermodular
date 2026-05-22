@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/login/login.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente de la página de inicio de sesión.
+ */
+
 import { CommonModule, Location, isPlatformBrowser } from '@angular/common';
 import {
   Component,
@@ -57,59 +64,60 @@ export class LoginComponent implements OnInit {
   showPassword = false;
   /** Indica si se acaba de completar un registro con éxito. */
   registrationSuccess = false;
+  /** Indica si se acaba de eliminar una cuenta con éxito. */
+  deleteSuccess = false;
   /** Indica si el formulario ha sido enviado. */
   submitted = false;
   /** Ruta a la que redirigir tras un login exitoso. */
   navigateTo: string = '';
-  /** Propiedad no documentada. */
-    isOAuthRedirectProcessing = false;
-  /** Propiedad no documentada. */
-    googleError = '';
-  /** Propiedad no documentada. */
-    githubError = '';
-  /** Propiedad no documentada. */
-    showPasswordRecoveryModal = false;
-  /** Propiedad no documentada. */
-    googleClientId = '';
-  /** Propiedad no documentada. */
-    githubClientId = '';
-  /** Propiedad no documentada. */
-    private readonly GOOGLE_STATE_KEY = 'google_oauth_state_login';
-  /** Propiedad no documentada. */
-    private readonly GOOGLE_NONCE_KEY = 'google_oauth_nonce_login';
-  /** Propiedad no documentada. */
-    private readonly GOOGLE_REMEMBER_KEY = 'google_oauth_remember_login';
-  /** Propiedad no documentada. */
-    private readonly GOOGLE_TARGET_KEY = 'google_oauth_target';
-  /** Propiedad no documentada. */
-    private readonly GITHUB_STATE_KEY = 'github_oauth_state_login';
-  /** Propiedad no documentada. */
-    private readonly GITHUB_REMEMBER_KEY = 'github_oauth_remember_login';
-  /** Propiedad no documentada. */
-    private readonly SKIP_LOADING_KEY = 'skip_loading_screen_once';
+  /** Indica si se está procesando actualmente la redirección de OAuth (Google/GitHub). */
+  isOAuthRedirectProcessing = false;
+  /** Mensaje de error al autenticar con Google. */
+  googleError = '';
+  /** Mensaje de error al autenticar con GitHub. */
+  githubError = '';
+  /** Controla si se visualiza el modal de recuperación de contraseña. */
+  showPasswordRecoveryModal = false;
+  /** ID del cliente OAuth de Google inyectado o cargado desde la API. */
+  googleClientId = '';
+  /** ID del cliente OAuth de GitHub inyectado o cargado desde la API. */
+  githubClientId = '';
+  /** Clave para guardar el estado OAuth de Google en la sesión. */
+  private readonly GOOGLE_STATE_KEY = 'google_oauth_state_login';
+  /** Clave para guardar el valor nonce de Google en la sesión. */
+  private readonly GOOGLE_NONCE_KEY = 'google_oauth_nonce_login';
+  /** Clave para guardar la preferencia "recordarme" del OAuth de Google en la sesión. */
+  private readonly GOOGLE_REMEMBER_KEY = 'google_oauth_remember_login';
+  /** Clave para guardar la ruta destino post-OAuth en la sesión. */
+  private readonly GOOGLE_TARGET_KEY = 'google_oauth_target';
+  /** Clave para guardar el estado OAuth de GitHub en la sesión. */
+  private readonly GITHUB_STATE_KEY = 'github_oauth_state_login';
+  /** Clave para guardar la preferencia "recordarme" del OAuth de GitHub en la sesión. */
+  private readonly GITHUB_REMEMBER_KEY = 'github_oauth_remember_login';
+  /** Clave para saltarse temporalmente la pantalla de carga durante redirecciones OAuth. */
+  private readonly SKIP_LOADING_KEY = 'skip_loading_screen_once';
 
-  /** Propiedad no documentada. */
-    private router = inject(Router);
-  /** Propiedad no documentada. */
-    private auth = inject(BaseAuthenticationService);
-  /** Propiedad no documentada. */
-    private fb = inject(FormBuilder);
-  /** Propiedad no documentada. */
-    private location = inject(Location);
-  /** Propiedad no documentada. */
-    private platformId = inject(PLATFORM_ID);
+  /** Servicio de enrutamiento de Angular. */
+  private router = inject(Router);
+  /** Servicio para gestionar operaciones de autenticación. */
+  private auth = inject(BaseAuthenticationService);
+  /** Generador de formularios reactivos. */
+  private fb = inject(FormBuilder);
+  /** Servicio para interactuar con la URL e historial del navegador. */
+  private location = inject(Location);
+  /** Identificador de plataforma para comprobar si se está ejecutando en navegador (SSR). */
+  private platformId = inject(PLATFORM_ID);
 
   /**
-     * Constructor no documentado.
-     * @param http Parámetro no documentado.
-     */
-    constructor(private http: HttpClient) {
+   * Crea una instancia de LoginComponent.
+   * @param http Cliente HTTP para realizar peticiones.
+   */
+  constructor(private http: HttpClient) {
     this.formLogin = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
       rememberMe: [false],
     });
-    // Verifica si venimos de una redirección por registro exitoso.
     if (
       isPlatformBrowser(this.platformId) &&
       sessionStorage.getItem('registrationSuccess')
@@ -117,14 +125,26 @@ export class LoginComponent implements OnInit {
       this.registrationSuccess = true;
       sessionStorage.removeItem('registrationSuccess');
     }
-    // Determina la ruta de destino (por defecto /dashboard).
+    if (
+      isPlatformBrowser(this.platformId) &&
+      sessionStorage.getItem('deleteSuccess')
+    ) {
+      this.deleteSuccess = true;
+      sessionStorage.removeItem('deleteSuccess');
+      setTimeout(() => {
+        this.deleteSuccess = false;
+      }, 5000);
+    }
     this.navigateTo =
       this.router.getCurrentNavigation()?.extras.state?.['navigateTo'] ||
       '/dashboard';
   }
 
-  /** Método no documentado. */
-    ngOnInit(): void {
+  /**
+   * Inicializa el componente procesando posibles redirecciones de OAuth
+   * y cargando los IDs de cliente correspondientes.
+   */
+  ngOnInit(): void {
     this.processOAuthRedirect();
     this.loadGoogleClientId();
     this.loadGithubClientId();
@@ -154,8 +174,11 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  /** Método no documentado. */
-    onGoogleSignInClick() {
+  /**
+   * Redirige al flujo de autenticación de Google.
+   * Guarda parámetros de estado y nonce para verificación posterior.
+   */
+  onGoogleSignInClick() {
     this.googleError = '';
     if (!this.googleClientId || !isPlatformBrowser(this.platformId)) {
       this.googleError = 'Google no está configurado en este entorno';
@@ -184,8 +207,11 @@ export class LoginComponent implements OnInit {
     window.location.assign(authUrl.toString());
   }
 
-  /** Método no documentado. */
-    onGithubSignInClick() {
+  /**
+   * Redirige al flujo de autenticación de GitHub.
+   * Guarda parámetros de estado y nonce para verificación posterior.
+   */
+  onGithubSignInClick() {
     this.githubError = '';
     if (!this.githubClientId || !isPlatformBrowser(this.platformId)) {
       this.githubError = 'GitHub no está configurado en este entorno';
@@ -209,8 +235,10 @@ export class LoginComponent implements OnInit {
     window.location.assign(authUrl);
   }
 
-  /** Método no documentado. */
-    private loadGoogleClientId() {
+  /**
+   * Obtiene de forma asíncrona el client-id para el inicio de sesión con Google.
+   */
+  private loadGoogleClientId() {
     if (!isPlatformBrowser(this.platformId)) return;
     this.http
       .get<{
@@ -227,8 +255,10 @@ export class LoginComponent implements OnInit {
       });
   }
 
-  /** Método no documentado. */
-    private loadGithubClientId() {
+  /**
+   * Obtiene de forma asíncrona el client-id para el inicio de sesión con GitHub.
+   */
+  private loadGithubClientId() {
     if (!isPlatformBrowser(this.platformId)) return;
     this.http
       .get<{
@@ -245,8 +275,11 @@ export class LoginComponent implements OnInit {
       });
   }
 
-  /** Método no documentado. */
-    private processOAuthRedirect() {
+  /**
+   * Procesa la redirección post-autenticación de los proveedores de OAuth.
+   * Verifica los parámetros de estado y código de GitHub o el id_token de Google.
+   */
+  private processOAuthRedirect() {
     if (!isPlatformBrowser(this.platformId)) return;
     const searchParams = new URLSearchParams(window.location.search);
     const hashParams = new URLSearchParams(
@@ -329,11 +362,11 @@ export class LoginComponent implements OnInit {
   }
 
   /**
-     * Método no documentado.
-     * @param idToken Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-    private getNonceFromIdToken(idToken: string): string | null {
+   * Decodifica el token de Google para extraer el nonce.
+   * @param idToken Token JWT de identidad de Google.
+   * @returns El valor del nonce si se decodifica con éxito; de lo contrario null.
+   */
+  private getNonceFromIdToken(idToken: string): string | null {
     try {
       const parts = idToken.split('.');
       if (parts.length < 2) return null;
@@ -353,13 +386,13 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  /** Método no documentado. */
-    openPasswordRecoveryModal() {
+  /** Abre el modal de recuperación de contraseña. */
+  openPasswordRecoveryModal() {
     this.showPasswordRecoveryModal = true;
   }
 
-  /** Método no documentado. */
-    closePasswordRecoveryModal() {
+  /** Cierra el modal de recuperación de contraseña. */
+  closePasswordRecoveryModal() {
     this.showPasswordRecoveryModal = false;
   }
 
@@ -369,10 +402,10 @@ export class LoginComponent implements OnInit {
   }
 
   /**
-   * Obtiene la clave de traducción del error para un campo específico.
+   * Obtiene la clave de traducción del error para un campo específico del formulario.
    * @param control Nombre del campo del formulario.
-     * @returns Retorno no documentado.
-     */
+   * @returns Clave del texto de traducción correspondiente.
+   */
   getError(control: string) {
     switch (control) {
       case 'email':

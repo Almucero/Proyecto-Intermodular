@@ -133,7 +133,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/core/services/impl/ui-state.service.ts</code>
+            <code>src/app/core/services/ui-state.service.ts</code>
         </p>
 
 
@@ -161,7 +161,19 @@ Utiliza Angular Signals para un rendimiento óptimo.</p>
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#isChatSidebarOpen" >isChatSidebarOpen</a>
+                            </li>
+                            <li>
+                                <a href="#isMainLoaderVisible" >isMainLoaderVisible</a>
+                            </li>
+                            <li>
                                 <a href="#isMenuOpen" >isMenuOpen</a>
+                            </li>
+                            <li>
+                                <a href="#isSearchActive" >isSearchActive</a>
+                            </li>
+                            <li>
+                                <a href="#loaderAnimationDone" >loaderAnimationDone</a>
                             </li>
                         </ul>
                     </td>
@@ -177,6 +189,9 @@ Utiliza Angular Signals para un rendimiento óptimo.</p>
                         <ul class="index-list">
                             <li>
                                 <a href="#setMenuOpen" >setMenuOpen</a>
+                            </li>
+                            <li>
+                                <a href="#setSearchActive" >setSearchActive</a>
                             </li>
                             <li>
                                 <a href="#toggleMenu" >toggleMenu</a>
@@ -219,8 +234,8 @@ Utiliza Angular Signals para un rendimiento óptimo.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="23"
-                                    class="link-to-prism">src/app/core/services/impl/ui-state.service.ts:23</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="42"
+                                    class="link-to-prism">src/app/core/services/ui-state.service.ts:42</a></div>
                         </td>
                     </tr>
 
@@ -255,7 +270,81 @@ Utiliza Angular Signals para un rendimiento óptimo.</p>
 
 
                                             <td>
-                                                    <p>Parámetro no documentado.</p>
+                                                    <p>Indica si el menú debe estar abierto o cerrado.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setSearchActive"></a>
+                    <span class="name">
+                        <span ><b>setSearchActive</b></span>
+                        <a href="#setSearchActive"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setSearchActive(isActive: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="50"
+                                    class="link-to-prism">src/app/core/services/ui-state.service.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Establece si la búsqueda está activa.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>isActive</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Indica si la búsqueda está activa.</p>
 
                                             </td>
                                         </tr>
@@ -293,8 +382,8 @@ Utiliza Angular Signals para un rendimiento óptimo.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="15"
-                                    class="link-to-prism">src/app/core/services/impl/ui-state.service.ts:15</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="34"
+                                    class="link-to-prism">src/app/core/services/ui-state.service.ts:34</a></div>
                         </td>
                     </tr>
 
@@ -322,6 +411,68 @@ Utiliza Angular Signals para un rendimiento óptimo.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="isChatSidebarOpen"></a>
+                    <span class="name">
+                        <span ><b>isChatSidebarOpen</b></span>
+                        <a href="#isChatSidebarOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/core/services/ui-state.service.ts:31</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal que indica si la barra lateral del chat de IA está abierta.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isMainLoaderVisible"></a>
+                    <span class="name">
+                        <span ><b>isMainLoaderVisible</b></span>
+                        <a href="#isMainLoaderVisible"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(true)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/core/services/ui-state.service.ts:25</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal que indica si la pantalla de carga inicial está visible.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="isMenuOpen"></a>
                     <span class="name">
                         <span ><b>isMenuOpen</b></span>
@@ -336,13 +487,75 @@ Utiliza Angular Signals para un rendimiento óptimo.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/core/services/impl/ui-state.service.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/core/services/ui-state.service.ts:19</a></div>
                         </td>
                     </tr>
 
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Señal que indica si el menú lateral está abierto.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isSearchActive"></a>
+                    <span class="name">
+                        <span ><b>isSearchActive</b></span>
+                        <a href="#isSearchActive"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/core/services/ui-state.service.ts:22</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal que indica si la búsqueda global está activa (se usa para sincronizar sombras de header/footer).</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loaderAnimationDone"></a>
+                    <span class="name">
+                        <span ><b>loaderAnimationDone</b></span>
+                        <a href="#loaderAnimationDone"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/core/services/ui-state.service.ts:28</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Señal que se activa cuando la animación de salida del loader ha terminado completamente.</p>
 </div>
                 </td>
             </tr>
@@ -368,17 +581,37 @@ export class UiStateService {
   /** Señal que indica si el menú lateral está abierto. */
   isMenuOpen &#x3D; signal(false);
 
+  /** Señal que indica si la búsqueda global está activa (se usa para sincronizar sombras de header/footer). */
+  isSearchActive &#x3D; signal(false);
+
+  /** Señal que indica si la pantalla de carga inicial está visible. */
+  isMainLoaderVisible &#x3D; signal(true);
+
+  /** Señal que se activa cuando la animación de salida del loader ha terminado completamente. */
+  loaderAnimationDone &#x3D; signal(false);
+
+  /** Señal que indica si la barra lateral del chat de IA está abierta. */
+  isChatSidebarOpen &#x3D; signal(false);
+
   /** Alterna el estado del menú. */
   toggleMenu() {
     this.isMenuOpen.update((v) &#x3D;&gt; !v);
   }
 
   /**
-     * Establece explícitamente el estado del menú.
-     * @param isOpen Parámetro no documentado.
-     */
+   * Establece explícitamente el estado del menú.
+   * @param isOpen Indica si el menú debe estar abierto o cerrado.
+   */
   setMenuOpen(isOpen: boolean) {
     this.isMenuOpen.set(isOpen);
+  }
+
+  /**
+   * Establece si la búsqueda está activa.
+   * @param isActive Indica si la búsqueda está activa.
+   */
+  setSearchActive(isActive: boolean) {
+    this.isSearchActive.set(isActive);
   }
 }
 </code></pre>

@@ -245,13 +245,13 @@ Cambia temporalmente el color de fondo para dar feedback visual.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/directives/copy-on-click.directive.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/directives/copy-on-click.directive.ts:29</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
-                            <div class="io-description"><p>Documentado.</p>
+                            <div class="io-description"><p>Inicializa una nueva instancia de la directiva CopyOnClick.</p>
 </div>
                             <div>
                                     <b>Parameters :</b>
@@ -293,7 +293,7 @@ Cambia temporalmente el color de fondo para dar feedback visual.</p>
                                                     </td>
                                                     
                                                         <td>
-                                                                <p>Parámetro no documentado.</p>
+                                                                <p>Servicio de traducción de ngx-translate para los textos informativos.</p>
 
                                                         </td>
                                                 </tr>
@@ -345,7 +345,7 @@ Cambia temporalmente el color de fondo para dar feedback visual.</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/directives/copy-on-click.directive.ts:22</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/directives/copy-on-click.directive.ts:29</a></div>
                             </td>
                         </tr>
                 <tr>
@@ -377,8 +377,8 @@ Cambia temporalmente el color de fondo para dar feedback visual.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">src/app/directives/copy-on-click.directive.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">src/app/directives/copy-on-click.directive.ts:47</a></div>
                 </td>
             </tr>
 
@@ -421,15 +421,15 @@ Copia el texto al portapapeles y cambia el fondo a verde momentáneamente.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="55"
-                                    class="link-to-prism">src/app/directives/copy-on-click.directive.ts:55</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="62"
+                                    class="link-to-prism">src/app/directives/copy-on-click.directive.ts:62</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Método no documentado.</p>
+                        <div class="io-description"><p>Genera una microanimación de escala sobre el icono al completar la copia.</p>
 </div>
 
                         <div class="io-description">
@@ -469,8 +469,8 @@ Copia el texto al portapapeles y cambia el fondo a verde momentáneamente.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="42"
-                                    class="link-to-prism">src/app/directives/copy-on-click.directive.ts:42</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="47"
+                                    class="link-to-prism">src/app/directives/copy-on-click.directive.ts:47</a></div>
                         </td>
                     </tr>
 
@@ -511,15 +511,15 @@ Copia el texto al portapapeles y cambia el fondo a verde momentáneamente.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="70"
-                                    class="link-to-prism">src/app/directives/copy-on-click.directive.ts:70</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="79"
+                                    class="link-to-prism">src/app/directives/copy-on-click.directive.ts:79</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Método no documentado.</p>
+                        <div class="io-description"><p>Crea y despliega dinámicamente un popup flotante con el texto &quot;Copiado&quot; al lado del elemento.</p>
 </div>
 
                         <div class="io-description">
@@ -561,18 +561,16 @@ export class CopyOnClickDirective {
   @Input() appCopyOnClick: string &#x3D; &#x27;&#x27;;
 
   /**
-       * Documentado.
-       * @param el Referencia al elemento del DOM.
-       *
-       * @param platformId Identificador de la plataforma (Browser/Server).
-         *
-       * @param translate Parámetro no documentado.
-       */
+   * Inicializa una nueva instancia de la directiva CopyOnClick.
+   * @param el Referencia al elemento del DOM.
+   * @param translate Servicio de traducción de ngx-translate para los textos informativos.
+   * @param platformId Identificador de la plataforma (Browser/Server).
+   */
   constructor(
     private el: ElementRef,
     private translate: TranslateService,
     @Inject(PLATFORM_ID) private platformId: Object,
-  ) {}
+  ) { }
 
   /**
    * Maneja el evento de clic en el elemento.
@@ -590,8 +588,10 @@ export class CopyOnClickDirective {
     });
   }
 
-  /** Método no documentado. */
-    private animateCopyIcon() {
+  /**
+   * Genera una microanimación de escala sobre el icono al completar la copia.
+   */
+  private animateCopyIcon() {
     const element &#x3D; this.el.nativeElement as HTMLElement;
     const originalTransition &#x3D; element.style.transition;
     const originalTransform &#x3D; element.style.transform;
@@ -605,8 +605,10 @@ export class CopyOnClickDirective {
     }, 160);
   }
 
-  /** Método no documentado. */
-    private showCopiedPopup() {
+  /**
+   * Crea y despliega dinámicamente un popup flotante con el texto &quot;Copiado&quot; al lado del elemento.
+   */
+  private showCopiedPopup() {
     const element &#x3D; this.el.nativeElement as HTMLElement;
     const rect &#x3D; element.getBoundingClientRect();
     const popup &#x3D; document.createElement(&#x27;span&#x27;);

@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/models/chat.model.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Modelos de datos para el sistema de chat IA.
+ */
+
 import { Model } from './base.model';
 
 /**

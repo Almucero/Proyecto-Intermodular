@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/media/media.routes.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Definición de rutas de media con endpoints para CRUD, validación (Zod) y autenticación.
+ */
+
 import multer from 'multer';
 import { Router } from 'express';
 import {

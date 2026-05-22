@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/scripts/cleanData.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Script para limpiar todos los datos de todas las tablas y Cloudinary, manteniendo la estructura de la BD.
+ */
+
 import 'dotenv/config';
 import { prisma } from '../config/db';
 import { v2 as cloudinary } from 'cloudinary';
@@ -61,7 +68,7 @@ async function cleanAllData() {
       try {
         try {
           await cloudinary.api.delete_resources_by_prefix(folderName);
-        } catch (err) {}
+        } catch (err) { }
         await cloudinary.api.delete_folder(folderName);
       } catch (error: any) {
         if (error?.error?.http_code !== 404) {
@@ -79,7 +86,7 @@ async function cleanAllData() {
       try {
         try {
           await cloudinary.api.delete_resources_by_prefix(folderName);
-        } catch (err) {}
+        } catch (err) { }
         await cloudinary.api.delete_folder(folderName);
       } catch (error: any) {
         if (error?.error?.http_code !== 404) {
@@ -90,7 +97,7 @@ async function cleanAllData() {
     try {
       try {
         await cloudinary.api.delete_resources_by_prefix('gameImages');
-      } catch (err) {}
+      } catch (err) { }
       await cloudinary.api.delete_folder('gameImages');
     } catch (error: any) {
       if (error?.error?.http_code !== 404) {
@@ -99,7 +106,7 @@ async function cleanAllData() {
     try {
       try {
         await cloudinary.api.delete_resources_by_prefix('userImages');
-      } catch (err) {}
+      } catch (err) { }
       await cloudinary.api.delete_folder('userImages');
     } catch (error: any) {
       if (error?.error?.http_code !== 404) {

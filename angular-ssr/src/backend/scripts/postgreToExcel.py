@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """
-Exporta todas las tablas de una base de datos PostgreSQL a un unico archivo Excel.
+@file: src/backend/scripts/postgreToExcel.py
+@project: GameSage - Plataforma de Videojuegos
+@authors: Rosario González y Álvaro Jiménez
+@description: Script de exportación de todas las tablas de una base de datos PostgreSQL a un único archivo Excel con validación de nombres de hoja y normalización de tipos.
 
 Uso basico:
   python src/backend/scripts/postgreToExcel.py

@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pipes/localized-currency.pipe.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Pipe para mostrar importes según idioma/moneda activos del usuario.
+ */
+
 import { Pipe, PipeTransform } from '@angular/core';
 import { CurrencyService } from '../core/services/currency.service';
 
@@ -8,19 +15,19 @@ import { CurrencyService } from '../core/services/currency.service';
   pure: false,
 })
 export class LocalizedCurrencyPipe implements PipeTransform {
-  /**
-     * Constructor no documentado.
-     * @param currencyService Parámetro no documentado.
-     */
+   /**
+    * Inicializa una nueva instancia del pipe LocalizedCurrencyPipe.
+    * @param currencyService Servicio encargado de gestionar el tipo de cambio y moneda locales.
+    */
   constructor(private currencyService: CurrencyService) { }
 
   /**
-     * Método no documentado.
-     * @param value Parámetro no documentado.
-     * @param display Parámetro no documentado.
-     * @param digitsInfo Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Transforma un valor numérico (en euros) a la moneda y formato del idioma del cliente actual.
+   * @param value El valor numérico original en Euros que se desea formatear.
+   * @param display El formato de visualización de la divisa ('symbol', 'code' o 'none').
+   * @param digitsInfo Reglas de formateo numérico de decimales (ej. '1.2-2').
+   * @returns El string del importe con el formato de moneda localizado correspondiente.
+   */
   transform(
     value: number | string | null | undefined,
     display: 'symbol' | 'code' | 'none' = 'symbol',

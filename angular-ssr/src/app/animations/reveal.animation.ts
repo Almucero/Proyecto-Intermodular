@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/animations/reveal.animation.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Animación de revelado suave para elementos de la interfaz.
+ */
+
 import {
   trigger,
   transition,

@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/genres/genres.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicios de géneros que implementan operaciones CRUD para géneros y gestión de relaciones.
+ */
+
 import { prisma } from '../../config/db';
 
 /**

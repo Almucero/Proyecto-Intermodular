@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/guards/admin.guard.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Guard que protege rutas de administrador, asegurando que el usuario esté autenticado y tenga rol de admin.
+ */
+
 import { CanActivateFn, Router } from '@angular/router';
 import { inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';

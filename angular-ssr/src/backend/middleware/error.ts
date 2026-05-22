@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/middleware/error.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Middleware global de manejo de errores HTTP con logs seguros y mensajes adaptados.
+ */
+
 import type { Request, Response, NextFunction } from 'express';
 import { env } from '../config/env';
 import { logger } from '../utils/logger';

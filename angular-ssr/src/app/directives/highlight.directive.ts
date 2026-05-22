@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/directives/highlight.directive.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Directiva para resaltar elementos al pasar el cursor.
+ */
+
 import {
   Directive,
   ElementRef,
@@ -19,24 +26,26 @@ import { isPlatformBrowser } from '@angular/common';
   standalone: true,
 })
 export class HighlightDirective implements OnInit {
-  /** Propiedad no documentada. */
-    private _appHighlight: string = 'yellow';
+  /** Color de resaltado interno, inicializado por defecto en amarillo. */
+  private _appHighlight: string = 'yellow';
 
   /** Color de resaltado al entrar el cursor. Por defecto es amarillo. */
   @Input() set appHighlight(color: string) {
     if (color) this._appHighlight = color;
   }
 
-  /** Accessor no documentado. */
-    get appHighlight(): string {
+  /**
+   * Obtiene el color de resaltado configurado actualmente.
+   */
+  get appHighlight(): string {
     return this._appHighlight;
   }
 
   /** Color de fondo por defecto cuando no hay resaltado. */
   @Input() highlightDefault: string = '';
 
-  /** Propiedad no documentada. */
-    private originalBackground: string = '';
+  /** Guarda el color de fondo original del elemento para poder restaurarlo después de quitar el cursor. */
+  private originalBackground: string = '';
 
   /**
        * Documentado.
@@ -50,7 +59,7 @@ export class HighlightDirective implements OnInit {
     private el: ElementRef,
     private renderer: Renderer2,
     @Inject(PLATFORM_ID) private platformId: Object,
-  ) {}
+  ) { }
 
   /**
    * Captura el color de fondo original al inicializar el componente.

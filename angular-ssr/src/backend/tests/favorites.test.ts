@@ -1,4 +1,12 @@
+/**
+ * @file: src/backend/tests/favorites.test.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Tests para endpoints de favoritos cubriendo adición, eliminación y verificación de favoritos.
+ */
+
 /// <reference types="jest" />
+
 import request from 'supertest';
 import app from '../app';
 import { prisma } from '../config/db';
@@ -52,17 +60,17 @@ describe('Favorites Endpoints', () => {
 
   afterAll(async () => {
     if (userId) {
-      await prisma.favorite.deleteMany({ where: { userId } }).catch(() => {});
+      await prisma.favorite.deleteMany({ where: { userId } }).catch(() => { });
     }
     if (userId) {
-      await prisma.user.delete({ where: { id: userId } }).catch(() => {});
+      await prisma.user.delete({ where: { id: userId } }).catch(() => { });
     }
     await prisma.$disconnect();
   });
 
   afterEach(async () => {
     if (userId) {
-      await prisma.favorite.deleteMany({ where: { userId } }).catch(() => {});
+      await prisma.favorite.deleteMany({ where: { userId } }).catch(() => { });
     }
   });
 
@@ -146,7 +154,7 @@ describe('Favorites Endpoints', () => {
       .post(`/api/favorites`)
       .set('Authorization', `Bearer ${authToken}`)
       .send({ gameId: testGameId, platformId: testPlatformId })
-      .catch(() => {});
+      .catch(() => { });
     const res = await request(app)
       .get(`/api/favorites/check/${testGameId}?platformId=${testPlatformId}`)
       .set('Authorization', `Bearer ${authToken}`);
@@ -194,7 +202,7 @@ describe('Favorites Endpoints', () => {
       .post(`/api/favorites`)
       .set('Authorization', `Bearer ${authToken}`)
       .send({ gameId: testGameId, platformId: testPlatformId })
-      .catch(() => {});
+      .catch(() => { });
     const res = await request(app)
       .delete(`/api/favorites/${testGameId}?platformId=${testPlatformId}`)
       .set('Authorization', `Bearer ${authToken}`);

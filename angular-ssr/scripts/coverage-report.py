@@ -1,3 +1,10 @@
+"""
+@file: scripts/coverage-report.py
+@project: GameSage - Plataforma de Videojuegos
+@authors: Rosario González y Álvaro Jiménez
+@description: Script para analizar el reporte de cobertura de tests (HTML) y extraer las estadísticas de archivos y símbolos que no tienen el 100% de cobertura.
+"""
+
 import collections
 import pathlib
 import re

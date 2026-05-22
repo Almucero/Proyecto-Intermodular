@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pipes/sanitize-html.pipe.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Pipe para desinfectar HTML y evitar XSS.
+ */
+
 import { SecurityContext } from '@angular/core';
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -12,10 +19,10 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class SanitizeHtmlPipe implements PipeTransform {
   /**
-       * Documentado.
-       * @param sanitizer Servicio de seguridad de Angular.
-       */
-  constructor(private sanitizer: DomSanitizer) {}
+   * Documentado.
+   * @param sanitizer Servicio de seguridad de Angular.
+   */
+  constructor(private sanitizer: DomSanitizer) { }
 
   /**
    * Desinfecta una cadena HTML.

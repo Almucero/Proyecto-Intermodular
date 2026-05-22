@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/middleware/optional-auth.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Middleware de autenticación opcional que permite acceso sin token pero adjunta usuario si existe.
+ */
+
 import type { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { env } from '../config/env';

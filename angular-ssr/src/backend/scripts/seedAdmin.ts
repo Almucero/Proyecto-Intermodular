@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/scripts/seedAdmin.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Script para crear o actualizar administradores basado en variables de entorno, sincronizando la lista de administradores con ADMIN_EMAILS.
+ */
+
 import 'dotenv/config';
 import bcrypt from 'bcryptjs';
 import { prisma } from '../config/db';
@@ -62,11 +69,11 @@ async function crearAdmin() {
   }
 
   for (let i = 0; i < emails.length; i++) {
-     
+
     const email = emails[i];
-     
+
     const password = passwords[i] || 'ChangeMe123!';
-     
+
     const name = names[i] || 'Admin';
     const passwordHash = await bcrypt.hash(password, saltRounds);
     const createPayload: any = {

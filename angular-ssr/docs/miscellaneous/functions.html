@@ -742,6 +742,9 @@
                             <a href="#updateQuantity" title="src/backend/modules/cart/cart.service.ts" ><b>updateQuantity</b>&nbsp;&nbsp;&nbsp;(src/.../cart.service.ts)</a>
                         </li>
                         <li>
+                            <a href="#updateSessionTitle" title="src/backend/modules/chat/chat.service.ts" ><b>updateSessionTitle</b>&nbsp;&nbsp;&nbsp;(src/.../chat.service.ts)</a>
+                        </li>
+                        <li>
                             <a href="#updateUser" title="src/backend/modules/users/users.service.ts" ><b>updateUser</b>&nbsp;&nbsp;&nbsp;(src/.../users.service.ts)</a>
                         </li>
                         <li>
@@ -14457,6 +14460,13 @@ Dependiendo del backend configurado (http, local-storage, etc.), devuelve la imp
                                     </tbody>
                                 </table>
                             </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -15148,6 +15158,99 @@ Dependiendo del backend configurado (http, local-storage, etc.), devuelve la imp
 
                                             <td>
                                                     <p>Sesión opcional para continuidad.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateSessionTitle"></a>
+                    <span class="name">
+                        <span ><b>updateSessionTitle</b></span>
+                        <a href="#updateSessionTitle"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateSessionTitle(sessionId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, title: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Actualiza el título de una sesión de chat concreta.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>sessionId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Identificador de la sesión.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>userId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Identificador del propietario.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>title</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Nuevo título para la sesión.</p>
 
                                             </td>
                                         </tr>

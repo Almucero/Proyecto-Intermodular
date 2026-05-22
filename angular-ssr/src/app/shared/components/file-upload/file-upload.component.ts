@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/shared/components/file-upload/file-upload.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente que permite la carga de archivos.
+ */
+
 import {
   Component,
   Input,
@@ -37,7 +44,10 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
  */
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 
-/** Clase no documentada. */
+/**
+ * Componente que gestiona la subida de un archivo individual con previsualización
+ * y soporte para drag-and-drop.
+ */
 @Component({
   selector: 'app-file-upload',
   standalone: true,
@@ -71,8 +81,8 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   /** Signal que almacena el archivo seleccionado actualmente. */
   selectedFile = signal<File | null>(null);
 
-  /** Propiedad no documentada. */
-    private translate = inject(TranslateService);
+  /** Servicio de internacionalización para traducir mensajes de error. */
+  private translate = inject(TranslateService);
 
   /** URL para la previsualización del archivo (data URL o blob URL). */
   previewUrl = signal<string | null>(null);
@@ -92,21 +102,21 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   /** URL blob (object URL) interna para previsualizaciones. */
   private blobUrl: string | null = null;
 
-  /** Propiedad no documentada. */
-    private sanitizer = inject(DomSanitizer);
-  /** Propiedad no documentada. */
-    private platformId = inject(PLATFORM_ID);
+  /** Sanitizador para convertir de forma segura las URLs de los blobs/PDFs. */
+  private sanitizer = inject(DomSanitizer);
+  /** Identificador de plataforma para evitar operaciones en el servidor (SSR). */
+  private platformId = inject(PLATFORM_ID);
 
-  /** Propiedad no documentada. */
-    private onChange: (file: File | null) => void = () => {};
-  /** Propiedad no documentada. */
-    private onTouched: () => void = () => {};
+  /** Callback registrado para notificar cambios de valor al formulario reactivo. */
+  private onChange: (file: File | null) => void = () => { };
+  /** Callback registrado para notificar que el componente ha sido tocado (focus/interaction). */
+  private onTouched: () => void = () => { };
 
   /**
    * Implementación de writeValue para ControlValueAccessor.
    * Recibe el valor (archivo) desde el formulario.
-     * @param file Parámetro no documentado.
-     */
+   * @param file Archivo a establecer en el componente.
+   */
   writeValue(file: File | null): void {
     if (file) {
       this.selectedFile.set(file);
@@ -117,26 +127,26 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   }
 
   /**
-     * Método no documentado.
-     * @param fn Parámetro no documentado.
-     */
-    registerOnChange(fn: (file: File | null) => void): void {
+   * Registra el callback que se invocará cuando cambie el archivo seleccionado.
+   * @param fn Función callback de cambio.
+   */
+  registerOnChange(fn: (file: File | null) => void): void {
     this.onChange = fn;
   }
 
   /**
-     * Método no documentado.
-     * @param fn Parámetro no documentado.
-     */
-    registerOnTouched(fn: () => void): void {
+   * Registra el callback que se invocará cuando se toque el componente.
+   * @param fn Función callback de toque.
+   */
+  registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
 
   /**
-     * Método no documentado.
-     * @param isDisabled Parámetro no documentado.
-     */
-    setDisabledState(isDisabled: boolean): void {
+   * Establece el estado deshabilitado del componente.
+   * @param isDisabled Booleano que indica si el componente debe estar inactivo.
+   */
+  setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 
@@ -158,9 +168,9 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   }
 
   /**
-     * Maneja el inicio del arrastre sobre el componente.
-     * @param event Parámetro no documentado.
-     */
+   * Maneja el inicio del arrastre sobre el componente.
+   * @param event Objeto del evento DragEvent.
+   */
   onDragOver(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
@@ -170,9 +180,9 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   }
 
   /**
-     * Maneja cuando el arrastre sale del área del componente.
-     * @param event Parámetro no documentado.
-     */
+   * Maneja cuando el arrastre sale del área del componente.
+   * @param event Objeto del evento DragEvent.
+   */
   onDragLeave(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
@@ -182,8 +192,8 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   /**
    * Maneja el evento de soltar archivos (drop).
    * Procesa el primer archivo soltado si no está deshabilitado.
-     * @param event Parámetro no documentado.
-     */
+   * @param event Objeto del evento DragEvent.
+   */
   onDrop(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
@@ -228,10 +238,10 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   }
 
   /**
-     * Valida el tipo MIME contra la lista blanca.
-     * @param file Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Valida el tipo MIME contra la lista blanca.
+   * @param file Fichero que se desea validar.
+   * @returns True si el tipo MIME del archivo es aceptado, de lo contrario false.
+   */
   private validateMimeType(file: File): boolean {
     if (this.acceptedMimeTypes.includes('*/*')) return true;
 
@@ -245,10 +255,10 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   }
 
   /**
-     * Valida que el archivo no supere el tamaño máximo.
-     * @param file Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Valida que el archivo no supere el tamaño máximo.
+   * @param file Fichero que se desea validar.
+   * @returns True si el tamaño en bytes es inferior o igual al límite, de lo contrario false.
+   */
   private validateSize(file: File): boolean {
     const maxSizeInBytes = this.maxSizeInMB * 1024 * 1024;
     return file.size <= maxSizeInBytes;
@@ -307,17 +317,17 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   }
 
   /**
-     * Indica si hay una imagen cargada.
-     * @returns Retorno no documentado.
-     */
+   * Indica si hay una imagen cargada.
+   * @returns Booleano indicando si el archivo actual es una imagen.
+   */
   isImage(): boolean {
     return this.selectedFile()?.type.startsWith('image/') || false;
   }
 
   /**
-     * Indica si hay un PDF cargado.
-     * @returns Retorno no documentado.
-     */
+   * Indica si hay un PDF cargado.
+   * @returns Booleano indicando si el archivo actual es un PDF.
+   */
   isPDF(): boolean {
     return this.selectedFile()?.type === 'application/pdf' || false;
   }
@@ -325,21 +335,21 @@ export class FileUploadComponent implements ControlValueAccessor, OnDestroy {
   /**
    * Formatea el tamaño en bytes a una cadena legible (KB, MB, etc.).
    * @param bytes Tamaño en bytes.
-     * @returns Retorno no documentado.
-     */
+   * @returns String formateado con la unidad de medida (ej. "1.45 MB").
+   */
   formatFileSize(bytes: number): string {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-     
+
     return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
   }
 
   /**
    * Obtiene un emoji descriptivo según el tipo de archivo.
-     * @returns Retorno no documentado.
-     */
+   * @returns Emoji correspondiente al tipo MIME del archivo.
+   */
   getFileIcon(): string {
     const file = this.selectedFile();
     if (!file) return '📄';

@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/services/interfaces/auth-mapping.interface.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Interfaz para los servicios de mapeo de autenticación.
+ */
+
 import { SignInPayload, SignUpPayload, User } from '../../models/user.model';
 
 /**

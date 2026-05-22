@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/services/ui-state.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicio para gestionar el estado de la interfaz de usuario de forma reactiva.
+ */
+
 import { Injectable, signal } from '@angular/core';
 
 /**
@@ -20,6 +27,7 @@ export class UiStateService {
   /** Señal que se activa cuando la animación de salida del loader ha terminado completamente. */
   loaderAnimationDone = signal(false);
 
+  /** Señal que indica si la barra lateral del chat de IA está abierta. */
   isChatSidebarOpen = signal(false);
 
   /** Alterna el estado del menú. */

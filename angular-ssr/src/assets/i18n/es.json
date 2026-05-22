@@ -566,7 +566,8 @@
     "createAccountButton": "Crear cuenta",
     "backButton": "Volver",
     "googleButton": "Continuar con Google",
-    "githubButton": "Continuar con GitHub"
+    "githubButton": "Continuar con GitHub",
+    "successMessage": "Registro completado con éxito. Ahora puedes iniciar sesión."
   },
   "passwordRecovery": {
     "title": "Recuperar contraseña",

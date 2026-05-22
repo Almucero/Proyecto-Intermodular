@@ -1,5 +1,12 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject, signal, HostListener, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
+/**
+ * @file: src/app/pages/settings/settings.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente de la página de configuración.
+ */
+
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, OnInit, inject, signal, HostListener, ViewEncapsulation, ViewChild, ElementRef, PLATFORM_ID } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Router } from '@angular/router';
@@ -16,23 +23,36 @@ import { CanComponentDeactivate } from '../../core/guards/can-deactivate.guard';
   encapsulation: ViewEncapsulation.None,
 })
 export class SettingsComponent implements OnInit, CanComponentDeactivate {
+  /** Servicio de autenticación. */
   private readonly auth = inject(BaseAuthenticationService);
+  /** Servicio de usuarios. */
   private readonly userService = inject(UserService);
+  /** FormBuilder para construir formularios reactivos. */
   private readonly fb = inject(FormBuilder);
+  /** Enrutador para navegación. */
   private readonly router = inject(Router);
+  /** Identificador de plataforma para comprobar si se está ejecutando en navegador (SSR). */
+  private readonly platformId = inject(PLATFORM_ID);
 
+  /** Indica si el usuario está autenticado. */
   isAuthenticated = signal(false);
+  /** Indica si la autenticación ha sido verificada. */
   isAuthReady = signal(false);
+  /** Indica si se están guardando los cambios. */
   saving = false;
+  /** Indica si los cambios se han guardado con éxito. */
   saved = false;
+  /** Mensaje de error al guardar. */
   saveError = '';
+  /** Indica si el botón de borrar cuenta está armado para confirmación. */
   deleteAccountConfirmArmed = false;
-  
+
   /** Indica si se debe mostrar el modal de confirmación de reseteo. */
   showResetConfirmModal = signal(false);
 
-  /** Estados para los dropdowns personalizados. */
+  /** Indica si el menú desplegable de selección de idioma está abierto. */
   languageDropdownOpen = signal(false);
+  /** Indica si el menú desplegable de selección de frecuencia de notificaciones está abierto. */
   frequencyDropdownOpen = signal(false);
 
   /** Contenedor del desplegable de idioma para la máscara de scroll dinámico. */
@@ -69,6 +89,7 @@ export class SettingsComponent implements OnInit, CanComponentDeactivate {
     { code: 'never', label: 'settings.notifications.frequencies.never' },
   ];
 
+  /** Claves de tópicos de notificación. */
   readonly topicKeys = [
     'periodicRecommendations',
     'cartReminders',
@@ -80,6 +101,7 @@ export class SettingsComponent implements OnInit, CanComponentDeactivate {
     'inactiveAccount',
   ] as const;
 
+  /** Formulario reactivo para la configuración de notificaciones. */
   readonly form = this.fb.group({
     emailNotificationsEnabled: [true, Validators.required],
     notificationEmail: ['', Validators.email],
@@ -100,6 +122,9 @@ export class SettingsComponent implements OnInit, CanComponentDeactivate {
     ),
   });
 
+  /**
+   * Inicializa el componente y se suscribe al estado de autenticación.
+   */
   ngOnInit(): void {
     this.auth.ready$.subscribe((ready) => {
       this.isAuthReady.set(ready);
@@ -171,38 +196,52 @@ export class SettingsComponent implements OnInit, CanComponentDeactivate {
     return this.frequencies.find(f => f.code === code)?.label || 'settings.notifications.selectFrequency';
   }
 
+  /**
+   * Maneja el scroll en el desplegable de idiomas.
+   * @param event Evento de scroll.
+   */
   onLanguageScroll(event: Event) {
     const target = event.target as HTMLElement;
     this.updateScrollMask(target);
   }
 
+  /**
+   * Maneja el scroll en el desplegable de frecuencia.
+   * @param event Evento de scroll.
+   */
   onFrequencyScroll(event: Event) {
     const target = event.target as HTMLElement;
     this.updateScrollMask(target);
   }
 
+  /**
+   * Actualiza la máscara de difuminado del contenedor de scroll.
+   * @param el Elemento contenedor.
+   */
   private updateScrollMask(el: HTMLElement) {
     if (!el) return;
-    
+
     const scrollTop = el.scrollTop;
     const scrollHeight = el.scrollHeight;
     const clientHeight = el.clientHeight;
-    
+
     const showTop = scrollTop > 5;
     const showBottom = scrollTop + clientHeight < scrollHeight - 5;
-    
+
     el.style.setProperty('--scroll-top-mask', showTop ? '0' : '1');
     el.style.setProperty('--scroll-top-mask-stop', showTop ? '2rem' : '0px');
     el.style.setProperty('--scroll-bottom-mask', showBottom ? '0' : '1');
     el.style.setProperty('--scroll-bottom-mask-stop', showBottom ? 'calc(100% - 2rem)' : '100%');
   }
 
+  /** Cierra todos los dropdowns activos. */
   @HostListener('document:click')
   closeDropdowns(): void {
     this.languageDropdownOpen.set(false);
     this.frequencyDropdownOpen.set(false);
   }
 
+  /** Guarda la configuración de notificaciones del usuario. */
   saveSettings(): void {
     this.deleteAccountConfirmArmed = false;
     this.saved = false;
@@ -242,26 +281,48 @@ export class SettingsComponent implements OnInit, CanComponentDeactivate {
       });
   }
 
+  /** Activa o desactiva la fase de confirmación de eliminación de cuenta. */
   onDeleteAccountClick(): void {
     this.deleteAccountConfirmArmed = !this.deleteAccountConfirmArmed;
   }
 
+  /** Cancela la eliminación de cuenta. */
   onCancelDeleteAccount(): void {
     this.deleteAccountConfirmArmed = false;
   }
 
+  /** Confirma la eliminación de la cuenta. */
   onConfirmDeleteAccount(): void {
     this.deleteAccountConfirmArmed = false;
+    this.userService.delete('me').subscribe({
+      next: () => {
+        if (isPlatformBrowser(this.platformId)) {
+          sessionStorage.setItem('deleteSuccess', 'true');
+        }
+        this.auth.signOut().subscribe(() => {
+          this.router.navigate(['/login']);
+        });
+      },
+      error: () => {
+        this.saveError = 'settings.account.deleteError';
+      },
+    });
   }
 
+  /** Redirige a la página de login. */
   goToLogin(): void {
     this.router.navigate(['/login']);
   }
 
+  /** Determina si el formulario tiene cambios sin guardar. */
   get isEditing(): boolean {
     return this.form.dirty && !this.saved;
   }
 
+  /**
+   * Muestra confirmación al recargar si hay cambios sin guardar.
+   * @param $event Evento del navegador beforeunload.
+   */
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any): void {
     if (this.isEditing) {
@@ -269,6 +330,10 @@ export class SettingsComponent implements OnInit, CanComponentDeactivate {
     }
   }
 
+  /**
+   * Comprueba si el componente tiene cambios sin guardar para el CanDeactivateGuard.
+   * @returns `true` si hay cambios pendientes de guardar.
+   */
   hasUnsavedChanges(): boolean {
     return this.isEditing;
   }

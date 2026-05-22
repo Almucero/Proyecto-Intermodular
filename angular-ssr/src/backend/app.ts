@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/app.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Configuración principal de la API REST con Express, middleware de seguridad, rutas, rate limiting y endpoints de diagnóstico.
+ */
+
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -83,8 +90,8 @@ app.use((req, res, next) => {
 /** Orígenes CORS definidos explícitamente por variable de entorno. */
 const corsOriginsFromEnv = env.CORS_ORIGIN
   ? env.CORS_ORIGIN.split(',')
-      .map((o) => o.trim())
-      .filter(Boolean)
+    .map((o) => o.trim())
+    .filter(Boolean)
   : [];
 /** Orígenes locales permitidos en desarrollo. */
 const localhostOrigins = [
@@ -236,17 +243,17 @@ const buildSwaggerSpecForRequest = (
   const servers =
     env.NODE_ENV === 'production'
       ? [
-          {
-            url: `${protocol}://${host}/`,
-            description: 'Servidor de producción (Vercel)',
-          },
-        ]
+        {
+          url: `${protocol}://${host}/`,
+          description: 'Servidor de producción (Vercel)',
+        },
+      ]
       : [
-          {
-            url: `http://localhost:${env.PORT}`,
-            description: 'Servidor de desarrollo',
-          },
-        ];
+        {
+          url: `http://localhost:${env.PORT}`,
+          description: 'Servidor de desarrollo',
+        },
+      ];
 
   dynamicSpec['servers'] = servers;
   return dynamicSpec;

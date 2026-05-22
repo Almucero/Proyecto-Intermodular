@@ -1,4 +1,12 @@
+/**
+ * @file: src/backend/tests/cart.test.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Tests para endpoints de carrito de compras cubriendo adición, actualización, eliminación y recuperación de items.
+ */
+
 /// <reference types="jest" />
+
 import request from 'supertest';
 import app from '../app';
 import { prisma } from '../config/db';
@@ -55,19 +63,19 @@ describe('Cart Endpoints', () => {
 
   afterAll(async () => {
     if (userId) {
-      await prisma.cartItem.deleteMany({ where: { userId } }).catch(() => {});
+      await prisma.cartItem.deleteMany({ where: { userId } }).catch(() => { });
     }
     if (testUser.email) {
       await prisma.user
         .delete({ where: { email: testUser.email } })
-        .catch(() => {});
+        .catch(() => { });
     }
     await prisma.$disconnect();
   });
 
   afterEach(async () => {
     if (userId) {
-      await prisma.cartItem.deleteMany({ where: { userId } }).catch(() => {});
+      await prisma.cartItem.deleteMany({ where: { userId } }).catch(() => { });
     }
   });
 

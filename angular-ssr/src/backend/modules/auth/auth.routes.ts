@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/auth/auth.routes.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Definición de rutas de autenticación con validación de entrada (Zod) y endpoints públicos.
+ */
+
 import { Router } from 'express';
 import { validate } from '../../middleware/validate';
 import {

@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/chat/chat.controller.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Controladores de chat que manejan procesamiento de mensajes, listado de sesiones y operaciones CRUD sobre ellas, integrados con Zod para validación.
+ */
+
 import type { Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
 import {

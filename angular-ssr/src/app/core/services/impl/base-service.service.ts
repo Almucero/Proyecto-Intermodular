@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/services/impl/base-service.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Clase base genérica para servicios que implementan operaciones CRUD.
+ */
+
 import { Injectable, Inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { IBaseService } from '../interfaces/base-service.interface';
@@ -17,13 +24,13 @@ import { REPOSITORY_TOKEN } from '../../repositories/repository.tokens';
 })
 export class BaseService<T extends Model> implements IBaseService<T> {
   /**
-       * Documentado.
-       * @param repository Repositorio inyectado que maneja la persistencia de los datos.
-       */
+   * Documentado.
+   * @param repository Repositorio inyectado que maneja la persistencia de los datos.
+   */
   constructor(
     /** Repositorio inyectado que maneja la persistencia de los datos. */
     @Inject(REPOSITORY_TOKEN) protected repository: IBaseRepository<T>,
-  ) {}
+  ) { }
 
   /**
    * Obtiene todos los registros, opcionalmente filtrados.

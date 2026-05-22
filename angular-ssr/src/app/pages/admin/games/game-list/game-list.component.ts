@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/admin/games/game-list/game-list.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente que muestra la lista de videojuegos en el panel de administración.
+ */
+
 import {
   Component,
   inject,
@@ -25,10 +32,10 @@ import { GameFormComponent } from '../game-form/game-form.component';
   styleUrl: './game-list.component.scss',
 })
 export class GameListComponent implements OnInit {
-  /** Propiedad no documentada. */
-    private gameService = inject(GameService);
-  /** Propiedad no documentada. */
-    private readonly MIN_SKELETON_MS = 550;
+  /** Servicio para interactuar con la API en operaciones de videojuegos. */
+  private gameService = inject(GameService);
+  /** Duración mínima en milisegundos para simular el skeleton de carga y evitar parpadeos visuales. */
+  private readonly MIN_SKELETON_MS = 550;
 
   /** Referencia al contenedor con scroll para manejar efectos visuales de sombras. */
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
@@ -118,9 +125,9 @@ export class GameListComponent implements OnInit {
   }
 
   /**
-     * Abre el modal para editar un videojuego existente.
-     * @param id Parámetro no documentado.
-     */
+   * Abre el modal para editar un videojuego existente.
+   * @param id Identificador numérico del videojuego que se desea editar.
+   */
   openEditModal(id: number) {
     this.selectedGameId = id;
     this.showModal = true;
@@ -139,9 +146,9 @@ export class GameListComponent implements OnInit {
   }
 
   /**
-     * Abre el modal de confirmación para eliminar un juego.
-     * @param id Parámetro no documentado.
-     */
+   * Abre el modal de confirmación para eliminar un juego.
+   * @param id Identificador numérico del videojuego que se desea eliminar.
+   */
   openDeleteModal(id: number) {
     this.gameToDeleteId = id;
     this.showDeleteModal = true;

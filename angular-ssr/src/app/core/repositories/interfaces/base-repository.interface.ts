@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/repositories/interfaces/base-repository.interface.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Interfaz base para repositorios con operaciones CRUD.
+ */
+
 import { Observable } from 'rxjs';
 import { Model } from '../../models/base.model';
 /**

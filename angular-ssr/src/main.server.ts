@@ -1,3 +1,10 @@
+/**
+ * @file: src/main.server.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Punto de entrada principal para la aplicación Angular en modo servidor.
+ */
+
 import {
   BootstrapContext,
   bootstrapApplication,

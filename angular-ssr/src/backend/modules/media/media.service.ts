@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/media/media.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicios de media que implementan operaciones CRUD para recursos multimedia, incluyendo listado, búsqueda, subida, actualización y eliminación.
+ */
+
 import { v2 as cloudinary } from 'cloudinary';
 import { env } from '../../config/env';
 import { prisma } from '../../config/db';

@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/login/login.component.scss
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Estilos para el formulario de inicio de sesión.
+ */
+
 :host {
   display: flex;
   flex-direction: column;
@@ -73,6 +80,3 @@ button {
   -moz-user-select: none !important;
   -ms-user-select: none !important;
 }
-
-
-

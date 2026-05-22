@@ -1,3 +1,11 @@
+
+/**
+ * @file: src/app/core/models/media.model.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Modelo de datos para recursos multimedia (imágenes y vídeos).
+ */
+
 import { Model } from './base.model';
 import { Game } from './game.model';
 import { User } from './user.model';

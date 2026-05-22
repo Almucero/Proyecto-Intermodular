@@ -1,4 +1,12 @@
+/**
+ * @file: src/backend/tests/purchases.test.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Tests para endpoints de compras incluyendo checkout, listado, recuperación y reembolsos de compras.
+ */
+
 /// <reference types="jest" />
+
 import request from 'supertest';
 import app from '../app';
 import { prisma } from '../config/db';
@@ -57,14 +65,14 @@ describe('Purchases Endpoints', () => {
 
   afterAll(async () => {
     if (userId) {
-      await prisma.purchase.deleteMany({ where: { userId } }).catch(() => {});
-      await prisma.cartItem.deleteMany({ where: { userId } }).catch(() => {});
+      await prisma.purchase.deleteMany({ where: { userId } }).catch(() => { });
+      await prisma.cartItem.deleteMany({ where: { userId } }).catch(() => { });
     }
 
     if (testUser.email) {
       await prisma.user
         .delete({ where: { email: testUser.email } })
-        .catch(() => {});
+        .catch(() => { });
     }
     await prisma.$disconnect();
   });
@@ -286,7 +294,7 @@ describe('Purchases Endpoints', () => {
 
     await prisma.user
       .delete({ where: { email: otherUser.email } })
-      .catch(() => {});
+      .catch(() => { });
   });
 
   it('debe fallar si no hay autenticación', async () => {

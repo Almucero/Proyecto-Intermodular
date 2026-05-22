@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/cart/cart.schema.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Esquemas de validación Zod para operaciones de carrito, incluyendo adición, actualización y serialización de respuesta.
+ */
+
 import { z } from 'zod';
 
 /** Esquema para añadir un juego al carrito. */

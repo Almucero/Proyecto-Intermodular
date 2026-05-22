@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/cookies/cookies.component.scss
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Estilos para el componente de cookies.
+ */
+
 :host {
   display: flex;
   flex-direction: column;
@@ -101,7 +108,7 @@ div[class*="border-slate-400"] {
     }
 
     .space-y-12 {
-      > * + * {
+      >*+* {
         margin-top: 1.25rem !important;
       }
 

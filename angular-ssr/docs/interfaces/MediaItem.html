@@ -235,7 +235,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Propiedad no documentada.</p>
+                                    <div class="io-description"><p>Etiqueta descriptiva o título del recurso.</p>
 </div>
                                 </td>
                             </tr>
@@ -279,7 +279,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Propiedad no documentada.</p>
+                                    <div class="io-description"><p>URL de la miniatura si el recurso es un vídeo.</p>
 </div>
                                 </td>
                             </tr>
@@ -318,7 +318,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Propiedad no documentada.</p>
+                                    <div class="io-description"><p>Tipo de recurso multimedia (&#39;video&#39; o &#39;image&#39;).</p>
 </div>
                                 </td>
                             </tr>
@@ -362,7 +362,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Propiedad no documentada.</p>
+                                    <div class="io-description"><p>URL original o saneada del recurso.</p>
 </div>
                                 </td>
                             </tr>
@@ -394,33 +394,34 @@ import { BaseAuthenticationService } from &#x27;../../core/services/impl/base-au
 import { CartItem } from &#x27;../../core/models/cart-item.model&#x27;;
 import { Favorite } from &#x27;../../core/models/favorite.model&#x27;;
 import { Game } from &#x27;../../core/models/game.model&#x27;;
-import { LocalizedCurrencyPipe } from &#x27;../../shared/pipes/localized-currency.pipe&#x27;;
+import { LocalizedCurrencyPipe } from &#x27;../../pipes/localized-currency.pipe&#x27;;
 import { PageTitleService } from &#x27;../../core/services/page-title.service&#x27;;
 import { DOCUMENT } from &#x27;@angular/common&#x27;;
 import { CarouselComponent } from &#x27;../../shared/components/carousel/carousel.component&#x27;;
 import { StripeModalComponent } from &#x27;../../shared/components/stripe-checkout/stripe-checkout.component&#x27;;
 import { Subscription } from &#x27;rxjs&#x27;;
+import { AutoTranslatePipe } from &#x27;../../pipes/auto-translate.pipe&#x27;;
 
 /** Estructura de elemento visualizable en galería de producto. */
 interface MediaItem {
-  /** Propiedad no documentada. */
-    type: &#x27;video&#x27; | &#x27;image&#x27;;
-  /** Propiedad no documentada. */
-    label: string;
-  /** Propiedad no documentada. */
-    url?: string | SafeResourceUrl;
-  /** Propiedad no documentada. */
-    thumbnail?: string;
+  /** Tipo de recurso multimedia (&#x27;video&#x27; o &#x27;image&#x27;). */
+  type: &#x27;video&#x27; | &#x27;image&#x27;;
+  /** Etiqueta descriptiva o título del recurso. */
+  label: string;
+  /** URL original o saneada del recurso. */
+  url?: string | SafeResourceUrl;
+  /** URL de la miniatura si el recurso es un vídeo. */
+  thumbnail?: string;
 }
 
 /** Estructura de una sección de carrusel de recomendaciones. */
 interface RecommendationSection {
-  /** Propiedad no documentada. */
-    titleKey: string;
-  /** Propiedad no documentada. */
-    sectionId: string;
-  /** Propiedad no documentada. */
-    items: Game[];
+  /** Clave de traducción del título de la sección. */
+  titleKey: string;
+  /** Identificador único de la sección del carrusel. */
+  sectionId: string;
+  /** Listado de juegos recomendados para esta sección. */
+  items: Game[];
 }
 
 /**
@@ -438,6 +439,7 @@ interface RecommendationSection {
     CarouselComponent,
     StripeModalComponent,
     RouterModule,
+    AutoTranslatePipe
   ],
   templateUrl: &#x27;./product.component.html&#x27;,
   styleUrls: [&#x27;./product.component.scss&#x27;],
@@ -447,55 +449,57 @@ export class ProductComponent implements OnInit, OnDestroy {
   game: Game | null &#x3D; this.createPlaceholder();
   /** Plataforma seleccionada actualmente por el usuario. */
   selectedPlatform: string | null &#x3D; null;
+  /** Plataforma seleccionada anteriormente (para animaciones). */
+  lastSelectedPlatform: string | null &#x3D; null;
   /** Índice del medio (vídeo/imagen) que se muestra en el visor principal. */
   currentMediaIndex: number &#x3D; 0;
   /** Lista de elementos multimedia procesados para el visor. */
   mediaItems: MediaItem[] &#x3D; [];
-  /** Propiedad no documentada. */
-    recommendationSections: RecommendationSection[] &#x3D; [];
-  /** Propiedad no documentada. */
-    recommendationSkeletonSections: RecommendationSection[] &#x3D; this.createRecommendationSkeletons();
-  /** Propiedad no documentada. */
-    loadingRecommendations &#x3D; true;
-  /** Propiedad no documentada. */
-    private routeSub?: Subscription;
+  /** Secciones de recomendaciones cargadas con juegos reales. */
+  recommendationSections: RecommendationSection[] &#x3D; [];
+  /** Secciones de recomendaciones representadas como esqueletos de carga. */
+  recommendationSkeletonSections: RecommendationSection[] &#x3D; this.createRecommendationSkeletons();
+  /** Indica si se están cargando los carruseles de recomendación. */
+  loadingRecommendations &#x3D; true;
+  /** Suscripción a los cambios de parámetros de la ruta activa. */
+  private routeSub?: Subscription;
 
   /** Estados para notificaciones visuales y modales. */
   showAuthModal &#x3D; signal(false);
-  /** Propiedad no documentada. */
-    authModalOpen &#x3D; false;
-  /** Propiedad no documentada. */
-    authModalClosing &#x3D; false;
-  /** Propiedad no documentada. */
-    private readonly authModalAnimMs &#x3D; 160;
-  /** Propiedad no documentada. */
-    isAuthenticated &#x3D; signal(false);
-  /** Propiedad no documentada. */
-    addedToCartSuccess &#x3D; signal(false);
-  /** Propiedad no documentada. */
-    addedToFavoritesSuccess &#x3D; signal(false);
-  /** Propiedad no documentada. */
-    buySuccess &#x3D; signal(false);
-  /** Propiedad no documentada. */
-    quantityIncreased &#x3D; signal(false);
-  /** Propiedad no documentada. */
-    alreadyInCart &#x3D; signal(false);
-  /** Propiedad no documentada. */
-    alreadyInFavorites &#x3D; signal(false);
-  /** Propiedad no documentada. */
-    isScreenshotModalOpen &#x3D; signal(false);
-  /** Propiedad no documentada. */
-    screenshotModalImage &#x3D; signal&lt;string | null&gt;(null);
-  /** Propiedad no documentada. */
-    screenshotModalOpen &#x3D; false;
-  /** Propiedad no documentada. */
-    screenshotModalClosing &#x3D; false;
-  /** Propiedad no documentada. */
-    checkoutModalOpen &#x3D; signal(false);
-  /** Propiedad no documentada. */
-    directCheckoutPayload &#x3D; signal&lt;{ gameId: number; platformId: number } | null&gt;(null);
-  /** Propiedad no documentada. */
-    purchaseInfoVisible &#x3D; signal(false);
+  /** Bandera interna de control para determinar si el modal de autenticación está visible. */
+  authModalOpen &#x3D; false;
+  /** Bandera interna de control para determinar si el modal de autenticación está cerrándose. */
+  authModalClosing &#x3D; false;
+  /** Duración de la animación del modal de autenticación en milisegundos. */
+  private readonly authModalAnimMs &#x3D; 160;
+  /** Señal que indica si el usuario actual está autenticado en la plataforma. */
+  isAuthenticated &#x3D; signal(false);
+  /** Señal de éxito al añadir un producto al carrito de compras. */
+  addedToCartSuccess &#x3D; signal(false);
+  /** Señal de éxito al añadir un producto al listado de favoritos. */
+  addedToFavoritesSuccess &#x3D; signal(false);
+  /** Señal de éxito tras iniciar un flujo de compra directa. */
+  buySuccess &#x3D; signal(false);
+  /** Señal que se activa si la cantidad de un producto ya en el carrito ha sido incrementada. */
+  quantityIncreased &#x3D; signal(false);
+  /** Señal de aviso si un producto ya se encuentra en el carrito de compras. */
+  alreadyInCart &#x3D; signal(false);
+  /** Señal de aviso si un producto ya se encuentra en el listado de favoritos. */
+  alreadyInFavorites &#x3D; signal(false);
+  /** Señal que determina si el modal de visor de capturas de pantalla está abierto. */
+  isScreenshotModalOpen &#x3D; signal(false);
+  /** Señal que almacena la URL de la captura de pantalla mostrada en el modal. */
+  screenshotModalImage &#x3D; signal&lt;string | null&gt;(null);
+  /** Bandera interna para determinar si el modal de capturas está visible. */
+  screenshotModalOpen &#x3D; false;
+  /** Bandera interna para determinar si el modal de capturas está cerrándose. */
+  screenshotModalClosing &#x3D; false;
+  /** Señal que determina si el modal de pasarela de pago (checkout) está abierto. */
+  checkoutModalOpen &#x3D; signal(false);
+  /** Señal que almacena la información necesaria para el checkout directo. */
+  directCheckoutPayload &#x3D; signal&lt;{ gameId: number; platformId: number } | null&gt;(null);
+  /** Señal que determina si el mensaje de confirmación de compra es visible. */
+  purchaseInfoVisible &#x3D; signal(false);
 
   /** Configuración estática de todas las plataformas soportadas. */
   allPlatforms &#x3D; [
@@ -567,20 +571,20 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   /**
-     * Constructor no documentado.
-     * @param route Parámetro no documentado.
-     * @param gameService Parámetro no documentado.
-     * @param mediaService Parámetro no documentado.
-     * @param sanitizer Parámetro no documentado.
-     * @param cartItemService Parámetro no documentado.
-     * @param favoriteService Parámetro no documentado.
-     * @param authService Parámetro no documentado.
-     * @param router Parámetro no documentado.
-     * @param pageTitleService Parámetro no documentado.
-     * @param renderer Parámetro no documentado.
-     * @param document Parámetro no documentado.
-     */
-    constructor(
+   * Crea una instancia de ProductComponent.
+   * @param route Servicio para acceder a la información de la ruta activa.
+   * @param gameService Servicio para gestionar operaciones de juegos.
+   * @param mediaService Servicio para interactuar con archivos multimedia.
+   * @param sanitizer Servicio de Angular para sanear contenido inseguro.
+   * @param cartItemService Servicio para el carrito de compras.
+   * @param favoriteService Servicio para el listado de favoritos.
+   * @param authService Servicio de autenticación del usuario.
+   * @param router Servicio de enrutamiento de Angular.
+   * @param pageTitleService Servicio para cambiar dinámicamente el título de la página.
+   * @param renderer Utilidad para interactuar de forma segura con el DOM.
+   * @param document Elemento Document inyectado.
+   */
+  constructor(
     @Inject(ActivatedRoute) private route: ActivatedRoute,
     private gameService: GameService,
     private mediaService: MediaService,
@@ -592,7 +596,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     private pageTitleService: PageTitleService,
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document: Document,
-  ) {}
+  ) { }
 
   /**
    * Inicializa el componente cargando el juego según el ID de la ruta.
@@ -610,6 +614,7 @@ export class ProductComponent implements OnInit, OnDestroy {
         this.loadingRecommendations &#x3D; true;
         this.currentMediaIndex &#x3D; 0;
         this.selectedPlatform &#x3D; null;
+        this.lastSelectedPlatform &#x3D; null;
         this.loadGame(id);
       }
     });
@@ -626,8 +631,10 @@ export class ProductComponent implements OnInit, OnDestroy {
     });
   }
 
-  /** Método no documentado. */
-    ngOnDestroy(): void {
+  /**
+   * Libera las suscripciones activas y limpia estilos del body al destruir el componente.
+   */
+  ngOnDestroy(): void {
     this.routeSub?.unsubscribe();
     this.renderer.removeStyle(this.document.body, &#x27;overflow&#x27;);
     this.checkoutModalOpen.set(false);
@@ -635,9 +642,9 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   /**
-     * Crea un objeto juego vacío para el estado inicial de carga.
-     * @returns Retorno no documentado.
-     */
+   * Crea un objeto juego vacío para el estado inicial de carga.
+   * @returns Un objeto Game provisional para usar como placeholder.
+   */
   createPlaceholder(): Game {
     return {
       id: -1,
@@ -661,11 +668,11 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   /**
-     * Método no documentado.
-     * @param count Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-    private createCarouselPlaceholders(count &#x3D; 20): Game[] {
+   * Crea una lista de juegos vacíos para simular la carga en los carruseles.
+   * @param count Número de placeholders a generar (por defecto 20).
+   * @returns Un listado de objetos Game vacíos.
+   */
+  private createCarouselPlaceholders(count &#x3D; 20): Game[] {
     return Array(count).fill({
       id: -1,
       title: &#x27;common.loading&#x27;,
@@ -688,10 +695,10 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   /**
-     * Método no documentado.
-     * @returns Retorno no documentado.
-     */
-    private createRecommendationSkeletons(): RecommendationSection[] {
+   * Inicializa las secciones de recomendación con datos provisionales de carga.
+   * @returns Listado de secciones de recomendación con esqueletos de carga.
+   */
+  private createRecommendationSkeletons(): RecommendationSection[] {
     const placeholders &#x3D; this.createCarouselPlaceholders();
     return [
       {
@@ -741,6 +748,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
           if (availablePlatforms.length &#x3D;&#x3D;&#x3D; 1) {
             this.selectedPlatform &#x3D; availablePlatforms[0].name;
+            this.lastSelectedPlatform &#x3D; availablePlatforms[0].name;
           }
         });
       }
@@ -748,11 +756,11 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   /**
-     * Método no documentado.
-     * @param baseGame Parámetro no documentado.
-     * @param allMedia Parámetro no documentado.
-     */
-    private loadRecommendationCarousels(baseGame: Game, allMedia: any[]): void {
+   * Carga los carruseles de juegos recomendados calculando similitudes y aplicando fallbacks.
+   * @param baseGame Juego base sobre el cual realizar las recomendaciones.
+   * @param allMedia Listado de recursos multimedia para asociar imágenes a los juegos recomendados.
+   */
+  private loadRecommendationCarousels(baseGame: Game, allMedia: any[]): void {
     this.gameService.getAll({}).subscribe({
       next: (allGames) &#x3D;&gt; {
         const mediaByGameId &#x3D; new Map&lt;number, any[]&gt;();
@@ -890,12 +898,12 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   /**
-     * Método no documentado.
-     * @param base Parámetro no documentado.
-     * @param candidate Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-    private scoreSimilarity(base: Game, candidate: Game): number {
+   * Evalúa y asigna una puntuación de similitud entre dos juegos.
+   * @param base Juego base de referencia.
+   * @param candidate Juego candidato a comparar.
+   * @returns Puntuación de similitud calculada.
+   */
+  private scoreSimilarity(base: Game, candidate: Game): number {
     let score &#x3D; 0;
 
     if (base.developerId &amp;&amp; candidate.developerId &#x3D;&#x3D;&#x3D; base.developerId) {
@@ -998,10 +1006,10 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   /**
-     * Obtiene la cantidad de stock para una plataforma específica.
-     * @param platformName Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Obtiene la cantidad de stock para una plataforma específica.
+   * @param platformName Nombre de la plataforma a consultar.
+   * @returns Cantidad de stock disponible.
+   */
   getStockForPlatform(platformName: string | null): number {
     if (!this.game || !platformName) return 0;
     const platform &#x3D; this.allPlatforms.find((p) &#x3D;&gt; p.name &#x3D;&#x3D;&#x3D; platformName);
@@ -1010,9 +1018,9 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   /**
-     * Obtiene el ID numérico de la plataforma seleccionada.
-     * @returns Retorno no documentado.
-     */
+   * Obtiene el ID numérico de la plataforma seleccionada.
+   * @returns ID de la plataforma o null si no hay selección.
+   */
   getSelectedPlatformId(): number | null {
     if (!this.selectedPlatform || !this.game?.platforms) return null;
     const platform &#x3D; this.game.platforms.find(
@@ -1022,9 +1030,9 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   /**
-     * Verifica si el usuario está autenticado, mostrando un modal si no lo está.
-     * @returns Retorno no documentado.
-     */
+   * Verifica si el usuario está autenticado, mostrando un modal si no lo está.
+   * @returns Verdadero si está autenticado; de lo contrario falso.
+   */
   checkAuth(): boolean {
     if (!this.isAuthenticated()) {
       this.showAuthModal.set(true);
@@ -1074,27 +1082,27 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   /**
-     * Método no documentado.
-     * @param imageUrl Parámetro no documentado.
-     */
-    openScreenshotModal(imageUrl: string): void {
+   * Abre el modal de visor de capturas de pantalla para una imagen específica.
+   * @param imageUrl URL de la imagen a mostrar.
+   */
+  openScreenshotModal(imageUrl: string): void {
     if (!imageUrl) return;
     this.screenshotModalImage.set(imageUrl);
     this.isScreenshotModalOpen.set(true);
     this.screenshotModalClosing &#x3D; false;
     this.screenshotModalOpen &#x3D; false;
     this.renderer.setStyle(this.document.body, &#x27;overflow&#x27;, &#x27;hidden&#x27;);
-    if (typeof requestAnimationFrame !&#x3D;&#x3D; &#x27;undefined&#x27;) {
-      requestAnimationFrame(() &#x3D;&gt; {
+    if (typeof setTimeout !&#x3D;&#x3D; &#x27;undefined&#x27;) {
+      setTimeout(() &#x3D;&gt; {
         if (!this.screenshotModalClosing) this.screenshotModalOpen &#x3D; true;
-      });
+      }, 10);
     } else {
       this.screenshotModalOpen &#x3D; true;
     }
   }
 
-  /** Método no documentado. */
-    closeScreenshotModal(): void {
+  /** Cierra el visor de capturas de pantalla con animación de salida. */
+  closeScreenshotModal(): void {
     if (this.screenshotModalClosing) return;
     this.screenshotModalClosing &#x3D; true;
     this.screenshotModalOpen &#x3D; false;
@@ -1152,9 +1160,9 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   /**
-     * Incrementa la cantidad de un artículo ya existente en el carrito.
-     * @param platformId Parámetro no documentado.
-     */
+   * Incrementa la cantidad de un artículo ya existente en el carrito.
+   * @param platformId ID de la plataforma del artículo a incrementar.
+   */
   private increaseQuantity(platformId: number) {
     if (!this.game) return;
     this.cartItemService.getAll().subscribe({
@@ -1223,14 +1231,14 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.checkoutModalOpen.set(true);
   }
 
-  /** Método no documentado. */
-    closeCheckoutModal(): void {
+  /** Cierra la pasarela de pago (checkout) directa. */
+  closeCheckoutModal(): void {
     this.checkoutModalOpen.set(false);
     this.directCheckoutPayload.set(null);
   }
 
-  /** Método no documentado. */
-    onCheckoutCompleted(): void {
+  /** Se ejecuta cuando el checkout directo ha sido completado satisfactoriamente. */
+  onCheckoutCompleted(): void {
     this.checkoutModalOpen.set(false);
     this.directCheckoutPayload.set(null);
     this.purchaseInfoVisible.set(true);
@@ -1240,27 +1248,31 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
   }
 
-  /** Método no documentado. */
-    closePurchaseInfo(): void {
+  /** Cierra el aviso o información sobre el éxito de la compra. */
+  closePurchaseInfo(): void {
     this.purchaseInfoVisible.set(false);
   }
 
   /**
-     * Comprueba si el juego está disponible para una plataforma dada.
-     * @param platformName Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Comprueba si el juego está disponible para una plataforma dada.
+   * @param platformName Nombre de la plataforma a verificar.
+   * @returns Verdadero si está disponible; de lo contrario falso.
+   */
   isPlatformAvailable(platformName: string): boolean {
     return this.game?.platforms?.some((p) &#x3D;&gt; p.name &#x3D;&#x3D;&#x3D; platformName) || false;
   }
 
   /**
-     * Selecciona o deselecciona una plataforma.
-     * @param platform Parámetro no documentado.
-     */
+   * Selecciona o deselecciona una plataforma para la compra del producto.
+   * @param platform Nombre de la plataforma seleccionada.
+   */
   selectPlatform(platform: string): void {
-    this.selectedPlatform &#x3D;
-      this.selectedPlatform &#x3D;&#x3D;&#x3D; platform ? null : platform;
+    if (this.selectedPlatform &#x3D;&#x3D;&#x3D; platform) {
+      this.selectedPlatform &#x3D; null;
+    } else {
+      this.selectedPlatform &#x3D; platform;
+      this.lastSelectedPlatform &#x3D; platform;
+    }
   }
 
   /** Retrocede al medio anterior en el visor. */
@@ -1278,18 +1290,18 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   /**
-     * Selecciona un medio específico por su índice.
-     * @param index Parámetro no documentado.
-     */
+   * Selecciona un medio específico por su índice en la galería de medios.
+   * @param index Índice del medio seleccionado.
+   */
   selectMedia(index: number): void {
     this.currentMediaIndex &#x3D; index;
   }
 
   /**
-     * Método no documentado.
-     * @param id Parámetro no documentado.
-     */
-    goToProduct(id: number): void {
+   * Navega a la página de detalle del producto de un juego específico.
+   * @param id ID del juego de destino.
+   */
+  goToProduct(id: number): void {
     if (!Number.isFinite(id) || id &lt;&#x3D; 0) return;
     if (this.game?.id !&#x3D;&#x3D; id) {
       this.game &#x3D; this.createPlaceholder();
@@ -1299,14 +1311,15 @@ export class ProductComponent implements OnInit, OnDestroy {
       this.loadingRecommendations &#x3D; true;
       this.currentMediaIndex &#x3D; 0;
       this.selectedPlatform &#x3D; null;
+      this.lastSelectedPlatform &#x3D; null;
     }
     this.router.navigateByUrl(&#x60;/product/${id}&#x60;);
   }
 
   /**
-     * Calcula cuántas estrellas llenas mostrar en el rating.
-     * @returns Retorno no documentado.
-     */
+   * Calcula cuántas estrellas llenas mostrar en el rating.
+   * @returns Array de ceros de longitud igual a la cantidad de estrellas llenas.
+   */
   getRatingStars(): number[] {
     const rating &#x3D; this.game?.rating || 0;
     const fullStars &#x3D; Math.floor(rating);
@@ -1314,9 +1327,9 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   /**
-     * Calcula cuántas estrellas vacías mostrar en el rating.
-     * @returns Retorno no documentado.
-     */
+   * Calcula cuántas estrellas vacías mostrar en el rating.
+   * @returns Array de ceros de longitud igual a la cantidad de estrellas vacías.
+   */
   getEmptyStars(): number[] {
     const rating &#x3D; this.game?.rating || 0;
     const fullStars &#x3D; Math.floor(rating);
@@ -1325,20 +1338,20 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   /**
-     * Extrae el ID de vídeo de una URL de YouTube.
-     * @param url Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Extrae el ID de vídeo de una URL de YouTube.
+   * @param url URL completa de YouTube.
+   * @returns ID del vídeo o null si no se encuentra.
+   */
   private getVideoId(url: string): string | null {
     const videoIdMatch &#x3D; url.match(/[?&amp;]v&#x3D;([^&amp;]+)/);
     return videoIdMatch ? videoIdMatch[1] : null;
   }
 
   /**
-     * Convierte una URL de YouTube estándar en una URL de inserción (embed) segura.
-     * @param url Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Convierte una URL de YouTube estándar en una URL de inserción (embed) segura.
+   * @param url URL original de YouTube.
+   * @returns URL segura para usar en un iframe.
+   */
   private convertToEmbedUrl(url: string): string {
     const videoId &#x3D; this.getVideoId(url);
     if (videoId) {
@@ -1347,8 +1360,8 @@ export class ProductComponent implements OnInit, OnDestroy {
     return url;
   }
 
-  /** Método no documentado. */
-    @HostListener(&#x27;document:keydown.escape&#x27;)
+  /** Cierra el visor de capturas de pantalla cuando se presiona la tecla Escape. */
+  @HostListener(&#x27;document:keydown.escape&#x27;)
   onEscapePressed(): void {
     if (this.isScreenshotModalOpen()) {
       this.closeScreenshotModal();

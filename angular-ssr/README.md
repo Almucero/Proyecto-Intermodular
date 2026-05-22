@@ -340,7 +340,7 @@ Durante `ng build` con configuración SSR, Angular puede ejecutar el servidor de
   - `GET /api/auth/github/callback`
   - `POST /api/auth/google`
   - `POST /api/auth/github`
-- **Usuario actual**: `GET /api/users/me` (requiere JWT).
+- **Usuario actual**: `GET /api/users/me`, `PATCH /api/users/me`, `DELETE /api/users/me` (requiere JWT).
 - **Juegos**: `GET /api/games`, `GET /api/games/:id`, `POST /api/games`, `PATCH /api/games/:id`, `DELETE /api/games/:id` (creación/edición/borrado con auth y admin).
 - **Desarrolladores, editores, géneros, plataformas**: CRUD bajo `/api/developers`, `/api/publishers`, `/api/genres`, `/api/platforms`.
 - **Media**: subida y gestión bajo `/api/media`.

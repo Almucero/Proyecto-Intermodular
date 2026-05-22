@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/repositories/impl/favorite-mapping-node.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicio de mapeo para favoritos desde un backend Node.js.
+ */
+
 import { Injectable } from '@angular/core';
 import { IBaseMapping } from '../interfaces/base-mapping.interface';
 import { Favorite } from '../../models/favorite.model';
@@ -10,19 +17,19 @@ import { Favorite } from '../../models/favorite.model';
 })
 export class FavoriteMappingNodeService implements IBaseMapping<Favorite> {
   /**
-     * Transforma una lista de favoritos provenientes de la API.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Transforma una lista de favoritos provenientes de la API.
+   * @param data Listado crudo devuelto por la API.
+   * @returns Lista estructurada de favoritos.
+   */
   getAll(data: any): Favorite[] {
     return data.map((item: any) => this.getOne(item));
   }
 
   /**
    * Transforma un único favorito de la API al modelo de la aplicación.
-   * @param data Objeto de la API.
-     * @returns Retorno no documentado.
-     */
+   * @param data Objeto crudo de favorito proveniente de la API.
+   * @returns Instancia estructurada de Favorite.
+   */
   getOne(data: any): Favorite {
     return {
       id: data.favoriteId || data.id,
@@ -47,37 +54,37 @@ export class FavoriteMappingNodeService implements IBaseMapping<Favorite> {
   }
 
   /**
-     * Método no documentado.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-    getAdded(data: any): Favorite {
+   * Adapta y mapea el favorito tras ser añadido.
+   * @param data Favorito devuelto por la API tras creación.
+   * @returns Objeto Favorite estructurado.
+   */
+  getAdded(data: any): Favorite {
     return this.getOne(data);
   }
 
   /**
-     * Método no documentado.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-    getUpdated(data: any): Favorite {
+   * Adapta y mapea el favorito tras ser modificado.
+   * @param data Favorito devuelto por la API tras edición.
+   * @returns Objeto Favorite estructurado.
+   */
+  getUpdated(data: any): Favorite {
     return this.getOne(data);
   }
 
   /**
-     * Método no documentado.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-    getDeleted(data: any): Favorite {
+   * Adapta y mapea el favorito tras ser eliminado.
+   * @param data Favorito devuelto por la API tras eliminación.
+   * @returns Objeto Favorite estructurado.
+   */
+  getDeleted(data: any): Favorite {
     return this.getOne(data);
   }
 
   /**
-     * Prepara un favorito para ser creado.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Prepara un favorito para ser creado.
+   * @param data Instancia de Favorite a guardar.
+   * @returns Objeto serializado para el POST.
+   */
   setAdd(data: Favorite): any {
     return {
       userId: data.userId,
@@ -87,10 +94,10 @@ export class FavoriteMappingNodeService implements IBaseMapping<Favorite> {
   }
 
   /**
-     * No aplicable para favoritos.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * No aplicable para favoritos.
+   * @param data Cambios o propiedades del favorito a modificar.
+   * @returns Objeto vacío.
+   */
   setUpdate(data: any): any {
     return {};
   }

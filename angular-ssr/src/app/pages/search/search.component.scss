@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/search/search.component.scss
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Estilos para la página de resultados de búsqueda.
+ */
+
 :host {
   display: flex;
   flex-direction: column;
@@ -25,14 +32,11 @@
   }
 }
 
-/* Scrollbar personalizada para la lista de juegos */
 .results-scroller {
   max-height: calc(100vh - 12rem);
   overflow-y: auto;
   padding: 0.25rem 1rem 1.5rem 0;
   scrollbar-gutter: stable;
-
-  /* Efecto de difuminado dinámico */
   mask-image: linear-gradient(to bottom,
       rgba(0, 0, 0, var(--scroll-top-mask, 1)) 0%,
       black var(--scroll-top-mask-stop, 0px),
@@ -45,11 +49,9 @@
       rgba(0, 0, 0, var(--scroll-bottom-mask, 1)) 100%);
   transition: mask-image 0.2s ease, -webkit-mask-image 0.2s ease;
 
-  /* Firefox */
   scrollbar-width: thin;
   scrollbar-color: rgba(34, 211, 238, 0.2) transparent;
 
-  /* Desactivar selección de texto */
   user-select: none;
   -webkit-user-select: none;
 }
@@ -200,7 +202,6 @@ input[type="range"] {
   border: none !important;
 }
 
-/* Estilos inspirados en la página de Help */
 .filters-sidebar {
   background: rgba(31, 41, 55, 0.6) !important;
   backdrop-filter: blur(12px);
@@ -212,11 +213,7 @@ input[type="range"] {
   display: flex;
   flex-direction: column;
   transform: translateZ(0);
-  /* Estabiliza el renderizado */
   contain: layout;
-  /* Aísla el layout interno */
-
-  /* Desactivar selección de texto */
   user-select: none;
   -webkit-user-select: none;
 }
@@ -229,8 +226,6 @@ input[type="range"] {
   scrollbar-width: none;
   -ms-overflow-style: none;
   padding: 0 1.25rem 1.25rem 1.25rem;
-
-  /* Efecto de difuminado dinámico */
   mask-image: linear-gradient(to bottom,
       rgba(0, 0, 0, var(--scroll-top-mask, 1)) 0%,
       black var(--scroll-top-mask-stop, 0px),
@@ -256,7 +251,6 @@ input[type="range"] {
   justify-content: center;
   align-items: center;
   margin: 0 !important;
-  /* Asegura que no haya saltos de margen */
 }
 
 .filter-group-container {
@@ -328,8 +322,6 @@ input[type="range"] {
   overflow-y: auto;
   overscroll-behavior: auto;
   padding-right: 0.5rem;
-
-  /* Efecto de difuminado dinámico */
   mask-image: linear-gradient(to bottom,
       rgba(0, 0, 0, var(--scroll-top-mask, 1)) 0%,
       black var(--scroll-top-mask-stop, 0px),

@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/repositories/repository.tokens.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Tokens de inyección de dependencias para repositorios y mappings.
+ */
+
 import { InjectionToken } from '@angular/core';
 import { IAuthentication } from '../services/interfaces/authentication.interface';
 import { IBaseRepository } from './interfaces/base-repository.interface';

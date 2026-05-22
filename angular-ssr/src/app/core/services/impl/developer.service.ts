@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/services/impl/developer.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicio para la gestión de las empresas desarrolladoras de videojuegos.
+ */
+
 import { Inject, Injectable } from '@angular/core';
 import { BaseService } from './base-service.service';
 import { Developer } from '../../models/developer.model';
@@ -14,12 +21,11 @@ import { IDeveloperService } from '../interfaces/developer-service.interface';
 })
 export class DeveloperService
   extends BaseService<Developer>
-  implements IDeveloperService
-{
+  implements IDeveloperService {
   /**
-       * Documentado.
-       * @param repository Repositorio de desarrolladoras inyectado.
-       */
+   * Documentado.
+   * @param repository Repositorio de desarrolladoras inyectado.
+   */
   constructor(
     @Inject(DEVELOPER_REPOSITORY_TOKEN) repository: IBaseRepository<Developer>,
   ) {

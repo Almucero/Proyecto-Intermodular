@@ -1,7 +1,11 @@
+/**
+ * @file: src/backend/scripts/seedData.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Script de inicialización de base de datos que carga datos desde JSON y sube imágenes a Cloudinary, creando usuarios, juegos, categorías, géneros, compras y valoraciones.
+ */
+
 import 'dotenv/config';
-
- 
-
 import { prisma } from '../config/db';
 import bcrypt from 'bcryptjs';
 import fs from 'fs';

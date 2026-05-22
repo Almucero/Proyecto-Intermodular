@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/repositories/repository.factory.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Fábrica para la creación de instancias de repositorios y mapeadores.
+ */
+
 import { FactoryProvider, InjectionToken, NgZone, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseRepositoryHttpService } from './impl/base-repository-http.service';

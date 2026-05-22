@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/repositories/impl/user-mapping-node.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicio de mapeo para usuarios desde un backend Node.js.
+ */
+
 import { Injectable } from '@angular/core';
 import { IBaseMapping } from '../interfaces/base-mapping.interface';
 import { User } from '../../models/user.model';
@@ -10,14 +17,16 @@ import { User } from '../../models/user.model';
   providedIn: 'root',
 })
 export class UserMappingNodeService implements IBaseMapping<User> {
-  /** Constructor no documentado. */
-    constructor() {}
+  /**
+   * Crea una instancia de UserMappingNodeService.
+   */
+  constructor() { }
 
   /**
-     * Transforma una lista de usuarios de la API.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Transforma una lista de usuarios de la API.
+   * @param data Listado crudo devuelto por la API.
+   * @returns Lista estructurada de objetos User.
+   */
   getAll(data: any): User[] {
     return data.map((item: any) => this.getOne(item));
   }
@@ -25,9 +34,9 @@ export class UserMappingNodeService implements IBaseMapping<User> {
   /**
    * Transforma un objeto usuario de la API al modelo {@link User}.
    * Define getters dinámicos para `profileImage` y `username` para compatibilidad.
-   * @param data Objeto de la API.
-     * @returns Retorno no documentado.
-     */
+   * @param data Objeto crudo del usuario devuelto por la API.
+   * @returns Instancia estructurada de User.
+   */
   getOne(data: any): User {
     const user: any = {
       id: data.id,
@@ -79,37 +88,38 @@ export class UserMappingNodeService implements IBaseMapping<User> {
   }
 
   /**
-     * Método no documentado.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-    getAdded(data: any): User {
+   * Adapta y mapea el usuario tras ser creado.
+   * @param data Usuario devuelto por la API tras creación.
+   * @returns Objeto User estructurado.
+   */
+  getAdded(data: any): User {
     return this.getOne(data);
   }
 
   /**
-     * Método no documentado.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-    getUpdated(data: any): User {
+   * Adapta y mapea el usuario tras ser actualizado.
+   * @param data Usuario devuelto por la API tras edición.
+   * @returns Objeto User estructurado.
+   */
+  getUpdated(data: any): User {
     return this.getOne(data);
   }
 
   /**
-     * Método no documentado.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-    getDeleted(data: any): User {
+   * Adapta y mapea el usuario tras ser eliminado.
+   * @param data Usuario devuelto por la API tras eliminación.
+   * @returns Objeto User estructurado.
+   */
+  getDeleted(data: any): User {
+    if (!data) return {} as User;
     return this.getOne(data);
   }
 
   /**
-     * Prepara un nuevo usuario para el registro.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Prepara un nuevo usuario para el registro.
+   * @param data Instancia de User a guardar.
+   * @returns Objeto serializado para el envío en el POST.
+   */
   setAdd(data: User): any {
     return {
       name: data.name,
@@ -128,10 +138,10 @@ export class UserMappingNodeService implements IBaseMapping<User> {
   }
 
   /**
-     * Prepara los datos para actualizar el perfil del usuario.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Prepara los datos para actualizar el perfil del usuario.
+   * @param data Cambios o propiedades del usuario a modificar.
+   * @returns Objeto con los datos serializados para PATCH.
+   */
   setUpdate(data: any): any {
     const payload: any = {};
     if (data.name !== undefined) payload.name = data.name;

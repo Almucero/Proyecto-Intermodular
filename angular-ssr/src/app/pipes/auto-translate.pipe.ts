@@ -1,17 +1,30 @@
+/**
+ * @file: src/app/pipes/auto-translate.pipe.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Pipe que traduce textos automáticamente usando MyMemory.
+ */
+
 import { Pipe, PipeTransform } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { Observable, of, concat } from 'rxjs';
 import { map, catchError, switchMap, distinctUntilChanged, delay } from 'rxjs/operators';
 
-
-/** Lista de correos para rotar cuando se agote la cuota de MyMemory (50k caracteres/correo) */
+/**
+ * Lista de correos para rotar cuando se agote la cuota de MyMemory (50k caracteres/correo)
+ * @ignore
+ */
 const EMAILS_FALLBACK = [
     'alvarokilor@gmail.com',
     'minialmucero@gmail.com',
     'alvarogoku666@gmail.com'
 ];
 
+/**
+ * Pipe que traduce textos automáticamente utilizando la API de MyMemory.
+ * Detecta automáticamente el idioma de origen y lo traduce al idioma actual seleccionado.
+ */
 @Pipe({
     name: 'autoTranslate',
     standalone: true,
@@ -42,7 +55,6 @@ export class AutoTranslatePipe implements PipeTransform {
     transform(text: string | null | undefined): Observable<string | null> {
         if (!text) return of('');
 
-        // Combinamos el idioma inicial con los cambios futuros de idioma
         return concat(
             of({ lang: this.translate.currentLang || this.translate.getDefaultLang() || 'es' }),
             this.translate.onLangChange
@@ -61,7 +73,6 @@ export class AutoTranslatePipe implements PipeTransform {
      * @returns Observable con el resultado procesado o null mientras carga.
      */
     private translateText(text: string, targetLang: string): Observable<string | null> {
-        // Si el idioma es español, devolvemos el texto original sin esperas ni avisos
         if (targetLang === 'es') {
             return concat(
                 of(null),
@@ -74,9 +85,6 @@ export class AutoTranslatePipe implements PipeTransform {
             return of(this.cache[cacheKey]);
         }
 
-        /** Si no está en caché, emitimos null primero para activar el skeleton 
-         * en el template mientras se completa la petición HTTP.
-         */
         return concat(
             of(null),
             this.intentarTraduccion(text, targetLang, cacheKey)
@@ -97,7 +105,6 @@ export class AutoTranslatePipe implements PipeTransform {
 
         return this.http.get<any>(url).pipe(
             map(res => {
-                // Validación de cuota agotada
                 if (res?.responseStatus === 403 || res?.responseStatus === 429 || res?.responseData?.translatedText?.includes('MYMEMORY WARNING')) {
                     throw new Error('QUOTA_EXCEEDED');
                 }
@@ -108,22 +115,17 @@ export class AutoTranslatePipe implements PipeTransform {
             }),
             catchError((error) => {
                 if (error.message === 'QUOTA_EXCEEDED') {
-                    // Si quedan correos, saltamos al siguiente
                     if (this.currentEmailIndex < EMAILS_FALLBACK.length - 1) {
                         this.currentEmailIndex++;
                         return this.intentarTraduccion(text, targetLang, cacheKey);
                     } else {
-                        // SI SE AGOTAN TODOS LOS CORREOS: Creamos el HTML con el aviso naranja
                         const warningMsg = this.translate.instant('product.translationLimitReached');
                         const fallbackWithWarning = `<span class="text-orange-500 font-semibold block mb-3">⚠️ ${warningMsg}</span>${text}`;
-
-                        // Guardamos en caché para no volver a intentarlo en esta sesión y ahorrarnos los fallos en cascada
                         this.cache[cacheKey] = fallbackWithWarning;
                         return of(fallbackWithWarning);
                     }
                 }
 
-                // Errores de red normales, devolvemos el texto sin formatear
                 return of(text);
             })
         );

@@ -1,14 +1,23 @@
+<!--
+  @file: src/app/pages/settings/settings.component.html
+  @project: GameSage - Plataforma de Videojuegos
+  @authors: Rosario González y Álvaro Jiménez
+  @description: Formulario de configuración con toggles de notificación, selección de idioma/frecuencia, gestión de suscripción y confirmación de eliminación de cuenta.
+-->
+
 <div class="settings-screen-wrapper flex-1 w-full bg-gray-900 text-white font-sans py-8">
   <style>
     .animate-fade-in {
       animation: fadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
       opacity: 0;
     }
+
     @keyframes fadeIn {
       0% {
         opacity: 0;
         transform: translateY(12px);
       }
+
       100% {
         opacity: 1;
         transform: translateY(0);
@@ -21,224 +30,212 @@
     </h1>
 
     @if (isAuthReady()) {
-      @if (!isAuthenticated()) {
-      <div class="text-center text-gray-400 py-12">
-        <a
-          (click)="goToLogin()"
-          class="text-cyan-400 hover:text-cyan-300 cursor-pointer transition-colors"
-          >{{ "authGuard.login" | translate }}</a
-        >
-        {{ "authGuard.toSeeContent" | translate }}
-      </div>
+    @if (!isAuthenticated()) {
+    <div class="text-center text-gray-400 py-12">
+      <a (click)="goToLogin()" class="text-cyan-400 hover:text-cyan-300 cursor-pointer transition-colors">{{
+        "authGuard.login" | translate }}</a>
+      {{ "authGuard.toSeeContent" | translate }}
+    </div>
     } @else {
     <form [formGroup]="form" (ngSubmit)="saveSettings()" class="space-y-6 animate-fade-in">
       <div class="space-y-6" [class.pointer-events-none]="deleteAccountConfirmArmed">
-      <section class="bg-gray-800/70 rounded-xl px-5 pt-5 pb-5 settings-card">
-        <label class="grid grid-cols-[1fr_auto] gap-4 items-stretch">
-          <span>
-            <span class="block font-medium text-lg">{{ "settings.notifications.masterToggle" | translate }}</span>
-            <span class="block text-sm text-gray-400 mt-2">{{ "settings.notifications.masterToggleHint" | translate }}</span>
-          </span>
-          <span class="grid place-items-center min-h-full">
-            <input type="checkbox" formControlName="emailNotificationsEnabled" class="w-5 h-5 accent-cyan-400" />
-          </span>
-        </label>
-      </section>
+        <section class="bg-gray-800/70 rounded-xl px-5 pt-5 pb-5 settings-card">
+          <label class="grid grid-cols-[1fr_auto] gap-4 items-stretch">
+            <span>
+              <span class="block font-medium text-lg">{{ "settings.notifications.masterToggle" | translate }}</span>
+              <span class="block text-sm text-gray-400 mt-2">{{ "settings.notifications.masterToggleHint" | translate
+                }}</span>
+            </span>
+            <span class="grid place-items-center min-h-full">
+              <input type="checkbox" formControlName="emailNotificationsEnabled" class="w-5 h-5 accent-cyan-400" />
+            </span>
+          </label>
+        </section>
 
-      <section
-        class="bg-gray-800/70 rounded-xl px-5 pt-5 pb-5 settings-card space-y-4 transition-opacity"
-        [class.opacity-45]="!form.get('emailNotificationsEnabled')?.value"
-        [class.pointer-events-none]="!form.get('emailNotificationsEnabled')?.value"
-      >
-        <h3 class="text-lg font-semibold text-cyan-200">{{ "settings.notifications.deliveryTitle" | translate }}</h3>
+        <section class="bg-gray-800/70 rounded-xl px-5 pt-5 pb-5 settings-card space-y-4 transition-opacity"
+          [class.opacity-45]="!form.get('emailNotificationsEnabled')?.value"
+          [class.pointer-events-none]="!form.get('emailNotificationsEnabled')?.value">
+          <h3 class="text-lg font-semibold text-cyan-200">{{ "settings.notifications.deliveryTitle" | translate }}</h3>
 
-        <div>
-          <label class="block text-sm text-gray-300 mb-1">{{ "settings.notifications.destinationEmail" | translate }}</label>
-          <input
-            type="email"
-            formControlName="notificationEmail"
-            class="settings-input w-full px-4 h-11 rounded-md bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
-            [placeholder]="'settings.notifications.destinationEmailPlaceholder' | translate"
-          />
-        </div>
+          <div>
+            <label class="block text-sm text-gray-300 mb-1">{{ "settings.notifications.destinationEmail" | translate
+              }}</label>
+            <input type="email" formControlName="notificationEmail"
+              class="settings-input w-full px-4 h-11 rounded-md bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
+              [placeholder]="'settings.notifications.destinationEmailPlaceholder' | translate" />
+          </div>
 
-        <div class="grid md:grid-cols-3 gap-4">
-          <!-- Dropdown Personalizado de Idioma -->
-          <div class="relative">
-            <label class="block text-sm text-gray-300 mb-1">{{ "settings.notifications.language" | translate }}</label>
-            <button
-              type="button"
-              (click)="toggleLanguageDropdown($event)"
-              class="settings-input w-full px-4 h-11 rounded-md bg-gray-900 text-white flex items-center justify-between focus:outline-none hover:bg-gray-800 transition-colors"
-            >
-              <span class="truncate">{{ getSelectedLanguageLabel() | translate }}</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 transition-transform duration-200" [class.rotate-180]="languageDropdownOpen()" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.157l3.71-3.928a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-              </svg>
-            </button>
-            
-            @if (languageDropdownOpen()) {
-              <div class="settings-dropdown-menu absolute z-50 mt-1 w-full bg-gray-800 rounded-md shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
-                <div
-                  #languageScrollContainer
-                  (scroll)="onLanguageScroll($event)"
-                  class="settings-dropdown-scroll-container"
-                >
+          <div class="grid md:grid-cols-3 gap-4">
+            <!-- Dropdown Personalizado de Idioma -->
+            <div class="relative">
+              <label class="block text-sm text-gray-300 mb-1">{{ "settings.notifications.language" | translate
+                }}</label>
+              <button type="button" (click)="toggleLanguageDropdown($event)"
+                class="settings-input w-full px-4 h-11 rounded-md bg-gray-900 text-white flex items-center justify-between focus:outline-none hover:bg-gray-800 transition-colors">
+                <span class="truncate">{{ getSelectedLanguageLabel() | translate }}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 transition-transform duration-200"
+                  [class.rotate-180]="languageDropdownOpen()" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.157l3.71-3.928a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                    clip-rule="evenodd" />
+                </svg>
+              </button>
+
+              @if (languageDropdownOpen()) {
+              <div
+                class="settings-dropdown-menu absolute z-50 mt-1 w-full bg-gray-800 rounded-md shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                <div #languageScrollContainer (scroll)="onLanguageScroll($event)"
+                  class="settings-dropdown-scroll-container">
                   @for (lang of languages; track lang.code) {
-                    <button
-                      type="button"
-                      (click)="selectLanguage(lang.code)"
-                      class="w-full px-4 py-2.5 text-left text-sm flex items-center justify-between"
-                      [class.active-option]="form.get('emailNotificationLanguage')?.value === lang.code"
-                    >
-                      {{ lang.label | translate }}
-                      @if (form.get('emailNotificationLanguage')?.value === lang.code) {
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-cyan-400" viewBox="0 0 20 20" fill="currentColor">
-                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                        </svg>
-                      }
-                    </button>
+                  <button type="button" (click)="selectLanguage(lang.code)"
+                    class="w-full px-4 py-2.5 text-left text-sm flex items-center justify-between"
+                    [class.active-option]="form.get('emailNotificationLanguage')?.value === lang.code">
+                    {{ lang.label | translate }}
+                    @if (form.get('emailNotificationLanguage')?.value === lang.code) {
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-cyan-400" viewBox="0 0 20 20"
+                      fill="currentColor">
+                      <path fill-rule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clip-rule="evenodd" />
+                    </svg>
+                    }
+                  </button>
                   }
                 </div>
               </div>
-            }
-          </div>
+              }
+            </div>
 
-          <!-- Dropdown Personalizado de Frecuencia -->
-          <div class="relative">
-            <label class="block text-sm text-gray-300 mb-1">{{ "settings.notifications.frequency" | translate }}</label>
-            <button
-              type="button"
-              (click)="toggleFrequencyDropdown($event)"
-              class="settings-input w-full px-4 h-11 rounded-md bg-gray-900 text-white flex items-center justify-between focus:outline-none hover:bg-gray-800 transition-colors"
-            >
-              <span class="truncate">{{ getSelectedFrequencyLabel() | translate }}</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 transition-transform duration-200" [class.rotate-180]="frequencyDropdownOpen()" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.157l3.71-3.928a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-              </svg>
-            </button>
-            
-            @if (frequencyDropdownOpen()) {
-              <div class="settings-dropdown-menu absolute z-50 mt-1 w-full bg-gray-800 rounded-md shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
-                <div
-                  #frequencyScrollContainer
-                  (scroll)="onFrequencyScroll($event)"
-                  class="settings-dropdown-scroll-container"
-                >
+            <!-- Dropdown Personalizado de Frecuencia -->
+            <div class="relative">
+              <label class="block text-sm text-gray-300 mb-1">{{ "settings.notifications.frequency" | translate
+                }}</label>
+              <button type="button" (click)="toggleFrequencyDropdown($event)"
+                class="settings-input w-full px-4 h-11 rounded-md bg-gray-900 text-white flex items-center justify-between focus:outline-none hover:bg-gray-800 transition-colors">
+                <span class="truncate">{{ getSelectedFrequencyLabel() | translate }}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 transition-transform duration-200"
+                  [class.rotate-180]="frequencyDropdownOpen()" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.157l3.71-3.928a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                    clip-rule="evenodd" />
+                </svg>
+              </button>
+
+              @if (frequencyDropdownOpen()) {
+              <div
+                class="settings-dropdown-menu absolute z-50 mt-1 w-full bg-gray-800 rounded-md shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                <div #frequencyScrollContainer (scroll)="onFrequencyScroll($event)"
+                  class="settings-dropdown-scroll-container">
                   @for (freq of frequencies; track freq.code) {
-                    <button
-                      type="button"
-                      (click)="selectFrequency(freq.code)"
-                      class="w-full px-4 py-2.5 text-left text-sm flex items-center justify-between"
-                      [class.active-option]="form.get('emailNotificationFrequency')?.value === freq.code"
-                    >
-                      {{ freq.label | translate }}
-                      @if (form.get('emailNotificationFrequency')?.value === freq.code) {
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-cyan-400" viewBox="0 0 20 20" fill="currentColor">
-                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                        </svg>
-                      }
-                    </button>
+                  <button type="button" (click)="selectFrequency(freq.code)"
+                    class="w-full px-4 py-2.5 text-left text-sm flex items-center justify-between"
+                    [class.active-option]="form.get('emailNotificationFrequency')?.value === freq.code">
+                    {{ freq.label | translate }}
+                    @if (form.get('emailNotificationFrequency')?.value === freq.code) {
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-cyan-400" viewBox="0 0 20 20"
+                      fill="currentColor">
+                      <path fill-rule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clip-rule="evenodd" />
+                    </svg>
+                    }
+                  </button>
                   }
                 </div>
               </div>
-            }
+              }
+            </div>
+
+            <div>
+              <label class="block text-sm text-gray-300 mb-1">{{ "settings.notifications.recommendationIntervalDays" |
+                translate }}</label>
+              <input type="number" min="1" max="30" formControlName="emailRecommendationIntervalDays"
+                class="settings-input w-full px-4 h-11 rounded-md bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50" />
+            </div>
           </div>
 
-          <div>
-            <label class="block text-sm text-gray-300 mb-1">{{ "settings.notifications.recommendationIntervalDays" | translate }}</label>
-            <input type="number" min="1" max="30" formControlName="emailRecommendationIntervalDays" class="settings-input w-full px-4 h-11 rounded-md bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50" />
+          <div class="grid md:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-sm text-gray-300 mb-1">{{ "settings.notifications.quietStart" | translate
+                }}</label>
+              <input type="number" min="0" max="23" formControlName="emailQuietHoursStart"
+                class="settings-input w-full px-4 h-11 rounded-md bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50" />
+            </div>
+            <div>
+              <label class="block text-sm text-gray-300 mb-1">{{ "settings.notifications.quietEnd" | translate
+                }}</label>
+              <input type="number" min="0" max="23" formControlName="emailQuietHoursEnd"
+                class="settings-input w-full px-4 h-11 rounded-md bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50" />
+            </div>
+            <div>
+              <label class="block text-sm text-gray-300 mb-1">{{ "settings.notifications.pauseDays" | translate
+                }}</label>
+              <input type="number" min="0" max="90" formControlName="pauseDays"
+                class="settings-input w-full px-4 h-11 rounded-md bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50" />
+            </div>
           </div>
-        </div>
+        </section>
 
-        <div class="grid md:grid-cols-3 gap-4">
-          <div>
-            <label class="block text-sm text-gray-300 mb-1">{{ "settings.notifications.quietStart" | translate }}</label>
-            <input type="number" min="0" max="23" formControlName="emailQuietHoursStart" class="settings-input w-full px-4 h-11 rounded-md bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50" />
-          </div>
-          <div>
-            <label class="block text-sm text-gray-300 mb-1">{{ "settings.notifications.quietEnd" | translate }}</label>
-            <input type="number" min="0" max="23" formControlName="emailQuietHoursEnd" class="settings-input w-full px-4 h-11 rounded-md bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50" />
-          </div>
-          <div>
-            <label class="block text-sm text-gray-300 mb-1">{{ "settings.notifications.pauseDays" | translate }}</label>
-            <input type="number" min="0" max="90" formControlName="pauseDays" class="settings-input w-full px-4 h-11 rounded-md bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50" />
-          </div>
-        </div>
-      </section>
-
-      <section
-        class="bg-gray-800/70 rounded-xl px-5 pt-5 pb-5 settings-card transition-opacity"
-        [class.opacity-45]="!form.get('emailNotificationsEnabled')?.value"
-        [class.pointer-events-none]="!form.get('emailNotificationsEnabled')?.value"
-      >
-        <h3 class="text-lg font-semibold text-cyan-200 mb-4">{{ "settings.notifications.categoriesTitle" | translate }}</h3>
-        <div formGroupName="topics" class="grid md:grid-cols-2 gap-3">
-          @for (key of topicKeys; track key) {
+        <section class="bg-gray-800/70 rounded-xl px-5 pt-5 pb-5 settings-card transition-opacity"
+          [class.opacity-45]="!form.get('emailNotificationsEnabled')?.value"
+          [class.pointer-events-none]="!form.get('emailNotificationsEnabled')?.value">
+          <h3 class="text-lg font-semibold text-cyan-200 mb-4">{{ "settings.notifications.categoriesTitle" | translate
+            }}</h3>
+          <div formGroupName="topics" class="grid md:grid-cols-2 gap-3">
+            @for (key of topicKeys; track key) {
             <label
               class="flex items-center justify-between gap-4 bg-gray-900/50 px-3 py-2 rounded-md settings-chip transition-opacity"
-              [class.opacity-70]="!(form.get('topics.' + key)?.value ?? true)"
-            >
+              [class.opacity-70]="!(form.get('topics.' + key)?.value ?? true)">
               <span>{{ ("settings.notifications.topics." + key) | translate }}</span>
               <input type="checkbox" [formControlName]="key" class="w-4 h-4 accent-cyan-400" />
             </label>
-          }
-        </div>
-      </section>
+            }
+          </div>
+        </section>
 
-      @if (saveError) {
+        @if (saveError) {
         <p class="text-red-400">{{ saveError | translate }}</p>
-      }
-      @if (saved) {
+        }
+        @if (saved) {
         <p class="text-green-400">{{ "settings.notifications.savedOk" | translate }}</p>
-      }
+        }
       </div>
 
       <div class="flex flex-col md:flex-row gap-3 md:items-center pt-4">
-        <button
-          type="submit"
-          [disabled]="saving || deleteAccountConfirmArmed"
-          class="settings-button rounded-full w-full md:w-auto px-8 py-2.5 font-semibold bg-cyan-600 hover:bg-cyan-500 text-white disabled:opacity-60 transition-all active:scale-95 shadow-lg shadow-cyan-900/20"
-        >
+        <button type="submit" [disabled]="saving || deleteAccountConfirmArmed"
+          class="settings-button rounded-full w-full md:w-auto px-8 py-2.5 font-semibold bg-cyan-600 hover:bg-cyan-500 text-white disabled:opacity-60 transition-all active:scale-95 shadow-lg shadow-cyan-900/20">
           @if (saving) {
-            {{ "settings.notifications.saving" | translate }}
+          {{ "settings.notifications.saving" | translate }}
           } @else {
-            {{ "settings.notifications.saveButton" | translate }}
+          {{ "settings.notifications.saveButton" | translate }}
           }
         </button>
 
         @if (!deleteAccountConfirmArmed) {
-          <button
-            type="button"
-            (click)="onDeleteAccountClick()"
-            class="settings-button rounded-full w-full md:w-auto px-8 py-2.5 font-semibold text-white transition-all bg-red-600/20 hover:bg-red-600 active:scale-95"
-          >
-            {{ "settings.account.deleteButton" | translate }}
-          </button>
+        <button type="button" (click)="onDeleteAccountClick()"
+          class="settings-button rounded-full w-full md:w-auto px-8 py-2.5 font-semibold text-white transition-all bg-red-600/20 hover:bg-red-600 active:scale-95">
+          {{ "settings.account.deleteButton" | translate }}
+        </button>
         } @else {
-          <div class="settings-delete-parent w-full md:w-auto md:min-w-[300px] h-11 rounded-full px-4 bg-red-950/80 text-white flex items-center justify-between gap-4 animate-in zoom-in-95 duration-200">
-            <span class="text-xs font-medium uppercase tracking-tight">{{ "settings.account.confirmDelete" | translate }}</span>
-            <div class="flex items-center gap-2">
-              <button
-                type="button"
-                (click)="onConfirmDeleteAccount()"
-                class="settings-button rounded-full px-4 py-1 text-xs font-bold text-white bg-red-600 hover:bg-red-500 active:scale-90"
-              >
-                {{ "common.yes" | translate }}
-              </button>
-              <button
-                type="button"
-                (click)="onCancelDeleteAccount()"
-                class="settings-button rounded-full px-4 py-1 text-xs font-bold text-white bg-gray-700 hover:bg-gray-600 active:scale-90"
-              >
-                {{ "common.no" | translate }}
-              </button>
-            </div>
+        <div
+          class="settings-delete-parent w-full md:w-auto md:min-w-[300px] h-11 rounded-full px-4 bg-red-950/80 text-white flex items-center justify-between gap-4 animate-in zoom-in-95 duration-200">
+          <span class="text-xs font-medium uppercase tracking-tight">{{ "settings.account.confirmDelete" | translate
+            }}</span>
+          <div class="flex items-center gap-2">
+            <button type="button" (click)="onConfirmDeleteAccount()"
+              class="settings-button rounded-full px-4 py-1 text-xs font-bold text-white bg-red-600 hover:bg-red-500 active:scale-90">
+              {{ "common.yes" | translate }}
+            </button>
+            <button type="button" (click)="onCancelDeleteAccount()"
+              class="settings-button rounded-full px-4 py-1 text-xs font-bold text-white bg-gray-700 hover:bg-gray-600 active:scale-90">
+              {{ "common.no" | translate }}
+            </button>
           </div>
+        </div>
         }
       </div>
     </form>
     }
-  }
+    }
   </div>
 </div>

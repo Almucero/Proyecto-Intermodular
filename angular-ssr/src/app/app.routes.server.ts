@@ -1,7 +1,10 @@
 /**
- * Definición de rutas específicas del lado del servidor.
- * Configura el modo de renderizado (Server, SSG, etc.) para las rutas de Angular.
+ * @file: src/app/app.routes.server.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Definición de rutas específicas del lado del servidor. Configura el modo de renderizado (Server, SSG, etc.) para las rutas de Angular.
  */
+
 import { RenderMode, ServerRoute } from '@angular/ssr';
 
 

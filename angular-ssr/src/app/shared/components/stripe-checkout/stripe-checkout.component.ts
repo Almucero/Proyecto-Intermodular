@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/shared/components/stripe-checkout/stripe-checkout.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente para el checkout de Stripe.
+ */
+
 import {
   Component,
   EventEmitter,
@@ -21,7 +28,9 @@ import {
   DirectCheckoutSessionPayload,
 } from '../../../core/services/impl/cart-item.service';
 
-/** Modal de checkout Stripe embebido para compra de carrito o compra directa. */
+/**
+ * Modal de checkout Stripe embebido para compra de carrito o compra directa.
+ */
 @Component({
   selector: 'app-stripe-modal',
   standalone: true,
@@ -30,58 +39,58 @@ import {
   styleUrl: './stripe-checkout.component.scss',
 })
 export class StripeModalComponent implements OnChanges, OnDestroy {
-  /** Propiedad no documentada. */
-    @Input() open = false;
-  /** Propiedad no documentada. */
-    @Input() titleKey = 'cart.buy';
-  /** Propiedad no documentada. */
-    @Input() directCheckoutPayload: DirectCheckoutSessionPayload | null = null;
-  /** Propiedad no documentada. */
-    @Output() closed = new EventEmitter<void>();
-  /** Propiedad no documentada. */
-    @Output() completed = new EventEmitter<void>();
+  /** Controla la visibilidad del modal de checkout de Stripe. */
+  @Input() open = false;
+  /** Clave de traducción para el título del modal (por ejemplo, para el carrito o compra directa). */
+  @Input() titleKey = 'cart.buy';
+  /** Datos de compra directa (juego, plataforma, etc.). Si es null, se procesará el carrito completo. */
+  @Input() directCheckoutPayload: DirectCheckoutSessionPayload | null = null;
+  /** Evento emitido al cerrarse el modal de checkout. */
+  @Output() closed = new EventEmitter<void>();
+  /** Evento emitido tras completarse la transacción de pago exitosamente en Stripe. */
+  @Output() completed = new EventEmitter<void>();
 
-  /** Propiedad no documentada. */
-    checkoutLoading = signal(false);
-  /** Propiedad no documentada. */
-    checkoutEmbeddedReady = signal(false);
-  /** Propiedad no documentada. */
-    showCheckoutTopFade = signal(false);
-  /** Propiedad no documentada. */
-    showCheckoutBottomFade = signal(false);
-  /** Propiedad no documentada. */
-    checkoutHeaderHeight = signal(64);
-  /** Propiedad no documentada. */
-    checkoutFooterHeight = signal(64);
-  /** Propiedad no documentada. */
-    checkoutModalHeight = signal<number | null>(null);
-  /** Propiedad no documentada. */
-    error = signal<string | null>(null);
+  /** Signal que indica si la sesión de checkout se está cargando. */
+  checkoutLoading = signal(false);
+  /** Signal que indica si la interfaz embebida de Stripe ya se cargó e inicializó. */
+  checkoutEmbeddedReady = signal(false);
+  /** Signal para mostrar un gradiente superior de desvanecimiento cuando hay scroll vertical. */
+  showCheckoutTopFade = signal(false);
+  /** Signal para mostrar un gradiente inferior de desvanecimiento cuando queda contenido por scroll. */
+  showCheckoutBottomFade = signal(false);
+  /** Altura medida del cabecera de la aplicación para calcular el espacio disponible. */
+  checkoutHeaderHeight = signal(64);
+  /** Altura medida del pie de página de la aplicación para ajustar el responsive. */
+  checkoutFooterHeight = signal(64);
+  /** Altura estática bloqueada para el modal al cargarse. */
+  checkoutModalHeight = signal<number | null>(null);
+  /** Signal que almacena un mensaje de error si la inicialización de Stripe falla. */
+  error = signal<string | null>(null);
 
-  /** Propiedad no documentada. */
-    private embeddedCheckout: StripeEmbeddedCheckout | null = null;
-  /** Propiedad no documentada. */
-    private checkoutInitToken = 0;
-  /** Propiedad no documentada. */
-    private readonly isBrowser: boolean;
-  /** Propiedad no documentada. */
-    private originalBodyOverflow = '';
-  /** Propiedad no documentada. */
-    private readonly onResize = () => {
+  /** Instancia de la interfaz embebida de Stripe Checkout. */
+  private embeddedCheckout: StripeEmbeddedCheckout | null = null;
+  /** Token incremental para invalidar peticiones asíncronas de inicialización de Stripe antiguas. */
+  private checkoutInitToken = 0;
+  /** Indica si la plataforma de ejecución actual es el navegador. */
+  private readonly isBrowser: boolean;
+  /** Estilo de overflow original del body antes de bloquear el scroll. */
+  private originalBodyOverflow = '';
+  /** Función callback ejecutada al cambiar el tamaño de ventana. */
+  private readonly onResize = () => {
     if (!this.open) return;
     this.updateCheckoutLayoutMetrics();
   };
-  /** Propiedad no documentada. */
-    private readonly embeddedContainerId = `stripe-checkout-embedded-${Math.random().toString(36).slice(2)}`;
+  /** Identificador único asignado al contenedor DOM donde se monta Stripe. */
+  private readonly embeddedContainerId = `stripe-checkout-embedded-${Math.random().toString(36).slice(2)}`;
 
   /**
-     * Constructor no documentado.
-     * @param cartItemService Parámetro no documentado.
-     * @param languageService Parámetro no documentado.
-     * @param document Parámetro no documentado.
-     * @param platformId Parámetro no documentado.
-     */
-    constructor(
+   * Inicializa el componente e inyecta los servicios necesarios.
+   * @param cartItemService Servicio para gestionar ítems de carrito y creación de sesiones de pago.
+   * @param languageService Servicio para detectar y configurar el idioma activo.
+   * @param document Referencia al objeto global Document.
+   * @param platformId Token identificador de plataforma de Angular.
+   */
+  constructor(
     private cartItemService: CartItemService,
     private languageService: LanguageService,
     @Inject(DOCUMENT) private document: Document,
@@ -94,10 +103,10 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
   }
 
   /**
-     * Método no documentado.
-     * @param changes Parámetro no documentado.
-     */
-    ngOnChanges(changes: SimpleChanges): void {
+   * Reacciona a cambios en los inputs del componente, iniciando el checkout de Stripe si se abre.
+   * @param changes Cambios detectados en las propiedades de entrada.
+   */
+  ngOnChanges(changes: SimpleChanges): void {
     if (!changes['open']) return;
     if (this.open) {
       this.startCheckout();
@@ -106,38 +115,43 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
     this.closeInternal();
   }
 
-  /** Método no documentado. */
-    ngOnDestroy(): void {
+  /**
+   * Destruye el componente liberando la sesión y quitando listeners del DOM.
+   */
+  ngOnDestroy(): void {
     this.closeInternal();
     if (this.isBrowser) {
       window.removeEventListener('resize', this.onResize);
     }
   }
 
-  /** Método no documentado. */
-    requestClose(): void {
+  /**
+   * Solicita el cierre del modal de checkout, emitiendo el evento de cerrado.
+   */
+  requestClose(): void {
     this.closeInternal();
     this.closed.emit();
   }
 
-  /** Método no documentado. */
-    onCheckoutEmbedScroll(): void {
+  /**
+   * Manejador de evento scroll en el contenedor embebido de Stripe para actualizar las sombras visuales.
+   */
+  onCheckoutEmbedScroll(): void {
     this.updateCheckoutEmbedFadeState();
   }
 
   /**
-     * Método no documentado.
-     * @returns Retorno no documentado.
-     */
-    getEmbeddedContainerId(): string {
+   * Obtiene el identificador dinámico de contenedor DOM de Stripe.
+   * @returns El string identificador único del contenedor.
+   */
+  getEmbeddedContainerId(): string {
     return this.embeddedContainerId;
   }
 
   /**
-     * Método no documentado.
-     * @returns Retorno no documentado.
-     */
-    private async startCheckout(): Promise<void> {
+   * Crea una nueva sesión de checkout (directa o de carrito), carga e inicializa la pasarela embebida de Stripe.
+   */
+  private async startCheckout(): Promise<void> {
     if (!this.open || !this.isBrowser) return;
     this.closeInternal();
     const initToken = ++this.checkoutInitToken;
@@ -204,8 +218,10 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
     }
   }
 
-  /** Método no documentado. */
-    private closeInternal(): void {
+  /**
+   * Cierra y libera la sesión activa y restaura el estado y scrolls del modal.
+   */
+  private closeInternal(): void {
     this.checkoutInitToken++;
     if (this.embeddedCheckout) {
       this.embeddedCheckout.destroy();
@@ -220,10 +236,10 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
   }
 
   /**
-     * Método no documentado.
-     * @param locked Parámetro no documentado.
-     */
-    private setPageScrollLocked(locked: boolean): void {
+   * Bloquea o desbloquea el scroll del cuerpo de la página web (body).
+   * @param locked Booleano de estado de bloqueo.
+   */
+  private setPageScrollLocked(locked: boolean): void {
     if (!this.isBrowser) return;
     if (locked) {
       this.originalBodyOverflow = this.document.body.style.overflow;
@@ -233,8 +249,10 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
     this.document.body.style.overflow = this.originalBodyOverflow || '';
   }
 
-  /** Método no documentado. */
-    private updateCheckoutLayoutMetrics(): void {
+  /**
+   * Calcula las dimensiones del encabezado y pie de página de la aplicación para posicionar el modal.
+   */
+  private updateCheckoutLayoutMetrics(): void {
     if (!this.isBrowser) return;
     const header = this.document.querySelector('header');
     const footer = this.document.querySelector('footer');
@@ -250,8 +268,10 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
     this.checkoutFooterHeight.set(Math.max(footerHeight, 1));
   }
 
-  /** Método no documentado. */
-    private lockCheckoutModalInitialSize(): void {
+  /**
+   * Ajusta dinámicamente el tamaño del modal bloqueando su altura en px para evitar redimensionamientos abruptos.
+   */
+  private lockCheckoutModalInitialSize(): void {
     if (!this.isBrowser) return;
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
@@ -266,10 +286,10 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
   }
 
   /**
-     * Método no documentado.
-     * @returns Retorno no documentado.
-     */
-    private waitForEmbeddedCheckoutVisible(): Promise<void> {
+   * Espera a que el iframe embebido de Stripe aparezca en el DOM y se cargue para fluidificar la transición visual.
+   * @returns Promesa que se resuelve cuando el iframe de Stripe está listo.
+   */
+  private waitForEmbeddedCheckoutVisible(): Promise<void> {
     if (!this.isBrowser) return Promise.resolve();
     const container = this.document.getElementById(this.embeddedContainerId);
     if (!container) return Promise.resolve();
@@ -307,8 +327,10 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
     });
   }
 
-  /** Método no documentado. */
-    private resetCheckoutEmbedScroll(): void {
+  /**
+   * Restablece la posición de scroll a la parte superior de todos los contenedores anidados del checkout.
+   */
+  private resetCheckoutEmbedScroll(): void {
     if (!this.isBrowser) return;
     const shell = this.document.querySelector('.checkout-embed-shell');
     const frame = this.document.querySelector('.checkout-embed-frame');
@@ -335,8 +357,10 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
     });
   }
 
-  /** Método no documentado. */
-    private enableSingleAutoTopCorrection(): void {
+  /**
+   * Configura una corrección única del scroll del contenedor del checkout embebido.
+   */
+  private enableSingleAutoTopCorrection(): void {
     if (!this.isBrowser) return;
     const shell = this.document.querySelector('.checkout-embed-shell');
     if (!(shell instanceof HTMLElement)) return;
@@ -350,8 +374,11 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
     shell.addEventListener('scroll', handleAutoScroll, { passive: true });
   }
 
-  /** Método no documentado. */
-    private updateCheckoutEmbedFadeState(): void {
+  /**
+   * Evalúa la posición actual del scroll del checkout para determinar si se deben renderizar
+   * los efectos de desvanecimiento superior e inferior.
+   */
+  private updateCheckoutEmbedFadeState(): void {
     if (!this.isBrowser) return;
     const shell = this.document.querySelector('.checkout-embed-shell');
     if (!(shell instanceof HTMLElement)) return;
@@ -362,11 +389,10 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
   }
 
   /**
-     * Método no documentado.
-     * @param sessionId Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-    private async finalizeEmbeddedCheckout(sessionId: string): Promise<void> {
+   * Confirma la sesión del checkout en el backend tras el pago y actualiza el contador de ítems del carrito.
+   * @param sessionId Identificador de la sesión de Stripe a finalizar.
+   */
+  private async finalizeEmbeddedCheckout(sessionId: string): Promise<void> {
     try {
       if (this.directCheckoutPayload) {
         await firstValueFrom(
@@ -386,10 +412,10 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
   }
 
   /**
-     * Método no documentado.
-     * @returns Retorno no documentado.
-     */
-    private getStripeCheckoutLocale(): string {
+   * Resuelve el código de localización compatible con Stripe basado en el idioma de la aplicación.
+   * @returns Código de lenguaje compatible (ej. 'es', 'en', 'fr') o 'auto'.
+   */
+  private getStripeCheckoutLocale(): string {
     const lang = this.languageService.getCurrentLang().toLowerCase();
     const base = lang.split('-')[0];
     const localeMap: Record<string, string> = {
@@ -405,11 +431,11 @@ export class StripeModalComponent implements OnChanges, OnDestroy {
   }
 
   /**
-     * Método no documentado.
-     * @param value Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-    private isValidCheckoutSessionResponse(
+   * Valida la estructura de la respuesta asíncrona de la sesión de checkout de Stripe.
+   * @param value Objeto de respuesta indeterminado.
+   * @returns True si el objeto cumple con la interfaz CheckoutSessionResponse, de lo contrario false.
+   */
+  private isValidCheckoutSessionResponse(
     value: unknown,
   ): value is CheckoutSessionResponse {
     if (!value || typeof value !== 'object') return false;

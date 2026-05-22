@@ -1,184 +1,166 @@
+<!--
+  @file: src/index.html
+  @project: GameSage - Plataforma de Videojuegos
+  @authors: Rosario González y Álvaro Jiménez
+  @description: Estructura HTML principal del frontend con meta tags SEO, loading screen y enlaces a recursos externos.
+-->
+
 <!doctype html>
 <html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <title>GameSage</title>
-    <base href="/" />
 
-    <!--Meta viewport para dispositivos moviles -->
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
+<head>
+  <meta charset="utf-8" />
+  <title>GameSage</title>
+  <base href="/" />
 
-    <!-- Meta tags SEO -->
-    <meta
-      name="description"
-      content="Descubre, analiza y chatea sobre tus videojuegos favoritos con IA en GameSage."
-    />
-    <meta
-      name="keywords"
-      content="videojuegos, ia, recomendador de juegos, tienda de juegos, game sage"
-    />
-    <meta name="author" content="GameSage" />
-    <meta name="robots" content="index, follow" />
+  <!--Meta viewport para dispositivos moviles -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-    <!-- Open Graph (Redes Sociales) -->
-    <meta property="og:type" content="website" />
-    <meta
-      property="og:title"
-      content="GameSage - Tu tienda de videojuegos inteligente"
-    />
-    <meta
-      property="og:description"
-      content="Descubre y compra los mejores videojuegos asistido por IA."
-    />
-    <meta
-      property="og:image"
-      content="https://game-sage.vercel.app/assets/branding/game_sage_logo.png"
-    />
+  <!-- Meta tags SEO -->
+  <meta name="description" content="Descubre, analiza y chatea sobre tus videojuegos favoritos con IA en GameSage." />
+  <meta name="keywords" content="videojuegos, ia, recomendador de juegos, tienda de juegos, game sage" />
+  <meta name="author" content="GameSage" />
+  <meta name="robots" content="index, follow" />
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="GameSage" />
-    <meta
-      name="twitter:description"
-      content="Tu tienda de videojuegos inteligente"
-    />
-    <meta
-      name="twitter:image"
-      content="https://game-sage.vercel.app/assets/branding/game_sage_logo.png"
-    />
+  <!-- Open Graph (Redes Sociales) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="GameSage - Tu tienda de videojuegos inteligente" />
+  <meta property="og:description" content="Descubre y compra los mejores videojuegos asistido por IA." />
+  <meta property="og:image" content="https://game-sage.vercel.app/assets/branding/game_sage_logo.png" />
 
-    <!-- Tema del navegador -->
-    <meta name="theme-color" content="#030712" />
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="GameSage" />
+  <meta name="twitter:description" content="Tu tienda de videojuegos inteligente" />
+  <meta name="twitter:image" content="https://game-sage.vercel.app/assets/branding/game_sage_logo.png" />
 
-    <meta name="color-scheme" content="dark only" />
-    <script>
-      window.__APP_CONFIG__ = { loadingScreenEnabled: true };
-      var skipLoadingOnce = false;
-      var skipLoadingByQuery = false;
-      try {
-        skipLoadingOnce =
-          window.sessionStorage.getItem("skip_loading_screen_once") === "1";
-        if (skipLoadingOnce) {
-          window.sessionStorage.removeItem("skip_loading_screen_once");
-        }
-      } catch (e) {}
-      try {
-        var params = new URLSearchParams(window.location.search);
-        skipLoadingByQuery = params.get("_skip_loader") === "1";
-      } catch (e) {}
-      if (
-        !window.__APP_CONFIG__.loadingScreenEnabled ||
-        skipLoadingOnce ||
-        skipLoadingByQuery
-      ) {
-        document.documentElement.classList.add("no-loading-screen");
+  <!-- Tema del navegador -->
+  <meta name="theme-color" content="#030712" />
+
+  <meta name="color-scheme" content="dark only" />
+  <script>
+    window.__APP_CONFIG__ = { loadingScreenEnabled: true };
+    var skipLoadingOnce = false;
+    var skipLoadingByQuery = false;
+    try {
+      skipLoadingOnce =
+        window.sessionStorage.getItem("skip_loading_screen_once") === "1";
+      if (skipLoadingOnce) {
+        window.sessionStorage.removeItem("skip_loading_screen_once");
       }
-    </script>
-    <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://res.cloudinary.com" />
-    <link rel="preconnect" href="https://generativelanguage.googleapis.com" />
-    <link rel="dns-prefetch" href="https://res.cloudinary.com" />
-    <link rel="dns-prefetch" href="https://generativelanguage.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-      crossorigin="anonymous"
-    />
-  </head>
-  <body>
-    <app-root>
-      <div class="app-loading-screen">
-        <div class="glitch-container">
-          <div class="glitch-logo" data-text="GameSage">
-            <img
-              src="assets/branding/game_sage_logo.png"
-              alt="GameSage Logo"
-              class="logo-image"
-              draggable="false"
-            />
-          </div>
-          <h1 class="glitch-text" data-text="GameSage">GameSage</h1>
-          <div class="loading-bar">
-            <div class="loading-progress"></div>
-          </div>
+    } catch (e) { }
+    try {
+      var params = new URLSearchParams(window.location.search);
+      skipLoadingByQuery = params.get("_skip_loader") === "1";
+    } catch (e) { }
+    if (
+      !window.__APP_CONFIG__.loadingScreenEnabled ||
+      skipLoadingOnce ||
+      skipLoadingByQuery
+    ) {
+      document.documentElement.classList.add("no-loading-screen");
+    }
+  </script>
+  <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://res.cloudinary.com" />
+  <link rel="preconnect" href="https://generativelanguage.googleapis.com" />
+  <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+  <link rel="dns-prefetch" href="https://generativelanguage.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" crossorigin="anonymous" />
+</head>
+
+<body>
+  <app-root>
+    <div class="app-loading-screen">
+      <div class="glitch-container">
+        <div class="glitch-logo" data-text="GameSage">
+          <img src="assets/branding/game_sage_logo.png" alt="GameSage Logo" class="logo-image" draggable="false" />
+        </div>
+        <h1 class="glitch-text" data-text="GameSage">GameSage</h1>
+        <div class="loading-bar">
+          <div class="loading-progress"></div>
         </div>
       </div>
-    </app-root>
-    <noscript>
-      <style>
-        .noscript-msg {
-          display: none;
-          margin-bottom: 20px;
-        }
-        html[lang="es"] .noscript-es {
-          display: block;
-        }
-        html[lang="en"] .noscript-en {
-          display: block;
-        }
-        html[lang="fr"] .noscript-fr {
-          display: block;
-        }
-        html[lang="de"] .noscript-de {
-          display: block;
-        }
-        html[lang="it"] .noscript-it {
-          display: block;
-        }
-      </style>
-      <div
-        style="
+    </div>
+  </app-root>
+  <noscript>
+    <style>
+      .noscript-msg {
+        display: none;
+        margin-bottom: 20px;
+      }
+
+      html[lang="es"] .noscript-es {
+        display: block;
+      }
+
+      html[lang="en"] .noscript-en {
+        display: block;
+      }
+
+      html[lang="fr"] .noscript-fr {
+        display: block;
+      }
+
+      html[lang="de"] .noscript-de {
+        display: block;
+      }
+
+      html[lang="it"] .noscript-it {
+        display: block;
+      }
+    </style>
+    <div style="
           padding: 20px;
           text-align: center;
           color: white;
           background-color: #030712;
           height: 100vh;
           font-family: sans-serif;
-        "
-      >
-        <h1 class="noscript-es noscript-msg">JavaScript Requerido</h1>
-        <h1 class="noscript-en noscript-msg">JavaScript Required</h1>
-        <h1 class="noscript-fr noscript-msg">JavaScript Requis</h1>
-        <h1 class="noscript-de noscript-msg">JavaScript Erforderlich</h1>
-        <h1 class="noscript-it noscript-msg">JavaScript Richiesto</h1>
+        ">
+      <h1 class="noscript-es noscript-msg">JavaScript Requerido</h1>
+      <h1 class="noscript-en noscript-msg">JavaScript Required</h1>
+      <h1 class="noscript-fr noscript-msg">JavaScript Requis</h1>
+      <h1 class="noscript-de noscript-msg">JavaScript Erforderlich</h1>
+      <h1 class="noscript-it noscript-msg">JavaScript Richiesto</h1>
 
-        <div class="noscript-msg noscript-es">
-          <strong>🇪🇸 Español:</strong> GameSage requiere JavaScript para
-          funcionar correctamente y ofrecerte la mejor experiencia. Por favor,
-          habilita JavaScript en tu navegador y recarga la página.
-        </div>
-
-        <div class="noscript-msg noscript-en">
-          <strong>🇬🇧 English:</strong> GameSage requires JavaScript to function
-          properly and provide you with the best experience. Please enable
-          JavaScript in your browser and reload the page.
-        </div>
-
-        <div class="noscript-msg noscript-fr">
-          <strong>🇫🇷 Français:</strong> GameSage nécessite JavaScript pour
-          fonctionner correctement et vous offrir la meilleure expérience.
-          Veuillez activer JavaScript dans votre navigateur et recharger la
-          page.
-        </div>
-
-        <div class="noscript-msg noscript-de">
-          <strong>🇩🇪 Deutsch:</strong> GameSage erfordert JavaScript, um
-          ordnungsgemäß zu funktionieren und Ihnen das beste Erlebnis zu bieten.
-          Bitte aktivieren Sie JavaScript in Ihrem Browser und laden Sie die
-          Seite neu.
-        </div>
-
-        <div class="noscript-msg noscript-it">
-          <strong>🇮🇹 Italiano:</strong> GameSage richiede JavaScript per
-          funzionare correttamente e offrirti la migliore esperienza. Abilita
-          JavaScript nel tuo browser e ricarica la pagina.
-        </div>
+      <div class="noscript-msg noscript-es">
+        <strong>🇪🇸 Español:</strong> GameSage requiere JavaScript para
+        funcionar correctamente y ofrecerte la mejor experiencia. Por favor,
+        habilita JavaScript en tu navegador y recarga la página.
       </div>
-    </noscript>
-  </body>
+
+      <div class="noscript-msg noscript-en">
+        <strong>🇬🇧 English:</strong> GameSage requires JavaScript to function
+        properly and provide you with the best experience. Please enable
+        JavaScript in your browser and reload the page.
+      </div>
+
+      <div class="noscript-msg noscript-fr">
+        <strong>🇫🇷 Français:</strong> GameSage nécessite JavaScript pour
+        fonctionner correctement et vous offrir la meilleure expérience.
+        Veuillez activer JavaScript dans votre navigateur et recharger la
+        page.
+      </div>
+
+      <div class="noscript-msg noscript-de">
+        <strong>🇩🇪 Deutsch:</strong> GameSage erfordert JavaScript, um
+        ordnungsgemäß zu funktionieren und Ihnen das beste Erlebnis zu bieten.
+        Bitte aktivieren Sie JavaScript in Ihrem Browser und laden Sie die
+        Seite neu.
+      </div>
+
+      <div class="noscript-msg noscript-it">
+        <strong>🇮🇹 Italiano:</strong> GameSage richiede JavaScript per
+        funzionare correttamente e offrirti la migliore esperienza. Abilita
+        JavaScript nel tuo browser e ricarica la pagina.
+      </div>
+    </div>
+  </noscript>
+</body>
+
 </html>

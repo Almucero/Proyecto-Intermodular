@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/repositories/impl/cart-item-mapping-node.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Mapeo de datos para artículos del carrito desde Node.js.
+ */
+
 import { Injectable } from '@angular/core';
 import { IBaseMapping } from '../interfaces/base-mapping.interface';
 import { CartItem } from '../../models/cart-item.model';
@@ -13,8 +20,8 @@ export class CartItemMappingNodeService implements IBaseMapping<CartItem> {
   /**
    * Transforma una lista de artículos provenientes de la API.
    * @param data Datos sin procesar de la API.
-     * @returns Retorno no documentado.
-     */
+   * @returns Listado de artículos de tipo CartItem.
+   */
   getAll(data: any): CartItem[] {
     return data.map((item: any) => this.getOne(item));
   }
@@ -23,8 +30,8 @@ export class CartItemMappingNodeService implements IBaseMapping<CartItem> {
    * Transforma un único artículo del carrito de la API al modelo de la aplicación.
    * Maneja diferentes estructuras posibles (mapeo defensivo).
    * @param data Objeto de la API.
-     * @returns Retorno no documentado.
-     */
+   * @returns Instancia de tipo CartItem.
+   */
   getOne(data: any): CartItem {
     return {
       id: data.cartItemId || data.id,
@@ -50,28 +57,28 @@ export class CartItemMappingNodeService implements IBaseMapping<CartItem> {
   }
 
   /**
-     * Transforma la respuesta de creación al modelo.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Transforma la respuesta de creación al modelo.
+   * @param data Datos del artículo creado devueltos por la API.
+   * @returns Instancia de tipo CartItem.
+   */
   getAdded(data: any): CartItem {
     return this.getOne(data);
   }
 
   /**
-     * Transforma la respuesta de actualización al modelo.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Transforma la respuesta de actualización al modelo.
+   * @param data Datos del artículo modificado devueltos por la API.
+   * @returns Instancia de tipo CartItem.
+   */
   getUpdated(data: any): CartItem {
     return this.getOne(data);
   }
 
   /**
-     * Transforma la respuesta de eliminación al modelo.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Transforma la respuesta de eliminación al modelo.
+   * @param data Datos del artículo eliminado devueltos por la API.
+   * @returns Instancia de tipo CartItem.
+   */
   getDeleted(data: any): CartItem {
     return this.getOne(data);
   }
@@ -79,8 +86,8 @@ export class CartItemMappingNodeService implements IBaseMapping<CartItem> {
   /**
    * Prepara los datos del modelo para ser enviados en una creación.
    * @param data Modelo del artículo del carrito.
-     * @returns Retorno no documentado.
-     */
+   * @returns Objeto serializado para el POST de creación.
+   */
   setAdd(data: CartItem): any {
     return {
       userId: data.userId,
@@ -93,8 +100,8 @@ export class CartItemMappingNodeService implements IBaseMapping<CartItem> {
   /**
    * Prepara los datos para una actualización parcial.
    * @param data Atributos a actualizar.
-     * @returns Retorno no documentado.
-     */
+   * @returns Objeto con los datos serializados para PATCH.
+   */
   setUpdate(data: any): any {
     const payload: any = {};
     if (data.quantity !== undefined) payload.quantity = data.quantity;

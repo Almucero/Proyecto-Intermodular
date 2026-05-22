@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/services/impl/user.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicio para la gestión de usuarios y sus datos.
+ */
+
 import { Inject, Injectable } from '@angular/core';
 import { BaseService } from './base-service.service';
 import { User } from '../../models/user.model';
@@ -14,9 +21,9 @@ import { IUserService } from '../interfaces/user-service.interface';
 })
 export class UserService extends BaseService<User> implements IUserService {
   /**
-       * Documentado.
-       * @param repository Repositorio de usuarios inyectado.
-       */
+   * Documentado.
+   * @param repository Repositorio de usuarios inyectado.
+   */
   constructor(
     @Inject(USER_REPOSITORY_TOKEN) repository: IBaseRepository<User>,
   ) {

@@ -1,4 +1,12 @@
+/**
+ * @file: src/backend/tests/developers.test.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Tests para endpoints de desarrolladores incluyendo listado, recuperación y creación de desarrolladores.
+ */
+
 /// <reference types="jest" />
+
 import request from 'supertest';
 import app from '../app';
 import { prisma } from '../config/db';
@@ -22,7 +30,7 @@ describe('Developers Endpoints', () => {
     if (testUser.email) {
       await prisma.user
         .delete({ where: { email: testUser.email } })
-        .catch(() => {});
+        .catch(() => { });
     }
     await prisma.$disconnect();
   });

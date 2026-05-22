@@ -281,8 +281,8 @@ Se integra con <a href="../injectables/ErrorService.html">ErrorService</a> para 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="43"
-                                    class="link-to-prism">src/app/shared/components/error-toast/error-toast.component.ts:43</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="50"
+                                    class="link-to-prism">src/app/shared/components/error-toast/error-toast.component.ts:50</a></div>
                         </td>
                     </tr>
 
@@ -329,7 +329,7 @@ Se integra con <a href="../injectables/ErrorService.html">ErrorService</a> para 
 
                         </div>
                             <div class="io-description">
-                                <p>Retorno no documentado.</p>
+                                <p>Las clases Tailwind CSS correspondientes al gradiente del color del error.</p>
 
                             </div>
                 </td>
@@ -356,8 +356,8 @@ Se integra con <a href="../injectables/ErrorService.html">ErrorService</a> para 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="26"
-                                    class="link-to-prism">src/app/shared/components/error-toast/error-toast.component.ts:26</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="33"
+                                    class="link-to-prism">src/app/shared/components/error-toast/error-toast.component.ts:33</a></div>
                         </td>
                     </tr>
 
@@ -404,7 +404,7 @@ Se integra con <a href="../injectables/ErrorService.html">ErrorService</a> para 
 
                         </div>
                             <div class="io-description">
-                                <p>Retorno no documentado.</p>
+                                <p>El string representativo del título del error.</p>
 
                             </div>
                 </td>
@@ -435,7 +435,7 @@ Se integra con <a href="../injectables/ErrorService.html">ErrorService</a> para 
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/shared/components/error-toast/error-toast.component.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/shared/components/error-toast/error-toast.component.ts:26</a></div>
                         </td>
                     </tr>
 
@@ -477,8 +477,8 @@ export class ErrorToastComponent {
   /**
    * Devuelve un título descriptivo según el tipo de error.
    * @param type Tipo de error.
-     * @returns Retorno no documentado.
-     */
+   * @returns El string representativo del título del error.
+   */
   getErrorTitle(type: ErrorType): string {
     const titles: Record&lt;string, string&gt; &#x3D; {
       auth: &#x27;Error de Autenticación&#x27;,
@@ -487,15 +487,15 @@ export class ErrorToastComponent {
       server: &#x27;Error del Servidor&#x27;,
       unknown: &#x27;Error&#x27;,
     };
-     
+
     return titles[type] || &#x27;Error&#x27;;
   }
 
   /**
    * Devuelve la clase CSS de fondo (gradiente) basada en el tipo de error.
    * @param type Tipo de error.
-     * @returns Retorno no documentado.
-     */
+   * @returns Las clases Tailwind CSS correspondientes al gradiente del color del error.
+   */
   getBackgroundClass(type: ErrorType): string {
     const classes: Record&lt;string, string&gt; &#x3D; {
       auth: &#x27;bg-gradient-to-br from-red-600 via-red-500 to-pink-600&#x27;,
@@ -506,7 +506,7 @@ export class ErrorToastComponent {
       unknown: &#x27;bg-gradient-to-br from-gray-700 via-gray-600 to-gray-500&#x27;,
     };
     return (
-       
+
       classes[type] ||
       &#x27;bg-gradient-to-br from-gray-700 via-gray-600 to-gray-500&#x27;
     );
@@ -516,48 +516,41 @@ export class ErrorToastComponent {
     </div>
 
     <div class="tab-pane fade " id="templateData">
-        <pre class="line-numbers"><code class="language-html">@if (errorService.error()) {
-  &lt;div class&#x3D;&quot;fixed top-4 right-4 max-w-md z-50 animate-slide-in&quot;&gt;
-    &lt;div
-      [ngClass]&#x3D;&quot;getBackgroundClass(errorService.error()!.type)&quot;
-      class&#x3D;&quot;rounded-md text-white px-5 py-4 shadow-lg border border-white/20&quot;
-    &gt;
-      &lt;div class&#x3D;&quot;flex items-start gap-3&quot;&gt;
-        &lt;div class&#x3D;&quot;flex-shrink-0 mt-1&quot;&gt;
-          &lt;svg
-            xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;
-            fill&#x3D;&quot;none&quot;
-            viewBox&#x3D;&quot;0 0 24 24&quot;
-            stroke-width&#x3D;&quot;1.5&quot;
-            stroke&#x3D;&quot;currentColor&quot;
-            class&#x3D;&quot;size-6&quot;
-          &gt;
-            &lt;path
-              stroke-linecap&#x3D;&quot;round&quot;
-              stroke-linejoin&#x3D;&quot;round&quot;
-              d&#x3D;&quot;M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z&quot;
-            /&gt;
-          &lt;/svg&gt;
-        &lt;/div&gt;
-        &lt;div class&#x3D;&quot;flex-1&quot;&gt;
-          &lt;p class&#x3D;&quot;font-bold text-lg&quot;&gt;
-            {{ getErrorTitle(errorService.error()!.type) }}
-          &lt;/p&gt;
-          &lt;p class&#x3D;&quot;text-sm mt-1 text-gray-100&quot;&gt;
-            {{ errorService.error()!.message }}
-          &lt;/p&gt;
-        &lt;/div&gt;
-        &lt;button
-          (click)&#x3D;&quot;errorService.clearError()&quot;
-          class&#x3D;&quot;flex-shrink-0 text-2xl leading-none hover:opacity-75 transition-opacity transition-transform duration-150 active:scale-95&quot;
-        &gt;
-          &amp;times;
-        &lt;/button&gt;
+        <pre class="line-numbers"><code class="language-html">&lt;!--
+  @file: src/app/shared/components/error-toast/error-toast.component.html
+  @project: GameSage - Plataforma de Videojuegos
+  @authors: Rosario González y Álvaro Jiménez
+  @description: Notificación de error persistente que muestra el mensaje y permite cerrar el toast manualmente.
+--&gt;
+
+@if (errorService.error()) {
+&lt;div class&#x3D;&quot;fixed top-4 right-4 max-w-md z-50 animate-slide-in&quot;&gt;
+  &lt;div [ngClass]&#x3D;&quot;getBackgroundClass(errorService.error()!.type)&quot;
+    class&#x3D;&quot;rounded-md text-white px-5 py-4 shadow-lg border border-white/20&quot;&gt;
+    &lt;div class&#x3D;&quot;flex items-start gap-3&quot;&gt;
+      &lt;div class&#x3D;&quot;flex-shrink-0 mt-1&quot;&gt;
+        &lt;svg xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot; fill&#x3D;&quot;none&quot; viewBox&#x3D;&quot;0 0 24 24&quot; stroke-width&#x3D;&quot;1.5&quot; stroke&#x3D;&quot;currentColor&quot;
+          class&#x3D;&quot;size-6&quot;&gt;
+          &lt;path stroke-linecap&#x3D;&quot;round&quot; stroke-linejoin&#x3D;&quot;round&quot;
+            d&#x3D;&quot;M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z&quot; /&gt;
+        &lt;/svg&gt;
       &lt;/div&gt;
+      &lt;div class&#x3D;&quot;flex-1&quot;&gt;
+        &lt;p class&#x3D;&quot;font-bold text-lg&quot;&gt;
+          {{ getErrorTitle(errorService.error()!.type) }}
+        &lt;/p&gt;
+        &lt;p class&#x3D;&quot;text-sm mt-1 text-gray-100&quot;&gt;
+          {{ errorService.error()!.message }}
+        &lt;/p&gt;
+      &lt;/div&gt;
+      &lt;button (click)&#x3D;&quot;errorService.clearError()&quot;
+        class&#x3D;&quot;flex-shrink-0 text-2xl leading-none hover:opacity-75 transition-opacity transition-transform duration-150 active:scale-95&quot;&gt;
+        &amp;times;
+      &lt;/button&gt;
     &lt;/div&gt;
   &lt;/div&gt;
-}
-</code></pre>
+&lt;/div&gt;
+}</code></pre>
     </div>
 
 
@@ -586,7 +579,7 @@ export class ErrorToastComponent {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div>@if (errorService.error()) {  <div class="fixed top-4 right-4 max-w-md z-50 animate-slide-in">    <div      [ngClass]="getBackgroundClass(errorService.error()!.type)"      class="rounded-md text-white px-5 py-4 shadow-lg border border-white/20"    >      <div class="flex items-start gap-3">        <div class="flex-shrink-0 mt-1">          <svg            xmlns="http://www.w3.org/2000/svg"            fill="none"            viewBox="0 0 24 24"            stroke-width="1.5"            stroke="currentColor"            class="size-6"          >            <path              stroke-linecap="round"              stroke-linejoin="round"              d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"            />          </svg>        </div>        <div class="flex-1">          <p class="font-bold text-lg">            {{ getErrorTitle(errorService.error()!.type) }}          </p>          <p class="text-sm mt-1 text-gray-100">            {{ errorService.error()!.message }}          </p>        </div>        <button          (click)="errorService.clearError()"          class="flex-shrink-0 text-2xl leading-none hover:opacity-75 transition-opacity transition-transform duration-150 active:scale-95"        >          &times;        </button>      </div>    </div>  </div>}</div>'
+        var COMPONENT_TEMPLATE = '<div><!--  @file: src/app/shared/components/error-toast/error-toast.component.html  @project: GameSage - Plataforma de Videojuegos  @authors: Rosario González y Álvaro Jiménez  @description: Notificación de error persistente que muestra el mensaje y permite cerrar el toast manualmente.-->@if (errorService.error()) {<div class="fixed top-4 right-4 max-w-md z-50 animate-slide-in">  <div [ngClass]="getBackgroundClass(errorService.error()!.type)"    class="rounded-md text-white px-5 py-4 shadow-lg border border-white/20">    <div class="flex items-start gap-3">      <div class="flex-shrink-0 mt-1">        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"          class="size-6">          <path stroke-linecap="round" stroke-linejoin="round"            d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />        </svg>      </div>      <div class="flex-1">        <p class="font-bold text-lg">          {{ getErrorTitle(errorService.error()!.type) }}        </p>        <p class="text-sm mt-1 text-gray-100">          {{ errorService.error()!.message }}        </p>      </div>      <button (click)="errorService.clearError()"        class="flex-shrink-0 text-2xl leading-none hover:opacity-75 transition-opacity transition-transform duration-150 active:scale-95">        &times;      </button>    </div>  </div></div>}</div>'
     var COMPONENTS = [{'name': 'AdminComponent', 'selector': 'app-admin'},{'name': 'AIChatComponent', 'selector': 'app-aichat'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CartComponent', 'selector': 'app-cart'},{'name': 'ConditionsComponent', 'selector': 'app-conditions'},{'name': 'ContactComponent', 'selector': 'app-contact'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'DashboardComponent', 'selector': 'app-user'},{'name': 'DeveloperFormComponent', 'selector': 'app-developer-form'},{'name': 'DeveloperListComponent', 'selector': 'app-developer-list'},{'name': 'ErrorToastComponent', 'selector': 'app-error-toast'},{'name': 'FavouritesComponent', 'selector': 'app-favourites'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GameCardComponent', 'selector': 'app-game-card'},{'name': 'GameFormComponent', 'selector': 'app-game-form'},{'name': 'GameListComponent', 'selector': 'app-game-list'},{'name': 'GenreFormComponent', 'selector': 'app-genre-form'},{'name': 'GenreListComponent', 'selector': 'app-genre-list'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LanguageSelectorComponent', 'selector': 'app-language-selector'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'PasswordRecoveryModalComponent', 'selector': 'app-password-recovery-modal'},{'name': 'PlatformFormComponent', 'selector': 'app-platform-form'},{'name': 'PlatformListComponent', 'selector': 'app-platform-list'},{'name': 'PrivacyComponent', 'selector': 'app-privacy'},{'name': 'ProductComponent', 'selector': 'app-product'},{'name': 'PublisherFormComponent', 'selector': 'app-publisher-form'},{'name': 'PublisherListComponent', 'selector': 'app-publisher-list'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'SearchComponent', 'selector': 'app-search'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'StripeModalComponent', 'selector': 'app-stripe-modal'}];
     var DIRECTIVES = [{'name': 'CopyOnClickDirective', 'selector': '[appCopyOnClick]'},{'name': 'HighlightDirective', 'selector': '[appHighlight]'},{'name': 'Tilt3DDirective', 'selector': '[appTilt3D]'}];
     var ACTUAL_COMPONENT = {'name': 'ErrorToastComponent'};

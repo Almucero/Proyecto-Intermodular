@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/settings/settings.component.scss
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Estilos para la página de configuración.
+ */
+
 :host {
   display: flex;
   flex-direction: column;
@@ -24,7 +31,6 @@
   scrollbar-width: thin;
   scrollbar-color: rgba(34, 211, 238, 0.2) transparent;
 
-  /* Efecto de difuminado dinámico */
   mask-image: linear-gradient(to bottom,
       rgba(0, 0, 0, var(--scroll-top-mask, 1)) 0%,
       black var(--scroll-top-mask-stop, 0px),
@@ -38,7 +44,7 @@
   transition: mask-image 0.2s ease, -webkit-mask-image 0.2s ease;
 
   &::-webkit-scrollbar {
-    width: 8px; /* Ancho total mayor para poder separarlo del borde derecho */
+    width: 8px;
   }
 
   &::-webkit-scrollbar-track {
@@ -48,7 +54,7 @@
   &::-webkit-scrollbar-thumb {
     background: rgba(34, 211, 238, 0.2);
     background-clip: padding-box;
-    border-right: 4px solid transparent; /* Separa visualmente la barra del borde derecho */
+    border-right: 4px solid transparent;
     border-radius: 4px;
   }
 
@@ -107,7 +113,7 @@
 
     form.space-y-6,
     .space-y-6 {
-      > * + * {
+      >*+* {
         margin-top: 1.125rem !important;
       }
     }

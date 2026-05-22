@@ -234,6 +234,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <a href="injectables/ChatService.html" data-type="entity-link" >ChatService</a>
                                 </li>
                                 <li class="link">
+                                    <a href="injectables/ConfirmNavigationService.html" data-type="entity-link" >ConfirmNavigationService</a>
+                                </li>
+                                <li class="link">
                                     <a href="injectables/CurrencyService.html" data-type="entity-link" >CurrencyService</a>
                                 </li>
                                 <li class="link">
@@ -332,6 +335,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                         <ul class="links collapse " ${ isNormalMode ? ' id="interfaces-links"' : 'id="xs-interfaces-links"' }>
                             <li class="link">
                                 <a href="interfaces/AppError.html" data-type="entity-link" >AppError</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/CanComponentDeactivate.html" data-type="entity-link" >CanComponentDeactivate</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/CartItem.html" data-type="entity-link" >CartItem</a>
@@ -511,6 +517,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <span class="icon ion-ios-arrow-down"></span>
                             </div>
                             <ul class="links collapse " ${ isNormalMode ? 'id="pipes-links"' : 'id="xs-pipes-links"' }>
+                                <li class="link">
+                                    <a href="pipes/AutoTranslatePipe.html" data-type="entity-link" >AutoTranslatePipe</a>
+                                </li>
                                 <li class="link">
                                     <a href="pipes/CapitalizePipe.html" data-type="entity-link" >CapitalizePipe</a>
                                 </li>

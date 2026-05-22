@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/services/interfaces/base-service.interface.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Interfaz genérica para servicios CRUD.
+ */
+
 import { Observable } from 'rxjs';
 import { SearchParams } from '../../repositories/interfaces/base-repository.interface';
 

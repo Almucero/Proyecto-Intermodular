@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/directives/copy-on-click.directive.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Directiva para copiar texto al portapapeles al hacer clic.
+ */
+
 import {
   Directive,
   HostListener,
@@ -22,18 +29,16 @@ export class CopyOnClickDirective {
   @Input() appCopyOnClick: string = '';
 
   /**
-       * Documentado.
-       * @param el Referencia al elemento del DOM.
-       *
-       * @param platformId Identificador de la plataforma (Browser/Server).
-         *
-       * @param translate Parámetro no documentado.
-       */
+   * Inicializa una nueva instancia de la directiva CopyOnClick.
+   * @param el Referencia al elemento del DOM.
+   * @param translate Servicio de traducción de ngx-translate para los textos informativos.
+   * @param platformId Identificador de la plataforma (Browser/Server).
+   */
   constructor(
     private el: ElementRef,
     private translate: TranslateService,
     @Inject(PLATFORM_ID) private platformId: Object,
-  ) {}
+  ) { }
 
   /**
    * Maneja el evento de clic en el elemento.
@@ -51,8 +56,10 @@ export class CopyOnClickDirective {
     });
   }
 
-  /** Método no documentado. */
-    private animateCopyIcon() {
+  /**
+   * Genera una microanimación de escala sobre el icono al completar la copia.
+   */
+  private animateCopyIcon() {
     const element = this.el.nativeElement as HTMLElement;
     const originalTransition = element.style.transition;
     const originalTransform = element.style.transform;
@@ -66,8 +73,10 @@ export class CopyOnClickDirective {
     }, 160);
   }
 
-  /** Método no documentado. */
-    private showCopiedPopup() {
+  /**
+   * Crea y despliega dinámicamente un popup flotante con el texto "Copiado" al lado del elemento.
+   */
+  private showCopiedPopup() {
     const element = this.el.nativeElement as HTMLElement;
     const rect = element.getBoundingClientRect();
     const popup = document.createElement('span');

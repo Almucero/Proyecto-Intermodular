@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/guards/auth.guard.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Guard que protege rutas de usuarios autenticados.
+ */
+
 import { CanActivateFn, Router } from '@angular/router';
 import { inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';

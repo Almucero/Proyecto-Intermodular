@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/games/games.controller.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Controladores que manejan la lógica de negocio para operaciones CRUD de juegos, incluyendo listado, creación, actualización y eliminación.
+ */
+
 import type { Request, Response } from 'express';
 import {
   listGames,

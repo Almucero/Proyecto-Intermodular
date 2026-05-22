@@ -1,4 +1,11 @@
 /**
+ * @file: src/app/core/models/app-error.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Definición de tipos de errores personalizados para la aplicación.
+ */
+
+/**
  * Tipos de errores comunes en la aplicación.
  */
 export enum ErrorType {

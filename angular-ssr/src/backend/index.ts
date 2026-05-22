@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/index.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Punto de entrada principal del servidor backend con configuración de señales de cierre.
+ */
+
 import app from './app';
 import { env } from './config/env';
 import { logger } from './utils/logger';

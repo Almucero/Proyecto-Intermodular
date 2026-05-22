@@ -1,3 +1,10 @@
+/*
+ * @file: src/backend/modules/notifications/notifications.types.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Tipos y interfaces para el módulo de notificaciones, incluyendo configuraciones de idioma, tópicos de notificación y proyecciones de usuario.
+ */
+
 /**
  * Idiomas soportados por el motor de notificaciones por correo.
  */

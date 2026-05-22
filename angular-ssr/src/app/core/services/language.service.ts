@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/services/language.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicio para la gestión del idioma de la aplicación.
+ */
+
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
@@ -14,25 +21,25 @@ export type Language = 'es' | 'en' | 'de' | 'fr' | 'it';
   providedIn: 'root',
 })
 export class LanguageService {
-  /** Propiedad no documentada. */
-    private translateService = inject(TranslateService);
-  /** Propiedad no documentada. */
-    private platformId = inject(PLATFORM_ID);
-  /** Propiedad no documentada. */
-    private isBrowser = isPlatformBrowser(this.platformId);
+  /** Servicio inyectado de traducción ngx-translate. */
+  private translateService = inject(TranslateService);
+  /** Identificador de plataforma (Browser vs Server). */
+  private platformId = inject(PLATFORM_ID);
+  /** Indica si la ejecución ocurre en el navegador. */
+  private isBrowser = isPlatformBrowser(this.platformId);
 
-  /** Propiedad no documentada. */
-    private readonly STORAGE_KEY = 'app-language';
-  /** Propiedad no documentada. */
-    private readonly AVAILABLE_LANGUAGES: Language[] = [
+  /** Clave de almacenamiento de la preferencia de idioma en localStorage. */
+  private readonly STORAGE_KEY = 'app-language';
+  /** Listado de los códigos de idioma soportados. */
+  private readonly AVAILABLE_LANGUAGES: Language[] = [
     'es',
     'en',
     'de',
     'fr',
     'it',
   ];
-  /** Propiedad no documentada. */
-    private readonly DEFAULT_LANGUAGE: Language = 'es';
+  /** Idioma por defecto asignado si no existe preferencia guardada. */
+  private readonly DEFAULT_LANGUAGE: Language = 'es';
 
   /** BehaviorSubject que mantiene el idioma actual. */
   private currentLangSubject = new BehaviorSubject<Language>(
@@ -46,7 +53,9 @@ export class LanguageService {
   /** Observable para suscribirse al estado de cambio de idioma en progreso. */
   isChanging$ = this.isChangingSubject.asObservable();
 
-  /** Constructor no documentado. */
+  /**
+   * Inicializa la configuración de idioma al construir el servicio.
+   */
   constructor() {
     this.initializeLanguage();
   }
@@ -104,16 +113,16 @@ export class LanguageService {
 
   /**
    * Obtiene el código del idioma actual.
-     * @returns Retorno no documentado.
-     */
+   * @returns El código del idioma activo en el BehaviorSubject.
+   */
   getCurrentLang(): Language {
     return this.currentLangSubject.value;
   }
 
   /**
    * Recupera el idioma guardado en el navegador.
-     * @returns Retorno no documentado.
-     */
+   * @returns El código de idioma guardado en localStorage o null si no se encuentra en el browser.
+   */
   private getSavedLanguage(): Language | null {
     if (!this.isBrowser) {
       return null;
@@ -124,8 +133,8 @@ export class LanguageService {
 
   /**
    * Intenta detectar el idioma preferido del usuario desde el navegador.
-     * @returns Retorno no documentado.
-     */
+   * @returns El código detectado del navegador o el idioma por defecto.
+   */
   private detectBrowserLanguage(): Language {
     if (!this.isBrowser) {
       return this.DEFAULT_LANGUAGE;
@@ -138,9 +147,9 @@ export class LanguageService {
 
   /**
    * Verifica si un código de idioma está soportado por la aplicación.
-     * @param lang Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * @param lang Código o string de idioma a comprobar.
+   * @returns True si el idioma está soportado, de lo contrario false.
+   */
   private isValidLanguage(lang: string | null): boolean {
     return !!lang && this.AVAILABLE_LANGUAGES.includes(lang as Language);
   }

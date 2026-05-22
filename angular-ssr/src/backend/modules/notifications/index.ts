@@ -1,4 +1,11 @@
 /**
+ * @file: src/backend/modules/notifications/index.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Exporta funciones del módulo de notificaciones por correo.
+ */
+
+/**
  * API pública del módulo de notificaciones por correo.
  *
  * Reexporta las funciones de dominio que se consumen desde controladores,

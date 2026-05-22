@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/services/page-title.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicio para la construcción y actualización del título del documento por ruta/idioma.
+ */
+
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
@@ -16,11 +23,11 @@ export class PageTitleService {
   private currentProductTitle: string | null = null;
 
   /**
-       * Documentado.
-       * @param title Servicio nativo para actualizar document.title.
-       *
-       * @param translateService Servicio i18n para resolver textos de título.
-       */
+   * Documentado.
+   * @param title Servicio nativo para actualizar document.title.
+   *
+   * @param translateService Servicio i18n para resolver textos de título.
+   */
   constructor(
     private title: Title,
     private translateService: TranslateService,

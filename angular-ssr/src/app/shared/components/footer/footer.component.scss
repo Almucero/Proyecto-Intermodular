@@ -1,11 +1,20 @@
+/**
+ * @file: src/app/shared/components/footer/footer.component.scss
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Estilos para el footer.
+ */
+
 footer {
   width: 100%;
   box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.4);
 }
+
 :host.menu-open footer,
 :host.search-active footer {
   box-shadow: none !important;
 }
+
 :host.chat-sidebar-active footer {
   box-shadow: none !important;
 }

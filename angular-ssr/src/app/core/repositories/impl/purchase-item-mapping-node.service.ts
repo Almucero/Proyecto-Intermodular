@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/repositories/impl/purchase-item-mapping-node.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicio de mapeo para los artículos individuales de una compra.
+ */
+
 import { Injectable } from '@angular/core';
 import { IBaseMapping } from '../interfaces/base-mapping.interface';
 import { PurchaseItem } from '../../models/purchase-item.model';
@@ -9,23 +16,25 @@ import { PurchaseItem } from '../../models/purchase-item.model';
   providedIn: 'root',
 })
 export class PurchaseItemMappingNodeService implements IBaseMapping<PurchaseItem> {
-  /** Constructor no documentado. */
-    constructor() {}
+  /**
+   * Crea una instancia de PurchaseItemMappingNodeService.
+   */
+  constructor() { }
 
   /**
-     * Transforma una lista de artículos de compra.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Transforma una lista de artículos de compra.
+   * @param data Listado crudo devuelto por la API.
+   * @returns Lista estructurada de objetos PurchaseItem.
+   */
   getAll(data: any): PurchaseItem[] {
     return data.map((item: any) => this.getOne(item));
   }
 
   /**
-     * Transforma un único artículo de compra, incluyendo datos básicos del juego.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Transforma un único artículo de compra, incluyendo datos básicos del juego.
+   * @param data Objeto crudo del artículo de compra devuelto por la API.
+   * @returns Instancia estructurada de PurchaseItem.
+   */
   getOne(data: any): PurchaseItem {
     return {
       id: data.itemId || data.id,
@@ -48,37 +57,37 @@ export class PurchaseItemMappingNodeService implements IBaseMapping<PurchaseItem
   }
 
   /**
-     * Método no documentado.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-    getAdded(data: any): PurchaseItem {
+   * Adapta y mapea el artículo tras ser creado exitosamente.
+   * @param data Objeto crudo del artículo creado.
+   * @returns Instancia de tipo PurchaseItem.
+   */
+  getAdded(data: any): PurchaseItem {
     return this.getOne(data);
   }
 
   /**
-     * Método no documentado.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-    getUpdated(data: any): PurchaseItem {
+   * Adapta y mapea el artículo tras ser actualizado.
+   * @param data Objeto crudo del artículo actualizado.
+   * @returns Instancia de tipo PurchaseItem.
+   */
+  getUpdated(data: any): PurchaseItem {
     return this.getOne(data);
   }
 
   /**
-     * Método no documentado.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-    getDeleted(data: any): PurchaseItem {
+   * Adapta y mapea el artículo tras ser eliminado.
+   * @param data Objeto crudo del artículo eliminado.
+   * @returns Instancia de tipo PurchaseItem.
+   */
+  getDeleted(data: any): PurchaseItem {
     return this.getOne(data);
   }
 
   /**
-     * Prepara los datos para añadir un artículo a una compra.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Prepara los datos para añadir un artículo a una compra.
+   * @param data Instancia de PurchaseItem a guardar.
+   * @returns Objeto serializado para el envío en el POST.
+   */
   setAdd(data: PurchaseItem): any {
     return {
       purchaseId: data.purchaseId,
@@ -90,10 +99,10 @@ export class PurchaseItemMappingNodeService implements IBaseMapping<PurchaseItem
   }
 
   /**
-     * No se suelen actualizar artículos de compra individuales directamente.
-     * @param data Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * No se suelen actualizar artículos de compra individuales directamente.
+   * @param data Cambios a realizar en el artículo.
+   * @returns Objeto vacío o payload serializado.
+   */
   setUpdate(data: any): any {
     return {};
   }

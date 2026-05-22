@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/middleware/rateLimiter.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Middlewares limitadores de tasa para controlar el tráfico de API y proteger contra abusos.
+ */
+
 import rateLimit from 'express-rate-limit';
 
 /** Limitador general para tráfico de API. */

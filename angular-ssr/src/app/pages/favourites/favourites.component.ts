@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/favourites/favourites.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente de la página de Favoritos.
+ */
+
 import { Component, OnInit, signal, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -38,13 +45,13 @@ export class FavouritesComponent implements OnInit {
   isAuthReady = signal(false);
 
   /**
-     * Constructor no documentado.
-     * @param favoriteService Parámetro no documentado.
-     * @param cartItemService Parámetro no documentado.
-     * @param mediaService Parámetro no documentado.
-     * @param authService Parámetro no documentado.
-     * @param router Parámetro no documentado.
-     */
+   * Inicializa el componente de Favoritos.
+   * @param favoriteService Servicio para la gestión de favoritos en la base de datos.
+   * @param cartItemService Servicio para gestionar elementos en el carrito de compras.
+   * @param mediaService Servicio para recuperar recursos multimedia.
+   * @param authService Servicio de autenticación.
+   * @param router Servicio de enrutamiento de Angular.
+   */
   constructor(
     private favoriteService: FavoriteService,
     private cartItemService: CartItemService,
@@ -53,6 +60,10 @@ export class FavouritesComponent implements OnInit {
     private router: Router,
   ) { }
 
+  /**
+   * Ciclo de vida inicial del componente.
+   * Valida la autenticación del usuario antes de recuperar sus favoritos.
+   */
   ngOnInit() {
     this.authService.ready$.subscribe((ready) => {
       this.isAuthReady.set(ready);
@@ -104,8 +115,7 @@ export class FavouritesComponent implements OnInit {
   /**
    * Añade un juego favorito al carrito y lo elimina de la lista de favoritos.
    * @param fav El objeto del favorito a procesar.
-     * @returns Retorno no documentado.
-     */
+   */
   async addToCart(fav: Favorite) {
     if (!fav.gameId || !fav.platformId) return;
     try {
@@ -123,8 +133,7 @@ export class FavouritesComponent implements OnInit {
   /**
    * Elimina un juego de la lista de favoritos.
    * @param fav El objeto del favorito a eliminar.
-     * @returns Retorno no documentado.
-     */
+   */
   async removeFromFavorites(fav: Favorite) {
     if (!fav.gameId || !fav.platformId) return;
     try {
@@ -141,11 +150,10 @@ export class FavouritesComponent implements OnInit {
 
   /**
    * Mueve todos los juegos favoritos al carrito a la vez.
-     * @returns Retorno no documentado.
-     */
+   */
   async transferAllToCart() {
     const items = [...this.favorites()];
-    this.favorites.set([]); // Optimistic local update
+    this.favorites.set([]);
 
     const promises = items.map(async (favorite) => {
       if (favorite.gameId && favorite.platformId) {
@@ -164,19 +172,19 @@ export class FavouritesComponent implements OnInit {
   }
 
   /**
-     * Obtiene la imagen representativa de un juego favorito.
-     * @param fav Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Obtiene la imagen representativa de un juego favorito.
+   * @param fav El objeto de favorito a evaluar.
+   * @returns URL de la imagen del juego o imagen placeholder.
+   */
   getGameImage(fav: Favorite): string {
     return fav.game?.media?.[0]?.url || 'assets/images/ui/placeholder.webp';
   }
 
   /**
-     * Obtiene el nombre del desarrollador o editor del juego.
-     * @param fav Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Obtiene el nombre del desarrollador o editor del juego.
+   * @param fav El objeto de favorito a evaluar.
+   * @returns Nombre del desarrollador, editor o 'Unknown'.
+   */
   getGameDeveloper(fav: Favorite): string {
     return fav.game?.Developer?.name || fav.game?.Publisher?.name || 'Unknown';
   }

@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/services/impl/base-media.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Clase base abstracta para servicios de gestión de medios.
+ */
+
 import { Observable } from 'rxjs';
 
 /**

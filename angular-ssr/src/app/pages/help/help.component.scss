@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/help/help.component.scss
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Estilos para el componente de ayuda.
+ */
+
 :host {
   display: flex;
   flex-direction: column;
@@ -19,6 +26,7 @@
     opacity: 0;
     transform: scale(0.96);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -172,8 +180,8 @@
   border: 1px solid rgba(34, 211, 238, 0.25);
 }
 
-.help-section > p,
-.help-platform > p,
+.help-section>p,
+.help-platform>p,
 .help-card p,
 .help-note p,
 .help-faq-body p,

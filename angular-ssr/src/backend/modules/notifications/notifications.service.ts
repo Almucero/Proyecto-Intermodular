@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/notifications/notifications.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicio de notificaciones que implementa el envío de notificaciones por correo electrónico, incluyendo la gestión de preferencias de usuario, programación y procesamiento de eventos.
+ */
+
 import nodemailer from 'nodemailer';
 import { prisma } from '../../config/db';
 import type {
@@ -1258,17 +1265,17 @@ export async function notifyPurchaseStatus(input: {
   const titleSet = [...new Set(input.games.map((g) => g.title).filter(Boolean))];
   const gameMediaRows = titleSet.length
     ? await prisma.game.findMany({
-        where: { title: { in: titleSet } },
-        select: {
-          title: true,
-          media: {
-            where: { resourceType: { contains: 'image', mode: 'insensitive' } },
-            select: { url: true },
-            take: 1,
-            orderBy: { id: 'asc' },
-          },
+      where: { title: { in: titleSet } },
+      select: {
+        title: true,
+        media: {
+          where: { resourceType: { contains: 'image', mode: 'insensitive' } },
+          select: { url: true },
+          take: 1,
+          orderBy: { id: 'asc' },
         },
-      })
+      },
+    })
     : [];
   const mediaByTitle = new Map<string, string>();
   for (const row of gameMediaRows as any[]) {
@@ -1710,22 +1717,22 @@ async function runCategoryNewsAndPopular(users: UserWithNotifications[]) {
     const preferredGenre = searchSignals.map((s) => s.genre).filter(Boolean).slice(-1)[0];
     const bySearch = preferredTitle
       ? await prisma.game.findMany({
-          where: { title: { contains: preferredTitle, mode: 'insensitive' } },
-          select: {
-            title: true,
-            price: true,
-            isOnSale: true,
-            salePrice: true,
-            media: {
-              where: { resourceType: { contains: 'image', mode: 'insensitive' } },
-              select: { url: true },
-              take: 1,
-              orderBy: { id: 'asc' },
-            },
+        where: { title: { contains: preferredTitle, mode: 'insensitive' } },
+        select: {
+          title: true,
+          price: true,
+          isOnSale: true,
+          salePrice: true,
+          media: {
+            where: { resourceType: { contains: 'image', mode: 'insensitive' } },
+            select: { url: true },
+            take: 1,
+            orderBy: { id: 'asc' },
           },
-          orderBy: [{ numberOfSales: 'desc' }],
-          take: 3,
-        })
+        },
+        orderBy: [{ numberOfSales: 'desc' }],
+        take: 3,
+      })
       : [];
     const byPurchase = await prisma.game.findMany({
       where: {
@@ -1750,22 +1757,22 @@ async function runCategoryNewsAndPopular(users: UserWithNotifications[]) {
     });
     const byGenre = preferredGenre
       ? await prisma.game.findMany({
-          where: { genres: { some: { name: { equals: preferredGenre, mode: 'insensitive' } } } },
-          select: {
-            title: true,
-            price: true,
-            isOnSale: true,
-            salePrice: true,
-            media: {
-              where: { resourceType: { contains: 'image', mode: 'insensitive' } },
-              select: { url: true },
-              take: 1,
-              orderBy: { id: 'asc' },
-            },
+        where: { genres: { some: { name: { equals: preferredGenre, mode: 'insensitive' } } } },
+        select: {
+          title: true,
+          price: true,
+          isOnSale: true,
+          salePrice: true,
+          media: {
+            where: { resourceType: { contains: 'image', mode: 'insensitive' } },
+            select: { url: true },
+            take: 1,
+            orderBy: { id: 'asc' },
           },
-          orderBy: [{ numberOfSales: 'desc' }],
-          take: 3,
-        })
+        },
+        orderBy: [{ numberOfSales: 'desc' }],
+        take: 3,
+      })
       : [];
     const merged = [...bySearch, ...byPurchase, ...byGenre, ...popular]
       .filter((g, idx, arr) => arr.findIndex((x) => x.title === g.title) === idx)

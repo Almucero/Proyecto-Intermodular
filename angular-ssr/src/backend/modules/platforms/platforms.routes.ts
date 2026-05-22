@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/platforms/platforms.routes.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Rutas de API para operaciones CRUD de plataformas con validación (Zod) y autenticación.
+ */
+
 import { Router } from 'express';
 import { validate } from '../../middleware/validate';
 import { createPlatformSchema, updatePlatformSchema } from './platforms.schema';

@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/admin/developers/developer-list/developer-list.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Listado de desarrolladores en el panel de administración.
+ */
+
 import {
   Component,
   inject,
@@ -24,10 +31,10 @@ import { DeveloperFormComponent } from '../developer-form/developer-form.compone
   styleUrl: './developer-list.component.scss',
 })
 export class DeveloperListComponent implements OnInit {
-  /** Propiedad no documentada. */
-    private developerService = inject(DeveloperService);
-  /** Propiedad no documentada. */
-    private readonly MIN_SKELETON_MS = 550;
+  /** Inyección de dependencias. */
+  private developerService = inject(DeveloperService);
+  /** Inyección de dependencias. */
+  private readonly MIN_SKELETON_MS = 550;
 
   /** Referencia al contenedor con scroll para efectos visuales de sombras. */
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
@@ -118,9 +125,9 @@ export class DeveloperListComponent implements OnInit {
   }
 
   /**
-     * Abre el modal para editar un desarrollador existente.
-     * @param id Parámetro no documentado.
-     */
+   * Abre el modal para editar un desarrollador existente.
+   * @param id ID del desarrollador a editar.
+   */
   openEditModal(id: number) {
     this.selectedDeveloperId = id;
     this.showModal = true;
@@ -139,9 +146,9 @@ export class DeveloperListComponent implements OnInit {
   }
 
   /**
-     * Abre el modal de confirmación para eliminar un desarrollador.
-     * @param id Parámetro no documentado.
-     */
+   * Abre el modal de confirmación para eliminar un desarrollador.
+   * @param id ID del desarrollador a eliminar.
+   */
   openDeleteModal(id: number) {
     this.developerToDeleteId = id;
     this.showDeleteModal = true;

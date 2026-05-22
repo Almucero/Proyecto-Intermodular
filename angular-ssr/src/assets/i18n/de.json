@@ -192,6 +192,12 @@
         "inactiveAccount": "Erinnerungen bei Inaktivität",
         "seasonalCampaigns": "Saisonale Kampagnen und Sonderangebote"
       }
+    },
+    "account": {
+      "deleteButton": "Konto löschen",
+      "confirmDelete": "SIND SIE SICHER, DASS SIE IHR KONTO LÖSCHEN MÖCHTEN?",
+      "deleteSuccess": "Konto erfolgreich gelöscht",
+      "deleteError": "Konto konnte nicht gelöscht werden"
     }
   },
   "contact": {
@@ -522,7 +528,8 @@
     "password2Placeholder": "Passwort wiederholen",
     "createAccountButton": "Konto erstellen",
     "googleButton": "Mit Google fortfahren",
-    "githubButton": "Mit GitHub fortfahren"
+    "githubButton": "Mit GitHub fortfahren",
+    "successMessage": "Registrierung erfolgreich abgeschlossen. Sie können sich jetzt anmelden."
   },
   "passwordRecovery": {
     "title": "Passwort wiederherstellen",

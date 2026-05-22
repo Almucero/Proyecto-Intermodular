@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/shared/components/header/header.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente que representa la cabecera de la aplicación.
+ */
+
 import {
   Component,
   ViewChild,
@@ -15,7 +22,7 @@ import { BaseAuthenticationService } from '../../../core/services/impl/base-auth
 import { CartItemService } from '../../../core/services/impl/cart-item.service';
 import { FavoriteService } from '../../../core/services/impl/favorite.service';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { slideMenuAnimation } from '../../../animations/slide-menu.animation';
+import { slideMenuAnimation, slideLogoAnimation } from '../../../animations/slide-menu.animation';
 import { UiStateService } from '../../../core/services/ui-state.service';
 import { FormsModule } from '@angular/forms';
 
@@ -36,7 +43,7 @@ import { FormsModule } from '@angular/forms';
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  animations: [slideMenuAnimation],
+  animations: [slideMenuAnimation, slideLogoAnimation],
 })
 export class HeaderComponent {
   /** Indica si la barra de búsqueda está desplegada (móvil). */
@@ -44,17 +51,17 @@ export class HeaderComponent {
   /** Referencia al elemento del menú para detectar clics fuera. */
   @ViewChild('menu') menu!: ElementRef;
 
-  /** Propiedad no documentada. */
+  /** Servicio inyectado de autenticación de usuario. */
   private authService = inject(BaseAuthenticationService);
-  /** Propiedad no documentada. */
+  /** Servicio inyectado de carrito de la compra. */
   private cartService = inject(CartItemService);
-  /** Propiedad no documentada. */
+  /** Servicio inyectado para gestionar la lista de favoritos. */
   private favoriteService = inject(FavoriteService);
-  /** Propiedad no documentada. */
+  /** Router inyectado para redirecciones y detección de URL activa. */
   private router = inject(Router);
   /** Servicio de estado de la UI (menú abierto/cerrado). */
   public uiState = inject(UiStateService);
-  /** Propiedad no documentada. */
+  /** Identificador de plataforma inyectado (Browser vs Server). */
   private platformId = inject(PLATFORM_ID);
 
   /** Signal con los datos del usuario autenticado. */
@@ -75,14 +82,16 @@ export class HeaderComponent {
   /** Consulta de búsqueda actual. */
   searchQuery = '';
 
-  /** Constructor no documentado. */
+  /**
+   * Inicializa la cabecera escuchando los eventos de cambio de ruta para detectar
+   * si se encuentra en la pantalla de búsquedas y recuperar la query activa.
+   */
   constructor() {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
       this.isSearchPage = this.router.url.includes('/search');
-      
-      // Sincronizar el texto del input con la URL al finalizar la navegación
+
       const urlTree = this.router.parseUrl(this.router.url);
       this.searchQuery = urlTree.queryParams['q'] || '';
     });
@@ -115,16 +124,15 @@ export class HeaderComponent {
     if (event.key === 'Enter') {
       const input = event.target as HTMLInputElement;
       const query = input.value.trim();
-      
+
       if (!this.isSearchPage) {
-        // Si no estamos en search, navegamos al pulsar Enter
         if (!query) {
           this.router.navigate(['/search'], { queryParams: {} });
         } else {
           this.router.navigate(['/search'], { queryParams: { q: query } });
         }
       }
-      
+
       this.searchActive = false;
       input.blur();
     }
@@ -140,7 +148,7 @@ export class HeaderComponent {
 
     const input = event.target as HTMLInputElement;
     const query = input.value.trim();
-    
+
     this.router.navigate(['/search'], {
       queryParams: { q: query || null },
       queryParamsHandling: 'merge',
@@ -155,9 +163,9 @@ export class HeaderComponent {
   }
 
   /**
-     * Escucha clics en el documento para cerrar el menú si se pincha fuera.
-     * @param event Parámetro no documentado.
-     */
+   * Escucha clics en el documento para cerrar el menú si se pincha fuera.
+   * @param event Objeto del evento de click detectado en el documento.
+   */
   @HostListener('document:click', ['$event'])
   onClick(event: Event) {
     if (

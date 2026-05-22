@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/middleware/authorize.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Middleware que restringe el acceso a rutas solo para usuarios administradores.
+ */
+
 import type { Request, Response, NextFunction } from 'express';
 import { env } from '../config/env';
 import { applySecurityHeaders, applyNoCacheHeaders } from '../../security-headers';
@@ -12,7 +19,7 @@ import { applySecurityHeaders, applyNoCacheHeaders } from '../../security-header
 export function adminOnly(req: Request, res: Response, next: NextFunction) {
   applySecurityHeaders(req, res);
   applyNoCacheHeaders(res);
-  
+
   if (!req.user || !req.user.email) {
     return res.status(401).json({ message: 'No autorizado' });
   }

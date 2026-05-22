@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/models/user.model.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Definición de modelos de datos para usuarios.
+ */
+
 import { Model } from './base.model';
 import { Media } from './media.model';
 import { CartItem } from './cart-item.model';

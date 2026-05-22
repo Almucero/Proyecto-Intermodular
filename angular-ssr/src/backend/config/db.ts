@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/config/db.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Configuración de conexión a base de datos con Prisma.
+ */
+
 import { PrismaClient } from '@prisma/client';
 import { serializePrisma } from '../utils/serialize';
 

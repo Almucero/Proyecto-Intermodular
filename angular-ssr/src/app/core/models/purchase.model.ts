@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/models/purchase.model.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Modelo de datos para una transacción de compra.
+ */
+
 import { Model } from './base.model';
 import { User } from './user.model';
 import { PurchaseItem } from './purchase-item.model';

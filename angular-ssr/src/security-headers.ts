@@ -1,3 +1,10 @@
+/**
+ * @file: src/security-headers.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Configuración de cabeceras de seguridad y Content Security Policy (CSP) para protección contra ataques web.
+ */
+
 import type { Request, Response, NextFunction } from 'express';
 
 /**

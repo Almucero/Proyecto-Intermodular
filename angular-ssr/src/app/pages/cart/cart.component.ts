@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/cart/cart.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente de la página del carrito de compras.
+ */
+
 import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID, signal, ViewEncapsulation } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -42,22 +49,22 @@ export class CartComponent implements OnInit, OnDestroy {
   isAuthenticated = signal(false);
   /** Indica si el servicio de autenticación ha terminado la verificación de inicio de sesión. */
   isAuthReady = signal(false);
-  /** Propiedad no documentada. */
+  /** Indica si el modal del checkout de Stripe está abierto. */
   checkoutModalOpen = signal(false);
-  /** Propiedad no documentada. */
+  /** Bandera interna para asegurar que el retorno de checkout se procese una sola vez. */
   private checkoutHandled = false;
-  /** Propiedad no documentada. */
+  /** Determina si el componente se ejecuta en el navegador. */
   private readonly isBrowser: boolean;
 
   /**
-     * Constructor no documentado.
-     * @param cartItemService Parámetro no documentado.
-     * @param mediaService Parámetro no documentado.
-     * @param authService Parámetro no documentado.
-     * @param route Parámetro no documentado.
-     * @param router Parámetro no documentado.
-     * @param platformId Parámetro no documentado.
-     */
+   * Inicializa una nueva instancia de CartComponent.
+   * @param cartItemService Servicio para la gestión de elementos del carrito en el backend/caché.
+   * @param mediaService Servicio para recuperar recursos multimedia.
+   * @param authService Servicio de autenticación.
+   * @param route Servicio para acceder a la ruta activa y parámetros de consulta.
+   * @param router Servicio de enrutador de Angular.
+   * @param platformId Identificador de plataforma (SSR vs Browser).
+   */
   constructor(
     private cartItemService: CartItemService,
     private mediaService: MediaService,
@@ -69,6 +76,10 @@ export class CartComponent implements OnInit, OnDestroy {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
+  /**
+   * Ciclo de vida que inicializa el componente.
+   * Valida la autenticación, gestiona la devolución del checkout de Stripe e inicializa la carga del carrito.
+   */
   ngOnInit() {
     this.authService.ready$.subscribe((ready) => {
       this.isAuthReady.set(ready);
@@ -87,15 +98,17 @@ export class CartComponent implements OnInit, OnDestroy {
     });
   }
 
-  /** Método no documentado. */
+  /**
+   * Ciclo de vida ejecutado al destruir el componente.
+   * Cierra el modal de pago de Stripe.
+   */
   ngOnDestroy() {
     this.closeCheckoutModal();
   }
 
   /**
-     * Método no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Maneja el retorno tras procesar el pago con Stripe, confirmando la sesión si es correcto.
+   */
   private async handleCheckoutReturn() {
     if (this.checkoutHandled) return;
     this.checkoutHandled = true;
@@ -166,8 +179,7 @@ export class CartComponent implements OnInit, OnDestroy {
   /**
    * Incrementa en una unidad la cantidad de un artículo específico.
    * @param item El artículo a incrementar.
-     * @returns Retorno no documentado.
-     */
+   */
   async incrementQuantity(item: CartItem) {
     if (!item.gameId || !item.platformId) return;
     try {
@@ -188,8 +200,7 @@ export class CartComponent implements OnInit, OnDestroy {
    * Decrementa en una unidad la cantidad de un artículo.
    * Si la cantidad llega a cero, el artículo se elimina del carrito.
    * @param item El artículo a decrementar.
-     * @returns Retorno no documentado.
-     */
+   */
   async decrementQuantity(item: CartItem) {
     if (!item.gameId || !item.platformId) return;
     if (item.quantity > 1) {
@@ -213,8 +224,7 @@ export class CartComponent implements OnInit, OnDestroy {
   /**
    * Elimina permanentemente un artículo del carrito.
    * @param item El artículo a eliminar.
-     * @returns Retorno no documentado.
-     */
+   */
   async removeFromCart(item: CartItem) {
     if (!item.gameId || !item.platformId) return;
     try {
@@ -232,8 +242,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
   /**
    * Vacía completamente el carrito de compras del usuario.
-     * @returns Retorno no documentado.
-     */
+   */
   async clearCart() {
     const items = this.cartItems();
     for (const item of items) {
@@ -249,8 +258,8 @@ export class CartComponent implements OnInit, OnDestroy {
   /**
    * Calcula el coste total de un artículo multiplicando precio por cantidad.
    * @param item El artículo a calcular.
-     * @returns Retorno no documentado.
-     */
+   * @returns El precio total del artículo multiplicando cantidad por precio unitario.
+   */
   getItemTotal(item: CartItem): number {
     const price =
       item.game?.isOnSale && item.game?.salePrice !== null
@@ -261,8 +270,8 @@ export class CartComponent implements OnInit, OnDestroy {
 
   /**
    * Calcula la suma total acumulada de todos los productos en el carrito.
-     * @returns Retorno no documentado.
-     */
+   * @returns Total de la compra.
+   */
   getTotal(): number {
     return this.cartItems().reduce(
       (sum, item) => sum + this.getItemTotal(item),
@@ -271,19 +280,19 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   /**
-     * Obtiene la imagen de portada de un artículo del carrito.
-     * @param item Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Obtiene la imagen de portada de un artículo del carrito.
+   * @param item Artículo del cual se quiere la imagen.
+   * @returns URL de la imagen del juego o imagen placeholder.
+   */
   getGameImage(item: CartItem): string {
     return item.game?.media?.[0]?.url || 'assets/images/ui/placeholder.webp';
   }
 
   /**
-     * Obtiene el nombre del desarrollador o editor del videojuego.
-     * @param item Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
+   * Obtiene el nombre del desarrollador o editor del videojuego.
+   * @param item Artículo del cual se quiere el desarrollador o editor.
+   * @returns Nombre de la compañía desarrolladora o editora, o 'Unknown'.
+   */
   getGameDeveloper(item: CartItem): string {
     return (
       item.game?.Developer?.name || item.game?.Publisher?.name || 'Unknown'
@@ -291,21 +300,20 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   /**
-     * Inicia el proceso de finalización de compra.
-     * @returns Retorno no documentado.
-     */
+   * Inicia el proceso de finalización de compra abriendo el modal de Stripe.
+   */
   async checkout() {
     if (this.cartItems().length === 0 || !this.isBrowser) return;
     this.error.set(null);
     this.checkoutModalOpen.set(true);
   }
 
-  /** Método no documentado. */
+  /** Cierra el modal de pago de Stripe. */
   closeCheckoutModal() {
     this.checkoutModalOpen.set(false);
   }
 
-  /** Método no documentado. */
+  /** Limpia el carrito y actualiza la ruta al completar la compra con éxito. */
   onCheckoutCompleted() {
     this.error.set(null);
     this.loadCart();

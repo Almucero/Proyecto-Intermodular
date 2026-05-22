@@ -1,3 +1,11 @@
+
+/**
+ * @file: src/app/core/models/publisher.model.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Modelo de datos para una distribuidora de videojuegos.
+ */
+
 import { Model } from './base.model';
 import { Game } from './game.model';
 

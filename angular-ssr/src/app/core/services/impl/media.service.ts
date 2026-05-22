@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/services/impl/media.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicio para la gestión de recursos multimedia (imágenes, vídeos).
+ */
+
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseService } from './base-service.service';
@@ -15,9 +22,9 @@ import { IBaseRepository } from '../../repositories/interfaces/base-repository.i
 })
 export class MediaService extends BaseService<Media> implements IMediaService {
   /**
-       * Documentado.
-       * @param repository Repositorio especializado en multimedia (permite subida de archivos).
-       */
+   * Documentado.
+   * @param repository Repositorio especializado en multimedia (permite subida de archivos).
+   */
   constructor(
     @Inject(MEDIA_REPOSITORY_TOKEN)
     protected override repository: IMediaRepository,

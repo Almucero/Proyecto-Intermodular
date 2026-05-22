@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/aichat/aichat.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente de chat con IA.
+ */
+
 import {
   Component,
   OnInit,
@@ -51,11 +58,17 @@ import { Tilt3DDirective } from '../../directives/tilt-3d.directive';
   styleUrl: './aichat.component.scss',
 })
 export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
+  /** Servicio para interactuar con la lógica y las llamadas de la API de chat con IA. */
   private chatService = inject(ChatService);
+  /** Enrutador de Angular para navegación. */
   private router = inject(Router);
+  /** Servicio para validar la autenticación y la información del usuario actual. */
   private authService = inject(BaseAuthenticationService);
+  /** Servicio de traducción internacional multiidioma de Angular. */
   private translateService = inject(TranslateService);
+  /** Zona de ejecución de Angular para optimizar la detección de cambios. */
   private ngZone = inject(NgZone);
+  /** Renderizador nativo de Angular para interactuar con el DOM de manera segura. */
   private renderer = inject(Renderer2);
 
   /** Referencia al contenedor de mensajes para el scroll automático. */
@@ -84,11 +97,11 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   userName: string = '';
   /** Controla la visibilidad del modal de autenticación requerida. */
   showAuthModal: boolean = false;
-  /** Propiedad no documentada. */
+  /** Indica si la transición de entrada del modal de autenticación está completa. */
   authModalOpen = false;
-  /** Propiedad no documentada. */
+  /** Indica si la transición de salida del modal de autenticación está activa. */
   authModalClosing = false;
-  /** Propiedad no documentada. */
+  /** Duración en milisegundos de la animación del modal de autenticación. */
   private readonly authModalAnimMs = 160;
   /** Estado de autenticación del usuario. */
   isUserAuthenticated: boolean = false;
@@ -96,12 +109,14 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   userAvatar: string | null = null;
   /** Indica si las sesiones se están cargando inicialmente. */
   loadingSessions: boolean = true;
-  /** Propiedad no documentada. */
+  /** Recuento en caché de sesiones de chat. */
   cachedSessionsCount = 0;
   /** Indica si el componente se está ejecutando en el navegador. */
   isBrowser = false;
 
+  /** Identificador de la plataforma de Angular. */
   private platformId = inject(PLATFORM_ID);
+  /** Servicio que gestiona el estado dinámico global de la interfaz de usuario. */
   private uiState = inject(UiStateService);
   /** Indica si la aplicación está lista (tras auto-login). */
   isAppReady = toSignal(this.authService.ready$, { initialValue: false });
@@ -116,9 +131,13 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   /** Controla si se está mostrando el spinner circular durante la restauración de una sesión. */
   isRestoringSession = false;
 
+  /** Clave de almacenamiento local para guardar el recuento de sesiones del chat. */
   private readonly chatSessionsCountStorageKey = 'chatSessionsCount';
+  /** Clave de almacenamiento local para almacenar el ID de la sesión activa. */
   private readonly activeSessionStorageKey = 'game_sage_active_chat_session_id';
+  /** Clave de almacenamiento local para registrar la marca de tiempo de la salida del chat. */
   private readonly chatExitTimestampKey = 'game_sage_chat_exit_timestamp';
+  /** Límite de tiempo en milisegundos tras el cual la sesión expira (2 minutos). */
   private readonly SESSION_EXPIRATION_MS = 2 * 60 * 1000;
 
   /** Controla el estado de la barra lateral en dispositivos móviles. */
@@ -146,22 +165,22 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /** Control visual de degradados para scroll en el chat principal. */
   showMainTopFade = false;
-  /** Propiedad no documentada. */
+  /** Control visual de degradado inferior para scroll en el chat principal. */
   showMainBottomFade = false;
   /** Control visual de degradados para scroll en la barra lateral. */
   showSidebarTopFade = false;
-  /** Propiedad no documentada. */
+  /** Control visual de degradado inferior para scroll en la barra lateral. */
   showSidebarBottomFade = false;
 
   /** Visibilidad de barras de scroll personalizadas. */
   showSidebarScrollbar = false;
-  /** Propiedad no documentada. */
+  /** Visibilidad de barra de scroll principal personalizada. */
   showMainScrollbar = false;
   /** Temporizadores para ocultar las barras de scroll tras inactividad. */
   private sidebarActivityTimer: any;
-  /** Propiedad no documentada. */
+  /** Temporizador de inactividad para ocultar la barra de scroll del chat principal. */
   private mainActivityTimer: any;
-  /** Propiedad no documentada. */
+  /** Indica si hay un proceso de sincronización de vista programado en cola. */
   private viewSyncQueued = false;
 
   /** Alterna la visibilidad de la barra lateral móvil. */
@@ -177,7 +196,8 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
-   * Constructor no documentado.
+   * Inicializa una nueva instancia de AIChatComponent.
+   * Determina si se ejecuta en navegador y registra los escuchas correspondientes.
    */
   constructor() {
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -278,12 +298,16 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  /** Método no documentado. */
+  /**
+   * Ciclo de vida que se ejecuta tras inicializar la vista del componente.
+   */
   ngAfterViewInit(): void {
     this.scheduleViewSync();
   }
 
-  /** Método no documentado. */
+  /**
+   * Programa la sincronización de la vista y el scroll en el próximo frame de animación.
+   */
   private scheduleViewSync() {
     if (this.viewSyncQueued) return;
     this.viewSyncQueued = true;
@@ -391,7 +415,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * Envía un mensaje basado en una sugerencia predefinida.
-   * @param key Parámetro no documentado.
+   * @param key Clave de traducción del texto sugerido.
    */
   sendSuggestion(key: string) {
     const text = this.translateService.instant(key);
@@ -407,7 +431,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
         top: el.scrollHeight,
         behavior: this.useSmoothScroll ? 'smooth' : 'auto',
       });
-    } catch (err) {}
+    } catch (err) { }
   }
 
   /** Carga el listado de sesiones de chat del usuario autenticado. */
@@ -427,6 +451,10 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  /**
+   * Callback ejecutado cuando el cargador principal de la app ha finalizado.
+   * Inicia el retraso mínimo de visualización de los skeletons de carga.
+   */
   private onLoaderFinished = () => {
     this.startMinimumSkeletonDelay();
   };
@@ -534,7 +562,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * Selecciona una sesión de historial y carga sus mensajes.
-   * @param session Parámetro no documentado.
+   * @param session Sesión de chat seleccionada.
    */
   selectSession(session: ChatSession) {
     if (this.currentSession?.id === session.id) return;
@@ -576,8 +604,8 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * Elimina una sesión de chat permanentemente.
-   * @param session Parámetro no documentado.
-   * @param event Parámetro no documentado.
+   * @param session Sesión a eliminar.
+   * @param event Evento del ratón.
    */
   deleteSession(session: ChatSession, event: Event) {
     event.stopPropagation();
@@ -595,7 +623,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }, 200);
       },
-      error: () => {},
+      error: () => { },
     });
   }
 
@@ -635,7 +663,6 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
           this.loadSessions();
           this.currentSession = { id: response.sessionId };
 
-          // Tras 5 segundos, actualiza gradualmente el título al generado por la IA
           setTimeout(() => {
             const foundSession = this.sessions.find(
               (s) => s.id === response.sessionId,
@@ -683,7 +710,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * Redirige a la página de detalle de un producto sugerido.
-   * @param gameId Parámetro no documentado.
+   * @param gameId ID del juego a navegar.
    */
   navigateToGame(gameId: number) {
     this.router.navigate(['/product', gameId]);
@@ -691,7 +718,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * Verifica si el usuario está autenticado, de lo contrario muestra aviso.
-   * @returns Retorno no documentado.
+   * @returns Verdadero si está autenticado; falso de lo contrario.
    */
   checkAuth(): boolean {
     if (!this.isUserAuthenticated) {
@@ -743,7 +770,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * Maneja clicks en enlaces internos dentro del contenido generado por la IA (Markdown).
-   * @param event Parámetro no documentado.
+   * @param event Evento de ratón originado.
    */
   handleContentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
@@ -762,7 +789,7 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * Convierte menciones de títulos de juegos en enlaces navegables dentro del texto de la respuesta.
-   * @param message Parámetro no documentado.
+   * @param message Mensaje que contiene la respuesta de la IA.
    */
   private processMessageLinks(message: ChatMessage) {
     if (!message.games || message.games.length === 0) return;
@@ -783,12 +810,16 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  /** Accessor no documentado. */
+  /** Obtiene un array con los índices correspondientes a la cantidad de sesiones recientes. */
   get recentSessionsCount(): number[] {
     const count = this.cachedSessionsCount || 3;
     return Array.from({ length: count }, (_, i) => i + 1);
   }
 
+  /**
+   * Obtiene la cantidad de sesiones almacenadas en el caché local al iniciar el componente.
+   * @returns El número de sesiones almacenadas, o 0 si no se encuentra.
+   */
   private getInitialSessionsCount(): number {
     if (isPlatformBrowser(this.platformId)) {
       const cached = localStorage.getItem(this.chatSessionsCountStorageKey);
@@ -799,6 +830,10 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
     return 0;
   }
 
+  /**
+   * Actualiza el recuento de sesiones en caché en el estado y almacenamiento local.
+   * @param count El nuevo número de sesiones.
+   */
   private updateCachedSessionsCount(count: number): void {
     this.cachedSessionsCount = count;
     if (isPlatformBrowser(this.platformId)) {
@@ -806,6 +841,10 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  /**
+   * Inicia el modo de edición para el título de la sesión de chat actual.
+   * Mide el texto actual para ajustar dinámicamente el ancho del input.
+   */
   startEditingTitle() {
     if (!this.currentSession) return;
     this.editingTitleValue = this.currentSession.title || '';
@@ -831,6 +870,9 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 50);
   }
 
+  /**
+   * Cancela la edición activa del título de la sesión de chat actual y restaura el estado.
+   */
   cancelEditingTitle() {
     this.isEditingTitle = false;
   }
@@ -873,6 +915,11 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
+  /**
+   * Escucha global para el evento mousedown en el documento.
+   * Cancela el modo de edición de título de chat si se hace clic fuera del input de edición o del botón de editar.
+   * @param event El evento de ratón mousedown.
+   */
   @HostListener('document:mousedown', ['$event'])
   onDocumentMouseDown(event: MouseEvent) {
     if (this.isEditingTitle) {
@@ -885,6 +932,10 @@ export class AIChatComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  /**
+   * Escucha global del ciclo de vida de la ventana antes de descargarse.
+   * Almacena una marca de tiempo en el almacenamiento local para controlar la expiración de la sesión.
+   */
   @HostListener('window:beforeunload')
   onBeforeUnload() {
     if (this.isBrowser) {

@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/register/register.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente de la página de registro.
+ */
+
 import {
   Component,
   OnInit,
@@ -84,40 +91,40 @@ export class RegisterComponent implements OnInit {
   submitted = false;
   /** Ruta a la que redirigir tras el login posterior al registro. */
   navigateTo: string = '';
-  /** Propiedad no documentada. */
-    isOAuthRedirectProcessing = false;
-  /** Propiedad no documentada. */
-    googleError = '';
-  /** Propiedad no documentada. */
-    githubError = '';
-  /** Propiedad no documentada. */
-    googleClientId = '';
-  /** Propiedad no documentada. */
-    githubClientId = '';
-  /** Propiedad no documentada. */
-    private readonly GOOGLE_STATE_KEY = 'google_oauth_state_register';
-  /** Propiedad no documentada. */
-    private readonly GOOGLE_NONCE_KEY = 'google_oauth_nonce_register';
-  /** Propiedad no documentada. */
-    private readonly GOOGLE_TARGET_KEY = 'google_oauth_target';
-  /** Propiedad no documentada. */
-    private readonly GITHUB_STATE_KEY = 'github_oauth_state_register';
-  /** Propiedad no documentada. */
-    private readonly SKIP_LOADING_KEY = 'skip_loading_screen_once';
+  /** Indica si se está procesando actualmente la redirección de OAuth (Google/GitHub). */
+  isOAuthRedirectProcessing = false;
+  /** Mensaje de error al autenticar con Google. */
+  googleError = '';
+  /** Mensaje de error al autenticar con GitHub. */
+  githubError = '';
+  /** ID del cliente OAuth de Google inyectado o cargado desde la API. */
+  googleClientId = '';
+  /** ID del cliente OAuth de GitHub inyectado o cargado desde la API. */
+  githubClientId = '';
+  /** Clave para guardar el estado OAuth de Google en la sesión. */
+  private readonly GOOGLE_STATE_KEY = 'google_oauth_state_register';
+  /** Clave para guardar el valor nonce de Google en la sesión. */
+  private readonly GOOGLE_NONCE_KEY = 'google_oauth_nonce_register';
+  /** Clave para guardar la ruta destino post-OAuth en la sesión. */
+  private readonly GOOGLE_TARGET_KEY = 'google_oauth_target';
+  /** Clave para guardar el estado OAuth de GitHub en la sesión. */
+  private readonly GITHUB_STATE_KEY = 'github_oauth_state_register';
+  /** Clave para saltarse temporalmente la pantalla de carga durante redirecciones OAuth. */
+  private readonly SKIP_LOADING_KEY = 'skip_loading_screen_once';
 
-  /** Propiedad no documentada. */
-    private router = inject(Router);
-  /** Propiedad no documentada. */
-    private auth = inject(BaseAuthenticationService);
-  /** Propiedad no documentada. */
-    private platformId = inject(PLATFORM_ID);
+  /** Servicio de enrutamiento de Angular para navegación. */
+  private router = inject(Router);
+  /** Servicio para gestionar operaciones de autenticación y registro. */
+  private auth = inject(BaseAuthenticationService);
+  /** Identificador de plataforma para verificar si se ejecuta en navegador o servidor (SSR). */
+  private platformId = inject(PLATFORM_ID);
 
   /**
-     * Constructor no documentado.
-     * @param formSvc Parámetro no documentado.
-     * @param http Parámetro no documentado.
-     */
-    constructor(
+   * Crea una instancia de RegisterComponent.
+   * @param formSvc Servicio constructor de formularios reactivos.
+   * @param http Cliente HTTP para peticiones de configuración de clientes de OAuth.
+   */
+  constructor(
     private formSvc: FormBuilder,
     private http: HttpClient,
   ) {
@@ -145,8 +152,11 @@ export class RegisterComponent implements OnInit {
       '/dashboard';
   }
 
-  /** Método no documentado. */
-    ngOnInit(): void {
+  /**
+   * Inicializa el componente procesando posibles redirecciones de OAuth
+   * y cargando los IDs de cliente correspondientes.
+   */
+  ngOnInit(): void {
     this.processOAuthRedirect();
     this.loadGoogleClientId();
     this.loadGithubClientId();
@@ -192,8 +202,11 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  /** Método no documentado. */
-    onGoogleSignInClick() {
+  /**
+   * Redirige al flujo de autenticación de Google.
+   * Guarda parámetros de estado y nonce para verificación posterior.
+   */
+  onGoogleSignInClick() {
     this.googleError = '';
     if (!this.googleClientId || !isPlatformBrowser(this.platformId)) {
       this.googleError = 'errors.ERR_AUTH_GOOGLE_NOT_CONFIGURED';
@@ -220,8 +233,11 @@ export class RegisterComponent implements OnInit {
     window.location.assign(authUrl.toString());
   }
 
-  /** Método no documentado. */
-    onGithubSignInClick() {
+  /**
+   * Redirige al flujo de autenticación de GitHub.
+   * Guarda el parámetro de estado para verificación posterior.
+   */
+  onGithubSignInClick() {
     this.githubError = '';
     if (!this.githubClientId || !isPlatformBrowser(this.platformId)) {
       this.githubError = 'errors.ERR_AUTH_GITHUB_NOT_CONFIGURED';
@@ -242,8 +258,10 @@ export class RegisterComponent implements OnInit {
     window.location.assign(authUrl);
   }
 
-  /** Método no documentado. */
-    private loadGoogleClientId() {
+  /**
+   * Obtiene de forma asíncrona el client-id para el inicio de sesión con Google.
+   */
+  private loadGoogleClientId() {
     if (!isPlatformBrowser(this.platformId)) return;
     this.http
       .get<{
@@ -260,8 +278,10 @@ export class RegisterComponent implements OnInit {
       });
   }
 
-  /** Método no documentado. */
-    private loadGithubClientId() {
+  /**
+   * Obtiene de forma asíncrona el client-id para el inicio de sesión con GitHub.
+   */
+  private loadGithubClientId() {
     if (!isPlatformBrowser(this.platformId)) return;
     this.http
       .get<{
@@ -278,8 +298,11 @@ export class RegisterComponent implements OnInit {
       });
   }
 
-  /** Método no documentado. */
-    private processOAuthRedirect() {
+  /**
+   * Procesa la redirección post-autenticación de los proveedores de OAuth.
+   * Verifica los parámetros de estado y código de GitHub o el id_token de Google.
+   */
+  private processOAuthRedirect() {
     if (!isPlatformBrowser(this.platformId)) return;
     const searchParams = new URLSearchParams(window.location.search);
     const hashParams = new URLSearchParams(
@@ -358,11 +381,11 @@ export class RegisterComponent implements OnInit {
   }
 
   /**
-     * Método no documentado.
-     * @param idToken Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-    private getNonceFromIdToken(idToken: string): string | null {
+   * Decodifica el token de Google para extraer el nonce.
+   * @param idToken Token JWT de identidad de Google.
+   * @returns El valor del nonce si se decodifica con éxito; de lo contrario null.
+   */
+  private getNonceFromIdToken(idToken: string): string | null {
     try {
       const parts = idToken.split('.');
       if (parts.length < 2) return null;
@@ -390,10 +413,10 @@ export class RegisterComponent implements OnInit {
   }
 
   /**
-   * Obtiene la clave de traducción del error para un campo del formulario.
+   * Obtiene la clave de traducción del error para un campo específico del formulario.
    * @param control Nombre del campo.
-     * @returns Retorno no documentado.
-     */
+   * @returns Clave del texto de traducción correspondiente.
+   */
   getError(control: string) {
     switch (control) {
       case 'name':
@@ -427,10 +450,10 @@ export class RegisterComponent implements OnInit {
    * Comprueba si un campo tiene un error específico y ha sido interactuado.
    * @param controlName Nombre del campo.
    * @param errorName Tipo de error.
-     * @returns Retorno no documentado.
-     */
+   * @returns Verdadero si tiene el error y se ha interactuado; falso de lo contrario.
+   */
   private hasError(controlName: string, errorName: string): boolean {
-     
+
     const control = this.formRegister.controls[controlName];
     return (control.touched || this.submitted) && control.hasError(errorName);
   }

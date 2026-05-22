@@ -1,7 +1,10 @@
 /**
- * Definición de las rutas principales de la aplicación.
- * Asocia componentes a rutas URL y define guardias de seguridad y animaciones de transición.
+ * @file: src/app/app.routes.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Definición de las rutas principales de la aplicación. Asocia componentes a rutas URL y define guardias de seguridad y animaciones de transición.
  */
+
 import { Routes } from '@angular/router';
 
 import { LoginComponent } from './pages/login/login.component';

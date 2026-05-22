@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/modules/users/users.routes.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Rutas de API para operaciones con usuarios con autenticación, autorización y validación (Zod).
+ */
+
 import { Router } from 'express';
 import { auth } from '../../middleware/auth';
 import { adminOnly } from '../../middleware/authorize';
@@ -13,6 +20,7 @@ import {
   meCtrl,
   updateUserCtrl,
   deleteUserCtrl,
+  deleteMeCtrl,
   updateProfileCtrl,
   changePasswordCtrl,
 } from './users.controller';
@@ -198,6 +206,7 @@ router.get('/', auth, adminOnly, listUsersCtrl);
  */
 router.get('/me', auth, meCtrl);
 router.patch('/me', auth, validate(updateProfileSchema), updateProfileCtrl);
+router.delete('/me', auth, deleteMeCtrl);
 
 /**
  * @swagger

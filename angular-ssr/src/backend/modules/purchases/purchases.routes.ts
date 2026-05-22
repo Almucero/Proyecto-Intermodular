@@ -1,3 +1,11 @@
+
+/**
+ * @file: src/backend/modules/purchases/purchases.routes.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Rutas de API para operaciones de compras y reembolsos con autenticación y documentación Swagger.
+ */
+
 import { Router } from 'express';
 import { auth } from '../../middleware/auth';
 import {

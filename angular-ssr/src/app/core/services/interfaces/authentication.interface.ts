@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/services/interfaces/authentication.interface.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Interfaz para el sistema de autenticación de usuarios.
+ */
+
 import { Observable } from 'rxjs';
 
 /**
@@ -12,12 +19,12 @@ export interface IAuthentication {
   signInWithGoogle(idToken: string, rememberMe?: boolean): Observable<any>;
   /** Inicia sesión o registro con GitHub. */
   signInWithGithub(code: string, rememberMe?: boolean): Observable<any>;
-  /** Método no documentado. */
-    requestPasswordRecovery(email: string, locale: string): Observable<any>;
-  /** Método no documentado. */
-    verifyPasswordRecovery(email: string, code: string): Observable<any>;
-  /** Método no documentado. */
-    resetPasswordRecovery(
+  /** Solicita el envío de correo para recuperación de contraseña. */
+  requestPasswordRecovery(email: string, locale: string): Observable<any>;
+  /** Valida el código OTP de recuperación de contraseña. */
+  verifyPasswordRecovery(email: string, code: string): Observable<any>;
+  /** Restablece la contraseña por una nueva utilizando el código validado. */
+  resetPasswordRecovery(
     email: string,
     code: string,
     newPassword: string,

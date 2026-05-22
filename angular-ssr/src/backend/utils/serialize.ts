@@ -1,3 +1,10 @@
+/*
+ * @file: src/backend/utils/serialize.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Serializa estructuras que contienen tipos Prisma a JSON seguro.
+ */
+
 /**
  * Serializa estructuras que contienen tipos Prisma a JSON seguro.
  *
@@ -22,7 +29,7 @@ export function serializePrisma(value: any): any {
   if (typeof value === 'object') {
     const out: any = {};
     for (const k of Object.keys(value)) {
-       
+
       out[k] = serializePrisma(value[k]);
     }
     return out;

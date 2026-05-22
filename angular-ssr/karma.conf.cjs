@@ -1,3 +1,10 @@
+/**
+ * @file: karma.conf.cjs
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Configuración de Karma para tests con reporteros de Jasmine e integración con Angular CLI.
+ */
+
 const { defineConfig } = require('karma');
 
 module.exports = defineConfig({

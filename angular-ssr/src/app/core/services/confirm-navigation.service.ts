@@ -1,3 +1,11 @@
+/**
+ * @file: src/app/core/services/confirm-navigation.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicio global para gestionar el modal de confirmación de navegación
+ *               cuando hay cambios sin guardar.
+ */
+
 import { Injectable, signal } from '@angular/core';
 
 /**
@@ -10,6 +18,7 @@ export class ConfirmNavigationService {
   /** Indica si el modal está visible. */
   readonly visible = signal(false);
 
+  /** Función de resolución para la promesa de confirmación. */
   private resolveFn?: (confirmed: boolean) => void;
 
   /**

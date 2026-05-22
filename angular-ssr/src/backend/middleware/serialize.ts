@@ -1,3 +1,10 @@
+/**
+ * @file: src/backend/middleware/serialize.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Middleware que serializa respuestas JSON con tipos Prisma para evitar problemas de referencialidad.
+ */
+
 import type { Request, Response, NextFunction } from 'express';
 import { serializePrisma } from '../utils/serialize';
 

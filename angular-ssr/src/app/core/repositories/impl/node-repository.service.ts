@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/repositories/impl/node-repository.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicio de repositorio para Node (actualmente un placeholder).
+ */
+
 import { Injectable } from '@angular/core';
 
 /**
@@ -8,6 +15,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class NodeRepositoryService {
-  /** Constructor no documentado. */
-    constructor() {}
+  /**
+   * Crea una instancia de NodeRepositoryService.
+   */
+  constructor() { }
 }

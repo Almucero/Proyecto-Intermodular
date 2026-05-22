@@ -1,3 +1,10 @@
+/**
+ * @file: src/styles.scss
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Estilos globales con Tailwind CSS, Bootstrap y custom utilities.
+ */
+
 @use "bootstrap/scss/bootstrap";
 
 input:focus,
@@ -46,13 +53,11 @@ body {
 }
 
 /* Unifica transiciones hover en elementos interactivos de toda la app. */
-:where(
-    button,
-    a,
-    [role="button"],
-    [class*="cursor-pointer"],
-    [class*="hover:"]
-  ) {
+:where(button,
+  a,
+  [role="button"],
+  [class*="cursor-pointer"],
+  [class*="hover:"]) {
   transition-property: all !important;
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1) !important;
   transition-duration: 500ms !important;
@@ -67,6 +72,7 @@ body {
     opacity: 0;
     transform: translateY(4px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

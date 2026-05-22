@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/shared/components/password-recovery/password-recovery.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente para la recuperación de contraseña.
+ */
+
 import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
   Component,
@@ -38,64 +45,64 @@ type RecoveryStep = 'email' | 'code' | 'reset' | 'done';
   ],
 })
 export class PasswordRecoveryModalComponent implements OnDestroy, AfterViewInit {
-  /** Propiedad no documentada. */
-    @Output() closed = new EventEmitter<void>();
+  /** Evento emitido cuando el modal se cierra por completo. */
+  @Output() closed = new EventEmitter<void>();
 
-  /** Propiedad no documentada. */
-    step: RecoveryStep = 'email';
-  /** Propiedad no documentada. */
-    loading = false;
-  /** Propiedad no documentada. */
-    resendLoading = false;
-  /** Propiedad no documentada. */
-    serverError = '';
-  /** Propiedad no documentada. */
-    verificationCode = '';
-  /** Propiedad no documentada. */
-    email = '';
-  /** Propiedad no documentada. */
-    expiresAtMs: number | null = null;
-  /** Propiedad no documentada. */
-    expiresCountdown = '';
-  /** Propiedad no documentada. */
-    resendCooldownEndsAtMs = 0;
-  /** Propiedad no documentada. */
-    resendCooldownSeconds = 0;
-  /** Propiedad no documentada. */
-    private countdownIntervalId: any = null;
+  /** Etapa actual del flujo de recuperación de contraseña. */
+  step: RecoveryStep = 'email';
+  /** Indica si hay una operación asíncrona de envío/verificación en curso. */
+  loading = false;
+  /** Indica si se está reenviando un nuevo código de verificación por correo. */
+  resendLoading = false;
+  /** Clave de traducción del mensaje de error del servidor a mostrar. */
+  serverError = '';
+  /** Código de verificación OTP de 6 dígitos ingresado y validado. */
+  verificationCode = '';
+  /** Dirección de correo electrónico del usuario en proceso de recuperación. */
+  email = '';
+  /** Timestamp en milisegundos en el que expira el código actual. */
+  expiresAtMs: number | null = null;
+  /** Representación en texto del tiempo restante para expirar (ej: "14:59"). */
+  expiresCountdown = '';
+  /** Timestamp en el que finaliza el bloqueo de reenvío de correo. */
+  resendCooldownEndsAtMs = 0;
+  /** Segundos restantes para que el usuario pueda volver a solicitar un envío. */
+  resendCooldownSeconds = 0;
+  /** Identificador de intervalo para la cuenta regresiva en milisegundos. */
+  private countdownIntervalId: any = null;
 
-  /** Propiedad no documentada. */
-    isOpen = false;
-  /** Propiedad no documentada. */
-    isClosing = false;
-  /** Propiedad no documentada. */
-    private readonly closeAnimMs = 160;
+  /** Controla la apertura del modal y la animación de fade-in. */
+  isOpen = false;
+  /** Indica si el modal está en transición de cierre. */
+  isClosing = false;
+  /** Tiempo en milisegundos asignado para la animación CSS de cierre. */
+  private readonly closeAnimMs = 160;
 
-  /** Propiedad no documentada. */
-    private readonly fb = inject(FormBuilder);
-  /** Propiedad no documentada. */
-    private readonly auth = inject(BaseAuthenticationService);
-  /** Propiedad no documentada. */
-    private readonly translate = inject(TranslateService);
-  /** Propiedad no documentada. */
-    private readonly renderer = inject(Renderer2);
-  /** Propiedad no documentada. */
-    private readonly document = inject(DOCUMENT);
-  /** Propiedad no documentada. */
-    private readonly platformId = inject(PLATFORM_ID);
+  /** Constructor del servicio Reactive FormBuilder inyectado. */
+  private readonly fb = inject(FormBuilder);
+  /** Servicio inyectado de autenticación del backend. */
+  private readonly auth = inject(BaseAuthenticationService);
+  /** Servicio inyectado de traducción para internacionalización de textos. */
+  private readonly translate = inject(TranslateService);
+  /** Servicio inyectado Renderer2 para la manipulación segura de estilos DOM. */
+  private readonly renderer = inject(Renderer2);
+  /** Objeto inyectado del documento HTML global. */
+  private readonly document = inject(DOCUMENT);
+  /** Token inyectado identificador de la plataforma (Browser/Server). */
+  private readonly platformId = inject(PLATFORM_ID);
 
-  /** Propiedad no documentada. */
-    emailForm = this.fb.group({
+  /** Formulario reactivo para la solicitud del correo electrónico inicial. */
+  emailForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
   });
 
-  /** Propiedad no documentada. */
-    codeForm = this.fb.group({
+  /** Formulario reactivo para ingresar y validar el código de 6 dígitos. */
+  codeForm = this.fb.group({
     code: ['', [Validators.required, Validators.pattern(/^\d{6}$/)]],
   });
 
-  /** Propiedad no documentada. */
-    resetForm = this.fb.group({
+  /** Formulario reactivo para establecer y confirmar la nueva contraseña. */
+  resetForm = this.fb.group({
     newPassword: [
       '',
       [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/)],
@@ -103,8 +110,10 @@ export class PasswordRecoveryModalComponent implements OnDestroy, AfterViewInit 
     confirmPassword: ['', [Validators.required]],
   });
 
-  /** Método no documentado. */
-    ngAfterViewInit(): void {
+  /**
+   * Ciclo de vida ejecutado tras inicializarse la vista. Activa la bandera isOpen para animar la apertura.
+   */
+  ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       requestAnimationFrame(() => {
         if (!this.isClosing) this.isOpen = true;
@@ -114,8 +123,10 @@ export class PasswordRecoveryModalComponent implements OnDestroy, AfterViewInit 
     }
   }
 
-  /** Método no documentado. */
-    close() {
+  /**
+   * Cierra el modal activando la animación de salida y emitiendo el evento de cerrado tras el delay establecido.
+   */
+  close() {
     if (this.isClosing) return;
     this.isClosing = true;
     this.isOpen = false;
@@ -125,23 +136,27 @@ export class PasswordRecoveryModalComponent implements OnDestroy, AfterViewInit 
     }, this.closeAnimMs);
   }
 
-  /** Método no documentado. */
-    ngOnInit(): void {
+  /**
+   * Ciclo de vida OnInit. Bloquea el scroll del body para evitar scrolling de fondo.
+   */
+  ngOnInit(): void {
     if (this.document?.body) this.renderer.setStyle(this.document.body, 'overflow', 'hidden');
   }
 
-  /** Método no documentado. */
-    ngOnDestroy(): void {
+  /**
+   * Ciclo de vida OnDestroy. Limpia intervalos activos y restaura el overflow del scroll del body.
+   */
+  ngOnDestroy(): void {
     this.stopCountdown();
     this.renderer.removeStyle(this.document.body, 'overflow');
   }
 
   /**
-     * Método no documentado.
-     * @param expiresAtMs Parámetro no documentado.
-     * @param cooldownMs Parámetro no documentado.
-     */
-    private startCountdown(expiresAtMs: number, cooldownMs: number) {
+   * Inicia el temporizador de cuenta regresiva para la expiración y para el cooldown de reenvío de correo.
+   * @param expiresAtMs Timestamp absoluto en milisegundos en el que caduca el código OTP actual.
+   * @param cooldownMs Tiempo de enfriamiento en milisegundos requerido para reenviar el email.
+   */
+  private startCountdown(expiresAtMs: number, cooldownMs: number) {
     this.expiresAtMs = expiresAtMs;
     this.resendCooldownEndsAtMs = Date.now() + cooldownMs;
     this.updateCountdowns();
@@ -154,8 +169,10 @@ export class PasswordRecoveryModalComponent implements OnDestroy, AfterViewInit 
     }, 1000);
   }
 
-  /** Método no documentado. */
-    private stopCountdown() {
+  /**
+   * Detiene el intervalo de cuenta regresiva y restablece todas las variables de tiempos asociadas.
+   */
+  private stopCountdown() {
     if (this.countdownIntervalId) clearInterval(this.countdownIntervalId);
     this.countdownIntervalId = null;
     this.expiresAtMs = null;
@@ -164,8 +181,10 @@ export class PasswordRecoveryModalComponent implements OnDestroy, AfterViewInit 
     this.resendCooldownSeconds = 0;
   }
 
-  /** Método no documentado. */
-    private updateCountdowns() {
+  /**
+   * Actualiza internamente el string formateado del countdown y el contador de segundos de enfriamiento.
+   */
+  private updateCountdowns() {
     const now = Date.now();
     if (this.expiresAtMs) {
       const remainingMs = Math.max(0, this.expiresAtMs - now);
@@ -181,11 +200,11 @@ export class PasswordRecoveryModalComponent implements OnDestroy, AfterViewInit 
   }
 
   /**
-     * Método no documentado.
-     * @param locale Parámetro no documentado.
-     * @returns Retorno no documentado.
-     */
-    private normalizeLocale(locale: string): string {
+   * Normaliza la cadena de idioma recibida para asegurar compatibilidad con el backend de GameSage.
+   * @param locale Idioma a evaluar (ej. 'es-ES', 'en-US').
+   * @returns Cadena de dos letras normalizada ('es', 'en', 'fr', 'de', 'it').
+   */
+  private normalizeLocale(locale: string): string {
     const normalized = locale.toLowerCase();
     if (normalized.startsWith('es')) return 'es';
     if (normalized.startsWith('en')) return 'en';
@@ -195,13 +214,17 @@ export class PasswordRecoveryModalComponent implements OnDestroy, AfterViewInit 
     return 'es';
   }
 
-  /** Accessor no documentado. */
-    get canResend(): boolean {
+  /**
+   * Getter que comprueba si es posible habilitar el botón de reenvío de código.
+   */
+  get canResend(): boolean {
     return this.resendCooldownSeconds <= 0 && !this.resendLoading;
   }
 
-  /** Método no documentado. */
-    requestCode() {
+  /**
+   * Solicita el envío del código OTP de recuperación al correo electrónico provisto en el formulario.
+   */
+  requestCode() {
     this.serverError = '';
     this.emailForm.markAllAsTouched();
     if (this.emailForm.invalid) return;
@@ -230,8 +253,10 @@ export class PasswordRecoveryModalComponent implements OnDestroy, AfterViewInit 
     });
   }
 
-  /** Método no documentado. */
-    resendCode() {
+  /**
+   * Vuelve a enviar el código OTP por correo electrónico si el cooldown ha expirado.
+   */
+  resendCode() {
     this.serverError = '';
     if (this.emailForm.invalid && !this.email) return;
     if (!this.canResend) return;
@@ -260,8 +285,10 @@ export class PasswordRecoveryModalComponent implements OnDestroy, AfterViewInit 
     });
   }
 
-  /** Método no documentado. */
-    verifyCode() {
+  /**
+   * Envía el código OTP ingresado por el usuario al backend para verificar su validez.
+   */
+  verifyCode() {
     this.serverError = '';
     this.codeForm.markAllAsTouched();
     if (this.codeForm.invalid) return;
@@ -281,8 +308,10 @@ export class PasswordRecoveryModalComponent implements OnDestroy, AfterViewInit 
     });
   }
 
-  /** Método no documentado. */
-    resetPassword() {
+  /**
+   * Envía la nueva contraseña junto con el código verificado para efectuar el cambio en la cuenta.
+   */
+  resetPassword() {
     this.serverError = '';
     this.resetForm.markAllAsTouched();
     if (this.resetForm.invalid) return;

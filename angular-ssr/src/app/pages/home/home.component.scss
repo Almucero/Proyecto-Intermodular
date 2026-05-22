@@ -1,3 +1,11 @@
+/**
+ * @file: src/app/pages/home/home.component.scss
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Estilos para la página principal.
+ */
+
+
 :host {
   display: block;
   margin-top: -64px;
@@ -18,6 +26,7 @@
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -29,6 +38,7 @@
     opacity: 1;
     transform: translateY(0);
   }
+
   to {
     opacity: 0;
     transform: translateY(-10px);
@@ -47,6 +57,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -56,6 +67,7 @@
   from {
     opacity: 1;
   }
+
   to {
     opacity: 0;
   }
@@ -91,20 +103,16 @@
   position: relative;
   text-align: center;
 
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0px,
-    black 16px,
-    black calc(100% - 16px),
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to right,
-    transparent 0px,
-    black 16px,
-    black calc(100% - 16px),
-    transparent 100%
-  );
+  -webkit-mask-image: linear-gradient(to right,
+      transparent 0px,
+      black 16px,
+      black calc(100% - 16px),
+      transparent 100%);
+  mask-image: linear-gradient(to right,
+      transparent 0px,
+      black 16px,
+      black calc(100% - 16px),
+      transparent 100%);
 }
 
 .long-text-animate {
@@ -116,6 +124,7 @@
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(var(--scroll-distance));
   }
@@ -194,38 +203,38 @@
 }
 
 @keyframes electricPulseLeft {
+
   0%,
   100% {
-    filter: drop-shadow(0 0 6px #ffffff) drop-shadow(-1px 0 4px #67e8f9)
-      drop-shadow(-2px 0 8px #06b6d4);
+    filter: drop-shadow(0 0 6px #ffffff) drop-shadow(-1px 0 4px #67e8f9) drop-shadow(-2px 0 8px #06b6d4);
   }
+
   50% {
-    filter: drop-shadow(0 0 10px #ffffff) drop-shadow(-2px 0 6px #22d3ee)
-      drop-shadow(-3px 0 12px #0891b2);
+    filter: drop-shadow(0 0 10px #ffffff) drop-shadow(-2px 0 6px #22d3ee) drop-shadow(-3px 0 12px #0891b2);
   }
 }
 
 @keyframes electricPulseRight {
+
   0%,
   100% {
-    filter: drop-shadow(0 0 6px #ffffff) drop-shadow(1px 0 4px #67e8f9)
-      drop-shadow(2px 0 8px #06b6d4);
+    filter: drop-shadow(0 0 6px #ffffff) drop-shadow(1px 0 4px #67e8f9) drop-shadow(2px 0 8px #06b6d4);
   }
+
   50% {
-    filter: drop-shadow(0 0 10px #ffffff) drop-shadow(2px 0 6px #22d3ee)
-      drop-shadow(3px 0 12px #0891b2);
+    filter: drop-shadow(0 0 10px #ffffff) drop-shadow(2px 0 6px #22d3ee) drop-shadow(3px 0 12px #0891b2);
   }
 }
 
 @keyframes electricPulseBlue {
+
   0%,
   100% {
-    filter: drop-shadow(0 0 6px #ffffff) drop-shadow(0 0 5px #0891b2)
-      drop-shadow(0 0 10px #0891b2);
+    filter: drop-shadow(0 0 6px #ffffff) drop-shadow(0 0 5px #0891b2) drop-shadow(0 0 10px #0891b2);
   }
+
   50% {
-    filter: drop-shadow(0 0 10px #ffffff) drop-shadow(0 0 8px #0891b2)
-      drop-shadow(0 0 15px #0891b2);
+    filter: drop-shadow(0 0 10px #ffffff) drop-shadow(0 0 8px #0891b2) drop-shadow(0 0 15px #0891b2);
   }
 }
 
@@ -240,6 +249,7 @@
 .difuminadoTexto {
   filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
 }
+
 .genres-section {
   margin-bottom: 1.5rem;
 }
@@ -321,6 +331,7 @@
     max-height: 45vh !important;
     min-width: auto !important;
   }
+
   .genre-dropdown-item {
     white-space: normal !important;
     word-wrap: break-word !important;
@@ -348,32 +359,26 @@
 }
 
 .genre-dropdown-scroll-container {
-  max-height: 20rem; /* max-h-80 */
+  max-height: 20rem;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(34, 211, 238, 0.2) transparent;
-
-  /* Efecto de difuminado dinámico */
-  mask-image: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, var(--scroll-top-mask, 1)) 0%,
-    black var(--scroll-top-mask-stop, 0px),
-    black var(--scroll-bottom-mask-stop, 100%),
-    rgba(0, 0, 0, var(--scroll-bottom-mask, 1)) 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, var(--scroll-top-mask, 1)) 0%,
-    black var(--scroll-top-mask-stop, 0px),
-    black var(--scroll-bottom-mask-stop, 100%),
-    rgba(0, 0, 0, var(--scroll-bottom-mask, 1)) 100%
-  );
+  mask-image: linear-gradient(to bottom,
+      rgba(0, 0, 0, var(--scroll-top-mask, 1)) 0%,
+      black var(--scroll-top-mask-stop, 0px),
+      black var(--scroll-bottom-mask-stop, 100%),
+      rgba(0, 0, 0, var(--scroll-bottom-mask, 1)) 100%);
+  -webkit-mask-image: linear-gradient(to bottom,
+      rgba(0, 0, 0, var(--scroll-top-mask, 1)) 0%,
+      black var(--scroll-top-mask-stop, 0px),
+      black var(--scroll-bottom-mask-stop, 100%),
+      rgba(0, 0, 0, var(--scroll-bottom-mask, 1)) 100%);
   transition:
     mask-image 0.2s ease,
     -webkit-mask-image 0.2s ease;
 
   &::-webkit-scrollbar {
-    width: 8px; /* Ancho total mayor para poder separarlo del borde derecho */
+    width: 8px;
   }
 
   &::-webkit-scrollbar-track {
@@ -383,7 +388,7 @@
   &::-webkit-scrollbar-thumb {
     background: rgba(34, 211, 238, 0.2);
     background-clip: padding-box;
-    border-right: 4px solid transparent; /* Separa visualmente la barra del borde derecho */
+    border-right: 4px solid transparent;
     border-radius: 4px;
   }
 

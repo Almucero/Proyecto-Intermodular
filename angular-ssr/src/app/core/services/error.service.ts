@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/core/services/error.service.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Servicio global de gestión centralizada de errores.
+ */
+
 import { Injectable, signal } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AppError, ErrorType } from '../models/app-error';
@@ -17,14 +24,14 @@ import { AppError, ErrorType } from '../models/app-error';
  */
 @Injectable({ providedIn: 'root' })
 export class ErrorService {
-  /** Propiedad no documentada. */
-    private currentError = signal<AppError | null>(null);
+  /** Señal (Signal) interna que almacena el error actual reportado. */
+  private currentError = signal<AppError | null>(null);
 
-  /** Propiedad no documentada. */
-    error = this.currentError.asReadonly();
+  /** Señal expuesta de solo lectura que emite el error actual. */
+  error = this.currentError.asReadonly();
 
-  /** Propiedad no documentada. */
-    private errorMap = new Map<string, string>([
+  /** Diccionario interno de mapeo entre códigos de error y sus correspondientes mensajes legibles en español. */
+  private errorMap = new Map<string, string>([
     ['ERR_NETWORK', 'Error de conexión'],
     ['ERR_AUTH_INVALID', 'Credenciales incorrectas'],
     ['ERR_AUTH_EXPIRED', 'Sesión expirada'],

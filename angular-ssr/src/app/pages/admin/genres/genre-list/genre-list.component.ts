@@ -1,3 +1,10 @@
+/**
+ * @file: src/app/pages/admin/genres/genre-list/genre-list.component.ts
+ * @project: GameSage - Plataforma de Videojuegos
+ * @authors: Rosario González y Álvaro Jiménez
+ * @description: Componente que muestra la lista de géneros de videojuegos en el panel de administración.
+ */
+
 import {
   Component,
   inject,
@@ -24,10 +31,10 @@ import { GenreFormComponent } from '../genre-form/genre-form.component';
   styleUrl: './genre-list.component.scss',
 })
 export class GenreListComponent implements OnInit {
-  /** Propiedad no documentada. */
-    private genreService = inject(GenreService);
-  /** Propiedad no documentada. */
-    private readonly MIN_SKELETON_MS = 550;
+  /** Inyección del servicio de géneros. */
+  private genreService = inject(GenreService);
+  /** Constante para la duración mínima del skeleton. */
+  private readonly MIN_SKELETON_MS = 550;
 
   /** Referencia al contenedor con scroll para efectos visuales de sombras. */
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
@@ -118,9 +125,9 @@ export class GenreListComponent implements OnInit {
   }
 
   /**
-     * Abre el modal para editar un género existente.
-     * @param id Parámetro no documentado.
-     */
+   * Abre el modal para editar un género existente.
+   * @param id Identificador numérico del género que se desea editar.
+   */
   openEditModal(id: number) {
     this.selectedGenreId = id;
     this.showModal = true;
@@ -139,9 +146,9 @@ export class GenreListComponent implements OnInit {
   }
 
   /**
-     * Abre el modal de confirmación para eliminar un género.
-     * @param id Parámetro no documentado.
-     */
+   * Abre el modal de confirmación para eliminar un género.
+   * @param id Identificador numérico del género que se desea eliminar.
+   */
   openDeleteModal(id: number) {
     this.genreToDeleteId = id;
     this.showDeleteModal = true;
