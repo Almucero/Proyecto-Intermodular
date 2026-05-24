@@ -11,5 +11,6 @@ interface UserDataSource {
     suspend fun readOne(id: Long): Result<User>
     suspend fun me(): Result<User>
     suspend fun updateMe(user: UpdateProfileRequest): Result<User>
+    suspend fun deleteMe(): Result<Unit>
     suspend fun clear()
 }

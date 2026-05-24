@@ -111,4 +111,19 @@ class UserRepositoryImpl @Inject constructor(
             Result.failure(e)
         }
     }
+
+    override suspend fun deleteMe(): Result<Unit> {
+        val remoteResult = remoteDataSource.deleteMe()
+        return if (remoteResult.isSuccess) {
+            try {
+                tokenManager.deleteToken()
+                localDataSource.clear()
+                Result.success(Unit)
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+        } else {
+            remoteResult
+        }
+    }
 }

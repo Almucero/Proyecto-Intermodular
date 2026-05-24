@@ -73,6 +73,15 @@ class UserRemoteDataSource @Inject constructor(
         }
     }
 
+    override suspend fun deleteMe(): Result<Unit> {
+        return try {
+            api.deleteMe()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     private fun mapToDomain(apiModel: UserApiModel): User {
         return User(
             id = apiModel.id,

@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 data class SettingsUiState(
@@ -24,6 +25,8 @@ data class SettingsUiState(
     val isSaved: Boolean = false,
     val error: String? = null,
     val deleteAccountConfirmArmed: Boolean = false,
+    val isDeleting: Boolean = false,
+    val navigateToLogin: Boolean = false,
     val emailNotificationsEnabled: Boolean = true,
     val notificationEmail: String = "",
     val emailNotificationLanguage: String = "",
@@ -161,7 +164,26 @@ class SettingsScreenViewModel @Inject constructor(
     }
 
     fun confirmDeleteAccount() {
-        _uiState.update { it.copy(deleteAccountConfirmArmed = false) }
+        viewModelScope.launch {
+            _uiState.update { it.copy(deleteAccountConfirmArmed = false, isDeleting = true) }
+            userRepository.deleteMe().fold(
+                onSuccess = {
+                    _uiState.update { it.copy(isDeleting = false, navigateToLogin = true) }
+                },
+                onFailure = { e ->
+                    val errorMsg = if (e is IOException)
+                        localizedContext.getString(R.string.error_delete_account_network)
+                    else
+                        localizedContext.getString(R.string.error_delete_account_generic)
+                    _uiState.update { it.copy(isDeleting = false) }
+                    _errorMessage.value = errorMsg
+                }
+            )
+        }
+    }
+
+    fun clearNavigateToLogin() {
+        _uiState.update { it.copy(navigateToLogin = false) }
     }
 
     fun clearError() {
