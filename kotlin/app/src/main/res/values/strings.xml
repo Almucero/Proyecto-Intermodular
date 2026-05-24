@@ -309,6 +309,8 @@
     <string name="error_profile_save_generic">Error al guardar los cambios</string>
     <string name="error_logout_network">Sin conexión a internet</string>
     <string name="error_logout_generic">Error al cerrar sesión</string>
+    <string name="error_delete_account_network">Sin conexión a internet. No se pudo borrar la cuenta.</string>
+    <string name="error_delete_account_generic">Error al borrar la cuenta. Inténtalo de nuevo.</string>
 
     <!-- Accesibilidad / contentDescription -->
     <string name="cd_logo_gamesage">Logo GameSage</string>

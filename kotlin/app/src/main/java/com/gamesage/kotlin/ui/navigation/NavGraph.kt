@@ -394,7 +394,13 @@ fun NavGraph(
             }
 
             composable<Destinations.Settings> {
-                SettingsScreen()
+                SettingsScreen(
+                    onAccountDeleted = {
+                        navController.navigate(Destinations.Login) {
+                            popUpTo(Destinations.Home) { inclusive = false }
+                        }
+                    }
+                )
             }
         }
         }

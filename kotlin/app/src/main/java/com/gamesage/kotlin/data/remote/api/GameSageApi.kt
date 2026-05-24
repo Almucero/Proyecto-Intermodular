@@ -49,6 +49,8 @@ interface UsersApi {
     suspend fun me(): UserApiModel
     @PATCH("api/users/me")
     suspend fun updateOwnUser(@Body user: UpdateProfileRequest): UserApiModel
+    @DELETE("api/users/me")
+    suspend fun deleteMe()
 }
 interface GamesApi {
     @GET("api/games")

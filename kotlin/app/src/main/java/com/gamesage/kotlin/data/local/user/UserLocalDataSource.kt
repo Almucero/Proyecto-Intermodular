@@ -49,6 +49,10 @@ class UserLocalDataSource @Inject constructor(
         return Result.failure(UnsupportedOperationException("Local update not supported directly"))
     }
 
+    override suspend fun deleteMe(): Result<Unit> {
+        return Result.success(Unit)
+    }
+
     override suspend fun clear() {
         withContext(Dispatchers.IO) {
             userDao.deleteAll()

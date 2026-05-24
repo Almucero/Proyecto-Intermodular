@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.gamesage.kotlin.data.local.TokenManager
 import kotlinx.coroutines.flow.firstOrNull
 import com.gamesage.kotlin.data.model.Game
+import com.gamesage.kotlin.data.remote.model.CheckoutSessionResponse
 import com.gamesage.kotlin.data.repository.cart.CartRepository
 import com.gamesage.kotlin.data.repository.favorites.FavoritesRepository
 import com.gamesage.kotlin.data.repository.game.GameRepository
@@ -71,6 +72,10 @@ class ProductScreenViewModel @Inject constructor(
 
     private val _mediaItems = MutableStateFlow<List<MediaItem>>(emptyList())
     val mediaItems: StateFlow<List<MediaItem>> = _mediaItems.asStateFlow()
+
+    // Sesión activa de Stripe Checkout (null = no hay checkout en curso)
+    private val _stripeSession = MutableStateFlow<CheckoutSessionResponse?>(null)
+    val stripeSession: StateFlow<CheckoutSessionResponse?> = _stripeSession.asStateFlow()
 
     // Mapa que asocia el nombre de cada plataforma con sus png
     private val platformImages: Map<String, Int> = mapOf(
@@ -485,9 +490,82 @@ class ProductScreenViewModel @Inject constructor(
         }
     }
 
-    // Comprar ahora: redirige al carrito tras añadir el producto
+    // Comprar ahora: añade al carrito y lanza la pasarela de pago Stripe directamente
     fun buyNow() {
-        addToCart(showSuccess = false)
+        val currentState = _uiState.value
+        if (currentState is ProductUiState.Success) {
+            viewModelScope.launch {
+                val token = tokenManager.token.firstOrNull()
+                if (token.isNullOrBlank()) {
+                    _uiState.value = currentState.copy(navigateToLogin = true)
+                    return@launch
+                }
+
+                if (currentState.selectedPlatform == null) {
+                    _uiState.update { if (it is ProductUiState.Success) it.copy(error = localizedContext.getString(R.string.error_product_select_platform)) else it }
+                    return@launch
+                }
+
+                val stock = getStockForPlatform(currentState.game, currentState.selectedPlatform)
+                if (stock <= 0) {
+                    _uiState.update { if (it is ProductUiState.Success) it.copy(error = localizedContext.getString(R.string.error_product_no_stock_for_platform)) else it }
+                    return@launch
+                }
+
+                val platformId = currentState.game.platforms
+                    ?.find { it.name == currentState.selectedPlatform }?.id ?: return@launch
+
+                loadingManager.setBlocking(true)
+                cartRepository.add(currentState.game.id, platformId, 1).fold(
+                    onSuccess = {
+                        // Producto añadido: crear sesión de Stripe sin pasar por el carrito
+                        val locale = LanguageUtils.getSavedLanguage(context)
+                        cartRepository.createCheckoutSession(locale).fold(
+                            onSuccess = { session ->
+                                loadingManager.setBlocking(false)
+                                _stripeSession.value = session
+                            },
+                            onFailure = {
+                                loadingManager.setBlocking(false)
+                                _uiState.update { if (it is ProductUiState.Success) it.copy(error = localizedContext.getString(R.string.cart_checkout_error)) else it }
+                                delay(2000)
+                                clearError()
+                            }
+                        )
+                    },
+                    onFailure = { e ->
+                        loadingManager.setBlocking(false)
+                        val errorMsg = if (e is java.io.IOException)
+                            localizedContext.getString(R.string.error_cart_add_network)
+                        else
+                            localizedContext.getString(R.string.error_cart_add_generic, e.message ?: "")
+                        _uiState.update { if (it is ProductUiState.Success) it.copy(error = errorMsg) else it }
+                        delay(2000)
+                        clearError()
+                    }
+                )
+            }
+        }
+    }
+
+    // Confirma el pago de Stripe completado desde el ProductScreen
+    fun confirmCheckout(sessionId: String) {
+        viewModelScope.launch {
+            loadingManager.setBlocking(true)
+            val result = cartRepository.confirmCheckoutSession(sessionId)
+            if (result.isSuccess) {
+                _uiState.update { if (it is ProductUiState.Success) it.copy(error = localizedContext.getString(R.string.cart_checkout_success)) else it }
+                _stripeSession.value = null
+            } else {
+                _uiState.update { if (it is ProductUiState.Success) it.copy(error = localizedContext.getString(R.string.cart_checkout_error)) else it }
+            }
+            loadingManager.setBlocking(false)
+        }
+    }
+
+    // Cancela el flujo de Stripe actual (usuario cierra el diálogo)
+    fun cancelCheckout() {
+        _stripeSession.value = null
     }
 
     fun onCartNavigationConsumed() {

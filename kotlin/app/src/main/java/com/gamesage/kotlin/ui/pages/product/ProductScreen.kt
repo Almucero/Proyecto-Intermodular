@@ -81,6 +81,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.text.style.TextOverflow
+import com.gamesage.kotlin.ui.pages.cart.StripeCheckoutDialog
+import com.gamesage.kotlin.utils.LanguageUtils
 import java.time.format.DateTimeFormatter
 
 // Pantalla principal del detalle de un juego. Gestiona el estado global y la navegación.
@@ -95,8 +97,10 @@ fun ProductScreen(
     // Observa el estado de la UI y la lista de media del ViewModel
     val uiState by viewModel.uiState.collectAsState()
     val mediaItems by viewModel.mediaItems.collectAsState()
+    val stripeSession by viewModel.stripeSession.collectAsState()
     // Canal para mostrar mensajes de error breves (tipo toast) en la parte inferior
     val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
 
     // Carga el juego al entrar en la pantalla, usando el ID recibido por parámetro
     LaunchedEffect(gameId) {
@@ -144,7 +148,7 @@ fun ProductScreen(
                         }
                     }
 
-                    // Muestra el contenido del juego
+                    // navigateToCart sigue disponible para el botón "Añadir al carrito" si se necesita
                     LaunchedEffect(state.navigateToCart) {
                         if (state.navigateToCart) {
                             viewModel.onCartNavigationConsumed()
@@ -152,6 +156,7 @@ fun ProductScreen(
                         }
                     }
 
+                    // Muestra el contenido del juego
                     ProductContent(
                         state = state,
                         mediaItems = mediaItems,
@@ -159,6 +164,23 @@ fun ProductScreen(
                         paddingValues = paddingValues
                     )
                 }
+            }
+
+            // Diálogo de Stripe Checkout: se muestra directamente al pulsar "Comprar ya"
+            stripeSession?.let { session ->
+                val locale = LanguageUtils.getSavedLanguage(context)
+                StripeCheckoutDialog(
+                    publishableKey = session.publishableKey,
+                    clientSecret = session.clientSecret,
+                    sessionId = session.sessionId,
+                    locale = locale,
+                    onComplete = { sessionId ->
+                        viewModel.confirmCheckout(sessionId)
+                    },
+                    onDismiss = {
+                        viewModel.cancelCheckout()
+                    }
+                )
             }
         }
     }

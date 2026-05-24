@@ -14,6 +14,7 @@ interface UserRepository {
     suspend fun readOne(id:Long): Result<User>
     suspend fun me(): Result<User>
     suspend fun updateMe(request: UpdateProfileRequest): Result<User>
+    suspend fun deleteMe(): Result<Unit>
     suspend fun readAll(): Result<List<User>>
     fun observe(): Flow<Result<List<User>>>
     fun observeMe(): Flow<Result<User>>

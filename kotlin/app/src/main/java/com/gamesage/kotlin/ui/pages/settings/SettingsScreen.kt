@@ -32,11 +32,20 @@ import com.gamesage.kotlin.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
-    viewModel: SettingsScreenViewModel = hiltViewModel()
+    viewModel: SettingsScreenViewModel = hiltViewModel(),
+    onAccountDeleted: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
+
+    // Navega al login cuando la cuenta se borra con éxito
+    LaunchedEffect(uiState.navigateToLogin) {
+        if (uiState.navigateToLogin) {
+            viewModel.clearNavigateToLogin()
+            onAccountDeleted()
+        }
+    }
 
     LaunchedEffect(errorMessage) {
         errorMessage?.let {
@@ -49,7 +58,7 @@ fun SettingsScreen(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         containerColor = Color(0xFF111827)
     ) { innerPadding ->
-        if (uiState.isLoading) {
+        if (uiState.isLoading || uiState.isDeleting) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator(color = Color(0xFF22D3EE))
             }
