@@ -150,7 +150,7 @@ class SettingsScreenViewModel @Inject constructor(
                 _uiState.update { it.copy(isSaving = false, isSaved = true) }
             }.onFailure { e ->
                 _uiState.update { it.copy(isSaving = false) }
-                if (e is java.io.IOException) {
+                if (e is IOException) {
                     _errorMessage.value = localizedContext.getString(R.string.error_profile_save_network)
                 } else {
                     _uiState.update { it.copy(error = e.message) }
