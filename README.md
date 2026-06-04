@@ -114,7 +114,8 @@ Estructura en [`docs/`](docs/) (índice: [`docs/README.md`](docs/README.md)). Mi
 >
 > **Flujo de pantallas (web / Android / Figma):** `login` → `home` → `catálogo` → `ficha` → `carrito` → `chat` (+ `admin` solo en web).
 
-### Web (producción) — [Vercel](https://gamingsage.vercel.app/)
+<details>
+<summary><strong>Web (producción)</strong> — <a href="https://gamingsage.vercel.app/">Vercel</a> (7 pantallas)</summary>
 
 | Pantalla | Imagen |
 | --- | :---: |
@@ -128,7 +129,10 @@ Estructura en [`docs/`](docs/) (índice: [`docs/README.md`](docs/README.md)). Mi
 
 Detalle: [Web y API](https://g-team-d9bwba4i.atlassian.net/wiki/spaces/PI/pages/73957377) · [Flujo web](https://g-team-d9bwba4i.atlassian.net/wiki/spaces/PI/pages/73859073).
 
-### Android (producción) — [APK](https://github.com/Almucero/Proyecto-Intermodular/raw/main/android-app.apk)
+</details>
+
+<details>
+<summary><strong>Android (producción)</strong> — <a href="https://github.com/Almucero/Proyecto-Intermodular/raw/main/android-app.apk">APK</a> (6 pantallas)</summary>
 
 | Pantalla | Imagen |
 | --- | :---: |
@@ -141,7 +145,10 @@ Detalle: [Web y API](https://g-team-d9bwba4i.atlassian.net/wiki/spaces/PI/pages/
 
 Detalle: [Android](https://g-team-d9bwba4i.atlassian.net/wiki/spaces/PI/pages/74055681) · [Flujo Android](https://g-team-d9bwba4i.atlassian.net/wiki/spaces/PI/pages/73891841) · [Build/APK](https://g-team-d9bwba4i.atlassian.net/wiki/spaces/PI/pages/73465860).
 
-### Figma (prototipo)
+</details>
+
+<details>
+<summary><strong>Figma (prototipo)</strong> — web y móvil (6 pantallas)</summary>
 
 | Web | Móvil |
 | :---: | :---: |
@@ -154,7 +161,10 @@ Detalle: [Android](https://g-team-d9bwba4i.atlassian.net/wiki/spaces/PI/pages/74
 
 Enlaces edición: [Canvas web](https://www.figma.com/design/8WRYpwCvkO9wDyGhu57rel/App-venta-de-videojuegos?node-id=726-5391&t=Nx2WKoj2pQCn22hc-0) · [Prototipo web](https://www.figma.com/proto/8WRYpwCvkO9wDyGhu57rel/App-venta-de-videojuegos?node-id=0-1&t=04WaZdl2dDfJg0df-1) · [Canvas móvil](https://www.figma.com/design/8WRYpwCvkO9wDyGhu57rel/App-venta-de-videojuegos?node-id=567-2837&t=Jmpej6MLv56k67Kt-0) · [Prototipo móvil](https://www.figma.com/proto/8WRYpwCvkO9wDyGhu57rel/App-venta-de-videojuegos?node-id=567-2837&p=f&t=a0jbOffYZnVYoZLL-0&scaling=scale-down&content-scaling=fixed&page-id=16%3A2973&starting-point-node-id=567%3A2837). Confluence: [Figma Web](https://g-team-d9bwba4i.atlassian.net/wiki/spaces/PI/pages/73465876) · [Figma Móvil](https://g-team-d9bwba4i.atlassian.net/wiki/spaces/PI/pages/73859089).
 
-### Analítica (Power BI)
+</details>
+
+<details>
+<summary><strong>Analítica (Power BI)</strong></summary>
 
 <p align="center">
   <img src="docs/analitica/powerbi-dashboard.png" alt="Dashboard Power BI" width="800" />
@@ -162,7 +172,10 @@ Enlaces edición: [Canvas web](https://www.figma.com/design/8WRYpwCvkO9wDyGhu57r
 
 Informe: [powerbi.pbix](powerbi.pbix). Detalle: [Power BI en Confluence](https://g-team-d9bwba4i.atlassian.net/wiki/spaces/PI/pages/74153985) · [Scripts Python](https://g-team-d9bwba4i.atlassian.net/wiki/spaces/PI/pages/74186753).
 
-### Diagramas y herramientas
+</details>
+
+<details>
+<summary><strong>Diagramas y herramientas</strong> — ERD, Swagger, Compodoc</summary>
 
 Arquitectura: ver [sección 2](#2-explicación-del-proyecto). Resto en [`docs/diagramas/`](docs/diagramas/).
 
@@ -183,13 +196,18 @@ Explorador: [gamingsage.vercel.app/docs/](https://gamingsage.vercel.app/docs/) �
 | Arquitectura general | [`arquitectura-general.png`](docs/diagramas/arquitectura-general.png) | sección 2 · [Arquitectura interna](https://g-team-d9bwba4i.atlassian.net/wiki/spaces/PI/pages/73924625) |
 | Swagger / Compodoc | capturas en `docs/diagramas/` | sección 9 y enlaces anteriores |
 
-### Gestión del proyecto (Jira)
+</details>
+
+<details>
+<summary><strong>Gestión del proyecto (Jira)</strong> — tablero, epics y Story Points</summary>
 
 | Tablero Scrum | Epics | Reparto de Story Points |
 | :---: | :---: | :---: |
 | ![Tablero Jira](docs/jira/jira-tablero.png) | ![Epics Jira](docs/jira/jira-epics.png) | ![Reparto SP](docs/jira/jira-reparto-sp.png) |
 
 Detalle: [Hub Jira](https://g-team-d9bwba4i.atlassian.net/wiki/spaces/PI/pages/73924641) · [Resumen](https://g-team-d9bwba4i.atlassian.net/wiki/spaces/PI/pages/74317875) · [PDF de la sección 8](#8-resumen-de-la-gestión-en-jira-pdf).
+
+</details>
 
 ---
 
