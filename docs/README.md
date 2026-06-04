@@ -6,10 +6,24 @@ Evidencias en imagen y PDF del [README raíz](../README.md) (secciones 2 a 9). L
 
 ---
 
+## Presentación de la defensa (GameSage)
+
+Diapositivas para la exposición del proyecto intermodular (14 diapositivas: visión, IPE, GitHub, Jira, Confluence, datos/BI, Figma, arquitectura, demos web/Android, cierre).
+
+| Formato | Enlace | Uso recomendado |
+| ------- | ------ | --------------- |
+| **Google Slides (web)** | [GameSage — presentación](https://docs.google.com/presentation/d/1W-anIqJPTWcOuoBRFDVEEV_gHqGkvpiVaXctoRChZRE/edit?usp=sharing) | **Preferible:** mejor renderizado (tipografías, iconos, vídeos embebidos) y sin problemas de compatibilidad al abrir |
+| **PowerPoint (repo)** | [`GameSage.pptx`](GameSage.pptx) | Copia de respaldo offline; puede variar el aspecto respecto a la versión web según el visor |
+
+Detalle y contexto de exposición: [README raíz — sección 11](../README.md#11-referencia-rápida-para-exposición).
+
+---
+
 ## Estructura
 
 ```text
 docs/
+├── GameSage.pptx      Presentación defensa (respaldo; ver Google Slides arriba)
 ├── producto/          Capturas alineadas (web, Android, Figma)
 │   ├── web/
 │   ├── android/
@@ -89,12 +103,13 @@ Scripts de exportación: [`angular-ssr/src/backend/scripts/`](../angular-ssr/src
 
 ## Enlaces rápidos
 
-| Necesitas                                         | Dónde                                                                                                                        |
-| ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| Galería web / Android / Figma en el README        | [Sección 3 — Capturas](../README.md#3-capturas-e-imágenes-del-producto)                                                      |
-| Diagramas y herramientas (ERD, Swagger, Compodoc) | [Sección 3 — Diagramas](../README.md#diagramas-y-herramientas)                                                               |
-| Compodoc desplegado                               | [Sección 9 — Compodoc](../README.md#9-documentación-de-código-compodoc)                                                      |
-| Acceso producción y admin                         | [Sección 6 — Acceso Vercel](../README.md#acceso-en-producción-vercel)                                                        |
-| PDF espacio PI                                    | `confluence/espacio-pi-completo.pdf` · [Sección 7 — PDF Confluence](../README.md#7-documentación-unificada-del-proyecto-pdf) |
-| PDF resumen Jira                                  | `jira/resumen-gestion-jira.pdf` · [Sección 8 — PDF Jira](../README.md#8-resumen-de-la-gestión-en-jira-pdf)                   |
-| Índice wiki por bloques                           | [Sección 10 — Confluence](../README.md#10-documentación-técnica-en-confluence)                                               |
+| Necesitas                                         | Dónde                                                                                                                                                                                                                      |
+| ------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Presentación defensa (recomendada: web)           | [Google Slides](https://docs.google.com/presentation/d/1W-anIqJPTWcOuoBRFDVEEV_gHqGkvpiVaXctoRChZRE/edit?usp=sharing) · [`GameSage.pptx`](GameSage.pptx) · [Sección 11](../README.md#11-referencia-rápida-para-exposición) |
+| Galería web / Android / Figma en el README        | [Sección 3 — Capturas](../README.md#3-capturas-e-imágenes-del-producto)                                                                                                                                                    |
+| Diagramas y herramientas (ERD, Swagger, Compodoc) | [Sección 3 — Diagramas](../README.md#3-capturas-e-imágenes-del-producto)                                                                                                                                                   |
+| Compodoc desplegado                               | [Sección 9 — Compodoc](../README.md#9-documentación-de-código-compodoc)                                                                                                                                                    |
+| Acceso producción y admin                         | [Sección 6 — Acceso Vercel](../README.md#acceso-en-producción-vercel)                                                                                                                                                      |
+| PDF espacio PI                                    | `confluence/espacio-pi-completo.pdf` · [Sección 7 — PDF Confluence](../README.md#7-documentación-unificada-del-proyecto-pdf)                                                                                               |
+| PDF resumen Jira                                  | `jira/resumen-gestion-jira.pdf` · [Sección 8 — PDF Jira](../README.md#8-resumen-de-la-gestión-en-jira-pdf)                                                                                                                 |
+| Índice wiki por bloques                           | [Sección 10 — Confluence](../README.md#10-documentación-técnica-en-confluence)                                                                                                                                             |

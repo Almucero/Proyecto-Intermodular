@@ -4,7 +4,7 @@
 
 Repositorio guía del equipo según el [planning de exposiciones 2º DAM mañana](https://github.com/CPIFPAlanTuring/exposiciones_proyecto_intermodular_25_26_2DAM_M) (orden **6**, fila GameSage).
 
-Repositorio del proyecto **GameSage**: código, despliegue, capturas, trazabilidad por módulos y documentación (Confluence, PDFs y `docs/`).
+Repositorio del proyecto **GameSage**: código, despliegue, capturas, trazabilidad por módulos y documentación (Confluence, PDFs y `docs/`). **Presentación de la defensa:** versión recomendada en [Google Slides](https://docs.google.com/presentation/d/1W-anIqJPTWcOuoBRFDVEEV_gHqGkvpiVaXctoRChZRE/edit?usp=sharing); copia de respaldo [`docs/GameSage.pptx`](docs/GameSage.pptx) (detalle en [sección 11](#presentación-de-la-defensa)).
 
 ---
 
@@ -403,6 +403,7 @@ Monorepo en [Proyecto-Intermodular](https://github.com/Almucero/Proyecto-Intermo
 | Transformación JSON → Excel | [`angular-ssr/src/backend/scripts/jsonToExcel.py`](angular-ssr/src/backend/scripts/jsonToExcel.py) |
 | Datos de apoyo (scripts) | [`angular-ssr/backend-data/`](angular-ssr/backend-data/) |
 | Capturas, diagramas y PDF | [`docs/`](docs/) · [contributors](docs/equipo/github-contributors.png) |
+| Presentación defensa | [Google Slides](https://docs.google.com/presentation/d/1W-anIqJPTWcOuoBRFDVEEV_gHqGkvpiVaXctoRChZRE/edit?usp=sharing) (recomendada) · [`docs/GameSage.pptx`](docs/GameSage.pptx) (respaldo) |
 
 ---
 
@@ -462,7 +463,7 @@ Resumen de cómo hemos planificado y ejecutado el proyecto en Jira (proyecto **P
 | Documento | Enlace | Contenido |
 | --------- | ------ | --------- |
 | **Resumen Jira (PDF)** | [docs/jira/resumen-gestion-jira.pdf](docs/jira/resumen-gestion-jira.pdf) | Resumen ejecutivo con capturas incrustadas (tablero, epics, Story Points) |
-| **Capturas (galería)** | [Gestión Jira — sección 3](#gestión-del-proyecto-jira) | Tablero Scrum, vista de epics y reparto de SP |
+| **Capturas (galería)** | [Gestión Jira — sección 3](#3-capturas-e-imágenes-del-producto) | Tablero Scrum, vista de epics y reparto de SP |
 | **Wiki** | [Gestión del proyecto — Jira](https://g-team-d9bwba4i.atlassian.net/wiki/spaces/PI/pages/73924641) · [Resumen](https://g-team-d9bwba4i.atlassian.net/wiki/spaces/PI/pages/74317875) | Epics, historias, sprints y métricas ampliadas |
 
 ---
@@ -506,6 +507,17 @@ Evidencias visuales en repo: [sección 3](#3-capturas-e-imágenes-del-producto) 
 | Planning oficial (centro) | [exposiciones_proyecto_intermodular_25_26_2DAM_M](https://github.com/CPIFPAlanTuring/exposiciones_proyecto_intermodular_25_26_2DAM_M) |
 | Repositorio guía (este repo) | [Proyecto-Intermodular](https://github.com/Almucero/Proyecto-Intermodular) |
 
+### Presentación de la defensa
+
+Material de diapositivas para la exposición (visión del producto, IPE, repositorio, Jira, Confluence, Python/Power BI, Figma, arquitectura SSR, demo web, Android, cierre).
+
+| Formato | Enlace | Notas |
+| --- | --- | --- |
+| **Google Slides (web)** | [GameSage — presentación](https://docs.google.com/presentation/d/1W-anIqJPTWcOuoBRFDVEEV_gHqGkvpiVaXctoRChZRE/edit?usp=sharing) | **Versión preferible** para tribunal y revisión: mejor renderizado de fuentes, iconos y huecos de vídeo; se abre en el navegador sin depender del visor de Office |
+| **PowerPoint en repo** | [`docs/GameSage.pptx`](docs/GameSage.pptx) | **Respaldo** offline y para quien no tenga acceso a Drive; el aspecto puede diferir (fuentes, iconos) según PowerPoint/LibreOffice |
+
+Índice de evidencias en repo: [`docs/README.md`](docs/README.md#presentación-de-la-defensa-gamesage).
+
 ---
 
 ### Más documentación
@@ -517,3 +529,4 @@ Evidencias visuales en repo: [sección 3](#3-capturas-e-imágenes-del-producto) 
 | Android | [kotlin/README.md](kotlin/README.md) |
 | Confluence | [Espacio PI](https://g-team-d9bwba4i.atlassian.net/wiki/spaces/PI/overview) · [Visión general](https://g-team-d9bwba4i.atlassian.net/wiki/spaces/PI/pages/73760769) · [índice por bloques](#10-documentación-técnica-en-confluence) |
 | PDF | [Espacio PI](docs/confluence/espacio-pi-completo.pdf) · [Resumen Jira](docs/jira/resumen-gestion-jira.pdf) |
+| Presentación | [Google Slides](https://docs.google.com/presentation/d/1W-anIqJPTWcOuoBRFDVEEV_gHqGkvpiVaXctoRChZRE/edit?usp=sharing) (recomendada) · [PPTX](docs/GameSage.pptx) (respaldo) |
