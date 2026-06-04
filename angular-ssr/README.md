@@ -1,953 +1,252 @@
-# GameSage SSR - Plataforma de videojuegos
+# GameSage Web/API (`angular-ssr`)
 
-## Introducción
-
-GameSage es una plataforma web centrada en videojuegos que integra en un solo proyecto el frontend, el backend y la base de datos. La aplicación está construida como una **aplicación Angular con renderizado en servidor (SSR)** y un **backend HTTP** que se ejecuta en el mismo proceso Node.js, de modo que no hace falta desplegar por separado una SPA y una API: un único servidor atiende tanto las páginas web como las peticiones a la API REST.
-
-El proyecto está pensado para ofrecer una experiencia completa de principio a fin: catálogo de juegos, usuarios y autenticación, carrito y compras, favoritos, subida de imágenes (media), y un chat asistido por IA. Todo ello con persistencia en PostgreSQL, documentación de la API (Swagger), tests de integración del backend y posibilidad de despliegue en entornos como Vercel. Esta documentación describe la arquitectura, el flujo de ejecución, la estructura del código y los pasos para arrancar el proyecto desde cero o trabajar con él en desarrollo.
-
-### Resumen técnico
-
-- El **servidor** ejecuta un proceso Node.js que sirve:
-  - El **frontend SSR** (HTML renderizado en servidor y assets estáticos).
-  - La **API REST** bajo `/api/*` (misma URL base y mismo puerto).
-- El **frontend** consume la API exclusivamente mediante rutas **relativas** (`/api/...`), evitando dependencias de URLs absolutas.
-- **Traducción y SEO Dinámico**: El servidor Node.js (SSR) detecta el idioma del usuario (vía cabecera `Accept-Language` o cookie) e inyecta al vuelo las meta-etiquetas SEO traducidas (`description`, `keywords`, `OpenGraph`, `Twitter Cards`, etc.) y el atributo `lang` en el `index.html` antes de enviarlo al cliente. Esto permite tener una única SPA que se comporta como múltiples sitios localizados para los motores de búsqueda.
-- **Gestión de Puertos**: Los scripts de arranque (`start`, `dev`, `serve:ssr`, `serve:ssr:https`) llaman internamente a `scripts/free-port.mjs` para liberar puertos solo cuando están ocupados (4200, 3000 y 3443 según el comando), evitando errores `EADDRINUSE` sin mostrar mensajes innecesarios.
-- La **persistencia** se gestiona con PostgreSQL y Prisma.
-- El backend incorpora seguridad, validación y utilidades de operación (rate limit, serialización, logging).
-- La aplicación ha sido **testeada con OWASP ZAP**; se han corregido la mayoría de vulnerabilidades detectadas, salvo aquellas cuya mitigación rompería el funcionamiento de la página (por ejemplo limitaciones propias de Angular o de recursos externos).
-
-### Índice
-
-- [Visión general y arquitectura](#visión-general-y-arquitectura)
-- [Stack tecnológico](#stack-tecnológico)
-- [Puntos de entrada](#puntos-de-entrada)
-- [Ciclo de vida de una petición](#ciclo-de-vida-de-una-petición)
-- [Estructura del backend](#estructura-del-backend)
-- [Modelo de datos (Prisma)](#modelo-de-datos-prisma)
-- [Frontend: configuración y flujo](#frontend-configuración-y-flujo)
-- [Autenticación social (Google y GitHub)](#autenticación-social-google-y-github)
-- [Funciones de administración](#funciones-de-administración)
-- [Build SSR y variable SSR_DISABLE_BACKEND](#build-ssr-y-variable-ssr_disable_backend)
-- [Rutas y endpoints relevantes](#rutas-y-endpoints-relevantes)
-- [Pagos y devoluciones (Stripe)](#pagos-y-devoluciones-stripe)
-- [Notificaciones por correo](#notificaciones-por-correo)
-- [Verificaciones de requisitos](#verificaciones-de-requisitos)
-- [Arrancar el proyecto desde cero](#arrancar-el-proyecto-desde-cero)
-- [Configuración (variables de entorno)](#configuración-variables-de-entorno)
-- [Environments de Angular](#environments-de-angular-srcenvironments)
-- [Exportación de BBDD a Excel (Power BI)](#exportación-de-bbdd-a-excel-power-bi)
-- [Comandos disponibles](#comandos-disponibles)
-- [Documentación (Compodoc)](#documentación-compodoc)
-- [Comandos más útiles (resumen)](#comandos-más-útiles-resumen)
+Documento operativo corto del bloque web y backend.
+El detalle funcional/técnico se centraliza en [Confluence — Web y API (hub)](https://g-team-d9bwba4i.atlassian.net/wiki/spaces/PI/pages/73957377) y en el `README` raíz del monorepo.
 
 ---
 
-## Visión general y arquitectura
+## Qué contiene esta carpeta
 
-La aplicación sigue un modelo monolítico en el que un único proceso Node.js atiende tanto las peticiones de la aplicación web (incluyendo el renderizado en servidor de las páginas Angular) como las peticiones a la API REST. No hay separación de dominios por puerto: todo se expone en el mismo host y puerto configurado (por defecto 3000). Esta decisión simplifica el despliegue y evita problemas de CORS y de configuración de URLs entre frontend y backend.
+- Frontend Angular SSR.
+- Backend Express con API REST bajo `/api`.
+- Persistencia con Prisma + PostgreSQL.
+- Scripts auxiliares de datos, despliegue y documentación.
 
-El flujo típico de una petición es el siguiente: la petición llega al servidor Express. Primero se inyectan las **cabeceras de seguridad unificadas** (CSP, HSTS, X-Frame-Options, etc.). Luego, si la ruta comienza por `/api`, la maneja el backend montado en Express (controladores, servicios, base de datos); en caso contrario, se sirven primero los archivos estáticos del build de Angular (incluyendo el `sitemap.xml` dinámico y estático). Si no hay coincidencia, se delega en el motor de Angular SSR para generar la respuesta HTML, en cuyo proceso **se intercepta la respuesta para traducir dinámicamente el `index.html`** (metadatos SEO) al idioma del usuario antes de enviarla. Así, la SPA y la API coexisten en el mismo origen de forma segura y optimizada.
+Rutas clave:
 
----
-
-## Stack tecnológico
-
-### Angular y SSR
-
-El frontend está construido con **Angular** (v20) y **@angular/ssr**. El CLI de Angular está configurado con `outputMode: "server"` y un entry point de servidor (`src/server.ts`), de modo que el build genera tanto el bundle del navegador como el del servidor. En el servidor se utiliza `AngularNodeAppEngine` de `@angular/ssr/node` para renderizar las rutas de la aplicación en Node y devolver HTML, mejorando el SEO y la percepción de carga inicial.
-
-### Express
-
-El backend HTTP está implementado con **Express** (v4). La aplicación Express se crea en `src/backend/app.ts`, se monta bajo la aplicación principal en `src/server.ts` (cuando el backend no está deshabilitado) y concentra todo el enrutado bajo `/api/*`, middlewares globales (CORS, JSON, helmet, rate limiting en producción, logging, serialización de respuestas) y el manejador de errores al final de la cadena.
-
-### Prisma
-
-El acceso a datos se realiza mediante **Prisma**. El esquema está en `prisma/schema.prisma` y define los modelos (User, Game, Developer, Publisher, Genre, Platform, Media, Favorite, CartItem, Purchase, PurchaseItem, ChatSession, ChatMessage) y sus relaciones. La URL de conexión se obtiene de la variable de entorno `POSTGRES_PRISMA_URL`. Las migraciones se gestionan con `prisma migrate`; el cliente se genera con `prisma generate` y se usa en los servicios del backend.
-
-### Cloudinary
-
-Las imágenes y el media asociado a juegos o usuarios se almacenan y gestionan con **Cloudinary**. Las variables `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY` y `CLOUDINARY_API_SECRET` configuran el cliente. El módulo de media (`src/backend/modules/media`) utiliza Cloudinary para subir y eliminar recursos; los scripts de seed pueden poblar media desde una carpeta local o desde URLs.
-
-### IA (Google Generative AI)
-
-El chat con IA utiliza **Google Generative AI** (y dependencias como `@google/generative-ai` o `@ai-sdk/google`). La API key se configura con `GOOGLE_GENERATIVE_AI_API_KEY`. El módulo de chat (`src/backend/modules/chat`) expone endpoints para sesiones y mensajes, y delega en el servicio de IA para generar respuestas.
-
-### Otras dependencias
-
-- **Zod**: validación de cuerpos de petición en los endpoints (schemas por módulo, middleware `validate`).
-- **jsonwebtoken** y **bcryptjs**: autenticación (JWT con issuer/audience, cabecera `Authorization: Bearer ...`, hash de contraseñas).
-- **Helmet**: cabeceras de seguridad (CSP desactivado para Swagger; crossOriginResourcePolicy).
-- **hpp**: protección frente a HTTP Parameter Pollution.
-- **express-rate-limit**: límite de peticiones por IP (general 100/15 min; auth 5 intentos/hora).
-- **Swagger (swagger-jsdoc, swagger-ui-express)**: documentación de la API en `/api-docs`.
-- **Winston**: logging estructurado en el backend.
-- **dotenv**: carga de variables desde `.env` al arrancar el backend.
-- **Nodemailer**: envío de correos transaccionales y de notificaciones.
-- **ESLint**: análisis estático de código mediante `eslint-plugin-security` para prevenir inyección de objetos, expresiones regulares inseguras y ejecución de comandos no seguros.
-- **@angular/ssr**: renderizado universal en servidor (Node.js) para mejorar el SEO y el rendimiento de carga inicial (LCP).
-- **ngx-translate**: internacionalización (i18n) en cliente y servidor.
-
-El proyecto aplica buenas prácticas OWASP: unificación de la inyección de **cabeceras de seguridad centralizadas** (`security-headers.ts`) en todo el proyecto Node.js, `Content-Security-Policy` estricto generado en vuelo dependiendo del entorno (`unsafe-inline` denegado en eval), X-Frame-Options (`SAMEORIGIN`), X-Content-Type-Options (`nosniff`) y Referrer-Policy en el servidor. CORS restringido en producción mediante `CORS_ORIGIN`; en desarrollo se permiten automáticamente las URL de origen seguro; redirección a HTTPS en producción; validación Zod de tipos; y bloqueo contra ejecución de objetos/comandos detectado con ESLint.
-
-La aplicación ha sido auditada con **OWASP ZAP** (Zed Attack Proxy). Tras una profunda revisión, se mitigaron exitosamente errores de enrutamiento con *wildcards* en SSR, vulnerabilidades de secuencias de bytes (Null Byte Injection mitigados recursivamente), falsos positivos en las validaciones de Zod (mapados correctamente a Bad Request), y problemas de memoria `Allocation failed - JavaScript heap out of memory` detectados en procesos pesados de compilación (`NODE_OPTIONS=--max-old-space-size=8192`). Actualmente, la aplicación cuenta con un *score* completamente limpio en ZAP.
+- [`src/server.ts`](src/server.ts) (entrada SSR)
+- [`src/backend/app.ts`](src/backend/app.ts) (entrada API)
+- [`prisma/schema.prisma`](prisma/schema.prisma) (modelo de datos)
+- [`src/backend/scripts/`](src/backend/scripts/) (scripts de datos y utilidades)
 
 ---
 
-## Puntos de entrada
+## Prerrequisitos
 
-### `src/server.ts`
-
-Es el punto de entrada del servidor cuando se ejecuta el build SSR (por ejemplo `node dist/game-sage/server/server.mjs`). Realiza lo siguiente:
-
-1. Registra un middleware global que aplica **cabeceras de seguridad unificadas** (`applySecurityHeaders`) a todas las peticiones desde el principio.
-2. Crea una aplicación Express y una instancia de `AngularNodeAppEngine`.
-3. Si la variable de entorno `SSR_DISABLE_BACKEND` no está definida, importa dinámicamente `./backend/app` y monta la aplicación Express del backend **antes** que los estáticos y el SSR. Esto asegura que las rutas de API (`/api/*`) tengan prioridad y no sean interceptadas por el router de Angular.
-4. Monta `express.static` sobre la carpeta del build del navegador (`dist/.../browser`) configurando caché a largo plazo.
-5. Registra un middleware final (`processAngularResponse`) que delega en `angularApp.handle(req)`. Tras recibir la respuesta HTML generada por Angular, **la intercepta para inyectar dinámicamente el idioma y los metadatos SEO** (traducción de `description`, `keywords`, `og:title`, etc.) basándose en la cookie `app-language` o la cabecera `Accept-Language`.
-6. Exporta `reqHandler` para integración con Vercel o para arrancar el servidor HTTP.
-
-El orden de montaje es crítico: Security Headers -> Backend (/api) -> Estáticos -> Angular SSR (con intercepción SEO).
-
-### `src/backend/app.ts`
-
-Construye la aplicación Express del backend. No inicia un servidor propio; se exporta por defecto y se monta en `server.ts`. Contiene:
-
-- Configuración de `trust proxy` para correcto uso de IP detrás de proxies.
-- En producción, redirección HTTP → HTTPS (según `x-forwarded-proto` o `req.secure`).
-- Helmet con CSP desactivado y `crossOriginResourcePolicy: 'cross-origin'`.
-- CORS: en desarrollo se permiten automáticamente `http://localhost:PORT` y `http://localhost:4200`; en producción solo los orígenes definidos en `CORS_ORIGIN` (separados por coma). Si no se define `CORS_ORIGIN` en producción, se acepta cualquier origen.
-- **hpp** para evitar HTTP Parameter Pollution.
-- `express.json` con límite 10MB, middleware de logging de peticiones, middleware de serialización de respuestas (conversión de tipos Prisma como `Decimal` y `Date` a valores JSON serializables).
-- En producción, rate limiter general (100 peticiones por 15 minutos por IP).
-- Rutas de salud `/api/health` y `/api/diagnostic`.
-- Montaje de Swagger UI en `/api-docs` con especificación dinámica según entorno y host.
-- Rutas de auth con rate limiter específico (en entornos no test): `/api/auth` con `authLimiter` (5 intentos por hora por IP, sin contar exitosos) y `authRoutes`.
-- Montaje del resto de rutas de dominio: `/api/users`, `/api/games`, `/api/developers`, `/api/publishers`, `/api/genres`, `/api/platforms`, `/api/media`, `/api/favorites`, `/api/cart`, `/api/purchases`, `/api/chat`.
-- Middleware de manejo de errores al final (en producción devuelve mensajes genéricos sin detalles internos).
-
-Además, se reemplaza `console.warn` para silenciar mensajes deprecados o de limpieza que no aportan en runtime.
-
-### `src/backend/index.ts`
-
-Punto de entrada alternativo cuando se ejecuta solo el backend (por ejemplo con `nodemon` sobre `src/backend`). Crea un servidor llamando a `app.listen(env.PORT)` y registra manejadores de `SIGTERM` y `SIGINT` para cerrar el servidor de forma ordenada. En el flujo SSR normal este fichero no se usa; el servidor se levanta desde `server.ts`.
-
-### `src/main.ts` (navegador)
-
-Punto de entrada del bundle del navegador. Ejecuta `bootstrapApplication(AppComponent, appConfig)` con la configuración definida en `src/app/app.config.ts`. Se usa cuando la aplicación se ejecuta en el cliente (tras la hidratación o en modo solo cliente con `ng serve`).
-
-### `src/main.server.ts`
-
-Punto de entrada del bundle del servidor para Angular. Exporta una función `bootstrap` que recibe un `BootstrapContext` y arranca la aplicación con `bootstrapApplication(AppComponent, config, context)`, usando la configuración de servidor (`app.config.server`). El CLI de Angular utiliza este archivo para renderizar las rutas en el servidor.
+- Node.js **20.x o 22.x** LTS y npm.
+- PostgreSQL accesible (local o Neon enlazado desde Vercel).
+- Archivo `.env` en la raíz (plantilla [`.env.example`](.env.example)).
+- Instalar o actualizar dependencias **solo** con `npm run setup:secure` (no usar `npm install` a secas).
+- Credenciales en `.env` para:
+  - Cloudinary (media)
+  - Stripe (checkout)
+  - Google Generative AI (chat IA)
+  - Admins iniciales (`ADMIN_EMAILS`, `ADMIN_PASSWORDS`, `ADMIN_NAMES`, en el mismo orden)
+  - SMTP (solo si se usa recuperación real por correo)
+  - OAuth Google/GitHub (opcional: solo si usas login social)
+- Opcional para scripts BI: Python 3.9+.
 
 ---
 
-## Ciclo de vida de una petición
+## Arranque rápido (local)
 
-1. **Llegada al proceso Node**: La petición entra en la aplicación Express definida en `server.ts`.
+Desde [`angular-ssr/`](./):
 
-2. **Backend (rutas `/api/*`)**: Si la ruta coincide con algún handler del backend montado primero (por ejemplo `/api/health`, `/api/auth/login`, `/api/games`, etc.), la cadena de middlewares de Express se ejecuta: CORS, body parser, request logger, response serializer, rate limiter (si aplica), y luego el router correspondiente. En rutas protegidas, el middleware `auth` verifica el JWT y adjunta `req.user`; el middleware `adminOnly` comprueba que el usuario esté en la lista de administradores. Los controladores llaman a los servicios, que usan Prisma para leer o escribir en PostgreSQL. La respuesta se serializa (Decimal, Date, etc. convertidos) y se envía. Si se lanza un error, el `errorHandler` centralizado devuelve un JSON de error y registra el fallo.
+### 1) Preparar `.env`
 
-3. **Archivos estáticos**: Si la URL no fue manejada por el backend, Express intenta servir un archivo desde la carpeta `browser` del build. Las peticiones a JS, CSS, imágenes, etc. se resuelven aquí.
+1. Copia la plantilla: `cp .env.example .env` (Windows: `copy .env.example .env`).
+2. Rellena las variables obligatorias (ver sección [Variables de entorno](#variables-de-entorno-env)); la lista completa está en [`.env.example`](.env.example).
+3. En Neon/Vercel, configura también `POSTGRES_URL_NON_POOLING` para migraciones.
 
-4. **SSR (resto de rutas)**: Si no hubo respuesta del backend ni archivo estático, el middleware de Angular llama a `angularApp.handle(req)`. Angular ejecuta el router de la aplicación, renderiza el componente en servidor y devuelve una respuesta HTTP que incluye un `index.html`. Esta respuesta **se intercepta en el middleware `processAngularResponse`**, que extrae el idioma (`lang`) de las cookies del usuario o de `Accept-Language`, e **inyecta metadatos SEO traducidos en tiempo real** (keywords, descriptions, title) junto con el `<html>` dinámico.
-5. **Cliente**: El navegador recibe este HTML localizado y totalmente adaptado. A partir de aquí, Angular carga los scripts del bundle, arranca `ngx-translate`, hidrata el DOM y permite cambiar el idioma al vuelo manipulando reactivamente el `document.documentElement.lang`.
-
----
-
-## Estructura del backend
-
-### `src/security-headers.ts`
-
-Archivo centralizado que exporta las funciones `applySecurityHeaders` y `applyNoCacheHeaders`. Concentra toda la configuración de cabeceras estrictas de seguridad (HSTS, CSP, X-Frame-Options, Permissions-Policy, etc.). El servidor SSR de Angular y todos los middlewares de Express importan y usan estas funciones, lo que garantiza una política de seguridad uniforme, evita duplicidad de código y previene alertas de seguridad (por ejemplo, en OWASP ZAP) independientemente de si la petición la atiende la SPA, un archivo estático o la API.
-
-### `src/backend/config/`
-
-- **env.ts**: Carga `dotenv` desde `.env` y exporta un objeto `env` con las variables necesarias (PORT, NODE_ENV, JWT_SECRET, JWT_EXPIRES_IN, JWT_ISSUER, JWT_AUDIENCE, CORS_ORIGIN opcional, POSTGRES_PRISMA_URL, BCRYPT_SALT_ROUNDS, Cloudinary, GOOGLE_GENERATIVE_AI_API_KEY, ADMIN_EMAILS, ADMIN_PASSWORDS, ADMIN_NAMES). Valida la presencia de las obligatorias y lanza si falta alguna; las opcionales (JWT_*, CORS_ORIGIN) tienen valores por defecto o quedan undefined.
-- **db.ts**: Instancia única de `PrismaClient` para reutilizar la conexión.
-- **swagger.ts**: Definición de la especificación OpenAPI (servidores, componentes, seguridad) usada por Swagger UI. Los JSDoc en las rutas (por ejemplo en `auth.routes.ts`, `games.routes.ts`) documentan los endpoints y se integran con swagger-jsdoc.
-
-### `src/backend/middleware/`
-
-- **auth.ts**: Middleware que lee la cabecera `Authorization: Bearer <token>`, verifica el JWT con `JWT_SECRET` y opciones `issuer` y `audience` (desde env), y si es válido asigna `req.user` con `{ sub, email, isAdmin }`. Si falta o es inválido, responde 401.
-- **authorize.ts**: `adminOnly` comprueba que `req.user` exista y que o bien `req.user.isAdmin` sea true o bien el email esté en la lista `ADMIN_EMAILS`. Si no, responde 403.
-- **validate.ts**: Factory que recibe un esquema Zod y devuelve un middleware que hace `schema.safeParse(req.body)`; si falla, responde 400 con los errores aplanados; si tiene éxito, reemplaza `req.body` por el resultado tipado y llama a `next()`.
-- **rateLimiter.ts**: `generalLimiter` (100 peticiones / 15 min por IP) y `authLimiter` (5 intentos / hora por IP para rutas de auth, sin contar las exitosas). Se aplican en `app.ts` según el entorno.
-- **requestLogger.ts**: Registra cada petición al finalizar la respuesta (método, path, código de estado, duración) usando el logger de la aplicación (nivel error/warn/http según el código).
-- **serialize.ts**: Middleware que reemplaza `res.json` para que, antes de enviar, pase el payload por `serializePrisma`. Así se convierten tipos no serializables de Prisma (Decimal, BigInt, Date) a tipos JSON válidos.
-- **error.ts**: Manejador de errores de Express (cuatro argumentos). Registra el error; en producción responde con mensajes genéricos (por ejemplo "Error interno del servidor", "Datos inválidos") sin exponer detalles ni stack. En desarrollo incluye el mensaje del error.
-
-### `src/backend/utils/`
-
-- **serialize.ts**: Función recursiva `serializePrisma(value)` que convierte `Decimal` (objetos con `toNumber`), `Date` (a ISO string), arrays y objetos anidados a valores seguros para `JSON.stringify`.
-- **logger.ts**: Configuración de Winston (nivel, formato, salida a consola o archivo según entorno).
-
-### `src/backend/modules/`
-
-Cada dominio (auth, users, games, developers, publishers, genres, platforms, media, favorites, cart, purchases, chat) sigue una estructura similar:
-
-- **\*.routes.ts**: Router de Express que define las rutas (GET, POST, PATCH, DELETE, etc.), aplica middlewares (`auth`, `adminOnly`, `validate(schema)`) y delega en controladores. Incluye anotaciones JSDoc para Swagger.
-- **\*.controller.ts**: Controladores que reciben `req` y `res`, extraen parámetros y cuerpo, llaman a los servicios y envían la respuesta (JSON o código de estado). No contienen lógica de negocio pesada.
-- **\*.service.ts**: Lógica de negocio y acceso a datos con Prisma. Crean, leen, actualizan y borran entidades y relaciones.
-- **\*.schema.ts**: Esquemas Zod para validar el body de las peticiones (registro, login, creación/actualización de juegos, etc.).
-
-Ejemplo de cadena en un endpoint protegido: petición → `auth` (opcional) → `validate(schema)` → `adminOnly` (opcional) → controlador → servicio → Prisma → respuesta JSON (serializada por el middleware global).
-
-#### Módulo `notifications`
-
-El módulo `src/backend/modules/notifications` es un módulo de dominio interno orientado a eventos (no expone rutas HTTP propias), por eso no tiene `*.routes.ts` ni `*.controller.ts`.
-
-- `notifications.service.ts`: motor de notificaciones (lógica de negocio, jobs programados, deduplicación y envío).
-- `notifications.types.ts`: tipos compartidos del dominio de notificaciones.
-- `index.ts`: punto de entrada público del módulo para imports limpios desde otros módulos.
-
-Este módulo lo consumen `favorites`, `games`, `cart`, `purchases` y `app.ts` (scheduler), manteniendo la misma arquitectura por capas: controladores de dominio disparan eventos y `notifications` centraliza el comportamiento de correo.
-
-### `src/backend/scripts/`
-
-- **seedAdmin.ts**: Crea o actualiza usuarios administradores a partir de las variables `ADMIN_EMAILS`, `ADMIN_PASSWORDS` (opcional) y `ADMIN_NAMES` (opcional). Usado en el pipeline `build:full` para asegurar que existan admins tras el despliegue.
-- **cleanData.ts**: Limpia datos de negocio (juegos, compras, favoritos, carrito, media, etc.) y opcionalmente elimina recursos en Cloudinary. Útil para dejar la base en estado conocido antes de un seed completo.
-- **seedData.ts**: Tras una limpieza, rellena la base con datos de ejemplo (géneros, plataformas, desarrolladores, editores, juegos, media, etc.) usando ficheros o carpetas de referencia (por ejemplo `backend-data/` o variables como `MEDIA_BASE_PATH`).
-
-### `src/backend/tests/`
-
-Tests de integración con **Jest** y **supertest**. Se ejecutan con `npm run test:backend` (NODE_ENV=test). Cada archivo (auth.test.ts, users.test.ts, games.test.ts, etc.) levanta la aplicación Express y realiza peticiones HTTP a los endpoints, comprobando códigos de estado y cuerpos de respuesta. La configuración de Jest está en `jest.backend.config.js`; la base de datos de test debe estar configurada en `.env` (misma variable `POSTGRES_PRISMA_URL` o una URL específica de test).
-
----
-
-## Modelo de datos (Prisma)
-
-El esquema en `prisma/schema.prisma` define:
-
-- **Developer**, **Publisher**: entidades con nombre único; relacionadas con juegos.
-- **Platform**, **Genre**: catálogos con nombre único; muchos juegos pueden tener muchas plataformas y muchos géneros (relaciones N:M).
-- **Game**: título, descripción, precios (price, salePrice), flags (isOnSale, isRefundable), stock por plataforma (stockPc, stockPs5, etc.), videoUrl, rating, releaseDate, relaciones con Publisher, Developer, Genre[], Platform[], Media[], Favorite[], CartItem[], PurchaseItem[].
-- **Media**: url, publicId, metadatos (format, bytes, width, height, folder, altText); puede asociarse a un Game o a un User (avatar, etc.).
-- **User**: email, nickname, name, surname, passwordHash, balance, points, isAdmin, dirección (addressLine1, city, region, etc.), accountId/accountAt para integración externa; relaciones con Media, Favorite, CartItem, Purchase, ChatSession.
-- **Favorite**: usuario, juego, plataforma (único por combinación).
-- **CartItem**: usuario, juego, plataforma, cantidad.
-- **Purchase** / **PurchaseItem**: compra con total y estado; ítems con juego, plataforma, precio y cantidad.
-- **ChatSession** / **ChatMessage**: sesiones de chat por usuario; mensajes con rol (user/assistant), contenido y opcionalmente datos estructurados (por ejemplo juegos recomendados) en JSON.
-
-Las migraciones en `prisma/migrations/` reflejan la evolución del esquema (campos añadidos, índices, etc.). En entornos que usan pooler (por ejemplo Neon), `directUrl` con `POSTGRES_URL_NON_POOLING` se usa para migraciones.
-
----
-
-## Frontend: configuración y flujo
-
-### `src/app/app.config.ts`
-
-Configuración de la aplicación Angular: Zone.js, router (`routes`), HttpClient con `withFetch()` y el interceptor `serverConnectionInterceptor`, animaciones, Translate (ngx-translate) con loader HTTP desde `/assets/i18n/`, fallback y idioma por defecto (es), y una gran cantidad de providers para repositorios y servicios.
-
-Los tokens inyectables definen nombres de recurso (games, developers, genres, etc.), URLs base de API (todas con prefijo `environment.apiUrl` que en producción y desarrollo suele ser `''`, resultando en rutas relativas `/api/...`) y factories de repositorios y mapeos. Los servicios de dominio (GameService, UserService, CartItemService, PurchaseService, FavoriteService, ChatService, etc.) y el AuthenticationService se registran aquí. También se habilita la hidratación del cliente con `provideClientHydration(withEventReplay())`.
-
-### `src/app/app.routes.ts`
-
-Define las rutas de la SPA: home (`/`), login, register, dashboard (protegida con authGuard y customerGuard), product/:id, aichat, favourites, cart, settings, help, contact, privacy, conditions, cookies, search, y admin (protegida con authGuard y adminGuard) con rutas hijas para gestión de géneros, desarrolladores, plataformas, editores y juegos. Las rutas de admin cargan componentes con `loadComponent` (lazy loading).
-
-### Autenticación social (Google y GitHub)
-
-La aplicación soporta autenticación y registro social con **Google** y **GitHub** usando flujo de **redirección completa**.
-
-- **Inicio del flujo en frontend**:
-  - Desde `login` y `register`, los botones sociales construyen la URL del proveedor y redirigen con `window.location.assign(...)`.
-  - El frontend solicita previamente `client_id` al backend (`/api/auth/google/client-id` y `/api/auth/github/client-id`) para no exponer configuración fija en el cliente.
-  - Se guarda estado temporal en `sessionStorage` (`state`, `nonce`, destino `target`) para validar el retorno y preservar contexto.
-- **Callback en backend**:
-  - Google vuelve a `GET /api/auth/google/callback`.
-  - GitHub vuelve a `GET /api/auth/github/callback`.
-  - Ambos callbacks generan una respuesta HTML mínima que redirige a `login` o `register` con los parámetros OAuth necesarios y marca `_skip_loader=1` para mantener una vuelta visual fluida.
-- **Procesado del retorno en frontend**:
-  - `login.component.ts` y `register.component.ts` detectan `code/state` (GitHub) o `id_token/state` (Google), validan `state`/`nonce` y completan sesión contra backend (`POST /api/auth/github` o `POST /api/auth/google`).
-  - Durante este paso se muestra una capa de procesamiento OAuth para evitar parpadeos de pantalla.
-- **Mensajes de error de registro y OAuth**:
-  - El backend devuelve códigos controlados (`code`) para conflictos/validaciones de registro (`ERR_AUTH_*`) y el frontend los traduce vía i18n.
-  - No se exponen mensajes técnicos internos de Prisma o de la capa de datos en la UI de registro.
-- **Persistencia de sesión**:
-  - En social login/social register la sesión se guarda en modo persistente automáticamente (equivalente funcional a recordar sesión sin interacción adicional del usuario).
-- **Variables de entorno necesarias**:
-  - `GOOGLE_CLIENT_ID`
-  - `GITHUB_CLIENT_ID`
-  - `GITHUB_CLIENT_SECRET`
-
-### Funciones de administración
-
-El área `/admin` está pensada para gestión de catálogo y está protegida por `authGuard + adminGuard` en frontend y por `auth + adminOnly` en backend para operaciones sensibles.
-
-- **Módulos disponibles**:
-  - Géneros
-  - Desarrolladores
-  - Plataformas
-  - Publishers
-  - Juegos
-- **Operaciones soportadas**:
-  - Listado con búsqueda local y skeletons de carga.
-  - Creación y edición mediante formularios modales.
-  - Eliminación con confirmación explícita.
-- **Gestión de juegos (completa)**:
-  - Campos de negocio (precio, oferta, stock por plataforma, rating, vídeo, fecha).
-  - Relaciones con developer, publisher, genres y platforms.
-  - Subida de imagen asociada mediante módulo `media`.
-  - Alta rápida de developer/publisher/genre/platform desde el propio formulario de juego.
-- **Endpoints backend de administración**:
-  - `POST/PATCH/DELETE /api/games/:id?`
-  - `POST/PATCH/DELETE /api/developers/:id?`
-  - `POST/PATCH/DELETE /api/publishers/:id?`
-  - `POST/PATCH/DELETE /api/genres/:id?`
-  - `POST/PATCH/DELETE /api/platforms/:id?`
-  - Todas estas operaciones requieren permisos de administrador.
-
-### Guards e interceptors
-
-- **authGuard**: Impide acceder a rutas que requieren sesión si no hay usuario autenticado (por ejemplo leyendo token o estado de auth).
-- **adminGuard**: Restringe el acceso al área de administración a usuarios con rol admin (según backend o estado en cliente).
-- **customerGuard**: Distingue entre usuarios cliente y otros roles para rutas como dashboard.
-- **serverConnectionInterceptor**: Interceptor HTTP que reintenta peticiones fallidas con status 0 o >= 500, con un delay (por ejemplo 2 segundos), para tolerar arranques lentos del servidor o fallos temporales.
-
-### Repositorios y servicios
-
-El frontend abstrae las llamadas HTTP en repositorios (por recurso) que construyen las URLs a partir de los tokens (apiUrl + nombre de recurso). Los servicios de dominio utilizan estos repositorios y exponen métodos de alto nivel (listar juegos, añadir al carrito, crear compra, etc.). Los mapeos transforman los DTOs del backend al modelo que usa la aplicación. Esta capa permite cambiar la implementación (HTTP, mock) sin tocar los componentes.
-
-### Environments
-
-En `src/environments/` están `environment.ts` (desarrollo) y `environment.prod.ts` (producción). Contienen `production: boolean` y `apiUrl: string`. Con `apiUrl: ''`, las peticiones se hacen a rutas relativas, por lo que funcionan contra el mismo origen (SSR o proxy en desarrollo). El build de producción reemplaza el fichero de environment mediante `fileReplacements` en `angular.json`.
-
----
-
-## Build SSR y variable SSR_DISABLE_BACKEND
-
-Durante `ng build` con configuración SSR, Angular puede ejecutar el servidor de entrada (`src/server.ts`) para descubrir rutas y generar recursos. En ese contexto, el backend importa Prisma, Cloudinary, dotenv, etc., y puede fallar si no hay `.env`, base de datos o variables configuradas. Para evitar eso, el script `build:ssr` define `SSR_DISABLE_BACKEND=1` (por ejemplo con `cross-env`). Así, en `server.ts` la condición `if (!process.env['SSR_DISABLE_BACKEND'])` es falsa y no se monta el backend durante el build. El artefacto generado (`server.mjs`) sí monta el backend cuando se ejecuta en runtime, porque entonces la variable no está definida.
-
----
-
-## Rutas y endpoints relevantes
-
-- **Web**: `/` (y el resto de rutas de la SPA).
-- **Health**: `GET /api/health` (respuesta `{ ok: true }`).
-- **Diagnóstico**: `GET /api/diagnostic`.
-- **Sitemaps y Robots**:
-  - `GET /robots.txt`: Reglas para crawlers.
-  - `GET /sitemap.xml`: Índice de sitemaps.
-  - `GET /sitemap-static.xml`: Rutas estáticas de la web.
-  - `GET /sitemap-products.xml`: Sitemap dinámico generado desde la BD con los productos actuales.
-- **Swagger UI**: `GET /api-docs`.
-- **Auth**: `POST /api/auth/register`, `POST /api/auth/login`.
-- **Auth social**:
-  - `GET /api/auth/google/client-id`
-  - `GET /api/auth/github/client-id`
-  - `GET /api/auth/google/callback`
-  - `GET /api/auth/github/callback`
-  - `POST /api/auth/google`
-  - `POST /api/auth/github`
-- **Usuario actual**: `GET /api/users/me`, `PATCH /api/users/me`, `DELETE /api/users/me` (requiere JWT).
-- **Juegos**: `GET /api/games`, `GET /api/games/:id`, `POST /api/games`, `PATCH /api/games/:id`, `DELETE /api/games/:id` (creación/edición/borrado con auth y admin).
-- **Desarrolladores, editores, géneros, plataformas**: CRUD bajo `/api/developers`, `/api/publishers`, `/api/genres`, `/api/platforms`.
-- **Media**: subida y gestión bajo `/api/media`.
-- **Favoritos, carrito, compras**: `/api/favorites`, `/api/cart`, `/api/purchases`.
-- **Chat**: `/api/chat` (sesiones y mensajes con IA).
-
-La documentación detallada de parámetros, cuerpos y respuestas está en Swagger (`/api-docs`) y en los JSDoc de cada ruta.
-
----
-
-## Pagos y devoluciones (Stripe)
-
-La aplicación integra una pasarela de pago embebida con Stripe para cerrar compras sin salir del sitio. El flujo está diseñado para mantener consistencia entre estado de pago, carrito, compras del usuario y stock por plataforma.
-
-### Flujo de checkout embebido
-
-1. El cliente solicita una sesión con `POST /api/cart/checkout-session`.
-2. El backend valida que el carrito no esté vacío, calcula importes y crea la sesión de Stripe en `mode: payment` y `ui_mode: embedded_page`.
-3. Stripe devuelve `clientSecret`, `sessionId` y `publishableKey`, que el frontend usa para montar el checkout embebido.
-4. Tras pago completado, el frontend confirma la sesión con `POST /api/cart/checkout/confirm`.
-5. Al cerrar checkout en ficha de producto, se muestra un aviso post-compra indicando dónde encontrar el código (página de usuario) y dónde consultar guías de activación (FAQ en ayuda).
-6. La página de ayuda (`/help`) incluye una guía extensa de activación por plataforma (PC, PlayStation, Xbox y Switch), navegación por secciones, capturas reales y una sección FAQ integrada y traducida para todos los idiomas soportados.
-7. El bloque FAQ de ayuda usa animación de expansión/colapso basada en Angular (`enter/leave`), con comportamiento estable y consistente con el patrón visual de filtros de búsqueda.
-8. Las capturas de la guía de ayuda son ampliables en modal al hacer clic (overlay, cierre por fondo/botón y tecla `Escape`), siguiendo el mismo patrón visual y de interacción que las capturas del detalle de producto.
-
-### Qué ocurre al confirmar una compra
-
-- Se valida que la sesión de Stripe esté pagada y pertenezca al usuario autenticado.
-- Se completa la compra en base de datos dentro de operaciones transaccionales.
-- Se crean registros de compra (`Purchase` y `PurchaseItem`) para que aparezcan en el historial del usuario.
-- Cada item comprado expone también su `key` (clave de producto digital) para mostrarla de forma segura en el dashboard con modo oculto/visible.
-- Se descuenta stock de los juegos/plataformas comprados.
-- Se vacía el carrito del usuario para evitar duplicados tras un pago correcto.
-- En compra directa (`/product/:id`), el frontend muestra confirmación contextual con enlaces a `dashboard` y `help#faq`.
-
-### Devoluciones y reembolsos
-
-- Endpoint principal de devolución: `POST /api/purchases/:id/refund`.
-- Existe compatibilidad adicional con `PATCH /api/purchases/:id` para clientes antiguos.
-- Al devolver una compra:
-  - el estado pasa a `refunded`,
-  - se incrementa de nuevo el stock por plataforma,
-  - se ajusta el contador de ventas del juego,
-  - se guarda el motivo de devolución.
-
-### Notas operativas
-
-- El checkout usa Stripe en modo test mientras se mantengan claves de test en `.env`.
-- En local, para minimizar advertencias de contexto no seguro, se recomienda `npm run serve:ssr:https` y abrir `https://localhost:3443`.
-- Stripe permite controlar idioma/locale en la creación de sesión para alinear el checkout con el idioma activo de la aplicación.
-
----
-
-## Notificaciones por correo
-
-La aplicación incorpora un sistema de notificaciones por email en backend, centralizado en `src/backend/modules/notifications`.
-
-### Dónde se configura
-
-- Preferencias por usuario en `settings` (frontend): activación global, email destino, idioma, frecuencia (`immediate/daily/weekly`), horas silenciosas, pausa temporal y toggles por tipo.
-- Persistencia en `User` (Prisma): campos `emailNotificationsEnabled`, `notificationEmail`, `emailNotificationLanguage`, `emailNotificationFrequency`, `emailNotificationTopics`, `emailNotificationPausedUntil`, `emailQuietHoursStart`, `emailQuietHoursEnd`, `emailRecommendationIntervalDays`, `emailNotificationMeta`, `lastSeenAt`.
-
-### Tipos de correo implementados
-
-- Ofertas inmediatas al añadir favoritos en oferta.
-- Bajada de precio en favoritos (deduplicado por juego/plataforma).
-- Reposición de stock en favoritos (una sola vez por juego/plataforma, persistente).
-- Confirmación de compra.
-- Confirmación de reembolso.
-- Recordatorios de cesta (jobs diarios).
-- Recordatorios por inactividad.
-- Recomendaciones periódicas con intervalo configurable (1-30 días).
-- Novedades por señales de búsqueda, compras y bloque de populares.
-- Resumen semanal.
-
-### Variantes, traducciones y formato
-
-- Soporte de idioma en `es`, `en`, `fr`, `de`, `it` para asunto, títulos y cuerpos.
-- Variantes múltiples por tipo de correo para evitar textos repetitivos.
-- Plantillas HTML uniformes, responsive y compatibles con clientes de correo móviles.
-- Estructura común en todos los correos: saludo personalizado (`Hola/Hi... <nombre>`), bloque de contenido y footer fijo con enlace a ajustes.
-- El enlace de gestión en el footer apunta a `https://gamingsage.vercel.app/settings`.
-- Resolución robusta de imágenes: si la URL de media es relativa, se convierte a absoluta usando variables de entorno de app.
-- Respeto de horas silenciosas y pausas de notificaciones.
-
-### Factura/justificante adjunto
-
-En compra y reembolso se adjunta PDF (`application/pdf`) con referencia, fecha, total y líneas de artículos:
-
-- Referencia `PUR-<id>` / `REF-<id>` para compras/reembolsos internos.
-- Referencia `STRIPE-<sessionId>` en confirmaciones de checkout Stripe.
-
-### Scheduler y ejecución
-
-- Arranque automático en backend (`startEmailNotificationScheduler`) fuera de entorno `test`.
-- Ejecución inicial al arrancar + ciclo programado cada hora (`runEmailJobsNow`).
-- Los jobs aplican reglas de frecuencia del usuario para envíos diarios/semanales.
-
-### Variables de entorno relacionadas
-
-- `SMTP_HOST`
-- `SMTP_PORT` (opcional, por defecto `587`)
-- `SMTP_USER`
-- `SMTP_PASS`
-- `SMTP_FROM` (opcional, por defecto `no-reply@gamesage.local`)
-- `SMTP_FROM_NAME` (opcional, por defecto `Game Sage`; nombre visual del remitente)
-- `PUBLIC_APP_URL` o `FRONTEND_URL` o `APP_URL` (opcionales; recomendados para construir URLs absolutas de imagen en correos)
-
-Si no se define SMTP, el sistema omite el envío sin romper la ejecución del backend.
-
----
-
-## Verificaciones de requisitos
-
-Antes de ejecutar determinados comandos (build, serve, dev, tests, seeds, etc.), el proyecto ejecuta comprobaciones previas que evitan fallos confusos y muestran errores legibles.
-
-- **`scripts/check-toolchain.mjs`**: Comprueba que exista `node_modules` y binarios necesarios (Angular CLI, Prisma). Si faltan dependencias o herramientas de build, muestra el comando recomendado según el estado actual (`npm run setup:secure` o `npm install --include=dev --no-audit`).
-
-- **`scripts/check-prisma.mjs`**: Comprueba que el cliente de Prisma esté generado (existe `node_modules/@prisma/client/index.d.ts`). Si no se ha ejecutado `npx prisma generate`, se muestra un error claro antes de que el compilador de TypeScript falle con mensajes sobre campos o tipos faltantes.
-
-- **`scripts/serve-ssr.mjs`**: Antes de arrancar el servidor SSR compilado, valida que exista el build (`dist/game-sage/server/server.mjs`) y que exista un `.env` configurado. Si falta alguno, muestra un error directo indicando qué comando o paso previo ejecutar.
-
-- **`scripts/serve-ssr-watch-safe.mjs`**: Wrapper de arranque usado en modo watch SSR. Espera a que el build de `dist/game-sage/server` esté estable y con imports presentes antes de arrancar el servidor, y reintenta automáticamente si detecta un `ERR_MODULE_NOT_FOUND` transitorio de chunks durante una recompilación.
-
-- **`scripts/free-port.mjs`**: Utilidad interna que verifica si un puerto concreto está en uso y, solo en ese caso, mata el proceso asociado. Se usa desde los scripts `start`, `dev` y `serve:ssr` para evitar errores `EADDRINUSE` sin imprimir mensajes cuando el puerto ya está libre.
-
-Estas verificaciones se ejecutan automáticamente en los scripts de `package.json` que las requieren (build, serve:ssr, dev:backend, test, seed:admin, format, etc.). No aplican a `clean:full` ni a `reinstall`, ya que esos comandos borran o reinstalan dependencias por diseño.
-
----
-
-## Arrancar el proyecto desde cero
-
-Esta sección describe los pasos necesarios para poner en marcha el proyecto en una máquina sin tener preinstalado Node.js, base de datos ni ninguna herramienta del stack.
-
-### 1. Instalar Node.js
-
-Node.js incluye el runtime de JavaScript y **npm** (gestor de paquetes). Sin Node no se puede ejecutar el servidor ni el CLI de Angular.
-
-- Descargar el instalador LTS desde [nodejs.org](https://nodejs.org/) (o la versión actual si se prefiere).
-- Ejecutar el instalador y seguir las opciones por defecto; asegurarse de que la opción para añadir Node al PATH esté activada.
-- Abrir una nueva terminal y comprobar:
-  - `node -v` (debe mostrar la versión, por ejemplo v20.x o v22.x).
-  - `npm -v` (debe mostrar la versión de npm).
-
-Versiones recomendadas: Node 20.x o 22.x; el proyecto está probado con estas versiones.
-
-### 2. Instalar Git (opcional)
-
-Si el código se obtiene desde un repositorio Git, hace falta tener Git instalado.
-
-- Descargar desde [git-scm.com](https://git-scm.com/) e instalar.
-- Comprobar con `git --version`.
-
-Si el proyecto se recibe como ZIP o carpeta, este paso puede omitirse.
-
-### 3. Obtener el código del proyecto
-
-- Con Git: clonar el repositorio en una carpeta local, por ejemplo `git clone <url> angular-ssr` y luego `cd angular-ssr`.
-- Sin Git: descomprimir o copiar la carpeta del proyecto y abrir una terminal en la raíz del proyecto (donde está `package.json`).
-
-### 4. Base de datos PostgreSQL
-
-El backend usa PostgreSQL a través de Prisma. Hay que disponer de una instancia accesible y de las URLs de conexión en el `.env`.
-
-#### Opción A – PostgreSQL local (o cualquier proveedor)
-
-- Instalar PostgreSQL desde [postgresql.org](https://www.postgresql.org/download/) o con un gestor de paquetes (Chocolatey, Homebrew, etc.), o usar cualquier otro proveedor de PostgreSQL.
-- Crear una base de datos y un usuario con permisos (por ejemplo `gamesage` / `gamesage`).
-- La URL de conexión típica es: `postgresql://usuario:password@localhost:5432/nombre_bd`. Esa URL y, si aplica, la URL directa sin pooler se configuran en el paso de variables de entorno.
-
-#### Opción B – Neon desde Vercel
-
-- Si el proyecto se despliega o se gestiona desde **Vercel**, la base de datos PostgreSQL tipo Neon se puede crear y administrar desde el propio panel de Vercel (Vercel permite crear y enlazar este tipo de base de datos).
-- Lo único necesario es disponer de las URLs que Vercel proporciona: `POSTGRES_PRISMA_URL` y `POSTGRES_URL_NON_POOLING` (o la que corresponda para migraciones). Esas URLs se copian al `.env` y se gestionan desde Vercel; no hace falta crear la base manualmente en neon.tech.
-
-En cualquier caso, las URLs de conexión se definen en el archivo `.env` en el paso siguiente.
-
-### 5. Variables de entorno
-
-En la raíz del proyecto debe existir un archivo `.env`. No está versionado por seguridad.
-
-- Copiar la plantilla: `cp .env.example .env` (en Windows: `copy .env.example .env`).
-- Editar `.env` y rellenar cada variable:
-  - **POSTGRES_PRISMA_URL**: URL de conexión a PostgreSQL (ej. `postgresql://user:pass@host:5432/dbname`).
-  - **POSTGRES_URL_NON_POOLING**: Si se usa Neon u otro pooler, la URL directa sin pooler; si la BD es local, puede ser la misma que `POSTGRES_PRISMA_URL`.
-  - **PORT**: Puerto del servidor (ej. 3000).
-  - **NODE_ENV**: `development` para desarrollo; en Vercel u otro hosting de producción usar `production`.
-  - **JWT_SECRET**: Cadena secreta larga y aleatoria para firmar los JWT.
-  - **JWT_EXPIRES_IN**, **JWT_ISSUER**, **JWT_AUDIENCE**: Opcionales; por defecto `7d`, `game-sage` y `game-sage-users`. Útiles para endurecer la emisión/verificación de tokens.
-  - **CORS_ORIGIN**: Solo en producción. Orígenes permitidos para la API, separados por coma (ej. `https://tu-app.vercel.app`). En desarrollo se permiten automáticamente `http://localhost:PORT` y `http://localhost:4200`.
-  - **BCRYPT_SALT_ROUNDS**: Número de rondas de bcrypt (ej. 10).
-  - **CLOUDINARY_*** (CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET): credenciales para subida de imágenes.
-  - **GOOGLE_GENERATIVE_AI_API_KEY**: API key de Google Generative AI para el chat.
-  - **GOOGLE_CLIENT_ID**: Client ID OAuth de Google para login/registro social.
-  - **GITHUB_CLIENT_ID**: Client ID OAuth de GitHub para login/registro social.
-  - **GITHUB_CLIENT_SECRET**: Secret OAuth de GitHub usado en intercambio de código por token.
-  - **ADMIN_EMAILS**: Lista de correos de administradores separados por comas (ej. `admin@example.com`).
-  - Opcionales: **ADMIN_PASSWORDS**, **ADMIN_NAMES** (mismo orden que los emails) para el script de seed de admins.
-
-Guardar el archivo. Sin estas variables, el backend no arrancará (env.ts lanza si falta alguna obligatoria).
-
-**En Vercel:** configurar las mismas variables en el proyecto (Settings → Environment Variables). El build usa `vercel-build` (prisma generate + build:ssr) definido en `vercel.json`.
-
-### 6. Instalar dependencias
-
-En la raíz del proyecto ejecutar:
+### 2) Dependencias y Prisma
 
 ```bash
 npm run setup:secure
-```
-
-`npm run setup:secure` instala dependencias con `--no-audit`, aplica correcciones de seguridad en dependencias de producción, restaura automáticamente las devDependencies necesarias para compilar y testear, y finaliza validando `0 vulnerabilities` para producción (`npm audit --omit=dev`).
-
-**Si en Windows PowerShell aparece** *"running scripts is disabled on this system"* al ejecutar `npm`:
-
-- Usa el ejecutable en formato cmd: `npm.cmd run setup:secure` (y en general `npm.cmd` en lugar de `npm` para el resto de comandos), o
-- Abre PowerShell como administrador y ejecuta: `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine` para permitir scripts locales como `npm.ps1`.
-
-### 7. Prisma: generar cliente y migrar
-
-Generar el cliente de Prisma (necesario para que el backend compile y ejecute):
-
-```bash
 npx prisma generate
-```
-
-Aplicar el esquema a la base de datos (crear tablas y migraciones pendientes):
-
-```bash
 npx prisma migrate deploy
 ```
 
-Si es la primera vez y se usa `migrate dev` en lugar de `deploy` (por ejemplo en desarrollo local), se pueden crear migraciones desde el estado actual del schema con:
+En Windows, si PowerShell bloquea scripts de npm (`running scripts is disabled`), usa `npm.cmd` en lugar de `npm` (por ejemplo `npm.cmd run setup:secure`).
 
-```bash
-npx prisma migrate dev
-```
+### 3) Seeds
 
-Comprobar que la base tiene tablas con `npx prisma studio` (opcional).
+> **Opcional — limpieza previa (ejecutar primero solo si la necesitas)**  
+> Borra datos de BBDD y Cloudinary. No es parte del arranque habitual. Si la usas, hazlo **antes** de `seed:admin` o `seed:data`.
+>
+> ```bash
+> npm run clean:data
+> ```
 
-### 8. Crear administradores (recomendado)
-
-Para poder acceder al área de administración:
+**Obligatorio** (acceso al área de administración):
 
 ```bash
 npm run seed:admin
 ```
 
-Esto crea o actualiza los usuarios cuyos emails están en `ADMIN_EMAILS` (y opcionalmente contraseñas y nombres desde `.env`).
-
-### 9. Datos de prueba (opcional)
-
-Para cargar juegos, géneros, plataformas, etc. de ejemplo:
+**Opcional** (catálogo y media de ejemplo; `seed:data` ya limpia internamente antes de rellenar):
 
 ```bash
 npm run seed:data
 ```
 
-Ejecuta primero una limpieza y luego el seed completo. Requiere que las variables de Cloudinary y, si aplica, la ruta de media local estén configuradas (ver documentación de los scripts en `src/backend/scripts/`).
-
-### 10. Build y ejecución del servidor SSR
-
-Compilar la aplicación (frontend + servidor):
-
-```bash
-npm run build:ssr
-```
-
-Al finalizar, arrancar el servidor SSR compilado (modo estable):
-
-```bash
-npm run serve:ssr:prod
-```
-
-El servidor quedará escuchando en `http://localhost:<PORT>` (por defecto 3000). Ahí se sirve la web y la API (`/api/*`). Abrir el navegador en esa URL para usar la aplicación.
-
-### Resumen mínimo (con Node y BD ya listas)
-
-```bash
-cp .env.example .env
-# Editar .env con BD, Cloudinary, JWT, etc.
-npm run setup:secure
-npx prisma generate
-npx prisma migrate deploy
-npm run seed:admin
-npm run build:ssr
-npm run serve:ssr:prod
-```
-
----
-
-## Configuración (variables de entorno)
-
-Las variables de entorno se definen en `.env` (ver plantilla en `.env.example`) y se cargan con `dotenv` desde `src/backend/config/env.ts`. En ese fichero se valida la presencia de variables críticas y se tipan para consumo interno.
-
-Variables habituales:
-
-- **Servidor**: `PORT`, `NODE_ENV`
-- **Auth**: `JWT_SECRET`, `BCRYPT_SALT_ROUNDS`; opcionales `JWT_EXPIRES_IN`, `JWT_ISSUER`, `JWT_AUDIENCE`
-- **CORS**: `CORS_ORIGIN` (solo en producción; orígenes permitidos separados por coma). En desarrollo se permiten `http://localhost:PORT` y `http://localhost:4200` sin configurarlo.
-- **Base de datos**: `POSTGRES_PRISMA_URL`
-- **Media**: `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`
-- **IA**: `GOOGLE_GENERATIVE_AI_API_KEY`
-- **Auth social**: `GOOGLE_CLIENT_ID`, `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`
-- **Administradores**: `ADMIN_EMAILS` (y opcionalmente `ADMIN_PASSWORDS`, `ADMIN_NAMES`)
-
----
-
-## Environments de Angular (`src/environments`)
-
-Angular utiliza los ficheros de environment para seleccionar configuración en build (por ejemplo, reemplazos en producción). En este proyecto los environments son deliberadamente mínimos:
-
-- `production: boolean`
-- `apiUrl: ''`
-
-Con `apiUrl` vacío, todas las URLs de API construidas en `src/app/app.config.ts` quedan como rutas relativas (`/api/...`). Esto permite que el frontend funcione correctamente en SSR y despliegues sin necesitar reconfigurar URLs absolutas.
-
----
-
-## Exportación de BBDD a Excel (Power BI)
-
-Script: `src/backend/scripts/postgreToExcel.py`
-
-### Requisitos (Python)
-
-- Python 3.9 o superior
-- `POSTGRES_PRISMA_URL` configurada en `.env`
-
-### Uso
-
-```bash
-py -3 src/backend/scripts/postgreToExcel.py
-```
-
-El comando usa `POSTGRES_PRISMA_URL` de tu `.env`.
-Si faltan dependencias, el script intenta instalarlas automaticamente y, si no puede, te indica el comando exacto para resolverlo.
-
-Opcional:
-
-- `--write-mode replace` para sobrescribir siempre `backend-data/postgres_export.xlsx`.
-- `--write-mode incremental` (por defecto) para guardar en `backend-data/exports/postgres_export_1.xlsx`, `postgres_export_2.xlsx`, etc.
-- `--schema public` para elegir esquema.
-- `--output ruta/archivo.xlsx` para salida personalizada.
-
----
-
-## Análisis y Manipulación de Datos (Pandas)
-
-Script: `src/backend/scripts/jsonToExcel.py`
-
-Este script demuestra el uso intensivo de la librería Pandas para la limpieza, transformación y análisis de los datos del proyecto (ficheros JSON).
-
-### Requisitos
-
-- Python 3.9 o superior.
-- Librerías: `pandas`, `openpyxl`. Instalables con `python -m pip install pandas openpyxl`.
-
-### Empleo
-
-```bash
-python src/backend/scripts/jsonToExcel.py
-```
-
-### Operaciones realizadas
-
-- **Limpieza**: Eliminación de espacios en blanco y sustitución de caracteres (tildes).
-- **Tratamiento de nulos**: Gestión de campos vacíos (ej. en direcciones).
-- **Transformaciones**:
-  - Cálculo de stock total por juego (suma de plataformas).
-  - Cálculo de precio efectivo (considerando ofertas activas).
-  - Generación de nombres completos y enmascarado de seguridad.
-- **Búsqueda Avanzada**: Filtrado de juegos con valoración > 4.5.
-- **Salida**: Generación de un Excel multioja `backend-data/exports/processed_database.xlsx` con los resultados y una pestaña específica para la búsqueda.
-
----
-
-## Comandos disponibles
-
-Los comandos están definidos en `package.json`. Para un arranque desde cero completo, ver la sección **Arrancar el proyecto desde cero**.
-
-### Desarrollo
-
-*Nota: Los comandos `start`, `dev`, `serve:ssr`, `serve:ssr:https`, `serve:ssr:prod`, `dev:ssr` y `dev:ssr:https` ejecutan automáticamente `node scripts/free-port.mjs <puerto>` cuando corresponde para liberar puertos de desarrollo solo si están en uso, evitando conflictos sin generar ruido en la consola.*
-
-- **`npm start`**  
-  Ejecuta `ng serve` (desarrollo de frontend en modo SPA).
-
-- **`npm run dev:backend`**  
-  Levanta el backend con `nodemon` + `tsx`, observando `src/backend`.
-
-- **`npm run dev`**  
-  Alias de `npm run dev:backend`.
-
-- **`npm run serve:ssr`**  
-  Modo desarrollo SSR con recarga automática: compila en `watch` y reinicia el servidor SSR cuando cambia `dist`. El reinicio usa un wrapper seguro para evitar caídas/ruido por chunks temporales no disponibles durante recompilaciones.
-
-- **`npm run serve:ssr:https`**  
-  Igual que `serve:ssr`, pero además levanta un proxy HTTPS local (`https://localhost:3443 -> http://localhost:3000`) para pruebas en contexto seguro (por ejemplo Stripe en local).
-  
-  Consideraciones reales de este modo:
-  - El servidor SSR real sigue escuchando en `http://localhost:3000`; para navegar la app debes abrir `https://localhost:3443`.
-  - Puede aparecer aviso de certificado local/autofirmado del navegador (depende del equipo/navegador).
-  - Puede fallar la primera navegación en Chrome si hay estado previo de error/certificado (`chrome-error://chromewebdata`); abrir una pestaña nueva y acceder directamente a `https://localhost:3443`.
-  - Para desarrollo general, `serve:ssr` (HTTP) suele ser más estable y simple.
-
-- **`npm run serve:ssr:prod`**  
-  Ejecuta el servidor SSR compilado desde `dist/game-sage/server/server.mjs` (con 8GB de memoria asignada).
-
-- **`npm run start:ssr`**  
-  Alias de `npm run serve:ssr:prod`.
-
-### Build
-
-- **`npm run build`**  
-  Build estándar de Angular (browser) con 8GB de memoria.
-
-- **`npm run build:ssr`**  
-  Build SSR (browser + server) con 8GB de memoria. Durante el build se utiliza `SSR_DISABLE_BACKEND=1` para evitar que el backend se evalúe en la fase de extracción de rutas.
-
-- **`npm run build:full`**  
-  Pipeline completo:
-  - `prisma generate`
-  - `seed:admin`
-  - `build:ssr`
-
-Tras una clonación o reinstalación, usa **`npm run setup:secure`** para dejar el entorno listo y con validación de `0 vulnerabilities` en producción.
-
-### Tests
-
-- **`npm test`**  
-  Ejecuta la suite de backend (`npm run test:backend`). Se mantiene como comando principal para CI/validación rápida.
-
-- **`npm run test:backend`**  
-  Ejecuta Jest sobre `src/backend/tests`. Se configura `NODE_ENV=test` y se silencia el ruido de warnings de Node para una salida limpia.
-
-- **`npm run test:frontend`**  
-  Ejecuta `ng test` (Karma/Jasmine). Útil si se añaden `*.spec.ts` del frontend.
-
-### Seeds y scripts de datos
-
-- **`npm run seed:admin`**  
-  Ejecuta `src/backend/scripts/seedAdmin.ts`.
-
-- **`npm run clean:data`**  
-  Ejecuta `src/backend/scripts/cleanData.ts` y limpia por completo los datos de negocio y la media asociada en Cloudinary.
-
-- **`npm run seed:data`**  
-  Ejecuta primero la limpieza completa (`npm run clean:data`) y, a continuación, `src/backend/scripts/seedData.ts`, que rellena la base de datos y la media a partir de `backend-data/`.
-
-### Prisma (CLI)
-
-- `npx prisma studio`
-- `npx prisma migrate dev`
-- `npx prisma generate`
-- `npx prisma db push`
-
-### Documentación (Compodoc)
-
-El proyecto persigue mantener un **100% de cobertura de documentación** con Compodoc. Cualquier nuevo componente, directiva, servicio o clase relevante debe incluir sus correspondientes bloques JSDoc (`/** ... */`).
-
-- **`npm run docs`**: levanta la documentación web de Compodoc en local (usando `docs/`).
-- **`npm run docs:build`**: genera la documentación de Compodoc en la carpeta `docs/`.
-- **`npm run docs:serve`**: levanta la documentación web de Compodoc en local para abrirla en el navegador (usando `docs/`).
-- **`py scripts/coverage-report.py`** (o `python3`): analiza el reporte de cobertura HTML generado por `docs:build` y muestra en consola los símbolos que no alcanzan el 100%.
-
-### Utilidades
-
-- **`npm run audit`**: ejecuta `npm audit --audit-level=high --omit=dev` para revisar vulnerabilidades en dependencias de producción (OWASP A06).
-- **`npm run lint`**: ejecuta el análisis estático de código buscando vulnerabilidades de seguridad (vía ESLint y plugin de seguridad).
-- **`npm run audit:fix:prod`**: corrige vulnerabilidades en dependencias de producción, restaura devDependencies y valida `npm audit --omit=dev` al final.
-- **`npm run setup:secure`**: flujo recomendado tras clonar; instala dependencias y deja el entorno listo para build con validación de seguridad de producción.
-- **`py -3 src/backend/scripts/postgreToExcel.py`**: exporta tablas PostgreSQL a un unico Excel para analisis en Power BI (por defecto en `backend-data`, modo incremental).
-- **`npm run watch`**: build en watch (config development).
-- **`npm run format`**: formateo con Prettier.
-- **`npm run clean`**: borra `dist`, `logs`, `coverage`.
-- **`npm run clean:full`**: borra `dist`, `node_modules`, `logs`, `coverage`, `docs`, `documentation` y `.venv`.
-- **`npm run reinstall`**: reinstalación completa (`clean:full` + `npm install`); después ejecutar `npm run setup:secure`.
-
-### Stripe en local (nota práctica)
-
-- Si usas HTTP (`npm run serve:ssr`), Stripe puede mostrar el aviso:
-  - `You may test your Stripe.js integration over HTTP. However, live Stripe.js integrations must use HTTPS.`
-- Es un aviso esperado en desarrollo local HTTP; no bloquea el flujo de pruebas en test mode.
-- Para minimizarlo en local, usar `npm run serve:ssr:https` y abrir `https://localhost:3443`.
-
----
-
-## Comandos más útiles (resumen)
-
-Los siguientes comandos cubren la mayoría de flujos habituales:
-
-- **Instalación y corrección de vulnerabilidades** (tras clonar o cambiar de rama):
-
-```bash
-npm run setup:secure
-```
-
-- **Build SSR + ejecución local**:
+### 4) Build SSR y ejecución
 
 ```bash
 npm run build:ssr
 npm run serve:ssr:prod
 ```
 
-- **Desarrollo de API (sin reconstruir SSR)**:
-
-```bash
-npm run dev:backend
-```
-
-- **Pipeline completo (Prisma + admins + SSR)**:
-
-```bash
-npm run build:full
-```
-
-- **Tests del backend (salida limpia)**:
-
-```bash
-npm test
-```
+Cuando el servidor esté en marcha, usa las [URLs locales](#urls-locales) (sección Desarrollo).
 
 ---
 
-## Personalización de Cursor (.cursor)
+## Despliegue
 
-El repositorio incluye una base compactada de personalización para Cursor Agent:
+- Rama de despliegue: `main` (Vercel despliega automáticamente al actualizarla).
+- Variables en Vercel: las mismas que en `.env` (Settings → Environment Variables).
+- Pipeline completo local: `npm run build:full` (Prisma + seed admin + build SSR).
+- En Vercel el build ejecuta `npm run vercel-build` (Swagger, Compodoc y artefactos SSR).
+- **No ejecutar** `npm run vercel-build` en local: está pensado para el pipeline de Vercel y puede regenerar `docs/` u otros artefactos no deseados.
 
-- Rules unificadas de arquitectura, Angular, backend, testing, documentación, release y trazabilidad Jira opcional.
-- Skills compactas para generación de features Angular, flujos Atlassian (Jira/Confluence) y despliegue.
-- Hooks para formato/lint post-edición, protección de comandos de riesgo y auditoría de operaciones MCP.
-- Configuración MCP para GitHub, PostgreSQL y Jira Cloud mediante `uvx mcp-atlassian`.
+---
 
-### Variables de entorno MCP esperadas
+## Desarrollo
 
-- `GITHUB_TOKEN`
-- `POSTGRES_PRISMA_URL`
-- `JIRA_URL`
-- `JIRA_USERNAME`
-- `JIRA_API_TOKEN`
+Uso habitual: **frontend y API en el mismo proceso** (SSR). Los modos separados existen pero no son el flujo de trabajo del equipo.
 
-### Notas para Jira
+### URLs locales
 
-- En Jira, las user stories y tasks deben tener siempre `Story Points`.
-- Los `Story Points` representan horas estimadas y deben ser enteros.
-- Los sprints no deben completarse; solo se completan las user stories y tasks internas para no perder visibilidad en backlog.
+Válidas con `npm run dev:ssr`, `npm run serve:ssr:prod` o el [paso 4 de arranque rápido](#4-build-ssr-y-ejecución):
 
-### Activación y uso
+- App: [http://localhost:3000](http://localhost:3000)
+- Health: [http://localhost:3000/api/health](http://localhost:3000/api/health)
+- Swagger: [http://localhost:3000/api-docs/](http://localhost:3000/api-docs/)
 
-- Las `Rules`, `Skills`, `Commands` y `Hooks` del proyecto se cargan automáticamente al abrir el repositorio en Cursor; no requieren pasos adicionales para estar disponibles.
-- Los hooks y reglas solo tienen efecto dentro de Cursor Agent, no fuera del editor.
-- Lo único que requiere configuración manual adicional es `MCP`: para usar GitHub, PostgreSQL o Jira, hay que tener definidas las variables de entorno correspondientes.
-- Si se clona el proyecto en otra máquina, tras abrir el repositorio en Cursor hay que revisar `Settings -> MCP` y habilitar manualmente los servidores `github`, `jira` y `postgres` si aparecen en `Disabled`.
-- Las variables sensibles de MCP deben mantenerse fuera del repositorio real. `.env` o variables de entorno del sistema son válidas, pero Cursor debe poder resolverlas al arrancar.
+> Puerto distinto de 3000 solo si cambias `PORT` en `.env`.
 
-### Sincronización de variables MCP para Cursor
+### Desarrollo integrado (recomendado)
 
-En Windows, el flujo recomendado es:
-
-1. Completar las variables MCP en `.env` local.
-2. Ejecutar:
+SSR con recarga automática al cambiar código:
 
 ```bash
-npm run setup:cursor-access
+npm run dev:ssr
 ```
 
-Este script instala `uv` si falta y copia las variables MCP necesarias desde `.env` al entorno de usuario de Windows para que Cursor pueda resolverlas al arrancar los servidores MCP.
-
-Variables sincronizadas:
-
-- `GITHUB_TOKEN`
-- `POSTGRES_PRISMA_URL`
-- `JIRA_URL`
-- `JIRA_USERNAME`
-- `JIRA_API_TOKEN`
-
-Después de ejecutar el script, hay que cerrar y volver a abrir Cursor.
-
-### Resolución de problemas MCP en Cursor
-
-- Si en `Settings -> MCP` aparece `MCP configuration errors` con mensaje de JSON inválido en un servidor externo (por ejemplo `extension-GitKraken`), pulsar `Open JSON` y corregir o eliminar la entrada rota.
-- Ese error de un servidor externo puede impedir o degradar la carga de otros MCP.
-- Tras corregir el JSON, ejecutar `Developer: Reload Window` en Cursor y volver a comprobar que `github`, `jira` y `postgres` estén en `Enabled`.
-- En sesiones largas, el MCP de Jira puede quedarse en `Not connected` o devolver `Connection closed`; si pasa, cerrar y abrir Cursor y volver a revisar `Settings -> MCP`.
-- Si tras reabrir sigue igual, desactivar y reactivar manualmente el servidor Jira en `Settings -> MCP`, y después ejecutar `Developer: Reload Window`.
-
-### Validación local antes de commit
-
-- En local ejecutar: `npm run build:ssr`, `npm run lint`, `npm audit --omit=dev`.
-- No ejecutar `npm run vercel-build` en local: ese comando está orientado al pipeline de Vercel y puede regenerar artefactos no deseados (por ejemplo contenido en `docs/`).
-
-### Requisito adicional para Jira MCP
-
-La integración de Jira en este proyecto usa un servidor MCP local lanzado con:
+Pruebas de pago Stripe en contexto seguro (HTTPS local):
 
 ```bash
-uvx mcp-atlassian
+npm run dev:ssr:https
 ```
 
-Por tanto, antes de usar Jira en Cursor hay que tener `uv` instalado en el sistema. En Windows:
+- Navegar en [https://localhost:3443](https://localhost:3443) (proxy HTTPS; el SSR sigue en el puerto 3000).
 
-```powershell
-powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
-```
+Ejecución local del build de producción (sin watch): mismos comandos que en [arranque rápido](#4-build-ssr-y-ejecución) (`build:ssr` + `serve:ssr:prod`); mismas [URLs locales](#urls-locales).
 
-Después, verificar:
+Los scripts de arranque liberan los puertos 3000, 3443 o 4200 solo si estaban ocupados.
 
-```bash
-uv --version
-```
+### Modos alternativos (posibles, poco usados)
+
+- Solo API, sin reconstruir SSR: `npm run dev:backend` → [http://localhost:3000/api/health](http://localhost:3000/api/health)
+- Solo frontend SPA (`ng serve`, sin API en el mismo proceso): `npm start` → [http://localhost:4200](http://localhost:4200)
+
+---
+
+## Tests y verificación
+
+- Backend: `npm test` (alias de `npm run test:backend`)
+- Lint / seguridad estática: `npm run lint`
+- Auditoría de dependencias de producción: `npm audit --omit=dev`
+- Validación habitual antes de commit (en este orden): `npm run build:ssr`, `npm run lint`, `npm audit --omit=dev`
+- Generación de documentación de código (Compodoc):
+  - `npm run docs:build`
+  - `npm run docs:serve`
+
+Nota: la referencia principal de la API backend es [Swagger en local](http://localhost:3000/api-docs/), no Compodoc.
+
+---
+
+## Variables de entorno (`.env`)
+
+El backend carga y valida variables en [`src/backend/config/env.ts`](src/backend/config/env.ts) y usa como referencia la plantilla [`.env.example`](.env.example).
+
+### 1) Variables obligatorias (validadas por el backend)
+
+| Variable                       | Tipo esperado | Uso                                              |
+| ------------------------------ | ------------- | ------------------------------------------------ |
+| `PORT`                         | número > 0    | Puerto del servidor SSR + API (habitual: `3000`) |
+| `NODE_ENV`                     | string        | Entorno (`development`, `production`, etc.)      |
+| `JWT_SECRET`                   | string        | Firmar y verificar JWT                           |
+| `POSTGRES_PRISMA_URL`          | string        | URL de conexión usada por Prisma                 |
+| `BCRYPT_SALT_ROUNDS`           | número > 0    | Coste bcrypt para passwords                      |
+| `CLOUDINARY_CLOUD_NAME`        | string        | Cloudinary cloud                                 |
+| `CLOUDINARY_API_KEY`           | string        | Cloudinary API key                               |
+| `CLOUDINARY_API_SECRET`        | string        | Cloudinary API secret                            |
+| `GOOGLE_GENERATIVE_AI_API_KEY` | string        | API key chat IA                                  |
+| `STRIPE_SECRET_KEY`            | string        | Credencial servidor Stripe                       |
+| `STRIPE_PUBLISHABLE_KEY`       | string        | Credencial cliente Stripe                        |
+| `ADMIN_EMAILS`                 | string        | Lista CSV de emails admin                        |
+| `ADMIN_PASSWORDS`              | string        | Lista CSV de passwords admin (en el mismo orden) |
+| `ADMIN_NAMES`                  | string        | Lista CSV de nombres admin (en el mismo orden)   |
+
+### 2) Variables usadas por Prisma / migraciones
+
+| Variable                   | Uso                                                                                         |
+| -------------------------- | ------------------------------------------------------------------------------------------- |
+| `POSTGRES_URL_NON_POOLING` | URL directa “sin pooler” (útil para migraciones/operaciones que requieren conexión directa) |
+
+### 3) Variables opcionales (con comportamiento acotado)
+
+| Variable               | Uso                                                              |
+| ---------------------- | ---------------------------------------------------------------- |
+| `JWT_EXPIRES_IN`       | expiración JWT (default: `7d`)                                   |
+| `JWT_ISSUER`           | issuer JWT (default: `game-sage`)                                |
+| `JWT_AUDIENCE`         | audiencia JWT (default: `game-sage-users`)                       |
+| `CORS_ORIGIN`          | orígenes permitidos en producción                                |
+| `EUR_TO_USD_RATE`      | conversión EUR->USD para Stripe (default: `1.08`)                |
+| `GOOGLE_CLIENT_ID`     | OAuth Google (login/registro social)                             |
+| `GITHUB_CLIENT_ID`     | OAuth GitHub (login/registro social)                             |
+| `GITHUB_CLIENT_SECRET` | intercambio OAuth GitHub (backend)                               |
+| `SMTP_HOST`            | SMTP para envío (recuperación password)                          |
+| `SMTP_PORT`            | puerto SMTP                                                      |
+| `SMTP_USER`            | usuario SMTP                                                     |
+| `SMTP_PASS`            | password SMTP                                                    |
+| `SMTP_FROM`            | remitente SMTP                                                   |
+| `SMTP_FROM_NAME`       | nombre visual del remitente (si no se define, default en código) |
+| `PUBLIC_APP_URL`       | URL pública de la app (correos e imágenes absolutas)             |
+| `FRONTEND_URL`         | alternativa a `PUBLIC_APP_URL`                                   |
+| `APP_URL`              | alternativa a `PUBLIC_APP_URL`                                   |
+| `GITHUB_TOKEN`         | token para MCP GitHub (opcional)                                 |
+| `JIRA_URL`             | URL Jira Cloud para MCP (opcional)                               |
+| `JIRA_USERNAME`        | email Atlassian para MCP (opcional)                              |
+| `JIRA_API_TOKEN`       | API token Atlassian para MCP (opcional)                          |
+
+### 4) Integración opcional con Cursor (MCP)
+
+El repo define servidores MCP en [`.cursor/mcp.json`](.cursor/mcp.json) (GitHub, PostgreSQL, Jira vía `uvx mcp-atlassian`). No es una extensión oficial de Atlassian; hay que activarlos en Cursor.
+
+1. Completa en `.env`: `GITHUB_TOKEN`, `POSTGRES_PRISMA_URL`, `JIRA_URL`, `JIRA_USERNAME`, `JIRA_API_TOKEN` (token en [Atlassian → API tokens](https://id.atlassian.com/manage-profile/security/api-tokens)).
+2. Ejecuta `npm run setup:cursor-access` (Windows: sincroniza variables MCP al entorno de usuario e instala `uv` si no está).
+3. **Cierra y vuelve a abrir Cursor.**
+4. En **Settings → MCP**, habilita `github`, `jira` y `postgres` si aparecen en Disabled.
+5. Si hay errores de otro servidor MCP (JSON roto, p. ej. extensión GitKraken), corrígelos primero; pueden impedir cargar el resto.
+6. Tras cambios: **Developer: Reload Window**. Si Jira queda en `Not connected`, desactívalo y reactívalo en MCP y reinicia Cursor.
+
+Proyecto Jira de referencia: **PI** (Proyecto Intermodular). Convenciones mínimas: `Story Points` enteros en user stories/tasks; no cerrar sprints desde Cursor (solo completar issues). Detalle en [`.cursor/skills/atlassian-workflows/SKILL.md`](.cursor/skills/atlassian-workflows/SKILL.md).
+
+---
+
+## Documentación y evidencias
+
+Producción:
+
+- App: [https://gamingsage.vercel.app/](https://gamingsage.vercel.app/)
+- Health: [https://gamingsage.vercel.app/api/health](https://gamingsage.vercel.app/api/health)
+- Swagger: [API Docs](https://gamingsage.vercel.app/api-docs/)
+- Compodoc: [Compodoc Web](https://gamingsage.vercel.app/docs/)
+
+Referencias:
+
+- Monorepo: [../README.md](../README.md) · acceso Vercel (usuario / admin): [sección 6 — acceso en producción](../README.md#acceso-en-producción-vercel) · capturas y diagramas: [../docs/](../docs/)
+- Confluence: [Web y API (hub)](https://g-team-d9bwba4i.atlassian.net/wiki/spaces/PI/pages/73957377)
+- PDF Confluence (monorepo): [../docs/confluence/espacio-pi-completo.pdf](../docs/confluence/espacio-pi-completo.pdf) · [../docs/jira/resumen-gestion-jira.pdf](../docs/jira/resumen-gestion-jira.pdf)
+
+---
+
+## Scripts BI relacionados (Power BI)
+
+Requisitos: Python 3.9+ y `POSTGRES_PRISMA_URL` en `.env` (exportación). Estructura de datos de seed: [`backend-data/README.md`](backend-data/README.md).
+
+- Exportar PostgreSQL a Excel: `py -3 src/backend/scripts/postgreToExcel.py`
+- Procesar JSON de ejemplo a Excel: `python src/backend/scripts/jsonToExcel.py`
+
+Ficheros: [`postgreToExcel.py`](src/backend/scripts/postgreToExcel.py), [`jsonToExcel.py`](src/backend/scripts/jsonToExcel.py).
