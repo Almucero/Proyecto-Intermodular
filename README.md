@@ -208,8 +208,6 @@ Detalle: [Hub Jira](https://g-team-d9bwba4i.atlassian.net/wiki/spaces/PI/pages/7
 
 #### Evidencias
 
-![Modelo de datos (ERD)](docs/diagramas/erd-base-datos.svg)
-
 - [`angular-ssr/prisma/schema.prisma`](angular-ssr/prisma/schema.prisma)
 - [`angular-ssr/src/backend/modules/`](angular-ssr/src/backend/modules/)
 - [`angular-ssr/src/app/core/`](angular-ssr/src/app/core/)
